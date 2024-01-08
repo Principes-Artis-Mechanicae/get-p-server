@@ -19,13 +19,13 @@ public class EmailVerificationService {
     private final EmailService emailService;
     private final EmailVerificationRepository emailVerificationRepository;
 
-    private Optional<EmailVerification> getEmailVerificationByEmail(String email) {
+    public Optional<EmailVerification> getByEmail(String email) {
         Optional<EmailVerification> emailVerification = emailVerificationRepository.findById(email);
         return emailVerification;
     }
 
     private void sendVerificationCode(String email) {
-        if (getEmailVerificationByEmail(email).isPresent()) {
+        if (getByEmail(email).isPresent()) {
             throw new BusinessLogicException(EmailVerificationExceptionCode.ALREADY_VERIFICATION_CODE_SENDED);
         }
         String verificationCode = RandomUtil.generateRandomCode(VERIFICATION_CODE_LENGTH);
@@ -42,13 +42,13 @@ public class EmailVerificationService {
     }
 
     public void verify(String email, String verificationCode) {
-        Optional<EmailVerification> emailVerificationOptional = getEmailVerificationByEmail(email);
+        Optional<EmailVerification> emailVerificationOptional = getByEmail(email);
         if (emailVerificationOptional.isEmpty()) {
             throw new BusinessLogicException(EmailVerificationExceptionCode.INVALID_VERIFICATION);
         }
         EmailVerification emailVerification = emailVerificationOptional.get();
         if (emailVerification.isVerified()) {
-            throw new BusinessLogicException(EmailVerificationExceptionCode.AREADY_AUTHENTICATED_EMAIL);
+            throw new BusinessLogicException(EmailVerificationExceptionCode.AREADY_VERIFIED_EMAIL);
         }
         boolean result = emailVerification.verify(verificationCode);
         if (!result) {
