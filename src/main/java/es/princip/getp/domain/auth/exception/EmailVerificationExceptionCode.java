@@ -9,7 +9,8 @@ public enum EmailVerificationExceptionCode implements BusinessLogicExceptionCode
     INCORRECT_VERIFICATION_CODE(HttpStatus.CONFLICT, "인증 번호 불일치"),
     ALREADY_VERIFICATION_CODE_SENDED(HttpStatus.FORBIDDEN, "사용자가 이메일 인증 유효 시간 내에 재요청"),
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, "사용자가 이미 가입된 이메일로 인증 요청"),
-    AREADY_AUTHENTICATED_EMAIL(HttpStatus.CONFLICT, "사용자가 이미 인증된 이메일로 인증 요청");
+    NOT_VERIFIED(HttpStatus.CONFLICT, "이메일 인증 미실시"),
+    AREADY_VERIFIED_EMAIL(HttpStatus.CONFLICT, "사용자가 이미 인증된 이메일로 인증 요청");
     
     private final HttpStatus status;
     private final String message;
