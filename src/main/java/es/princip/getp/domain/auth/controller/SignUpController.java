@@ -13,23 +13,23 @@ import es.princip.getp.global.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/auth/email")
+@RequestMapping("/auth/signup")
 @RequiredArgsConstructor
-public class EmailVerificationController {
+public class SignUpController {
     private final EmailVerificationService emailVerificationService;
 
-    @PostMapping("/signup/send")
-    public ResponseEntity<?> sendVerificationCodeForSignUp(@RequestBody EmailVerificationCodeRequest verificationCodeRequest) {
+    @PostMapping("/email/send")
+    public ResponseEntity<?> sendEmailVerificationCodeForSignUp(@RequestBody EmailVerificationCodeRequest verificationCodeRequest) {
         String email = verificationCodeRequest.email();
-        emailVerificationService.sendVerificationCodeForSignUp(email);
+        emailVerificationService.sendEmailVerificationCodeForSignUp(email);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK));
     }
 
-    @PostMapping("/verify")
-    public ResponseEntity<?> verify(@RequestBody EmailVerificationRequest verificationRequest) {
+    @PostMapping("/email/verify")
+    public ResponseEntity<?> verifyEmail(@RequestBody EmailVerificationRequest verificationRequest) {
         String email = verificationRequest.email();
         String verificationCode = verificationRequest.code();
-        emailVerificationService.verify(email, verificationCode);
+        emailVerificationService.verifyEmail(email, verificationCode);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK));
     }
 }

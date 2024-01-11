@@ -27,7 +27,7 @@ public class EmailVerificationService {
         return emailVerification;
     }
 
-    private void sendVerificationCode(String email) {
+    private void sendEmailVerificationCode(String email) {
         if (getByEmail(email).isPresent()) {
             throw new AlreadyVerificationCodeSendedException();
         }
@@ -37,14 +37,14 @@ public class EmailVerificationService {
         emailVerificationRepository.save(emailVerification);
     }
 
-    public void sendVerificationCodeForSignUp(String email) {
+    public void sendEmailVerificationCodeForSignUp(String email) {
         if (memberService.existsByEmail(email)) {
             throw new DuplicatedEmailException();
         }
-        sendVerificationCode(email);
+        sendEmailVerificationCode(email);
     }
 
-    public void verify(String email, String verificationCode) {
+    public void verifyEmail(String email, String verificationCode) {
         Optional<EmailVerification> emailVerificationOptional = getByEmail(email);
         if (emailVerificationOptional.isEmpty()) {
             throw new InvalidVerificationException();
