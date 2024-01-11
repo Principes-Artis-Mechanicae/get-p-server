@@ -15,14 +15,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member",
         uniqueConstraints = {@UniqueConstraint(name = "UniqueEmail", columnNames = {"email"})})
 public class Member extends BaseTimeEntity {
@@ -38,16 +35,16 @@ public class Member extends BaseTimeEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "member_type")
-    private MemberType memberType;
+    @Column(name = "role_type")
+    private MemberRoleType roleType;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ServiceTermAgreement> serviceTermAgreements = new ArrayList<>();
 
     @Builder
-    public Member(String email, String password, MemberType memberType) {
+    public Member(String email, String password, MemberRoleType roleType) {
         this.email = email;
         this.password = password;
-        this.memberType = memberType;
+        this.roleType = roleType;
     }
 }
