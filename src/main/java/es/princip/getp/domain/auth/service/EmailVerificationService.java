@@ -3,10 +3,13 @@ package es.princip.getp.domain.auth.service;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import es.princip.getp.domain.auth.entity.EmailVerification;
-import es.princip.getp.domain.auth.exception.EmailVerificationExceptionCode;
+import es.princip.getp.domain.auth.exception.AlreadyVerificationCodeSendedException;
+import es.princip.getp.domain.auth.exception.AlreadyVerifiedEmailException;
+import es.princip.getp.domain.auth.exception.DuplicatedEmailException;
+import es.princip.getp.domain.auth.exception.IncorrectVerificationCodeException;
+import es.princip.getp.domain.auth.exception.InvalidVerificationException;
 import es.princip.getp.domain.auth.repository.EmailVerificationRepository;
 import es.princip.getp.domain.member.service.MemberService;
-import es.princip.getp.global.exception.BusinessLogicException;
 import es.princip.getp.global.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -24,9 +27,9 @@ public class EmailVerificationService {
         return emailVerification;
     }
 
-    private void sendVerificationCode(String email) {
+    private void sendEmailVerificationCode(String email) {
         if (getByEmail(email).isPresent()) {
-            throw new BusinessLogicException(EmailVerificationExceptionCode.ALREADY_VERIFICATION_CODE_SENDED);
+            throw new AlreadyVerificationCodeSendedException();
         }
         String verificationCode = RandomUtil.generateRandomCode(VERIFICATION_CODE_LENGTH);
         emailService.sendEmail(email, "GET-P 인증 번호", verificationCode);
@@ -34,25 +37,25 @@ public class EmailVerificationService {
         emailVerificationRepository.save(emailVerification);
     }
 
-    public void sendVerificationCodeForSignUp(String email) {
+    public void sendEmailVerificationCodeForSignUp(String email) {
         if (memberService.existsByEmail(email)) {
-            throw new BusinessLogicException(EmailVerificationExceptionCode.DUPLICATED_EMAIL);
+            throw new DuplicatedEmailException();
         }
-        sendVerificationCode(email);
+        sendEmailVerificationCode(email);
     }
 
-    public void verify(String email, String verificationCode) {
+    public void verifyEmail(String email, String verificationCode) {
         Optional<EmailVerification> emailVerificationOptional = getByEmail(email);
         if (emailVerificationOptional.isEmpty()) {
-            throw new BusinessLogicException(EmailVerificationExceptionCode.INVALID_VERIFICATION);
+            throw new InvalidVerificationException();
         }
         EmailVerification emailVerification = emailVerificationOptional.get();
         if (emailVerification.isVerified()) {
-            throw new BusinessLogicException(EmailVerificationExceptionCode.AREADY_VERIFIED_EMAIL);
+            throw new AlreadyVerifiedEmailException();
         }
         boolean result = emailVerification.verify(verificationCode);
         if (!result) {
-            throw new BusinessLogicException(EmailVerificationExceptionCode.INCORRECT_VERIFICATION_CODE);
+            throw new IncorrectVerificationCodeException();
         } else {
             emailVerificationRepository.save(emailVerification);
         }

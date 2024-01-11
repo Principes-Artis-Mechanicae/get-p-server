@@ -1,6 +1,7 @@
 package es.princip.getp.domain.auth.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -37,5 +38,21 @@ public class EmailVerification {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmailVerification that = (EmailVerification) o;
+        return isVerified == that.isVerified &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(verificationCode, that.verificationCode) &&
+                Objects.equals(createdAt, that.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, verificationCode, isVerified, createdAt);
     }
 }
