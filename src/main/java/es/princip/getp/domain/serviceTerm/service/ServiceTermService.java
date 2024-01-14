@@ -15,16 +15,16 @@ import lombok.RequiredArgsConstructor;
 public class ServiceTermService {
     private final ServiceTermRepository serviceTermRepository;
 
-    private ServiceTerm resolve(Optional<ServiceTerm> serviceTerm) {
+    private ServiceTerm get(Optional<ServiceTerm> serviceTerm) {
         return serviceTerm.orElseThrow(() -> new ServiceTermNotFoundException());
     }
 
     public ServiceTerm getByServiceTermId(Long serviceTermId) {
-        return resolve(serviceTermRepository.findById(serviceTermId));
+        return get(serviceTermRepository.findById(serviceTermId));
     }
 
     public ServiceTerm getByTag(String tag) {
-        return resolve(serviceTermRepository.findByTag(tag));
+        return get(serviceTermRepository.findByTag(tag));
     }
 
     @Transactional
