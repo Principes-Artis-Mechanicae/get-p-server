@@ -13,6 +13,7 @@ import es.princip.getp.domain.auth.dto.response.SignUpResponse;
 import es.princip.getp.domain.auth.service.EmailVerificationService;
 import es.princip.getp.domain.auth.service.SignUpService;
 import es.princip.getp.global.util.ApiResponse;
+import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -24,20 +25,20 @@ public class SignUpController {
     private final EmailVerificationService emailVerificationService;
 
     @PostMapping()
-    public ResponseEntity<?> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
+    public ResponseEntity<ApiSuccessResult<SignUpResponse>> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         SignUpResponse signUpResponse = SignUpResponse.from(signUpService.signUp(signUpRequest));
-        return ResponseEntity.status(HttpStatus.CREATED).body(signUpResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED, signUpResponse));
     }
 
     @PostMapping("/email/send")
-    public ResponseEntity<?> sendEmailVerificationCodeForSignUp(@RequestBody @Valid EmailVerificationCodeRequest verificationCodeRequest) {
+    public ResponseEntity<ApiSuccessResult<?>> sendEmailVerificationCodeForSignUp(@RequestBody @Valid EmailVerificationCodeRequest verificationCodeRequest) {
         String email = verificationCodeRequest.email();
         emailVerificationService.sendEmailVerificationCodeForSignUp(email);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK));
     }
 
     @PostMapping("/email/verify")
-    public ResponseEntity<?> verifyEmail(@RequestBody @Valid EmailVerificationRequest verificationRequest) {
+    public ResponseEntity<ApiSuccessResult<?>> verifyEmail(@RequestBody @Valid EmailVerificationRequest verificationRequest) {
         String email = verificationRequest.email();
         String verificationCode = verificationRequest.code();
         emailVerificationService.verifyEmail(email, verificationCode);
