@@ -2,6 +2,7 @@ package es.princip.getp.domain.people.entity;
 
 import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.people.dto.request.PeopleRequestDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,5 +57,14 @@ public class People extends BaseTimeEntity{
         this.profileImageUri = profileImageUri;
         this.accountNumber = accountNumber;
         this.member = member;
+    }
+
+    public void update(PeopleRequestDTO peopleRequestDTO) {
+        this.name = peopleRequestDTO.name();
+        this.email = peopleRequestDTO.email();
+        this.phoneNumber = peopleRequestDTO.phoneNumber();
+        this.roleType = PeopleRoleType.valueOf(peopleRequestDTO.roleType());
+        this.profileImageUri = peopleRequestDTO.profileImageUri();
+        this.accountNumber = peopleRequestDTO.accountNumber();
     }
 }
