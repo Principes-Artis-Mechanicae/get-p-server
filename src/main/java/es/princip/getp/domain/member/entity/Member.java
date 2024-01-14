@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member",
         uniqueConstraints = {@UniqueConstraint(name = "UniqueEmail", columnNames = {"email"})})
 public class Member extends BaseTimeEntity {
