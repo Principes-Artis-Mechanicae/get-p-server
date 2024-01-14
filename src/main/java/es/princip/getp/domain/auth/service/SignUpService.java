@@ -1,5 +1,6 @@
 package es.princip.getp.domain.auth.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
@@ -18,6 +19,7 @@ public class SignUpService {
     private final ServiceTermAgreementService serviceTermAgreementService;
     private final EmailVerificationService emailVerificationService;
     private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Member signUp(SignUpRequest signUpRequest) {
@@ -27,8 +29,7 @@ public class SignUpService {
         if (!verification.isVerified()) {
             throw new NotVerifiedEmailException();
         }
-        // TODO: 비밀 번호 암호화
-        Member member = memberService.create(signUpRequest);
+        Member member = memberService.create(signUpRequest.toEntity(passwordEncoder));
         serviceTermAgreementService.agree(member.getMemberId(), signUpRequest.serviceTerms());
         return member;
     }
