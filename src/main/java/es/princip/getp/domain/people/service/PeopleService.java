@@ -4,7 +4,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.people.dto.request.PeopleRequestDTO;
+import es.princip.getp.domain.people.dto.request.CreatePeopleRequestDTO;
+import es.princip.getp.domain.people.dto.request.UpdatePeopleRequestDTO;
 import es.princip.getp.domain.people.dto.response.PeopleResponseDTO;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.exception.NotFoundException;
@@ -30,14 +31,14 @@ public class PeopleService {
     }
 
     @Transactional
-    public PeopleResponseDTO create(Member member, PeopleRequestDTO request) {
+    public PeopleResponseDTO create(Member member, CreatePeopleRequestDTO request) {
         People people = request.toEntity(member);
         peopleRepository.save(people);
         return PeopleResponseDTO.from(people);
     }
 
     @Transactional
-    public PeopleResponseDTO update(Long memberId, PeopleRequestDTO request) {
+    public PeopleResponseDTO update(Long memberId, UpdatePeopleRequestDTO request) {
         People people = getByMemberId(memberId);
         people.update(request);
         return PeopleResponseDTO.from(people);
