@@ -10,7 +10,8 @@ import es.princip.getp.domain.serviceTerm.entity.ServiceTerm;
 import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
 import es.princip.getp.domain.serviceTermAgreement.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.domain.serviceTermAgreement.entity.ServiceTermAgreement;
-import es.princip.getp.domain.serviceTermAgreement.exception.NotAgreedRequiredServiceTermException;
+import es.princip.getp.domain.serviceTermAgreement.exception.ServiceTermAgreementErrorCode;
+import es.princip.getp.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,7 +30,7 @@ public class ServiceTermAgreementService {
                 boolean agreed = agreementRequest.agreed();
                 ServiceTerm serviceTerm = serviceTermService.getByTag(tag);
                 if (serviceTerm.isRequired() && !agreed) {
-                    throw new NotAgreedRequiredServiceTermException();
+                    throw new BusinessLogicException(ServiceTermAgreementErrorCode.NOT_AGREED_REQUIRED_SERVICE_TERM);
                 }
                 return ServiceTermAgreement.builder()
                         .agreed(agreed)
