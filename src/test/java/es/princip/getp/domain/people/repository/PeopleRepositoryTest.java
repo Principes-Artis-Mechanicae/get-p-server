@@ -16,7 +16,7 @@ public class PeopleRepositoryTest {
     private PeopleRepository peopleRepository;
 
     @Test
-    @DisplayName("People이 DB에 저장 되는지 확인")
+    @DisplayName("People이 DB에 저장 되는지 확인한다")
     void testSave() {
         Member testMember = MemberFixture.createMember();
         People testPeople = PeopleFixture.createPeopleByMember(testMember);
