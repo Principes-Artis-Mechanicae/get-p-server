@@ -3,16 +3,14 @@ package es.princip.getp.domain.auth.exception;
 import org.springframework.http.HttpStatus;
 import es.princip.getp.global.exception.ErrorCode;
 
-public enum SignUpErrorCode implements ErrorCode {
+public enum EmailErrorCode implements ErrorCode {
     WRONG_EMAIL(HttpStatus.BAD_REQUEST, "잘못된 이메일 주소"),
-    WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "잘못된 비밀번호 형식"),
-    DUPLICATED_EMAIL(HttpStatus.CONFLICT, "이미 가입된 이메일 주소"),
-    NOT_VERIFIED_EMAIL(HttpStatus.CONFLICT, "이메일 인증 미실시");
+    EMAIL_SERVER_UNAVAILABLE(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 서버 문제로 인해 전송 실패");
 
     private final HttpStatus status;
     private final String message;
 
-    SignUpErrorCode(HttpStatus status, String message) {
+    EmailErrorCode(HttpStatus status, String message) {
         this.status = status;
         this.message = message;
     }
