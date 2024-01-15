@@ -33,7 +33,7 @@ public class SignUpController {
     @PostMapping("/email/send")
     public ResponseEntity<ApiSuccessResult<?>> sendEmailVerificationCodeForSignUp(@RequestBody @Valid EmailVerificationCodeRequest verificationCodeRequest) {
         String email = verificationCodeRequest.email();
-        emailVerificationService.sendEmailVerificationCodeForSignUp(email);
+        signUpService.sendEmailVerificationCodeForSignUp(email);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK));
     }
 
