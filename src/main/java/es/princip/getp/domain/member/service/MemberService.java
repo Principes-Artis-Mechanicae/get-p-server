@@ -4,9 +4,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.member.exception.DuplicatedEmailException;
-import es.princip.getp.domain.member.exception.MemberNotFoundException;
+import es.princip.getp.domain.member.exception.MemberErrorCode;
 import es.princip.getp.domain.member.repository.MemberRepository;
+import es.princip.getp.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,7 +16,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     
     private Member get(Optional<Member> member) {
-        return member.orElseThrow(() -> new MemberNotFoundException());   
+        return member.orElseThrow(() -> new BusinessLogicException(MemberErrorCode.MEMBER_NOT_FOUND));   
     }
 
     public boolean existsByEmail(String email) {
@@ -33,9 +33,6 @@ public class MemberService {
 
     @Transactional
     public Member create(Member member) {
-        if (existsByEmail(member.getEmail())) {
-            throw new DuplicatedEmailException();
-        }
         return memberRepository.save(member);
     }
 }
