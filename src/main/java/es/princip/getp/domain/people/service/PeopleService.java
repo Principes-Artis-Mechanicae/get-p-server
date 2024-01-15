@@ -22,12 +22,16 @@ public class PeopleService {
         return people.orElseThrow(() -> new NotFoundException());
     }
 
-    public People getByPeopleId(Long peopleId) {
-        return getPeople(peopleRepository.findById(peopleId));
-    }
-
     public People getByMemberId(Long memberId) {
         return getPeople(peopleRepository.findByMember_MemberId(memberId));
+    }
+
+    public PeopleResponseDTO getResponseByPeopleId(Long peopleId) {
+        return PeopleResponseDTO.from(getPeople(peopleRepository.findById(peopleId)));
+    }
+
+    public PeopleResponseDTO getResponseByMemberId(Long memberId) {
+        return PeopleResponseDTO.from(getByMemberId(memberId));
     }
 
     @Transactional
