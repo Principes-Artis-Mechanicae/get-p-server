@@ -9,10 +9,10 @@ public class BusinessLogicException extends RuntimeException {
     private String code;
     private String message;
 
-    public BusinessLogicException(HttpStatus status, String code, String message) {
-        super(message);
-        this.status = status;
-        this.code = code;
-        this.message = message;
+    public BusinessLogicException(ErrorCode errorCode) {
+        super(errorCode.message());
+        this.status = errorCode.status();
+        this.code = errorCode.code();
+        this.message = errorCode.message();
     }
 }
