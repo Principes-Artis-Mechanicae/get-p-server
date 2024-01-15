@@ -15,7 +15,6 @@ import es.princip.getp.domain.people.repository.PeopleRepository;
 import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
 
-
 @ExtendWith(MockitoExtension.class)
 public class PeopleServiceTest {
 
