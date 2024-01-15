@@ -26,14 +26,14 @@ public class PeopleServiceTest {
     private PeopleRepository peopleRepository;
 
     @Test
-    @DisplayName("피플 정보 등록")
+    @DisplayName("피플 정보를 등록한다")
     void testCreate() {
         //given
         Member testMember = MemberFixture.createMember();
         People testPeople = PeopleFixture.createPeopleByMember(testMember);
+        when(peopleRepository.save(any(People.class))).thenReturn(testPeople);
 
         //when
-        when(peopleRepository.save(any(People.class))).thenReturn(testPeople);
         People result = peopleRepository.save(testPeople);
 
         //then
