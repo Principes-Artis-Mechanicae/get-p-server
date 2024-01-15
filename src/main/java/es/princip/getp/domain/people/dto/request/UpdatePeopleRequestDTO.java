@@ -5,7 +5,7 @@ import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.entity.PeopleRoleType;
 import jakarta.validation.constraints.NotNull;
 
-public record PeopleRequestDTO(@NotNull String name, @NotNull String email,
+public record UpdatePeopleRequestDTO(@NotNull String name, @NotNull String email,
         @NotNull String phoneNumber, @NotNull String roleType, @NotNull String profileImageUri,
         @NotNull String accountNumber) {
     public People toEntity(final Member member) {

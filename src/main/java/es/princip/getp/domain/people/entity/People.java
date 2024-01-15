@@ -2,7 +2,7 @@ package es.princip.getp.domain.people.entity;
 
 import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.people.dto.request.PeopleRequestDTO;
+import es.princip.getp.domain.people.dto.request.UpdatePeopleRequestDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,12 +13,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @Table(name = "people")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class People extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,12 +62,12 @@ public class People extends BaseTimeEntity{
         this.member = member;
     }
 
-    public void update(PeopleRequestDTO peopleRequestDTO) {
-        this.name = peopleRequestDTO.name();
-        this.email = peopleRequestDTO.email();
-        this.phoneNumber = peopleRequestDTO.phoneNumber();
-        this.roleType = PeopleRoleType.valueOf(peopleRequestDTO.roleType());
-        this.profileImageUri = peopleRequestDTO.profileImageUri();
-        this.accountNumber = peopleRequestDTO.accountNumber();
+    public void update(UpdatePeopleRequestDTO updatePeopleRequestDTO) {
+        this.name = updatePeopleRequestDTO.name();
+        this.email = updatePeopleRequestDTO.email();
+        this.phoneNumber = updatePeopleRequestDTO.phoneNumber();
+        this.roleType = PeopleRoleType.valueOf(updatePeopleRequestDTO.roleType());
+        this.profileImageUri = updatePeopleRequestDTO.profileImageUri();
+        this.accountNumber = updatePeopleRequestDTO.accountNumber();
     }
 }
