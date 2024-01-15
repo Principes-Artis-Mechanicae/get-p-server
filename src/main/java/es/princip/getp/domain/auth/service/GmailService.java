@@ -5,8 +5,8 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import es.princip.getp.domain.auth.exception.EmailServerUnavailableException;
-import es.princip.getp.domain.auth.exception.WrongEmailException;
+import es.princip.getp.domain.auth.exception.EmailErrorCode;
+import es.princip.getp.global.exception.BusinessLogicException;
 import es.princip.getp.global.util.EmailUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -26,13 +26,13 @@ public class GmailService implements EmailService {
 
     public void sendEmail(String email, String title, String text) {
         if (!EmailUtil.isValidEmail(email)) {
-            throw new WrongEmailException();
+            throw new BusinessLogicException(EmailErrorCode.WRONG_EMAIL);
         }
         SimpleMailMessage emailForm = createEmailForm(email, title, text);
         try {
             emailSender.send(emailForm);
         } catch (MailException mailException) {
-            throw new EmailServerUnavailableException();
+            throw new BusinessLogicException(EmailErrorCode.EMAIL_SERVER_UNAVAILABLE);
         }
     }
 }
