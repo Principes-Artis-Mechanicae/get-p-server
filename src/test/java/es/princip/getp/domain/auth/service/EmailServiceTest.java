@@ -1,4 +1,4 @@
-package es.princip.getp.auth.service;
+package es.princip.getp.domain.auth.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
