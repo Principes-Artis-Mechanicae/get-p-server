@@ -4,10 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequestDTO;
@@ -53,5 +55,20 @@ public class MyPeopleController {
         Member member = principalDetails.getMember();
         PeopleResponseDTO response = peopleService.update(member.getMemberId(), request);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+    }
+
+    /**
+     * 피플 탈퇴
+     * 
+     * @return HttpStatus.NO_CONTENT 204 상태 코드
+     */
+    @DeleteMapping()
+    @PreAuthorize("isAuthenticated()")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<ApiSuccessResult<?>> deletePeopleByPeopleId(
+            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Member member = principalDetails.getMember();
+        peopleService.delete(member.getMemberId());
+        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.NO_CONTENT));
     }
 }
