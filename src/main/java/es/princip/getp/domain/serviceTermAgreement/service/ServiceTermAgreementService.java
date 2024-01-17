@@ -1,7 +1,6 @@
 package es.princip.getp.domain.serviceTermAgreement.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.princip.getp.domain.member.entity.Member;
@@ -10,8 +9,6 @@ import es.princip.getp.domain.serviceTerm.entity.ServiceTerm;
 import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
 import es.princip.getp.domain.serviceTermAgreement.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.domain.serviceTermAgreement.entity.ServiceTermAgreement;
-import es.princip.getp.domain.serviceTermAgreement.exception.ServiceTermAgreementErrorCode;
-import es.princip.getp.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,24 +19,30 @@ public class ServiceTermAgreementService {
     private final ServiceTermService serviceTermService;
 
     @Transactional
-    public List<ServiceTermAgreement> agree(Long memberId, List<ServiceTermAgreementRequest> agreementRequests) {
+    public void agree(Long memberId, List<ServiceTermAgreementRequest> agreementRequests) {
         Member member = memberService.getByMemberId(memberId);
         List<ServiceTermAgreement> agreements = agreementRequests.stream()
             .map(agreementRequest -> {
                 String tag = agreementRequest.tag();
                 boolean agreed = agreementRequest.agreed();
                 ServiceTerm serviceTerm = serviceTermService.getByTag(tag);
-                if (serviceTerm.isRequired() && !agreed) {
-                    throw new BusinessLogicException(ServiceTermAgreementErrorCode.NOT_AGREED_REQUIRED_SERVICE_TERM);
-                }
                 return ServiceTermAgreement.builder()
                         .agreed(agreed)
                         .serviceTerm(serviceTerm)
                         .member(member)
                         .build();
             })
-            .collect(Collectors.toList());
+            .toList();
         member.getServiceTermAgreements().addAll(agreements);
-        return member.getServiceTermAgreements();
+    }
+
+    public boolean isAgreedAllRequiredServiceTerms(List<ServiceTermAgreementRequest> agreementRequests) {
+        return agreementRequests.stream()
+            .allMatch(agreementRequest -> {
+                String tag = agreementRequest.tag();
+                boolean agreed = agreementRequest.agreed();
+                ServiceTerm serviceTerm = serviceTermService.getByTag(tag);
+                return !serviceTerm.isRequired() || agreed;
+            });
     }
 }

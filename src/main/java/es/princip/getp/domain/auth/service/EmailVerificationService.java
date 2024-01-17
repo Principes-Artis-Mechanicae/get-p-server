@@ -18,8 +18,7 @@ public class EmailVerificationService {
     private final EmailVerificationRepository emailVerificationRepository;
 
     public Optional<EmailVerification> getByEmail(String email) {
-        Optional<EmailVerification> emailVerification = emailVerificationRepository.findById(email);
-        return emailVerification;
+        return emailVerificationRepository.findById(email);
     }
 
     public void sendEmailVerificationCode(String email) {
@@ -47,5 +46,10 @@ public class EmailVerificationService {
         } else {
             emailVerificationRepository.save(emailVerification);
         }
+    }
+
+    public boolean isVerifiedEmail(String email) {
+        Optional<EmailVerification> verification = getByEmail(email);
+        return verification.map(EmailVerification::isVerified).orElse(false);
     }
 }
