@@ -1,5 +1,8 @@
 package es.princip.getp.fixture;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequestDTO;
 import es.princip.getp.domain.people.entity.People;
@@ -28,5 +31,22 @@ public class PeopleFixture {
                         .accountNumber(ACCOUNT_NUMBER)
                         .member(member)
                     .build();
+    }
+
+    public static List<People> createPeopleListByMember(List<Member> memberList, int count) {
+        List<People> peopleList = new ArrayList<People>();
+        for (int i = 0; i < count; i++) {
+            People people = People.builder()
+                .name(NAME + Integer.toString(i))
+                .email(EMAIL)
+                .phoneNumber(PHONE_NUMBER)
+                .roleType(PeopleRoleType.valueOf(ROLE_TYPE))
+                .profileImageUri(PROFILE_IMAGE_URI)
+                .accountNumber(ACCOUNT_NUMBER)
+                .member(memberList.get(i))
+                .build();
+            peopleList.add(people);
+        }
+        return peopleList;
     }
 }

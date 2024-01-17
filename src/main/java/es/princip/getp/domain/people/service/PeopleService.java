@@ -1,6 +1,9 @@
 package es.princip.getp.domain.people.service;
 
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.princip.getp.domain.member.entity.Member;
@@ -9,6 +12,7 @@ import es.princip.getp.domain.people.dto.request.UpdatePeopleRequestDTO;
 import es.princip.getp.domain.people.dto.response.PeopleResponseDTO;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.exception.NotFoundException;
+import es.princip.getp.domain.people.repository.PeopleQueryDslRepository;
 import es.princip.getp.domain.people.repository.PeopleRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PeopleService {
     private final PeopleRepository peopleRepository;
+
+    private final PeopleQueryDslRepository peopleQueryDslRepository;
 
     private People getPeople(Optional<People> people) {
         return people.orElseThrow(() -> new NotFoundException());
@@ -32,6 +38,11 @@ public class PeopleService {
 
     public PeopleResponseDTO getResponseByMemberId(Long memberId) {
         return PeopleResponseDTO.from(getByMemberId(memberId));
+    }
+
+    public Page<PeopleResponseDTO> getPeoplPage(Pageable pageable) {
+        Page<People> peoplPage = peopleQueryDslRepository.findPeoplePage(pageable);
+        return peoplPage.map(people -> PeopleResponseDTO.from(people));
     }
 
     @Transactional
