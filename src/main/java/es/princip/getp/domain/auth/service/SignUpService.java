@@ -4,7 +4,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
-import es.princip.getp.domain.auth.entity.EmailVerification;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.member.service.MemberService;
@@ -34,12 +33,16 @@ public class SignUpService {
     public Member signUp(SignUpRequest signUpRequest) {
         String email = signUpRequest.email();
         String password = signUpRequest.password();
-        if (!EmailUtil.isValidEmail(email)) throw new BusinessLogicException(SignUpErrorCode.WRONG_EMAIL);
-        if (!PasswordUtil.isValidPassword(password)) throw new BusinessLogicException(SignUpErrorCode.WRONG_PASSWORD);
-        EmailVerification verification = emailVerificationService
-                .getByEmail(email)
-                .orElseThrow(() -> new BusinessLogicException(SignUpErrorCode.NOT_VERIFIED_EMAIL));
-        if (!verification.isVerified()) throw new BusinessLogicException(SignUpErrorCode.NOT_VERIFIED_EMAIL);
+        if (!EmailUtil.isValidEmail(email))
+            throw new BusinessLogicException(SignUpErrorCode.WRONG_EMAIL);
+        if (!PasswordUtil.isValidPassword(password))
+            throw new BusinessLogicException(SignUpErrorCode.WRONG_PASSWORD);
+        if (memberService.existsByEmail(email))
+            throw new BusinessLogicException(SignUpErrorCode.DUPLICATED_EMAIL);
+        if (!emailVerificationService.isVerifiedEmail(email))
+            throw new BusinessLogicException(SignUpErrorCode.NOT_VERIFIED_EMAIL);
+        if (!serviceTermAgreementService.isAgreedAllRequiredServiceTerms(signUpRequest.serviceTerms()))
+            throw new BusinessLogicException(SignUpErrorCode.NOT_AGREED_REQUIRED_SERVICE_TERM);
         Member member = memberService.create(signUpRequest.toEntity(passwordEncoder));
         serviceTermAgreementService.agree(member.getMemberId(), signUpRequest.serviceTerms());
         return member;
