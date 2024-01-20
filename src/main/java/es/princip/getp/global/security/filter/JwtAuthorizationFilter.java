@@ -15,18 +15,36 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends GenericFilterBean {
+
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+
+        HttpServletRequest servletRequest = (HttpServletRequest) request;
+
+        if (isOptionsRequest(servletRequest) || isReissueRequest(servletRequest)) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        String token = jwtTokenProvider.resolveToken(servletRequest);
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            Authentication authentication =
-                    jwtTokenProvider.getAuthentication(token, memberService);
+            Authentication authentication
+                    = jwtTokenProvider.getAuthentication(token, memberService);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+
         chain.doFilter(request, response);
+    }
+
+    private boolean isOptionsRequest(HttpServletRequest request) {
+        return request.getMethod().equals("OPTIONS");
+    }
+
+    private boolean isReissueRequest(HttpServletRequest request) {
+        return request.getServletPath().equals("/api/v1/auth/reissue");
     }
 }

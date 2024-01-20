@@ -1,5 +1,7 @@
 package es.princip.getp.domain.auth.controller;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiSuccessResult<Token>> login(@RequestBody @Valid LoginRequest loginRequest) {
         Token token = authService.login(loginRequest);
+        String authorization = token.grantType() + " " + token.accessToken();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, authorization)
+                .body(ApiResponse.success(HttpStatus.OK, token));
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<ApiSuccessResult<Token>> reissueAccessToken(HttpServletRequest servletRequest) {
+        Token token = authService.reissueAccessToken(servletRequest);
         String authorization = token.grantType() + " " + token.accessToken();
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, authorization)
