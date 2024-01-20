@@ -3,6 +3,7 @@ package es.princip.getp.domain.auth.service;
 import static es.princip.getp.domain.auth.fixture.SignUpFixture.createSignUpRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -11,8 +12,9 @@ import static org.mockito.Mockito.when;
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.member.entity.MemberType;
 import es.princip.getp.domain.member.service.MemberService;
-import es.princip.getp.domain.serviceTermAgreement.service.ServiceTermAgreementService;
+import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
 import es.princip.getp.global.exception.BusinessLogicException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -26,7 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ExtendWith(MockitoExtension.class)
 class SignUpServiceTest {
     @Mock
-    private ServiceTermAgreementService serviceTermAgreementService;
+    private ServiceTermService serviceTermService;
 
     @Mock
     private EmailVerificationService emailVerificationService;
@@ -73,25 +75,25 @@ class SignUpServiceTest {
         @DisplayName("회원 가입을 진행한다.")
         @Test
         void signUp() {
-            SignUpRequest signUpRequest = createSignUpRequest("test@example.com", "qwer1234!");
+            SignUpRequest signUpRequest = createSignUpRequest(
+                "test@example.com", "qwer1234!", MemberType.ROLE_PEOPLE);
             Member member = signUpRequest.toEntity(passwordEncoder);
             when(memberService.existsByEmail(signUpRequest.email())).thenReturn(false);
             when(emailVerificationService.isVerifiedEmail(signUpRequest.email())).thenReturn(true);
-            when(serviceTermAgreementService.isAgreedAllRequiredServiceTerms(
+            when(serviceTermService.isAgreedAllRequiredServiceTerms(
                 signUpRequest.serviceTerms())).thenReturn(true);
-            when(memberService.create(any())).thenReturn(member);
+            when(memberService.create(any(), eq(passwordEncoder))).thenReturn(member);
 
             Member signedUpMember = signUpService.signUp(signUpRequest);
 
             assertEquals(signedUpMember, member);
-            verify(serviceTermAgreementService, times(1)).agree(signedUpMember.getMemberId(),
-                signUpRequest.serviceTerms());
         }
 
         @DisplayName("이메일이 중복되는 경우 실패한다.")
         @Test
         void signUp_WhenEmailIsDuplicated_ShouldThrowException() {
-            SignUpRequest signUpRequest = createSignUpRequest("test@example.com", "qwer1234!");
+            SignUpRequest signUpRequest = createSignUpRequest(
+                "test@example.com", "qwer1234!", MemberType.ROLE_PEOPLE);
             when(memberService.existsByEmail(signUpRequest.email())).thenReturn(true);
 
             BusinessLogicException exception =
@@ -104,7 +106,8 @@ class SignUpServiceTest {
         @DisplayName("이메일 형식이 잘못된 경우 실패한다.")
         @Test
         void signUp_WhenEmailIsWrong_ShouldThrowException() {
-            SignUpRequest signUpRequest = createSignUpRequest("testexample.com", "qwer1234!");
+            SignUpRequest signUpRequest = createSignUpRequest(
+                "testexample.com", "qwer1234!", MemberType.ROLE_PEOPLE);
 
             BusinessLogicException exception =
                 assertThrows(BusinessLogicException.class,
@@ -116,7 +119,8 @@ class SignUpServiceTest {
         @DisplayName("비밀번호 형식이 잘못된 경우 실패한다.")
         @Test
         void signUp_WhenPasswordIsWrong_ShouldThrowException() {
-            SignUpRequest signUpRequest = createSignUpRequest("test@example.com", "qwer1234");
+            SignUpRequest signUpRequest = createSignUpRequest(
+                "test@example.com", "qwer1234", MemberType.ROLE_PEOPLE);
 
             BusinessLogicException exception =
                 assertThrows(BusinessLogicException.class,
@@ -128,7 +132,8 @@ class SignUpServiceTest {
         @DisplayName("이메일이 인증되지 않은 경우 실패한다.")
         @Test
         void signUp_WhenEmailIsNotVerified_ShouldThrowException() {
-            SignUpRequest signUpRequest = createSignUpRequest("test@example.com", "qwer1234!");
+            SignUpRequest signUpRequest = createSignUpRequest(
+                "test@example.com", "qwer1234!", MemberType.ROLE_PEOPLE);
             when(memberService.existsByEmail(signUpRequest.email())).thenReturn(false);
             when(emailVerificationService.isVerifiedEmail(signUpRequest.email())).thenReturn(false);
 
@@ -142,10 +147,11 @@ class SignUpServiceTest {
         @DisplayName("필수 서비스 약관에 동의하지 않은 경우 실패한다.")
         @Test
         void signUp_WhenAllRequiredServiceTermsAreNotAgreed_ShouldThrowException() {
-            SignUpRequest signUpRequest = createSignUpRequest("test@example.com", "qwer1234!");
+            SignUpRequest signUpRequest = createSignUpRequest(
+                "test@example.com", "qwer1234!", MemberType.ROLE_PEOPLE);
             when(memberService.existsByEmail(signUpRequest.email())).thenReturn(false);
             when(emailVerificationService.isVerifiedEmail(signUpRequest.email())).thenReturn(true);
-            when(serviceTermAgreementService.isAgreedAllRequiredServiceTerms(
+            when(serviceTermService.isAgreedAllRequiredServiceTerms(
                 signUpRequest.serviceTerms())).thenReturn(false);
 
             BusinessLogicException exception =

@@ -5,7 +5,7 @@ import es.princip.getp.domain.member.entity.MemberType;
 import java.util.ArrayList;
 
 public class SignUpFixture {
-    public static SignUpRequest createSignUpRequest(String email, String password) {
-        return new SignUpRequest(email, password, new ArrayList<>(), MemberType.ROLE_PEOPLE);
+    public static SignUpRequest createSignUpRequest(String email, String password, MemberType memberType) {
+        return new SignUpRequest(email, password, new ArrayList<>(), memberType);
     }
 }

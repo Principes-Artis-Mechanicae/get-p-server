@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.any;
+import es.princip.getp.domain.auth.dto.request.SignUpRequest;
+import es.princip.getp.domain.auth.fixture.SignUpFixture;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.member.entity.MemberType;
 import es.princip.getp.domain.member.exception.MemberErrorCode;
@@ -19,11 +21,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
     @Mock
     private MemberRepository memberRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private MemberService memberService;
@@ -124,14 +130,16 @@ class MemberServiceTest {
             String email = "test@example.com";
             String password = "password";
             MemberType memberType = MemberType.ROLE_PEOPLE;
+            SignUpRequest signUpRequest = SignUpFixture.createSignUpRequest(email, password, memberType);
             Member member = Member.builder()
                 .email(email)
                 .password(password)
                 .memberType(memberType)
                 .build();
-            when(memberRepository.save(member)).thenReturn(member);
+            when(memberRepository.save(any())).thenReturn(member);
+            when(passwordEncoder.encode(password)).thenReturn(password);
 
-            assertEquals(memberService.create(member), member);
+            assertEquals(memberService.create(signUpRequest, passwordEncoder), member);
         }
     }
 }
