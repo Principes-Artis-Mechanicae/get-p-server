@@ -11,7 +11,6 @@ import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
 import es.princip.getp.global.exception.BusinessLogicException;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
