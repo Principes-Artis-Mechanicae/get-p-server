@@ -7,9 +7,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.member.repository.MemberRepository;
 import es.princip.getp.domain.people.entity.People;
-import es.princip.getp.domain.people.exception.NotFoundException;
+import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
+import es.princip.getp.global.exception.BusinessLogicException;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
@@ -36,7 +38,7 @@ public class PeopleRepositoryTest {
         People savedPeople = peopleRepository.save(PeopleFixture.createPeopleByMember(savedMember));
 
         People result = peopleRepository.findByMember_MemberId(savedMember.getMemberId())
-                                            .orElseThrow(() -> new NotFoundException());
+                                            .orElseThrow(() -> new BusinessLogicException(PeopleErrorCode.NOTFOUND_DATA));
 
         assertThat(result.getPeopleId())
                 .isEqualTo(savedPeople.getPeopleId());

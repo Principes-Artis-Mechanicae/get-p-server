@@ -1,7 +1,6 @@
 package es.princip.getp.domain.people.service;
 
 import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,9 +10,10 @@ import es.princip.getp.domain.people.dto.request.CreatePeopleRequestDTO;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequestDTO;
 import es.princip.getp.domain.people.dto.response.PeopleResponseDTO;
 import es.princip.getp.domain.people.entity.People;
-import es.princip.getp.domain.people.exception.NotFoundException;
+import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.repository.PeopleQueryDslRepository;
 import es.princip.getp.domain.people.repository.PeopleRepository;
+import es.princip.getp.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -25,7 +25,7 @@ public class PeopleService {
     private final PeopleQueryDslRepository peopleQueryDslRepository;
 
     private People getPeople(Optional<People> people) {
-        return people.orElseThrow(() -> new NotFoundException());
+        return people.orElseThrow(() -> new BusinessLogicException(PeopleErrorCode.NOTFOUND_DATA));
     }
 
     public People getByMemberId(Long memberId) {
