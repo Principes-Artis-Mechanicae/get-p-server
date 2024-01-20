@@ -17,6 +17,14 @@ public class MemberFixture {
                         .memberType(MemberType.valueOf(ROLE_TYPE))
                     .build();
     }
+    
+    public static Member createDifferentMember() {
+        return Member.builder()
+                        .email(EMAIL+".Different")
+                        .password(PASSWORD)
+                        .memberType(MemberType.valueOf(ROLE_TYPE))
+                    .build();
+    }
 
     public static List<Member> createMemberList(int count) {
         List<Member> memberList = new ArrayList<Member>();
