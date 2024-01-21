@@ -34,12 +34,10 @@ public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
 
-    @Value("${spring.jwt.expire.access-token}")
-    private static long ACCESS_TOKEN_EXPIRE_TIME;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
 
     @Getter
-    @Value("${spring.jwt.expire.refresh-token}")
-    private static long REFRESH_TOKEN_EXPIRE_TIME;
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;
 
     private final Key key;
 

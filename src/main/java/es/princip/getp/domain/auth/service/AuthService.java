@@ -35,8 +35,11 @@ public class AuthService {
             .getObject()
             .authenticate(authenticationToken);
 
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        Long memberId = principalDetails.getMember().getMemberId();
+
         Token token = jwtTokenProvider.generateToken(authentication);
-        cacheToken(authentication, token);
+        cacheToken(memberId, token);
 
         return token;
     }
@@ -47,11 +50,15 @@ public class AuthService {
             Authentication authentication =
                     jwtTokenProvider.getAuthentication(refreshToken, memberService);
 
+            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+            Long memberId = principalDetails.getMember().getMemberId();
+
             Token token = jwtTokenProvider.generateToken(authentication);
-            cacheToken(authentication, token);
+            cacheToken(memberId, token);
 
             return token;
         }
+
         // TODO: 1/20/24 refresh가 만료되었을 경우
         return null;
     }
@@ -62,12 +69,8 @@ public class AuthService {
                 && tokenVerificationRepository.existsByRefreshToken(refreshToken);
     }
 
-    private void cacheToken(Authentication authentication, Token token) {
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Long memberId = principalDetails.getMember().getMemberId();
-
-        String refreshToken = token.getRefreshToken();
-
+    private void cacheToken(Long memberId, Token token) {
+        String refreshToken = token.refreshToken();
         tokenVerificationRepository.save(new TokenVerification(memberId, refreshToken));
     }
 }
