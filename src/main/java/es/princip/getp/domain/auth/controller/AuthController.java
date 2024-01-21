@@ -26,7 +26,7 @@ public class AuthController {
     public ResponseEntity<ApiSuccessResult<Token>> login(@RequestBody @Valid LoginRequest loginRequest) {
         Token token = authService.login(loginRequest);
         String authorization = token.grantType() + " " + token.accessToken();
-        return ResponseEntity.ok()
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.AUTHORIZATION, authorization)
                 .body(ApiResponse.success(HttpStatus.OK, token));
     }
@@ -35,7 +35,7 @@ public class AuthController {
     public ResponseEntity<ApiSuccessResult<Token>> reissueAccessToken(HttpServletRequest servletRequest) {
         Token token = authService.reissueAccessToken(servletRequest);
         String authorization = token.grantType() + " " + token.accessToken();
-        return ResponseEntity.ok()
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.AUTHORIZATION, authorization)
                 .body(ApiResponse.success(HttpStatus.OK, token));
     }

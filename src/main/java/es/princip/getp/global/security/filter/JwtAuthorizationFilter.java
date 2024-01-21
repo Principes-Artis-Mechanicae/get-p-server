@@ -30,7 +30,7 @@ public class JwtAuthorizationFilter extends GenericFilterBean {
             return;
         }
 
-        String token = jwtTokenProvider.resolveToken(servletRequest);
+        String token = jwtTokenProvider.resolveAccessToken(servletRequest);
         if (token != null && jwtTokenProvider.validateToken(token)) {
             Authentication authentication
                     = jwtTokenProvider.getAuthentication(token, memberService);
