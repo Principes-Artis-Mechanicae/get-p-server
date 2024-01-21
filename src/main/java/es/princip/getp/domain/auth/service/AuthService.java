@@ -1,8 +1,12 @@
 package es.princip.getp.domain.auth.service;
 
 import es.princip.getp.domain.auth.entity.TokenVerification;
+import es.princip.getp.domain.auth.exception.EmailErrorCode;
+import es.princip.getp.domain.auth.exception.SignUpErrorCode;
+import es.princip.getp.domain.auth.exception.TokenErrorCode;
 import es.princip.getp.domain.auth.repository.TokenVerificationRepository;
 import es.princip.getp.domain.member.service.MemberService;
+import es.princip.getp.global.exception.BusinessLogicException;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,10 +61,9 @@ public class AuthService {
             cacheToken(memberId, token);
 
             return token;
+        } else {
+            throw new BusinessLogicException(TokenErrorCode.EXPIRED_REFRESH_TOKEN);
         }
-
-        // TODO: 1/20/24 refresh가 만료되었을 경우
-        return null;
     }
 
     private boolean isValidRefreshToken(String refreshToken) {
