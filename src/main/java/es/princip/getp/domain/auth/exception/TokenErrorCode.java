@@ -4,7 +4,7 @@ import es.princip.getp.global.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 
 public enum TokenErrorCode implements ErrorCode {
-    EXPIRED_REFRESH_TOKEN(HttpStatus.FORBIDDEN, "만료된 REFRESH TOKEN");
+    INVALID_REFRESH_TOKEN(HttpStatus.FORBIDDEN, "만료되거나 유효하지 않은 Refresh Token");
 
     private final HttpStatus status;
     private final String message;

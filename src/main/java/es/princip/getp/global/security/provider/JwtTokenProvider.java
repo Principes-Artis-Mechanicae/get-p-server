@@ -113,8 +113,16 @@ public class JwtTokenProvider {
         }
     }
 
-    public String resolveToken(HttpServletRequest request) {
+    public String resolveAccessToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer")) {
+            return bearerToken.replace("Bearer", "").trim();
+        }
+        return null;
+    }
+
+    public String resolveRefreshToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Refresh-Token");
         if (bearerToken != null && bearerToken.startsWith("Bearer")) {
             return bearerToken.replace("Bearer", "").trim();
         }

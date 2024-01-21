@@ -1,8 +1,6 @@
 package es.princip.getp.domain.auth.service;
 
 import es.princip.getp.domain.auth.entity.TokenVerification;
-import es.princip.getp.domain.auth.exception.EmailErrorCode;
-import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.auth.exception.TokenErrorCode;
 import es.princip.getp.domain.auth.repository.TokenVerificationRepository;
 import es.princip.getp.domain.member.service.MemberService;
@@ -12,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.princip.getp.domain.auth.dto.request.LoginRequest;
@@ -49,7 +46,7 @@ public class AuthService {
     }
 
     public Token reissueAccessToken(HttpServletRequest servletRequest) {
-        String refreshToken = jwtTokenProvider.resolveToken(servletRequest);
+        String refreshToken = jwtTokenProvider.resolveRefreshToken(servletRequest);
         if (isValidRefreshToken(refreshToken)) {
             Authentication authentication =
                     jwtTokenProvider.getAuthentication(refreshToken, memberService);
@@ -62,7 +59,7 @@ public class AuthService {
 
             return token;
         } else {
-            throw new BusinessLogicException(TokenErrorCode.EXPIRED_REFRESH_TOKEN);
+            throw new BusinessLogicException(TokenErrorCode.INVALID_REFRESH_TOKEN);
         }
     }
 
