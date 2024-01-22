@@ -37,7 +37,7 @@ public class MyPeopleController {
     public ResponseEntity<ApiSuccessResult<PeopleResponse>> getMyPeople(
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        PeopleResponse response = peopleService.getResponseByMemberId(member.getMemberId());
+        PeopleResponse response = PeopleResponse.from(peopleService.getByMemberId(member.getMemberId()));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 
@@ -53,7 +53,7 @@ public class MyPeopleController {
             @RequestBody @Valid UpdatePeopleRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        PeopleResponse response = peopleService.update(member.getMemberId(), request);
+        PeopleResponse response = PeopleResponse.from(peopleService.update(member.getMemberId(), request));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 
