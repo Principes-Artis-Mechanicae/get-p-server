@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.people.dto.request.CreatePeopleRequestDTO;
-import es.princip.getp.domain.people.dto.response.PeopleResponseDTO;
+import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
+import es.princip.getp.domain.people.dto.response.PeopleResponse;
 import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.util.ApiResponse;
@@ -29,16 +29,16 @@ public class PeopleController {
     /**
      * 피플 계정 생성
      * 
-     * @param CreatePeopleRequestDTO 생성할 피플 정보
+     * @param CreatePeopleRequest 생성할 피플 정보
      * @return PeopleResponseDTO 생성 완료된 피플 정보
      */
     @PostMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<PeopleResponseDTO>> create(
-            @RequestBody @Valid CreatePeopleRequestDTO request,
+    public ResponseEntity<ApiSuccessResult<PeopleResponse>> create(
+            @RequestBody @Valid CreatePeopleRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        PeopleResponseDTO response = peopleService.create(member, request);
+        PeopleResponse response = peopleService.create(member, request);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.CREATED, response));
     }
 
@@ -49,8 +49,8 @@ public class PeopleController {
      * @return PeopleResponseDTO 피플 ID에 해당되는 피플 정보
      */
     @GetMapping("/{peopleId}")
-    public ResponseEntity<ApiSuccessResult<PeopleResponseDTO>> getPeople(@PathVariable Long peopleId) {
-        PeopleResponseDTO response = peopleService.getResponseByPeopleId(peopleId);
+    public ResponseEntity<ApiSuccessResult<PeopleResponse>> getPeople(@PathVariable Long peopleId) {
+        PeopleResponse response = peopleService.getResponseByPeopleId(peopleId);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.CREATED, response));
     }
 }
