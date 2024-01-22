@@ -32,12 +32,8 @@ public class PeopleService {
         return getPeople(peopleRepository.findByMember_MemberId(memberId));
     }
 
-    public PeopleResponse getResponseByPeopleId(Long peopleId) {
-        return PeopleResponse.from(getPeople(peopleRepository.findById(peopleId)));
-    }
-
-    public PeopleResponse getResponseByMemberId(Long memberId) {
-        return PeopleResponse.from(getByMemberId(memberId));
+    public People getByPeopleId(Long memberId) {
+        return getPeople(peopleRepository.findById(memberId));
     }
 
     public Page<PeopleResponse> getPeoplePage(Pageable pageable) {
@@ -46,17 +42,16 @@ public class PeopleService {
     }
 
     @Transactional
-    public PeopleResponse create(Member member, CreatePeopleRequest request) {
+    public People create(Member member, CreatePeopleRequest request) {
         People people = request.toEntity(member);
-        peopleRepository.save(people);
-        return PeopleResponse.from(people);
+        return peopleRepository.save(people);
     }
 
     @Transactional
-    public PeopleResponse update(Long memberId, UpdatePeopleRequest request) {
+    public People update(Long memberId, UpdatePeopleRequest request) {
         People people = getByMemberId(memberId);
         people.update(request);
-        return PeopleResponse.from(people);
+        return people;
     }
 
     @Transactional

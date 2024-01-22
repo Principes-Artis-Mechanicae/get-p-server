@@ -42,7 +42,7 @@ public class PeopleController {
             @RequestBody @Valid CreatePeopleRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        PeopleResponse response = peopleService.create(member, request);
+        PeopleResponse response = PeopleResponse.from(peopleService.create(member, request));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.CREATED, response));
     }
 
@@ -54,7 +54,7 @@ public class PeopleController {
      */
     @GetMapping("/{peopleId}")
     public ResponseEntity<ApiSuccessResult<PeopleResponse>> getPeople(@PathVariable Long peopleId) {
-        PeopleResponse response = peopleService.getResponseByPeopleId(peopleId);
+        PeopleResponse response = PeopleResponse.from(peopleService.getByPeopleId(peopleId));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 
