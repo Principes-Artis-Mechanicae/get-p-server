@@ -40,7 +40,7 @@ public class PeopleService {
         return PeopleResponse.from(getByMemberId(memberId));
     }
 
-    public Page<PeopleResponse> getPeoplPage(Pageable pageable) {
+    public Page<PeopleResponse> getPeoplePage(Pageable pageable) {
         Page<People> peoplPage = peopleQueryDslRepository.findPeoplePage(pageable);
         return peoplPage.map(people -> PeopleResponse.from(people));
     }
