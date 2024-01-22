@@ -49,7 +49,7 @@ public class MyPeopleController {
      */
     @PutMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<PeopleResponseDTO>> updatePeopleByPeopleId(
+    public ResponseEntity<ApiSuccessResult<PeopleResponseDTO>> update(
             @RequestBody @Valid UpdatePeopleRequestDTO request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
@@ -65,7 +65,7 @@ public class MyPeopleController {
     @DeleteMapping()
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<ApiSuccessResult<?>> deletePeopleByPeopleId(
+    public ResponseEntity<ApiSuccessResult<?>> delete(
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
         peopleService.delete(member.getMemberId());
