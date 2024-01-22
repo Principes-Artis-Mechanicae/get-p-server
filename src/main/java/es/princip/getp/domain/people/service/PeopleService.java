@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.people.dto.request.CreatePeopleRequestDTO;
-import es.princip.getp.domain.people.dto.request.UpdatePeopleRequestDTO;
-import es.princip.getp.domain.people.dto.response.PeopleResponseDTO;
+import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
+import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
+import es.princip.getp.domain.people.dto.response.PeopleResponse;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.repository.PeopleQueryDslRepository;
@@ -32,31 +32,31 @@ public class PeopleService {
         return getPeople(peopleRepository.findByMember_MemberId(memberId));
     }
 
-    public PeopleResponseDTO getResponseByPeopleId(Long peopleId) {
-        return PeopleResponseDTO.from(getPeople(peopleRepository.findById(peopleId)));
+    public PeopleResponse getResponseByPeopleId(Long peopleId) {
+        return PeopleResponse.from(getPeople(peopleRepository.findById(peopleId)));
     }
 
-    public PeopleResponseDTO getResponseByMemberId(Long memberId) {
-        return PeopleResponseDTO.from(getByMemberId(memberId));
+    public PeopleResponse getResponseByMemberId(Long memberId) {
+        return PeopleResponse.from(getByMemberId(memberId));
     }
 
-    public Page<PeopleResponseDTO> getPeoplPage(Pageable pageable) {
+    public Page<PeopleResponse> getPeoplPage(Pageable pageable) {
         Page<People> peoplPage = peopleQueryDslRepository.findPeoplePage(pageable);
-        return peoplPage.map(people -> PeopleResponseDTO.from(people));
+        return peoplPage.map(people -> PeopleResponse.from(people));
     }
 
     @Transactional
-    public PeopleResponseDTO create(Member member, CreatePeopleRequestDTO request) {
+    public PeopleResponse create(Member member, CreatePeopleRequest request) {
         People people = request.toEntity(member);
         peopleRepository.save(people);
-        return PeopleResponseDTO.from(people);
+        return PeopleResponse.from(people);
     }
 
     @Transactional
-    public PeopleResponseDTO update(Long memberId, UpdatePeopleRequestDTO request) {
+    public PeopleResponse update(Long memberId, UpdatePeopleRequest request) {
         People people = getByMemberId(memberId);
         people.update(request);
-        return PeopleResponseDTO.from(people);
+        return PeopleResponse.from(people);
     }
 
     @Transactional
