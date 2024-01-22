@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.people.dto.request.CreatePeopleRequestDTO;
+import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.entity.PeopleRoleType;
 
@@ -17,8 +17,8 @@ public class PeopleFixture {
     public static String PROFILE_IMAGE_URI = "https://he.princip.es/img.jpg";
     public static String ACCOUNT_NUMBER = "3332-112-12-12";
 
-    public static CreatePeopleRequestDTO createPeopleRequestDTO() {
-        return new CreatePeopleRequestDTO(NAME, EMAIL, PHONE_NUMBER, NAME, EMAIL, ACCOUNT_NUMBER);
+    public static CreatePeopleRequest createPeopleRequest() {
+        return new CreatePeopleRequest(NAME, EMAIL, PHONE_NUMBER, NAME, EMAIL, ACCOUNT_NUMBER);
     }
 
     public static People createPeopleByMember(Member member) {
