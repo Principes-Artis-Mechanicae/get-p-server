@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,17 +57,17 @@ public class PeopleServiceTest {
             when(peopleRepository.save(any(People.class))).thenReturn(testPeople);
 
             People createdPeople = peopleService.create(testMember, testCreatePeopleRequest);
-            
-            assertAll(
-                () -> assertEquals(testPeople.getPeopleId(), createdPeople.getPeopleId()),
-                () -> assertEquals(testPeople.getName(), createdPeople.getName()),
-                () -> assertEquals(testPeople.getEmail(), createdPeople.getEmail()),
-                () -> assertEquals(testPeople.getPhoneNumber(), createdPeople.getPhoneNumber()),
-                () -> assertEquals(testPeople.getRoleType().name(), createdPeople.getRoleType().name()),
-                () -> assertEquals(testPeople.getProfileImageUri(), createdPeople.getProfileImageUri()),
-                () -> assertEquals(testPeople.getAccountNumber(), createdPeople.getAccountNumber()),
-                () -> assertEquals(testPeople.getMember(), createdPeople.getMember())
-            );
+
+            assertSoftly(softly -> {
+                softly.assertThat(testPeople.getPeopleId()).isEqualTo(createdPeople.getPeopleId());
+                softly.assertThat(testPeople.getName()).isEqualTo(createdPeople.getName());
+                softly.assertThat(testPeople.getEmail()).isEqualTo(createdPeople.getEmail());
+                softly.assertThat(testPeople.getPhoneNumber()).isEqualTo(createdPeople.getPhoneNumber());
+                softly.assertThat(testPeople.getRoleType().name()).isEqualTo(createdPeople.getRoleType().name());
+                softly.assertThat(testPeople.getProfileImageUri()).isEqualTo(createdPeople.getProfileImageUri());
+                softly.assertThat(testPeople.getAccountNumber()).isEqualTo(createdPeople.getAccountNumber());
+                softly.assertThat(testPeople.getMember()).isEqualTo(createdPeople.getMember());
+            });
         }
     }
 
@@ -132,16 +132,16 @@ public class PeopleServiceTest {
 
             People updatedPeople = peopleService.update(testMember.getMemberId(), testUpdatePeopleRequest);
 
-            assertAll(
-                () -> assertEquals(testPeople.getPeopleId(), updatedPeople.getPeopleId()),
-                () -> assertEquals(testPeople.getName(), updatedPeople.getName()),
-                () -> assertEquals(testPeople.getEmail(), updatedPeople.getEmail()),
-                () -> assertEquals(testPeople.getPhoneNumber(), updatedPeople.getPhoneNumber()),
-                () -> assertEquals(testPeople.getRoleType().name(), updatedPeople.getRoleType().name()),
-                () -> assertEquals(testPeople.getProfileImageUri(), updatedPeople.getProfileImageUri()),
-                () -> assertEquals(testPeople.getAccountNumber(), updatedPeople.getAccountNumber()),
-                () -> assertEquals(testPeople.getMember(), updatedPeople.getMember())
-            );
+            assertSoftly(softly -> {
+                softly.assertThat(testPeople.getPeopleId()).isEqualTo(updatedPeople.getPeopleId());
+                softly.assertThat(testPeople.getName()).isEqualTo(updatedPeople.getName());
+                softly.assertThat(testPeople.getEmail()).isEqualTo(updatedPeople.getEmail());
+                softly.assertThat(testPeople.getPhoneNumber()).isEqualTo(updatedPeople.getPhoneNumber());
+                softly.assertThat(testPeople.getRoleType().name()).isEqualTo(updatedPeople.getRoleType().name());
+                softly.assertThat(testPeople.getProfileImageUri()).isEqualTo(updatedPeople.getProfileImageUri());
+                softly.assertThat(testPeople.getAccountNumber()).isEqualTo(updatedPeople.getAccountNumber());
+                softly.assertThat(testPeople.getMember()).isEqualTo(updatedPeople.getMember());
+            });
         }
     }
 
