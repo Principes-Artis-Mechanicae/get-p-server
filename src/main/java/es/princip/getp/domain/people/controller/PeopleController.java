@@ -49,7 +49,7 @@ public class PeopleController {
      * @return PeopleResponseDTO 피플 ID에 해당되는 피플 정보
      */
     @GetMapping("/{peopleId}")
-    public ResponseEntity<ApiSuccessResult<PeopleResponseDTO>> getPeopleByPeopleId(@PathVariable Long peopleId) {
+    public ResponseEntity<ApiSuccessResult<PeopleResponseDTO>> getPeople(@PathVariable Long peopleId) {
         PeopleResponseDTO response = peopleService.getResponseByPeopleId(peopleId);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.CREATED, response));
     }
