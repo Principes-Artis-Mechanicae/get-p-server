@@ -37,7 +37,7 @@ public class PeopleRepositoryTest {
         People savedPeople = peopleRepository.save(PeopleFixture.createPeopleByMember(savedMember));
 
         People result = peopleRepository.findByMember_MemberId(savedMember.getMemberId())
-                                            .orElseThrow(() -> new BusinessLogicException(PeopleErrorCode.NOTFOUND_DATA));
+                                            .orElseThrow(() -> new BusinessLogicException(PeopleErrorCode.PEOPLE_NOT_FOUND));
 
         assertThat(result.getPeopleId())
                 .isEqualTo(savedPeople.getPeopleId());

@@ -1,34 +1,42 @@
 package es.princip.getp.domain.people.repository;
 
-import org.springframework.stereotype.Repository;
+import static com.querydsl.core.types.Order.ASC;
+import static com.querydsl.core.types.Order.DESC;
 
-import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.support.PageableExecutionUtils;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.entity.QPeople;
 import es.princip.getp.domain.people.enums.PeopleOrder;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class PeopleQueryDslRepository {
-    private final JPAQueryFactory queryFactory;
-    private QPeople people = QPeople.people;
 
-    private OrderSpecifier<?> getOrderSpecifier(org.springframework.data.domain.Sort.Order order, PeopleOrder peopleOrder) {
-        OrderSpecifier<?> orderSpecifier;
-        if (order.isAscending()) {
-            orderSpecifier = new OrderSpecifier<>(Order.ASC, people.createdAt);
-        } else {
-            orderSpecifier = new OrderSpecifier<>(Order.DESC, people.createdAt);
+    private final JPAQueryFactory queryFactory;
+    private final QPeople people = QPeople.people;
+
+    private OrderSpecifier<?> getOrderSpecifier(Order order, PeopleOrder peopleOrder) {
+        OrderSpecifier<?> orderSpecifier = new OrderSpecifier<>(DESC, people.createdAt);
+        switch (peopleOrder) {
+            case INTEREST_COUNT:
+                // TODO: 관심 수에 대하여 정렬하는 로직 추가
+                break;
+            case CREATED_AT:
+                orderSpecifier = new OrderSpecifier<>(order.isAscending() ? ASC : DESC, people.createdAt);
+                break;
+            default:
+                break;
         }
         return orderSpecifier;
     }
@@ -38,20 +46,17 @@ public class PeopleQueryDslRepository {
         sort.stream().forEach(order -> {
             PeopleOrder peopleOrder = PeopleOrder.valueOf(order.getProperty());
             OrderSpecifier<?> orderSpecifier = getOrderSpecifier(order, peopleOrder);
-
-            switch (peopleOrder) {
-                case CREATED_AT:
-                    orderSpecifiers.add(orderSpecifier);
-                default:
-                    orderSpecifiers.add(orderSpecifier);
-            }
+            orderSpecifiers.add(orderSpecifier);
         });
-        return orderSpecifiers.stream().toArray(OrderSpecifier[]::new);
+        return orderSpecifiers.toArray(OrderSpecifier[]::new);
     }
 
     private List<People> getPeopleContent(Pageable pageable) {
-        return queryFactory.selectFrom(people).orderBy(getPeopleOrderSpecifiers(pageable.getSort()))
-                .offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch();
+        return queryFactory.selectFrom(people)
+            .orderBy(getPeopleOrderSpecifiers(pageable.getSort()))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
     }
 
     private JPAQuery<Long> getPeopleCountQuery() {
