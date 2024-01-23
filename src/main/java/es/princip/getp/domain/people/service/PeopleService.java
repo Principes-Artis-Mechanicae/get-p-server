@@ -24,21 +24,21 @@ public class PeopleService {
 
     private final PeopleQueryDslRepository peopleQueryDslRepository;
 
-    private People getPeople(Optional<People> people) {
-        return people.orElseThrow(() -> new BusinessLogicException(PeopleErrorCode.NOTFOUND_DATA));
+    private People get(Optional<People> people) {
+        return people.orElseThrow(() -> new BusinessLogicException(PeopleErrorCode.PEOPLE_NOT_FOUND));
     }
 
     public People getByMemberId(Long memberId) {
-        return getPeople(peopleRepository.findByMember_MemberId(memberId));
+        return get(peopleRepository.findByMember_MemberId(memberId));
     }
 
     public People getByPeopleId(Long memberId) {
-        return getPeople(peopleRepository.findById(memberId));
+        return get(peopleRepository.findById(memberId));
     }
 
     public Page<PeopleResponse> getPeoplePage(Pageable pageable) {
         Page<People> peoplPage = peopleQueryDslRepository.findPeoplePage(pageable);
-        return peoplPage.map(people -> PeopleResponse.from(people));
+        return peoplPage.map(PeopleResponse::from);
     }
 
     @Transactional

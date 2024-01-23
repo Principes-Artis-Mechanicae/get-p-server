@@ -9,6 +9,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -63,7 +64,7 @@ public class PeopleServiceTest {
                 softly.assertThat(testPeople.getName()).isEqualTo(createdPeople.getName());
                 softly.assertThat(testPeople.getEmail()).isEqualTo(createdPeople.getEmail());
                 softly.assertThat(testPeople.getPhoneNumber()).isEqualTo(createdPeople.getPhoneNumber());
-                softly.assertThat(testPeople.getRoleType().name()).isEqualTo(createdPeople.getRoleType().name());
+                softly.assertThat(testPeople.getPeopleType().name()).isEqualTo(createdPeople.getPeopleType().name());
                 softly.assertThat(testPeople.getProfileImageUri()).isEqualTo(createdPeople.getProfileImageUri());
                 softly.assertThat(testPeople.getAccountNumber()).isEqualTo(createdPeople.getAccountNumber());
                 softly.assertThat(testPeople.getMember()).isEqualTo(createdPeople.getMember());
@@ -98,7 +99,7 @@ public class PeopleServiceTest {
         @DisplayName("피플 목록 조회를 성공한다.")
         void testGetPeoplePage() {
             Pageable pageable = PageRequest.of(0, 10);
-            Page<People> peoplePage = new PageImpl<>(Arrays.asList(testPeople), pageable, 1);
+            Page<People> peoplePage = new PageImpl<>(Collections.singletonList(testPeople), pageable, 1);
             when(peopleQueryDslRepository.findPeoplePage(pageable)).thenReturn(peoplePage);
 
             Page<PeopleResponse> result = peopleService.getPeoplePage(pageable);
@@ -115,7 +116,7 @@ public class PeopleServiceTest {
 
             BusinessLogicException exception = assertThrows(BusinessLogicException.class,
                 () ->  peopleService.getByMemberId(testMember.getMemberId()));
-            assertEquals(exception.getCode(), PeopleErrorCode.NOTFOUND_DATA.name());
+            assertEquals(exception.getCode(), PeopleErrorCode.PEOPLE_NOT_FOUND.name());
         }
     }
 
@@ -137,7 +138,7 @@ public class PeopleServiceTest {
                 softly.assertThat(testPeople.getName()).isEqualTo(updatedPeople.getName());
                 softly.assertThat(testPeople.getEmail()).isEqualTo(updatedPeople.getEmail());
                 softly.assertThat(testPeople.getPhoneNumber()).isEqualTo(updatedPeople.getPhoneNumber());
-                softly.assertThat(testPeople.getRoleType().name()).isEqualTo(updatedPeople.getRoleType().name());
+                softly.assertThat(testPeople.getPeopleType().name()).isEqualTo(updatedPeople.getPeopleType().name());
                 softly.assertThat(testPeople.getProfileImageUri()).isEqualTo(updatedPeople.getProfileImageUri());
                 softly.assertThat(testPeople.getAccountNumber()).isEqualTo(updatedPeople.getAccountNumber());
                 softly.assertThat(testPeople.getMember()).isEqualTo(updatedPeople.getMember());

@@ -22,7 +22,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "people")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class People extends BaseTimeEntity{
+public class People extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "people_id")
@@ -38,8 +39,8 @@ public class People extends BaseTimeEntity{
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role_type")
-    private PeopleRoleType roleType;
+    @Column(name = "people_type")
+    private PeopleType peopleType;
 
     @Column(name = "profile_image_uri")
     private String profileImageUri;
@@ -51,12 +52,12 @@ public class People extends BaseTimeEntity{
     private Member member;
 
     @Builder
-    public People(String name, String email, String phoneNumber, PeopleRoleType roleType, 
-            String profileImageUri, String accountNumber, Member member) {
+    public People(String name, String email, String phoneNumber, PeopleType peopleType,
+        String profileImageUri, String accountNumber, Member member) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.roleType = roleType;
+        this.peopleType = peopleType;
         this.profileImageUri = profileImageUri;
         this.accountNumber = accountNumber;
         this.member = member;
@@ -66,7 +67,7 @@ public class People extends BaseTimeEntity{
         this.name = request.name();
         this.email = request.email();
         this.phoneNumber = request.phoneNumber();
-        this.roleType = PeopleRoleType.valueOf(request.roleType());
+        this.peopleType = PeopleType.valueOf(request.peopleType());
         this.profileImageUri = request.profileImageUri();
         this.accountNumber = request.accountNumber();
     }
