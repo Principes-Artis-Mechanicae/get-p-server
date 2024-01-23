@@ -21,26 +21,47 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/auth/signup")
 @RequiredArgsConstructor
 public class SignUpController {
+
     private final SignUpService signUpService;
     private final EmailVerificationService emailVerificationService;
 
+    /**
+     * 회원 가입
+     *
+     * @param request 회원 가입 요청
+     * @return 가입된 회원 정보
+     */
     @PostMapping()
-    public ResponseEntity<ApiSuccessResult<SignUpResponse>> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
-        SignUpResponse signUpResponse = SignUpResponse.from(signUpService.signUp(signUpRequest));
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED, signUpResponse));
+    public ResponseEntity<ApiSuccessResult<SignUpResponse>> signUp(
+        @RequestBody @Valid SignUpRequest request) {
+        SignUpResponse signUpResponse = SignUpResponse.from(signUpService.signUp(request));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ApiResponse.success(HttpStatus.CREATED, signUpResponse));
     }
 
+    /**
+     * 이메일 인증 코드 전송
+     *
+     * @param request 이메일 인증 코드 전송 요청
+     */
     @PostMapping("/email/send")
-    public ResponseEntity<ApiSuccessResult<?>> sendEmailVerificationCodeForSignUp(@RequestBody @Valid EmailVerificationCodeRequest verificationCodeRequest) {
-        String email = verificationCodeRequest.email();
+    public ResponseEntity<ApiSuccessResult<?>> sendEmailVerificationCodeForSignUp(
+        @RequestBody @Valid EmailVerificationCodeRequest request) {
+        String email = request.email();
         signUpService.sendEmailVerificationCodeForSignUp(email);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK));
     }
 
+    /**
+     * 이메일 인증
+     *
+     * @param request 이메일 인증 요청
+     */
     @PostMapping("/email/verify")
-    public ResponseEntity<ApiSuccessResult<?>> verifyEmail(@RequestBody @Valid EmailVerificationRequest verificationRequest) {
-        String email = verificationRequest.email();
-        String verificationCode = verificationRequest.code();
+    public ResponseEntity<ApiSuccessResult<?>> verifyEmail(
+        @RequestBody @Valid EmailVerificationRequest request) {
+        String email = request.email();
+        String verificationCode = request.code();
         emailVerificationService.verifyEmail(email, verificationCode);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK));
     }
