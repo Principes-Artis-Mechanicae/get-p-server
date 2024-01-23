@@ -7,5 +7,6 @@ import lombok.Builder;
 public record Token(
     @NotNull String grantType,
     @NotNull String accessToken
+    @NotNull String refreshToken
 ) {
 }

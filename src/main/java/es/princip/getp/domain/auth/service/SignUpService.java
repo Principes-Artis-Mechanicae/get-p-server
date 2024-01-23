@@ -7,7 +7,7 @@ import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.member.service.MemberService;
-import es.princip.getp.domain.serviceTermAgreement.service.ServiceTermAgreementService;
+import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
 import es.princip.getp.global.exception.BusinessLogicException;
 import es.princip.getp.global.util.EmailUtil;
 import es.princip.getp.global.util.PasswordUtil;
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SignUpService {
-    private final ServiceTermAgreementService serviceTermAgreementService;
+    private final ServiceTermService serviceTermService;
     private final EmailVerificationService emailVerificationService;
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
@@ -29,8 +29,7 @@ public class SignUpService {
         emailVerificationService.sendEmailVerificationCode(email);
     }
 
-    @Transactional
-    public Member signUp(SignUpRequest signUpRequest) {
+    private void validateSignUpRequest(SignUpRequest signUpRequest) {
         String email = signUpRequest.email();
         String password = signUpRequest.password();
         if (!EmailUtil.isValidEmail(email))
@@ -41,10 +40,13 @@ public class SignUpService {
             throw new BusinessLogicException(SignUpErrorCode.DUPLICATED_EMAIL);
         if (!emailVerificationService.isVerifiedEmail(email))
             throw new BusinessLogicException(SignUpErrorCode.NOT_VERIFIED_EMAIL);
-        if (!serviceTermAgreementService.isAgreedAllRequiredServiceTerms(signUpRequest.serviceTerms()))
+        if (!serviceTermService.isAgreedAllRequiredServiceTerms(signUpRequest.serviceTerms()))
             throw new BusinessLogicException(SignUpErrorCode.NOT_AGREED_REQUIRED_SERVICE_TERM);
-        Member member = memberService.create(signUpRequest.toEntity(passwordEncoder));
-        serviceTermAgreementService.agree(member.getMemberId(), signUpRequest.serviceTerms());
-        return member;
+    }
+
+    @Transactional
+    public Member signUp(SignUpRequest signUpRequest) {
+        validateSignUpRequest(signUpRequest);
+        return memberService.create(signUpRequest, passwordEncoder);
     }
 }
