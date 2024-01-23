@@ -27,9 +27,9 @@ public class AuthService {
 
     private final TokenVerificationRepository tokenVerificationRepository;
     
-    public Token login(LoginRequest loginRequest) {
-        String email = loginRequest.email();
-        String password = loginRequest.password();
+    public Token login(LoginRequest request) {
+        String email = request.email();
+        String password = request.password();
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(email, password);
         Authentication authentication = authenticationManagerBuilder
