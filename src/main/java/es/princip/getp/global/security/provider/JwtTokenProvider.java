@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
-
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,9 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
-
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
-
+  
     @Getter
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;
 
@@ -60,10 +58,8 @@ public class JwtTokenProvider {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-
         long now = System.currentTimeMillis();
         Date tokenExpiresIn = new Date(now + expireTime);
-
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
@@ -120,7 +116,7 @@ public class JwtTokenProvider {
         }
         return null;
     }
-
+  
     public String resolveRefreshToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Refresh-Token");
         if (bearerToken != null && bearerToken.startsWith("Bearer")) {

@@ -1,6 +1,5 @@
 package es.princip.getp.domain.serviceTerm.service;
 
-import es.princip.getp.domain.serviceTermAgreement.dto.request.ServiceTermAgreementRequest;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,7 @@ import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermRequest;
 import es.princip.getp.domain.serviceTerm.entity.ServiceTerm;
 import es.princip.getp.domain.serviceTerm.exception.ServiceTermErrorCode;
 import es.princip.getp.domain.serviceTerm.repository.ServiceTermRepository;
+import es.princip.getp.domain.serviceTermAgreement.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +34,7 @@ public class ServiceTermService {
     public ServiceTerm create(ServiceTermRequest serviceTermRequest) {
         return serviceTermRepository.save(serviceTermRequest.toEntity());
     }
-
+  
     public boolean isAgreedAllRequiredServiceTerms(
         List<ServiceTermAgreementRequest> agreementRequests) {
         return agreementRequests.stream()

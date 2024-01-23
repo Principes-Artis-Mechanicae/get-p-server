@@ -2,7 +2,6 @@ package es.princip.getp.domain.auth.dto.response;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import lombok.Getter;
 
 @Builder
 public record Token(

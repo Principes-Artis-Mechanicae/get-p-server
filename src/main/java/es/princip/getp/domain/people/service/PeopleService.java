@@ -1,0 +1,62 @@
+package es.princip.getp.domain.people.service;
+
+import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
+import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
+import es.princip.getp.domain.people.dto.response.PeopleResponse;
+import es.princip.getp.domain.people.entity.People;
+import es.princip.getp.domain.people.exception.PeopleErrorCode;
+import es.princip.getp.domain.people.repository.PeopleQueryDslRepository;
+import es.princip.getp.domain.people.repository.PeopleRepository;
+import es.princip.getp.global.exception.BusinessLogicException;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class PeopleService {
+    private final PeopleRepository peopleRepository;
+
+    private final PeopleQueryDslRepository peopleQueryDslRepository;
+
+    private People getPeople(Optional<People> people) {
+        return people.orElseThrow(() -> new BusinessLogicException(PeopleErrorCode.NOTFOUND_DATA));
+    }
+
+    public People getByMemberId(Long memberId) {
+        return getPeople(peopleRepository.findByMember_MemberId(memberId));
+    }
+
+    public People getByPeopleId(Long memberId) {
+        return getPeople(peopleRepository.findById(memberId));
+    }
+
+    public Page<PeopleResponse> getPeoplePage(Pageable pageable) {
+        Page<People> peoplPage = peopleQueryDslRepository.findPeoplePage(pageable);
+        return peoplPage.map(people -> PeopleResponse.from(people));
+    }
+
+    @Transactional
+    public People create(Member member, CreatePeopleRequest request) {
+        People people = request.toEntity(member);
+        return peopleRepository.save(people);
+    }
+
+    @Transactional
+    public People update(Long memberId, UpdatePeopleRequest request) {
+        People people = getByMemberId(memberId);
+        people.update(request);
+        return people;
+    }
+
+    @Transactional
+    public void delete(Long memberId){
+        People people = getByMemberId(memberId);
+        peopleRepository.delete(people);
+    }
+}

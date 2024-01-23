@@ -4,15 +4,15 @@ import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.serviceTerm.entity.ServiceTerm;
 import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
 import es.princip.getp.domain.serviceTermAgreement.entity.ServiceTermAgreement;
+import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.member.exception.MemberErrorCode;
+import es.princip.getp.domain.member.repository.MemberRepository;
+import es.princip.getp.global.exception.BusinessLogicException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.member.exception.MemberErrorCode;
-import es.princip.getp.domain.member.repository.MemberRepository;
-import es.princip.getp.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 
 @Service

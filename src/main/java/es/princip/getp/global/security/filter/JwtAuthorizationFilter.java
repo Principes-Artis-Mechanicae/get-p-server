@@ -15,28 +15,23 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends GenericFilterBean {
-
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-
         HttpServletRequest servletRequest = (HttpServletRequest) request;
-
         if (isOptionsRequest(servletRequest) || isReissueRequest(servletRequest)) {
             chain.doFilter(request, response);
-            return;
+            return ;
         }
-
         String token = jwtTokenProvider.resolveAccessToken(servletRequest);
         if (token != null && jwtTokenProvider.validateToken(token)) {
             Authentication authentication
                     = jwtTokenProvider.getAuthentication(token, memberService);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-
         chain.doFilter(request, response);
     }
 
