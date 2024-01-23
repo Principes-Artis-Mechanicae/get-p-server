@@ -28,29 +28,31 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/people")
 @RequiredArgsConstructor
 public class PeopleController {
+
     private final PeopleService peopleService;
 
     /**
-     * 피플 계정 생성
-     * 
-     * @param CreatePeopleRequest 생성할 피플 정보
-     * @return PeopleResponseDTO 생성 완료된 피플 정보
+     * 피플 정보 등록
+     *
+     * @param CreatePeopleRequest 등록할 피플 정보
+     * @return PeopleResponse 등록된 피플 정보
      */
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<PeopleResponse>> create(
-            @RequestBody @Valid CreatePeopleRequest request,
-            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        @RequestBody @Valid CreatePeopleRequest request,
+        @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
         PeopleResponse response = PeopleResponse.from(peopleService.create(member, request));
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.CREATED, response));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ApiResponse.success(HttpStatus.CREATED, response));
     }
 
     /**
      * 피플 상세 조회
-     * 
+     *
      * @param peopleId 피플 ID
-     * @return PeopleResponseDTO 피플 ID에 해당되는 피플 정보
+     * @return PeopleResponse 피플 ID에 해당되는 피플 정보
      */
     @GetMapping("/{peopleId}")
     public ResponseEntity<ApiSuccessResult<PeopleResponse>> getPeople(@PathVariable Long peopleId) {
@@ -60,13 +62,13 @@ public class PeopleController {
 
     /**
      * 피플 목록 조회
-     * 
+     *
      * @param pageable 정렬 기준
-     * @return Page<PeopleResponseDTO> 정렬 기준에 해당되는 피플 정보 목록
+     * @return Page<PeopleResponse> 정렬 기준에 해당되는 피플 정보 목록
      */
     @GetMapping
-    public ResponseEntity<ApiSuccessResult<Page<PeopleResponse>>> getPeoplePage(@PageableDefault(size = 10,
-            sort = "CREATED_AT", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<ApiSuccessResult<Page<PeopleResponse>>> getPeoplePage(
+        @PageableDefault(sort = "CREATED_AT", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<PeopleResponse> response = peopleService.getPeoplePage(pageable);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }

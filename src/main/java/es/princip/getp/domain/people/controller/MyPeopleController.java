@@ -1,5 +1,14 @@
 package es.princip.getp.domain.people.controller;
 
+import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
+import es.princip.getp.domain.people.dto.response.PeopleResponse;
+import es.princip.getp.domain.people.service.PeopleService;
+import es.princip.getp.global.security.details.PrincipalDetails;
+import es.princip.getp.global.util.ApiResponse;
+import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,15 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
-import es.princip.getp.domain.people.dto.response.PeopleResponse;
-import es.princip.getp.domain.people.service.PeopleService;
-import es.princip.getp.global.security.details.PrincipalDetails;
-import es.princip.getp.global.util.ApiResponse;
-import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/people/me")
@@ -30,7 +30,7 @@ public class MyPeopleController {
     /**
      * 내 피플 정보 조회
      * 
-     * @return PeopleResponseDTO 내 피플 기본 정보
+     * @return PeopleResponse 내 피플 정보
      */
     @GetMapping
     @PreAuthorize("isAuthenticated()")
@@ -45,7 +45,7 @@ public class MyPeopleController {
      * 내 피플 정보 수정
      * 
      * @param UpdatePeopleRequest 수정할 피플 정보
-     * @return PeopleResponseDTO 수정 완료된 피플 정보
+     * @return PeopleResponse 수정 완료된 피플 정보
      */
     @PutMapping
     @PreAuthorize("isAuthenticated()")
