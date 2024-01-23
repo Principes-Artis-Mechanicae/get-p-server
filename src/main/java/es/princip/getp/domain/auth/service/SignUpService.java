@@ -29,9 +29,9 @@ public class SignUpService {
         emailVerificationService.sendEmailVerificationCode(email);
     }
 
-    private void validateSignUpRequest(SignUpRequest signUpRequest) {
-        String email = signUpRequest.email();
-        String password = signUpRequest.password();
+    private void validateSignUpRequest(SignUpRequest request) {
+        String email = request.email();
+        String password = request.password();
         if (!EmailUtil.isValidEmail(email))
             throw new BusinessLogicException(SignUpErrorCode.WRONG_EMAIL);
         if (!PasswordUtil.isValidPassword(password))
@@ -40,13 +40,13 @@ public class SignUpService {
             throw new BusinessLogicException(SignUpErrorCode.DUPLICATED_EMAIL);
         if (!emailVerificationService.isVerifiedEmail(email))
             throw new BusinessLogicException(SignUpErrorCode.NOT_VERIFIED_EMAIL);
-        if (!serviceTermService.isAgreedAllRequiredServiceTerms(signUpRequest.serviceTerms()))
+        if (!serviceTermService.isAgreedAllRequiredServiceTerms(request.serviceTerms()))
             throw new BusinessLogicException(SignUpErrorCode.NOT_AGREED_REQUIRED_SERVICE_TERM);
     }
 
     @Transactional
-    public Member signUp(SignUpRequest signUpRequest) {
-        validateSignUpRequest(signUpRequest);
-        return memberService.create(signUpRequest, passwordEncoder);
+    public Member signUp(SignUpRequest request) {
+        validateSignUpRequest(request);
+        return memberService.create(request, passwordEncoder);
     }
 }
