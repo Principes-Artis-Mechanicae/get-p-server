@@ -3,14 +3,13 @@ package es.princip.getp.domain.auth.exception;
 import es.princip.getp.global.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 
-public enum TokenErrorCode implements ErrorCode {
-    INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "만료되거나 유효하지 않은 Access Token"),
-    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "만료되거나 유효하지 않은 Refresh Token");
+public enum AuthErrorCode implements ErrorCode {
+    FORBIDDEN(HttpStatus.FORBIDDEN, "접근 권한 없음");
 
     private final HttpStatus status;
     private final String message;
 
-    TokenErrorCode(HttpStatus status, String message) {
+    AuthErrorCode(HttpStatus status, String message) {
         this.status = status;
         this.message = message;
     }

@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 public class BusinessLogicException extends RuntimeException {
-    private HttpStatus status;
-    private String code;
-    private String message;
+    private final HttpStatus status;
+    private final String code;
+    private final String message;
 
     public BusinessLogicException(ErrorCode errorCode) {
         super(errorCode.message());

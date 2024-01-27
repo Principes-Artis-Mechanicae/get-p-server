@@ -37,7 +37,7 @@ public class AuthService {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         Long memberId = principalDetails.getMember().getMemberId();
         Token token = jwtTokenProvider.generateToken(authentication);
-        cacheToken(memberId, token);
+        cacheRefreshToken(memberId, token.refreshToken());
         return token;
     }
 
@@ -49,7 +49,7 @@ public class AuthService {
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
             Long memberId = principalDetails.getMember().getMemberId();
             Token token = jwtTokenProvider.generateToken(authentication);
-            cacheToken(memberId, token);
+            cacheRefreshToken(memberId, token.refreshToken());
             return token;
         } else {
             throw new BusinessLogicException(TokenErrorCode.INVALID_REFRESH_TOKEN);
@@ -62,8 +62,7 @@ public class AuthService {
                 && tokenVerificationRepository.existsByRefreshToken(refreshToken);
     }
 
-    private void cacheToken(Long memberId, Token token) {
-        String refreshToken = token.refreshToken();
+    private void cacheRefreshToken(Long memberId, String refreshToken) {
         tokenVerificationRepository.save(new TokenVerification(memberId, refreshToken));
     }
 }
