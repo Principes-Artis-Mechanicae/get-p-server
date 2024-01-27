@@ -1,5 +1,6 @@
 package es.princip.getp.global.util;
 
+import es.princip.getp.global.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -14,8 +15,12 @@ public class ApiResponse {
         return new ApiSuccessResult<>(status.value());
     }
 
-    public static <T> ApiErrorResult error(HttpStatus status, String code, String message) {
+    public static ApiErrorResult error(HttpStatus status, String code, String message) {
         return new ApiErrorResult(status.value(), new ApiError(code, message));
+    }
+
+    public static ApiErrorResult error(ErrorCode errorCode) {
+        return new ApiErrorResult(errorCode.status().value(), new ApiError(errorCode.code(), errorCode.message()));
     }
     
     @JsonInclude(Include.NON_NULL)
