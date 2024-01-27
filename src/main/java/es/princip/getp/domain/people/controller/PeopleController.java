@@ -34,8 +34,8 @@ public class PeopleController {
     /**
      * 피플 정보 등록
      *
-     * @param CreatePeopleRequest 등록할 피플 정보
-     * @return PeopleResponse 등록된 피플 정보
+     * @param request 등록할 피플 정보
+     * @return 등록된 피플 정보
      */
     @PostMapping
     @PreAuthorize("isAuthenticated()")
@@ -52,7 +52,7 @@ public class PeopleController {
      * 피플 상세 조회
      *
      * @param peopleId 피플 ID
-     * @return PeopleResponse 피플 ID에 해당되는 피플 정보
+     * @return 피플 ID에 해당되는 피플 정보
      */
     @GetMapping("/{peopleId}")
     public ResponseEntity<ApiSuccessResult<PeopleResponse>> getPeople(@PathVariable Long peopleId) {
@@ -64,7 +64,7 @@ public class PeopleController {
      * 피플 목록 조회
      *
      * @param pageable 정렬 기준
-     * @return Page<PeopleResponse> 정렬 기준에 해당되는 피플 정보 목록
+     * @return 정렬 기준에 해당되는 피플 정보 목록
      */
     @GetMapping
     public ResponseEntity<ApiSuccessResult<Page<PeopleResponse>>> getPeoplePage(
