@@ -34,7 +34,7 @@ public class AuthController {
         String authorization = token.grantType() + " " + token.accessToken();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.AUTHORIZATION, authorization)
-                .body(ApiResponse.success(HttpStatus.OK, token));
+                .body(ApiResponse.success(HttpStatus.CREATED, token));
     }
 
     /**
@@ -49,6 +49,6 @@ public class AuthController {
         String authorization = token.grantType() + " " + token.accessToken();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.AUTHORIZATION, authorization)
-                .body(ApiResponse.success(HttpStatus.OK, token));
+                .body(ApiResponse.success(HttpStatus.CREATED, token));
     }
 }
