@@ -29,7 +29,7 @@ public class PeopleFixture {
 
     public static People createPeopleByMember(Member member) {
         return People.builder()
-            .name(NAME)
+            .nickname(NAME)
             .email(EMAIL)
             .phoneNumber(PHONE_NUMBER)
             .peopleType(PeopleType.valueOf(ROLE_TYPE))
@@ -43,7 +43,7 @@ public class PeopleFixture {
         List<People> peopleList = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             People people = People.builder()
-                .name(NAME + i)
+                .nickname(NAME + i)
                 .email(EMAIL)
                 .phoneNumber(PHONE_NUMBER)
                 .peopleType(PeopleType.valueOf(ROLE_TYPE))

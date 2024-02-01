@@ -46,7 +46,7 @@ public class ClientServiceTest {
             
             assertSoftly(softly -> {
                 softly.assertThat(testClient.getClientId()).isEqualTo(createdClient.getClientId());
-                softly.assertThat(testClient.getName()).isEqualTo(createdClient.getName());
+                softly.assertThat(testClient.getNickname()).isEqualTo(createdClient.getNickname());
                 softly.assertThat(testClient.getEmail()).isEqualTo(createdClient.getEmail());
                 softly.assertThat(testClient.getPhoneNumber()).isEqualTo(createdClient.getPhoneNumber());
                 softly.assertThat(testClient.getProfileImageUri()).isEqualTo(createdClient.getProfileImageUri());
@@ -96,7 +96,7 @@ public class ClientServiceTest {
 
             assertSoftly(softly -> {
                 softly.assertThat(testClient.getClientId()).isEqualTo(updatedClient.getClientId());
-                softly.assertThat(testClient.getName()).isEqualTo(updatedClient.getName());
+                softly.assertThat(testClient.getNickname()).isEqualTo(updatedClient.getNickname());
                 softly.assertThat(testClient.getEmail()).isEqualTo(updatedClient.getEmail());
                 softly.assertThat(testClient.getPhoneNumber()).isEqualTo(updatedClient.getPhoneNumber());
                 softly.assertThat(testClient.getProfileImageUri()).isEqualTo(updatedClient.getProfileImageUri());

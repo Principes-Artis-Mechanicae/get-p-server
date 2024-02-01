@@ -2,7 +2,6 @@ package es.princip.getp.domain.auth.entity;
 
 import es.princip.getp.global.security.provider.JwtTokenProvider;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;

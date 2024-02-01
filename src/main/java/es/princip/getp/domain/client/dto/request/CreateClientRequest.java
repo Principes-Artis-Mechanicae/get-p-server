@@ -4,12 +4,12 @@ import es.princip.getp.domain.client.entity.Client;
 import es.princip.getp.domain.member.entity.Member;
 import jakarta.validation.constraints.NotNull;
 
-public record CreateClientRequest(@NotNull String name, @NotNull String email,
+public record CreateClientRequest(@NotNull String nickname, @NotNull String email,
         @NotNull String phoneNumber, @NotNull String profileImageUri, @NotNull String address,
         @NotNull String accountNumber) {
     public Client toEntity(final Member member) {
         return Client.builder()
-            .name(name)
+            .nickname(nickname)
             .email(email)
             .phoneNumber(phoneNumber)
             .profileImageUri(profileImageUri)
