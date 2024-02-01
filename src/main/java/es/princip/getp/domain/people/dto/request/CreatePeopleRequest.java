@@ -5,14 +5,14 @@ import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.entity.PeopleType;
 import jakarta.validation.constraints.NotNull;
 
-public record CreatePeopleRequest(@NotNull String name, @NotNull String email,
+public record CreatePeopleRequest(@NotNull String nickname, @NotNull String email,
                                   @NotNull String phoneNumber, @NotNull String peopleType,
                                   @NotNull String profileImageUri,
                                   @NotNull String accountNumber) {
 
     public People toEntity(final Member member) {
         return People.builder()
-            .name(name)
+            .nickname(nickname)
             .email(email)
             .phoneNumber(phoneNumber)
             .peopleType(PeopleType.valueOf(peopleType))

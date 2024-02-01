@@ -26,8 +26,8 @@ public class Client extends BaseTimeEntity{
     @Column(name = "client_id")
     private Long clientId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "nickname")
+    private String nickname;
 
     @Column(name = "email")
     private String email;
@@ -49,9 +49,9 @@ public class Client extends BaseTimeEntity{
     private Member member;
 
     @Builder
-    public Client(String name, String email, String phoneNumber, String profileImageUri, String address,
+    public Client(String nickname, String email, String phoneNumber, String profileImageUri, String address,
             String accountNumber, final Member member) {
-        this.name = name;
+        this.nickname = nickname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.profileImageUri = profileImageUri;
@@ -61,7 +61,7 @@ public class Client extends BaseTimeEntity{
     }
 
     public void update(final UpdateClientRequest request) {
-        this.name = request.name();
+        this.nickname = request.nickname();
         this.email = request.email();
         this.phoneNumber = request.phoneNumber();
         this.profileImageUri = request.profileImageUri();

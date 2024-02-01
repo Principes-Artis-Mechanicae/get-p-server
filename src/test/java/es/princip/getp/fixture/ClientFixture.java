@@ -23,7 +23,7 @@ public class ClientFixture {
 
     public static Client createClientByMember(Member member) {
         return Client.builder()
-                        .name(NAME)
+                        .nickname(NAME)
                         .email(EMAIL)
                         .phoneNumber(PHONE_NUMBER)
                         .profileImageUri(PROFILE_IMAGE_URI)
