@@ -61,7 +61,7 @@ public class PeopleServiceTest {
 
             assertSoftly(softly -> {
                 softly.assertThat(testPeople.getPeopleId()).isEqualTo(createdPeople.getPeopleId());
-                softly.assertThat(testPeople.getName()).isEqualTo(createdPeople.getName());
+                softly.assertThat(testPeople.getNickname()).isEqualTo(createdPeople.getNickname());
                 softly.assertThat(testPeople.getEmail()).isEqualTo(createdPeople.getEmail());
                 softly.assertThat(testPeople.getPhoneNumber()).isEqualTo(createdPeople.getPhoneNumber());
                 softly.assertThat(testPeople.getPeopleType().name()).isEqualTo(createdPeople.getPeopleType().name());
@@ -105,7 +105,7 @@ public class PeopleServiceTest {
             Page<PeopleResponse> result = peopleService.getPeoplePage(pageable);
 
             assertEquals(1, result.getContent().size());
-            assertEquals(testPeople.getName(), result.getContent().get(0).name());
+            assertEquals(testPeople.getNickname(), result.getContent().get(0).nickname());
         }
 
         @Test
@@ -135,7 +135,7 @@ public class PeopleServiceTest {
 
             assertSoftly(softly -> {
                 softly.assertThat(testPeople.getPeopleId()).isEqualTo(updatedPeople.getPeopleId());
-                softly.assertThat(testPeople.getName()).isEqualTo(updatedPeople.getName());
+                softly.assertThat(testPeople.getNickname()).isEqualTo(updatedPeople.getNickname());
                 softly.assertThat(testPeople.getEmail()).isEqualTo(updatedPeople.getEmail());
                 softly.assertThat(testPeople.getPhoneNumber()).isEqualTo(updatedPeople.getPhoneNumber());
                 softly.assertThat(testPeople.getPeopleType().name()).isEqualTo(updatedPeople.getPeopleType().name());

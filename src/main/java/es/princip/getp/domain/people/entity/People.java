@@ -29,8 +29,8 @@ public class People extends BaseTimeEntity {
     @Column(name = "people_id")
     private Long peopleId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "nickname")
+    private String nickname;
 
     @Column(name = "email")
     private String email;
@@ -52,9 +52,9 @@ public class People extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public People(String name, String email, String phoneNumber, PeopleType peopleType,
+    public People(String nickname, String email, String phoneNumber, PeopleType peopleType,
         String profileImageUri, String accountNumber, Member member) {
-        this.name = name;
+        this.nickname = nickname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.peopleType = peopleType;
@@ -64,7 +64,7 @@ public class People extends BaseTimeEntity {
     }
 
     public void update(UpdatePeopleRequest request) {
-        this.name = request.name();
+        this.nickname = request.nickname();
         this.email = request.email();
         this.phoneNumber = request.phoneNumber();
         this.peopleType = PeopleType.valueOf(request.peopleType());
