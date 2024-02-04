@@ -4,13 +4,17 @@ import es.princip.getp.domain.client.entity.Client;
 import es.princip.getp.domain.member.entity.Member;
 import jakarta.validation.constraints.NotNull;
 
-public record CreateClientRequest(@NotNull String nickname, @NotNull String email,
-        @NotNull String phoneNumber, @NotNull String profileImageUri, @NotNull String address,
+public record CreateClientRequest(
+        @NotNull String nickname, 
+        String email, // 미입력 시 회원 가입 시 작성한 이메일 주소가 기본값
+        @NotNull String phoneNumber, 
+        String profileImageUri, 
+        @NotNull String address,
         @NotNull String accountNumber) {
     public Client toEntity(final Member member) {
         return Client.builder()
             .nickname(nickname)
-            .email(email)
+            .email(email == null ? member.getEmail() : email)
             .phoneNumber(phoneNumber)
             .profileImageUri(profileImageUri)
             .address(address)

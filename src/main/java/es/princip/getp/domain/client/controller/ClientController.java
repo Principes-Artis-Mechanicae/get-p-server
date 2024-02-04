@@ -33,7 +33,7 @@ public class ClientController {
      * @return 등록 완료된 의뢰자 정보
      */
     @PostMapping
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> create(
             @RequestBody @Valid CreateClientRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -49,6 +49,7 @@ public class ClientController {
      * @return 의뢰자 ID에 해당되는 의뢰자 정보
      */
     @GetMapping("/{clientId}")
+    @PreAuthorize("(hasRole('ADMIN') or hasRole('MANAGER')) and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getClient(@PathVariable Long clientId) {
         ClientResponse response = ClientResponse.from(clientService.getByMemberId(clientId));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
