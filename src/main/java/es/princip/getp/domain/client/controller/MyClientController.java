@@ -31,7 +31,7 @@ public class MyClientController {
      * @return 내 의뢰자 정보
      */
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getMyClient(
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
@@ -42,11 +42,11 @@ public class MyClientController {
     /**
      * 내 의뢰자 정보 수정
      * 
-     * @param request 수정할 의뢰자 정보
-     * @return 수정 완료된 의뢰자 정보
+     * @param request 수정할 내 의뢰자 정보
+     * @return 수정된 내 의뢰자 정보
      */
     @PutMapping
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> update(
             @RequestBody @Valid UpdateClientRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
