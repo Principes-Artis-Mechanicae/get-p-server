@@ -1,31 +1,30 @@
 package es.princip.getp.domain.people.service;
 
-import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.PeopleResponse;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
-import es.princip.getp.domain.people.repository.PeopleQueryDslRepository;
 import es.princip.getp.domain.people.repository.PeopleRepository;
 import es.princip.getp.global.exception.BusinessLogicException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PeopleService {
+
     private final PeopleRepository peopleRepository;
 
-    private final PeopleQueryDslRepository peopleQueryDslRepository;
-
     private People get(Optional<People> people) {
-        return people.orElseThrow(() -> new BusinessLogicException(PeopleErrorCode.PEOPLE_NOT_FOUND));
+        return people.orElseThrow(
+            () -> new BusinessLogicException(PeopleErrorCode.PEOPLE_NOT_FOUND));
     }
 
     public People getByMemberId(Long memberId) {
@@ -37,7 +36,7 @@ public class PeopleService {
     }
 
     public Page<PeopleResponse> getPeoplePage(Pageable pageable) {
-        Page<People> peoplPage = peopleQueryDslRepository.findPeoplePage(pageable);
+        Page<People> peoplPage = peopleRepository.findPeoplePage(pageable);
         return peoplPage.map(PeopleResponse::from);
     }
 
@@ -55,7 +54,7 @@ public class PeopleService {
     }
 
     @Transactional
-    public void delete(Long memberId){
+    public void delete(Long memberId) {
         People people = getByMemberId(memberId);
         peopleRepository.delete(people);
     }

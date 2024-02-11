@@ -8,7 +8,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -28,7 +27,6 @@ import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.PeopleResponse;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
-import es.princip.getp.domain.people.repository.PeopleQueryDslRepository;
 import es.princip.getp.domain.people.repository.PeopleRepository;
 import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
@@ -45,9 +43,6 @@ public class PeopleServiceTest {
 
     @Mock
     private PeopleRepository peopleRepository;
-
-    @Mock
-    private PeopleQueryDslRepository peopleQueryDslRepository;
 
     @Nested
     @DisplayName("Create()는")
@@ -100,7 +95,7 @@ public class PeopleServiceTest {
         void testGetPeoplePage() {
             Pageable pageable = PageRequest.of(0, 10);
             Page<People> peoplePage = new PageImpl<>(Collections.singletonList(testPeople), pageable, 1);
-            when(peopleQueryDslRepository.findPeoplePage(pageable)).thenReturn(peoplePage);
+            when(peopleRepository.findPeoplePage(pageable)).thenReturn(peoplePage);
 
             Page<PeopleResponse> result = peopleService.getPeoplePage(pageable);
 
