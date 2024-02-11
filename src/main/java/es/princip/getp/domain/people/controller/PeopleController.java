@@ -68,7 +68,7 @@ public class PeopleController {
      */
     @GetMapping
     public ResponseEntity<ApiSuccessResult<Page<PeopleResponse>>> getPeoplePage(
-        @PageableDefault(sort = "CREATED_AT", direction = Sort.Direction.DESC) Pageable pageable) {
+        @PageableDefault(sort = "PEOPLE_ID", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<PeopleResponse> response = peopleService.getPeoplePage(pageable);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
