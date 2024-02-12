@@ -23,7 +23,7 @@ public class EmailVerificationService {
 
     public void sendEmailVerificationCode(String email) {
         if (getByEmail(email).isPresent()) {
-            throw new BusinessLogicException(EmailVerificationErrorCode.ALREADY_EMAIL_VERIFICATION_CODE_SENDED);
+            emailVerificationRepository.deleteByEmail(email);
         }
         String verificationCode = RandomUtil.generateRandomCode(VERIFICATION_CODE_LENGTH);
         emailService.sendEmail(email, "GET-P 인증 번호", verificationCode);

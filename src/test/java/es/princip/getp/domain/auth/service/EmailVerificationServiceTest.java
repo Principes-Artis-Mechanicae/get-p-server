@@ -49,15 +49,19 @@ class EmailVerificationServiceTest {
             verify(emailVerificationRepository, times(1)).save(any(EmailVerification.class));
         }
 
-        @DisplayName("사용자가 이메일 인증 코드 유효 시간 내에 재요청한 경우 실패한다.")
+        @DisplayName("이메일 인증 코드를 중복해서 전송하는 경우 기존의 이메일 인증 코드는 삭제한다.")
         @Test
-        void sendVerificationCode_WhenEmailVerificationCodeIsAlreadySended_ShouldThrowException() {
+        void sendVerificationCodeSeveralTimes() {
             String email = "test@example.com";
-            when(emailVerificationRepository.findById(email)).thenReturn(Optional.of(new EmailVerification(email, "1234")));
+            String oldVerificationCode = "1234";
+            EmailVerification emailVerification = createEmailVerification(email, oldVerificationCode);
+            when(emailVerificationRepository.findById(email)).thenReturn(Optional.of(emailVerification));
 
-            BusinessLogicException exception =
-                assertThrows(BusinessLogicException.class, () -> emailVerificationService.sendEmailVerificationCode(email));
-            assertEquals(exception.getCode(), EmailVerificationErrorCode.ALREADY_EMAIL_VERIFICATION_CODE_SENDED.name());
+            emailVerificationService.sendEmailVerificationCode(email);
+
+            verify(emailVerificationRepository, times(1)).deleteByEmail(email);
+            verify(emailService, times(1)).sendEmail(eq(email), any(), any());
+            verify(emailVerificationRepository, times(1)).save(any(EmailVerification.class));
         }
     }
 
