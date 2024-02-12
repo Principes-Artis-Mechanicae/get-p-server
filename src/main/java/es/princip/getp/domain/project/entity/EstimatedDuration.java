@@ -5,6 +5,7 @@ import es.princip.getp.global.exception.BusinessLogicException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.time.LocalDate;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,5 +35,22 @@ public class EstimatedDuration {
 
     public static EstimatedDuration from(LocalDate startDate, LocalDate endDate) {
         return new EstimatedDuration(startDate, endDate);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        EstimatedDuration that = (EstimatedDuration) o;
+        return Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startDate, endDate);
     }
 }
