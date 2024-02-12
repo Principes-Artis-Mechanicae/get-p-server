@@ -23,7 +23,7 @@ class EmailServiceTest {
     private JavaMailSender emailSender;
 
     @InjectMocks
-    private GmailService emailService;
+    private EmailServiceImpl emailService;
 
     @Nested
     @DisplayName("sendEmail()은")
