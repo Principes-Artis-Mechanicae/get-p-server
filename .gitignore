@@ -92,3 +92,9 @@ Temporary Items
 *.icloud
 
 application-lsmin.yml
+
+# Environment Variables
+.env.dev
+.env.local
+.env.test
+.env.prod
