@@ -1,14 +1,16 @@
 package es.princip.getp.domain.auth.service;
 
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import es.princip.getp.domain.auth.exception.EmailErrorCode;
 import es.princip.getp.global.exception.BusinessLogicException;
 import es.princip.getp.global.util.EmailUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
+@Service
 public class EmailServiceImpl implements EmailService {
     private final JavaMailSender emailSender;
     
