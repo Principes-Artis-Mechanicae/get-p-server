@@ -74,7 +74,8 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
             "https://h.princip.es", // 개발
-            "https://he.princip.es" // 배포
+            "https://he.princip.es", // 배포
+            "http://localhost:5173" // 채준
         ));
         configuration.setAllowedMethods(Arrays.asList(
             HttpMethod.GET.name(),
