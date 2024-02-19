@@ -2,24 +2,31 @@
 
 ENV_FILE=".env.dev"
 
-# Check if the file exists
+echo "[dev.sh] environment variable file: $ENV_FILE"
+
+# 환경 변수 파일이 존재하는지 확인
 if [ -f "$ENV_FILE" ]; then
-    # Read each line and print it
+    # 파일에서 각 줄을 읽어옴
     while IFS= read -r line || [ -n "$line" ]; do
+        # 주석이 아닌 줄이고, key=value 형태인 경우에만 처리
         if [[ $line != \#* && $line == *"="* ]]; then
-           # Split the line into key and value
-            key=$(echo "$line" | cut -d '=' -f 1)
-            value=$(echo "$line" | cut -d '=' -f 2-)
-            
-            # Trim leading and trailing whitespaces from value
-            value=$(echo "$value" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-            
-            export $key="$value"
+            # key와 value를 분리
+            key="${line%%=*}"
+            value="${line#*=}"
+            value=$(sed 's/^"\|"$//g' <<< "$value")
+            # 환경 변수로 등록
+            export "$key"="$value"
+            echo "[dev.sh] export $key to $value"
         fi
-    done < $ENV_FILE
+    done < "$ENV_FILE"
 else
-    echo "$ENV_FILE not found."
+    echo "[dev.sh] $ENV_FILE not found."
 fi
 
+echo "[dev.sh] environment variable load complete"
+
 ./gradlew clean build
+
 sudo docker compose --env-file .env.dev up -d --build
+
+echo "[dev.sh] deploy complete"
