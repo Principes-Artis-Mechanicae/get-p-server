@@ -91,7 +91,9 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
-application-lsmin.yml
+# Application properties
+application-local.yml
+application-test.yml
 
 # Environment Variables
 .env.dev

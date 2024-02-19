@@ -4,7 +4,6 @@ import es.princip.getp.domain.client.entity.Client;
 import es.princip.getp.domain.project.entity.Project;
 import es.princip.getp.domain.project.enums.MeetingType;
 import jakarta.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public record CreateProjectRequest(
     @NotNull List<String> hashtags
 ) {
 
-    public Project toEntity(Client client) {
+    public Project toEntity(final Client client) {
         return Project.builder()
             .title(title)
             .payment(payment)
