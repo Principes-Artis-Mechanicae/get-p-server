@@ -3,7 +3,6 @@ package es.princip.getp.domain.people.service;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
-import es.princip.getp.domain.people.dto.response.PeopleResponse;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.repository.PeopleRepository;
@@ -35,9 +34,9 @@ public class PeopleService {
         return get(peopleRepository.findById(memberId));
     }
 
-    public Page<PeopleResponse> getPeoplePage(Pageable pageable) {
+    public Page<People> getPeoplePage(Pageable pageable) {
         Page<People> peoplPage = peopleRepository.findPeoplePage(pageable);
-        return peoplPage.map(PeopleResponse::from);
+        return peoplPage;
     }
 
     @Transactional

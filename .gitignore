@@ -100,3 +100,5 @@ application-test.yml
 .env.local
 .env.test
 .env.prod
+
+local.sh

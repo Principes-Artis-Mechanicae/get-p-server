@@ -24,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
-import es.princip.getp.domain.people.dto.response.PeopleResponse;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.repository.PeopleRepository;
@@ -97,10 +96,10 @@ public class PeopleServiceTest {
             Page<People> peoplePage = new PageImpl<>(Collections.singletonList(testPeople), pageable, 1);
             when(peopleRepository.findPeoplePage(pageable)).thenReturn(peoplePage);
 
-            Page<PeopleResponse> result = peopleService.getPeoplePage(pageable);
+            Page<People> result = peopleService.getPeoplePage(pageable);
 
             assertEquals(1, result.getContent().size());
-            assertEquals(testPeople.getNickname(), result.getContent().get(0).nickname());
+            assertEquals(testPeople.getNickname(), result.getContent().get(0).getNickname());
         }
 
         @Test
