@@ -18,8 +18,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
+@Entity
 @Table(name = "people")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class People extends BaseTimeEntity {
@@ -52,8 +52,14 @@ public class People extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public People(String nickname, String email, String phoneNumber, PeopleType peopleType,
-        String profileImageUri, String accountNumber, Member member) {
+    public People(final String nickname,
+        final String email,
+        final String phoneNumber,
+        final PeopleType peopleType,
+        final String profileImageUri,
+        final String accountNumber,
+        final Member member
+    ) {
         this.nickname = nickname;
         this.email = email;
         this.phoneNumber = phoneNumber;

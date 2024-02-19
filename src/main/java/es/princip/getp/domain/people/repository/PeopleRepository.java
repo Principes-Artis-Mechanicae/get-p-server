@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PeopleRepository extends JpaRepository<People, Long>, PeopleQueryDslRepository {
-
     Optional<People> findByMember_MemberId(Long memberId);
 }
