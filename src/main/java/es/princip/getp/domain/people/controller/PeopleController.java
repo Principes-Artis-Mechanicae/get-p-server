@@ -15,8 +15,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
-import es.princip.getp.domain.people.dto.response.PeopleResponse;
+import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
+import es.princip.getp.domain.people.dto.response.people.CreatePeopleResponse;
+import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
+import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
+import es.princip.getp.domain.people.dto.response.peopleProfile.CreatePeopleProfileResponse;
+import es.princip.getp.domain.people.entity.People;
+import es.princip.getp.domain.people.service.PeopleProfileService;
 import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.util.ApiResponse;
@@ -31,6 +38,8 @@ public class PeopleController {
 
     private final PeopleService peopleService;
 
+    private final PeopleProfileService peopleProfileService;
+
     /**
      * 피플 정보 등록
      *
@@ -38,25 +47,44 @@ public class PeopleController {
      * @return 등록된 피플 정보
      */
     @PostMapping
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<PeopleResponse>> create(
+    @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
+    public ResponseEntity<ApiSuccessResult<CreatePeopleResponse>> createPeople(
         @RequestBody @Valid CreatePeopleRequest request,
         @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        PeopleResponse response = PeopleResponse.from(peopleService.create(member, request));
+        CreatePeopleResponse response = CreatePeopleResponse.from(peopleService.create(member, request));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.success(HttpStatus.CREATED, response));
     }
 
     /**
-     * 피플 상세 조회
+     * 피플 프로필 등록
+     *
+     * @param request 등록할 피플 프로필 정보
+     * @return 등록된 피플 프로필 정보
+     */
+    @PostMapping("/profile")
+    @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
+    public ResponseEntity<ApiSuccessResult<CreatePeopleProfileResponse>> createPeopleProfile(
+        @RequestBody @Valid CreatePeopleProfileRequest request,
+        @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Member member = principalDetails.getMember();
+        CreatePeopleProfileResponse response = 
+            CreatePeopleProfileResponse.from(peopleProfileService.create(member.getMemberId(), request));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ApiResponse.success(HttpStatus.CREATED, response));
+    }
+
+    /**
+     * 포트폴리오 개발 진행 후 완성 예정 - 피플 상세 조회
+     * 
      *
      * @param peopleId 피플 ID
-     * @return 피플 ID에 해당되는 피플 정보
+     * @return 피플 ID에 해당되는 피플 상세 정보
      */
     @GetMapping("/{peopleId}")
-    public ResponseEntity<ApiSuccessResult<PeopleResponse>> getPeople(@PathVariable Long peopleId) {
-        PeopleResponse response = PeopleResponse.from(peopleService.getByPeopleId(peopleId));
+    public ResponseEntity<ApiSuccessResult<DetailPeopleResponse>> getPeople(@PathVariable Long peopleId) {
+        DetailPeopleResponse response = DetailPeopleResponse.from(peopleService.getByPeopleId(peopleId), null);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 
@@ -67,9 +95,13 @@ public class PeopleController {
      * @return 정렬 기준에 해당되는 피플 정보 목록
      */
     @GetMapping
-    public ResponseEntity<ApiSuccessResult<Page<PeopleResponse>>> getPeoplePage(
+    public ResponseEntity<ApiSuccessResult<Page<CardPeopleResponse>>> getPeoplePage(
         @PageableDefault(sort = "PEOPLE_ID", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<PeopleResponse> response = peopleService.getPeoplePage(pageable);
+        Page<People> peoplePage = peopleService.getPeoplePage(pageable);
+        Page<CardPeopleResponse> response = peoplePage.map(people -> {
+            CardPeopleProfileResponse profileResponse = CardPeopleProfileResponse.from(null);
+            return CardPeopleResponse.from(people, profileResponse);
+        });
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 }

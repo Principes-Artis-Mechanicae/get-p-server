@@ -16,6 +16,7 @@ public class PeopleFixture {
     public static String ROLE_TYPE = "ROLE_INDIVIDUAL";
     public static String PROFILE_IMAGE_URI = "https://he.princip.es/img.jpg";
     public static String ACCOUNT_NUMBER = "3332-112-12-12";
+    public static String UPDATED_NAME = "GET-P";
 
     public static CreatePeopleRequest createPeopleRequest() {
         return new CreatePeopleRequest(NAME, EMAIL, PHONE_NUMBER, ROLE_TYPE, PROFILE_IMAGE_URI,
@@ -23,7 +24,7 @@ public class PeopleFixture {
     }
 
     public static UpdatePeopleRequest updatePeopleRequest() {
-        return new UpdatePeopleRequest(NAME + ".update", EMAIL, PHONE_NUMBER, ROLE_TYPE,
+        return new UpdatePeopleRequest(UPDATED_NAME, EMAIL, PHONE_NUMBER, ROLE_TYPE,
             PROFILE_IMAGE_URI, ACCOUNT_NUMBER);
     }
 

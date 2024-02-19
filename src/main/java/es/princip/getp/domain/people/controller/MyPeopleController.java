@@ -1,8 +1,13 @@
 package es.princip.getp.domain.people.controller;
 
 import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
-import es.princip.getp.domain.people.dto.response.PeopleResponse;
+import es.princip.getp.domain.people.dto.response.people.PeopleResponse;
+import es.princip.getp.domain.people.dto.response.people.UpdatePeopleResponse;
+import es.princip.getp.domain.people.dto.response.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.domain.people.dto.response.peopleProfile.UpdatePeopleProfileResponse;
+import es.princip.getp.domain.people.service.PeopleProfileService;
 import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.util.ApiResponse;
@@ -13,24 +18,41 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/people/me")
 @RequiredArgsConstructor
 public class MyPeopleController {
+
     private final PeopleService peopleService;
+
+    private final PeopleProfileService peopleProfileService;
+
+    /**
+     * 내 피플 정보 수정
+     * 
+     * @param request 수정할 피플 정보
+     * @return 수정 완료된 피플 정보
+     */
+    @PutMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ApiSuccessResult<UpdatePeopleResponse>> updatePeople(
+            @RequestBody @Valid UpdatePeopleRequest request,
+            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Member member = principalDetails.getMember();
+        UpdatePeopleResponse response = UpdatePeopleResponse.from(peopleService.update(member.getMemberId(), request));
+        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+    }
 
     /**
      * 내 피플 정보 조회
      * 
-     * @return PeopleResponse 내 피플 정보
+     * @return 내 피플 정보
      */
     @GetMapping
     @PreAuthorize("isAuthenticated()")
@@ -42,33 +64,32 @@ public class MyPeopleController {
     }
 
     /**
-     * 내 피플 정보 수정
+     * 내 피플 프로필 조회
      * 
-     * @param UpdatePeopleRequest 수정할 피플 정보
-     * @return PeopleResponse 수정 완료된 피플 정보
+     * @return 내 피플 프로필 정보
      */
-    @PutMapping
+    @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<PeopleResponse>> update(
-            @RequestBody @Valid UpdatePeopleRequest request,
+    public ResponseEntity<ApiSuccessResult<DetailPeopleProfileResponse>> getMyPeopleProfile(
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        PeopleResponse response = PeopleResponse.from(peopleService.update(member.getMemberId(), request));
+        DetailPeopleProfileResponse response = DetailPeopleProfileResponse.from(peopleProfileService.getByMemberId(member.getMemberId()));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 
     /**
-     * 피플 탈퇴
+     * 내 피플 프로필 수정
      * 
-     * @return HttpStatus.NO_CONTENT 204 상태 코드
+     * @param request 수정할 피플 프로필 정보
+     * @return 수정 완료된 피플 프로필 정보
      */
-    @DeleteMapping()
+    @PutMapping("/profile")
     @PreAuthorize("isAuthenticated()")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<ApiSuccessResult<?>> delete(
+    public ResponseEntity<ApiSuccessResult<UpdatePeopleProfileResponse>> updatePeopleProfile(
+            @RequestBody @Valid UpdatePeopleProfileRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        peopleService.delete(member.getMemberId());
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.NO_CONTENT));
+        UpdatePeopleProfileResponse response = UpdatePeopleProfileResponse.from(peopleProfileService.update(member.getMemberId(), request));
+        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 }
