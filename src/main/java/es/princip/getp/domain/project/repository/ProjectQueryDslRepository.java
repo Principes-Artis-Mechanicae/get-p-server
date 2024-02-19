@@ -1,5 +1,9 @@
 package es.princip.getp.domain.project.repository;
 
-public interface ProjectQueryDslRepository {
+import es.princip.getp.domain.project.entity.Project;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+public interface ProjectQueryDslRepository {
+    Page<Project> findProjectPage(Pageable pageable);
 }
