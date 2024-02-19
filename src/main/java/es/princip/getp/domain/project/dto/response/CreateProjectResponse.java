@@ -21,7 +21,7 @@ public record CreateProjectResponse(
     @NotNull List<String> hashtags
 ) {
 
-    public static CreateProjectResponse from(Project project) {
+    public static CreateProjectResponse from(final Project project) {
         return new CreateProjectResponse(
             project.getProjectId(),
             project.getTitle(),

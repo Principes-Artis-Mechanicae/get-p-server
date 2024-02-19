@@ -8,6 +8,8 @@ import es.princip.getp.domain.project.exception.ProjectErrorCode;
 import es.princip.getp.domain.project.repository.ProjectRepository;
 import es.princip.getp.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,5 +26,9 @@ public class ProjectService {
         Client client = clientService.getByMemberId(memberId, () -> new BusinessLogicException(
             ProjectErrorCode.NOT_REGISTERED_CLIENT));
         return projectRepository.save(request.toEntity(client));
+    }
+
+    public Page<Project> getProjectPage(Pageable pageable) {
+        return projectRepository.findProjectPage(pageable);
     }
 }
