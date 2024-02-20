@@ -1,6 +1,6 @@
 package es.princip.getp.domain.auth.service;
 
-import static es.princip.getp.domain.auth.fixture.EmailVerificationFixture.createEmailVerification;
+import static es.princip.getp.fixture.EmailVerificationFixture.createEmailVerification;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
