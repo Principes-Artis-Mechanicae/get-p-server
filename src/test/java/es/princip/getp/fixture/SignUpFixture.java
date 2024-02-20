@@ -1,4 +1,4 @@
-package es.princip.getp.domain.auth.fixture;
+package es.princip.getp.fixture;
 
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.member.entity.MemberType;
