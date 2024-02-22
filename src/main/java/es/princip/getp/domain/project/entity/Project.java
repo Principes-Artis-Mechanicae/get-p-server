@@ -75,7 +75,7 @@ public class Project extends BaseTimeEntity {
 
     // 첨부 파일 목록
     @ElementCollection
-    @CollectionTable(name = "attachment_files", joinColumns = @JoinColumn(name = "project_id"))
+    @CollectionTable(name = "project_attachment_files", joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "attachment_files_id")
     private List<AttachmentFile> attachmentFiles = new ArrayList<>();
 
@@ -86,7 +86,9 @@ public class Project extends BaseTimeEntity {
     private List<Hashtag> hashtags = new ArrayList<>();
 
     @Builder
-    public Project(final MeetingType meetingType,
+    public Project(
+        final Long projectId,
+        final MeetingType meetingType,
         final String title,
         final String description,
         final Long payment,
@@ -96,6 +98,7 @@ public class Project extends BaseTimeEntity {
         final List<String> attachmentUris,
         final List<String> hashtags,
         final Client client) {
+        this.projectId = projectId;
         this.meetingType = meetingType;
         this.title = title;
         this.description = description;

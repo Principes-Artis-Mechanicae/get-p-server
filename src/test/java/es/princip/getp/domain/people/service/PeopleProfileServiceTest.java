@@ -31,7 +31,7 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 public class PeopleProfileServiceTest {
     private final Member testMember = MemberFixture.createMember();
-    private final People testPeople = PeopleFixture.createPeopleByMember(testMember);
+    private final People testPeople = PeopleFixture.createPeople(testMember);
     private final CreatePeopleProfileRequest testCreatePeopleProfileRequest = PeopleProfileFixture.createPeopleProfileRequest();
     private final PeopleProfile testPeopleProfile = testCreatePeopleProfileRequest.toEntity(testPeople);
 

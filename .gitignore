@@ -102,3 +102,6 @@ application-test.yml
 .env.prod
 
 local.sh
+
+# JUnit settings
+.run/
