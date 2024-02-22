@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
-public class EstimatedDuration {
+public class ExpectedDuration {
 
-    @Column(name = "estimated_start_date")
+    @Column(name = "expected_start_date")
     private LocalDate startDate;
 
-    @Column(name = "estimated_end_date")
+    @Column(name = "expected_end_date")
     private LocalDate endDate;
 
-    private EstimatedDuration(LocalDate startDate, LocalDate endDate) {
+    private ExpectedDuration(LocalDate startDate, LocalDate endDate) {
         validate(startDate, endDate);
         this.startDate = startDate;
         this.endDate = endDate;
@@ -34,7 +34,7 @@ public class EstimatedDuration {
         }
     }
 
-    public static EstimatedDuration from(LocalDate startDate, LocalDate endDate) {
-        return new EstimatedDuration(startDate, endDate);
+    public static ExpectedDuration from(LocalDate startDate, LocalDate endDate) {
+        return new ExpectedDuration(startDate, endDate);
     }
 }

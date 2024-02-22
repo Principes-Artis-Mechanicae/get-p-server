@@ -9,6 +9,7 @@ import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
 import es.princip.getp.global.config.QueryDslTestConfig;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,22 +45,22 @@ public class PeopleRepositoryTest {
     @Test
     @DisplayName("People의 페이지네이션이 잘 작동하는지 확인한다")
     void findPeoplePage() {
+        //given
         int TEST_SIZE = 10;
         int PAGE_SIZE = TEST_SIZE / 2;
 
-        List<Member> testMembers = MemberFixture.createMemberList(TEST_SIZE);
-        memberRepository.saveAll(testMembers);
+        List<Member> members = MemberFixture.createMemberList(TEST_SIZE);
+        List<People> peoples = PeopleFixture.createPeopleList(members);
+        List<People> result = new ArrayList<>(peoples.subList(TEST_SIZE - PAGE_SIZE, TEST_SIZE));
+        Collections.reverse(result);
+        memberRepository.saveAll(members);
+        peopleRepository.saveAll(peoples);
 
-        List<People> testPeoples = PeopleFixture.createPeopleListByMember(testMembers, TEST_SIZE);
-        peopleRepository.saveAll(testPeoples);
-
+        //when
         PageRequest pageable = PageRequest.of(0, PAGE_SIZE, Sort.by(DESC, "PEOPLE_ID"));
-        List<People> ant = testPeoples.subList(TEST_SIZE - PAGE_SIZE, TEST_SIZE);
-
-        Collections.reverse(ant);
-
         Page<People> peoplePage = peopleRepository.findPeoplePage(pageable);
 
-        assertThat(peoplePage.getContent()).isEqualTo(ant);
+        //then
+        assertThat(peoplePage.getContent()).isEqualTo(result);
     }
 }

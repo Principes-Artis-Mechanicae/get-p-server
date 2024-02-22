@@ -26,7 +26,7 @@ import es.princip.getp.fixture.MemberFixture;
 public class ClientServiceTest {
     private final Member testMember = MemberFixture.createMember();
     private final CreateClientRequest testCreateClientRequest = ClientFixture.createClientRequest();
-    private final Client testClient = ClientFixture.createClientByMember(testMember);
+    private final Client testClient = ClientFixture.createClient(testMember);
 
     @InjectMocks
     private ClientService clientService;
