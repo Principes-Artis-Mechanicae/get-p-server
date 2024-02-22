@@ -1,42 +1,56 @@
 package es.princip.getp.fixture;
 
-import java.util.ArrayList;
-import java.util.List;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.member.entity.MemberType;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class MemberFixture {
 
     public static String EMAIL = "getp@princip.es";
-    public static String PASSWORD = "getp@princip.es";
-    public static String ROLE_TYPE = "ROLE_PEOPLE";
+    public static String PASSWORD = "qwer1234!";
+    public static MemberType MEMBER_TYPE = MemberType.ROLE_PEOPLE;
 
     public static Member createMember() {
         return Member.builder()
             .email(EMAIL)
             .password(PASSWORD)
-            .memberType(MemberType.valueOf(ROLE_TYPE))
+            .memberType(MEMBER_TYPE)
             .build();
     }
 
-    public static Member createDifferentMember() {
+    public static Member createMember(final String email) {
         return Member.builder()
-            .email(EMAIL + ".Different")
+            .email(email)
             .password(PASSWORD)
-            .memberType(MemberType.valueOf(ROLE_TYPE))
+            .memberType(MEMBER_TYPE)
+            .build();
+    }
+
+    public static Member createMember(final MemberType memberType) {
+        return Member.builder()
+            .email(EMAIL)
+            .password(PASSWORD)
+            .memberType(memberType)
+            .build();
+    }
+
+    public static Member createMember(final String email, final MemberType memberType) {
+        return Member.builder()
+            .email(email)
+            .password(PASSWORD)
+            .memberType(memberType)
             .build();
     }
 
     public static List<Member> createMemberList(int count) {
-        List<Member> memberList = new ArrayList<Member>();
-        for (int i = 0; i < count; i++) {
-            Member member = Member.builder()
-                .email(EMAIL + "." + Integer.toString(i))
+        return IntStream.range(0, count)
+            .mapToObj(i -> Member.builder()
+                .email(EMAIL + "." + i)
                 .password(PASSWORD)
-                .memberType(MemberType.valueOf(ROLE_TYPE))
-                .build();
-            memberList.add(member);
-        }
-        return memberList;
+                .memberType(MEMBER_TYPE)
+                .build())
+            .collect(Collectors.toList());
     }
 }

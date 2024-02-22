@@ -35,7 +35,7 @@ import es.princip.getp.global.exception.BusinessLogicException;
 public class PeopleServiceTest {
     private final Member testMember = MemberFixture.createMember();
     private final CreatePeopleRequest testCreatePeopleRequest = PeopleFixture.createPeopleRequest();
-    private final People testPeople = PeopleFixture.createPeopleByMember(testMember);
+    private final People testPeople = PeopleFixture.createPeople(testMember);
 
     @InjectMocks
     private PeopleService peopleService;

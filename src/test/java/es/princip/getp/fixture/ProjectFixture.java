@@ -1,12 +1,14 @@
 package es.princip.getp.fixture;
 
+import es.princip.getp.domain.client.entity.Client;
 import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
+import es.princip.getp.domain.project.entity.Project;
 import es.princip.getp.domain.project.enums.MeetingType;
 import java.time.LocalDate;
 import java.util.List;
 
 public class ProjectFixture {
-
+    public static Long PROJECT_ID = 1L;
     public static String TITLE = "경북대학교 제1회 공모전";
     public static long PAYMENT = 10000;
     public static MeetingType MEETING_TYPE = MeetingType.REMOTE;
@@ -21,5 +23,37 @@ public class ProjectFixture {
     public static CreateProjectRequest createProjectRequest() {
         return new CreateProjectRequest(TITLE, PAYMENT, APPLICATION_DEADLINE, ESTIMATED_START_DATE,
             ESTIMATED_END_DATE, DESCRIPTION, MEETING_TYPE, ATTACHMENT_URIS, HASHTAGS);
+    }
+
+    public static Project createProject(Client client) {
+        return Project.builder()
+            .projectId(PROJECT_ID)
+            .title(TITLE)
+            .payment(PAYMENT)
+            .applicationDeadline(APPLICATION_DEADLINE)
+            .estimatedStartDate(ESTIMATED_START_DATE)
+            .estimatedEndDate(ESTIMATED_END_DATE)
+            .description(DESCRIPTION)
+            .meetingType(MEETING_TYPE)
+            .attachmentUris(ATTACHMENT_URIS)
+            .hashtags(HASHTAGS)
+            .client(client)
+            .build();
+    }
+
+    public static Project createProject() {
+        return Project.builder()
+            .projectId(PROJECT_ID)
+            .title(TITLE)
+            .payment(PAYMENT)
+            .applicationDeadline(APPLICATION_DEADLINE)
+            .estimatedStartDate(ESTIMATED_START_DATE)
+            .estimatedEndDate(ESTIMATED_END_DATE)
+            .description(DESCRIPTION)
+            .meetingType(MEETING_TYPE)
+            .attachmentUris(ATTACHMENT_URIS)
+            .hashtags(HASHTAGS)
+            .client(ClientFixture.createClient())
+            .build();
     }
 }

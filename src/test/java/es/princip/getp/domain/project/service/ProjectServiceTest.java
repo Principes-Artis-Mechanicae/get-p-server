@@ -1,9 +1,9 @@
 package es.princip.getp.domain.project.service;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 import es.princip.getp.domain.client.entity.Client;
 import es.princip.getp.domain.client.service.ClientService;
@@ -41,30 +41,20 @@ public class ProjectServiceTest {
         @DisplayName("프로젝트를 생성한다.")
         @Test
         void create() {
+            //given
             CreateProjectRequest request = ProjectFixture.createProjectRequest();
             Member member = MemberFixture.createMember();
-            Client client = ClientFixture.createClientByMember(member);
-            Project project = request.toEntity(client);
-            when(clientService.getByMemberId(eq(member.getMemberId()), any())).thenReturn(client);
-            when(ProjectRepository.save(any(Project.class))).thenReturn(project);
+            Client client = ClientFixture.createClient(member);
+            Project project = ProjectFixture.createProject(client);
 
+            given(clientService.getByMemberId(eq(member.getMemberId()), any())).willReturn(client);
+            given(ProjectRepository.save(any(Project.class))).willReturn(project);
+
+            //when
             Project createdProject = projectService.create(member.getMemberId(), request);
 
-            assertSoftly(softly -> {
-                softly.assertThat(project.getTitle()).isEqualTo(createdProject.getTitle());
-                softly.assertThat(project.getPayment()).isEqualTo(createdProject.getPayment());
-                softly.assertThat(project.getMeetingType())
-                    .isEqualTo(createdProject.getMeetingType());
-                softly.assertThat(project.getDescription())
-                    .isEqualTo(createdProject.getDescription());
-                softly.assertThat(project.getEstimatedDuration())
-                    .isEqualTo(createdProject.getEstimatedDuration());
-                softly.assertThat(project.getApplicationDeadline())
-                    .isEqualTo(createdProject.getApplicationDeadline());
-                softly.assertThat(project.getHashtags()).isEqualTo(createdProject.getHashtags());
-                softly.assertThat(project.getAttachmentFiles())
-                    .isEqualTo(createdProject.getAttachmentFiles());
-            });
+            //then
+            assertEquals(project, createdProject);
         }
     }
 }
