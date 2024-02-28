@@ -51,6 +51,9 @@ public class People extends BaseTimeEntity {
     @OneToOne(cascade = CascadeType.REMOVE)
     private Member member;
 
+    @OneToOne(mappedBy = "people")
+    private PeopleProfile peopleProfile;
+
     @Builder
     public People(final String nickname,
         final String email,
