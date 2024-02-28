@@ -8,7 +8,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -24,12 +24,14 @@ import org.springframework.data.domain.Pageable;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
+import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.repository.PeopleRepository;
 import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
 import es.princip.getp.global.exception.BusinessLogicException;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class PeopleServiceTest {
@@ -92,14 +94,32 @@ public class PeopleServiceTest {
         @Test
         @DisplayName("피플 목록 조회를 성공한다.")
         void testGetPeoplePage() {
+            Long TEST_SIZE = 10L;
             Pageable pageable = PageRequest.of(0, 10);
-            Page<People> peoplePage = new PageImpl<>(Collections.singletonList(testPeople), pageable, 1);
-            when(peopleRepository.findPeoplePage(pageable)).thenReturn(peoplePage);
+            List<CardPeopleResponse> peoples = PeopleFixture.createCardPeopleResponses(TEST_SIZE);
+            Page<CardPeopleResponse> peoplePage = new PageImpl<>(peoples, pageable, TEST_SIZE);
+            given(peopleRepository.findCardPeoplePage(pageable)).willReturn(peoplePage);
 
-            Page<People> result = peopleService.getPeoplePage(pageable);
+            Page<CardPeopleResponse> result = peopleService.getCardPeoplePage(pageable);
 
-            assertEquals(1, result.getContent().size());
-            assertEquals(testPeople.getNickname(), result.getContent().get(0).getNickname());
+            assertEquals(result.getContent().size(), TEST_SIZE);
+            for(int i = 0; i < TEST_SIZE; i++) {
+                final int currentIndex = i;
+                assertSoftly(softly -> {
+                    softly.assertThat(result.getContent().get(currentIndex).getPeopleId()).isEqualTo(peoples.get(currentIndex).getPeopleId());
+                    softly.assertThat(result.getContent().get(currentIndex).getNickname()).isEqualTo(peoples.get(currentIndex).getNickname());
+                    softly.assertThat(result.getContent().get(currentIndex).getPeopleType()).isEqualTo(peoples.get(currentIndex).getPeopleType());
+                    softly.assertThat(result.getContent().get(currentIndex).getProfileImageUri()).isEqualTo(peoples.get(currentIndex).getProfileImageUri());
+                    softly.assertThat(result.getContent().get(currentIndex).getProfile().getActivityArea()).isEqualTo(peoples.get(currentIndex).getProfile().getActivityArea());
+                    softly.assertThat(result.getContent().get(currentIndex).getProfile().getHashtags()).isEqualTo(peoples.get(currentIndex).getProfile().getHashtags());
+                });
+            }            
+        }
+
+        @Test
+        @DisplayName("피플 정보 또는 피플 프로필이 등록되지 않은 계정이 피플 목록에 존재한다.")
+        void testPeoplePageException() {
+
         }
 
         @Test

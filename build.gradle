@@ -62,6 +62,9 @@ dependencies {
     implementation 'com.sun.mail:jakarta.mail:2.0.1'
     implementation 'org.springframework.boot:spring-boot-starter-mail:3.2.1'
 
+    // AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
     // Test Containers
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'org.testcontainers:testcontainers:1.19.3'

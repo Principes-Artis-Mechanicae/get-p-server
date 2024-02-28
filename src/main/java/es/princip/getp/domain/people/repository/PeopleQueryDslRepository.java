@@ -1,10 +1,10 @@
 package es.princip.getp.domain.people.repository;
 
-import es.princip.getp.domain.people.entity.People;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 
 public interface PeopleQueryDslRepository {
 
-    Page<People> findPeoplePage(Pageable pageable);
+    Page<CardPeopleResponse> findCardPeoplePage(Pageable pageable);
 }
