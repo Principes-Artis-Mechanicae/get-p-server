@@ -45,6 +45,10 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
+  
+  org:
+    gradle:
+        caching: true
 
 logging:
   level:

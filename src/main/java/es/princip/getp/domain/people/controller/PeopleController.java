@@ -20,9 +20,7 @@ import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.CreatePeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
-import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CreatePeopleProfileResponse;
-import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.service.PeopleProfileService;
 import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.global.security.details.PrincipalDetails;
@@ -78,7 +76,6 @@ public class PeopleController {
     /**
      * 포트폴리오 개발 진행 후 완성 예정 - 피플 상세 조회
      * 
-     *
      * @param peopleId 피플 ID
      * @return 피플 ID에 해당되는 피플 상세 정보
      */
@@ -95,13 +92,9 @@ public class PeopleController {
      * @return 정렬 기준에 해당되는 피플 정보 목록
      */
     @GetMapping
-    public ResponseEntity<ApiSuccessResult<Page<CardPeopleResponse>>> getPeoplePage(
+    public ResponseEntity<ApiSuccessResult<Page<CardPeopleResponse>>> getCardPeoplePage(
         @PageableDefault(sort = "PEOPLE_ID", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<People> peoplePage = peopleService.getPeoplePage(pageable);
-        Page<CardPeopleResponse> response = peoplePage.map(people -> {
-            CardPeopleProfileResponse profileResponse = CardPeopleProfileResponse.from(null);
-            return CardPeopleResponse.from(people, profileResponse);
-        });
+        Page<CardPeopleResponse> response = peopleService.getCardPeoplePage(pageable);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 }

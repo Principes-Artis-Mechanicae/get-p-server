@@ -3,6 +3,7 @@ package es.princip.getp.fixture;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
+import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.entity.PeopleType;
 import java.util.List;
@@ -59,5 +60,20 @@ public class PeopleFixture {
             .accountNumber(ACCOUNT_NUMBER)
             .member(member)
             .build()).toList();
+    }
+
+    public static List<CardPeopleResponse> createCardPeopleResponses(Long count) {
+        List<CardPeopleResponse> peopleList = new ArrayList<>();
+        for (Long i = 0L; i < count; i++) {
+            CardPeopleResponse people = new CardPeopleResponse(
+                i,
+                NAME,
+                PeopleType.valueOf(ROLE_TYPE),
+                PROFILE_IMAGE_URI,
+                PeopleProfileFixture.creatCardPeopleProfileResponse()
+            );
+            peopleList.add(people);
+        }
+        return peopleList;
     }
 }
