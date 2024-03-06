@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import es.princip.getp.domain.project.exception.ProjectErrorCode;
+import es.princip.getp.domain.project.values.ApplicationDeadline;
+import es.princip.getp.domain.project.values.EstimatedDuration;
 import es.princip.getp.global.exception.BusinessLogicException;
 import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;

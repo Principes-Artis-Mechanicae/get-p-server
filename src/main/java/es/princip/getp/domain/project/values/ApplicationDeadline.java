@@ -1,17 +1,18 @@
-package es.princip.getp.domain.project.entity;
+package es.princip.getp.domain.project.values;
 
 import es.princip.getp.domain.project.exception.ProjectErrorCode;
 import es.princip.getp.global.exception.BusinessLogicException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.time.LocalDate;
-import java.util.Objects;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ApplicationDeadline {
 
@@ -32,22 +33,5 @@ public class ApplicationDeadline {
 
     public static ApplicationDeadline from(LocalDate value, EstimatedDuration estimatedDuration) {
         return new ApplicationDeadline(value, estimatedDuration);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ApplicationDeadline that = (ApplicationDeadline) o;
-        return Objects.equals(value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
     }
 }

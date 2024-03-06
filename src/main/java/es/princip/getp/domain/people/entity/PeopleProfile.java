@@ -2,7 +2,7 @@ package es.princip.getp.domain.people.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import es.princip.getp.domain.hashtag.entity.Hashtag;
+import es.princip.getp.domain.hashtag.values.Hashtag;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.techStack.entity.TechStack;
 import jakarta.persistence.CollectionTable;

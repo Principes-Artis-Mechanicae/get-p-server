@@ -1,17 +1,18 @@
-package es.princip.getp.domain.project.entity;
+package es.princip.getp.domain.project.values;
 
 import es.princip.getp.global.exception.BadRequestErrorCode;
 import es.princip.getp.global.exception.BusinessLogicException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import java.util.Objects;
 import java.util.regex.Pattern;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AttachmentFile {
 
@@ -33,22 +34,5 @@ public class AttachmentFile {
 
     public static AttachmentFile from(String uri) {
         return new AttachmentFile(uri);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        AttachmentFile that = (AttachmentFile) o;
-        return Objects.equals(uri, that.uri);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(uri);
     }
 }

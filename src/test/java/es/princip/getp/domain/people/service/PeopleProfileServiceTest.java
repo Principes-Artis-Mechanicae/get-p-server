@@ -2,14 +2,9 @@ package es.princip.getp.domain.people.service;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.ArgumentMatchers.any;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import es.princip.getp.domain.hashtag.entity.Hashtag;
+import static org.mockito.BDDMockito.given;
+
+import es.princip.getp.domain.hashtag.values.Hashtag;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
@@ -22,11 +17,15 @@ import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
 import es.princip.getp.fixture.PeopleProfileFixture;
 import es.princip.getp.global.validator.CommonValidator;
-
-import static org.mockito.BDDMockito.given;
-
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class PeopleProfileServiceTest {
