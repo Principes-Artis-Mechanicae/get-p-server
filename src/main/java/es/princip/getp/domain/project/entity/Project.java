@@ -2,11 +2,11 @@ package es.princip.getp.domain.project.entity;
 
 import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.client.entity.Client;
-import es.princip.getp.domain.hashtag.entity.Hashtag;
 import es.princip.getp.domain.project.enums.MeetingType;
-import jakarta.persistence.CollectionTable;
+import es.princip.getp.domain.project.values.ApplicationDeadline;
+import es.princip.getp.domain.project.values.EstimatedDuration;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.time.LocalDate;
@@ -74,16 +75,12 @@ public class Project extends BaseTimeEntity {
     private int interestsCount;
 
     // 첨부 파일 목록
-    @ElementCollection
-    @CollectionTable(name = "project_attachment_files", joinColumns = @JoinColumn(name = "project_id"))
-    @Column(name = "attachment_files_id")
-    private List<AttachmentFile> attachmentFiles = new ArrayList<>();
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectAttachmentFile> attachmentFiles = new ArrayList<>();
 
     // 해시태그 목록
-    @ElementCollection
-    @CollectionTable(name = "project_hashtags", joinColumns = @JoinColumn(name = "project_id"))
-    @Column(name = "hashtags_id")
-    private List<Hashtag> hashtags = new ArrayList<>();
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectHashtag> hashtags = new ArrayList<>();
 
     @Builder
     public Project(
@@ -106,10 +103,10 @@ public class Project extends BaseTimeEntity {
         this.estimatedDuration = EstimatedDuration.from(estimatedStartDate, estimatedEndDate);
         this.applicationDeadline = ApplicationDeadline.from(applicationDeadline, estimatedDuration);
         this.attachmentFiles.addAll(attachmentUris.stream()
-            .map(AttachmentFile::from)
+            .map(attachmentUri -> ProjectAttachmentFile.of(this, attachmentUri))
             .toList());
         this.hashtags.addAll(hashtags.stream()
-            .map(Hashtag::from)
+            .map(hashtag -> ProjectHashtag.of(this, hashtag))
             .toList());
         this.client = client;
     }

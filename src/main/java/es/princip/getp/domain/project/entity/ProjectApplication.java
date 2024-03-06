@@ -3,9 +3,9 @@ package es.princip.getp.domain.project.entity;
 import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.project.enums.ProjectApplicationStatus;
-import jakarta.persistence.CollectionTable;
+import es.princip.getp.domain.project.values.ExpectedDuration;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class ProjectApplication extends BaseTimeEntity {
     @Id
     @Column(name = "project_application_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long projectApplicationId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
@@ -53,10 +54,8 @@ public class ProjectApplication extends BaseTimeEntity {
     private String description;
 
     // 첨부 파일 목록
-    @ElementCollection
-    @CollectionTable(name = "project_application_attachment_files", joinColumns = @JoinColumn(name = "projectApplicationId"))
-    @Column(name = "attachment_files_id")
-    private List<AttachmentFile> attachmentFiles = new ArrayList<>();
+    @OneToMany(mappedBy = "projectApplication", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectApplicationAttachmentFile> attachmentFiles = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -75,7 +74,7 @@ public class ProjectApplication extends BaseTimeEntity {
         this.expectedDuration = ExpectedDuration.from(expectedStartDate, expectedEndDate);
         this.description = description;
         this.attachmentFiles.addAll(attachmentUris.stream()
-            .map(AttachmentFile::from)
+            .map(attachmentUri -> ProjectApplicationAttachmentFile.of(this, attachmentUri))
             .toList());
         this.status = ProjectApplicationStatus.APPLICATION_COMPLETED;
     }

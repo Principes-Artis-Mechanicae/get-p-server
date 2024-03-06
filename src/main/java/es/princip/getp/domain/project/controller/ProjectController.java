@@ -3,6 +3,7 @@ package es.princip.getp.domain.project.controller;
 import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
 import es.princip.getp.domain.project.dto.response.CardProjectResponse;
 import es.princip.getp.domain.project.dto.response.CreateProjectResponse;
+import es.princip.getp.domain.project.dto.response.DetailProjectResponse;
 import es.princip.getp.domain.project.service.ProjectService;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.util.ApiResponse;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,6 +62,21 @@ public class ProjectController {
         @PageableDefault(sort = "PROJECT_ID", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<CardProjectResponse> response = projectService.getProjectPage(pageable)
             .map(CardProjectResponse::from);
+        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+    }
+
+    /**
+     * 프로젝트 상세 조회
+     *
+     * @param projectId 프로젝트 ID
+     * @return 프로젝트
+     */
+    //TODO: 비로그인 사용자의 경우 특정 필드 내용에 대한 필터 처리가 필요함
+    @GetMapping("/{projectId}")
+    public ResponseEntity<ApiSuccessResult<DetailProjectResponse>> getProject(
+        @PathVariable Long projectId) {
+        DetailProjectResponse response = DetailProjectResponse.from(
+            projectService.getByProjectId(projectId));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 }
