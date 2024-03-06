@@ -1,8 +1,8 @@
 package es.princip.getp.domain.project.dto.response;
 
-import es.princip.getp.domain.client.dto.response.CardProjectClientResponse;
-import es.princip.getp.domain.hashtag.entity.Hashtag;
+import es.princip.getp.domain.client.dto.response.ProjectClientResponse;
 import es.princip.getp.domain.project.entity.Project;
+import es.princip.getp.domain.project.entity.ProjectHashtag;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
@@ -14,7 +14,7 @@ public record CardProjectResponse(
     @NotNull LocalDate applicationDeadline,
     @NotNull List<String> hashtags,
     int interestsCount,
-    @NotNull CardProjectClientResponse client
+    @NotNull ProjectClientResponse client
 ) {
 
     public static CardProjectResponse from(final Project project) {
@@ -23,9 +23,9 @@ public record CardProjectResponse(
             project.getTitle(),
             project.getPayment(),
             project.getApplicationDeadline().getValue(),
-            project.getHashtags().stream().map(Hashtag::getValue).toList(),
+            project.getHashtags().stream().map(ProjectHashtag::getValue).toList(),
             project.getInterestsCount(),
-            CardProjectClientResponse.from(project.getClient())
+            ProjectClientResponse.from(project.getClient())
         );
     }
 }
