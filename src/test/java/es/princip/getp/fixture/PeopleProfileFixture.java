@@ -3,7 +3,7 @@ package es.princip.getp.fixture;
 import java.util.List;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.entity.PeopleProfile;
-import es.princip.getp.domain.hashtag.entity.Hashtag;
+import es.princip.getp.domain.hashtag.values.Hashtag;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
@@ -37,7 +37,7 @@ public class PeopleProfileFixture {
             .build();
     }
 
-    public static CardPeopleProfileResponse creatCardPeopleProfileResponse() {
-        return new CardPeopleProfileResponse(ACTIVITY_AREA, HASHTAGS);
+    public static CardPeopleProfileResponse createCardPeopleProfileResponse() {
+        return new CardPeopleProfileResponse(ACTIVITY_AREA, HASHTAGS_STRING, null, null);
     }
 }

@@ -4,35 +4,30 @@ import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import es.princip.getp.domain.hashtag.entity.Hashtag;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
+import es.princip.getp.domain.people.entity.People;
+import es.princip.getp.domain.people.entity.PeopleHashtag;
 import es.princip.getp.domain.people.entity.PeopleType;
-import es.princip.getp.domain.people.entity.QPeople;
-import es.princip.getp.domain.people.entity.QPeopleProfile;
 import es.princip.getp.domain.people.enums.PeopleOrder;
-import jakarta.persistence.EntityManager;
+import es.princip.getp.global.support.QuerydslRepositorySupport;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
+import static es.princip.getp.domain.people.entity.QPeople.people;
+import static es.princip.getp.domain.people.entity.QPeopleProfile.peopleProfile;
+import static es.princip.getp.domain.people.entity.QPeopleHashtag.peopleHashtag;
 
 @Repository
-@RequiredArgsConstructor
-public class PeopleQueryDslRepositoryImpl implements PeopleQueryDslRepository {
+public class PeopleQueryDslRepositoryImpl extends QuerydslRepositorySupport implements PeopleQueryDslRepository {
 
-    private final JPAQueryFactory queryFactory;
-    private final QPeople people = QPeople.people;
-    private final QPeopleProfile peopleProfile = QPeopleProfile.peopleProfile;
-    private final EntityManager em;
+    public PeopleQueryDslRepositoryImpl() {
+        super(People.class);
+    }
 
     private OrderSpecifier<?> getOrderSpecifier(Order order, PeopleOrder peopleOrder) {
         OrderSpecifier<?> orderSpecifier = new OrderSpecifier<>(DESC, people.peopleId);
@@ -60,19 +55,39 @@ public class PeopleQueryDslRepositoryImpl implements PeopleQueryDslRepository {
         return orderSpecifiers.toArray(OrderSpecifier[]::new);
     }
 
-    private List<Hashtag> getHashtagsForPeople(Long peopleId) {
-        String sql = "SELECT h.hashtag FROM people_hashtags h WHERE h.people_profile_id = :peopleId";
-        List<String> hashtagValues = em.createNativeQuery(sql)
-                                       .setParameter("peopleId", peopleId)
-                                       .getResultList();
-        
-        return hashtagValues.stream()
-                            .map(Hashtag::from)
-                            .collect(Collectors.toList());
+    /**
+     * TODO: 페이지네이션 최적화를 위한 커서 기반 코드
+     *  
+     * @param lastPeopleId
+     * @param size
+     * @return
+     */
+    public List<CardPeopleResponse> getCardPeopleContent_cursor(Long lastPeopleId, int size) {
+        List<Tuple> result = getQueryFactory()
+            .select(
+                people.peopleId,
+                people.nickname,
+                people.peopleType,
+                people.profileImageUri,
+                peopleProfile.activityArea
+            )
+            .from(people)
+            .join(people.peopleProfile, peopleProfile)
+            .where(lastPeopleId == null ? null : people.peopleId.lt(lastPeopleId))
+            .orderBy(people.peopleId.desc())
+            .limit(size)
+            .fetch();
+        return null;
+    }
+
+    private List<PeopleHashtag> getHashtagsForPeople(Long peopleId) {
+        return selectFrom(peopleHashtag)
+            .where(peopleHashtag.peopleProfile.people.peopleId.eq(peopleId))
+            .fetch();
     }
     
     private List<CardPeopleResponse> getCardPeopleContent(Pageable pageable) {
-        List<Tuple> result = queryFactory
+        List<Tuple> result = getQueryFactory()
             .select(
                 people.peopleId,
                 people.nickname,
@@ -93,21 +108,16 @@ public class PeopleQueryDslRepositoryImpl implements PeopleQueryDslRepository {
             PeopleType peopleType = tuple.get(people.peopleType);
             String profileImageUri = tuple.get(people.profileImageUri);
             String activityArea = tuple.get(peopleProfile.activityArea);
-            List<Hashtag> hashtags = getHashtagsForPeople(peopleId);
-            CardPeopleProfileResponse profile = new CardPeopleProfileResponse(activityArea, hashtags);
+            List<PeopleHashtag> hashtags = getHashtagsForPeople(peopleId);
+            CardPeopleProfileResponse profile = CardPeopleProfileResponse.from(activityArea, hashtags);
 
-        return new CardPeopleResponse(peopleId, nickname, peopleType, profileImageUri, profile);
+        return CardPeopleResponse.from(peopleId, nickname, peopleType, profileImageUri, profile);
         }).toList();
-    }
-
-    private JPAQuery<Long> getPeopleCountQuery() {
-        return queryFactory.select(people.count()).from(people);
     }
     
     public Page<CardPeopleResponse> findCardPeoplePage(Pageable pageable) {
-        List<CardPeopleResponse> content = getCardPeopleContent(pageable);
-        JPAQuery<Long> countQuery = getPeopleCountQuery();
-        
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+        return applyPagination(pageable, 
+            getCardPeopleContent(pageable), 
+            countQuery -> countQuery.select(people.count()).from(people));
     }
 }

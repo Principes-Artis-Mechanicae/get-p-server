@@ -6,6 +6,7 @@ import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.entity.People;
 import es.princip.getp.domain.people.entity.PeopleType;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PeopleFixture {
@@ -65,12 +66,12 @@ public class PeopleFixture {
     public static List<CardPeopleResponse> createCardPeopleResponses(Long count) {
         List<CardPeopleResponse> peopleList = new ArrayList<>();
         for (Long i = 0L; i < count; i++) {
-            CardPeopleResponse people = new CardPeopleResponse(
+            CardPeopleResponse people = CardPeopleResponse.from(
                 i,
-                NAME,
-                PeopleType.valueOf(ROLE_TYPE),
+                NICKNAME,
+                PEOPLE_TYPE,
                 PROFILE_IMAGE_URI,
-                PeopleProfileFixture.creatCardPeopleProfileResponse()
+                PeopleProfileFixture.createCardPeopleProfileResponse()
             );
             peopleList.add(people);
         }

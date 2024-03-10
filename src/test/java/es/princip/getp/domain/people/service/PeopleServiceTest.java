@@ -106,12 +106,12 @@ public class PeopleServiceTest {
             for(int i = 0; i < TEST_SIZE; i++) {
                 final int currentIndex = i;
                 assertSoftly(softly -> {
-                    softly.assertThat(result.getContent().get(currentIndex).getPeopleId()).isEqualTo(peoples.get(currentIndex).getPeopleId());
-                    softly.assertThat(result.getContent().get(currentIndex).getNickname()).isEqualTo(peoples.get(currentIndex).getNickname());
-                    softly.assertThat(result.getContent().get(currentIndex).getPeopleType()).isEqualTo(peoples.get(currentIndex).getPeopleType());
-                    softly.assertThat(result.getContent().get(currentIndex).getProfileImageUri()).isEqualTo(peoples.get(currentIndex).getProfileImageUri());
-                    softly.assertThat(result.getContent().get(currentIndex).getProfile().getActivityArea()).isEqualTo(peoples.get(currentIndex).getProfile().getActivityArea());
-                    softly.assertThat(result.getContent().get(currentIndex).getProfile().getHashtags()).isEqualTo(peoples.get(currentIndex).getProfile().getHashtags());
+                    softly.assertThat(result.getContent().get(currentIndex).peopleId()).isEqualTo(peoples.get(currentIndex).peopleId());
+                    softly.assertThat(result.getContent().get(currentIndex).nickname()).isEqualTo(peoples.get(currentIndex).nickname());
+                    softly.assertThat(result.getContent().get(currentIndex).peopleType()).isEqualTo(peoples.get(currentIndex).peopleType());
+                    softly.assertThat(result.getContent().get(currentIndex).profileImageUri()).isEqualTo(peoples.get(currentIndex).profileImageUri());
+                    softly.assertThat(result.getContent().get(currentIndex).profile().activityArea()).isEqualTo(peoples.get(currentIndex).profile().activityArea());
+                    softly.assertThat(result.getContent().get(currentIndex).profile().hashtags()).isEqualTo(peoples.get(currentIndex).profile().hashtags());
                 });
             }            
         }

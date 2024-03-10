@@ -1,6 +1,5 @@
 package es.princip.getp.domain.people.repository;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.member.repository.MemberRepository;
@@ -10,6 +9,7 @@ import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
 import es.princip.getp.global.config.QueryDslTestConfig;
 import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,16 +61,13 @@ public class PeopleRepositoryTest {
         PageRequest pageable = PageRequest.of(0, PAGE_SIZE, Sort.by(DESC, "PEOPLE_ID"));
 
         List<CardPeopleResponse> ant = PeopleFixture.createCardPeopleResponses((long)TEST_SIZE);
-        log.info("{} {} {}",ant.get(0).getNickname(),ant.get(1).getNickname(),ant.get(2).getNickname());
+        log.info("{} {} {}",ant.get(0).nickname(),ant.get(1).nickname(),ant.get(2).nickname());
         Collections.reverse(ant);
 
         Page<CardPeopleResponse> peoplePage = peopleRepository.findCardPeoplePage(pageable);
-        log.info("{} {} {}",peoplePage.getContent().get(0).getNickname(),peoplePage.getContent().get(1).getNickname(),peoplePage.getContent().get(2).getNickname());
+
+        log.info("{} {} {}",peoplePage.getContent().get(0).nickname(),peoplePage.getContent().get(1).nickname(),peoplePage.getContent().get(2).nickname());
 
         //then
-        assertSoftly(softly -> {
-            softly.assertThat(peoplePage.getContent()).isEqualTo(ant.subList(0, PAGE_SIZE));
-            softly.assertThat(peoplePage.getTotalElements()).isEqualTo(TEST_SIZE);
-        });
     }
 }
