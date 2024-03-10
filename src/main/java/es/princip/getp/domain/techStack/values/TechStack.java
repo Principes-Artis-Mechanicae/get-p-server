@@ -1,11 +1,10 @@
-package es.princip.getp.domain.techStack.entity;
+package es.princip.getp.domain.techStack.values;
 
 import jakarta.persistence.Column;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Embeddable;
-
 
 @Embeddable
 @Getter

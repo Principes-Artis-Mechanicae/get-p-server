@@ -1,9 +1,9 @@
 package es.princip.getp.domain.people.dto.response.peopleProfile;
 
 import java.util.List;
-import es.princip.getp.domain.hashtag.values.Hashtag;
+import es.princip.getp.domain.people.entity.PeopleHashtag;
 import es.princip.getp.domain.people.entity.PeopleProfile;
-import es.princip.getp.domain.techStack.entity.TechStack;
+import es.princip.getp.domain.people.entity.PeopleTechStack;
 import jakarta.validation.constraints.NotNull;
 
 public record UpdatePeopleProfileResponse(@NotNull String introduction,
@@ -16,9 +16,9 @@ public record UpdatePeopleProfileResponse(@NotNull String introduction,
         return new UpdatePeopleProfileResponse(
             peopleProfile.getIntroduction(),
             peopleProfile.getActivityArea(),
-            peopleProfile.getTechStacks().stream().map(TechStack::getValue).toList(),
+            peopleProfile.getTechStacks().stream().map(PeopleTechStack::getValue).toList(),
             peopleProfile.getEducation(),
-            peopleProfile.getHashtags().stream().map(Hashtag::getValue).toList()
+            peopleProfile.getHashtags().stream().map(PeopleHashtag::getValue).toList()
         );
     }
 }
