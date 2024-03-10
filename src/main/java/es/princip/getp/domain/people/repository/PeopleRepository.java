@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.repository;
 
-import es.princip.getp.domain.people.entity.People;
+import es.princip.getp.domain.people.domain.entity.People;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,9 +1,9 @@
 package es.princip.getp.domain.people.dto.response.peopleProfile;
 
 import java.util.List;
-import es.princip.getp.domain.people.entity.PeopleHashtag;
-import es.princip.getp.domain.people.entity.PeopleProfile;
-import es.princip.getp.domain.people.entity.PeopleTechStack;
+import es.princip.getp.domain.people.domain.entity.PeopleHashtag;
+import es.princip.getp.domain.people.domain.entity.PeopleProfile;
+import es.princip.getp.domain.people.domain.entity.PeopleTechStack;
 import jakarta.validation.constraints.NotNull;
 
 public record UpdatePeopleProfileResponse(@NotNull String introduction,

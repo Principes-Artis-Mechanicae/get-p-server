@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import es.princip.getp.domain.auth.dto.response.Token;
-import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import io.jsonwebtoken.Claims;

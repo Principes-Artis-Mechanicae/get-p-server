@@ -1,10 +1,10 @@
 package es.princip.getp.domain.member.service;
 
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
-import es.princip.getp.domain.serviceTerm.entity.ServiceTerm;
+import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTerm;
 import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
-import es.princip.getp.domain.serviceTermAgreement.entity.ServiceTermAgreement;
-import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTermAgreement;
+import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.exception.MemberErrorCode;
 import es.princip.getp.domain.member.repository.MemberRepository;
 import es.princip.getp.global.exception.BusinessLogicException;

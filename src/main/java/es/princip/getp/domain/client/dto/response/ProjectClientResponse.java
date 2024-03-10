@@ -1,7 +1,7 @@
 package es.princip.getp.domain.client.dto.response;
 
 import jakarta.validation.constraints.NotNull;
-import es.princip.getp.domain.client.entity.Client;
+import es.princip.getp.domain.client.domain.entity.Client;
 
 public record ProjectClientResponse(
     @NotNull Long clientId,

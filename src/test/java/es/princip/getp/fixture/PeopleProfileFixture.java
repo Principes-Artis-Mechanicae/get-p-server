@@ -1,9 +1,9 @@
 package es.princip.getp.fixture;
 
 import java.util.List;
-import es.princip.getp.domain.people.entity.People;
-import es.princip.getp.domain.people.entity.PeopleProfile;
-import es.princip.getp.domain.hashtag.values.Hashtag;
+import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.entity.PeopleProfile;
+import es.princip.getp.domain.hashtag.domain.values.Hashtag;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;

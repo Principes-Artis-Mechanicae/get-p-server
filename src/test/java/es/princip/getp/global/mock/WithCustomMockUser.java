@@ -1,6 +1,6 @@
 package es.princip.getp.global.mock;
 
-import es.princip.getp.domain.member.entity.MemberType;
+import es.princip.getp.domain.member.domain.enums.MemberType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import org.springframework.security.test.context.support.WithSecurityContext;
