@@ -1,13 +1,13 @@
 package es.princip.getp.fixture;
 
-import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
-import es.princip.getp.domain.people.entity.People;
-import es.princip.getp.domain.people.entity.PeopleType;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.LongStream;
 
 public class PeopleFixture {
 
@@ -64,17 +64,13 @@ public class PeopleFixture {
     }
 
     public static List<CardPeopleResponse> createCardPeopleResponses(Long count) {
-        List<CardPeopleResponse> peopleList = new ArrayList<>();
-        for (Long i = 0L; i < count; i++) {
-            CardPeopleResponse people = CardPeopleResponse.from(
+        return LongStream.range(0, count)
+            .mapToObj(i -> CardPeopleResponse.from(
                 i,
                 NICKNAME,
                 PEOPLE_TYPE,
                 PROFILE_IMAGE_URI,
-                PeopleProfileFixture.createCardPeopleProfileResponse()
-            );
-            peopleList.add(people);
-        }
-        return peopleList;
+                PeopleProfileFixture.createCardPeopleProfileResponse()))
+            .toList();
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.response.ClientResponse;
 import es.princip.getp.domain.client.service.ClientService;
-import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.util.ApiResponse;
 import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;

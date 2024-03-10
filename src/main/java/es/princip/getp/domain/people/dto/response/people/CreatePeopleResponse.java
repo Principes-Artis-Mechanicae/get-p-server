@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.dto.response.people;
 
 import java.time.LocalDateTime;
-import es.princip.getp.domain.people.entity.People;
+import es.princip.getp.domain.people.domain.entity.People;
 import jakarta.validation.constraints.NotNull;
 
 public record CreatePeopleResponse(@NotNull Long peopleId, @NotNull String nickname, @NotNull String email,

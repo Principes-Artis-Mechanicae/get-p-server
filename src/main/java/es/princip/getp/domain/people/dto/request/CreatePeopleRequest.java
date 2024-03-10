@@ -1,8 +1,8 @@
 package es.princip.getp.domain.people.dto.request;
 
-import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.people.entity.People;
-import es.princip.getp.domain.people.entity.PeopleType;
+import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.enums.PeopleType;
 import jakarta.validation.constraints.NotNull;
 
 public record CreatePeopleRequest(@NotNull String nickname, @NotNull String email,

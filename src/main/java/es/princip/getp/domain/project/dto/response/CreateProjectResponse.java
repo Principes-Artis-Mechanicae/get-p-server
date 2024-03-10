@@ -1,9 +1,9 @@
 package es.princip.getp.domain.project.dto.response;
 
-import es.princip.getp.domain.project.entity.Project;
-import es.princip.getp.domain.project.entity.ProjectAttachmentFile;
-import es.princip.getp.domain.project.entity.ProjectHashtag;
-import es.princip.getp.domain.project.enums.MeetingType;
+import es.princip.getp.domain.project.domain.entity.Project;
+import es.princip.getp.domain.project.domain.entity.ProjectAttachmentFile;
+import es.princip.getp.domain.project.domain.entity.ProjectHashtag;
+import es.princip.getp.domain.project.domain.enums.MeetingType;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;

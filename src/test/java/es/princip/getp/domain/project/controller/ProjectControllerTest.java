@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import es.princip.getp.domain.project.entity.Project;
+import es.princip.getp.domain.project.domain.entity.Project;
 import es.princip.getp.domain.project.service.ProjectService;
 import es.princip.getp.fixture.ProjectFixture;
 import es.princip.getp.global.config.SecurityConfig;

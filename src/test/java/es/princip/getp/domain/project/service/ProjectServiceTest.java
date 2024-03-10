@@ -5,11 +5,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
-import es.princip.getp.domain.client.entity.Client;
+import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.service.ClientService;
-import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
-import es.princip.getp.domain.project.entity.Project;
+import es.princip.getp.domain.project.domain.entity.Project;
 import es.princip.getp.domain.project.repository.ProjectRepository;
 import es.princip.getp.fixture.ClientFixture;
 import es.princip.getp.fixture.MemberFixture;

@@ -1,7 +1,7 @@
 package es.princip.getp.domain.client.dto.request;
 
-import es.princip.getp.domain.client.entity.Client;
-import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.client.domain.entity.Client;
+import es.princip.getp.domain.member.domain.entity.Member;
 import jakarta.validation.constraints.NotNull;
 
 public record UpdateClientRequest(

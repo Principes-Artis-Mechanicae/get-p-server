@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
-import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.member.entity.MemberType;
+import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
 import es.princip.getp.global.exception.BusinessLogicException;

@@ -2,10 +2,10 @@ package es.princip.getp.domain.client.service;
 
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
-import es.princip.getp.domain.client.entity.Client;
+import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.exception.ClientErrorCode;
 import es.princip.getp.domain.client.repository.ClientRepository;
-import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.global.exception.BusinessLogicException;
 import java.util.Optional;
 import java.util.function.Supplier;

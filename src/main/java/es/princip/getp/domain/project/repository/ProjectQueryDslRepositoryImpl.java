@@ -2,8 +2,8 @@ package es.princip.getp.domain.project.repository;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import es.princip.getp.domain.project.entity.Project;
-import es.princip.getp.domain.project.entity.QProject;
+import es.princip.getp.domain.project.domain.entity.Project;
+import es.princip.getp.domain.project.domain.entity.QProject;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

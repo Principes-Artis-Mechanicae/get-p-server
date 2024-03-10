@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import es.princip.getp.domain.people.entity.PeopleProfile;
+import es.princip.getp.domain.people.domain.entity.PeopleProfile;
 
 public interface PeopleProfileRepository extends JpaRepository<PeopleProfile, Long> {
     Optional<PeopleProfile> findByPeople_PeopleId(Long peopleId);
