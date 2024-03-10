@@ -3,16 +3,15 @@ package es.princip.getp.domain.people.service;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-
-import es.princip.getp.domain.hashtag.values.Hashtag;
 import es.princip.getp.domain.member.entity.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.entity.People;
+import es.princip.getp.domain.people.entity.PeopleHashtag;
 import es.princip.getp.domain.people.entity.PeopleProfile;
+import es.princip.getp.domain.people.entity.PeopleTechStack;
 import es.princip.getp.domain.people.repository.PeopleProfileRepository;
 import es.princip.getp.domain.people.repository.PeopleRepository;
-import es.princip.getp.domain.techStack.entity.TechStack;
 import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
 import es.princip.getp.fixture.PeopleProfileFixture;
@@ -91,12 +90,12 @@ public class PeopleProfileServiceTest {
                 
                 //Hashtag 검증
                 List<String> testHashtags = testUpdatePeopleProfileRequest.hashtags();
-                List<String> updatedHashtags = updatedPeopleProfile.getHashtags().stream().map(Hashtag::getValue).toList();
+                List<String> updatedHashtags = updatedPeopleProfile.getHashtags().stream().map(PeopleHashtag::getValue).toList();
                 CommonValidator.assertStringListEquals(testHashtags, updatedHashtags);
 
                 //TechStack 검증
                 List<String> testTechStacks = testUpdatePeopleProfileRequest.techStacks();
-                List<String> updatedTechStacks = updatedPeopleProfile.getTechStacks().stream().map(TechStack::getValue).toList();
+                List<String> updatedTechStacks = updatedPeopleProfile.getTechStacks().stream().map(PeopleTechStack::getValue).toList();
                 CommonValidator.assertStringListEquals(testTechStacks, updatedTechStacks);
             });
         }

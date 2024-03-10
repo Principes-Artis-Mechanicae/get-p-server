@@ -1,8 +1,7 @@
 package es.princip.getp.domain.people.dto.response.peopleProfile;
 
 import java.util.List;
-import es.princip.getp.domain.hashtag.values.Hashtag;
-import es.princip.getp.domain.people.entity.PeopleProfile;
+import es.princip.getp.domain.people.entity.PeopleHashtag;
 import jakarta.validation.constraints.NotNull;
 
 public record CardPeopleProfileResponse(@NotNull String activityArea,
@@ -10,10 +9,10 @@ public record CardPeopleProfileResponse(@NotNull String activityArea,
                                         @NotNull Integer completedProjectsCount,
                                         @NotNull Integer interestsCount) {
 
-    public static CardPeopleProfileResponse from(final PeopleProfile peopleProfile) {
+    public static CardPeopleProfileResponse from(final String activityArea, final List<PeopleHashtag> hashtags) {
         return new CardPeopleProfileResponse(
-            peopleProfile.getActivityArea(),
-            peopleProfile.getHashtags().stream().map(Hashtag::getValue).toList(),
+            activityArea,
+            hashtags.stream().map(PeopleHashtag::getValue).toList(),
             //저장 프로퍼티 구현
             0, 0
         );

@@ -2,18 +2,16 @@ package es.princip.getp.domain.people.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import es.princip.getp.domain.hashtag.values.Hashtag;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
-import es.princip.getp.domain.techStack.entity.TechStack;
-import jakarta.persistence.CollectionTable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -45,15 +43,11 @@ public class PeopleProfile {
     @JoinColumn(name = "people_id")
     private People people;
     
-    @ElementCollection
-    @CollectionTable(name = "people_hashtags", joinColumns = @JoinColumn(name = "people_profile_id"))
-    @Column(name = "hashtags_id")
-    private List<Hashtag> hashtags = new ArrayList<>();
+    @OneToMany(mappedBy = "peopleProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PeopleHashtag> hashtags = new ArrayList<>();
 
-    @ElementCollection
-    @CollectionTable(name = "people_tech_stacks", joinColumns = @JoinColumn(name = "people_profile_id"))
-    @Column(name = "tech_stacks_id")
-    private List<TechStack> techStacks = new ArrayList<>();
+    @OneToMany(mappedBy = "peopleProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PeopleTechStack> techStacks = new ArrayList<>();
 
     @Builder
     public PeopleProfile(final String introduction,
@@ -67,10 +61,10 @@ public class PeopleProfile {
         this.activityArea = activityArea;
         this.education = education;
         this.hashtags.addAll(hashtags.stream()
-            .map(Hashtag::from)
+            .map(hashtag -> PeopleHashtag.of(this, hashtag))
             .toList());
         this.techStacks.addAll(techStacks.stream()
-            .map(TechStack::from)
+            .map(techStack -> PeopleTechStack.of(this, techStack))
             .toList());
         this.people = people;
     }
@@ -81,11 +75,11 @@ public class PeopleProfile {
         this.education = request.education();
         this.hashtags.clear();
         this.hashtags.addAll(request.hashtags().stream()
-            .map(Hashtag::from)
+            .map(hashtag -> PeopleHashtag.of(this, hashtag))
             .toList());
         this.techStacks.clear();
         this.techStacks.addAll(request.techStacks().stream()
-            .map(TechStack::from)
+            .map(techStack -> PeopleTechStack.of(this, techStack))
             .toList());
     }
 }
