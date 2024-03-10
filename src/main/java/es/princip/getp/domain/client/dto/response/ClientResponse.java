@@ -1,7 +1,7 @@
 package es.princip.getp.domain.client.dto.response;
 
 import java.time.LocalDateTime;
-import es.princip.getp.domain.client.entity.Client;
+import es.princip.getp.domain.client.domain.entity.Client;
 import jakarta.validation.constraints.NotNull;
 
 public record ClientResponse(

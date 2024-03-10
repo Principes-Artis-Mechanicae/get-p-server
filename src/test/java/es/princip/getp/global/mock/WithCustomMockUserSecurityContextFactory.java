@@ -1,6 +1,6 @@
 package es.princip.getp.global.mock;
 
-import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import java.util.List;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

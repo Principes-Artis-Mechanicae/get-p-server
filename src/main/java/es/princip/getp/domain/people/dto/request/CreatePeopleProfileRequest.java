@@ -2,8 +2,8 @@ package es.princip.getp.domain.people.dto.request;
 
 import java.util.List;
 
-import es.princip.getp.domain.people.entity.People;
-import es.princip.getp.domain.people.entity.PeopleProfile;
+import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.entity.PeopleProfile;
 import jakarta.validation.constraints.NotNull;
 
 public record CreatePeopleProfileRequest(@NotNull String introduction, @NotNull String activityArea,

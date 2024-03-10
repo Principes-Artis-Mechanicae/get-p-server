@@ -2,7 +2,7 @@ package es.princip.getp.domain.auth.service;
 
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import es.princip.getp.domain.auth.entity.EmailVerification;
+import es.princip.getp.domain.auth.domain.entity.EmailVerification;
 import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
 import es.princip.getp.domain.auth.repository.EmailVerificationRepository;
 import es.princip.getp.global.exception.BusinessLogicException;

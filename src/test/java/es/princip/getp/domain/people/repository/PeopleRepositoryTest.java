@@ -1,10 +1,10 @@
 package es.princip.getp.domain.people.repository;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
-import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.repository.MemberRepository;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
-import es.princip.getp.domain.people.entity.People;
+import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
 import es.princip.getp.global.config.QueryDslTestConfig;

@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.dto.response.people;
 
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.domain.people.entity.PeopleType;
+import es.princip.getp.domain.people.domain.enums.PeopleType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 

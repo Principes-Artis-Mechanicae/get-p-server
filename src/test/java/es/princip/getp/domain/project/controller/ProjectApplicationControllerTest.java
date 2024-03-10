@@ -7,10 +7,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import es.princip.getp.domain.member.entity.MemberType;
+import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.project.dto.request.ApplicateProjectRequest;
-import es.princip.getp.domain.project.entity.Project;
-import es.princip.getp.domain.project.entity.ProjectApplication;
+import es.princip.getp.domain.project.domain.entity.Project;
+import es.princip.getp.domain.project.domain.entity.ProjectApplication;
 import es.princip.getp.domain.project.service.ProjectApplicationService;
 import es.princip.getp.fixture.ProjectApplicationFixture;
 import es.princip.getp.fixture.ProjectFixture;

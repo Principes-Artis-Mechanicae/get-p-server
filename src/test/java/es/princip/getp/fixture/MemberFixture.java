@@ -1,7 +1,7 @@
 package es.princip.getp.fixture;
 
-import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.member.entity.MemberType;
+import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.enums.MemberType;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

@@ -2,28 +2,28 @@ package es.princip.getp.domain.people.repository;
 
 import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
+import static es.princip.getp.domain.people.domain.entity.QPeople.people;
+import static es.princip.getp.domain.people.domain.entity.QPeopleHashtag.peopleHashtag;
+import static es.princip.getp.domain.people.domain.entity.QPeopleProfile.peopleProfile;
+
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
+import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.entity.PeopleHashtag;
+import es.princip.getp.domain.people.domain.enums.PeopleOrder;
+import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.domain.people.entity.People;
-import es.princip.getp.domain.people.entity.PeopleHashtag;
-import es.princip.getp.domain.people.entity.PeopleType;
-import es.princip.getp.domain.people.enums.PeopleOrder;
-import es.princip.getp.global.support.QuerydslRepositorySupport;
+import es.princip.getp.global.support.QueryDslRepositorySupport;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.stereotype.Repository;
-import static es.princip.getp.domain.people.entity.QPeople.people;
-import static es.princip.getp.domain.people.entity.QPeopleProfile.peopleProfile;
-import static es.princip.getp.domain.people.entity.QPeopleHashtag.peopleHashtag;
 
-@Repository
-public class PeopleQueryDslRepositoryImpl extends QuerydslRepositorySupport implements PeopleQueryDslRepository {
+public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport implements
+    PeopleQueryDslRepository {
 
     public PeopleQueryDslRepositoryImpl() {
         super(People.class);
@@ -57,7 +57,7 @@ public class PeopleQueryDslRepositoryImpl extends QuerydslRepositorySupport impl
 
     /**
      * TODO: 페이지네이션 최적화를 위한 커서 기반 코드
-     *  
+     *
      * @param lastPeopleId
      * @param size
      * @return
@@ -85,7 +85,7 @@ public class PeopleQueryDslRepositoryImpl extends QuerydslRepositorySupport impl
             .where(peopleHashtag.peopleProfile.people.peopleId.eq(peopleId))
             .fetch();
     }
-    
+
     private List<CardPeopleResponse> getCardPeopleContent(Pageable pageable) {
         List<Tuple> result = getQueryFactory()
             .select(
@@ -101,7 +101,7 @@ public class PeopleQueryDslRepositoryImpl extends QuerydslRepositorySupport impl
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
-        
+
         return result.stream().map(tuple -> {
             Long peopleId = tuple.get(people.peopleId);
             String nickname = tuple.get(people.nickname);
@@ -109,15 +109,17 @@ public class PeopleQueryDslRepositoryImpl extends QuerydslRepositorySupport impl
             String profileImageUri = tuple.get(people.profileImageUri);
             String activityArea = tuple.get(peopleProfile.activityArea);
             List<PeopleHashtag> hashtags = getHashtagsForPeople(peopleId);
-            CardPeopleProfileResponse profile = CardPeopleProfileResponse.from(activityArea, hashtags);
+            CardPeopleProfileResponse profile =
+                CardPeopleProfileResponse.from(activityArea, hashtags);
 
-        return CardPeopleResponse.from(peopleId, nickname, peopleType, profileImageUri, profile);
+            return CardPeopleResponse.from(peopleId, nickname, peopleType, profileImageUri,
+                profile);
         }).toList();
     }
-    
+
     public Page<CardPeopleResponse> findCardPeoplePage(Pageable pageable) {
-        return applyPagination(pageable, 
-            getCardPeopleContent(pageable), 
+        return applyPagination(pageable,
+            getCardPeopleContent(pageable),
             countQuery -> countQuery.select(people.count()).from(people));
     }
 }

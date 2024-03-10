@@ -1,10 +1,10 @@
 package es.princip.getp.domain.people.service;
 
-import es.princip.getp.domain.member.entity.Member;
+import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
-import es.princip.getp.domain.people.entity.People;
+import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.repository.PeopleRepository;
 import es.princip.getp.global.exception.BusinessLogicException;

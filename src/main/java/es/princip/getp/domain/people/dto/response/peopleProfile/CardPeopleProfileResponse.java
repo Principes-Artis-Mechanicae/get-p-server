@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.dto.response.peopleProfile;
 
 import java.util.List;
-import es.princip.getp.domain.people.entity.PeopleHashtag;
+import es.princip.getp.domain.people.domain.entity.PeopleHashtag;
 import jakarta.validation.constraints.NotNull;
 
 public record CardPeopleProfileResponse(@NotNull String activityArea,

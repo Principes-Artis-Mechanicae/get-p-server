@@ -1,8 +1,8 @@
 package es.princip.getp.domain.project.dto.response;
 
 import es.princip.getp.domain.client.dto.response.ProjectClientResponse;
-import es.princip.getp.domain.project.entity.Project;
-import es.princip.getp.domain.project.entity.ProjectHashtag;
+import es.princip.getp.domain.project.domain.entity.Project;
+import es.princip.getp.domain.project.domain.entity.ProjectHashtag;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;

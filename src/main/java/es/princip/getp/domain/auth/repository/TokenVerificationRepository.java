@@ -1,6 +1,6 @@
 package es.princip.getp.domain.auth.repository;
 
-import es.princip.getp.domain.auth.entity.TokenVerification;
+import es.princip.getp.domain.auth.domain.entity.TokenVerification;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TokenVerificationRepository extends CrudRepository<TokenVerification, Long> {

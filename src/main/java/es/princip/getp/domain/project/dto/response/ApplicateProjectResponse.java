@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.dto.response;
 
-import es.princip.getp.domain.project.entity.ProjectApplication;
-import es.princip.getp.domain.project.entity.ProjectApplicationAttachmentFile;
+import es.princip.getp.domain.project.domain.entity.ProjectApplication;
+import es.princip.getp.domain.project.domain.entity.ProjectApplicationAttachmentFile;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;

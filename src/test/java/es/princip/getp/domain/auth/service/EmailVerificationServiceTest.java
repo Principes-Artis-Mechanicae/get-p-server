@@ -11,7 +11,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import es.princip.getp.domain.auth.entity.EmailVerification;
+import es.princip.getp.domain.auth.domain.entity.EmailVerification;
 import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
 import es.princip.getp.domain.auth.repository.EmailVerificationRepository;
 import es.princip.getp.global.exception.BusinessLogicException;

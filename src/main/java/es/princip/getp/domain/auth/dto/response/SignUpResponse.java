@@ -1,9 +1,9 @@
 package es.princip.getp.domain.auth.dto.response;
 
 import java.util.List;
-import es.princip.getp.domain.member.entity.Member;
-import es.princip.getp.domain.member.entity.MemberType;
-import es.princip.getp.domain.serviceTermAgreement.dto.response.ServiceTermAgreementResponse;
+import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.enums.MemberType;
+import es.princip.getp.domain.serviceTerm.dto.response.ServiceTermAgreementResponse;
 import jakarta.validation.constraints.NotNull;
 
 public record SignUpResponse(
