@@ -19,7 +19,7 @@ public class ApplicationDeadlineTest {
             EstimatedDuration.from(LocalDate.now().plusDays(7), LocalDate.now().plusDays(14));
         BusinessLogicException exception = assertThrows(BusinessLogicException.class,
             () -> ApplicationDeadline.from(LocalDate.now().minusDays(7), estimatedDuration));
-        assertEquals(exception.getCode(), ProjectErrorCode.INVALID_APPLICATION_DEADLINE.name());
+        assertEquals(exception.getErrorCode(), ProjectErrorCode.INVALID_APPLICATION_DEADLINE);
     }
 
     @DisplayName("예상 작업 기간보다 이전이어야 한다.")
@@ -29,6 +29,6 @@ public class ApplicationDeadlineTest {
             EstimatedDuration.from(LocalDate.now().plusDays(7), LocalDate.now().plusDays(14));
         BusinessLogicException exception = assertThrows(BusinessLogicException.class,
             () -> ApplicationDeadline.from(LocalDate.now().plusDays(21), estimatedDuration));
-        assertEquals(exception.getCode(), ProjectErrorCode.INVALID_APPLICATION_DEADLINE.name());
+        assertEquals(exception.getErrorCode(), ProjectErrorCode.INVALID_APPLICATION_DEADLINE);
     }
 }

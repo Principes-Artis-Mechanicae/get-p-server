@@ -1,5 +1,6 @@
 package es.princip.getp.global.exception.handler;
 
+import es.princip.getp.global.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,11 +11,12 @@ import es.princip.getp.global.util.ApiResponse.ApiErrorResult;
 
 @RestControllerAdvice
 public class BusinessLogicExceptionHandler {
+
     @ExceptionHandler(BusinessLogicException.class)
-    public ResponseEntity<ApiErrorResult> businessLogicException(final BusinessLogicException businessLogicException) {
-        HttpStatus status = businessLogicException.getStatus();
-        String code = businessLogicException.getCode();
-        String message = businessLogicException.getMessage();
-        return ResponseEntity.status(status).body(ApiResponse.error(status, code, message));
+    public ResponseEntity<ApiErrorResult> businessLogicException(
+        final BusinessLogicException businessLogicException) {
+        ErrorCode errorCode = businessLogicException.getErrorCode();
+        HttpStatus status = errorCode.status();
+        return ResponseEntity.status(status).body(ApiResponse.error(errorCode));
     }
 }

@@ -2,7 +2,6 @@ package es.princip.getp.domain.auth.service;
 
 import es.princip.getp.domain.auth.exception.EmailErrorCode;
 import es.princip.getp.global.exception.BusinessLogicException;
-import es.princip.getp.global.util.EmailUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
@@ -25,9 +24,6 @@ public class EmailServiceImpl implements EmailService {
     }
 
     public void sendEmail(String email, String title, String text) {
-        if (!EmailUtil.isValidEmail(email)) {
-            throw new BusinessLogicException(EmailErrorCode.WRONG_EMAIL);
-        }
         SimpleMailMessage emailForm = createEmailForm(email, title, text);
         try {
             emailSender.send(emailForm);

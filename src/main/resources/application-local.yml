@@ -48,7 +48,10 @@ spring:
   
   org:
     gradle:
-        caching: true
+      caching: true
+
+  messages:
+    basename: messages/validation, messages/error
 
 logging:
   level:
