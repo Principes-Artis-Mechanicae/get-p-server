@@ -1,10 +1,11 @@
 package es.princip.getp.global.util;
 
-import es.princip.getp.global.exception.ErrorCode;
-import org.springframework.http.HttpStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import es.princip.getp.global.exception.ErrorCode;
+import es.princip.getp.global.exception.ErrorDescription;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 public class ApiResponse {
     public static <T> ApiSuccessResult<T> success(HttpStatus status, T data) {
@@ -15,12 +16,12 @@ public class ApiResponse {
         return new ApiSuccessResult<>(status.value());
     }
 
-    public static ApiErrorResult error(HttpStatus status, String code, String message) {
-        return new ApiErrorResult(status.value(), new ApiError(code, message));
+    public static ApiErrorResult error(ErrorCode errorCode) {
+        return new ApiErrorResult(errorCode);
     }
 
-    public static ApiErrorResult error(ErrorCode errorCode) {
-        return new ApiErrorResult(errorCode.status().value(), new ApiError(errorCode.code(), errorCode.message()));
+    public static ApiErrorResult error(HttpStatus status, ErrorDescription... descriptions) {
+        return new ApiErrorResult(status.value(), descriptions);
     }
     
     @JsonInclude(Include.NON_NULL)
@@ -42,25 +43,18 @@ public class ApiResponse {
 
     @JsonInclude(Include.NON_NULL)
     @Getter
-    public static class ApiError {
-        private final String code;
-        private final String message;
-    
-        private ApiError(String code, String message) {
-            this.code = code;
-            this.message = message;
-        }
-    }
-
-    @JsonInclude(Include.NON_NULL)
-    @Getter
     public static class ApiErrorResult {
         private final int status;
-        private final ApiError error;
+        private final ErrorDescription[] errors;
 
-        private ApiErrorResult(int status, ApiError error) {
+        private ApiErrorResult(ErrorCode errorCode) {
+            this.status = errorCode.status().value();
+            this.errors = new ErrorDescription[] { errorCode.description() };
+        }
+
+        private ApiErrorResult(int status, ErrorDescription... descriptions) {
             this.status = status;
-            this.error = error;
+            this.errors = descriptions;
         }
     }
 }

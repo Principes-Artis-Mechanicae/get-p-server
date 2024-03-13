@@ -91,10 +91,6 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
-# Application properties
-application-local.yml
-application-test.yml
-
 # Environment Variables
 .env.dev
 .env.local

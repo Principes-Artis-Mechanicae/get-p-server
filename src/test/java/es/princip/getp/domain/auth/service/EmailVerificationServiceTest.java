@@ -2,9 +2,7 @@ package es.princip.getp.domain.auth.service;
 
 import static es.princip.getp.fixture.EmailVerificationFixture.createEmailVerification;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -78,8 +76,7 @@ class EmailVerificationServiceTest {
 
             emailVerificationService.verifyEmail(email, verificationCode);
 
-            assertTrue(emailVerification.isVerified());
-            verify(emailVerificationRepository, times(1)).save(emailVerification);
+            verify(emailVerificationRepository, times(1)).delete(emailVerification);
         }
 
         @DisplayName("유효하지 않은 이메일 인증인 경우 실패한다.")
@@ -90,21 +87,7 @@ class EmailVerificationServiceTest {
 
             BusinessLogicException exception =
                 assertThrows(BusinessLogicException.class, () -> emailVerificationService.verifyEmail(email, "1234"));
-            assertEquals(exception.getCode(), EmailVerificationErrorCode.INVALID_EMAIL_VERIFICATION.name());
-        }
-
-        @DisplayName("사용자가 이메일 인증 유효 시간 내에 재요청한 경우 실패한다.")
-        @Test
-        void verifyEmail_WhenEmailIsAlreadyVerified_ShouldThrowException() {
-            String email = "test@example.com";
-            String verificationCode = "1234";
-            EmailVerification emailVerification = createEmailVerification(email, verificationCode);
-            when(emailVerificationRepository.findById(email)).thenReturn(Optional.of(emailVerification));
-            emailVerificationService.verifyEmail(email, verificationCode);
-
-            BusinessLogicException exception =
-                assertThrows(BusinessLogicException.class, () -> emailVerificationService.verifyEmail(email, verificationCode));
-            assertEquals(exception.getCode(), EmailVerificationErrorCode.ALREADY_VERIFIED_EMAIL.name());
+            assertEquals(exception.getErrorCode(), EmailVerificationErrorCode.INVALID_EMAIL_VERIFICATION);
         }
 
         @DisplayName("이메일 인증 코드가 일치하지 않은 경우 실패한다.")
@@ -117,33 +100,7 @@ class EmailVerificationServiceTest {
 
             BusinessLogicException exception =
                 assertThrows(BusinessLogicException.class, () -> emailVerificationService.verifyEmail(email, "1234"));
-            assertEquals(exception.getCode(), EmailVerificationErrorCode.INCORRECT_EMAIL_VERIFICATION_CODE.name());
-        }
-    }
-
-    @Nested
-    @DisplayName("isVerifiedEmail()은")
-    class IsVerifiedEmail {
-        @DisplayName("이메일이 인증된 경우 true를 반환한다.")
-        @Test
-        void isVerifiedEmail_WhenEmailIsVerified_ShouldReturnTrue() {
-            String email = "test@example.com";
-            String verificationCode = "1234";
-            EmailVerification emailVerification = createEmailVerification(email, verificationCode);
-            emailVerification.verify(verificationCode);
-            when(emailVerificationRepository.findById(email)).thenReturn(Optional.of(emailVerification));
-
-            assertTrue(emailVerificationService.isVerifiedEmail(email));
-        }
-
-        @DisplayName("이메일이 인증되지 않은 경우 false를 반환한다.")
-        @Test
-        void isVerifiedEmail_WhenEmailIsNotVerified_ShouldReturnFalse() {
-            String email = "test@example.com";
-            EmailVerification emailVerification = createEmailVerification(email, "1234");
-            when(emailVerificationRepository.findById(email)).thenReturn(Optional.of(emailVerification));
-
-            assertFalse(emailVerificationService.isVerifiedEmail(email));
+            assertEquals(exception.getErrorCode(), EmailVerificationErrorCode.INCORRECT_EMAIL_VERIFICATION_CODE);
         }
     }
 }

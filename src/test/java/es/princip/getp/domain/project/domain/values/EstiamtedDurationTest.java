@@ -18,6 +18,6 @@ public class EstiamtedDurationTest {
         BusinessLogicException exception =
             assertThrows(BusinessLogicException.class, () -> EstimatedDuration
                 .from(LocalDate.now().plusDays(14), LocalDate.now().plusDays(7)));
-        assertEquals(exception.getCode(), ProjectErrorCode.INVALID_ESTIMATED_DURATION.name());
+        assertEquals(exception.getErrorCode(), ProjectErrorCode.INVALID_ESTIMATED_DURATION);
     }
 }

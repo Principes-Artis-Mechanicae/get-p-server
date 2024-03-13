@@ -1,29 +1,24 @@
 package es.princip.getp.domain.auth.exception;
 
 import es.princip.getp.global.exception.ErrorCode;
+import es.princip.getp.global.exception.ErrorDescription;
 import org.springframework.http.HttpStatus;
 
 public enum TokenErrorCode implements ErrorCode {
-    INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "만료되거나 유효하지 않은 Access Token"),
-    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "만료되거나 유효하지 않은 Refresh Token");
+    INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 Access Token"),
+    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 Refresh Token");
 
     private final HttpStatus status;
-    private final String message;
+    private final ErrorDescription description;
 
     TokenErrorCode(HttpStatus status, String message) {
         this.status = status;
-        this.message = message;
-    }
-
-    public String message() {
-        return this.message;
-    }
-
-    public String code() {
-        return this.name();
+        this.description = ErrorDescription.of(this.name(), message);
     }
 
     public HttpStatus status() {
-        return this.status;
+        return status;
     }
+
+    public ErrorDescription description() { return description; }
 }

@@ -46,6 +46,9 @@ spring:
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
 
+  messages:
+    basename: messages/validation, messages/error
+
 logging:
   level:
     org:
