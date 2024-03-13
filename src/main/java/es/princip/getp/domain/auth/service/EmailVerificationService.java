@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class EmailVerificationService {
+
     private static final int VERIFICATION_CODE_LENGTH = 4;
 
     private final EmailService emailService;
@@ -32,24 +33,12 @@ public class EmailVerificationService {
     }
 
     public void verifyEmail(String email, String verificationCode) {
-        Optional<EmailVerification> emailVerificationOptional = getByEmail(email);
-        if (emailVerificationOptional.isEmpty()) {
-            throw new BusinessLogicException(EmailVerificationErrorCode.INVALID_EMAIL_VERIFICATION);
+        EmailVerification emailVerification = getByEmail(email).orElseThrow(() ->
+            new BusinessLogicException(EmailVerificationErrorCode.INVALID_EMAIL_VERIFICATION));
+        if (!emailVerification.verify(verificationCode)) {
+            throw new BusinessLogicException(
+                EmailVerificationErrorCode.INCORRECT_EMAIL_VERIFICATION_CODE);
         }
-        EmailVerification emailVerification = emailVerificationOptional.get();
-        if (emailVerification.isVerified()) {
-            throw new BusinessLogicException(EmailVerificationErrorCode.ALREADY_VERIFIED_EMAIL);
-        }
-        boolean result = emailVerification.verify(verificationCode);
-        if (!result) {
-            throw new BusinessLogicException(EmailVerificationErrorCode.INCORRECT_EMAIL_VERIFICATION_CODE);
-        } else {
-            emailVerificationRepository.save(emailVerification);
-        }
-    }
-
-    public boolean isVerifiedEmail(String email) {
-        Optional<EmailVerification> verification = getByEmail(email);
-        return verification.map(EmailVerification::isVerified).orElse(false);
+        emailVerificationRepository.delete(emailVerification);
     }
 }

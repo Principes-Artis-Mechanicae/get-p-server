@@ -1,18 +1,23 @@
 package es.princip.getp.domain.member.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.any;
-import es.princip.getp.domain.auth.dto.request.SignUpRequest;
+import static org.mockito.Mockito.when;
+
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.domain.enums.MemberType;
+import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
 import es.princip.getp.domain.member.exception.MemberErrorCode;
 import es.princip.getp.domain.member.repository.MemberRepository;
-import es.princip.getp.fixture.SignUpFixture;
+import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
+import es.princip.getp.fixture.ServiceTermFixture;
 import es.princip.getp.global.exception.BusinessLogicException;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -21,15 +26,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
+
     @Mock
     private MemberRepository memberRepository;
 
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private ServiceTermService serviceTermService;
 
     @InjectMocks
     private MemberService memberService;
@@ -37,6 +42,7 @@ class MemberServiceTest {
     @Nested
     @DisplayName("existsByEmail()은")
     class ExistsByEmail {
+
         @DisplayName("이메일이 존재할 경우 true를 반환한다.")
         @Test
         void existsByEmail() {
@@ -59,6 +65,7 @@ class MemberServiceTest {
     @Nested
     @DisplayName("getByMemberId()는")
     class GetByMemberId {
+
         @DisplayName("memberId로 회원을 검색한다.")
         @Test
         void getByMemberId() {
@@ -85,7 +92,7 @@ class MemberServiceTest {
             BusinessLogicException exception =
                 assertThrows(BusinessLogicException.class,
                     () -> memberService.getByMemberId(memberId));
-            assertEquals(exception.getCode(), MemberErrorCode.MEMBER_NOT_FOUND.name());
+            assertEquals(exception.getErrorCode(), MemberErrorCode.MEMBER_NOT_FOUND);
         }
     }
 
@@ -117,29 +124,36 @@ class MemberServiceTest {
 
             BusinessLogicException exception =
                 assertThrows(BusinessLogicException.class, () -> memberService.getByEmail(email));
-            assertEquals(exception.getCode(), MemberErrorCode.MEMBER_NOT_FOUND.name());
+            assertEquals(exception.getErrorCode(), MemberErrorCode.MEMBER_NOT_FOUND);
         }
     }
 
     @DisplayName("create()는")
     @Nested
     class Create {
+
         @DisplayName("회원을 생성한다.")
         @Test
         void create() {
             String email = "test@example.com";
             String password = "password";
             MemberType memberType = MemberType.ROLE_PEOPLE;
-            SignUpRequest signUpRequest = SignUpFixture.createSignUpRequest(email, password, memberType);
+            CreateMemberRequest request = new CreateMemberRequest(
+                email,
+                password,
+                List.of(ServiceTermFixture.createServiceTermAgreementRequest()),
+                memberType);
             Member member = Member.builder()
                 .email(email)
                 .password(password)
                 .memberType(memberType)
                 .build();
-            when(memberRepository.save(any())).thenReturn(member);
-            when(passwordEncoder.encode(password)).thenReturn(password);
+            given(memberRepository.save(any())).willReturn(member);
+            given(serviceTermService.getByTag(any())).willReturn(any());
+            given(serviceTermService.isAgreedAllRequiredServiceTerms(
+                request.serviceTerms())).willReturn(true);
 
-            assertEquals(memberService.create(signUpRequest, passwordEncoder), member);
+            assertThat(memberService.create(request)).isEqualTo(member);
         }
     }
 }

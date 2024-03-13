@@ -5,9 +5,21 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
+import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
+import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
+import es.princip.getp.domain.people.exception.PeopleErrorCode;
+import es.princip.getp.domain.people.repository.PeopleRepository;
+import es.princip.getp.fixture.MemberFixture;
+import es.princip.getp.fixture.PeopleFixture;
+import es.princip.getp.global.exception.BusinessLogicException;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -21,17 +33,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
-import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
-import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.exception.PeopleErrorCode;
-import es.princip.getp.domain.people.repository.PeopleRepository;
-import es.princip.getp.fixture.MemberFixture;
-import es.princip.getp.fixture.PeopleFixture;
-import es.princip.getp.global.exception.BusinessLogicException;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class PeopleServiceTest {
@@ -130,7 +131,7 @@ public class PeopleServiceTest {
 
             BusinessLogicException exception = assertThrows(BusinessLogicException.class,
                 () ->  peopleService.getByMemberId(testMember.getMemberId()));
-            assertEquals(exception.getCode(), PeopleErrorCode.PEOPLE_NOT_FOUND.name());
+            assertEquals(exception.getErrorCode(), PeopleErrorCode.PEOPLE_NOT_FOUND);
         }
     }
 

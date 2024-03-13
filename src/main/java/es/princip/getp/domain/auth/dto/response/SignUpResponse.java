@@ -1,15 +1,14 @@
 package es.princip.getp.domain.auth.dto.response;
 
-import java.util.List;
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.serviceTerm.dto.response.ServiceTermAgreementResponse;
-import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 public record SignUpResponse(
-    @NotNull String email, 
-    @NotNull List<ServiceTermAgreementResponse> serviceTerms, 
-    @NotNull MemberType memberType
+    String email,
+    List<ServiceTermAgreementResponse> serviceTerms,
+    MemberType memberType
 ) {
     public static SignUpResponse from(Member member) {
         return new SignUpResponse(

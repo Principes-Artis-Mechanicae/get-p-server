@@ -1,9 +1,8 @@
 package es.princip.getp.domain.member.domain.entity;
 
-import es.princip.getp.domain.member.domain.enums.MemberType;
-import java.util.ArrayList;
-import java.util.List;
 import es.princip.getp.domain.base.BaseTimeEntity;
+import es.princip.getp.domain.member.domain.enums.MemberType;
+import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
 import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTermAgreement;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,6 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,5 +51,13 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.password = password;
         this.memberType = memberType;
+    }
+
+    public static Member from(CreateMemberRequest request) {
+        return Member.builder()
+            .email(request.email())
+            .password(request.password())
+            .memberType(request.memberType())
+            .build();
     }
 }

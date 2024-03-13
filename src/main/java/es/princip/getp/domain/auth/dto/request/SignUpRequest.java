@@ -1,23 +1,18 @@
 package es.princip.getp.domain.auth.dto.request;
 
-import java.util.List;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.auth.dto.validator.annotation.Password;
 import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
+import es.princip.getp.global.validator.annotation.Enum;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 public record SignUpRequest(
-    @NotNull String email, 
-    @NotNull String password, 
-    @NotNull List<ServiceTermAgreementRequest> serviceTerms, 
-    @NotNull MemberType memberType
+    @NotNull @Email String email,
+    @NotNull @Password String password,
+    @NotNull String verificationCode,
+    @NotNull List<ServiceTermAgreementRequest> serviceTerms,
+    @Enum MemberType memberType
 ) {
-    public Member toEntity(PasswordEncoder passwordEncoder) {
-        return Member.builder()
-            .email(email)
-            .password(passwordEncoder.encode(password))
-            .memberType(memberType)
-            .build();
-    }
 }

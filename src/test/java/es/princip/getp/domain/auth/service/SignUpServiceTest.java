@@ -1,20 +1,19 @@
 package es.princip.getp.domain.auth.service;
 
 import static es.princip.getp.fixture.SignUpFixture.createSignUpRequest;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.domain.enums.MemberType;
+import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
 import es.princip.getp.domain.member.service.MemberService;
-import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
 import es.princip.getp.global.exception.BusinessLogicException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -27,8 +26,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class SignUpServiceTest {
-    @Mock
-    private ServiceTermService serviceTermService;
 
     @Mock
     private EmailVerificationService emailVerificationService;
@@ -45,11 +42,12 @@ class SignUpServiceTest {
     @Nested
     @DisplayName("sendEmailVerificationCodeForSignUp()은")
     class SendEmailVerificationCodeForSignUp {
+
         @Test
         @DisplayName("회원 가입을 위한 이메일 인증 코드를 전송한다.")
         void sendEmailVerificationCodeForSignUp() {
             String email = "test@example.com";
-            when(memberService.existsByEmail(email)).thenReturn(false);
+            given(memberService.existsByEmail(email)).willReturn(false);
 
             signUpService.sendEmailVerificationCodeForSignUp(email);
 
@@ -57,109 +55,52 @@ class SignUpServiceTest {
         }
 
         @Test
-        @DisplayName("이메일이 중복되는 경우 실패한다.")
+        @DisplayName("이미 가입된 이메일인 경우 실패한다.")
         void sendEmailVerificationCodeForSignUp_WhenEmailIsDuplicated_ShouldThrowException() {
             String email = "test@example.com";
-            when(memberService.existsByEmail(email)).thenReturn(true);
+            given(memberService.existsByEmail(email)).willReturn(true);
 
             BusinessLogicException exception =
                 assertThrows(BusinessLogicException.class,
                     () -> signUpService.sendEmailVerificationCodeForSignUp(email));
-            assertEquals(exception.getCode(), SignUpErrorCode.DUPLICATED_EMAIL.name());
+            assertThat(exception.getErrorCode()).isEqualTo(SignUpErrorCode.DUPLICATED_EMAIL);
         }
     }
 
     @Nested
     @DisplayName("signUp()은")
     class SignUp {
+
         @DisplayName("회원 가입을 진행한다.")
         @Test
         void signUp() {
-            SignUpRequest signUpRequest = createSignUpRequest(
-                "test@example.com", "qwer1234!", MemberType.ROLE_PEOPLE);
-            Member member = signUpRequest.toEntity(passwordEncoder);
-            when(memberService.existsByEmail(signUpRequest.email())).thenReturn(false);
-            when(emailVerificationService.isVerifiedEmail(signUpRequest.email())).thenReturn(true);
-            when(serviceTermService.isAgreedAllRequiredServiceTerms(
-                signUpRequest.serviceTerms())).thenReturn(true);
-            when(memberService.create(any(), eq(passwordEncoder))).thenReturn(member);
+            SignUpRequest signUpRequest = createSignUpRequest(MemberType.ROLE_PEOPLE);
+            CreateMemberRequest createMemberRequest = CreateMemberRequest.from(
+                signUpRequest,
+                passwordEncoder);
+            Member member = Member.from(createMemberRequest);
+            given(memberService.create(createMemberRequest)).willReturn(member);
 
             Member signedUpMember = signUpService.signUp(signUpRequest);
 
-            assertEquals(signedUpMember, member);
-        }
-
-        @DisplayName("이메일이 중복되는 경우 실패한다.")
-        @Test
-        void signUp_WhenEmailIsDuplicated_ShouldThrowException() {
-            SignUpRequest signUpRequest = createSignUpRequest(
-                "test@example.com", "qwer1234!", MemberType.ROLE_PEOPLE);
-            when(memberService.existsByEmail(signUpRequest.email())).thenReturn(true);
-
-            BusinessLogicException exception =
-                assertThrows(BusinessLogicException.class,
-                    () -> signUpService.signUp(signUpRequest));
-
-            assertEquals(exception.getCode(), SignUpErrorCode.DUPLICATED_EMAIL.name());
-        }
-
-        @DisplayName("이메일 형식이 잘못된 경우 실패한다.")
-        @Test
-        void signUp_WhenEmailIsWrong_ShouldThrowException() {
-            SignUpRequest signUpRequest = createSignUpRequest(
-                "testexample.com", "qwer1234!", MemberType.ROLE_PEOPLE);
-
-            BusinessLogicException exception =
-                assertThrows(BusinessLogicException.class,
-                    () -> signUpService.signUp(signUpRequest));
-
-            assertEquals(exception.getCode(), SignUpErrorCode.WRONG_EMAIL.name());
-        }
-
-        @DisplayName("비밀번호 형식이 잘못된 경우 실패한다.")
-        @Test
-        void signUp_WhenPasswordIsWrong_ShouldThrowException() {
-            SignUpRequest signUpRequest = createSignUpRequest(
-                "test@example.com", "qwer1234", MemberType.ROLE_PEOPLE);
-
-            BusinessLogicException exception =
-                assertThrows(BusinessLogicException.class,
-                    () -> signUpService.signUp(signUpRequest));
-
-            assertEquals(exception.getCode(), SignUpErrorCode.WRONG_PASSWORD.name());
+            assertThat(signedUpMember).isEqualTo(member);
+            verify(emailVerificationService, times(1))
+                .verifyEmail(signUpRequest.email(), signUpRequest.verificationCode());
         }
 
         @DisplayName("이메일이 인증되지 않은 경우 실패한다.")
         @Test
         void signUp_WhenEmailIsNotVerified_ShouldThrowException() {
-            SignUpRequest signUpRequest = createSignUpRequest(
-                "test@example.com", "qwer1234!", MemberType.ROLE_PEOPLE);
-            when(memberService.existsByEmail(signUpRequest.email())).thenReturn(false);
-            when(emailVerificationService.isVerifiedEmail(signUpRequest.email())).thenReturn(false);
+            SignUpRequest signUpRequest = createSignUpRequest(MemberType.ROLE_PEOPLE);
+            doThrow(new BusinessLogicException(SignUpErrorCode.NOT_VERIFIED_EMAIL))
+                .when(emailVerificationService)
+                .verifyEmail(signUpRequest.email(), signUpRequest.verificationCode());
 
             BusinessLogicException exception =
                 assertThrows(BusinessLogicException.class,
                     () -> signUpService.signUp(signUpRequest));
 
-            assertEquals(exception.getCode(), SignUpErrorCode.NOT_VERIFIED_EMAIL.name());
-        }
-
-        @DisplayName("필수 서비스 약관에 동의하지 않은 경우 실패한다.")
-        @Test
-        void signUp_WhenAllRequiredServiceTermsAreNotAgreed_ShouldThrowException() {
-            SignUpRequest signUpRequest = createSignUpRequest(
-                "test@example.com", "qwer1234!", MemberType.ROLE_PEOPLE);
-            when(memberService.existsByEmail(signUpRequest.email())).thenReturn(false);
-            when(emailVerificationService.isVerifiedEmail(signUpRequest.email())).thenReturn(true);
-            when(serviceTermService.isAgreedAllRequiredServiceTerms(
-                signUpRequest.serviceTerms())).thenReturn(false);
-
-            BusinessLogicException exception =
-                assertThrows(BusinessLogicException.class,
-                    () -> signUpService.signUp(signUpRequest));
-
-            assertEquals(exception.getCode(),
-                SignUpErrorCode.NOT_AGREED_REQUIRED_SERVICE_TERM.name());
+            assertThat(exception.getErrorCode()).isEqualTo(SignUpErrorCode.NOT_VERIFIED_EMAIL);
         }
     }
 }
