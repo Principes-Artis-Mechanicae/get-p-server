@@ -24,7 +24,7 @@ public class EmailVerificationService {
 
     public void sendEmailVerificationCode(String email) {
         if (getByEmail(email).isPresent()) {
-            emailVerificationRepository.deleteByEmail(email);
+            emailVerificationRepository.deleteById(email);
         }
         String verificationCode = RandomUtil.generateRandomCode(VERIFICATION_CODE_LENGTH);
         emailService.sendEmail(email, "GET-P 인증 번호", verificationCode);
