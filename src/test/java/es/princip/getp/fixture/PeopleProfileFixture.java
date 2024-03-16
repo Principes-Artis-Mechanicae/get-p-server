@@ -4,6 +4,7 @@ import java.util.List;
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.domain.entity.PeopleProfile;
 import es.princip.getp.domain.hashtag.domain.values.Hashtag;
+import es.princip.getp.domain.people.dto.PortfolioForm;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
@@ -15,11 +16,17 @@ public class PeopleProfileFixture {
     public static String EDUCATION = "경북대학교 컴퓨터 공학";
     public static List<String> HASHTAGS_STRING = List.of("#ESFP", "#JIRA", "#DISCORD");
     public static List<String> TECHSTACKS = List.of("#Java", "#Spring", "#JPA");
+
     public static String UPDATED_EDUCATION = "한양대학교 컴퓨터 공학과";
     public static List<Hashtag> HASHTAGS = HASHTAGS_STRING.stream().map(Hashtag::from).toList();
+    public static List<PortfolioForm> PORTFOLIOS = List.of(
+        new PortfolioForm("https://myportfolio.com/project1", "포트폴리오 1 설명"),
+        new PortfolioForm("https://myportfolio.com/project2", "포트폴리오 2 설명"),
+        new PortfolioForm("https://myportfolio.com/project3", "포트폴리오 3 설명")
+    );
 
     public static CreatePeopleProfileRequest createPeopleProfileRequest() {
-        return new CreatePeopleProfileRequest(INTRODUCTION, ACTIVITY_AREA, TECHSTACKS, EDUCATION, HASHTAGS_STRING);
+        return new CreatePeopleProfileRequest(INTRODUCTION, ACTIVITY_AREA, TECHSTACKS, EDUCATION, HASHTAGS_STRING, PORTFOLIOS);
     }
 
     public static UpdatePeopleProfileRequest updatePeopleProfileRequest() {

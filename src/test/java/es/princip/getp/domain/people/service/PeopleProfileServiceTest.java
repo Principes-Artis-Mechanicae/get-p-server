@@ -1,6 +1,7 @@
 package es.princip.getp.domain.people.service;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import es.princip.getp.domain.member.domain.entity.Member;
@@ -55,14 +56,7 @@ public class PeopleProfileServiceTest {
 
             PeopleProfile createdPeopleProfile = peopleProfileService.create(testMember.getMemberId(), testCreatePeopleProfileRequest);
 
-            assertSoftly(softly -> {
-                softly.assertThat(testPeopleProfile.getPeopleProfileId()).isEqualTo(createdPeopleProfile.getPeopleProfileId());
-                softly.assertThat(testPeopleProfile.getActivityArea()).isEqualTo(createdPeopleProfile.getActivityArea());
-                softly.assertThat(testPeopleProfile.getEducation()).isEqualTo(createdPeopleProfile.getEducation());
-                softly.assertThat(testPeopleProfile.getIntroduction()).isEqualTo(createdPeopleProfile.getIntroduction());
-                softly.assertThat(testPeopleProfile.getHashtags()).isEqualTo(createdPeopleProfile.getHashtags());
-                softly.assertThat(testPeopleProfile.getTechStacks()).isEqualTo(createdPeopleProfile.getTechStacks());
-            });
+            assertEquals(createdPeopleProfile, testPeopleProfile);
         }
     }
 

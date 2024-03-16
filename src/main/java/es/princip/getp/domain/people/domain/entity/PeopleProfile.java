@@ -2,6 +2,8 @@ package es.princip.getp.domain.people.domain.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import es.princip.getp.domain.people.dto.PortfolioForm;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -49,12 +51,16 @@ public class PeopleProfile {
     @OneToMany(mappedBy = "peopleProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PeopleTechStack> techStacks = new ArrayList<>();
 
+    @OneToMany(mappedBy = "peopleProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PeoplePortfolio> portfolios = new ArrayList<>();
+
     @Builder
     public PeopleProfile(final String introduction,
         final String activityArea,
         final String education,
         final List<String> hashtags,
         final List<String> techStacks,
+        final List<PortfolioForm> portfolios,
         final People people
     ) {
         this.introduction = introduction;
@@ -65,6 +71,9 @@ public class PeopleProfile {
             .toList());
         this.techStacks.addAll(techStacks.stream()
             .map(techStack -> PeopleTechStack.of(this, techStack))
+            .toList());
+        this.portfolios.addAll(portfolios.stream()
+            .map(portfolio -> PeoplePortfolio.of(this, portfolio))
             .toList());
         this.people = people;
     }
