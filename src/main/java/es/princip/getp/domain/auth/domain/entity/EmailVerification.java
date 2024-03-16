@@ -15,9 +15,9 @@ public class EmailVerification {
     @Id
     private String email;
 
-    private final String verificationCode;
+    private String verificationCode;
 
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @TimeToLive(unit = TimeUnit.MINUTES)
     private Long expiration;
