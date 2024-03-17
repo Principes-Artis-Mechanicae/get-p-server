@@ -90,5 +90,9 @@ public class PeopleProfile {
         this.techStacks.addAll(request.techStacks().stream()
             .map(techStack -> PeopleTechStack.of(this, techStack))
             .toList());
+        this.portfolios.clear();
+        this.portfolios.addAll(request.portfolios().stream()
+            .map(portfolio -> PeoplePortfolio.of(this, portfolio))
+            .toList());
     }
 }

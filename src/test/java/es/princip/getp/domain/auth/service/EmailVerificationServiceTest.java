@@ -57,7 +57,7 @@ class EmailVerificationServiceTest {
 
             emailVerificationService.sendEmailVerificationCode(email);
 
-            verify(emailVerificationRepository, times(1)).deleteByEmail(email);
+            verify(emailVerificationRepository, times(1)).deleteById(email);
             verify(emailService, times(1)).sendEmail(eq(email), any(), any());
             verify(emailVerificationRepository, times(1)).save(any(EmailVerification.class));
         }
