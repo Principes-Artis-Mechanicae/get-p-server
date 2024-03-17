@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.people.dto.PortfolioForm;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.domain.entity.People;
@@ -19,6 +20,8 @@ import es.princip.getp.fixture.PeopleProfileFixture;
 import es.princip.getp.global.validator.CommonValidator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -91,6 +94,13 @@ public class PeopleProfileServiceTest {
                 List<String> testTechStacks = testUpdatePeopleProfileRequest.techStacks();
                 List<String> updatedTechStacks = updatedPeopleProfile.getTechStacks().stream().map(PeopleTechStack::getValue).toList();
                 CommonValidator.assertStringListEquals(testTechStacks, updatedTechStacks);
+
+                List<PortfolioForm> testPortfolios = testUpdatePeopleProfileRequest.portfolios();
+                List<PortfolioForm> updatedPortfolios = updatedPeopleProfile.getPortfolios().stream().map(portfolio -> PortfolioForm.from(portfolio.getPortfolio())).toList();
+                IntStream.range(0, updatedPortfolios.size())
+                    .forEach(i -> assertSoftly(stream -> {
+                        stream.assertThat(testPortfolios.get(i)).isEqualTo(updatedPortfolios.get(i));
+                    }));
             });
         }
     }

@@ -30,7 +30,7 @@ public class PeopleProfileFixture {
     }
 
     public static UpdatePeopleProfileRequest updatePeopleProfileRequest() {
-        return new UpdatePeopleProfileRequest(INTRODUCTION, ACTIVITY_AREA, TECHSTACKS, UPDATED_EDUCATION, HASHTAGS_STRING);
+        return new UpdatePeopleProfileRequest(INTRODUCTION, ACTIVITY_AREA, TECHSTACKS, UPDATED_EDUCATION, HASHTAGS_STRING, PORTFOLIOS);
     }
 
     public static PeopleProfile createPeopleProfile(People people) {
