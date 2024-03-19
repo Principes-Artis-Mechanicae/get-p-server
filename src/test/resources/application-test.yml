@@ -1,0 +1,60 @@
+spring:
+  datasource:
+    url: ${DB_TEST_URL}
+    username: ${DB_TEST_USERNAME}
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show-sql: true
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+
+  mail:
+    host: smtp.gmail.com
+    port: ${GMAIL_PORT}
+    username: ${GMAIL_USERNAME}
+    password: ${GMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+  verification:
+    code:
+      expiration: 1800 # 초 단위
+
+  jwt:
+    secret: ${JWT_SECRET}
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
+  messages:
+    basename: messages/validation, messages/error
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+      hibernate:
+        SQL: DEBUG
+      type:
+        descriptor:
+          sql:
+            BasicBinder: TRACE
