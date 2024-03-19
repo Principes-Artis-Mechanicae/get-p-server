@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: get-p-server
+    environment:
+      DB_URI: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}
+    depends_on:
+      - redis
+      - database
+    ports:
+      - ${SPRING_PORT}:${SPRING_PORT}
+    restart: always
+    volumes:
+      - get-p-storage:/storage
+
+  database:
+    image: postgres:latest
+    container_name: get-p-database
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    command: -p ${DB_PORT}
+    expose:
+      - ${DB_PORT}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    restart: always
+    volumes:
+      - get-p-database:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: get-p-redis
+    command: --port ${REDIS_PORT} --requirepass ${REDIS_PASSWORD}
+    expose:
+      - ${REDIS_PORT}
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - get-p-redis:/data
+    restart: always
+
+volumes:
+  get-p-storage:
+  get-p-database:
+  get-p-redis:
