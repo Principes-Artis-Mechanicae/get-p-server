@@ -66,6 +66,15 @@ public class PeopleProfileServiceTest {
     @Nested
     @DisplayName("Read()는")
     class read {
+        @Test
+        @DisplayName("read를 성공한다.")
+        void testRead() {
+            given(peopleProfileRepository.findByMemberId(testMember.getMemberId())).willReturn(Optional.of(testPeopleProfile));
+
+            PeopleProfile result = peopleProfileService.getByMemberId(testMember.getMemberId());
+
+            assertEquals(result, testPeopleProfile);
+        }
     }
 
     @Nested
