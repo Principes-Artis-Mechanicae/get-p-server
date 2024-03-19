@@ -1,5 +1,7 @@
 server:
   port: ${SPRING_PORT}
+  servlet:
+    context-path: ${BASE_PATH}
 
 spring:
   datasource:
@@ -60,3 +62,7 @@ logging:
         descriptor:
           sql:
             BasicBinder: TRACE
+
+springdoc:
+  swagger-ui:
+    path: /docs
