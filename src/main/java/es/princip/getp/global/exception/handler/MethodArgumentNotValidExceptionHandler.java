@@ -30,6 +30,8 @@ public class MethodArgumentNotValidExceptionHandler {
     }
 
     private static String convertToSnakeCase(String camelCase) {
-        return camelCase.replaceAll("([a-z0-9])([A-Z])", "$1_$2").toUpperCase();
+        return camelCase.replaceAll("\\.", "_")
+            .replaceAll("([a-z0-9])([A-Z])", "$1_$2")
+            .toUpperCase();
     }
 }
