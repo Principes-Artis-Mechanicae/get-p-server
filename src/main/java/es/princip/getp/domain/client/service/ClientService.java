@@ -41,7 +41,7 @@ public class ClientService {
 
     @Transactional
     public Client create(Member member, CreateClientRequest request) {
-        Client client = request.toEntity(member);
+        Client client = Client.from(member, request);
         return clientRepository.save(client);
     }
 

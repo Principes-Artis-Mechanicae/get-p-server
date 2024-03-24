@@ -1,5 +1,14 @@
 package es.princip.getp.domain.client.controller;
 
+import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
+import es.princip.getp.domain.client.dto.response.MyClientResponse;
+import es.princip.getp.domain.client.service.ClientService;
+import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.global.security.details.PrincipalDetails;
+import es.princip.getp.global.util.ApiResponse;
+import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,15 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
-import es.princip.getp.domain.client.dto.response.ClientResponse;
-import es.princip.getp.domain.client.service.ClientService;
-import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.global.security.details.PrincipalDetails;
-import es.princip.getp.global.util.ApiResponse;
-import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/client/me")
@@ -32,10 +32,10 @@ public class MyClientController {
      */
     @GetMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<ClientResponse>> getMyClient(
+    public ResponseEntity<ApiSuccessResult<MyClientResponse>> getMyClient(
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        ClientResponse response = ClientResponse.from(clientService.getByMemberId(member.getMemberId()));
+        MyClientResponse response = MyClientResponse.from(clientService.getByMemberId(member.getMemberId()));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 
@@ -47,11 +47,11 @@ public class MyClientController {
      */
     @PutMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<ClientResponse>> update(
+    public ResponseEntity<ApiSuccessResult<MyClientResponse>> update(
             @RequestBody @Valid UpdateClientRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        ClientResponse response = ClientResponse.from(clientService.update(member.getMemberId(), request));
+        MyClientResponse response = MyClientResponse.from(clientService.update(member.getMemberId(), request));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 }

@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import es.princip.getp.domain.project.domain.entity.Project;
 import es.princip.getp.domain.project.service.ProjectService;
 import es.princip.getp.fixture.ProjectFixture;
@@ -33,9 +32,6 @@ class ProjectControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @MockBean
     private ProjectService projectService;
 
@@ -47,13 +43,11 @@ class ProjectControllerTest {
             //given
             Project project = ProjectFixture.createProject();
 
-            given(projectService.getByProjectId(any())).willReturn(
-                project
-            );
+            given(projectService.getByProjectId(any())).willReturn(project);
 
             //when and then
             mockMvc.perform(get("/projects/{projectId}", project.getProjectId())
-                    .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.projectId").value(project.getProjectId()))
                 .andExpect(jsonPath("$.data.title").value(project.getTitle()))
@@ -69,7 +63,9 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.data.client.clientId").value(project.getClient().getClientId()))
                 .andExpect(jsonPath("$.data.client.nickname").value(project.getClient().getNickname()))
                 .andExpect(jsonPath("$.data.client.profileImageUri").value(project.getClient().getProfileImageUri()))
-                .andExpect(jsonPath("$.data.client.address").value(project.getClient().getAddress()));
+                .andExpect(jsonPath("$.data.client.address.zipcode").value(project.getClient().getAddress().getZipcode()))
+                .andExpect(jsonPath("$.data.client.address.street").value(project.getClient().getAddress().getStreet()))
+                .andExpect(jsonPath("$.data.client.address.detail").value(project.getClient().getAddress().getDetail()));
         }
     }
 }
