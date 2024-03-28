@@ -23,7 +23,7 @@ public class PeopleFixture {
             NICKNAME,
             EMAIL,
             PHONE_NUMBER,
-            PEOPLE_TYPE.name(),
+            PEOPLE_TYPE,
             PROFILE_IMAGE_URI
         );
     }
@@ -33,7 +33,7 @@ public class PeopleFixture {
             UPDATED_NICKNAME,
             EMAIL,
             PHONE_NUMBER,
-            PEOPLE_TYPE.name(),
+            PEOPLE_TYPE,
             PROFILE_IMAGE_URI
         );
     }

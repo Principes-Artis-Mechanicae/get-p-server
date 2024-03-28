@@ -1,16 +1,29 @@
 package es.princip.getp.domain.people.dto.response.people;
 
-import java.time.LocalDateTime;
 import es.princip.getp.domain.people.domain.entity.People;
-import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
-public record PeopleResponse(@NotNull Long peopleId, @NotNull String nickname, @NotNull String email,
-                                    @NotNull String phoneNumber, @NotNull String peopleType, @NotNull String profileImageUri,
-                                    @NotNull LocalDateTime createdAt, @NotNull LocalDateTime updatedAt) {
+public record PeopleResponse(
+    Long peopleId,
+    String nickname,
+    String email,
+    String phoneNumber,
+    String peopleType,
+    String profileImageUri,
+    LocalDateTime createdAt,
+    LocalDateTime updatedAt
+) {
 
     public static PeopleResponse from(People people) {
-        return new PeopleResponse(people.getPeopleId(), people.getNickname(), people.getEmail(),
-            people.getPhoneNumber(), people.getPeopleType().name(), people.getProfileImageUri(),
-            people.getCreatedAt(), people.getUpdateAt());
+        return new PeopleResponse(
+            people.getPeopleId(),
+            people.getNickname(),
+            people.getEmail(),
+            people.getPhoneNumber(),
+            people.getPeopleType().name(),
+            people.getProfileImageUri(),
+            people.getCreatedAt(),
+            people.getUpdateAt()
+        );
     }
 }

@@ -3,7 +3,7 @@ package es.princip.getp.fixture;
 import java.util.List;
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.domain.entity.PeopleProfile;
-import es.princip.getp.domain.hashtag.domain.values.Hashtag;
+import es.princip.getp.global.domain.values.Hashtag;
 import es.princip.getp.domain.people.dto.PortfolioForm;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;

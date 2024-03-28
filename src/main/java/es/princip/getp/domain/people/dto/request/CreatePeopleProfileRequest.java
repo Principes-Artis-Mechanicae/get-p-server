@@ -8,9 +8,14 @@ import es.princip.getp.domain.people.dto.PortfolioForm;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-public record CreatePeopleProfileRequest(@NotNull String introduction, @NotNull String activityArea,
-                                            @NotNull List<String> techStacks, @NotNull String education, @NotNull List<String> hashtags,
-                                            @Valid List<PortfolioForm> portfolios) {
+public record CreatePeopleProfileRequest(
+    @NotNull String introduction,
+    @NotNull String activityArea,
+    @NotNull List<String> techStacks,
+    @NotNull String education,
+    @NotNull List<String> hashtags,
+    @Valid List<PortfolioForm> portfolios
+) {
 
     public PeopleProfile toEntity(final People people) {
         return PeopleProfile.builder()

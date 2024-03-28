@@ -26,7 +26,7 @@ public class PeoplePortfolio extends BaseTimeEntity {
     @Id
     @Column(name = "people_portfolio_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long peoplePortfolioId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "people_profile_id")
@@ -50,9 +50,5 @@ public class PeoplePortfolio extends BaseTimeEntity {
 
     public String getDescription() {
         return portfolio.getDescription();
-    }
-
-    public Portfolio getPortfolio() {
-        return portfolio;
     }
 }

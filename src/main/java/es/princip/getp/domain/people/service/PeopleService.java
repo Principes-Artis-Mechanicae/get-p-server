@@ -36,8 +36,7 @@ public class PeopleService {
     }
 
     public Page<CardPeopleResponse> getCardPeoplePage(Pageable pageable) {
-        Page<CardPeopleResponse> peoplPage = peopleRepository.findCardPeoplePage(pageable);
-        return peoplPage;
+        return peopleRepository.findCardPeoplePage(pageable);
     }
 
     @Transactional
