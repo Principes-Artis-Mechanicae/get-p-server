@@ -1,0 +1,33 @@
+name: get-p-server CI
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    environment: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+      - name: Test with Gradle
+        env:
+          DB_TEST_URL: ${{ secrets.DB_TEST_URL }}
+          DB_TEST_USERNAME: ${{ secrets.DB_TEST_USERNAME }}
+          DB_TEST_PASSWORD: ${{ secrets.DB_TEST_PASSWORD }}
+          GMAIL_PORT: ${{ secrets.GMAIL_PORT }}
+          GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
+          GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        uses: gradle/gradle-build-action@v3
+        with:
+          arguments: test 
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
