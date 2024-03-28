@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record CreatePeopleRequest(@NotNull String nickname, @NotNull String email,
                                   @NotNull String phoneNumber, @NotNull String peopleType,
-                                  @NotNull String profileImageUri, @NotNull String accountNumber) {
+                                  @NotNull String profileImageUri) {
 
     public People toEntity(final Member member) {
         return People.builder()
@@ -16,7 +16,6 @@ public record CreatePeopleRequest(@NotNull String nickname, @NotNull String emai
             .phoneNumber(phoneNumber)
             .peopleType(PeopleType.valueOf(peopleType))
             .profileImageUri(profileImageUri)
-            .accountNumber(accountNumber)
             .member(member)
             .build();
     }

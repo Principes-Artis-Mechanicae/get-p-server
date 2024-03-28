@@ -56,16 +56,7 @@ public class PeopleServiceTest {
 
             People createdPeople = peopleService.create(testMember, testCreatePeopleRequest);
 
-            assertSoftly(softly -> {
-                softly.assertThat(testPeople.getPeopleId()).isEqualTo(createdPeople.getPeopleId());
-                softly.assertThat(testPeople.getNickname()).isEqualTo(createdPeople.getNickname());
-                softly.assertThat(testPeople.getEmail()).isEqualTo(createdPeople.getEmail());
-                softly.assertThat(testPeople.getPhoneNumber()).isEqualTo(createdPeople.getPhoneNumber());
-                softly.assertThat(testPeople.getPeopleType().name()).isEqualTo(createdPeople.getPeopleType().name());
-                softly.assertThat(testPeople.getProfileImageUri()).isEqualTo(createdPeople.getProfileImageUri());
-                softly.assertThat(testPeople.getAccountNumber()).isEqualTo(createdPeople.getAccountNumber());
-                softly.assertThat(testPeople.getMember()).isEqualTo(createdPeople.getMember());
-            });
+            assertEquals(createdPeople, testPeople);
         }
     }
 
@@ -155,7 +146,6 @@ public class PeopleServiceTest {
                 softly.assertThat(testPeople.getPhoneNumber()).isEqualTo(updatedPeople.getPhoneNumber());
                 softly.assertThat(testPeople.getPeopleType().name()).isEqualTo(updatedPeople.getPeopleType().name());
                 softly.assertThat(testPeople.getProfileImageUri()).isEqualTo(updatedPeople.getProfileImageUri());
-                softly.assertThat(testPeople.getAccountNumber()).isEqualTo(updatedPeople.getAccountNumber());
                 softly.assertThat(testPeople.getMember()).isEqualTo(updatedPeople.getMember());
             });
         }
