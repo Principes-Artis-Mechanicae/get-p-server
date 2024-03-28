@@ -46,9 +46,6 @@ public class People extends BaseTimeEntity {
     @Column(name = "profile_image_uri")
     private String profileImageUri;
 
-    @Column(name = "account_number")
-    private String accountNumber;
-
     @OneToOne(cascade = CascadeType.REMOVE)
     private Member member;
 
@@ -61,7 +58,6 @@ public class People extends BaseTimeEntity {
         final String phoneNumber,
         final PeopleType peopleType,
         final String profileImageUri,
-        final String accountNumber,
         final Member member
     ) {
         this.nickname = nickname;
@@ -69,7 +65,6 @@ public class People extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
         this.peopleType = peopleType;
         this.profileImageUri = profileImageUri;
-        this.accountNumber = accountNumber;
         this.member = member;
     }
 
@@ -79,6 +74,5 @@ public class People extends BaseTimeEntity {
         this.phoneNumber = request.phoneNumber();
         this.peopleType = PeopleType.valueOf(request.peopleType());
         this.profileImageUri = request.profileImageUri();
-        this.accountNumber = request.accountNumber();
     }
 }
