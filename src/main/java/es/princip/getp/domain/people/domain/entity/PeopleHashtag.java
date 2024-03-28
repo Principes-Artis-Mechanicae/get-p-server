@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.domain.entity;
 
 import es.princip.getp.domain.base.BaseTimeEntity;
-import es.princip.getp.domain.hashtag.domain.values.Hashtag;
+import es.princip.getp.global.domain.values.Hashtag;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -23,7 +23,7 @@ public class PeopleHashtag extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "people_hashtag_id")
-    private Long peopleHashtagId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "people_profile_id")

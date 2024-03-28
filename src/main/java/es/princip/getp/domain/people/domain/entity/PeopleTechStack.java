@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.domain.entity;
 
 import es.princip.getp.domain.base.BaseTimeEntity;
-import es.princip.getp.domain.techStack.domain.values.TechStack;
+import es.princip.getp.global.domain.values.TechStack;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -23,7 +23,7 @@ public class PeopleTechStack extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "people_tech_stack_id")
-    private Long peopleTechStackId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "people_profile_id")

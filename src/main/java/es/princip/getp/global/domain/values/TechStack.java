@@ -1,4 +1,4 @@
-package es.princip.getp.domain.techStack.domain.values;
+package es.princip.getp.global.domain.values;
 
 import jakarta.persistence.Column;
 import lombok.AccessLevel;

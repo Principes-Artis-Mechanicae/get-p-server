@@ -1,4 +1,4 @@
-package es.princip.getp.domain.hashtag.domain.values;
+package es.princip.getp.global.domain.values;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
