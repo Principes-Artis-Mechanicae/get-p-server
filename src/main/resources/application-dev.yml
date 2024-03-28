@@ -66,3 +66,22 @@ logging:
 springdoc:
   swagger-ui:
     path: /docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+      base-path: ${MONITORING_URL}
+    enabled-by-default: false
+    jmx:
+      exposure:
+        exclude: '*'
+        include: info, health
+  endpoint:
+    prometheus:
+      enabled: true
+    info:
+      enabled: true
+    health:
+      enabled: true
