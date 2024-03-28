@@ -2,7 +2,7 @@ name: get-p-server CI
 
 on:
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, release/*, develop ]
 
 jobs:
   test:

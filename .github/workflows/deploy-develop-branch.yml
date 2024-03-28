@@ -1,0 +1,46 @@
+name: deploy release branch
+
+on:
+  push:
+    branches: [ develop ]
+
+env:
+  SPRING_PORT: ${{ secrets.SPRING_PORT }}
+  BASE_PATH: ${{ secrets.BASE_PATH }}
+  DB_PORT: ${{ secrets.DB_PORT }}
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_DATABASE: ${{ secrets.DB_DATABASE }}
+  DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_URL: ${{ secrets.DB_URL }}
+  DB_TEST_URL: ${{ secrets.DB_TEST_URL }}
+  DB_TEST_HOST: ${{ secrets.DB_TEST_HOST }}
+  DB_TEST_USERNAME: ${{ secrets.DB_TEST_USERNAME }}
+  REDIS_PORT: ${{ secrets.REDIS_PORT }}
+  REDIS_HOST: ${{ secrets.REDIS_HOST }}
+  REDIS_DATABASE: ${{ secrets.REDIS_DATABASE }}
+  REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+  GMAIL_PORT: ${{ secrets.GMAIL_PORT }}
+  GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+  GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  MONITORING_URL: ${{ secrets.MONITORING_URL }}
+
+jobs:
+  deploy:
+    environment: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test with Gradle
+        uses: gradle/gradle-build-action@v3
+        with:
+          arguments: build
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' && github.ref != 'refs/heads/develop' }}
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v3
+        with:
+          arguments: build
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+      - name: Docker compose up
+        run: sudo docker compose up -d --build
