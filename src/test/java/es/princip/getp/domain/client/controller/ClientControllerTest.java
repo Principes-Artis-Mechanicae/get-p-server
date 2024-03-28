@@ -19,7 +19,6 @@ import es.princip.getp.global.mock.PrincipalDetailsParameterResolver;
 import es.princip.getp.global.mock.WithCustomMockUser;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -36,7 +35,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @Import({SecurityConfig.class, SecurityTestConfig.class})
 @ActiveProfiles("test")
 @RequiredArgsConstructor
-@Slf4j
 @ExtendWith(PrincipalDetailsParameterResolver.class)
 @DisplayName("의뢰자는")
 class ClientControllerTest {
