@@ -6,7 +6,7 @@ import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfil
 public record CardPeopleResponse(
     Long peopleId,
     String nickname,
-    String peopleType,
+    PeopleType peopleType,
     String profileImageUri,
     CardPeopleProfileResponse profile
 ) {
@@ -21,7 +21,7 @@ public record CardPeopleResponse(
         return new CardPeopleResponse(
             peopleId,
             nickname,
-            peopleType.name(),
+            peopleType,
             profileImageUri,
             profile
         );

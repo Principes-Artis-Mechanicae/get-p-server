@@ -1,6 +1,7 @@
 package es.princip.getp.domain.people.dto.response.people;
 
 import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.enums.PeopleType;
 import java.time.LocalDateTime;
 
 public record UpdatePeopleResponse(
@@ -8,7 +9,7 @@ public record UpdatePeopleResponse(
     String nickname,
     String email,
     String phoneNumber,
-    String peopleType,
+    PeopleType peopleType,
     String profileImageUri,
     LocalDateTime createdAt,
     LocalDateTime updatedAt
@@ -20,7 +21,7 @@ public record UpdatePeopleResponse(
             people.getNickname(),
             people.getEmail(),
             people.getPhoneNumber(),
-            people.getPeopleType().name(),
+            people.getPeopleType(),
             people.getProfileImageUri(),
             people.getCreatedAt(),
             people.getUpdateAt()

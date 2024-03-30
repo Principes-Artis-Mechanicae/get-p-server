@@ -1,12 +1,13 @@
 package es.princip.getp.domain.people.dto.response.people;
 
 import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.domain.people.dto.response.peopleProfile.DetailPeopleProfileResponse;
 
 public record DetailPeopleResponse(
     Long peopleId,
     String nickname,
-    String peopleType,
+    PeopleType peopleType,
     String profileImageUri,
     DetailPeopleProfileResponse profile
 ) {
@@ -15,7 +16,7 @@ public record DetailPeopleResponse(
         return new DetailPeopleResponse(
             people.getPeopleId(),
             people.getNickname(),
-            people.getPeopleType().name(),
+            people.getPeopleType(),
             people.getProfileImageUri(),
             profile
         );

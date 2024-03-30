@@ -1,20 +1,22 @@
 package es.princip.getp.domain.people.dto.request;
 
-import java.util.List;
-
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.domain.entity.PeopleProfile;
-import es.princip.getp.domain.people.dto.PortfolioForm;
+import es.princip.getp.domain.people.domain.values.Education;
+import es.princip.getp.domain.people.domain.values.Portfolio;
+import es.princip.getp.global.domain.values.Hashtag;
+import es.princip.getp.global.domain.values.TechStack;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 public record CreatePeopleProfileRequest(
-    @NotNull String introduction,
+    @Valid Education education,
     @NotNull String activityArea,
-    @NotNull List<String> techStacks,
-    @NotNull String education,
-    @NotNull List<String> hashtags,
-    @Valid List<PortfolioForm> portfolios
+    String introduction,
+    @Valid List<TechStack> techStacks,
+    @Valid List<Portfolio> portfolios,
+    @Valid List<Hashtag> hashtags
 ) {
 
     public PeopleProfile toEntity(final People people) {
