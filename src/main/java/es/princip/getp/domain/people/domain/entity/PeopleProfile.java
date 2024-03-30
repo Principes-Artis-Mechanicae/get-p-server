@@ -1,12 +1,13 @@
 package es.princip.getp.domain.people.domain.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import es.princip.getp.domain.people.dto.PortfolioForm;
+import es.princip.getp.domain.people.domain.values.Education;
+import es.princip.getp.domain.people.domain.values.Portfolio;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
+import es.princip.getp.global.domain.values.Hashtag;
+import es.princip.getp.global.domain.values.TechStack;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +17,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,8 +41,8 @@ public class PeopleProfile {
     @Column(name = "activity_area")
     private String activityArea;
 
-    @Column(name = "education")
-    private String education;
+    @Embedded
+    private Education education;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "people_id")
@@ -54,13 +57,32 @@ public class PeopleProfile {
     @OneToMany(mappedBy = "peopleProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PeoplePortfolio> portfolios = new ArrayList<>();
 
+    public List<Hashtag> getHashtags() {
+        return hashtags.stream()
+            .map(PeopleHashtag::getHashtag)
+            .toList();
+    }
+
+    public List<TechStack> getTechStacks() {
+        return techStacks.stream()
+            .map(PeopleTechStack::getTechStack)
+            .toList();
+    }
+
+    public List<Portfolio> getPortfolios() {
+        return portfolios.stream()
+            .map(PeoplePortfolio::getPortfolio)
+            .toList();
+    }
+
     @Builder
-    public PeopleProfile(final String introduction,
+    public PeopleProfile(
+        final String introduction,
         final String activityArea,
-        final String education,
-        final List<String> hashtags,
-        final List<String> techStacks,
-        final List<PortfolioForm> portfolios,
+        final Education education,
+        final List<Hashtag> hashtags,
+        final List<TechStack> techStacks,
+        final List<Portfolio> portfolios,
         final People people
     ) {
         this.introduction = introduction;
@@ -78,7 +100,7 @@ public class PeopleProfile {
         this.people = people;
     }
 
-    public void update(UpdatePeopleProfileRequest request) {
+    public void update(final UpdatePeopleProfileRequest request) {
         this.introduction = request.introduction();
         this.activityArea = request.activityArea();
         this.education = request.education();

@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -30,6 +31,7 @@ public class PeopleTechStack extends BaseTimeEntity{
     private PeopleProfile peopleProfile;
 
     @Embedded
+    @Getter
     private TechStack techStack;
 
     private PeopleTechStack(PeopleProfile peopleProfile, TechStack techStack) {
@@ -37,8 +39,8 @@ public class PeopleTechStack extends BaseTimeEntity{
         this.techStack = techStack;
     }
 
-    public static PeopleTechStack of(PeopleProfile peopleProfile, String techStack) {
-        return new PeopleTechStack(peopleProfile, TechStack.from(techStack));
+    public static PeopleTechStack of(PeopleProfile peopleProfile, TechStack techStack) {
+        return new PeopleTechStack(peopleProfile, techStack);
     }
 
     public String getValue() {

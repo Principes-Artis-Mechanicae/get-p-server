@@ -38,7 +38,7 @@ public class ProjectHashtag extends BaseTimeEntity {
     }
 
     public static ProjectHashtag of(Project project, String hashtag) {
-        return new ProjectHashtag(project, Hashtag.from(hashtag));
+        return new ProjectHashtag(project, Hashtag.of(hashtag));
     }
 
     public String getValue() {

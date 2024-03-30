@@ -68,7 +68,7 @@ public class People extends BaseTimeEntity {
         this.member = member;
     }
 
-    public void update(UpdatePeopleRequest request) {
+    public void update(final UpdatePeopleRequest request) {
         this.nickname = request.nickname();
         this.email = request.email();
         this.phoneNumber = request.phoneNumber();

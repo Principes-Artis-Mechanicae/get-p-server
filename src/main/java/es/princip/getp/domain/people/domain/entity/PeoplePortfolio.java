@@ -1,11 +1,10 @@
 package es.princip.getp.domain.people.domain.entity;
 
-import jakarta.persistence.Entity;
 import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.people.domain.values.Portfolio;
-import es.princip.getp.domain.people.dto.PortfolioForm;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -40,15 +39,7 @@ public class PeoplePortfolio extends BaseTimeEntity {
         this.portfolio = portfolio;
     }
 
-    public static PeoplePortfolio of(PeopleProfile peopleProfile, PortfolioForm portfolio) {
-        return new PeoplePortfolio(peopleProfile, Portfolio.from(portfolio));
-    }
-
-    public String getUri() {
-        return portfolio.getUri();
-    }
-
-    public String getDescription() {
-        return portfolio.getDescription();
+    public static PeoplePortfolio of(PeopleProfile peopleProfile, Portfolio portfolio) {
+        return new PeoplePortfolio(peopleProfile, portfolio);
     }
 }
