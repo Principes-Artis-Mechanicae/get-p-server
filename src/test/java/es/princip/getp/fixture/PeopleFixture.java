@@ -60,7 +60,7 @@ public class PeopleFixture {
             .build()).toList();
     }
 
-    public static List<CardPeopleResponse> createCardPeopleResponses(Long count) {
+    public static List<CardPeopleResponse> createCardPeopleResponses(int count) {
         return LongStream.range(0, count)
             .mapToObj(i -> CardPeopleResponse.from(
                 i,

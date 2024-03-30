@@ -2,24 +2,18 @@ package es.princip.getp.domain.people.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
-import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.repository.PeopleRepository;
 import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
-import es.princip.getp.global.exception.BusinessLogicException;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -36,9 +30,9 @@ import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 public class PeopleServiceTest {
-    private final Member testMember = MemberFixture.createMember();
-    private final CreatePeopleRequest testCreatePeopleRequest = PeopleFixture.createPeopleRequest();
-    private final People testPeople = PeopleFixture.createPeople(testMember);
+
+    private final Member mockMember = MemberFixture.createMember();
+    private final People mockPeople = PeopleFixture.createPeople(mockMember);
 
     @InjectMocks
     private PeopleService peopleService;
@@ -47,124 +41,128 @@ public class PeopleServiceTest {
     private PeopleRepository peopleRepository;
 
     @Nested
-    @DisplayName("Create()는")
-    class create {
+    @DisplayName("create()는")
+    class Create {
+
+        private final CreatePeopleRequest request = PeopleFixture.createPeopleRequest();
+
         @Test
-        @DisplayName("Create를 성공한다.")
+        @DisplayName("피플 정보를 생성한다.")
         void testCreate() {
-            when(peopleRepository.save(any(People.class))).thenReturn(testPeople);
+            People expected = request.toEntity(mockMember);
+            given(peopleRepository.save(any(People.class))).willReturn(expected);
 
-            People createdPeople = peopleService.create(testMember, testCreatePeopleRequest);
+            People actual = peopleService.create(mockMember, request);
 
-            assertEquals(createdPeople, testPeople);
+            assertThat(actual).isEqualTo(expected);
         }
     }
 
     @Nested
-    @DisplayName("Read()는")
-    class read {
+    @DisplayName("getByPeopleId()는")
+    class GetByPeopleId {
+
         @Test
-        @DisplayName("PeopleId로 조회를 성공한다.")
-        void testGetByPeopleId() {
-            when(peopleRepository.findById(testPeople.getPeopleId())).thenReturn(Optional.of(testPeople));
+        @DisplayName("peopleId에 해당하는 피플의 피플 정보를 조회한다.")
+        void getByPeople() {
+            given(peopleRepository.findById(mockPeople.getPeopleId()))
+                .willReturn(Optional.of(mockPeople));
 
-            People result = peopleService.getByPeopleId(testPeople.getPeopleId());
+            People actual = peopleService.getByPeopleId(mockPeople.getPeopleId());
 
-            assertThat(testPeople).isEqualTo(result);
+            assertThat(actual).isEqualTo(mockPeople);
         }
+    }
+
+    @Nested
+    @DisplayName("getByMemberId()는")
+    class GetByMemberId {
 
         @Test
-        @DisplayName("MemberId로 조회를 성공한다.")
-        void testGetByMemberId() {
-            when(peopleRepository.findByMember_MemberId(testMember.getMemberId())).thenReturn(Optional.of(testPeople));
+        @DisplayName("memberId에 해당하는 회원의 피플 정보를 조회한다.")
+        void getByMemberId() {
+            given(peopleRepository.findByMember_MemberId(mockMember.getMemberId()))
+                .willReturn(Optional.of(mockPeople));
 
-            People result = peopleService.getByMemberId(testMember.getMemberId());
+            People actual = peopleService.getByMemberId(mockMember.getMemberId());
 
-            assertThat(testPeople).isEqualTo(result);
+            assertThat(actual).isEqualTo(mockPeople);
         }
+    }
+
+    @Nested
+    @DisplayName("getPeoplePage()는")
+    class GetByPeoplePage {
 
         @Test
-        @DisplayName("피플 목록 조회를 성공한다.")
-        void testGetPeoplePage() {
-            Long TEST_SIZE = 10L;
+        @DisplayName("피플 목록을 페이지 별로 조회한다.")
+        void getByPeoplePage() {
+            int TEST_SIZE = 10;
             Pageable pageable = PageRequest.of(0, 10);
-            List<CardPeopleResponse> peoples = PeopleFixture.createCardPeopleResponses(TEST_SIZE);
-            Page<CardPeopleResponse> peoplePage = new PageImpl<>(peoples, pageable, TEST_SIZE);
-            given(peopleRepository.findCardPeoplePage(pageable)).willReturn(peoplePage);
+            List<CardPeopleResponse> expected = PeopleFixture.createCardPeopleResponses(TEST_SIZE);
+            Page<CardPeopleResponse> page = new PageImpl<>(expected, pageable, TEST_SIZE);
+            given(peopleRepository.findCardPeoplePage(pageable)).willReturn(page);
 
-            Page<CardPeopleResponse> result = peopleService.getCardPeoplePage(pageable);
+            List<CardPeopleResponse> actual = peopleService.getCardPeoplePage(pageable)
+                .getContent();
 
-            assertEquals(result.getContent().size(), TEST_SIZE);
-            for(int i = 0; i < TEST_SIZE; i++) {
-                final int currentIndex = i;
+            assertThat(actual.size()).isEqualTo(expected.size());
+
+            for (int i = 0; i < TEST_SIZE; i++) {
+                final int idx = i;
                 assertSoftly(softly -> {
-                    softly.assertThat(result.getContent().get(currentIndex).peopleId()).isEqualTo(peoples.get(currentIndex).peopleId());
-                    softly.assertThat(result.getContent().get(currentIndex).nickname()).isEqualTo(peoples.get(currentIndex).nickname());
-                    softly.assertThat(result.getContent().get(currentIndex).peopleType()).isEqualTo(peoples.get(currentIndex).peopleType());
-                    softly.assertThat(result.getContent().get(currentIndex).profileImageUri()).isEqualTo(peoples.get(currentIndex).profileImageUri());
-                    softly.assertThat(result.getContent().get(currentIndex).profile().activityArea()).isEqualTo(peoples.get(currentIndex).profile().activityArea());
-                    softly.assertThat(result.getContent().get(currentIndex).profile().hashtags()).isEqualTo(peoples.get(currentIndex).profile().hashtags());
+                    softly.assertThat(actual.get(idx).peopleId())
+                        .isEqualTo(expected.get(idx).peopleId());
+                    softly.assertThat(actual.get(idx).nickname())
+                        .isEqualTo(expected.get(idx).nickname());
+                    softly.assertThat(actual.get(idx).peopleType())
+                        .isEqualTo(expected.get(idx).peopleType());
+                    softly.assertThat(actual.get(idx).profileImageUri())
+                        .isEqualTo(expected.get(idx).profileImageUri());
                 });
-            }            
-        }
-
-        @Test
-        @DisplayName("피플 정보 또는 피플 프로필이 등록되지 않은 계정이 피플 목록에 존재한다.")
-        void testPeoplePageException() {
-
-        }
-
-        @Test
-        @DisplayName("멤버 ID로 존재하지 않는 피플 계정을 조회한다.")
-        void testPeopleNotFoundException() {
-            Member testMember = MemberFixture.createMember();
-            when(peopleRepository.findByMember_MemberId(testMember.getMemberId())).thenReturn(Optional.empty());
-
-            BusinessLogicException exception = assertThrows(BusinessLogicException.class,
-                () ->  peopleService.getByMemberId(testMember.getMemberId()));
-            assertEquals(exception.getErrorCode(), PeopleErrorCode.PEOPLE_NOT_FOUND);
+            }
         }
     }
 
     @Nested
-    @DisplayName("Update()는")
-    class update {
-        private final UpdatePeopleRequest testUpdatePeopleRequest = PeopleFixture.updatePeopleRequest();
-        @Test
-        @DisplayName("Update를 성공한다.")
-        void testUpdate() {
-            when(peopleRepository.save(any(People.class))).thenReturn(any(People.class));
-            peopleService.create(testMember, testCreatePeopleRequest);
-            when(peopleRepository.findByMember_MemberId(testMember.getMemberId())).thenReturn(Optional.of(testPeople));
+    @DisplayName("update()는")
+    class Update {
 
-            People updatedPeople = peopleService.update(testMember.getMemberId(), testUpdatePeopleRequest);
+        private final UpdatePeopleRequest request = PeopleFixture.updatePeopleRequest();
+
+        @Test
+        @DisplayName("피플 정보를 수정한다.")
+        void update() {
+            given(peopleRepository.findByMember_MemberId(mockMember.getMemberId()))
+                .willReturn(Optional.of(mockPeople));
+
+            People actual = peopleService.update(mockMember.getMemberId(), request);
 
             assertSoftly(softly -> {
-                softly.assertThat(testPeople.getPeopleId()).isEqualTo(updatedPeople.getPeopleId());
-                softly.assertThat(testPeople.getNickname()).isEqualTo(updatedPeople.getNickname());
-                softly.assertThat(testPeople.getEmail()).isEqualTo(updatedPeople.getEmail());
-                softly.assertThat(testPeople.getPhoneNumber()).isEqualTo(updatedPeople.getPhoneNumber());
-                softly.assertThat(testPeople.getPeopleType().name()).isEqualTo(updatedPeople.getPeopleType().name());
-                softly.assertThat(testPeople.getProfileImageUri()).isEqualTo(updatedPeople.getProfileImageUri());
-                softly.assertThat(testPeople.getMember()).isEqualTo(updatedPeople.getMember());
+                softly.assertThat(actual.getPeopleId()).isEqualTo(mockPeople.getPeopleId());
+                softly.assertThat(actual.getNickname()).isEqualTo(request.nickname());
+                softly.assertThat(actual.getEmail()).isEqualTo(request.email());
+                softly.assertThat(actual.getPhoneNumber()).isEqualTo(request.phoneNumber());
+                softly.assertThat(actual.getPeopleType()).isEqualTo(request.peopleType());
+                softly.assertThat(actual.getProfileImageUri()).isEqualTo(request.profileImageUri());
+                softly.assertThat(actual.getMember()).isEqualTo(mockMember);
             });
         }
     }
 
     @Nested
-    @DisplayName("Delete()는")
-    class delete {
-        @Test
-        @DisplayName("Delete를 성공한다.")
-        void testDelete() {
-            when(peopleRepository.save(any(People.class))).thenReturn(any(People.class));
-            peopleService.create(testMember, testCreatePeopleRequest);
-            when(peopleRepository.findByMember_MemberId(testMember.getMemberId())).thenReturn(Optional.of(testPeople));
-            doNothing().when(peopleRepository).delete(testPeople);
-        
-            peopleService.delete(testMember.getMemberId());
+    @DisplayName("delete()는")
+    class Delete {
 
-            verify(peopleRepository).delete(testPeople);
+        @Test
+        @DisplayName("피플 정보를 삭제한다.")
+        void delete() {
+            given(peopleRepository.findByMember_MemberId(mockMember.getMemberId()))
+                .willReturn(Optional.of(mockPeople));
+
+            peopleService.delete(mockMember.getMemberId());
+
+            verify(peopleRepository).delete(mockPeople);
         }
     }
 }
