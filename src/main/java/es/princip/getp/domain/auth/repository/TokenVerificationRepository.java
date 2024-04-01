@@ -1,8 +1,8 @@
 package es.princip.getp.domain.auth.repository;
 
 import es.princip.getp.domain.auth.domain.entity.TokenVerification;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.keyvalue.repository.KeyValueRepository;
 
-public interface TokenVerificationRepository extends CrudRepository<TokenVerification, Long> {
+public interface TokenVerificationRepository extends KeyValueRepository<TokenVerification, Long> {
     boolean existsByRefreshToken(String refreshToken);
 }
