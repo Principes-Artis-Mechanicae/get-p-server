@@ -1,10 +1,12 @@
 package es.princip.getp.domain.people.controller;
 
 import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.PeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.UpdatePeopleResponse;
+import es.princip.getp.domain.people.dto.response.peopleProfile.CreatePeopleProfileResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.UpdatePeopleProfileResponse;
 import es.princip.getp.domain.people.service.PeopleProfileService;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,6 +64,24 @@ public class MyPeopleController {
         Member member = principalDetails.getMember();
         PeopleResponse response = PeopleResponse.from(peopleService.getByMemberId(member.getMemberId()));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+    }
+
+    /**
+     * 피플 프로필 등록
+     *
+     * @param request 등록할 피플 프로필 정보
+     * @return 등록된 피플 프로필 정보
+     */
+    @PostMapping("/profile")
+    @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
+    public ResponseEntity<ApiSuccessResult<CreatePeopleProfileResponse>> createPeopleProfile(
+        @RequestBody @Valid CreatePeopleProfileRequest request,
+        @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Member member = principalDetails.getMember();
+        CreatePeopleProfileResponse response =
+            CreatePeopleProfileResponse.from(peopleProfileService.create(member.getMemberId(), request));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ApiResponse.success(HttpStatus.CREATED, response));
     }
 
     /**

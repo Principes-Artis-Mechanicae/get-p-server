@@ -68,11 +68,11 @@ public class People extends BaseTimeEntity {
         this.member = member;
     }
 
-    public void update(UpdatePeopleRequest request) {
+    public void update(final UpdatePeopleRequest request) {
         this.nickname = request.nickname();
         this.email = request.email();
         this.phoneNumber = request.phoneNumber();
-        this.peopleType = PeopleType.valueOf(request.peopleType());
+        this.peopleType = request.peopleType();
         this.profileImageUri = request.profileImageUri();
     }
 }

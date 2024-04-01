@@ -1,27 +1,21 @@
 package es.princip.getp.domain.people.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+
 import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.domain.people.dto.PortfolioForm;
+import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.entity.PeopleProfile;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.domain.entity.PeopleHashtag;
-import es.princip.getp.domain.people.domain.entity.PeopleProfile;
-import es.princip.getp.domain.people.domain.entity.PeopleTechStack;
 import es.princip.getp.domain.people.repository.PeopleProfileRepository;
 import es.princip.getp.domain.people.repository.PeopleRepository;
 import es.princip.getp.fixture.MemberFixture;
 import es.princip.getp.fixture.PeopleFixture;
 import es.princip.getp.fixture.PeopleProfileFixture;
-import es.princip.getp.global.validator.CommonValidator;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,10 +26,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class PeopleProfileServiceTest {
-    private final Member testMember = MemberFixture.createMember();
-    private final People testPeople = PeopleFixture.createPeople(testMember);
-    private final CreatePeopleProfileRequest testCreatePeopleProfileRequest = PeopleProfileFixture.createPeopleProfileRequest();
-    private final PeopleProfile testPeopleProfile = testCreatePeopleProfileRequest.toEntity(testPeople);
+
+    private final Member mockMember = MemberFixture.createMember();
+    private final People mockPeople = PeopleFixture.createPeople(mockMember);
 
     @InjectMocks
     private PeopleProfileService peopleProfileService;
@@ -50,66 +43,75 @@ public class PeopleProfileServiceTest {
     private PeopleRepository peopleRepository;
 
     @Nested
-    @DisplayName("Create()는")
-    class create {
+    @DisplayName("create()는")
+    class Create {
+
+        private final CreatePeopleProfileRequest request
+            = PeopleProfileFixture.createPeopleProfileRequest();
+
         @Test
-        @DisplayName("Create를 성공한다.")
-        void testCreate() {
-            given(peopleProfileRepository.save(any(PeopleProfile.class))).willReturn(testPeopleProfile);
+        @DisplayName("피플 프로필을 생성한다.")
+        void create() {
+            PeopleProfile expected = request.toEntity(mockPeople);
+            given(peopleProfileRepository.save(any(PeopleProfile.class)))
+                .willReturn(expected);
 
-            PeopleProfile createdPeopleProfile = peopleProfileService.create(testMember.getMemberId(), testCreatePeopleProfileRequest);
+            PeopleProfile actual = peopleProfileService.create(
+                mockMember.getMemberId(),
+                request
+            );
 
-            assertEquals(createdPeopleProfile, testPeopleProfile);
+            assertThat(actual).isEqualTo(expected);
         }
     }
 
     @Nested
-    @DisplayName("Read()는")
-    class read {
+    @DisplayName("getByMemberId()는")
+    class GetByMemberId {
+
         @Test
-        @DisplayName("read를 성공한다.")
-        void testRead() {
-            given(peopleProfileRepository.findByMemberId(testMember.getMemberId())).willReturn(Optional.of(testPeopleProfile));
+        @DisplayName("memberId에 대한 회원의 피플 프로필을 검색한다.")
+        void getByMemberId() {
+            PeopleProfile expected = PeopleProfileFixture.createPeopleProfile(mockPeople);
+            given(peopleProfileRepository.findByMemberId(mockMember.getMemberId()))
+                .willReturn(Optional.of(expected));
 
-            PeopleProfile result = peopleProfileService.getByMemberId(testMember.getMemberId());
+            PeopleProfile actual = peopleProfileService.getByMemberId(mockMember.getMemberId());
 
-            assertEquals(result, testPeopleProfile);
+            assertThat(actual).isEqualTo(expected);
         }
     }
 
     @Nested
-    @DisplayName("Update()는")
-    class update {
-        private final UpdatePeopleProfileRequest testUpdatePeopleProfileRequest = PeopleProfileFixture.updatePeopleProfileRequest();
+    @DisplayName("update()는")
+    class Update {
+
+        private final UpdatePeopleProfileRequest request
+            = PeopleProfileFixture.updatePeopleProfileRequest();
 
         @Test
-        @DisplayName("update를 성공한다.")
-        void testUpdate() {
-            given(peopleProfileRepository.findByMemberId(testMember.getMemberId())).willReturn(Optional.of(testPeopleProfile));
+        @DisplayName("피플 프로필을 수정한다.")
+        void update() {
+            PeopleProfile peopleProfile = PeopleProfileFixture.createPeopleProfile(mockPeople);
+            given(peopleProfileRepository.findByMemberId(mockMember.getMemberId()))
+                .willReturn(Optional.of(peopleProfile));
 
-            PeopleProfile updatedPeopleProfile = peopleProfileService.update(testMember.getMemberId(), testUpdatePeopleProfileRequest);
+            PeopleProfile actual = peopleProfileService.update(
+                mockMember.getMemberId(), request);
 
             assertSoftly(softly -> {
-                softly.assertThat(testUpdatePeopleProfileRequest.activityArea()).isEqualTo(updatedPeopleProfile.getActivityArea());
-                softly.assertThat(testUpdatePeopleProfileRequest.education()).isEqualTo(updatedPeopleProfile.getEducation());
-                softly.assertThat(testUpdatePeopleProfileRequest.introduction()).isEqualTo(updatedPeopleProfile.getIntroduction());
-                
-                //Hashtag 검증
-                List<String> testHashtags = testUpdatePeopleProfileRequest.hashtags();
-                List<String> updatedHashtags = updatedPeopleProfile.getHashtags().stream().map(PeopleHashtag::getValue).toList();
-                CommonValidator.assertStringListEquals(testHashtags, updatedHashtags);
-
-                //TechStack 검증
-                List<String> testTechStacks = testUpdatePeopleProfileRequest.techStacks();
-                List<String> updatedTechStacks = updatedPeopleProfile.getTechStacks().stream().map(PeopleTechStack::getValue).toList();
-                CommonValidator.assertStringListEquals(testTechStacks, updatedTechStacks);
-
-                List<PortfolioForm> testPortfolios = testUpdatePeopleProfileRequest.portfolios();
-                List<PortfolioForm> updatedPortfolios = updatedPeopleProfile.getPortfolios().stream().map(portfolio -> PortfolioForm.from(portfolio.getPortfolio())).toList();
-                IntStream.range(0, updatedPortfolios.size())
-                    .forEach(i -> assertSoftly(stream -> {
-                        stream.assertThat(testPortfolios.get(i)).isEqualTo(updatedPortfolios.get(i));
-                    }));
+                softly.assertThat(actual.getActivityArea())
+                    .isEqualTo(request.activityArea());
+                softly.assertThat(actual.getEducation())
+                    .isEqualTo(request.education());
+                softly.assertThat(actual.getIntroduction())
+                    .isEqualTo(request.introduction());
+                softly.assertThat(actual.getHashtags())
+                    .isEqualTo(request.hashtags());
+                softly.assertThat(actual.getTechStacks())
+                    .isEqualTo(request.techStacks());
+                softly.assertThat(actual.getPortfolios())
+                    .isEqualTo(request.portfolios());
             });
         }
     }

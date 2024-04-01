@@ -23,7 +23,7 @@ public class PeopleFixture {
             NICKNAME,
             EMAIL,
             PHONE_NUMBER,
-            PEOPLE_TYPE.name(),
+            PEOPLE_TYPE,
             PROFILE_IMAGE_URI
         );
     }
@@ -33,7 +33,7 @@ public class PeopleFixture {
             UPDATED_NICKNAME,
             EMAIL,
             PHONE_NUMBER,
-            PEOPLE_TYPE.name(),
+            PEOPLE_TYPE,
             PROFILE_IMAGE_URI
         );
     }
@@ -60,7 +60,7 @@ public class PeopleFixture {
             .build()).toList();
     }
 
-    public static List<CardPeopleResponse> createCardPeopleResponses(Long count) {
+    public static List<CardPeopleResponse> createCardPeopleResponses(int count) {
         return LongStream.range(0, count)
             .mapToObj(i -> CardPeopleResponse.from(
                 i,
