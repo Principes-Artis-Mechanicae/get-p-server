@@ -1,15 +1,26 @@
 package es.princip.getp.domain.people.dto.response.people;
 
-import es.princip.getp.domain.people.dto.response.peopleProfile.PublicDetailPeopleProfileResponse;
 import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.enums.PeopleType;
+import es.princip.getp.domain.people.dto.response.peopleProfile.PublicDetailPeopleProfileResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 
-public record PublicDetailPeopleResponse(@NotNull Long peopleId, @NotNull String nickname, @NotNull String peopleType,
-                                     @Valid PublicDetailPeopleProfileResponse profile) {
+public record PublicDetailPeopleResponse(
+    Long peopleId,
+    String nickname,
+    PeopleType peopleType,
+    @Valid PublicDetailPeopleProfileResponse profile
+) {
 
-    public static PublicDetailPeopleResponse from(People people, PublicDetailPeopleProfileResponse profile) {
-        return new PublicDetailPeopleResponse(people.getPeopleId(), people.getNickname(), people.getPeopleType().name(),
-         profile);
+    public static PublicDetailPeopleResponse from(
+        People people,
+        PublicDetailPeopleProfileResponse profile
+    ) {
+        return new PublicDetailPeopleResponse(
+            people.getPeopleId(),
+            people.getNickname(),
+            people.getPeopleType(),
+            profile
+        );
     }
 }

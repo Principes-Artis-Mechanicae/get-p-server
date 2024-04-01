@@ -10,9 +10,9 @@ import es.princip.getp.domain.people.domain.entity.PeopleProfile;
 public interface PeopleProfileRepository extends JpaRepository<PeopleProfile, Long> {
     Optional<PeopleProfile> findByPeople_PeopleId(Long peopleId);
 
-    @Query("select pp from PeopleProfile pp join pp.people p where p.member.id = :memberId")
+    @Query("select pp from PeopleProfile pp join pp.people p where p.member.memberId = :memberId")
     Optional<PeopleProfile> findByMemberId(@Param("memberId") Long memberId);
 
-    @Query("select pp.activityArea from PeopleProfile pp where pp.people.id = :peopleId")
+    @Query("select pp.activityArea from PeopleProfile pp where pp.people.peopleId = :peopleId")
     String findActivityAreaByPeopleId(@Param("peopleId") Long peopleId);
 }

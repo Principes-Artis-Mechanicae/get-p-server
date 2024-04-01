@@ -1,5 +1,18 @@
 package es.princip.getp.domain.people.controller;
 
+import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
+import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
+import es.princip.getp.domain.people.dto.response.people.CreatePeopleResponse;
+import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
+import es.princip.getp.domain.people.dto.response.people.PublicDetailPeopleResponse;
+import es.princip.getp.domain.people.service.PeopleProfileService;
+import es.princip.getp.domain.people.service.PeopleService;
+import es.princip.getp.global.security.details.PrincipalDetails;
+import es.princip.getp.global.util.ApiResponse;
+import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,21 +29,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
-import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
-import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
-import es.princip.getp.domain.people.dto.response.people.CreatePeopleResponse;
-import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
-import es.princip.getp.domain.people.dto.response.people.PublicDetailPeopleResponse;
-import es.princip.getp.domain.people.dto.response.peopleProfile.CreatePeopleProfileResponse;
-import es.princip.getp.domain.people.service.PeopleProfileService;
-import es.princip.getp.domain.people.service.PeopleService;
-import es.princip.getp.global.security.details.PrincipalDetails;
-import es.princip.getp.global.util.ApiResponse;
-import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/people")
@@ -54,24 +52,6 @@ public class PeopleController {
         @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
         CreatePeopleResponse response = CreatePeopleResponse.from(peopleService.create(member, request));
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED, response));
-    }
-
-    /**
-     * 피플 프로필 등록
-     *
-     * @param request 등록할 피플 프로필 정보
-     * @return 등록된 피플 프로필 정보
-     */
-    @PostMapping("/profile")
-    @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<CreatePeopleProfileResponse>> createPeopleProfile(
-        @RequestBody @Valid CreatePeopleProfileRequest request,
-        @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Member member = principalDetails.getMember();
-        CreatePeopleProfileResponse response = 
-            CreatePeopleProfileResponse.from(peopleProfileService.create(member.getMemberId(), request));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.success(HttpStatus.CREATED, response));
     }
