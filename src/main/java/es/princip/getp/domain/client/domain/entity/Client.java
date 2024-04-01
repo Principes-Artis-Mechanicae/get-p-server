@@ -13,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -51,6 +52,7 @@ public class Client extends BaseTimeEntity {
     private BankAccount bankAccount;
 
     @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
