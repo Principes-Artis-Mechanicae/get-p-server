@@ -14,6 +14,7 @@ import es.princip.getp.domain.people.domain.enums.PeopleOrder;
 import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
+import es.princip.getp.global.domain.values.Hashtag;
 import es.princip.getp.global.support.QueryDslRepositorySupport;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,10 +81,13 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
         return null;
     }
 
-    private List<PeopleHashtag> getHashtagsForPeople(Long peopleId) {
+    private List<Hashtag> getHashtagsForPeople(Long peopleId) {
         return selectFrom(peopleHashtag)
             .where(peopleHashtag.peopleProfile.people.peopleId.eq(peopleId))
-            .fetch();
+            .fetch()
+            .stream()
+            .map(PeopleHashtag::getHashtag)
+            .toList();
     }
 
     private List<CardPeopleResponse> getCardPeopleContent(Pageable pageable) {
@@ -108,7 +112,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
             PeopleType peopleType = tuple.get(people.peopleType);
             String profileImageUri = tuple.get(people.profileImageUri);
             String activityArea = tuple.get(peopleProfile.activityArea);
-            List<PeopleHashtag> hashtags = getHashtagsForPeople(peopleId);
+            List<Hashtag> hashtags = getHashtagsForPeople(peopleId);
             CardPeopleProfileResponse profile =
                 CardPeopleProfileResponse.from(activityArea, hashtags);
 
