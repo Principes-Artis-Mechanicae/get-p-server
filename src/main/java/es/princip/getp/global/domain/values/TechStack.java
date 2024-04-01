@@ -1,17 +1,21 @@
-package es.princip.getp.domain.techStack.domain.values;
+package es.princip.getp.global.domain.values;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 @Getter
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TechStack {
 
     @Column(name = "tech_stack")
+    @NotBlank
     private String value;
 
     private TechStack(String value) {
@@ -22,7 +26,7 @@ public class TechStack {
         return value;
     }
 
-    public static TechStack from(String value) {
+    public static TechStack of(String value) {
         return new TechStack(value);
     }
 }

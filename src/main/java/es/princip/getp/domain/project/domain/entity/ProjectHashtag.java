@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.domain.entity;
 
 import es.princip.getp.domain.base.BaseTimeEntity;
-import es.princip.getp.domain.hashtag.domain.values.Hashtag;
+import es.princip.getp.global.domain.values.Hashtag;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -23,7 +23,7 @@ public class ProjectHashtag extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_hashtag_id")
-    private Long projectHashtagId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
@@ -38,7 +38,7 @@ public class ProjectHashtag extends BaseTimeEntity {
     }
 
     public static ProjectHashtag of(Project project, String hashtag) {
-        return new ProjectHashtag(project, Hashtag.from(hashtag));
+        return new ProjectHashtag(project, Hashtag.of(hashtag));
     }
 
     public String getValue() {

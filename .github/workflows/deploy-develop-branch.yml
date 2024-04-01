@@ -23,14 +23,9 @@ jobs:
           echo "${{ secrets.ENV }}" >> .env.dev
 
       - name: Cache Gradle packages
-        uses: actions/cache@v4
+        uses: gradle/actions/setup-gradle@v3
         with:
-          path: |  
-              ~/.gradle/caches
-              ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
 
       - name: Build with Gradle
         run: ./dev.sh
