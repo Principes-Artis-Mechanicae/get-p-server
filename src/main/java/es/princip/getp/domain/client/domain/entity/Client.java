@@ -1,9 +1,13 @@
 package es.princip.getp.domain.client.domain.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.people.domain.entity.PeopleLike;
 import es.princip.getp.global.domain.values.Address;
 import es.princip.getp.global.domain.values.BankAccount;
 import jakarta.persistence.CascadeType;
@@ -13,6 +17,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -52,6 +57,9 @@ public class Client extends BaseTimeEntity {
 
     @OneToOne(cascade = CascadeType.REMOVE)
     private Member member;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PeopleLike> peopleLikes = new ArrayList<>();
 
     @Builder
     public Client(
