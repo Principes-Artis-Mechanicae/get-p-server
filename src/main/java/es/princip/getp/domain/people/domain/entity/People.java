@@ -12,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -47,13 +48,15 @@ public class People extends BaseTimeEntity {
     private String profileImageUri;
 
     @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToOne(mappedBy = "people")
     private PeopleProfile peopleProfile;
 
     @Builder
-    public People(final String nickname,
+    public People(
+        final String nickname,
         final String email,
         final String phoneNumber,
         final PeopleType peopleType,
