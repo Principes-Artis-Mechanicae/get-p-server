@@ -1,7 +1,6 @@
 package es.princip.getp.domain.people.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import es.princip.getp.domain.member.domain.enums.MemberType;
 import java.util.stream.Stream;
 
 public enum PeopleOrder {
