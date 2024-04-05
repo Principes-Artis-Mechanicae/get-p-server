@@ -42,8 +42,8 @@ class PeopleLikeRepositoryTest {
     private MemberRepository memberRepository;
 
     @Nested
-    @DisplayName("existsByPeople_PeopleIdAndProject_ProjectId()는")
-    class ExistsByPeople_PeopleIdAndProject_ProjectId {
+    @DisplayName("existsByClient_ClientIdAndPeople_PeopleId()는")
+    class ExistsByClient_ClientIdAndPeople_PeopleId {
 
         private final Member peopleMember = createMember("test1@example.com", ROLE_PEOPLE);
         private final People people = createPeople(peopleMember);
@@ -58,7 +58,7 @@ class PeopleLikeRepositoryTest {
             clientRepository.save(client);
         }
 
-        @DisplayName("회원이 해당 프로젝트에 이미 좋아요를 눌렀으면 true를 반환한다.")
+        @DisplayName("의뢰자가 해당 피플에 이미 좋아요를 눌렀으면 true를 반환한다.")
         @Test
         void existsByClient_ClientIdAndPeople_PeopleId() {
             PeopleLike peopleLike = PeopleLike.builder()
@@ -73,7 +73,7 @@ class PeopleLikeRepositoryTest {
             assertThat(exists).isTrue();
         }
 
-        @DisplayName("회원이 해당 프로젝트에 좋아요를 누른적이 없으면 false를 반환한다.")
+        @DisplayName("의뢰자가 해당 피플에 좋아요를 누른적이 없으면 false를 반환한다.")
         @Test
         void existsByClient_ClientIdAndPeople_PeopleId_When() {
             boolean exists = peopleLikeRepository.existsByClient_ClientIdAndPeople_PeopleId(
