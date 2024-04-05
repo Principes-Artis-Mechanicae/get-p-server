@@ -58,7 +58,7 @@ class PeopleLikeRepositoryTest {
             clientRepository.save(client);
         }
 
-        @DisplayName("의뢰자가 해당 피플에 이미 좋아요를 눌렀으면 true를 반환한다.")
+        @DisplayName("의뢰자가 해당 피플에게 이미 좋아요를 눌렀으면 true를 반환한다.")
         @Test
         void existsByClient_ClientIdAndPeople_PeopleId() {
             PeopleLike peopleLike = PeopleLike.builder()
@@ -73,7 +73,7 @@ class PeopleLikeRepositoryTest {
             assertThat(exists).isTrue();
         }
 
-        @DisplayName("의뢰자가 해당 피플에 좋아요를 누른적이 없으면 false를 반환한다.")
+        @DisplayName("의뢰자가 해당 피플에게 좋아요를 누른적이 없으면 false를 반환한다.")
         @Test
         void existsByClient_ClientIdAndPeople_PeopleId_When() {
             boolean exists = peopleLikeRepository.existsByClient_ClientIdAndPeople_PeopleId(

@@ -51,7 +51,7 @@ class PeopleLikeServiceTest {
         private final People people = createPeople(member);
         private final Client client = createClient();
 
-        @DisplayName("피플에 좋아요를 누른다.")
+        @DisplayName("피플에게 좋아요를 누른다.")
         @Test
         void like() {
             given(clientService.getByMemberId(memberId)).willReturn(client);
@@ -65,9 +65,9 @@ class PeopleLikeServiceTest {
             verify(peopleLikeRepository, times(1)).save(any());
         }
 
-        @DisplayName("피플에 이미 좋아요가 눌러진 경우 예외를 던진다.")
+        @DisplayName("피플에게 이미 좋아요가 눌러진 경우 예외를 던진다.")
         @Test
-        void like_WhenProjectIsAlreadyLiked_ShouldThrowException() {
+        void like_WhenPeopleIsAlreadyLiked_ShouldThrowException() {
             given(clientService.getByMemberId(memberId)).willReturn(client);
             given(peopleService.getByPeopleId(peopleId)).willReturn(people);
             given(peopleLikeRepository.existsByClient_ClientIdAndPeople_PeopleId(
@@ -82,7 +82,7 @@ class PeopleLikeServiceTest {
 
         @DisplayName("좋아요를 누를 피플이 존재하지 않는 경우 예외를 던진다.")
         @Test
-        void like_WhenProjectIsNotFound_ShouldThrowException() {
+        void like_WhenPeopleIsNotFound_ShouldThrowException() {
             given(clientService.getByMemberId(memberId)).willReturn(client);
             given(peopleService.getByPeopleId(peopleId)).willThrow(
                 new BusinessLogicException(PeopleErrorCode.PEOPLE_NOT_FOUND)

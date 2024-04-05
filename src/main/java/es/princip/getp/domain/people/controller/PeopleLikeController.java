@@ -24,7 +24,7 @@ public class PeopleLikeController {
     /**
      * 피플 좋아요
      *
-     * @param peopleId        좋아요를 누를 프로젝트 ID
+     * @param peopleId 좋아요를 누를 피플 ID
      * @param principalDetails 로그인한 사용자 정보
      */
     @PostMapping("/{peopleId}/likes")

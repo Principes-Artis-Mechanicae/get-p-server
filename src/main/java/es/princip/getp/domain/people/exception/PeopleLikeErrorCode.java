@@ -6,7 +6,7 @@ import es.princip.getp.global.exception.ErrorCode;
 import es.princip.getp.global.exception.ErrorDescription;
 
 public enum PeopleLikeErrorCode implements ErrorCode {
-    ALREADY_LIKED(HttpStatus.CONFLICT, "이미 좋아요를 누른 프로 젝트입니다.");
+    ALREADY_LIKED(HttpStatus.CONFLICT, "이미 좋아요를 누른 피플입니다.");
 
     private final HttpStatus status;
     private final ErrorDescription description;
