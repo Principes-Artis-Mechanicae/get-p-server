@@ -6,7 +6,6 @@ import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.CreatePeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.PublicDetailPeopleResponse;
-import es.princip.getp.domain.people.service.PeopleProfileService;
 import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.util.ApiResponse;
@@ -36,8 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PeopleController {
 
     private final PeopleService peopleService;
-
-    private final PeopleProfileService peopleProfileService;
 
     /**
      * 피플 정보 등록
