@@ -5,7 +5,6 @@ import static com.querydsl.core.types.Order.DESC;
 import static es.princip.getp.domain.people.domain.entity.QPeople.people;
 import static es.princip.getp.domain.people.domain.entity.QPeopleHashtag.peopleHashtag;
 import static es.princip.getp.domain.people.domain.entity.QPeopleProfile.peopleProfile;
-
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
 import es.princip.getp.domain.people.domain.entity.People;
