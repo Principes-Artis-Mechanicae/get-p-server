@@ -26,7 +26,7 @@ public class PeopleLikeService {
         return peopleLike.orElseThrow(() -> new BusinessLogicException(PeopleLikeErrorCode.PEOPLE_LIKE_NOT_FOUND));
     }
 
-    private PeopleLike get(Long memberId, Long peopleId) {
+    public PeopleLike get(Long memberId, Long peopleId) {
         return get(peopleLikeRepository.findByPeople_PeopleIdAndClient_ClientId(memberId, peopleId));
     }
 
