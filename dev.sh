@@ -20,6 +20,7 @@ if [ -f "$ENV_FILE" ]; then
     done < "$ENV_FILE"
 else
     echo "[dev.sh] $ENV_FILE not found."
+    exit 1
 fi
 
 echo "[dev.sh] environment variable load complete"
