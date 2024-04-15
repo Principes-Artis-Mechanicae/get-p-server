@@ -2,7 +2,7 @@
 
 ENV_FILE=".env.test"
 
-echo "[env.sh] environment variable file: $ENV_FILE"
+echo "[test.sh] environment variable file: $ENV_FILE"
 
 # 환경 변수 파일이 존재하는지 확인
 if [ -f "$ENV_FILE" ]; then
@@ -19,11 +19,17 @@ if [ -f "$ENV_FILE" ]; then
         fi
     done < "$ENV_FILE"
 else
-    echo "[env.sh] $ENV_FILE not found."
+    echo "[test.sh] $ENV_FILE not found."
+    exit 1
 fi
 
-echo "[env.sh] environment variable load complete"
+echo "[test.sh] environment variable load complete"
 
 ./gradlew test
 
-echo "[test.sh] test complete"
+if [ $? -eq 0 ]; then
+    echo "[test.sh] test complete"
+else
+    echo "[test.sh] test failed. exit code: $?"
+    exit 1
+fi
