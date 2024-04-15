@@ -2,7 +2,7 @@
 
 ENV_FILE=".env.dev"
 
-echo "[env.sh] environment variable file: $ENV_FILE"
+echo "[dev.sh] environment variable file: $ENV_FILE"
 
 # 환경 변수 파일이 존재하는지 확인
 if [ -f "$ENV_FILE" ]; then
@@ -19,12 +19,20 @@ if [ -f "$ENV_FILE" ]; then
         fi
     done < "$ENV_FILE"
 else
-    echo "[env.sh] $ENV_FILE not found."
+    echo "[dev.sh] $ENV_FILE not found."
 fi
 
-echo "[env.sh] environment variable load complete"
+echo "[dev.sh] environment variable load complete"
 
 ./gradlew clean build
+
+if [ $? -eq 0 ]; then
+    echo "[dev.sh] build complete"
+else
+    echo "[dev.sh] build failed. exit code: $?"
+    exit 1
+fi
+
 sudo docker compose --env-file .env.dev up -d --build
 
 echo "[dev.sh] deploy complete"
