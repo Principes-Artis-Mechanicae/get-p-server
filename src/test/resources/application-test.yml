@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: ${BASE_PATH}
+
 spring:
   datasource:
     url: ${DB_TEST_URL}

@@ -69,4 +69,4 @@ logging:
 
 springdoc:
   swagger-ui:
-    path: /docs
+    path: ${SWAGGER_PATH}

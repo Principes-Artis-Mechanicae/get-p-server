@@ -1,0 +1,22 @@
+= GET-P API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+:operation-response-fields-data-title: Response fields
+:operation-error-code-fields-title: Error codes
+
+== 인증
+=== 회원 가입
+include::{docdir}/signup.adoc[]
+
+=== 로그인
+
+=== 회원 가입 시 이메일 인증 코드 전송
+
+=== Access Token 및 Refresh Token 재발급
+

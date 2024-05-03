@@ -1,16 +1,19 @@
 package es.princip.getp.domain.auth.service;
 
-import java.util.Optional;
-import org.springframework.stereotype.Service;
 import es.princip.getp.domain.auth.domain.entity.EmailVerification;
 import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
 import es.princip.getp.domain.auth.repository.EmailVerificationRepository;
 import es.princip.getp.global.exception.BusinessLogicException;
 import es.princip.getp.global.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class EmailVerificationService {
 
     private static final int VERIFICATION_CODE_LENGTH = 4;
@@ -22,6 +25,7 @@ public class EmailVerificationService {
         return emailVerificationRepository.findById(email);
     }
 
+    @Transactional
     public void sendEmailVerificationCode(String email) {
         if (getByEmail(email).isPresent()) {
             emailVerificationRepository.deleteById(email);
@@ -32,6 +36,7 @@ public class EmailVerificationService {
         emailVerificationRepository.save(emailVerification);
     }
 
+    @Transactional
     public void verifyEmail(String email, String verificationCode) {
         EmailVerification emailVerification = getByEmail(email).orElseThrow(() ->
             new BusinessLogicException(EmailVerificationErrorCode.INVALID_EMAIL_VERIFICATION));

@@ -1,7 +1,7 @@
 package es.princip.getp.domain.member.dto.request;
 
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
-import es.princip.getp.domain.auth.dto.validator.annotation.Password;
+import es.princip.getp.domain.auth.annotation.Password;
 import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.member.validator.annotation.UserMemberType;
 import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
