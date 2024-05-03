@@ -1,8 +1,8 @@
 package es.princip.getp.domain.auth.service;
 
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
+import es.princip.getp.domain.auth.dto.response.SignUpResponse;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
-import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
 import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.global.exception.BusinessLogicException;
@@ -27,8 +27,10 @@ public class SignUpService {
     }
 
     @Transactional
-    public Member signUp(SignUpRequest request) {
+    public SignUpResponse signUp(SignUpRequest request) {
         emailVerificationService.verifyEmail(request.email(), request.verificationCode());
-        return memberService.create(CreateMemberRequest.from(request, passwordEncoder));
+        return SignUpResponse.from(
+            memberService.create(CreateMemberRequest.from(request, passwordEncoder))
+        );
     }
 }

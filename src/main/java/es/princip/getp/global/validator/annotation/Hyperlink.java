@@ -9,13 +9,12 @@ import jakarta.validation.Payload;
 import jakarta.validation.constraints.Pattern;
 
 @Pattern(
-    message = "{validation.constraints.Hyperlink.message}",
     regexp = "^(https|ftp|mailto|tel)://.*")
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD })
 @Constraint(validatedBy = {})
 public @interface Hyperlink {
-    String message() default "";
+    String message() default "{validation.constraints.Hyperlink.message}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

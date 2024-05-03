@@ -8,12 +8,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@NotNull(message = "{validation.constraints.Enum.message}")
+@NotNull
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Constraint(validatedBy = {})
 public @interface Enum {
-    String message() default "";
+    String message() default "{validation.constraints.Enum.message}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

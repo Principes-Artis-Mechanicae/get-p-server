@@ -1,6 +1,6 @@
 package es.princip.getp.domain.auth.service;
 
-import static es.princip.getp.fixture.SignUpFixture.createSignUpRequest;
+import static es.princip.getp.domain.auth.support.SignUpFixture.createSignUpRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
@@ -9,6 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
+import es.princip.getp.domain.auth.dto.response.SignUpResponse;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.domain.enums.MemberType;
@@ -81,9 +82,10 @@ class SignUpServiceTest {
             Member member = Member.from(createMemberRequest);
             given(memberService.create(createMemberRequest)).willReturn(member);
 
-            Member signedUpMember = signUpService.signUp(signUpRequest);
+            SignUpResponse response = signUpService.signUp(signUpRequest);
 
-            assertThat(signedUpMember).isEqualTo(member);
+            assertThat(response.email()).isEqualTo(signUpRequest.email());
+            assertThat(response.memberType()).isEqualTo(signUpRequest.memberType());
             verify(emailVerificationService, times(1))
                 .verifyEmail(signUpRequest.email(), signUpRequest.verificationCode());
         }

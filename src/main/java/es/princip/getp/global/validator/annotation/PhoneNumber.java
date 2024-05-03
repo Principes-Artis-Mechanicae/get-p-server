@@ -9,13 +9,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Pattern(
-    message = "{validation.constraints.PhoneNumber.message}",
     regexp = "^[^-]*$")
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD })
 @Constraint(validatedBy = {})
 public @interface PhoneNumber {
-    String message() default "";
+    String message() default "{validation.constraints.PhoneNumber.message}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
