@@ -31,9 +31,8 @@ public class SignUpController {
     @PostMapping()
     public ResponseEntity<ApiSuccessResult<SignUpResponse>> signUp(
         @RequestBody @Valid SignUpRequest request) {
-        SignUpResponse signUpResponse = SignUpResponse.from(signUpService.signUp(request));
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED, signUpResponse));
+            .body(ApiResponse.success(HttpStatus.CREATED, signUpService.signUp(request)));
     }
 
     /**

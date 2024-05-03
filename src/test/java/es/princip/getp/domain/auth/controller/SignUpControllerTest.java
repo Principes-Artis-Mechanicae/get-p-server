@@ -1,41 +1,34 @@
 package es.princip.getp.domain.auth.controller;
 
-import static es.princip.getp.fixture.SignUpFixture.createSignUpRequest;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
+import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.auth.service.SignUpService;
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.auth.support.SignUpFixture;
 import es.princip.getp.domain.member.domain.enums.MemberType;
-import es.princip.getp.global.config.SecurityConfig;
-import es.princip.getp.global.config.SecurityTestConfig;
-import lombok.RequiredArgsConstructor;
+import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
+import es.princip.getp.global.controller.ErrorCodeController;
+import es.princip.getp.global.exception.BusinessLogicException;
+import es.princip.getp.global.support.AbstractControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(SignUpController.class)
-@Import({SecurityConfig.class, SecurityTestConfig.class})
-@ActiveProfiles("test")
-@RequiredArgsConstructor
-class SignUpControllerTest {
+import static es.princip.getp.domain.auth.support.SignUpFixture.createSignUpRequest;
+import static es.princip.getp.global.support.ErrorCodeFields.errorCodeFields;
+import static es.princip.getp.global.support.FieldDescriptorHelper.getDescriptor;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.snippet.Attributes.key;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+@WebMvcTest({SignUpController.class, ErrorCodeController.class})
+public class SignUpControllerTest extends AbstractControllerTest {
 
     @MockBean
     private SignUpService signUpService;
@@ -44,22 +37,48 @@ class SignUpControllerTest {
     @DisplayName("사용자는")
     class SignUp {
 
+        @Test
+        void signUpErrorCode() throws Exception {
+            mockMvc.perform(get("/error-code/signup"))
+                .andExpect(status().isOk())
+                .andDo(restDocs.document(errorCodeFields(SignUpErrorCode.values())));
+        }
+
         @DisplayName("회원 가입을 할 수 있다.")
         @ParameterizedTest
         @EnumSource(value = MemberType.class, names = { "ROLE_PEOPLE", "ROLE_CLIENT" })
         void signUp(MemberType memberType) throws Exception {
-            SignUpRequest signUpRequest = createSignUpRequest(memberType);
-            given(signUpService.signUp(signUpRequest)).willReturn(
-                Member.builder()
-                    .email(signUpRequest.email())
-                    .memberType(signUpRequest.memberType())
-                    .build()
-            );
+            SignUpRequest request = createSignUpRequest(memberType);
+            given(signUpService.signUp(request)).willReturn(SignUpFixture.toSignUpResponse(request));
 
             mockMvc.perform(post("/auth/signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(signUpRequest)))
-                .andExpect(status().isCreated());
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andDo(
+                    restDocs.document(
+                        requestFields(
+                            getDescriptor("email", "이메일", SignUpRequest.class),
+                            getDescriptor("password", "비밀번호", SignUpRequest.class),
+                            getDescriptor("memberType", "회원 유형", SignUpRequest.class)
+                                .attributes(key("format").value("ROLE_PEOPLE, ROLE_CLIENT")),
+                            getDescriptor("verificationCode", "이메일 인증 코드", SignUpRequest.class),
+                            getDescriptor("serviceTerms[].tag", "서비스 약관 태그", ServiceTermAgreementRequest.class),
+                            getDescriptor("serviceTerms[].agreed", "서비스 약관 동의 여부", ServiceTermAgreementRequest.class)
+                        ),
+                        responseFields(beneathPath("data").withSubsectionId("data"))
+                        .and(
+                            getDescriptor("email", "이메일"),
+                            getDescriptor("memberType", "회원 유형"),
+                            getDescriptor("serviceTerms[].tag", "서비스 약관 태그"),
+                            getDescriptor("serviceTerms[].required", "서비스 약관 필수 동의 여부"),
+                            getDescriptor("serviceTerms[].agreed", "서비스 약관 동의 여부"),
+                            getDescriptor("serviceTerms[].revocable", "서비스 약관 동의 거절 가능 여부"),
+                            getDescriptor("serviceTerms[].agreedAt", "서비스 약관 동의 시각")
+                                .attributes(key("format").value("yyyy-MM-dd'T'HH:mm:ss"))
+                        )
+                    )
+                )
+                .andDo(print());
         }
 
         @DisplayName("관리자 또는 매니저로 회원 가입할 수 없다.")
@@ -67,12 +86,47 @@ class SignUpControllerTest {
         @EnumSource(value = MemberType.class, names = { "ROLE_ADMIN", "ROLE_MANAGER" })
         void signUp_WhenMemberTypeIsNotPeopleOrClient_ShouldFail(MemberType memberType)
             throws Exception {
-            SignUpRequest signUpRequest = createSignUpRequest(memberType);
+            SignUpRequest request = createSignUpRequest(memberType);
 
             mockMvc.perform(post("/auth/signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(signUpRequest)))
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
+        }
+
+        @DisplayName("이미 가입된 이메일 주소로 회원 가입할 수 없다.")
+        @Test
+        void signUp_WhenEmailIsDuplicated_ShouldFail() throws Exception {
+            SignUpRequest request = createSignUpRequest(MemberType.ROLE_PEOPLE);
+            doThrow(new BusinessLogicException(SignUpErrorCode.DUPLICATED_EMAIL))
+                .when(signUpService).signUp(request);
+
+            mockMvc.perform(post("/auth/signup")
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(errorCode(SignUpErrorCode.DUPLICATED_EMAIL));
+        }
+
+        @DisplayName("이메일을 인증하지 않으면 회원 가입할 수 없다.")
+        @Test
+        void signUp_WhenEmailIsNotVerified_ShouldFail() throws Exception {
+            SignUpRequest request = createSignUpRequest(MemberType.ROLE_PEOPLE);
+            doThrow(new BusinessLogicException(SignUpErrorCode.NOT_VERIFIED_EMAIL))
+                .when(signUpService).signUp(request);
+
+            mockMvc.perform(post("/auth/signup")
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(errorCode(SignUpErrorCode.NOT_VERIFIED_EMAIL));
+        }
+
+        @DisplayName("필수 서비스 약관에 동의하지 않으면 회원 가입할 수 없다.")
+        @Test
+        void signUp_WhenNotAgreedRequiredServiceTerm_ShouldFail() throws Exception {
+            SignUpRequest request = createSignUpRequest(MemberType.ROLE_PEOPLE);
+            doThrow(new BusinessLogicException(SignUpErrorCode.NOT_AGREED_REQUIRED_SERVICE_TERM))
+                .when(signUpService).signUp(request);
+
+            mockMvc.perform(post("/auth/signup")
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(errorCode(SignUpErrorCode.NOT_AGREED_REQUIRED_SERVICE_TERM));
         }
     }
 }

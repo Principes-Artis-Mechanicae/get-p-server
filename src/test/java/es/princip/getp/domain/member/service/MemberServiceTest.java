@@ -15,7 +15,7 @@ import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
 import es.princip.getp.domain.member.exception.MemberErrorCode;
 import es.princip.getp.domain.member.repository.MemberRepository;
 import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
-import es.princip.getp.fixture.ServiceTermFixture;
+import es.princip.getp.domain.serviceTerm.support.ServiceTermFixture;
 import es.princip.getp.global.exception.BusinessLogicException;
 import java.util.List;
 import java.util.Optional;

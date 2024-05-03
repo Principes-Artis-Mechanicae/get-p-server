@@ -1,14 +1,10 @@
 package es.princip.getp.global.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.global.security.exception.handler.CustomAccessDeniedHandler;
 import es.princip.getp.global.security.exception.handler.CustomAuthenticationEntryPoint;
 import es.princip.getp.global.security.filter.JwtAuthorizationFilter;
 import es.princip.getp.global.security.provider.JwtTokenProvider;
-import java.util.Arrays;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +24,11 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -73,9 +74,10 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
-            "https://h.princip.es", // 개발
-            "https://he.princip.es", // 배포
-            "http://localhost:5173" // 채준
+            "https://h.princip.es",
+            "https://he.princip.es",
+            "http://localhost:5173",
+            "https://beta-get-p.netlify.app"
         ));
         configuration.setAllowedMethods(Arrays.asList(
             HttpMethod.GET.name(),
