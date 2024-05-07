@@ -101,3 +101,5 @@ local.sh
 
 # JUnit settings
 .run/
+
+src/main/resources/static/*
