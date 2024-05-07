@@ -1,6 +1,7 @@
 package es.princip.getp.domain.member.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.stream.Stream;
 
 public enum MemberType {
@@ -12,5 +13,13 @@ public enum MemberType {
             .filter(memberType -> memberType.toString().equals(inputValue.toUpperCase()))
             .findFirst()
             .orElse(null);
+    }
+
+    public boolean isClient() {
+        return this == ROLE_CLIENT;
+    }
+
+    public boolean isPeople() {
+        return this == ROLE_PEOPLE;
     }
 }
