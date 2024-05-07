@@ -1,32 +1,27 @@
 package es.princip.getp.global.security.provider;
 
-import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.stream.Collectors;
-
+import es.princip.getp.domain.auth.dto.response.Token;
+import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.service.MemberService;
+import es.princip.getp.global.security.details.PrincipalDetails;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import es.princip.getp.domain.auth.dto.response.Token;
-import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.domain.member.service.MemberService;
-import es.princip.getp.global.security.details.PrincipalDetails;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
+
+import java.security.Key;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -34,10 +29,12 @@ public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
 
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
+    @Value("${spring.jwt.access-token.expire-time}")
+    private Long ACCESS_TOKEN_EXPIRE_TIME;
 
+    @Value("${spring.jwt.refresh-token.expire-time}")
     @Getter
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;
+    private Long REFRESH_TOKEN_EXPIRE_TIME;
 
     private final Key key;
 
@@ -60,10 +57,8 @@ public class JwtTokenProvider {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-
         long now = System.currentTimeMillis();
         Date tokenExpiresIn = new Date(now + expireTime);
-
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
@@ -120,7 +115,7 @@ public class JwtTokenProvider {
         }
         return null;
     }
-
+  
     public String resolveRefreshToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Refresh-Token");
         if (bearerToken != null && bearerToken.startsWith("Bearer")) {
