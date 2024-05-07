@@ -1,19 +1,10 @@
 package es.princip.getp.domain.auth.service;
 
-import static es.princip.getp.fixture.EmailVerificationFixture.createEmailVerification;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import es.princip.getp.domain.auth.domain.entity.EmailVerification;
 import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
 import es.princip.getp.domain.auth.repository.EmailVerificationRepository;
 import es.princip.getp.global.exception.BusinessLogicException;
-import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -21,6 +12,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
+import static es.princip.getp.fixture.EmailVerificationFixture.createEmailVerification;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EmailVerificationServiceTest {
@@ -32,6 +32,16 @@ class EmailVerificationServiceTest {
 
     @InjectMocks
     private EmailVerificationService emailVerificationService;
+
+    @BeforeEach
+    void beforeAll() {
+        emailVerificationService = new EmailVerificationService(
+            emailService,
+            emailVerificationRepository,
+            1000L,
+            4
+        );
+    }
 
     @Nested
     @DisplayName("sendVerificationCode()는")
