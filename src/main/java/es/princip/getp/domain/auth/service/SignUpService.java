@@ -19,6 +19,7 @@ public class SignUpService {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public void sendEmailVerificationCodeForSignUp(String email) {
         if (memberService.existsByEmail(email)) {
             throw new BusinessLogicException(SignUpErrorCode.DUPLICATED_EMAIL);

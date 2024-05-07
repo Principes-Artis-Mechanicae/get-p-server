@@ -5,6 +5,7 @@ import es.princip.getp.global.config.SecurityConfig;
 import es.princip.getp.global.config.SecurityTestConfig;
 import es.princip.getp.global.config.SpringRestDocsConfig;
 import es.princip.getp.global.exception.ErrorCode;
+import es.princip.getp.global.mock.PrincipalDetailsParameterResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ActiveProfiles("test")
 @Import({SecurityConfig.class, SecurityTestConfig.class, SpringRestDocsConfig.class})
-@ExtendWith(RestDocumentationExtension.class)
+@ExtendWith({RestDocumentationExtension.class, PrincipalDetailsParameterResolver.class})
 public abstract class AbstractControllerTest {
 
     @Value("${server.servlet.context-path}")
