@@ -1,6 +1,5 @@
 package es.princip.getp.domain.auth.domain.entity;
 
-import es.princip.getp.global.security.provider.JwtTokenProvider;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -18,12 +17,12 @@ public class TokenVerification {
     @Indexed
     private String refreshToken;
 
-    @TimeToLive(unit = TimeUnit.MINUTES)
+    @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private Long expiration;
 
-    public TokenVerification(Long memberId, String refreshToken) {
+    public TokenVerification(Long memberId, String refreshToken, Long expiration) {
         this.memberId = memberId;
         this.refreshToken = refreshToken;
-        this.expiration = JwtTokenProvider.getREFRESH_TOKEN_EXPIRE_TIME();
+        this.expiration = expiration;
     }
 }

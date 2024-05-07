@@ -1,12 +1,13 @@
 package es.princip.getp.domain.auth.domain.entity;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 @RedisHash(value = "email_verification")
@@ -19,14 +20,14 @@ public class EmailVerification {
 
     private LocalDateTime createdAt;
 
-    @TimeToLive(unit = TimeUnit.MINUTES)
+    @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private Long expiration;
 
-    public EmailVerification(String email, String verificationCode) {
+    public EmailVerification(String email, String verificationCode, Long expiration) {
         this.email = email;
         this.verificationCode = verificationCode;
         this.createdAt = LocalDateTime.now();
-        this.expiration = 5L;
+        this.expiration = expiration;
     }
 
     public boolean verify(String verificationCode) {

@@ -5,21 +5,33 @@ import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
 import es.princip.getp.domain.auth.repository.EmailVerificationRepository;
 import es.princip.getp.global.exception.BusinessLogicException;
 import es.princip.getp.global.util.RandomUtil;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
 public class EmailVerificationService {
 
-    private static final int VERIFICATION_CODE_LENGTH = 4;
-
     private final EmailService emailService;
     private final EmailVerificationRepository emailVerificationRepository;
+
+    private final Long EXPIRATION_TIME;
+    private final Integer VERIFICATION_CODE_LENGTH;
+
+    public EmailVerificationService(
+        EmailService emailService,
+        EmailVerificationRepository emailVerificationRepository,
+        @Value("${spring.verification-code.expire-time}") Long EXPIRATION_TIME,
+        @Value("${spring.verification-code.length}") Integer VERIFICATION_CODE_LENGTH
+    ) {
+        this.emailService = emailService;
+        this.emailVerificationRepository = emailVerificationRepository;
+        this.EXPIRATION_TIME = EXPIRATION_TIME;
+        this.VERIFICATION_CODE_LENGTH = VERIFICATION_CODE_LENGTH;
+    }
 
     public Optional<EmailVerification> getByEmail(String email) {
         return emailVerificationRepository.findById(email);
@@ -32,7 +44,7 @@ public class EmailVerificationService {
         }
         String verificationCode = RandomUtil.generateRandomCode(VERIFICATION_CODE_LENGTH);
         emailService.sendEmail(email, "GET-P 인증 번호", verificationCode);
-        EmailVerification emailVerification = new EmailVerification(email, verificationCode);
+        EmailVerification emailVerification = new EmailVerification(email, verificationCode, EXPIRATION_TIME);
         emailVerificationRepository.save(emailVerification);
     }
 
