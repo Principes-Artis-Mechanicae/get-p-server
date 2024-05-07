@@ -35,12 +35,16 @@ spring:
           timeout: 5000
           writetimeout: 5000
 
-  verification:
-    code:
-      expiration: 1800 # 초 단위
+  verification-code:
+    length: ${VERIFICATION_CODE_LENGTH}
+    expire-time: ${VERIFICATION_CODE_EXPIRATION}
 
   jwt:
     secret: ${JWT_SECRET}
+    access-token:
+      expire-time: ${JWT_ACCESS_TOKEN_EXPIRE_TIME}
+    refresh-token:
+      expire-time: ${JWT_REFRESH_TOKEN_EXPIRE_TIME}
 
   messages:
     basename: messages/validation, messages/error
