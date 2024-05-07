@@ -20,3 +20,8 @@ include::{docdir}/signup.adoc[]
 
 === Access Token 및 Refresh Token 재발급
 
+
+== 사용자
+
+=== 내 사용자 정보 조회
+include::{docdir}/member.adoc[]

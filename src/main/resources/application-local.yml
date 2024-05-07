@@ -11,7 +11,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show-sql: true
@@ -37,7 +37,7 @@ spring:
 
   verification-code:
     length: ${VERIFICATION_CODE_LENGTH}
-    expire-time: ${VERIFICATION_CODE_EXPIRATION}
+    expire-time: ${VERIFICATION_CODE_EXPIRE_TIME}
 
   jwt:
     secret: ${JWT_SECRET}
