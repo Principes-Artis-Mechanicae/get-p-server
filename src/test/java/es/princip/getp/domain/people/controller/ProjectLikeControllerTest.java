@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.BDDMockito.willThrow;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -89,6 +90,38 @@ public class ProjectLikeControllerTest {
             mockMvc.perform(post("/people/{peopleId}/likes", peopleId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+        }
+
+        @DisplayName("의뢰자는 피플에게 좋아요 취소를 할 수 있다.")
+        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
+        @Test
+        void unlike() throws Exception {
+            willDoNothing().given(peopleLikeService).unlike(any(), eq(peopleId));
+
+            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        }
+
+        @DisplayName("의뢰자는 이미 좋아요를 누른 피플에게 다시 좋아요를 취소할 수 없다.")
+        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
+        @Test
+        void unlike_WhenPeopleIsAlreadyLiked_ShouldBeFailed() throws Exception {
+            willThrow(new BusinessLogicException(PeopleLikeErrorCode.ALREADY_LIKED))
+                .given(peopleLikeService).unlike(any(), eq(peopleId));
+
+            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict());
+        }
+
+        @DisplayName("피플은 피플에게 좋아요를 취소할 수 없다.")
+        @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
+        @Test
+        void unlike_WhenMemberTypeIsPeople_ShouldBeFailed() throws Exception {
+            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
         }
     }
 }

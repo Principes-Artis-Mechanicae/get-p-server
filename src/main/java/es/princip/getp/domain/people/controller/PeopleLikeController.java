@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +37,22 @@ public class PeopleLikeController {
         peopleLikeService.like(principalDetails.getMember().getMemberId(), peopleId);
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.success(HttpStatus.CREATED));
+    }
+
+    /**
+     * 피플 좋아요 취소
+     *
+     * @param peopleId 좋아요를 취소할 피플 ID
+     * @param principalDetails 로그인한 사용자 정보
+     */
+    @DeleteMapping("/{peopleId}/likes")
+    @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
+    public ResponseEntity<ApiSuccessResult<?>> unlike(
+        @PathVariable Long peopleId,
+        @AuthenticationPrincipal PrincipalDetails principalDetails
+    ) {
+        peopleLikeService.unlike(principalDetails.getMember().getMemberId(), peopleId);
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(ApiResponse.success(HttpStatus.OK));
     }
 }
