@@ -4,17 +4,7 @@ import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -69,6 +59,7 @@ public class People extends BaseTimeEntity {
         this.peopleType = peopleType;
         this.profileImageUri = profileImageUri;
         this.member = member;
+        member.setPeople(this);
     }
 
     public void update(final UpdatePeopleRequest request) {
