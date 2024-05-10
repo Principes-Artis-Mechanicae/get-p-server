@@ -1,14 +1,13 @@
 package es.princip.getp.domain.member.domain.entity;
 
 import es.princip.getp.domain.base.BaseTimeEntity;
+import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
+import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTermAgreement;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,6 +34,14 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_type")
     private MemberType memberType;
 
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    @Setter
+    private Client client;
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    @Setter
+    private People people;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ServiceTermAgreement> serviceTermAgreements = new ArrayList<>();
 
@@ -53,6 +60,14 @@ public class Member extends BaseTimeEntity {
         this.memberType = memberType;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public String getNickname() {
+        if (client != null)
+            return client.getNickname();
+        if (people != null)
+            return people.getNickname();
+        return null;
     }
 
     public static Member from(CreateMemberRequest request) {
