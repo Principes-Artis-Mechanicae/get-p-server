@@ -1,8 +1,5 @@
 package es.princip.getp.domain.client.domain.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
@@ -10,21 +7,14 @@ import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.people.domain.entity.PeopleLike;
 import es.princip.getp.global.domain.values.Address;
 import es.princip.getp.global.domain.values.BankAccount;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -80,6 +70,7 @@ public class Client extends BaseTimeEntity {
         this.address = address;
         this.bankAccount = bankAccount;
         this.member = member;
+        member.setClient(this);
     }
 
     public static Client from(final Member member, final CreateClientRequest request) {
