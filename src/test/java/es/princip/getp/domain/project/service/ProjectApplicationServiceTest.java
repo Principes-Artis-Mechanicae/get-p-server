@@ -1,23 +1,14 @@
 package es.princip.getp.domain.project.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-
 import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.service.PeopleService;
-import es.princip.getp.domain.project.dto.request.ApplicateProjectRequest;
 import es.princip.getp.domain.project.domain.entity.Project;
 import es.princip.getp.domain.project.domain.entity.ProjectApplication;
+import es.princip.getp.domain.project.dto.request.ApplicateProjectRequest;
 import es.princip.getp.domain.project.repository.ProjectApplicationRepository;
 import es.princip.getp.fixture.ClientFixture;
-import es.princip.getp.fixture.MemberFixture;
-import es.princip.getp.fixture.PeopleFixture;
-import es.princip.getp.fixture.ProjectApplicationFixture;
-import es.princip.getp.fixture.ProjectFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,6 +16,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
+import static es.princip.getp.fixture.MemberFixture.createMember;
+import static es.princip.getp.fixture.ProjectApplicationFixture.createApplicateProjectRequest;
+import static es.princip.getp.fixture.ProjectApplicationFixture.createProjectApplication;
+import static es.princip.getp.fixture.ProjectFixture.createProject;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class ProjectApplicationServiceTest {
@@ -49,14 +50,15 @@ class ProjectApplicationServiceTest {
         @Test
         void create() {
             //given
-            ApplicateProjectRequest request = ProjectApplicationFixture.createApplicateProjectRequest();
-            People people = PeopleFixture.createPeople(
-                MemberFixture.createMember("scv1702@princip.es", MemberType.ROLE_PEOPLE));
+            ApplicateProjectRequest request = createApplicateProjectRequest();
+            People people = createPeople(
+                createMember("scv1702@princip.es", MemberType.ROLE_PEOPLE)
+            );
             Client client = ClientFixture.createClient(
-                MemberFixture.createMember("knu12370@princip.es", MemberType.ROLE_CLIENT));
-            Project project = ProjectFixture.createProject(client);
-            ProjectApplication projectApplication = ProjectApplicationFixture.createProjectApplication(
-                people, project);
+                createMember("knu12370@princip.es", MemberType.ROLE_CLIENT)
+            );
+            Project project = createProject(client);
+            ProjectApplication projectApplication = createProjectApplication(people, project);
 
             given(peopleService.getByMemberId(eq(people.getMember().getMemberId())))
                 .willReturn(people);

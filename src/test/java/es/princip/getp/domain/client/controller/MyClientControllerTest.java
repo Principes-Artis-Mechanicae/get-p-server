@@ -1,13 +1,5 @@
 package es.princip.getp.domain.client.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
@@ -34,6 +26,14 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(MyClientController.class)
 @Import({SecurityConfig.class, SecurityTestConfig.class})
@@ -79,7 +79,7 @@ class MyClientControllerTest {
                 .andExpect(jsonPath("$.data.client.phoneNumber")
                     .value(client.getPhoneNumber()))
                 .andExpect(jsonPath("$.data.client.profileImageUri")
-                    .value(client.getProfileImageUri()))
+                    .value(client.getMember().getProfileImageUri()))
                 .andExpect(jsonPath("$.data.client.address.zipcode")
                     .value(client.getAddress().getZipcode()))
                 .andExpect(jsonPath("$.data.client.address.street")

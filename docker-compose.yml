@@ -13,7 +13,7 @@ services:
       - ${SPRING_PORT}:${SPRING_PORT}
     restart: always
     volumes:
-      - ${STORAGE_PATH}:/storage
+      - /data:/storage
 
   database:
     image: postgres:latest

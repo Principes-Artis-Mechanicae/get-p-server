@@ -1,14 +1,5 @@
 package es.princip.getp.domain.people.service;
 
-import static es.princip.getp.fixture.MemberFixture.createMember;
-import static es.princip.getp.fixture.PeopleFixture.createPeople;
-import static es.princip.getp.fixture.ClientFixture.createClient;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.catchThrowableOfType;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.service.ClientService;
 import es.princip.getp.domain.member.domain.entity.Member;
@@ -24,6 +15,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
+import static es.princip.getp.fixture.ClientFixture.createClient;
+import static es.princip.getp.fixture.MemberFixture.createMember;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.catchThrowableOfType;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class PeopleLikeServiceTest {
