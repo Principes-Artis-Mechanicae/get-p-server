@@ -62,6 +62,14 @@ public class Member extends BaseTimeEntity {
         this.updatedAt = updatedAt;
     }
 
+    public String getProfileImageUri() {
+        if (client != null)
+            return client.getProfileImageUri();
+        if (people != null)
+            return people.getProfileImageUri();
+        return null;
+    }
+
     public String getNickname() {
         if (client != null)
             return client.getNickname();

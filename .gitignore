@@ -103,3 +103,6 @@ local.sh
 .run/
 
 src/main/resources/static/*
+
+storage/
+test/

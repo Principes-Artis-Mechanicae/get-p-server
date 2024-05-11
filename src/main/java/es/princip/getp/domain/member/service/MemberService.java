@@ -8,18 +8,28 @@ import es.princip.getp.domain.member.repository.MemberRepository;
 import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTerm;
 import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTermAgreement;
 import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
+import es.princip.getp.domain.storage.service.ImageStorageService;
 import es.princip.getp.global.exception.BusinessLogicException;
-import java.util.List;
-import java.util.Optional;
+import es.princip.getp.global.util.PathUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class MemberService {
     private final ServiceTermService serviceTermService;
+    private final ImageStorageService imageStorageService;
     private final MemberRepository memberRepository;
     
     private Member get(Optional<Member> member) {
@@ -59,5 +69,14 @@ public class MemberService {
             .toList();
         member.getServiceTermAgreements().addAll(agreements);
         return memberRepository.save(member);
+    }
+
+    @Transactional
+    public URI updateProfileImage(Member member, MultipartFile image) {
+        if (member.getProfileImageUri() != null) {
+           imageStorageService.deleteImage(Paths.get(member.getProfileImageUri()));
+        }
+        Path path = Paths.get(String.valueOf(member.getMemberId())).resolve("profile");
+        return URI.create("/" + PathUtil.toURI(imageStorageService.storeImage(path, image)));
     }
 }

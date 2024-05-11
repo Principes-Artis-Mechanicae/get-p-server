@@ -22,12 +22,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/people")
@@ -62,7 +57,6 @@ public class PeopleController {
     @GetMapping("/{peopleId}")
     public ResponseEntity<ApiSuccessResult<?>> getPeople(@PathVariable Long peopleId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.isAuthenticated());
         if (authentication.isAuthenticated()) {
             DetailPeopleResponse response = DetailPeopleResponse.from(peopleService.getByPeopleId(peopleId), null);
             return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));

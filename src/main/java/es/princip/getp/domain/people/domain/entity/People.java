@@ -5,10 +5,7 @@ import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Entity
@@ -35,6 +32,7 @@ public class People extends BaseTimeEntity {
     private PeopleType peopleType;
 
     @Column(name = "profile_image_uri")
+    @Setter
     private String profileImageUri;
 
     @OneToOne(cascade = CascadeType.REMOVE)
