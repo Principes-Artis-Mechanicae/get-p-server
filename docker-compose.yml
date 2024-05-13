@@ -13,7 +13,7 @@ services:
       - ${SPRING_PORT}:${SPRING_PORT}
     restart: always
     volumes:
-      - get-p-storage:/storage
+      - /data:/storage
 
   database:
     image: postgres:latest
@@ -43,6 +43,5 @@ services:
     restart: always
 
 volumes:
-  get-p-storage:
   get-p-database:
   get-p-redis:
