@@ -12,7 +12,7 @@
 
 == 인증
 === 회원 가입
-include::{docdir}/signup.adoc[]
+include::{docdir}/auth/signup.adoc[]
 
 === 로그인
 
@@ -20,11 +20,16 @@ include::{docdir}/signup.adoc[]
 
 === Access Token 및 Refresh Token 재발급
 
-
 == 사용자
 
 === 내 사용자 정보 조회
-include::{docdir}/get-my-member.adoc[]
+include::{docdir}/member/get-my-member.adoc[]
 
 === 내 프로필 사진 등록
-include::{docdir}/upload-profile-image.adoc[]
+include::{docdir}/member/upload-profile-image.adoc[]
+
+== 피플
+
+=== 피플 정보 등록
+include::{docdir}/people/create-people.adoc[]
+
