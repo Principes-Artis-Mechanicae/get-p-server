@@ -14,7 +14,7 @@ public record CreatePeopleRequest(
     @Email String email,
     @NotNull @PhoneNumber String phoneNumber,
     @Enum PeopleType peopleType,
-    @NotNull String profileImageUri
+    String profileImageUri
 ) {
 
     public People toEntity(final Member member) {

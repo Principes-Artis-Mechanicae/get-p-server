@@ -1,14 +1,5 @@
 package es.princip.getp.domain.member.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
-
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
@@ -16,9 +7,10 @@ import es.princip.getp.domain.member.exception.MemberErrorCode;
 import es.princip.getp.domain.member.repository.MemberRepository;
 import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
 import es.princip.getp.domain.serviceTerm.support.ServiceTermFixture;
+import es.princip.getp.domain.storage.service.ImageStorageService;
 import es.princip.getp.global.exception.BusinessLogicException;
-import java.util.List;
-import java.util.Optional;
+import es.princip.getp.global.util.PathUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,7 +18,25 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
+
+import static es.princip.getp.domain.storage.fixture.ImageStorageFixture.createImageMultiPartFile;
+import static es.princip.getp.fixture.MemberFixture.createMember;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
 
@@ -36,8 +46,28 @@ class MemberServiceTest {
     @Mock
     private ServiceTermService serviceTermService;
 
+    @Mock
+    private ImageStorageService imageStorageService;
+
     @InjectMocks
     private MemberService memberService;
+
+    @Nested
+    @DisplayName("updateProfileImage()는")
+    class UpdateProfileImage {
+        @Test
+        void updateProfileImage() throws IOException {
+            Member member = createMember();
+            MultipartFile image = createImageMultiPartFile();
+            Path path = Paths.get("images").resolve(String.valueOf(member.getMemberId())).resolve("profile");
+            Path imagePath = path.resolve("image.jpeg");
+            given(imageStorageService.storeImage(any(), eq(image))).willReturn(imagePath);
+
+            URI profileImageUri = memberService.updateProfileImage(member, image);
+
+            assertThat(profileImageUri).isEqualTo(URI.create("/" + PathUtil.toURI(imagePath)));
+        }
+    }
 
     @Nested
     @DisplayName("existsByEmail()은")
