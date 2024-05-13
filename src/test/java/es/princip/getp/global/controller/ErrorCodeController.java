@@ -1,6 +1,7 @@
 package es.princip.getp.global.controller;
 
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
+import es.princip.getp.domain.storage.exception.ImageErrorCode;
 import es.princip.getp.global.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,15 @@ public class ErrorCodeController {
     public Map<String, ErrorCodeResponse> getSignUpErrorCode() {
         Map<String, ErrorCodeResponse> map = new HashMap<>();
         for (ErrorCode errorCode : SignUpErrorCode.values()) {
+            map.put(errorCode.description().code(), ErrorCodeResponse.from(errorCode));
+        }
+        return map;
+    }
+
+    @GetMapping("/storage/images")
+    public Map<String, ErrorCodeResponse> getImageStorageErrorCode() {
+        Map<String, ErrorCodeResponse> map = new HashMap<>();
+        for (ErrorCode errorCode : ImageErrorCode.values()) {
             map.put(errorCode.description().code(), ErrorCodeResponse.from(errorCode));
         }
         return map;

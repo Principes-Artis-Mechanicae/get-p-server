@@ -1,4 +1,4 @@
-package es.princip.getp.fixture;
+package es.princip.getp.domain.people.fixture;
 
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.people.domain.entity.People;
@@ -6,6 +6,8 @@ import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
+import es.princip.getp.fixture.PeopleProfileFixture;
+
 import java.util.List;
 import java.util.stream.LongStream;
 
@@ -15,7 +17,7 @@ public class PeopleFixture {
     public static String EMAIL = "getp@princip.es";
     public static String PHONE_NUMBER = "010-1234-5678";
     public static PeopleType PEOPLE_TYPE = PeopleType.ROLE_INDIVIDUAL;
-    public static String PROFILE_IMAGE_URI = "https://example.com/img.jpg";
+    public static String PROFILE_IMAGE_URI = "/images/1/image.jpeg";
     public static String UPDATED_NICKNAME = "scv1702";
 
     public static CreatePeopleRequest createPeopleRequest() {

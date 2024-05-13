@@ -1,13 +1,5 @@
 package es.princip.getp.domain.project.repository;
 
-import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_CLIENT;
-import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_PEOPLE;
-import static es.princip.getp.fixture.ClientFixture.createClient;
-import static es.princip.getp.fixture.MemberFixture.createMember;
-import static es.princip.getp.fixture.PeopleFixture.createPeople;
-import static es.princip.getp.fixture.ProjectFixture.createProject;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.repository.ClientRepository;
 import es.princip.getp.domain.member.domain.entity.Member;
@@ -26,6 +18,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+
+import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_CLIENT;
+import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
+import static es.princip.getp.fixture.ClientFixture.createClient;
+import static es.princip.getp.fixture.MemberFixture.createMember;
+import static es.princip.getp.fixture.ProjectFixture.createProject;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

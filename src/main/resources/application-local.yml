@@ -4,6 +4,9 @@ server:
     context-path: ${BASE_PATH}
 
 spring:
+  storage:
+    path: ${STORAGE_PATH}
+
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}

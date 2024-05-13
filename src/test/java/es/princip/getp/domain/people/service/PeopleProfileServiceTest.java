@@ -1,10 +1,5 @@
 package es.princip.getp.domain.people.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.domain.entity.PeopleProfile;
@@ -12,10 +7,7 @@ import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.repository.PeopleProfileRepository;
 import es.princip.getp.domain.people.repository.PeopleRepository;
-import es.princip.getp.fixture.MemberFixture;
-import es.princip.getp.fixture.PeopleFixture;
 import es.princip.getp.fixture.PeopleProfileFixture;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,11 +16,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
+import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
+import static es.princip.getp.fixture.MemberFixture.createMember;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+
 @ExtendWith(MockitoExtension.class)
 public class PeopleProfileServiceTest {
 
-    private final Member mockMember = MemberFixture.createMember();
-    private final People mockPeople = PeopleFixture.createPeople(mockMember);
+    private final Member mockMember = createMember();
+    private final People mockPeople = createPeople(mockMember);
 
     @InjectMocks
     private PeopleProfileService peopleProfileService;

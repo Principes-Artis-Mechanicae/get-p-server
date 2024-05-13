@@ -8,10 +8,7 @@ import es.princip.getp.domain.people.domain.entity.PeopleLike;
 import es.princip.getp.global.domain.values.Address;
 import es.princip.getp.global.domain.values.BankAccount;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +34,7 @@ public class Client extends BaseTimeEntity {
     private String phoneNumber;
 
     @Column(name = "profile_image_uri")
+    @Setter
     private String profileImageUri;
 
     //TODO: 주소기반산업지원서비스 API로 확장 예정
@@ -55,12 +53,12 @@ public class Client extends BaseTimeEntity {
 
     @Builder
     public Client(
-        String nickname,
-        String email,
-        String phoneNumber,
-        String profileImageUri,
-        Address address,
-        BankAccount bankAccount,
+        final String nickname,
+        final String email,
+        final String phoneNumber,
+        final String profileImageUri,
+        final Address address,
+        final BankAccount bankAccount,
         final Member member
     ) {
         this.nickname = nickname;
