@@ -16,7 +16,7 @@ public class PeopleFixture {
     public static String EMAIL = "getp@princip.es";
     public static String PHONE_NUMBER = "01012345678";
     public static PeopleType PEOPLE_TYPE = PeopleType.INDIVIDUAL;
-    public static String PROFILE_IMAGE_URI = "/images/1/image.jpeg";
+    public static String PROFILE_IMAGE_URI = "/images/1/profile/image.jpeg";
     public static String UPDATED_NICKNAME = "scv1702";
 
     public static CreatePeopleRequest createPeopleRequest() {
