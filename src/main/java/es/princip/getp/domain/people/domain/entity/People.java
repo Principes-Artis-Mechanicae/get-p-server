@@ -40,7 +40,7 @@ public class People extends BaseTimeEntity {
     private Member member;
 
     @OneToOne(mappedBy = "people")
-    private PeopleProfile peopleProfile;
+    private PeopleProfile profile;
 
     @Builder
     public People(

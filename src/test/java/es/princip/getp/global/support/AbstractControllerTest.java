@@ -14,12 +14,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -36,14 +36,20 @@ public abstract class AbstractControllerTest {
     @Value("${server.servlet.context-path}")
     protected String contextPath;
 
+    protected MockHttpServletRequestBuilder get(String uri, Long id) {
+        return RestDocumentationRequestBuilders.get(contextPath + uri, id)
+            .contextPath(contextPath)
+            .contentType(MediaType.APPLICATION_JSON);
+    };
+
     protected MockHttpServletRequestBuilder get(String uri) {
-        return MockMvcRequestBuilders.get(contextPath + uri)
+        return RestDocumentationRequestBuilders.get(contextPath + uri)
             .contextPath(contextPath)
             .contentType(MediaType.APPLICATION_JSON);
     };
 
     protected MockHttpServletRequestBuilder post(String uri) {
-        return MockMvcRequestBuilders.post(contextPath + uri)
+        return RestDocumentationRequestBuilders.post(contextPath + uri)
             .contextPath(contextPath)
             .contentType(MediaType.APPLICATION_JSON);
     };
