@@ -1,23 +1,26 @@
 package es.princip.getp.domain.client.service;
 
+import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
-import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.exception.ClientErrorCode;
 import es.princip.getp.domain.client.repository.ClientRepository;
 import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.global.exception.BusinessLogicException;
-import java.util.Optional;
-import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ClientService {
 
+    private final MemberService memberService;
     private final ClientRepository clientRepository;
 
     private Client get(Optional<Client> client) {
@@ -40,7 +43,8 @@ public class ClientService {
     }
 
     @Transactional
-    public Client create(Member member, CreateClientRequest request) {
+    public Client create(Long memberId, CreateClientRequest request) {
+        Member member = memberService.getByMemberId(memberId);
         Client client = Client.from(member, request);
         return clientRepository.save(client);
     }

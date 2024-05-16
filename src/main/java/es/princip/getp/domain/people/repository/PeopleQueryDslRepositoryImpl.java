@@ -1,10 +1,5 @@
 package es.princip.getp.domain.people.repository;
 
-import static com.querydsl.core.types.Order.ASC;
-import static com.querydsl.core.types.Order.DESC;
-import static es.princip.getp.domain.people.domain.entity.QPeople.people;
-import static es.princip.getp.domain.people.domain.entity.QPeopleHashtag.peopleHashtag;
-import static es.princip.getp.domain.people.domain.entity.QPeopleProfile.peopleProfile;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
 import es.princip.getp.domain.people.domain.entity.People;
@@ -15,12 +10,19 @@ import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.global.domain.values.Hashtag;
 import es.princip.getp.global.support.QueryDslRepositorySupport;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.querydsl.core.types.Order.ASC;
+import static com.querydsl.core.types.Order.DESC;
+import static es.princip.getp.domain.people.domain.entity.QPeople.people;
+import static es.princip.getp.domain.people.domain.entity.QPeopleHashtag.peopleHashtag;
+import static es.princip.getp.domain.people.domain.entity.QPeopleProfile.peopleProfile;
 
 public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport implements
     PeopleQueryDslRepository {
@@ -66,9 +68,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
         List<Tuple> result = getQueryFactory()
             .select(
                 people.peopleId,
-                people.nickname,
                 people.peopleType,
-                people.profileImageUri,
                 peopleProfile.activityArea
             )
             .from(people)
@@ -93,9 +93,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
         List<Tuple> result = getQueryFactory()
             .select(
                 people.peopleId,
-                people.nickname,
                 people.peopleType,
-                people.profileImageUri,
                 peopleProfile.activityArea
             )
             .from(people)
@@ -107,9 +105,9 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
 
         return result.stream().map(tuple -> {
             Long peopleId = tuple.get(people.peopleId);
-            String nickname = tuple.get(people.nickname);
+            String nickname = tuple.get(people.member.nickname);
             PeopleType peopleType = tuple.get(people.peopleType);
-            String profileImageUri = tuple.get(people.profileImageUri);
+            String profileImageUri = tuple.get(people.member.profileImageUri);
             String activityArea = tuple.get(peopleProfile.activityArea);
             List<Hashtag> hashtags = getHashtagsForPeople(peopleId);
             CardPeopleProfileResponse profile =
