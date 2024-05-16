@@ -1,6 +1,7 @@
 package es.princip.getp.domain.people.service;
 
 import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
@@ -52,7 +53,11 @@ public class PeopleServiceTest {
 
         @BeforeEach
         void setUp() {
-            mockMember = Mockito.spy(createMember());
+            mockMember = Mockito.spy(createMember(
+                request.nickname(),
+                request.phoneNumber(),
+                request.profileImageUri()
+            ));
             given(mockMember.getMemberId()).willReturn(1L);
         }
 
@@ -65,6 +70,7 @@ public class PeopleServiceTest {
 
             People created = peopleService.create(mockMember.getMemberId(), request);
 
+            verify(memberService).update(mockMember.getMemberId(), UpdateMemberRequest.from(request));
             assertThat(created.getNickname()).isEqualTo(request.nickname());
             assertThat(created.getEmail()).isEqualTo(request.email());
             assertThat(created.getPhoneNumber()).isEqualTo(mockMember.getPhoneNumber());
@@ -154,7 +160,11 @@ public class PeopleServiceTest {
 
         @BeforeEach
         void setUp() {
-            mockMember = Mockito.spy(createMember());
+            mockMember = Mockito.spy(createMember(
+                request.nickname(),
+                request.phoneNumber(),
+                request.profileImageUri()
+            ));
             given(mockMember.getMemberId()).willReturn(1L);
             mockPeople = createPeople(mockMember);
         }
@@ -167,6 +177,7 @@ public class PeopleServiceTest {
 
             People updated = peopleService.update(mockMember.getMemberId(), request);
 
+            verify(memberService).update(mockMember.getMemberId(), UpdateMemberRequest.from(request));
             assertThat(updated.getNickname()).isEqualTo(request.nickname());
             assertThat(updated.getEmail()).isEqualTo(request.email());
             assertThat(updated.getPhoneNumber()).isEqualTo(request.phoneNumber());

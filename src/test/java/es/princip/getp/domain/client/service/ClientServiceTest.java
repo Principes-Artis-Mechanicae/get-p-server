@@ -6,6 +6,7 @@ import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.client.fixture.ClientFixture;
 import es.princip.getp.domain.client.repository.ClientRepository;
 import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.member.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -48,7 +49,11 @@ public class ClientServiceTest {
 
         @BeforeEach
         void setUp() {
-            mockMember = Mockito.spy(createMember());
+            mockMember = Mockito.spy(createMember(
+                request.nickname(),
+                request.phoneNumber(),
+                request.profileImageUri()
+            ));
             given(mockMember.getMemberId()).willReturn(1L);
         }
 
@@ -61,6 +66,7 @@ public class ClientServiceTest {
 
             Client created = clientService.create(mockMember.getMemberId(), request);
 
+            verify(memberService).update(mockMember.getMemberId(), UpdateMemberRequest.from(request));
             assertThat(created.getNickname()).isEqualTo(request.nickname());
             assertThat(created.getEmail()).isEqualTo(request.email());
             assertThat(created.getPhoneNumber()).isEqualTo(request.phoneNumber());
@@ -130,7 +136,11 @@ public class ClientServiceTest {
 
         @BeforeEach
         void setUp() {
-            mockMember = Mockito.spy(createMember());
+            mockMember = Mockito.spy(createMember(
+                request.nickname(),
+                request.phoneNumber(),
+                request.profileImageUri()
+            ));
             given(mockMember.getMemberId()).willReturn(1L);
             mockClient = createClient(mockMember);
         }
@@ -143,6 +153,7 @@ public class ClientServiceTest {
 
             Client updated = clientService.update(mockMember.getMemberId(), request);
 
+            verify(memberService).update(mockMember.getMemberId(), UpdateMemberRequest.from(request));
             assertThat(updated.getNickname()).isEqualTo(request.nickname());
             assertThat(updated.getEmail()).isEqualTo(request.email());
             assertThat(updated.getPhoneNumber()).isEqualTo(request.phoneNumber());
