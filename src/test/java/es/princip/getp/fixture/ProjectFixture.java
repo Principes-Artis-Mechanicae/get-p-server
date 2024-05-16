@@ -1,11 +1,14 @@
 package es.princip.getp.fixture;
 
 import es.princip.getp.domain.client.domain.entity.Client;
-import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
 import es.princip.getp.domain.project.domain.entity.Project;
 import es.princip.getp.domain.project.domain.enums.MeetingType;
+import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
+
 import java.time.LocalDate;
 import java.util.List;
+
+import static es.princip.getp.domain.client.fixture.ClientFixture.createClient;
 
 public class ProjectFixture {
     public static Long PROJECT_ID = 1L;
@@ -53,7 +56,7 @@ public class ProjectFixture {
             .meetingType(MEETING_TYPE)
             .attachmentUris(ATTACHMENT_URIS)
             .hashtags(HASHTAGS)
-            .client(ClientFixture.createClient())
+            .client(createClient())
             .build();
     }
 }

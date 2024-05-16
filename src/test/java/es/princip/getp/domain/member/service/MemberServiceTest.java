@@ -27,8 +27,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
+import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.storage.fixture.ImageStorageFixture.createImageMultiPartFile;
-import static es.princip.getp.fixture.MemberFixture.createMember;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;

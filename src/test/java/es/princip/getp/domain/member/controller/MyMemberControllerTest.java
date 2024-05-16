@@ -16,9 +16,9 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.net.URI;
 
+import static es.princip.getp.domain.client.fixture.ClientFixture.createClient;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
 import static es.princip.getp.domain.storage.fixture.ImageStorageFixture.createImageMultiPartFile;
-import static es.princip.getp.fixture.ClientFixture.createClient;
 import static es.princip.getp.global.support.ErrorCodeFields.errorCodeFields;
 import static es.princip.getp.global.support.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.global.support.HeaderDescriptorHelper.authorizationHeaderDescriptor;
