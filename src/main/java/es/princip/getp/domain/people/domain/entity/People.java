@@ -44,6 +44,7 @@ public class People extends BaseTimeEntity {
 
     @Builder
     public People(
+        final Long peopleId,
         final String nickname,
         final String email,
         final String phoneNumber,
@@ -51,6 +52,7 @@ public class People extends BaseTimeEntity {
         final String profileImageUri,
         final Member member
     ) {
+        this.peopleId = peopleId;
         this.nickname = nickname;
         this.email = email;
         this.phoneNumber = phoneNumber;

@@ -24,6 +24,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 @RestController
 @RequestMapping("/people")
 @RequiredArgsConstructor
@@ -41,10 +44,10 @@ public class PeopleController {
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<CreatePeopleResponse>> createPeople(
         @RequestBody @Valid CreatePeopleRequest request,
-        @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        @AuthenticationPrincipal PrincipalDetails principalDetails) throws URISyntaxException {
         Member member = principalDetails.getMember();
         CreatePeopleResponse response = CreatePeopleResponse.from(peopleService.create(member, request));
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.created(new URI("/people/" + response.peopleId()))
             .body(ApiResponse.success(HttpStatus.CREATED, response));
     }
 

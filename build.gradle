@@ -110,6 +110,19 @@ asciidoctor {
         include("**/index.adoc")
     }
     baseDirFollowsSourceFile()
+    doFirst {
+        delete file('src/main/resources/static/docs')
+    }
+}
+
+tasks.register('copyDocument') {
+    dependsOn asciidoctor
+    copy {
+        from("${asciidoctor.outputDir}") {
+            include("**/index.html")
+        }
+        into('src/main/resources/static/docs')
+    }
 }
 
 bootJar {
@@ -118,6 +131,6 @@ bootJar {
         from("${asciidoctor.outputDir}") {
             include("**/index.html")
         }
-        into('src/main/resources/static/docs')
+        into('static/docs')
     }
 }
