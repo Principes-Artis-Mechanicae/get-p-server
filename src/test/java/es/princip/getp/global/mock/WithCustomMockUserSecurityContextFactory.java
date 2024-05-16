@@ -2,6 +2,7 @@ package es.princip.getp.global.mock;
 
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.global.security.details.PrincipalDetails;
+import org.mockito.Mockito;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,19 +13,21 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.mockito.BDDMockito.given;
+
 public class WithCustomMockUserSecurityContextFactory implements WithSecurityContextFactory<WithCustomMockUser> {
 
     @Override
     public SecurityContext createSecurityContext(WithCustomMockUser annotation) {
         String role = annotation.memberType().name();
         LocalDateTime now = LocalDateTime.now();
-        Member member = Member.builder()
-            .memberId(annotation.memberId())
+        Member member = Mockito.spy(Member.builder()
             .email(annotation.email())
             .memberType(annotation.memberType())
             .createdAt(now)
             .updatedAt(now)
-            .build();
+            .build());
+        given(member.getMemberId()).willReturn(annotation.memberId());
         Authentication auth = new UsernamePasswordAuthenticationToken(new PrincipalDetails(member), "",
             List.of(new SimpleGrantedAuthority(role)));
         SecurityContext context = SecurityContextHolder.getContext();

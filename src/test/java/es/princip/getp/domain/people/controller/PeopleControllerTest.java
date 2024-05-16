@@ -57,7 +57,7 @@ class PeopleControllerTest extends AbstractControllerTest {
             Member member = principalDetails.getMember();
             People people = Mockito.spy(PeopleFixture.createPeople(member));
             given(people.getPeopleId()).willReturn(1L);
-            given(peopleService.create(member, request)).willReturn(people);
+            given(peopleService.create(member.getMemberId(), request)).willReturn(people);
 
             perform()
                 .andDo(restDocs.document(
