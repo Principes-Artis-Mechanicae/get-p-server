@@ -1,12 +1,5 @@
 package es.princip.getp.domain.people.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.BDDMockito.willThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
@@ -29,12 +22,19 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.willThrow;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @RequiredArgsConstructor
 @WebMvcTest(PeopleLikeController.class)
 @Import({SecurityConfig.class, SecurityTestConfig.class})
 @ActiveProfiles("test")
 @ExtendWith(PrincipalDetailsParameterResolver.class)
-public class ProjectLikeControllerTest {
+public class PeopleLikeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -1,4 +1,4 @@
-package es.princip.getp.fixture;
+package es.princip.getp.domain.people.fixture;
 
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.domain.entity.PeopleProfile;
@@ -9,6 +9,7 @@ import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.global.domain.values.Hashtag;
 import es.princip.getp.global.domain.values.TechStack;
+
 import java.util.List;
 
 public class PeopleProfileFixture {

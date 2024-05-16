@@ -21,11 +21,11 @@ import static es.princip.getp.domain.storage.fixture.ImageStorageFixture.createI
 import static es.princip.getp.fixture.ClientFixture.createClient;
 import static es.princip.getp.global.support.ErrorCodeFields.errorCodeFields;
 import static es.princip.getp.global.support.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.global.support.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static es.princip.getp.global.support.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.beneathPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.restdocs.snippet.Attributes.key;
@@ -86,28 +86,7 @@ class MyMemberControllerTest extends AbstractControllerTest {
         ResultActions perform() throws Exception {
             return mockMvc.perform(get("/member/me")
                     .header("Authorization", "Bearer ${ACCESS_TOKEN}")
-                )
-                .andExpect(status().isOk())
-                .andDo(
-                    restDocs.document(
-                        requestHeaders(
-                            headerWithName("Authorization").description("Bearer ${ACCESS_TOKEN}")
-                        ),
-                        responseFields(beneathPath("data").withSubsectionId("data"))
-                            .and(
-                                getDescriptor("memberId", "회원 ID"),
-                                getDescriptor("email", "이메일"),
-                                getDescriptor("nickname", "닉네임"),
-                                getDescriptor("profileImageUri", "프로필 사진 URI"),
-                                getDescriptor("memberType", "회원 유형"),
-                                getDescriptor("createdAt", "회원 가입일")
-                                    .attributes(key("format").value("yyyy-MM-dd'T'HH:mm:ss")),
-                                getDescriptor("updatedAt", "회원 정보 수정일")
-                                    .attributes(key("format").value("yyyy-MM-dd'T'HH:mm:ss"))
-                            )
-                    )
-                )
-                .andDo(print());
+                ).andDo(print());
         }
 
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
@@ -115,7 +94,26 @@ class MyMemberControllerTest extends AbstractControllerTest {
         void getMyMember_WhenMemberTypeIsPeople(PrincipalDetails principalDetails) throws Exception {
             createPeople(principalDetails.getMember());
 
-            perform();
+            perform()
+                .andExpect(status().isOk())
+                .andDo(
+                    restDocs.document(
+                        requestHeaders(
+                            authorizationHeaderDescriptor()
+                        ),
+                        responseFields(
+                            getDescriptor("memberId", "회원 ID"),
+                            getDescriptor("email", "이메일"),
+                            getDescriptor("nickname", "닉네임"),
+                            getDescriptor("profileImageUri", "프로필 사진 URI"),
+                            getDescriptor("memberType", "회원 유형"),
+                            getDescriptor("createdAt", "회원 가입일")
+                                .attributes(key("format").value("yyyy-MM-dd'T'HH:mm:ss")),
+                            getDescriptor("updatedAt", "회원 정보 수정일")
+                                .attributes(key("format").value("yyyy-MM-dd'T'HH:mm:ss"))
+                        )
+                    )
+                );
         }
 
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
@@ -123,13 +121,15 @@ class MyMemberControllerTest extends AbstractControllerTest {
         void getMyMember_WhenMemberTypeIsClient(PrincipalDetails principalDetails) throws Exception {
             createClient(principalDetails.getMember());
 
-            perform();
+            perform()
+                .andExpect(status().isOk());
         }
 
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
         void getMyMember_WhenPeopleIsNotRegistered() throws Exception {
             perform()
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.nickname").isEmpty())
                 .andExpect(jsonPath("$.data.profileImageUri").isEmpty());
         }
@@ -138,6 +138,7 @@ class MyMemberControllerTest extends AbstractControllerTest {
         @Test
         void getMyMember_WhenClientIsNotRegistered() throws Exception {
             perform()
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.nickname").isEmpty())
                 .andExpect(jsonPath("$.data.profileImageUri").isEmpty());
         }
