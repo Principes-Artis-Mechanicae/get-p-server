@@ -5,7 +5,7 @@ import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.client.exception.ClientErrorCode;
 import es.princip.getp.domain.client.repository.ClientRepository;
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
@@ -44,13 +44,14 @@ public class ClientService {
 
     @Transactional
     public Client create(Long memberId, CreateClientRequest request) {
-        Member member = memberService.getByMemberId(memberId);
-        Client client = Client.from(member, request);
+        memberService.update(memberId, UpdateMemberRequest.from(request));
+        Client client = Client.from(memberService.getByMemberId(memberId), request);
         return clientRepository.save(client);
     }
 
     @Transactional
     public Client update(Long memberId, UpdateClientRequest request) {
+        memberService.update(memberId, UpdateMemberRequest.from(request));
         Client client = getByMemberId(memberId);
         client.update(request);
         return client;

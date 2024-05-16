@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.service;
 
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
@@ -44,13 +44,14 @@ public class PeopleService {
 
     @Transactional
     public People create(Long memberId, CreatePeopleRequest request) {
-        Member member = memberService.getByMemberId(memberId);
-        People people = People.from(member, request);
+        memberService.update(memberId, UpdateMemberRequest.from(request));
+        People people = People.from(memberService.getByMemberId(memberId), request);
         return peopleRepository.save(people);
     }
 
     @Transactional
     public People update(Long memberId, UpdatePeopleRequest request) {
+        memberService.update(memberId, UpdateMemberRequest.from(request));
         People people = getByMemberId(memberId);
         people.update(request);
         return people;

@@ -2,7 +2,6 @@ package es.princip.getp.domain.people.domain.entity;
 
 import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
@@ -49,7 +48,6 @@ public class People extends BaseTimeEntity {
     }
 
     public static People from(final Member member, final CreatePeopleRequest request) {
-        member.update(UpdateMemberRequest.from(request));
         return People.builder()
             .email(request.email())
             .peopleType(request.peopleType())
@@ -70,7 +68,6 @@ public class People extends BaseTimeEntity {
     }
 
     public void update(final UpdatePeopleRequest request) {
-        this.member.update(UpdateMemberRequest.from(request));
         this.email = request.email();
         this.peopleType = request.peopleType();
     }

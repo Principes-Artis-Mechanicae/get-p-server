@@ -4,7 +4,6 @@ import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.people.domain.entity.PeopleLike;
 import es.princip.getp.global.domain.values.Address;
 import es.princip.getp.global.domain.values.BankAccount;
@@ -62,7 +61,6 @@ public class Client extends BaseTimeEntity {
         final Member member,
         final CreateClientRequest request
     ) {
-        member.update(UpdateMemberRequest.from(request));
         return Client.builder()
             .email(request.email())
             .address(request.address())
@@ -84,7 +82,6 @@ public class Client extends BaseTimeEntity {
     }
 
     public void update(final UpdateClientRequest request) {
-        this.member.update(UpdateMemberRequest.from(request));
         this.email = request.email();
         this.address = request.address();
         this.bankAccount = request.bankAccount();
