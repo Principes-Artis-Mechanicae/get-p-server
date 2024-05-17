@@ -14,23 +14,23 @@ import java.util.List;
 
 public class PeopleProfileFixture {
 
-    public static String INTRODUCTION = "안녕하세요, 백엔드 개발자 겟피입니다.";
-    public static String ACTIVITY_AREA = "대구광역시";
-    public static Education EDUCATION = Education.of("한양대학교", "컴퓨터 공학과");
+    public static String INTRODUCTION = "안녕하세요, 백엔드 개발자입니다.";
+    public static String ACTIVITY_AREA = "대구광역시 달서구";
+    public static Education EDUCATION = Education.of("경북대학교", "컴퓨터학부");
     public static List<Hashtag> HASHTAGS = List.of(
         Hashtag.of("#ESFP"),
         Hashtag.of("#JIRA"),
         Hashtag.of("#DISCORD")
     );
     public static List<TechStack> TECHSTACKS = List.of(
-        TechStack.of("#Java"),
-        TechStack.of("#Spring"),
-        TechStack.of("#JPA")
+        TechStack.of("Java"),
+        TechStack.of("Spring"),
+        TechStack.of("JPA")
     );
     public static List<Portfolio> PORTFOLIOS = List.of(
-        Portfolio.of("https://github.com/get-p/project1", "프로젝트1 설명"),
-        Portfolio.of("https://github.com/get-p/project2", "프로젝트2 설명"),
-        Portfolio.of("https://github.com/get-p/project3", "프로젝트3 설명")
+        Portfolio.of("https://github.com/Principes-Artis-Mechanicae/project1", "프로젝트1 설명"),
+        Portfolio.of("https://github.com/Principes-Artis-Mechanicae/project2", "프로젝트2 설명"),
+        Portfolio.of("https://github.com/Principes-Artis-Mechanicae/project3", "프로젝트3 설명")
     );
 
     public static CreatePeopleProfileRequest createPeopleProfileRequest() {
