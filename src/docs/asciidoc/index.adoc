@@ -33,3 +33,5 @@ include::{docdir}/member/upload-profile-image.adoc[]
 === 피플 정보 등록
 include::{docdir}/people/create-people.adoc[]
 
+=== 피플 상세 조회
+include::{docdir}/people/get-people.adoc[]

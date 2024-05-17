@@ -8,6 +8,7 @@ import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.global.security.details.PrincipalDetails;
+import es.princip.getp.global.support.ControllerSupport;
 import es.princip.getp.global.util.ApiResponse;
 import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
 import jakarta.validation.Valid;
@@ -19,9 +20,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -30,7 +29,7 @@ import java.net.URISyntaxException;
 @RestController
 @RequestMapping("/people")
 @RequiredArgsConstructor
-public class PeopleController {
+public class PeopleController extends ControllerSupport {
 
     private final PeopleService peopleService;
 
@@ -59,15 +58,12 @@ public class PeopleController {
      */
     @GetMapping("/{peopleId}")
     public ResponseEntity<ApiSuccessResult<?>> getPeople(@PathVariable Long peopleId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.isAuthenticated()) {
-            DetailPeopleResponse response = DetailPeopleResponse.from(peopleService.getByPeopleId(peopleId), null);
+        if (isAuthenticated()) {
+            DetailPeopleResponse response = DetailPeopleResponse.from(peopleService.getByPeopleId(peopleId));
             return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
         }
-        else{
-            PublicDetailPeopleResponse response = PublicDetailPeopleResponse.from(peopleService.getByPeopleId(peopleId), null);
-            return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
-        }
+        PublicDetailPeopleResponse response = PublicDetailPeopleResponse.from(peopleService.getByPeopleId(peopleId));
+        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 
     /**
