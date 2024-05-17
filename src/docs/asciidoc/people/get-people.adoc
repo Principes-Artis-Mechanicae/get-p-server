@@ -1,0 +1,17 @@
+==== HTTP request
+include::{snippets}/get-people/get-people_-when-user-logined/http-request.adoc[]
+
+==== Request headers
+include::{snippets}/get-people/get-people_-when-user-logined/request-headers.adoc[]
+
+==== Path parameters
+include::{snippets}/get-people/get-people_-when-user-logined/path-parameters.adoc[]
+
+==== HTTP response when user logined
+include::{snippets}/get-people/get-people_-when-user-logined/http-response.adoc[]
+
+==== HTTP response when user not logined
+include::{snippets}/get-people/get-people_-when-user-not-logined/http-response.adoc[]
+
+==== Response fields
+include::{snippets}/get-people/get-people_-when-user-not-logined/response-fields-data.adoc[]

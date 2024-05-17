@@ -1,10 +1,5 @@
 package es.princip.getp.domain.people.repository;
 
-import static com.querydsl.core.types.Order.ASC;
-import static com.querydsl.core.types.Order.DESC;
-import static es.princip.getp.domain.people.domain.entity.QPeople.people;
-import static es.princip.getp.domain.people.domain.entity.QPeopleHashtag.peopleHashtag;
-import static es.princip.getp.domain.people.domain.entity.QPeopleProfile.peopleProfile;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
 import es.princip.getp.domain.people.domain.entity.People;
@@ -15,12 +10,19 @@ import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.global.domain.values.Hashtag;
 import es.princip.getp.global.support.QueryDslRepositorySupport;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.querydsl.core.types.Order.ASC;
+import static com.querydsl.core.types.Order.DESC;
+import static es.princip.getp.domain.people.domain.entity.QPeople.people;
+import static es.princip.getp.domain.people.domain.entity.QPeopleHashtag.peopleHashtag;
+import static es.princip.getp.domain.people.domain.entity.QPeopleProfile.peopleProfile;
 
 public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport implements
     PeopleQueryDslRepository {
@@ -72,7 +74,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
                 peopleProfile.activityArea
             )
             .from(people)
-            .join(people.peopleProfile, peopleProfile)
+            .join(people.profile, peopleProfile)
             .where(lastPeopleId == null ? null : people.peopleId.lt(lastPeopleId))
             .orderBy(people.peopleId.desc())
             .limit(size)
@@ -99,7 +101,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
                 peopleProfile.activityArea
             )
             .from(people)
-            .join(people.peopleProfile, peopleProfile)
+            .join(people.profile, peopleProfile)
             .orderBy(getPeopleOrderSpecifiers(pageable.getSort()))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
