@@ -72,7 +72,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
                 peopleProfile.activityArea
             )
             .from(people)
-            .join(people.peopleProfile, peopleProfile)
+            .join(people.profile, peopleProfile)
             .where(lastPeopleId == null ? null : people.peopleId.lt(lastPeopleId))
             .orderBy(people.peopleId.desc())
             .limit(size)
@@ -97,7 +97,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
                 peopleProfile.activityArea
             )
             .from(people)
-            .join(people.peopleProfile, peopleProfile)
+            .join(people.profile, peopleProfile)
             .orderBy(getPeopleOrderSpecifiers(pageable.getSort()))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
