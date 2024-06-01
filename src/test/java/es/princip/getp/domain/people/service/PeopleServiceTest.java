@@ -28,6 +28,7 @@ import java.util.Optional;
 import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -71,11 +72,13 @@ public class PeopleServiceTest {
             People created = peopleService.create(mockMember.getMemberId(), request);
 
             verify(memberService).update(mockMember.getMemberId(), UpdateMemberRequest.from(request));
-            assertThat(created.getNickname()).isEqualTo(request.nickname());
-            assertThat(created.getEmail()).isEqualTo(request.email());
-            assertThat(created.getPhoneNumber()).isEqualTo(mockMember.getPhoneNumber());
-            assertThat(created.getPeopleType()).isEqualTo(request.peopleType());
-            assertThat(created.getProfileImageUri()).isEqualTo(request.profileImageUri());
+            assertSoftly(softly -> {
+                softly.assertThat(created.getNickname()).isEqualTo(request.nickname());
+                softly.assertThat(created.getEmail()).isEqualTo(request.email());
+                softly.assertThat(created.getPhoneNumber()).isEqualTo(mockMember.getPhoneNumber());
+                softly.assertThat(created.getPeopleType()).isEqualTo(request.peopleType());
+                softly.assertThat(created.getProfileImageUri()).isEqualTo(request.profileImageUri());
+            });
         }
     }
 
@@ -178,11 +181,13 @@ public class PeopleServiceTest {
             People updated = peopleService.update(mockMember.getMemberId(), request);
 
             verify(memberService).update(mockMember.getMemberId(), UpdateMemberRequest.from(request));
-            assertThat(updated.getNickname()).isEqualTo(request.nickname());
-            assertThat(updated.getEmail()).isEqualTo(request.email());
-            assertThat(updated.getPhoneNumber()).isEqualTo(request.phoneNumber());
-            assertThat(updated.getPeopleType()).isEqualTo(request.peopleType());
-            assertThat(updated.getProfileImageUri()).isEqualTo(request.profileImageUri());
+            assertSoftly(softly -> {
+                softly.assertThat(updated.getNickname()).isEqualTo(request.nickname());
+                softly.assertThat(updated.getEmail()).isEqualTo(request.email());
+                softly.assertThat(updated.getPhoneNumber()).isEqualTo(request.phoneNumber());
+                softly.assertThat(updated.getPeopleType()).isEqualTo(request.peopleType());
+                softly.assertThat(updated.getProfileImageUri()).isEqualTo(request.profileImageUri());
+            });
         }
     }
 

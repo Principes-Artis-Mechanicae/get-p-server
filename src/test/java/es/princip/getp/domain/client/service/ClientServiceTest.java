@@ -24,6 +24,7 @@ import static es.princip.getp.domain.client.fixture.ClientFixture.createClient;
 import static es.princip.getp.domain.client.fixture.ClientFixture.createClientRequest;
 import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -67,12 +68,14 @@ public class ClientServiceTest {
             Client created = clientService.create(mockMember.getMemberId(), request);
 
             verify(memberService).update(mockMember.getMemberId(), UpdateMemberRequest.from(request));
-            assertThat(created.getNickname()).isEqualTo(request.nickname());
-            assertThat(created.getEmail()).isEqualTo(request.email());
-            assertThat(created.getPhoneNumber()).isEqualTo(request.phoneNumber());
-            assertThat(created.getProfileImageUri()).isEqualTo(request.profileImageUri());
-            assertThat(created.getAddress()).isEqualTo(request.address());
-            assertThat(created.getBankAccount()).isEqualTo(request.bankAccount());
+            assertSoftly(softly -> {
+                softly.assertThat(created.getNickname()).isEqualTo(request.nickname());
+                softly.assertThat(created.getEmail()).isEqualTo(request.email());
+                softly.assertThat(created.getPhoneNumber()).isEqualTo(request.phoneNumber());
+                softly.assertThat(created.getProfileImageUri()).isEqualTo(request.profileImageUri());
+                softly.assertThat(created.getAddress()).isEqualTo(request.address());
+                softly.assertThat(created.getBankAccount()).isEqualTo(request.bankAccount());
+            });
         }
     }
 
@@ -154,12 +157,14 @@ public class ClientServiceTest {
             Client updated = clientService.update(mockMember.getMemberId(), request);
 
             verify(memberService).update(mockMember.getMemberId(), UpdateMemberRequest.from(request));
-            assertThat(updated.getNickname()).isEqualTo(request.nickname());
-            assertThat(updated.getEmail()).isEqualTo(request.email());
-            assertThat(updated.getPhoneNumber()).isEqualTo(request.phoneNumber());
-            assertThat(updated.getProfileImageUri()).isEqualTo(request.profileImageUri());
-            assertThat(updated.getAddress()).isEqualTo(request.address());
-            assertThat(updated.getBankAccount()).isEqualTo(request.bankAccount());
+            assertSoftly(softly -> {
+                softly.assertThat(updated.getNickname()).isEqualTo(request.nickname());
+                softly.assertThat(updated.getEmail()).isEqualTo(request.email());
+                softly.assertThat(updated.getPhoneNumber()).isEqualTo(request.phoneNumber());
+                softly.assertThat(updated.getProfileImageUri()).isEqualTo(request.profileImageUri());
+                softly.assertThat(updated.getAddress()).isEqualTo(request.address());
+                softly.assertThat(updated.getBankAccount()).isEqualTo(request.bankAccount());
+            });
         }
     }
 
