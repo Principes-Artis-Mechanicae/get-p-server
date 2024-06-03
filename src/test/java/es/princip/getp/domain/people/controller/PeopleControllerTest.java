@@ -20,9 +20,9 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_CLIENT;
 import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeopleRequest;
 import static es.princip.getp.domain.people.fixture.PeopleProfileFixture.createPeopleProfile;
-import static es.princip.getp.fixture.MemberFixture.createMember;
 import static es.princip.getp.global.support.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.global.support.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.global.support.PayloadDocumentationHelper.responseFields;
@@ -145,7 +145,7 @@ class PeopleControllerTest extends AbstractControllerTest {
             Member member = principalDetails.getMember();
             People people = Mockito.spy(PeopleFixture.createPeople(member));
             given(people.getPeopleId()).willReturn(1L);
-            given(peopleService.create(member, request)).willReturn(people);
+            given(peopleService.create(member.getMemberId(), request)).willReturn(people);
 
             perform()
                 .andDo(restDocs.document(

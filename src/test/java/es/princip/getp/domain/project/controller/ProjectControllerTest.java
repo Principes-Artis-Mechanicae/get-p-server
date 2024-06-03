@@ -1,14 +1,7 @@
 package es.princip.getp.domain.project.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import es.princip.getp.domain.project.domain.entity.Project;
 import es.princip.getp.domain.project.service.ProjectService;
-import es.princip.getp.fixture.ProjectFixture;
 import es.princip.getp.global.config.SecurityConfig;
 import es.princip.getp.global.config.SecurityTestConfig;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +15,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static es.princip.getp.fixture.ProjectFixture.createProject;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectController.class)
 @Import({SecurityConfig.class, SecurityTestConfig.class})
@@ -41,7 +41,7 @@ class ProjectControllerTest {
         @DisplayName("사용자는 프로젝트의 상세 정보를 조회할 수 있다.")
         void getProject() throws Exception {
             //given
-            Project project = ProjectFixture.createProject();
+            Project project = createProject();
 
             given(projectService.getByProjectId(any())).willReturn(project);
 

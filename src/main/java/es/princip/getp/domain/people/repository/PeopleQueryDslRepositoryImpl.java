@@ -68,9 +68,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
         List<Tuple> result = getQueryFactory()
             .select(
                 people.peopleId,
-                people.nickname,
                 people.peopleType,
-                people.profileImageUri,
                 peopleProfile.activityArea
             )
             .from(people)
@@ -95,9 +93,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
         List<Tuple> result = getQueryFactory()
             .select(
                 people.peopleId,
-                people.nickname,
                 people.peopleType,
-                people.profileImageUri,
                 peopleProfile.activityArea
             )
             .from(people)
@@ -109,9 +105,9 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
 
         return result.stream().map(tuple -> {
             Long peopleId = tuple.get(people.peopleId);
-            String nickname = tuple.get(people.nickname);
+            String nickname = tuple.get(people.member.nickname);
             PeopleType peopleType = tuple.get(people.peopleType);
-            String profileImageUri = tuple.get(people.profileImageUri);
+            String profileImageUri = tuple.get(people.member.profileImageUri);
             String activityArea = tuple.get(peopleProfile.activityArea);
             List<Hashtag> hashtags = getHashtagsForPeople(peopleId);
             CardPeopleProfileResponse profile =

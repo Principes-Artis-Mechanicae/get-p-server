@@ -1,18 +1,20 @@
-package es.princip.getp.fixture;
+package es.princip.getp.domain.client.fixture;
 
+import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
-import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.global.domain.values.Address;
 import es.princip.getp.global.domain.values.BankAccount;
+
+import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 
 public class ClientFixture {
 
     public static String NICKNAME = "knu12370";
     public static String EMAIL = "knu12370@princip.es";
     public static String PHONE_NUMBER = "01012345678";
-    public static String PROFILE_IMAGE_URI = "/knu12370/profile/example.jpg";
+    public static String PROFILE_IMAGE_URI = "/images/1/profile/image.jpg";
     public static Address ADDRESS =
         Address.of("41566", "대구광역시 북구 대학로 80", "IT대학 융복합관");
     public static BankAccount BANK_ACCOUNT =
@@ -26,7 +28,8 @@ public class ClientFixture {
             PHONE_NUMBER,
             PROFILE_IMAGE_URI,
             ADDRESS,
-            BANK_ACCOUNT);
+            BANK_ACCOUNT
+        );
     }
 
     public static UpdateClientRequest updateClientRequest() {
@@ -36,39 +39,21 @@ public class ClientFixture {
             PHONE_NUMBER,
             PROFILE_IMAGE_URI,
             ADDRESS,
-            BANK_ACCOUNT);
+            BANK_ACCOUNT
+        );
     }
 
     public static Client createClient(Member member) {
-        return Client.builder()
-            .nickname(NICKNAME)
-            .email(EMAIL)
-            .phoneNumber(PHONE_NUMBER)
-            .profileImageUri(PROFILE_IMAGE_URI)
-            .address(ADDRESS)
-            .bankAccount(BANK_ACCOUNT)
-            .member(member)
-            .build();
+        return Client.from(member, createClientRequest());
     }
 
     public static Client createClient() {
-        return Client.builder()
-            .nickname(NICKNAME)
-            .email(EMAIL)
-            .phoneNumber(PHONE_NUMBER)
-            .profileImageUri(PROFILE_IMAGE_URI)
-            .address(ADDRESS)
-            .bankAccount(BANK_ACCOUNT)
-            .member(MemberFixture.createMember())
-            .build();
+        return Client.from(createMember(NICKNAME, PHONE_NUMBER, PROFILE_IMAGE_URI), createClientRequest());
     }
 
     public static Client createClient(Member member, UpdateClientRequest request) {
         return Client.builder()
-            .nickname(request.nickname())
             .email(request.email())
-            .phoneNumber(request.phoneNumber())
-            .profileImageUri(request.profileImageUri())
             .address(request.address())
             .bankAccount(request.bankAccount())
             .member(member)

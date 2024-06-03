@@ -1,24 +1,18 @@
 package es.princip.getp.domain.client.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.response.ClientResponse;
 import es.princip.getp.domain.client.service.ClientService;
-import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.util.ApiResponse;
 import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/client")
@@ -37,8 +31,8 @@ public class ClientController {
     public ResponseEntity<ApiSuccessResult<ClientResponse>> create(
             @RequestBody @Valid CreateClientRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Member member = principalDetails.getMember();
-        ClientResponse response = ClientResponse.from(clientService.create(member, request));
+        Long memberId = principalDetails.getMember().getMemberId();
+        ClientResponse response = ClientResponse.from(clientService.create(memberId, request));
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED, response));
     }
 

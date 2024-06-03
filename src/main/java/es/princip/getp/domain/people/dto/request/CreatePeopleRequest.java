@@ -1,7 +1,5 @@
 package es.princip.getp.domain.people.dto.request;
 
-import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.global.validator.annotation.Enum;
 import es.princip.getp.global.validator.annotation.PhoneNumber;
@@ -16,15 +14,4 @@ public record CreatePeopleRequest(
     @Enum PeopleType peopleType,
     String profileImageUri
 ) {
-
-    public People toEntity(final Member member) {
-        return People.builder()
-            .nickname(nickname)
-            .email(email)
-            .phoneNumber(phoneNumber)
-            .peopleType(peopleType)
-            .profileImageUri(profileImageUri)
-            .member(member)
-            .build();
-    }
 }

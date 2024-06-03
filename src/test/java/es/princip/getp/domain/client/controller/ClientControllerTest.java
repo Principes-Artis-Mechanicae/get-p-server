@@ -6,7 +6,6 @@ import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.service.ClientService;
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.domain.enums.MemberType;
-import es.princip.getp.fixture.ClientFixture;
 import es.princip.getp.global.config.SecurityConfig;
 import es.princip.getp.global.config.SecurityTestConfig;
 import es.princip.getp.global.mock.PrincipalDetailsParameterResolver;
@@ -25,7 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.any;
+import static es.princip.getp.domain.client.fixture.ClientFixture.createClientRequest;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -58,9 +57,9 @@ class ClientControllerTest {
         void create(PrincipalDetails principalDetails) throws Exception {
             //given
             Member member = principalDetails.getMember();
-            CreateClientRequest request = ClientFixture.createClientRequest();
+            CreateClientRequest request = createClientRequest();
             Client client = Client.from(member, request);
-            given(clientService.create(any(), any())).willReturn(client);
+            given(clientService.create(member.getMemberId(), request)).willReturn(client);
 
             //when and then
             mockMvc.perform(post("/client")

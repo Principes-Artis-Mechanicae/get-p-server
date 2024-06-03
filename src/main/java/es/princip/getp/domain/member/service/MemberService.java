@@ -3,6 +3,7 @@ package es.princip.getp.domain.member.service;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
+import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.member.exception.MemberErrorCode;
 import es.princip.getp.domain.member.repository.MemberRepository;
 import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTerm;
@@ -78,5 +79,11 @@ public class MemberService {
         }
         Path path = Paths.get(String.valueOf(member.getMemberId())).resolve("profile");
         return URI.create("/" + PathUtil.toURI(imageStorageService.storeImage(path, image)));
+    }
+
+    @Transactional
+    public void update(Long memberId, UpdateMemberRequest request) {
+        Member member = getByMemberId(memberId);
+        member.update(request);
     }
 }

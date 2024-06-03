@@ -40,23 +40,13 @@ public class PeopleFixture {
     }
 
     public static People createPeople(Member member) {
-        return People.builder()
-            .nickname(NICKNAME)
-            .email(EMAIL)
-            .phoneNumber(PHONE_NUMBER)
-            .peopleType(PEOPLE_TYPE)
-            .profileImageUri(PROFILE_IMAGE_URI)
-            .member(member)
-            .build();
+        return People.from(member, createPeopleRequest());
     }
 
     public static List<People> createPeopleList(List<Member> memberList) {
         return memberList.stream().map(member -> People.builder()
-            .nickname(NICKNAME)
             .email(EMAIL)
-            .phoneNumber(PHONE_NUMBER)
             .peopleType(PEOPLE_TYPE)
-            .profileImageUri(PROFILE_IMAGE_URI)
             .member(member)
             .build()).toList();
     }
