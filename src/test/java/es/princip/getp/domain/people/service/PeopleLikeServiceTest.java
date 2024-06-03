@@ -16,9 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static es.princip.getp.domain.client.fixture.ClientFixture.createClient;
+import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
-import static es.princip.getp.fixture.ClientFixture.createClient;
-import static es.princip.getp.fixture.MemberFixture.createMember;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;

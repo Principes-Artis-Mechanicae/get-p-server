@@ -1,6 +1,5 @@
 package es.princip.getp.domain.people.controller;
 
-import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.CreatePeopleResponse;
@@ -44,8 +43,8 @@ public class PeopleController extends ControllerSupport {
     public ResponseEntity<ApiSuccessResult<CreatePeopleResponse>> createPeople(
         @RequestBody @Valid CreatePeopleRequest request,
         @AuthenticationPrincipal PrincipalDetails principalDetails) throws URISyntaxException {
-        Member member = principalDetails.getMember();
-        CreatePeopleResponse response = CreatePeopleResponse.from(peopleService.create(member, request));
+        Long memberId = principalDetails.getMember().getMemberId();
+        CreatePeopleResponse response = CreatePeopleResponse.from(peopleService.create(memberId, request));
         return ResponseEntity.created(new URI("/people/" + response.peopleId()))
             .body(ApiResponse.success(HttpStatus.CREATED, response));
     }

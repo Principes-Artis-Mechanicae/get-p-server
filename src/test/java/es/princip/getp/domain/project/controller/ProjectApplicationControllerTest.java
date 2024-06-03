@@ -1,24 +1,15 @@
 package es.princip.getp.domain.project.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.princip.getp.domain.member.domain.enums.MemberType;
-import es.princip.getp.domain.project.dto.request.ApplicateProjectRequest;
 import es.princip.getp.domain.project.domain.entity.Project;
 import es.princip.getp.domain.project.domain.entity.ProjectApplication;
+import es.princip.getp.domain.project.dto.request.ApplicateProjectRequest;
 import es.princip.getp.domain.project.service.ProjectApplicationService;
 import es.princip.getp.fixture.ProjectApplicationFixture;
-import es.princip.getp.fixture.ProjectFixture;
 import es.princip.getp.global.config.SecurityConfig;
 import es.princip.getp.global.config.SecurityTestConfig;
 import es.princip.getp.global.mock.WithCustomMockUser;
-import java.time.LocalDate;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -30,6 +21,16 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import static es.princip.getp.fixture.ProjectFixture.createProject;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectApplicationController.class)
 @Import({SecurityConfig.class, SecurityTestConfig.class})
@@ -58,7 +59,7 @@ class ProjectApplicationControllerTest {
             LocalDate expectedEndDate = request.expectedEndDate();
             String description = request.description();
             List<String> attachmentUris = request.attachmentUris();
-            Project project = ProjectFixture.createProject();
+            Project project = createProject();
 
             given(projectApplicationService.create(any(), any(), any())).willReturn(
                 ProjectApplication.builder()

@@ -8,7 +8,10 @@ import es.princip.getp.domain.people.domain.entity.PeopleLike;
 import es.princip.getp.global.domain.values.Address;
 import es.princip.getp.global.domain.values.BankAccount;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +27,8 @@ public class Client extends BaseTimeEntity {
     @Column(name = "client_id")
     private Long clientId;
 
-    @Column(name = "nickname")
-    private String nickname;
-
     @Column(name = "email")
     private String email;
-
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @Column(name = "profile_image_uri")
-    @Setter
-    private String profileImageUri;
 
     //TODO: 주소기반산업지원서비스 API로 확장 예정
     @Embedded
@@ -53,41 +46,43 @@ public class Client extends BaseTimeEntity {
 
     @Builder
     public Client(
-        final String nickname,
         final String email,
-        final String phoneNumber,
-        final String profileImageUri,
         final Address address,
         final BankAccount bankAccount,
         final Member member
     ) {
-        this.nickname = nickname;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.profileImageUri = profileImageUri;
+        this.email = email == null ? member.getEmail() : email;
         this.address = address;
         this.bankAccount = bankAccount;
         this.member = member;
-        member.setClient(this);
     }
 
-    public static Client from(final Member member, final CreateClientRequest request) {
+    public static Client from(
+        final Member member,
+        final CreateClientRequest request
+    ) {
         return Client.builder()
-            .nickname(request.nickname())
-            .email(request.email() == null ? member.getEmail() : request.email())
-            .phoneNumber(request.phoneNumber())
-            .profileImageUri(request.profileImageUri())
+            .email(request.email())
             .address(request.address())
             .bankAccount(request.bankAccount())
             .member(member)
             .build();
     }
 
+    public String getNickname() {
+        return this.member.getNickname();
+    }
+
+    public String getPhoneNumber() {
+        return this.member.getPhoneNumber();
+    }
+
+    public String getProfileImageUri() {
+        return this.member.getProfileImageUri();
+    }
+
     public void update(final UpdateClientRequest request) {
-        this.nickname = request.nickname();
         this.email = request.email();
-        this.phoneNumber = request.phoneNumber();
-        this.profileImageUri = request.profileImageUri();
         this.address = request.address();
         this.bankAccount = request.bankAccount();
     }

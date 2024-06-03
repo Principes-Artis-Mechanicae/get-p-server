@@ -1,25 +1,28 @@
 package es.princip.getp.domain.people.service;
 
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
+import es.princip.getp.domain.member.service.MemberService;
+import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
-import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.repository.PeopleRepository;
 import es.princip.getp.global.exception.BusinessLogicException;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PeopleService {
 
+    private final MemberService memberService;
     private final PeopleRepository peopleRepository;
 
     private People get(Optional<People> people) {
@@ -40,13 +43,15 @@ public class PeopleService {
     }
 
     @Transactional
-    public People create(Member member, CreatePeopleRequest request) {
-        People people = request.toEntity(member);
+    public People create(Long memberId, CreatePeopleRequest request) {
+        memberService.update(memberId, UpdateMemberRequest.from(request));
+        People people = People.from(memberService.getByMemberId(memberId), request);
         return peopleRepository.save(people);
     }
 
     @Transactional
     public People update(Long memberId, UpdatePeopleRequest request) {
+        memberService.update(memberId, UpdateMemberRequest.from(request));
         People people = getByMemberId(memberId);
         people.update(request);
         return people;

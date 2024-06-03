@@ -1,6 +1,7 @@
 package es.princip.getp.domain.project.service;
 
 import es.princip.getp.domain.client.domain.entity.Client;
+import es.princip.getp.domain.client.fixture.ClientFixture;
 import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.service.PeopleService;
@@ -8,7 +9,6 @@ import es.princip.getp.domain.project.domain.entity.Project;
 import es.princip.getp.domain.project.domain.entity.ProjectApplication;
 import es.princip.getp.domain.project.dto.request.ApplicateProjectRequest;
 import es.princip.getp.domain.project.repository.ProjectApplicationRepository;
-import es.princip.getp.fixture.ClientFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,8 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
-import static es.princip.getp.fixture.MemberFixture.createMember;
 import static es.princip.getp.fixture.ProjectApplicationFixture.createApplicateProjectRequest;
 import static es.princip.getp.fixture.ProjectApplicationFixture.createProjectApplication;
 import static es.princip.getp.fixture.ProjectFixture.createProject;
