@@ -15,6 +15,7 @@
 include::{docdir}/auth/signup.adoc[]
 
 === 로그인
+include::{docdir}/auth/login.adoc[]
 
 === 회원 가입 시 이메일 인증 코드 전송
 
