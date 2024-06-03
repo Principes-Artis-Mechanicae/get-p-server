@@ -50,7 +50,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
     private OrderSpecifier<?>[] getPeopleOrderSpecifiers(Sort sort) {
         List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
         sort.stream().forEach(order -> {
-            PeopleOrder peopleOrder = PeopleOrder.valueOf(order.getProperty());
+            PeopleOrder peopleOrder = PeopleOrder.get(order.getProperty());
             OrderSpecifier<?> orderSpecifier = getOrderSpecifier(order, peopleOrder);
             orderSpecifiers.add(orderSpecifier);
         });
