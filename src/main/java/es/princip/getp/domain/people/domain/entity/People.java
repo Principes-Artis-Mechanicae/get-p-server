@@ -3,9 +3,13 @@ package es.princip.getp.domain.people.domain.entity;
 import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.people.domain.enums.PeopleType;
+import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
@@ -18,22 +22,12 @@ public class People extends BaseTimeEntity {
     @Column(name = "people_id")
     private Long peopleId;
 
-    @Column(name = "nickname")
-    private String nickname;
-
     @Column(name = "email")
     private String email;
-
-    @Column(name = "phone_number")
-    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "people_type")
     private PeopleType peopleType;
-
-    @Column(name = "profile_image_uri")
-    @Setter
-    private String profileImageUri;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
@@ -44,29 +38,37 @@ public class People extends BaseTimeEntity {
 
     @Builder
     public People(
-        final Long peopleId,
-        final String nickname,
         final String email,
-        final String phoneNumber,
         final PeopleType peopleType,
-        final String profileImageUri,
         final Member member
     ) {
-        this.peopleId = peopleId;
-        this.nickname = nickname;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
+        this.email = email == null ? member.getEmail() : email;
         this.peopleType = peopleType;
-        this.profileImageUri = profileImageUri;
         this.member = member;
-        member.setPeople(this);
+    }
+
+    public static People from(final Member member, final CreatePeopleRequest request) {
+        return People.builder()
+            .email(request.email())
+            .peopleType(request.peopleType())
+            .member(member)
+            .build();
+    }
+
+    public String getNickname() {
+        return this.member.getNickname();
+    }
+
+    public String getPhoneNumber() {
+        return this.member.getPhoneNumber();
+    }
+
+    public String getProfileImageUri() {
+        return this.member.getProfileImageUri();
     }
 
     public void update(final UpdatePeopleRequest request) {
-        this.nickname = request.nickname();
         this.email = request.email();
-        this.phoneNumber = request.phoneNumber();
         this.peopleType = request.peopleType();
-        this.profileImageUri = request.profileImageUri();
     }
 }

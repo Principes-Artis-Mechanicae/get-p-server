@@ -1,4 +1,4 @@
-package es.princip.getp.fixture;
+package es.princip.getp.domain.member.fixture;
 
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.domain.enums.MemberType;
@@ -9,17 +9,21 @@ import java.util.stream.IntStream;
 
 public class MemberFixture {
 
-    public static final Long MEMBER_ID = 1L;
     public static final String EMAIL = "getp@princip.es";
     public static final String PASSWORD = "qwer1234!";
+    public static final String NICKNAME = "scv1702";
+    public static final String PHONE_NUMBER = "01012345678";
+    public static final String PROFILE_IMAGE_URI = "/images/1/profile/image.jpg";
     public static final MemberType MEMBER_TYPE = MemberType.ROLE_PEOPLE;
 
     public static Member createMember() {
         return Member.builder()
-            .memberId(MEMBER_ID)
             .email(EMAIL)
             .password(PASSWORD)
             .memberType(MEMBER_TYPE)
+            .nickname(NICKNAME)
+            .phoneNumber(PHONE_NUMBER)
+            .profileImageUri(PROFILE_IMAGE_URI)
             .build();
     }
 
@@ -28,6 +32,9 @@ public class MemberFixture {
             .email(email)
             .password(PASSWORD)
             .memberType(MEMBER_TYPE)
+            .nickname(NICKNAME)
+            .phoneNumber(PHONE_NUMBER)
+            .profileImageUri(PROFILE_IMAGE_URI)
             .build();
     }
 
@@ -36,6 +43,9 @@ public class MemberFixture {
             .email(EMAIL)
             .password(PASSWORD)
             .memberType(memberType)
+            .nickname(NICKNAME)
+            .phoneNumber(PHONE_NUMBER)
+            .profileImageUri(PROFILE_IMAGE_URI)
             .build();
     }
 
@@ -44,6 +54,23 @@ public class MemberFixture {
             .email(email)
             .password(PASSWORD)
             .memberType(memberType)
+            .nickname(NICKNAME)
+            .phoneNumber(PHONE_NUMBER)
+            .profileImageUri(PROFILE_IMAGE_URI)
+            .build();
+    }
+
+    public static Member createMember(
+        final String nickname,
+        final String phoneNumber,
+        final String profileImageUri
+    ) {
+        return Member.builder()
+            .password(PASSWORD)
+            .memberType(MEMBER_TYPE)
+            .nickname(nickname)
+            .phoneNumber(phoneNumber)
+            .profileImageUri(profileImageUri)
             .build();
     }
 

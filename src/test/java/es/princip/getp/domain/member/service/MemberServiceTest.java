@@ -3,6 +3,7 @@ package es.princip.getp.domain.member.service;
 import es.princip.getp.domain.member.domain.entity.Member;
 import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
+import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.member.exception.MemberErrorCode;
 import es.princip.getp.domain.member.repository.MemberRepository;
 import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
@@ -11,12 +12,14 @@ import es.princip.getp.domain.storage.service.ImageStorageService;
 import es.princip.getp.global.exception.BusinessLogicException;
 import es.princip.getp.global.util.PathUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,8 +30,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
+import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.storage.fixture.ImageStorageFixture.createImageMultiPartFile;
-import static es.princip.getp.fixture.MemberFixture.createMember;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
@@ -51,6 +54,36 @@ class MemberServiceTest {
 
     @InjectMocks
     private MemberService memberService;
+
+    @Nested
+    @DisplayName("update()는")
+    class Update {
+
+        private Member mockMember;
+        private final UpdateMemberRequest request = new UpdateMemberRequest(
+            "newNickname",
+            "010-9999-8888",
+            "/images/1/profile/newImage.jpeg"
+        );
+
+        @BeforeEach
+        void setUp() {
+            mockMember = Mockito.spy(createMember());
+            given(mockMember.getMemberId()).willReturn(1L);
+        }
+
+        @DisplayName("회원 정보를 수정한다.")
+        @Test
+        void update() {
+            given(memberRepository.findById(mockMember.getMemberId())).willReturn(Optional.of(mockMember));
+
+            memberService.update(mockMember.getMemberId(), request);
+
+            assertThat(mockMember.getNickname()).isEqualTo(request.nickname());
+            assertThat(mockMember.getPhoneNumber()).isEqualTo(request.phoneNumber());
+            assertThat(mockMember.getProfileImageUri()).isEqualTo(request.profileImageUri());
+        }
+    }
 
     @Nested
     @DisplayName("updateProfileImage()는")
