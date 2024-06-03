@@ -1,4 +1,4 @@
-package es.princip.getp.fixture;
+package es.princip.getp.domain.auth.fixture;
 
 import es.princip.getp.domain.auth.domain.entity.EmailVerification;
 
