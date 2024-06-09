@@ -1,5 +1,6 @@
 package es.princip.getp.global.controller;
 
+import es.princip.getp.domain.auth.exception.LoginErrorCode;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.storage.exception.ImageErrorCode;
 import es.princip.getp.global.domain.dto.response.ErrorCodeResponse;
@@ -14,6 +15,15 @@ import java.util.Map;
 @RestController
 @RequestMapping("/error-code")
 public class ErrorCodeController {
+
+    @GetMapping("/login")
+    public Map<String, ErrorCodeResponse> getLoginErrorCode() {
+        Map<String, ErrorCodeResponse> map = new HashMap<>();
+        for (ErrorCode errorCode : LoginErrorCode.values()) {
+            map.put(errorCode.description().code(), ErrorCodeResponse.from(errorCode));
+        }
+        return map;
+    }
 
     @GetMapping("/signup")
     public Map<String, ErrorCodeResponse> getSignUpErrorCode() {

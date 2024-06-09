@@ -3,6 +3,7 @@ package es.princip.getp.domain.auth.service;
 import es.princip.getp.domain.auth.domain.entity.TokenVerification;
 import es.princip.getp.domain.auth.dto.request.LoginRequest;
 import es.princip.getp.domain.auth.dto.response.Token;
+import es.princip.getp.domain.auth.exception.LoginErrorCode;
 import es.princip.getp.domain.auth.exception.TokenErrorCode;
 import es.princip.getp.domain.auth.repository.TokenVerificationRepository;
 import es.princip.getp.domain.member.service.MemberService;
@@ -33,16 +34,20 @@ public class AuthService {
     public Token login(LoginRequest request) {
         String email = request.email();
         String password = request.password();
-        UsernamePasswordAuthenticationToken authenticationToken =
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(email, password);
-        Authentication authentication = authenticationManagerBuilder
-            .getObject()
-            .authenticate(authenticationToken);
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        Long memberId = principalDetails.getMember().getMemberId();
-        Token token = jwtTokenProvider.generateToken(authentication);
-        cacheRefreshToken(memberId, token.refreshToken());
-        return token;
+            Authentication authentication = authenticationManagerBuilder
+                .getObject()
+                .authenticate(authenticationToken);
+            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+            Long memberId = principalDetails.getMember().getMemberId();
+            Token token = jwtTokenProvider.generateToken(authentication);
+            cacheRefreshToken(memberId, token.refreshToken());
+            return token;
+        } catch (Exception e) {
+            throw new BusinessLogicException(LoginErrorCode.INCORRECT_EMAIL_OR_PASSWORD);
+        }
     }
 
     public Token reissueAccessToken(HttpServletRequest servletRequest) {
