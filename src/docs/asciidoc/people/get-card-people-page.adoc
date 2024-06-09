@@ -1,0 +1,1 @@
+operation::/get-card-people-page/get-card-people-page[snippets="http-request,query-parameters,http-response,response-fields-data"]

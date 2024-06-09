@@ -6,6 +6,9 @@ import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.LongStream;
@@ -52,7 +55,7 @@ public class PeopleFixture {
     }
 
     public static List<CardPeopleResponse> createCardPeopleResponses(int count) {
-        return LongStream.range(0, count)
+        return LongStream.range(1, count + 1)
             .mapToObj(i -> CardPeopleResponse.from(
                 i,
                 NICKNAME,
@@ -60,5 +63,9 @@ public class PeopleFixture {
                 PROFILE_IMAGE_URI,
                 PeopleProfileFixture.createCardPeopleProfileResponse()))
             .toList();
+    }
+
+    public static Page<CardPeopleResponse> createCardPeopleResponsePage(Pageable pageable, int count) {
+        return new PageImpl<>(createCardPeopleResponses(count), pageable, count);
     }
 }
