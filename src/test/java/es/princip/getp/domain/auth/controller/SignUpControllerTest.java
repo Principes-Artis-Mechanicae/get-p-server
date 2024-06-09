@@ -1,5 +1,6 @@
 package es.princip.getp.domain.auth.controller;
 
+import es.princip.getp.domain.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.auth.service.SignUpService;
@@ -32,6 +33,27 @@ public class SignUpControllerTest extends AbstractControllerTest {
 
     @MockBean
     private SignUpService signUpService;
+
+    @Nested
+    @DisplayName("사용자는")
+    class SendEmailVerificationCodeForSignUp {
+
+        @DisplayName("회원 가입 시 이메일 인증을 해야 한다.")
+        @Test
+        void sendEmailVerificationCodeForSignUp() throws Exception {
+            mockMvc.perform(post("/auth/signup/email/send")
+            .content(objectMapper.writeValueAsString(SignUpFixture.createEmailVerificationCodeRequest())))
+            .andExpect(status().isOk())
+            .andDo(
+                restDocs.document(
+                    requestFields(
+                        getDescriptor("email", "이메일", EmailVerificationCodeRequest.class)
+                    )
+                )
+            )
+            .andDo(print());
+        }
+    }
 
     @Nested
     @DisplayName("사용자는")

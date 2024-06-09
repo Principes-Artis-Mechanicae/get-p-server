@@ -18,6 +18,7 @@ include::{docdir}/auth/signup.adoc[]
 include::{docdir}/auth/login.adoc[]
 
 === 회원 가입 시 이메일 인증 코드 전송
+include::{docdir}/auth/send-email-verification-code-for-sign-up.adoc[]
 
 === Access Token 및 Refresh Token 재발급
 include::{docdir}/auth/reissue-access-token.adoc[]
