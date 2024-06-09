@@ -4,7 +4,7 @@ import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.dto.response.SignUpResponse;
 import es.princip.getp.domain.member.domain.enums.MemberType;
 import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
-import es.princip.getp.domain.serviceTerm.support.ServiceTermFixture;
+import es.princip.getp.domain.serviceTerm.fixture.ServiceTermFixture;
 
 import java.util.List;
 

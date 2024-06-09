@@ -1,4 +1,4 @@
-package es.princip.getp.domain.serviceTerm.support;
+package es.princip.getp.domain.serviceTerm.fixture;
 
 import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
 import es.princip.getp.domain.serviceTerm.dto.response.ServiceTermAgreementResponse;
