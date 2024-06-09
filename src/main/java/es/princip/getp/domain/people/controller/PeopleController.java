@@ -6,13 +6,13 @@ import es.princip.getp.domain.people.dto.response.people.CreatePeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.service.PeopleService;
+import es.princip.getp.global.domain.dto.response.PageResponse;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.support.ControllerSupport;
 import es.princip.getp.global.util.ApiResponse;
 import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -72,9 +72,9 @@ public class PeopleController extends ControllerSupport {
      * @return 정렬 기준에 해당되는 피플 정보 목록
      */
     @GetMapping
-    public ResponseEntity<ApiSuccessResult<Page<CardPeopleResponse>>> getCardPeoplePage(
-        @PageableDefault(sort = "PEOPLE_ID", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<CardPeopleResponse> response = peopleService.getCardPeoplePage(pageable);
+    public ResponseEntity<ApiSuccessResult<PageResponse<CardPeopleResponse>>> getCardPeoplePage(
+        @PageableDefault(sort = "peopleId", direction = Sort.Direction.DESC) Pageable pageable) {
+        PageResponse<CardPeopleResponse> response = PageResponse.from(peopleService.getCardPeoplePage(pageable));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 }

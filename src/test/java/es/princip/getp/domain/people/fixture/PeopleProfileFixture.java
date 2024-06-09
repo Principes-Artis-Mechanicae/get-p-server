@@ -71,7 +71,7 @@ public class PeopleProfileFixture {
         return new CardPeopleProfileResponse(
             ACTIVITY_AREA,
             HASHTAGS,
-            null,
-            null);
+            0,
+            0);
     }
 }
