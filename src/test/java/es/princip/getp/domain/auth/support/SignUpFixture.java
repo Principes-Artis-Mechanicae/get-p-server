@@ -1,5 +1,6 @@
 package es.princip.getp.domain.auth.support;
 
+import es.princip.getp.domain.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.dto.response.SignUpResponse;
 import es.princip.getp.domain.member.domain.enums.MemberType;
@@ -43,5 +44,9 @@ public class SignUpFixture {
             ServiceTermFixture.toServiceTermAgreementResponse(request.serviceTerms()),
             request.memberType()
         );
+    }
+
+    public static EmailVerificationCodeRequest createEmailVerificationCodeRequest() {
+        return new EmailVerificationCodeRequest(EMAIL);
     }
 }
