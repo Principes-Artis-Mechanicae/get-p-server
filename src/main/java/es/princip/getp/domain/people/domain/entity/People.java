@@ -42,7 +42,7 @@ public class People extends BaseTimeEntity {
         final PeopleType peopleType,
         final Member member
     ) {
-        this.email = email == null ? member.getEmail() : email;
+        this.email = email;
         this.peopleType = peopleType;
         this.member = member;
     }
@@ -53,6 +53,10 @@ public class People extends BaseTimeEntity {
             .peopleType(request.peopleType())
             .member(member)
             .build();
+    }
+
+    public String getEmail() {
+        return this.email == null ? this.member.getEmail() : this.email;
     }
 
     public String getNickname() {
