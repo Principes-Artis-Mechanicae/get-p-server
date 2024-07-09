@@ -20,6 +20,7 @@ include::{docdir}/auth/login.adoc[]
 === 회원 가입 시 이메일 인증 코드 전송
 
 === Access Token 및 Refresh Token 재발급
+include::{docdir}/auth/reissue-access-token.adoc[]
 
 == 사용자
 
