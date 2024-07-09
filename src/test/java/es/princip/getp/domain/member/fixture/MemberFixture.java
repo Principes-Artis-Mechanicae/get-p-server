@@ -62,15 +62,13 @@ public class MemberFixture {
 
     public static Member createMember(
         final String nickname,
-        final String phoneNumber,
-        final String profileImageUri
+        final String phoneNumber
     ) {
         return Member.builder()
             .password(PASSWORD)
             .memberType(MEMBER_TYPE)
             .nickname(nickname)
             .phoneNumber(phoneNumber)
-            .profileImageUri(profileImageUri)
             .build();
     }
 
