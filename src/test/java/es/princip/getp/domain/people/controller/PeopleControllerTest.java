@@ -1,13 +1,13 @@
 package es.princip.getp.domain.people.controller;
 
 import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.people.controller.description.response.DetailPeopleResponseDescription;
+import es.princip.getp.domain.people.controller.description.response.PublicDetailPeopleResponseDescription;
 import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.fixture.PeopleFixture;
 import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.global.mock.WithCustomMockUser;
-import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.support.AbstractControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,24 +20,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_CLIENT;
 import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
-import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeopleRequest;
 import static es.princip.getp.domain.people.fixture.PeopleProfileFixture.createPeopleProfile;
 import static es.princip.getp.global.support.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.global.support.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.global.support.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.global.support.PayloadDocumentationHelper.responseFields;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.restdocs.headers.HeaderDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -60,8 +54,7 @@ class PeopleControllerTest extends AbstractControllerTest {
             return mockMvc.perform(get("/people")
                 .queryParam("page", String.valueOf(page))
                 .queryParam("size", String.valueOf(size))
-                .queryParam("sort", "peopleId,desc")
-                .contentType(APPLICATION_JSON));
+                .queryParam("sort", "peopleId,desc"));
         }
 
         @Test
@@ -105,14 +98,12 @@ class PeopleControllerTest extends AbstractControllerTest {
         private final Long peopleId = 2L;
 
         private ResultActions perform() throws Exception {
-            return mockMvc.perform(get("/people/{peopleId}", peopleId)
-                .contentType(APPLICATION_JSON));
+            return mockMvc.perform(get("/people/{peopleId}", peopleId));
         }
 
-        private ResultActions performWithAcessToken() throws Exception {
+        private ResultActions performWithAccessToken() throws Exception {
             return mockMvc.perform(get("/people/{peopleId}", peopleId)
-                .header("Authorization", "Bearer ${ACCESS_TOKEN}")
-                .contentType(APPLICATION_JSON));
+                .header("Authorization", "Bearer ${ACCESS_TOKEN}"));
         }
 
         @BeforeEach
@@ -130,19 +121,8 @@ class PeopleControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(
                     restDocs.document(
-                        pathParameters(
-                            parameterWithName("peopleId").description("피플 ID")
-                        ),
-                        responseFields(
-                            getDescriptor("peopleId", "피플 ID"),
-                            getDescriptor("nickname", "닉네임"),
-                            getDescriptor("peopleType", "피플 유형")
-                                .attributes(key("format").value("TEAM, INDIVIDUAL")),
-                            getDescriptor("profileImageUri", "프로필 이미지 URI"),
-                            getDescriptor("profile.hashtags[].value", "해시태그"),
-                            getDescriptor("profile.completedProjectsCount", "완수한 프로젝트 수"),
-                            getDescriptor("profile.interestsCount", "받은 관심 수")
-                        )
+                        pathParameters(parameterWithName("peopleId").description("피플 ID")),
+                        responseFields(PublicDetailPeopleResponseDescription.description())
                     )
                 );
         }
@@ -150,90 +130,15 @@ class PeopleControllerTest extends AbstractControllerTest {
         @Test
         @WithCustomMockUser(memberType = ROLE_PEOPLE)
         public void getPeople_WhenUserLogined() throws Exception {
-            performWithAcessToken()
+            performWithAccessToken()
                 .andExpect(status().isOk())
                 .andDo(
                     restDocs.document(
-                        requestHeaders(
-                            authorizationHeaderDescriptor()
-                        ),
-                        pathParameters(
-                            parameterWithName("peopleId").description("피플 ID")
-                        ),
-                        responseFields(
-                            getDescriptor("peopleId", "피플 ID"),
-                            getDescriptor("nickname", "닉네임"),
-                            getDescriptor("peopleType", "피플 유형")
-                                .attributes(key("format").value("TEAM, INDIVIDUAL")),
-                            getDescriptor("profileImageUri", "프로필 이미지 URI"),
-                            getDescriptor("profile.introduction", "소개"),
-                            getDescriptor("profile.activityArea", "활동 지역"),
-                            getDescriptor("profile.techStacks[].value", "기술 스택"),
-                            getDescriptor("profile.education.school", "학교"),
-                            getDescriptor("profile.education.major", "전공"),
-                            getDescriptor("profile.hashtags[].value", "해시태그"),
-                            getDescriptor("profile.completedProjectsCount", "완수한 프로젝트 수"),
-                            getDescriptor("profile.interestsCount", "받은 관심 수"),
-                            getDescriptor("profile.portfolios[].uri", "포트폴리오 URI"),
-                            getDescriptor("profile.portfolios[].description", "포트폴리오 설명")
-                        )
+                        requestHeaders(authorizationHeaderDescriptor()),
+                        pathParameters(parameterWithName("peopleId").description("피플 ID")),
+                        responseFields(DetailPeopleResponseDescription.description())
                     )
                 );
-        }
-    }
-
-    @DisplayName("피플은 피플 정보를 등록할 수 있다.")
-    @Nested
-    class CreatePeople {
-        private final CreatePeopleRequest request = createPeopleRequest();
-
-        private ResultActions perform() throws Exception {
-            return mockMvc.perform(post("/people")
-                .header("Authorization", "Bearer ${ACCESS_TOKEN}")
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(APPLICATION_JSON))
-                .andExpect(status().isCreated());
-        }
-
-        @WithCustomMockUser(memberType = ROLE_PEOPLE)
-        @Test
-        public void createPeople(PrincipalDetails principalDetails) throws Exception {
-            Member member = principalDetails.getMember();
-            People people = Mockito.spy(PeopleFixture.createPeople(member));
-            given(people.getPeopleId()).willReturn(1L);
-            given(peopleService.create(member.getMemberId(), request)).willReturn(people);
-
-            perform()
-                .andDo(restDocs.document(
-                        requestHeaders(
-                            authorizationHeaderDescriptor()
-                        ),
-                        requestFields(
-                            getDescriptor("nickname", "닉네임", CreatePeopleRequest.class),
-                            getDescriptor("email", "이메일(기본값은 회원 가입 시 기입한 이메일)", CreatePeopleRequest.class),
-                            getDescriptor("phoneNumber", "전화번호", CreatePeopleRequest.class),
-                            getDescriptor("peopleType", "피플 유형", CreatePeopleRequest.class)
-                                .attributes(key("format").value("TEAM, INDIVIDUAL")),
-                            getDescriptor("profileImageUri", "프로필 이미지 URI", CreatePeopleRequest.class)
-                                .attributes(key("format").value("/images/{memberId}/profile/{fileName}"))
-                        ),
-                        responseHeaders(
-                            headerWithName("Location").description("생성된 피플 정보 URI")
-                        ),
-                        responseFields(
-                            getDescriptor("peopleId", "피플 ID")
-                        )
-                    )
-                )
-                .andDo(print());
-        }
-
-        @WithCustomMockUser(memberType = ROLE_CLIENT)
-        @Test
-        public void createPeople_WhenMemberTypeIsClient_ShouldFail() {
-            assertThatThrownBy(() -> perform()
-                .andExpect(status().isForbidden())
-                .andDo(print())).hasCauseInstanceOf(AccessDeniedException.class);
         }
     }
 }

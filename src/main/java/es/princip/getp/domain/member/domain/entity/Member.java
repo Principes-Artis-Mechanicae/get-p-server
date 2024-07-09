@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,6 @@ public class Member extends BaseTimeEntity {
     public void update(final UpdateMemberRequest request) {
         this.nickname = request.nickname();
         this.phoneNumber = request.phoneNumber();
-        this.profileImageUri = request.profileImageUri();
     }
 
     public static Member from(final CreateMemberRequest request) {
@@ -81,5 +81,13 @@ public class Member extends BaseTimeEntity {
             .password(request.password())
             .memberType(request.memberType())
             .build();
+    }
+
+    public void updateProfileImageUri(URI profileImageUri) {
+        this.profileImageUri = profileImageUri.toString();
+    }
+
+    public boolean hasProfileImage() {
+        return profileImageUri != null;
     }
 }

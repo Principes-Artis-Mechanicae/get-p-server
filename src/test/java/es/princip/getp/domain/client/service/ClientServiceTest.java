@@ -52,8 +52,7 @@ public class ClientServiceTest {
         void setUp() {
             mockMember = Mockito.spy(createMember(
                 request.nickname(),
-                request.phoneNumber(),
-                request.profileImageUri()
+                request.phoneNumber()
             ));
             given(mockMember.getMemberId()).willReturn(1L);
         }
@@ -72,7 +71,6 @@ public class ClientServiceTest {
                 softly.assertThat(created.getNickname()).isEqualTo(request.nickname());
                 softly.assertThat(created.getEmail()).isEqualTo(request.email());
                 softly.assertThat(created.getPhoneNumber()).isEqualTo(request.phoneNumber());
-                softly.assertThat(created.getProfileImageUri()).isEqualTo(request.profileImageUri());
                 softly.assertThat(created.getAddress()).isEqualTo(request.address());
                 softly.assertThat(created.getBankAccount()).isEqualTo(request.bankAccount());
             });
@@ -141,8 +139,7 @@ public class ClientServiceTest {
         void setUp() {
             mockMember = Mockito.spy(createMember(
                 request.nickname(),
-                request.phoneNumber(),
-                request.profileImageUri()
+                request.phoneNumber()
             ));
             given(mockMember.getMemberId()).willReturn(1L);
             mockClient = createClient(mockMember);
@@ -161,7 +158,6 @@ public class ClientServiceTest {
                 softly.assertThat(updated.getNickname()).isEqualTo(request.nickname());
                 softly.assertThat(updated.getEmail()).isEqualTo(request.email());
                 softly.assertThat(updated.getPhoneNumber()).isEqualTo(request.phoneNumber());
-                softly.assertThat(updated.getProfileImageUri()).isEqualTo(request.profileImageUri());
                 softly.assertThat(updated.getAddress()).isEqualTo(request.address());
                 softly.assertThat(updated.getBankAccount()).isEqualTo(request.bankAccount());
             });
