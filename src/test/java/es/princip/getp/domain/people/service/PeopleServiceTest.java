@@ -30,7 +30,9 @@ import static es.princip.getp.domain.people.fixture.PeopleFixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -172,12 +174,17 @@ public class PeopleServiceTest {
         @Test
         @DisplayName("피플 정보를 수정한다.")
         void update() {
+            UpdateMemberRequest updateMemberRequest = UpdateMemberRequest.from(request);
             given(peopleRepository.findByMember_MemberId(mockMember.getMemberId()))
                 .willReturn(Optional.of(mockPeople));
+            doAnswer(invocation -> {
+                mockMember.update(updateMemberRequest);
+                return null;
+            }).when(memberService).update(anyLong(), any(UpdateMemberRequest.class));
 
             People updated = peopleService.update(mockMember.getMemberId(), request);
 
-            verify(memberService).update(mockMember.getMemberId(), UpdateMemberRequest.from(request));
+            verify(memberService).update(mockMember.getMemberId(), updateMemberRequest);
             assertSoftly(softly -> {
                 softly.assertThat(updated.getNickname()).isEqualTo(request.nickname());
                 softly.assertThat(updated.getEmail()).isEqualTo(request.email());

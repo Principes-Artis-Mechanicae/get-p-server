@@ -1,6 +1,7 @@
 package es.princip.getp.domain.people.fixture;
 
 import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.domain.enums.PeopleType;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
@@ -20,6 +21,7 @@ public class PeopleFixture {
     public static String PHONE_NUMBER = "01012345678";
     public static PeopleType PEOPLE_TYPE = PeopleType.INDIVIDUAL;
     public static String PROFILE_IMAGE_URI = "/images/1/profile/image.jpeg";
+    private static String UPDATED = "updated_";
 
     public static CreatePeopleRequest createPeopleRequest() {
         return new CreatePeopleRequest(
@@ -32,15 +34,17 @@ public class PeopleFixture {
 
     public static UpdatePeopleRequest updatePeopleRequest() {
         return new UpdatePeopleRequest(
-            NICKNAME + "UPDATED",
-            EMAIL,
+            UPDATED + NICKNAME,
+            UPDATED + EMAIL,
             PHONE_NUMBER,
             PEOPLE_TYPE
         );
     }
 
     public static People createPeople(Member member) {
-        return People.from(member, createPeopleRequest());
+        CreatePeopleRequest request = createPeopleRequest();
+        member.update(UpdateMemberRequest.from(request));
+        return People.from(member, request);
     }
 
     public static List<People> createPeopleList(List<Member> memberList) {
