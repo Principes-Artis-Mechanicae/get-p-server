@@ -11,7 +11,6 @@ public record CreatePeopleRequest(
     @NotBlank String nickname,
     @Email String email,
     @NotNull @PhoneNumber String phoneNumber,
-    @Enum PeopleType peopleType,
-    String profileImageUri
+    @Enum PeopleType peopleType
 ) {
 }

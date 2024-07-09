@@ -1,29 +1,23 @@
 package es.princip.getp.domain.people.controller;
 
-import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
-import es.princip.getp.domain.people.dto.response.people.CreatePeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.global.domain.dto.response.PageResponse;
-import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.support.ControllerSupport;
 import es.princip.getp.global.util.ApiResponse;
 import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/people")
@@ -31,23 +25,6 @@ import java.net.URISyntaxException;
 public class PeopleController extends ControllerSupport {
 
     private final PeopleService peopleService;
-
-    /**
-     * 피플 정보 등록
-     *
-     * @param request 등록할 피플 정보
-     * @return 등록된 피플 정보
-     */
-    @PostMapping
-    @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<CreatePeopleResponse>> createPeople(
-        @RequestBody @Valid CreatePeopleRequest request,
-        @AuthenticationPrincipal PrincipalDetails principalDetails) throws URISyntaxException {
-        Long memberId = principalDetails.getMember().getMemberId();
-        CreatePeopleResponse response = CreatePeopleResponse.from(peopleService.create(memberId, request));
-        return ResponseEntity.created(new URI("/people/" + response.peopleId()))
-            .body(ApiResponse.success(HttpStatus.CREATED, response));
-    }
 
     /**
      * 포트폴리오 개발 진행 후 완성 예정 - 피플 상세 조회
@@ -59,10 +36,12 @@ public class PeopleController extends ControllerSupport {
     public ResponseEntity<ApiSuccessResult<?>> getPeople(@PathVariable Long peopleId) {
         if (isAuthenticated()) {
             DetailPeopleResponse response = DetailPeopleResponse.from(peopleService.getByPeopleId(peopleId));
-            return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+            return ResponseEntity.ok()
+                .body(ApiResponse.success(HttpStatus.OK, response));
         }
         PublicDetailPeopleResponse response = PublicDetailPeopleResponse.from(peopleService.getByPeopleId(peopleId));
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+        return ResponseEntity.ok()
+            .body(ApiResponse.success(HttpStatus.OK, response));
     }
 
     /**
@@ -75,6 +54,7 @@ public class PeopleController extends ControllerSupport {
     public ResponseEntity<ApiSuccessResult<PageResponse<CardPeopleResponse>>> getCardPeoplePage(
         @PageableDefault(sort = "peopleId", direction = Sort.Direction.DESC) Pageable pageable) {
         PageResponse<CardPeopleResponse> response = PageResponse.from(peopleService.getCardPeoplePage(pageable));
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+        return ResponseEntity.ok()
+            .body(ApiResponse.success(HttpStatus.OK, response));
     }
 }

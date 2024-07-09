@@ -67,6 +67,30 @@ public class PeopleProfileFixture {
             .build();
     }
 
+    public static PeopleProfile createPeopleProfile(UpdatePeopleProfileRequest request, People people) {
+        return PeopleProfile.builder()
+            .introduction(request.introduction())
+            .activityArea(request.activityArea())
+            .education(request.education())
+            .hashtags(request.hashtags())
+            .techStacks(request.techStacks())
+            .portfolios(request.portfolios())
+            .people(people)
+            .build();
+    }
+
+    public static PeopleProfile createPeopleProfile(CreatePeopleProfileRequest request, People people) {
+        return PeopleProfile.builder()
+            .introduction(request.introduction())
+            .activityArea(request.activityArea())
+            .education(request.education())
+            .hashtags(request.hashtags())
+            .techStacks(request.techStacks())
+            .portfolios(request.portfolios())
+            .people(people)
+            .build();
+    }
+
     public static CardPeopleProfileResponse createCardPeopleProfileResponse() {
         return new CardPeopleProfileResponse(
             ACTIVITY_AREA,

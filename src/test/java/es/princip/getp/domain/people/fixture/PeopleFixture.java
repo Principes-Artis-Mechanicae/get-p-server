@@ -21,25 +21,23 @@ public class PeopleFixture {
     public static String PHONE_NUMBER = "01012345678";
     public static PeopleType PEOPLE_TYPE = PeopleType.INDIVIDUAL;
     public static String PROFILE_IMAGE_URI = "/images/1/profile/image.jpeg";
-    public static String UPDATE = "updated_";
+    private static String UPDATED = "updated_";
 
     public static CreatePeopleRequest createPeopleRequest() {
         return new CreatePeopleRequest(
             NICKNAME,
             EMAIL,
             PHONE_NUMBER,
-            PEOPLE_TYPE,
-            PROFILE_IMAGE_URI
+            PEOPLE_TYPE
         );
     }
 
     public static UpdatePeopleRequest updatePeopleRequest() {
         return new UpdatePeopleRequest(
-            UPDATE + NICKNAME,
-            UPDATE + EMAIL,
+            UPDATED + NICKNAME,
+            UPDATED + EMAIL,
             PHONE_NUMBER,
-            PEOPLE_TYPE,
-            PROFILE_IMAGE_URI
+            PEOPLE_TYPE
         );
     }
 

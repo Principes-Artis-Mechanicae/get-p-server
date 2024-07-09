@@ -38,7 +38,7 @@ public class MyMemberController {
         @RequestPart MultipartFile image
     ) {
         Member member = principalDetails.getMember();
-        return ResponseEntity.created(memberService.updateProfileImage(member, image))
+        return ResponseEntity.created(memberService.updateProfileImage(member.getMemberId(), image))
             .body(ApiResponse.success(HttpStatus.CREATED));
     }
 }

@@ -12,6 +12,10 @@ public class ApiResponse {
         return new ApiSuccessResult<>(status.value(), data);
     }
 
+    public static <T> ApiSuccessResult<T> success(HttpStatus status, String message) {
+        return new ApiSuccessResult<>(status.value(), message);
+    }
+
     public static <T> ApiSuccessResult<T> success(HttpStatus status) {
         return new ApiSuccessResult<>(status.value());
     }
@@ -29,15 +33,24 @@ public class ApiResponse {
     public static class ApiSuccessResult<T> {
         private final int status;
         private final T data;
+        private final String message;
 
         private ApiSuccessResult(int status, T data) {
             this.status = status;
             this.data = data;
+            this.message = null;
         }
 
         private ApiSuccessResult(int status) {
             this.status = status;
             this.data = null;
+            this.message = null;
+        }
+
+        private ApiSuccessResult(int status, String message) {
+            this.status = status;
+            this.data = null;
+            this.message = message;
         }
     }
 

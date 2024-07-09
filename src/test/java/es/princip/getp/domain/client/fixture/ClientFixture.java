@@ -48,7 +48,7 @@ public class ClientFixture {
     }
 
     public static Client createClient() {
-        return Client.from(createMember(NICKNAME, PHONE_NUMBER, PROFILE_IMAGE_URI), createClientRequest());
+        return Client.from(createMember(NICKNAME, PHONE_NUMBER), createClientRequest());
     }
 
     public static Client createClient(Member member, UpdateClientRequest request) {

@@ -58,8 +58,7 @@ public class PeopleServiceTest {
         void setUp() {
             mockMember = Mockito.spy(createMember(
                 request.nickname(),
-                request.phoneNumber(),
-                request.profileImageUri()
+                request.phoneNumber()
             ));
             given(mockMember.getMemberId()).willReturn(1L);
         }
@@ -79,7 +78,6 @@ public class PeopleServiceTest {
                 softly.assertThat(created.getEmail()).isEqualTo(request.email());
                 softly.assertThat(created.getPhoneNumber()).isEqualTo(mockMember.getPhoneNumber());
                 softly.assertThat(created.getPeopleType()).isEqualTo(request.peopleType());
-                softly.assertThat(created.getProfileImageUri()).isEqualTo(request.profileImageUri());
             });
         }
     }
@@ -165,7 +163,10 @@ public class PeopleServiceTest {
 
         @BeforeEach
         void setUp() {
-            mockMember = Mockito.spy(createMember());
+            mockMember = Mockito.spy(createMember(
+                request.nickname(),
+                request.phoneNumber()
+            ));
             given(mockMember.getMemberId()).willReturn(1L);
             mockPeople = createPeople(mockMember);
         }
@@ -189,7 +190,6 @@ public class PeopleServiceTest {
                 softly.assertThat(updated.getEmail()).isEqualTo(request.email());
                 softly.assertThat(updated.getPhoneNumber()).isEqualTo(request.phoneNumber());
                 softly.assertThat(updated.getPeopleType()).isEqualTo(request.peopleType());
-                softly.assertThat(updated.getProfileImageUri()).isEqualTo(request.profileImageUri());
             });
         }
     }
