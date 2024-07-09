@@ -18,6 +18,7 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -26,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -36,27 +38,27 @@ public abstract class AbstractControllerTest {
     @Value("${server.servlet.context-path}")
     protected String contextPath;
 
-    protected MockHttpServletRequestBuilder get(String uri, Long id) {
-        return RestDocumentationRequestBuilders.get(contextPath + uri, id)
+    protected MockHttpServletRequestBuilder get(String uri, Object... values) {
+        return RestDocumentationRequestBuilders.get(contextPath + uri, values)
             .contextPath(contextPath)
             .contentType(MediaType.APPLICATION_JSON);
-    };
+    }
 
-    protected MockHttpServletRequestBuilder get(String uri) {
-        return RestDocumentationRequestBuilders.get(contextPath + uri)
+    protected MockHttpServletRequestBuilder post(String uri, Object... values) {
+        return RestDocumentationRequestBuilders.post(contextPath + uri, values)
             .contextPath(contextPath)
             .contentType(MediaType.APPLICATION_JSON);
-    };
+    }
 
-    protected MockHttpServletRequestBuilder post(String uri) {
-        return RestDocumentationRequestBuilders.post(contextPath + uri)
+    protected MockHttpServletRequestBuilder put(String uri, Object... values) {
+        return RestDocumentationRequestBuilders.put(contextPath + uri, values)
             .contextPath(contextPath)
             .contentType(MediaType.APPLICATION_JSON);
-    };
+    }
 
-    protected ResultMatcher errorCode(ErrorCode errorCode) {
+    protected static ResultMatcher errorCode(ErrorCode errorCode) {
         return status().is(errorCode.status().value());
-    };
+    }
 
     @Autowired
     protected RestDocumentationResultHandler restDocs;
@@ -79,5 +81,11 @@ public abstract class AbstractControllerTest {
                 .alwaysDo(restDocs)
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .build();
+    }
+
+    protected static void expectForbidden(ResultActions result) throws Exception {
+        result
+            .andExpect(status().isForbidden())
+            .andDo(print());
     }
 }

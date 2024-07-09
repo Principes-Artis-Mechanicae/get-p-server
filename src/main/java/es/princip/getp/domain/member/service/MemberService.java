@@ -73,12 +73,15 @@ public class MemberService {
     }
 
     @Transactional
-    public URI updateProfileImage(Member member, MultipartFile image) {
-        if (member.getProfileImageUri() != null) {
-           imageStorageService.deleteImage(Paths.get(member.getProfileImageUri()));
+    public URI updateProfileImage(Long memberId, MultipartFile image) {
+        Member member = getByMemberId(memberId);
+        if (member.hasProfileImage()) {
+            imageStorageService.deleteImage(Paths.get(member.getProfileImageUri()));
         }
         Path path = Paths.get(String.valueOf(member.getMemberId())).resolve("profile");
-        return URI.create("/" + PathUtil.toURI(imageStorageService.storeImage(path, image)));
+        URI profileImageUri = URI.create("/" + PathUtil.toURI(imageStorageService.storeImage(path, image)));
+        member.updateProfileImageUri(profileImageUri);
+        return profileImageUri;
     }
 
     @Transactional

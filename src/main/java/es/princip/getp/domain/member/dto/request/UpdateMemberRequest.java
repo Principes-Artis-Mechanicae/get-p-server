@@ -7,39 +7,34 @@ import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 
 public record UpdateMemberRequest(
     String nickname,
-    String phoneNumber,
-    String profileImageUri
+    String phoneNumber
 ) {
 
     public static UpdateMemberRequest from(final CreatePeopleRequest request) {
         return new UpdateMemberRequest(
             request.nickname(),
-            request.phoneNumber(),
-            request.profileImageUri()
+            request.phoneNumber()
         );
     }
 
     public static UpdateMemberRequest from(final UpdatePeopleRequest request) {
         return new UpdateMemberRequest(
             request.nickname(),
-            request.phoneNumber(),
-            request.profileImageUri()
+            request.phoneNumber()
         );
     }
 
     public static UpdateMemberRequest from(final CreateClientRequest request) {
         return new UpdateMemberRequest(
             request.nickname(),
-            request.phoneNumber(),
-            request.profileImageUri()
+            request.phoneNumber()
         );
     }
 
     public static UpdateMemberRequest from(final UpdateClientRequest request) {
         return new UpdateMemberRequest(
             request.nickname(),
-            request.phoneNumber(),
-            request.profileImageUri()
+            request.phoneNumber()
         );
     }
 }

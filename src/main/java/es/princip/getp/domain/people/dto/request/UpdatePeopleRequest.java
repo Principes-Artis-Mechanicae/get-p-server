@@ -11,7 +11,6 @@ public record UpdatePeopleRequest(
     @NotBlank String nickname,
     @Email String email,
     @NotNull @PhoneNumber String phoneNumber,
-    @Enum PeopleType peopleType,
-    @NotNull String profileImageUri
+    @Enum PeopleType peopleType
 ) {
 }

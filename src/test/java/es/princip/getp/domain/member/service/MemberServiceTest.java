@@ -62,8 +62,7 @@ class MemberServiceTest {
         private Member mockMember;
         private final UpdateMemberRequest request = new UpdateMemberRequest(
             "newNickname",
-            "010-9999-8888",
-            "/images/1/profile/newImage.jpeg"
+            "010-9999-8888"
         );
 
         @BeforeEach
@@ -81,7 +80,6 @@ class MemberServiceTest {
 
             assertThat(mockMember.getNickname()).isEqualTo(request.nickname());
             assertThat(mockMember.getPhoneNumber()).isEqualTo(request.phoneNumber());
-            assertThat(mockMember.getProfileImageUri()).isEqualTo(request.profileImageUri());
         }
     }
 
@@ -94,11 +92,13 @@ class MemberServiceTest {
             MultipartFile image = createImageMultiPartFile();
             Path path = Paths.get("images").resolve(String.valueOf(member.getMemberId())).resolve("profile");
             Path imagePath = path.resolve("image.jpeg");
+            given(memberRepository.findById(member.getMemberId())).willReturn(Optional.of(member));
             given(imageStorageService.storeImage(any(), eq(image))).willReturn(imagePath);
 
-            URI profileImageUri = memberService.updateProfileImage(member, image);
+            URI profileImageUri = memberService.updateProfileImage(member.getMemberId(), image);
 
             assertThat(profileImageUri).isEqualTo(URI.create("/" + PathUtil.toURI(imagePath)));
+            assertThat(member.getProfileImageUri()).isEqualTo(profileImageUri.toString());
         }
     }
 
