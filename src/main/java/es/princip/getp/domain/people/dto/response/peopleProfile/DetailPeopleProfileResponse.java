@@ -1,12 +1,15 @@
 package es.princip.getp.domain.people.dto.response.peopleProfile;
 
-import es.princip.getp.domain.people.domain.entity.PeopleProfile;
-import es.princip.getp.domain.people.domain.values.Education;
-import es.princip.getp.domain.people.domain.values.Portfolio;
-import es.princip.getp.global.domain.values.Hashtag;
-import es.princip.getp.global.domain.values.TechStack;
+import es.princip.getp.domain.hashtag.domain.Hashtag;
+import es.princip.getp.domain.people.domain.Education;
+import es.princip.getp.domain.people.domain.PeopleProfile;
+import es.princip.getp.domain.people.domain.Portfolio;
+import es.princip.getp.domain.project.domain.TechStack;
+import lombok.Builder;
+
 import java.util.List;
 
+@Builder
 public record DetailPeopleProfileResponse(
     String introduction,
     String activityArea,
@@ -19,16 +22,15 @@ public record DetailPeopleProfileResponse(
 ) {
 
     public static DetailPeopleProfileResponse from(final PeopleProfile peopleProfile) {
-        return new DetailPeopleProfileResponse(
-            peopleProfile.getIntroduction(),
-            peopleProfile.getActivityArea(),
-            peopleProfile.getTechStacks(),
-            peopleProfile.getEducation(),
-            peopleProfile.getHashtags(),
-            //TODO: 계산 프로퍼티 구현
-            0,
-            0,
-            peopleProfile.getPortfolios()
-        );
+        return DetailPeopleProfileResponse.builder()
+            .introduction(peopleProfile.getIntroduction())
+            .activityArea(peopleProfile.getActivityArea())
+            .techStacks(peopleProfile.getTechStacks())
+            .education(peopleProfile.getEducation())
+            .hashtags(peopleProfile.getHashtags())
+            .completedProjectsCount(0) //TODO: 완수한 프로젝트 수 계산
+            .interestsCount(0) //TODO: 받은 관심 수 계산
+            .portfolios(peopleProfile.getPortfolios())
+            .build();
     }
 }

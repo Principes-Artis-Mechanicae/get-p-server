@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.exception;
 
-import es.princip.getp.global.exception.ErrorCode;
-import es.princip.getp.global.exception.ErrorDescription;
+import es.princip.getp.infra.exception.ErrorCode;
+import es.princip.getp.infra.exception.ErrorDescription;
 import org.springframework.http.HttpStatus;
 
 public enum PeopleLikeErrorCode implements ErrorCode {

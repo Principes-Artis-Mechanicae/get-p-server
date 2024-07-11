@@ -1,0 +1,58 @@
+= GET-P API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+:operation-response-fields-data-title: Response fields
+:operation-error-code-fields-title: Error codes
+
+== 인증
+=== 회원 가입
+include::{docdir}/auth/signup.adoc[]
+
+=== 로그인
+include::{docdir}/auth/login.adoc[]
+
+=== 회원 가입 시 이메일 인증 코드 전송
+include::{docdir}/auth/send-email-verification-code-for-sign-up.adoc[]
+
+=== Access Token 및 Refresh Token 재발급
+include::{docdir}/auth/reissue-access-token.adoc[]
+
+== 사용자
+
+=== 내 사용자 정보 조회
+include::{docdir}/member/get-my-member.adoc[]
+
+=== 내 프로필 사진 등록
+include::{docdir}/member/upload-profile-image.adoc[]
+
+== 피플
+
+=== 피플 상세 조회
+include::{docdir}/people/get-people.adoc[]
+
+=== 피플 목록 조회
+include::{docdir}/people/get-card-people-page.adoc[]
+
+=== 내 피플 정보 등록
+include::{docdir}/my-people/create-my-people.adoc[]
+
+=== 내 피플 정보 조회
+include::{docdir}/my-people/get-my-people.adoc[]
+
+=== 내 피플 정보 수정
+include::{docdir}/my-people/update-my-people.adoc[]
+
+=== 내 피플 프로필 등록
+include::{docdir}/my-people-profile/create-my-people-profile.adoc[]
+
+=== 내 피플 프로필 조회
+include::{docdir}/my-people-profile/get-my-people-profile.adoc[]
+
+=== 내 피플 프로필 수정
+include::{docdir}/my-people-profile/update-my-people-profile.adoc[]

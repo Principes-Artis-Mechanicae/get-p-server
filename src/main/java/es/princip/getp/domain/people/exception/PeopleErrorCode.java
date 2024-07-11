@@ -1,11 +1,11 @@
 package es.princip.getp.domain.people.exception;
 
-import es.princip.getp.global.exception.ErrorDescription;
+import es.princip.getp.infra.exception.ErrorCode;
+import es.princip.getp.infra.exception.ErrorDescription;
 import org.springframework.http.HttpStatus;
-import es.princip.getp.global.exception.ErrorCode;
 
 public enum PeopleErrorCode implements ErrorCode {
-    PEOPLE_NOT_FOUND(HttpStatus.NOT_FOUND, "피플을 찾을 수 없습니다.");
+    PEOPLE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 피플을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final ErrorDescription description;

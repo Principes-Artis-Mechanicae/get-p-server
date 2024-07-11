@@ -97,7 +97,12 @@ Temporary Items
 .env.test
 .env.prod
 
+# Shell Scripts
 local.sh
 
 # JUnit settings
 .run/
+
+# Static Resources
+src/main/resources/static/*
+storage/

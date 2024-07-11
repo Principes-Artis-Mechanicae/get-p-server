@@ -1,11 +1,11 @@
-version: "3"
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: get-p-server
+    env_file:
+      - .env.dev
     depends_on:
       - redis
       - database
@@ -13,7 +13,7 @@ services:
       - ${SPRING_PORT}:${SPRING_PORT}
     restart: always
     volumes:
-      - get-p-storage:/storage
+      - /data:/storage
 
   database:
     image: postgres:latest
@@ -43,6 +43,5 @@ services:
     restart: always
 
 volumes:
-  get-p-storage:
   get-p-database:
   get-p-redis:

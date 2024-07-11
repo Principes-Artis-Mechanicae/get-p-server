@@ -1,8 +1,8 @@
 package es.princip.getp.domain.client.dto.request;
 
-import es.princip.getp.global.domain.values.Address;
-import es.princip.getp.global.domain.values.BankAccount;
-import es.princip.getp.global.validator.annotation.PhoneNumber;
+import es.princip.getp.domain.client.domain.Address;
+import es.princip.getp.domain.client.domain.BankAccount;
+import es.princip.getp.domain.member.annotation.PhoneNumber;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

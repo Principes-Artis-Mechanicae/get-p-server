@@ -1,26 +1,28 @@
 package es.princip.getp.domain.people.repository;
 
-import static com.querydsl.core.types.Order.ASC;
-import static com.querydsl.core.types.Order.DESC;
-import static es.princip.getp.domain.people.domain.entity.QPeople.people;
-import static es.princip.getp.domain.people.domain.entity.QPeopleHashtag.peopleHashtag;
-import static es.princip.getp.domain.people.domain.entity.QPeopleProfile.peopleProfile;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.domain.entity.PeopleHashtag;
-import es.princip.getp.domain.people.domain.enums.PeopleOrder;
-import es.princip.getp.domain.people.domain.enums.PeopleType;
+import es.princip.getp.domain.hashtag.domain.Hashtag;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleHashtag;
+import es.princip.getp.domain.people.domain.PeopleOrder;
+import es.princip.getp.domain.people.domain.PeopleType;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.global.domain.values.Hashtag;
-import es.princip.getp.global.support.QueryDslRepositorySupport;
-import java.util.ArrayList;
-import java.util.List;
+import es.princip.getp.infra.support.QueryDslRepositorySupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.querydsl.core.types.Order.ASC;
+import static com.querydsl.core.types.Order.DESC;
+import static es.princip.getp.domain.people.domain.QPeople.people;
+import static es.princip.getp.domain.people.domain.QPeopleHashtag.peopleHashtag;
+import static es.princip.getp.domain.people.domain.QPeopleProfile.peopleProfile;
 
 public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport implements
     PeopleQueryDslRepository {
@@ -48,7 +50,7 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
     private OrderSpecifier<?>[] getPeopleOrderSpecifiers(Sort sort) {
         List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
         sort.stream().forEach(order -> {
-            PeopleOrder peopleOrder = PeopleOrder.valueOf(order.getProperty());
+            PeopleOrder peopleOrder = PeopleOrder.get(order.getProperty());
             OrderSpecifier<?> orderSpecifier = getOrderSpecifier(order, peopleOrder);
             orderSpecifiers.add(orderSpecifier);
         });
@@ -66,13 +68,11 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
         List<Tuple> result = getQueryFactory()
             .select(
                 people.peopleId,
-                people.nickname,
                 people.peopleType,
-                people.profileImageUri,
                 peopleProfile.activityArea
             )
             .from(people)
-            .join(people.peopleProfile, peopleProfile)
+            .join(people.profile, peopleProfile)
             .where(lastPeopleId == null ? null : people.peopleId.lt(lastPeopleId))
             .orderBy(people.peopleId.desc())
             .limit(size)
@@ -93,13 +93,11 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
         List<Tuple> result = getQueryFactory()
             .select(
                 people.peopleId,
-                people.nickname,
                 people.peopleType,
-                people.profileImageUri,
                 peopleProfile.activityArea
             )
             .from(people)
-            .join(people.peopleProfile, peopleProfile)
+            .join(people.profile, peopleProfile)
             .orderBy(getPeopleOrderSpecifiers(pageable.getSort()))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
@@ -107,9 +105,9 @@ public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport impl
 
         return result.stream().map(tuple -> {
             Long peopleId = tuple.get(people.peopleId);
-            String nickname = tuple.get(people.nickname);
+            String nickname = tuple.get(people.member.nickname);
             PeopleType peopleType = tuple.get(people.peopleType);
-            String profileImageUri = tuple.get(people.profileImageUri);
+            String profileImageUri = tuple.get(people.member.profileImageUri);
             String activityArea = tuple.get(peopleProfile.activityArea);
             List<Hashtag> hashtags = getHashtagsForPeople(peopleId);
             CardPeopleProfileResponse profile =
