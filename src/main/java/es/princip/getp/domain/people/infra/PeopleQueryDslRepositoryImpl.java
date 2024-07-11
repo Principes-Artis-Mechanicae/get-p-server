@@ -2,7 +2,7 @@ package es.princip.getp.domain.people.infra;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
-import es.princip.getp.domain.hashtag.domain.Hashtag;
+import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.domain.PeopleHashtag;
 import es.princip.getp.domain.people.domain.PeopleOrder;

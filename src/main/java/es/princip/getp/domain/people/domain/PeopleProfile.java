@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.domain;
 
-import es.princip.getp.domain.hashtag.domain.Hashtag;
+import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.project.domain.TechStack;
 import jakarta.persistence.*;
