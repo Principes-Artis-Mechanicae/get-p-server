@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.controller;
 
-import es.princip.getp.domain.member.domain.enums.MemberType;
+import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
 import es.princip.getp.domain.people.service.PeopleLikeService;
@@ -15,7 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_CLIENT;
+import static es.princip.getp.domain.member.domain.MemberType.ROLE_CLIENT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.willDoNothing;

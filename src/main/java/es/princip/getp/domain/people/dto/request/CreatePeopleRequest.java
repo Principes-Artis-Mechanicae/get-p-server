@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.dto.request;
 
-import es.princip.getp.domain.people.domain.enums.PeopleType;
+import es.princip.getp.domain.people.domain.PeopleType;
 import es.princip.getp.global.validator.annotation.Enum;
 import es.princip.getp.global.validator.annotation.PhoneNumber;
 import jakarta.validation.constraints.Email;

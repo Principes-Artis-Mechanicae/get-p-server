@@ -1,7 +1,7 @@
 package es.princip.getp.global.security.provider;
 
 import es.princip.getp.domain.auth.dto.response.Token;
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import io.jsonwebtoken.*;

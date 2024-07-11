@@ -2,13 +2,13 @@ package es.princip.getp.domain.people.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.domain.entity.PeopleHashtag;
-import es.princip.getp.domain.people.domain.enums.PeopleOrder;
-import es.princip.getp.domain.people.domain.enums.PeopleType;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleHashtag;
+import es.princip.getp.domain.people.domain.PeopleOrder;
+import es.princip.getp.domain.people.domain.PeopleType;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.global.domain.values.Hashtag;
+import es.princip.getp.global.domain.Hashtag;
 import es.princip.getp.global.support.QueryDslRepositorySupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +20,9 @@ import java.util.List;
 
 import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
-import static es.princip.getp.domain.people.domain.entity.QPeople.people;
-import static es.princip.getp.domain.people.domain.entity.QPeopleHashtag.peopleHashtag;
-import static es.princip.getp.domain.people.domain.entity.QPeopleProfile.peopleProfile;
+import static es.princip.getp.domain.people.domain.QPeople.people;
+import static es.princip.getp.domain.people.domain.QPeopleHashtag.peopleHashtag;
+import static es.princip.getp.domain.people.domain.QPeopleProfile.peopleProfile;
 
 public class PeopleQueryDslRepositoryImpl extends QueryDslRepositorySupport implements
     PeopleQueryDslRepository {

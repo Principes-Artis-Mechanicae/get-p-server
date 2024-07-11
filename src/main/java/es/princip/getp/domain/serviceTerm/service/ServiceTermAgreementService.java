@@ -1,14 +1,15 @@
 package es.princip.getp.domain.serviceTerm.service;
 
-import java.util.List;
+import es.princip.getp.domain.member.domain.Member;
+import es.princip.getp.domain.member.service.MemberService;
+import es.princip.getp.domain.serviceTerm.domain.ServiceTerm;
+import es.princip.getp.domain.serviceTerm.domain.ServiceTermAgreement;
+import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.domain.member.service.MemberService;
-import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTerm;
-import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
-import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTermAgreement;
-import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor

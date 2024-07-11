@@ -1,9 +1,9 @@
 package es.princip.getp.domain.people.controller;
 
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.people.controller.description.response.DetailPeopleResponseDescription;
 import es.princip.getp.domain.people.controller.description.response.PublicDetailPeopleResponseDescription;
-import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.fixture.PeopleFixture;
 import es.princip.getp.domain.people.service.PeopleService;
@@ -22,7 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.domain.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleProfileFixture.createPeopleProfile;
 import static es.princip.getp.global.support.FieldDescriptorHelper.getDescriptor;

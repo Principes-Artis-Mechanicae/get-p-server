@@ -1,9 +1,9 @@
 package es.princip.getp.fixture;
 
-import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.project.dto.request.ApplicateProjectRequest;
-import es.princip.getp.domain.project.domain.entity.Project;
-import es.princip.getp.domain.project.domain.entity.ProjectApplication;
+import es.princip.getp.domain.project.domain.Project;
+import es.princip.getp.domain.project.domain.ProjectApplication;
 import java.time.LocalDate;
 import java.util.List;
 

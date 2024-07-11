@@ -1,16 +1,17 @@
 package es.princip.getp.domain.serviceTerm.service;
 
-import java.util.List;
-import java.util.Optional;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import es.princip.getp.domain.serviceTerm.domain.ServiceTerm;
+import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
 import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermRequest;
-import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTerm;
 import es.princip.getp.domain.serviceTerm.exception.ServiceTermErrorCode;
 import es.princip.getp.domain.serviceTerm.repository.ServiceTermRepository;
-import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
 import es.princip.getp.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)

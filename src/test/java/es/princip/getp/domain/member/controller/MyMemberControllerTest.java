@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.controller;
 
-import es.princip.getp.domain.member.domain.enums.MemberType;
+import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.domain.storage.exception.ImageErrorCode;
 import es.princip.getp.global.controller.ErrorCodeController;

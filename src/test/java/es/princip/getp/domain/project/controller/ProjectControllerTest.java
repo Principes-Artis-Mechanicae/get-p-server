@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.controller;
 
-import es.princip.getp.domain.project.domain.entity.Project;
+import es.princip.getp.domain.project.domain.Project;
 import es.princip.getp.domain.project.service.ProjectService;
 import es.princip.getp.global.config.SecurityConfig;
 import es.princip.getp.global.config.SecurityTestConfig;

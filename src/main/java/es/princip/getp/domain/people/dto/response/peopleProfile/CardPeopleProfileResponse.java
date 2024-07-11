@@ -1,6 +1,7 @@
 package es.princip.getp.domain.people.dto.response.peopleProfile;
 
-import es.princip.getp.global.domain.values.Hashtag;
+import es.princip.getp.global.domain.Hashtag;
+
 import java.util.List;
 
 public record CardPeopleProfileResponse(

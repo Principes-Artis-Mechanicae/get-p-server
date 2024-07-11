@@ -2,7 +2,7 @@ package es.princip.getp.domain.people.service;
 
 import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.member.service.MemberService;
-import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;

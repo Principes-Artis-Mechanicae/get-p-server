@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.service.ClientService;
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.domain.entity.PeopleLike;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleLike;
 import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
 import es.princip.getp.domain.people.repository.PeopleLikeRepository;
 import es.princip.getp.global.exception.BusinessLogicException;

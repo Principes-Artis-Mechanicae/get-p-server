@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.willThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import es.princip.getp.domain.member.domain.enums.MemberType;
+import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.domain.project.exception.ProjectErrorCode;
 import es.princip.getp.domain.project.exception.ProjectLikeErrorCode;
 import es.princip.getp.domain.project.service.ProjectLikeService;

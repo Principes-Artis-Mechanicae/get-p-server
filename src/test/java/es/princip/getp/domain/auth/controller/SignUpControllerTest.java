@@ -5,7 +5,7 @@ import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.auth.service.SignUpService;
 import es.princip.getp.domain.auth.support.SignUpFixture;
-import es.princip.getp.domain.member.domain.enums.MemberType;
+import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
 import es.princip.getp.global.controller.ErrorCodeController;
 import es.princip.getp.global.exception.BusinessLogicException;

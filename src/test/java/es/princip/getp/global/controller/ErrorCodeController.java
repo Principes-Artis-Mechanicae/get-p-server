@@ -3,7 +3,7 @@ package es.princip.getp.global.controller;
 import es.princip.getp.domain.auth.exception.LoginErrorCode;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.storage.exception.ImageErrorCode;
-import es.princip.getp.global.domain.dto.response.ErrorCodeResponse;
+import es.princip.getp.global.dto.response.ErrorCodeResponse;
 import es.princip.getp.global.exception.ErrorCode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

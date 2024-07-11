@@ -1,11 +1,11 @@
 package es.princip.getp.domain.people.dto.request;
 
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.domain.entity.PeopleProfile;
-import es.princip.getp.domain.people.domain.values.Education;
-import es.princip.getp.domain.people.domain.values.Portfolio;
-import es.princip.getp.global.domain.values.Hashtag;
-import es.princip.getp.global.domain.values.TechStack;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleProfile;
+import es.princip.getp.domain.people.domain.Education;
+import es.princip.getp.domain.people.domain.Portfolio;
+import es.princip.getp.global.domain.Hashtag;
+import es.princip.getp.global.domain.TechStack;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;

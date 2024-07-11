@@ -5,7 +5,7 @@ import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.client.fixture.ClientFixture;
 import es.princip.getp.domain.client.repository.ClientRepository;
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.member.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;

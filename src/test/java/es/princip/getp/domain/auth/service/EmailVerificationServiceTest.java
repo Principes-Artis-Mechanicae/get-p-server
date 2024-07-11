@@ -1,6 +1,6 @@
 package es.princip.getp.domain.auth.service;
 
-import es.princip.getp.domain.auth.domain.entity.EmailVerification;
+import es.princip.getp.domain.auth.domain.EmailVerification;
 import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
 import es.princip.getp.domain.auth.repository.EmailVerificationRepository;
 import es.princip.getp.global.exception.BusinessLogicException;

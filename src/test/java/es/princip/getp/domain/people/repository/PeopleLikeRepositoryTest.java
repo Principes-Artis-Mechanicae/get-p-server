@@ -2,10 +2,10 @@ package es.princip.getp.domain.people.repository;
 
 import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.repository.ClientRepository;
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.repository.MemberRepository;
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.domain.entity.PeopleLike;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleLike;
 import es.princip.getp.global.config.QueryDslTestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,8 +18,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import static es.princip.getp.domain.client.fixture.ClientFixture.createClient;
-import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_CLIENT;
-import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.domain.MemberType.ROLE_CLIENT;
+import static es.princip.getp.domain.member.domain.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
 import static org.assertj.core.api.Assertions.assertThat;

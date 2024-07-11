@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.controller;
 
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.dto.response.MemberResponse;
 import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.global.security.details.PrincipalDetails;

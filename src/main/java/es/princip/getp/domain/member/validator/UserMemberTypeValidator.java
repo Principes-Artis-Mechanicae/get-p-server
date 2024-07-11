@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.validator;
 
-import es.princip.getp.domain.member.domain.enums.MemberType;
+import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.domain.member.validator.annotation.UserMemberType;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

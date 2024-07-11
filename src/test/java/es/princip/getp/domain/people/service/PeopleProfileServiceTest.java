@@ -1,8 +1,8 @@
 package es.princip.getp.domain.people.service;
 
-import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.domain.entity.PeopleProfile;
+import es.princip.getp.domain.member.domain.Member;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleProfile;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.fixture.PeopleProfileFixture;

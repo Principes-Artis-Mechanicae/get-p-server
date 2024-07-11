@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.controller;
 
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.response.peopleProfile.DetailPeopleProfileResponse;

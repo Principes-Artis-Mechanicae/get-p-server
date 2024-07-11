@@ -1,6 +1,6 @@
 package es.princip.getp.domain.auth.service;
 
-import es.princip.getp.domain.auth.domain.entity.TokenVerification;
+import es.princip.getp.domain.auth.domain.TokenVerification;
 import es.princip.getp.domain.auth.dto.request.LoginRequest;
 import es.princip.getp.domain.auth.dto.response.Token;
 import es.princip.getp.domain.auth.exception.LoginErrorCode;

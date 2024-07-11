@@ -1,10 +1,10 @@
 package es.princip.getp.domain.project.service;
 
-import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.domain.project.dto.request.ApplicateProjectRequest;
-import es.princip.getp.domain.project.domain.entity.Project;
-import es.princip.getp.domain.project.domain.entity.ProjectApplication;
+import es.princip.getp.domain.project.domain.Project;
+import es.princip.getp.domain.project.domain.ProjectApplication;
 import es.princip.getp.domain.project.repository.ProjectApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

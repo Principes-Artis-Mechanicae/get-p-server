@@ -4,7 +4,7 @@ import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.service.PeopleService;
-import es.princip.getp.global.domain.dto.response.PageResponse;
+import es.princip.getp.global.dto.response.PageResponse;
 import es.princip.getp.global.support.ControllerSupport;
 import es.princip.getp.global.util.ApiResponse;
 import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;

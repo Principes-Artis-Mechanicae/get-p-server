@@ -1,11 +1,11 @@
 package es.princip.getp.domain.people.controller;
 
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.people.controller.description.request.CreatePeopleProfileRequestDescription;
 import es.princip.getp.domain.people.controller.description.request.UpdatePeopleProfileRequestDescription;
 import es.princip.getp.domain.people.controller.description.response.DetailPeopleProfileResponseDescription;
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.domain.entity.PeopleProfile;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleProfile;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.service.PeopleProfileService;
@@ -19,8 +19,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_CLIENT;
-import static es.princip.getp.domain.member.domain.enums.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.domain.MemberType.ROLE_CLIENT;
+import static es.princip.getp.domain.member.domain.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
 import static es.princip.getp.domain.people.fixture.PeopleProfileFixture.*;
 import static es.princip.getp.global.support.HeaderDescriptorHelper.authorizationHeaderDescriptor;

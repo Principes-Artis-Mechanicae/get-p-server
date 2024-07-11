@@ -1,8 +1,8 @@
 package es.princip.getp.domain.client.dto.response;
 
 import es.princip.getp.domain.client.domain.entity.Client;
-import es.princip.getp.global.domain.values.Address;
-import es.princip.getp.global.domain.values.BankAccount;
+import es.princip.getp.global.domain.Address;
+import es.princip.getp.global.domain.BankAccount;
 
 import java.time.LocalDateTime;
 

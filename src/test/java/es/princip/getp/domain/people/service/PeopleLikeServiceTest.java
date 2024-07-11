@@ -2,8 +2,8 @@ package es.princip.getp.domain.people.service;
 
 import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.service.ClientService;
-import es.princip.getp.domain.member.domain.entity.Member;
-import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.member.domain.Member;
+import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
 import es.princip.getp.domain.people.repository.PeopleLikeRepository;

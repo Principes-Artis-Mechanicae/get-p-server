@@ -1,9 +1,9 @@
 package es.princip.getp.domain.project.service;
 
-import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.service.PeopleService;
-import es.princip.getp.domain.project.domain.entity.Project;
-import es.princip.getp.domain.project.domain.entity.ProjectLike;
+import es.princip.getp.domain.project.domain.Project;
+import es.princip.getp.domain.project.domain.ProjectLike;
 import es.princip.getp.domain.project.exception.ProjectLikeErrorCode;
 import es.princip.getp.domain.project.repository.ProjectLikeRepository;
 import es.princip.getp.global.exception.BusinessLogicException;
