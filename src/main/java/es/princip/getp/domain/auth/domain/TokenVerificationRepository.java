@@ -1,6 +1,5 @@
-package es.princip.getp.domain.auth.repository;
+package es.princip.getp.domain.auth.domain;
 
-import es.princip.getp.domain.auth.domain.TokenVerification;
 import org.springframework.data.keyvalue.repository.KeyValueRepository;
 
 public interface TokenVerificationRepository extends KeyValueRepository<TokenVerification, Long> {

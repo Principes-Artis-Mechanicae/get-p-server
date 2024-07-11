@@ -1,6 +1,7 @@
-package es.princip.getp.domain.people.repository;
+package es.princip.getp.domain.people.infra;
 
-import es.princip.getp.domain.member.repository.MemberRepository;
+import es.princip.getp.domain.member.domain.MemberRepository;
+import es.princip.getp.domain.people.domain.PeopleRepository;
 import es.princip.getp.infra.config.QueryDslTestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;

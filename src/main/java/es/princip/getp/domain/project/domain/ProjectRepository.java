@@ -1,6 +1,6 @@
-package es.princip.getp.domain.project.repository;
+package es.princip.getp.domain.project.domain;
 
-import es.princip.getp.domain.project.domain.Project;
+import es.princip.getp.domain.project.infra.ProjectQueryDslRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

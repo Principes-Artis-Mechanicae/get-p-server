@@ -1,11 +1,15 @@
-package es.princip.getp.domain.people.repository;
+package es.princip.getp.domain.project.infra;
 
 import es.princip.getp.domain.client.domain.Client;
-import es.princip.getp.domain.client.repository.ClientRepository;
+import es.princip.getp.domain.client.domain.ClientRepository;
 import es.princip.getp.domain.member.domain.Member;
-import es.princip.getp.domain.member.repository.MemberRepository;
+import es.princip.getp.domain.member.domain.MemberRepository;
 import es.princip.getp.domain.people.domain.People;
-import es.princip.getp.domain.people.domain.PeopleLike;
+import es.princip.getp.domain.people.domain.PeopleRepository;
+import es.princip.getp.domain.project.domain.Project;
+import es.princip.getp.domain.project.domain.ProjectLike;
+import es.princip.getp.domain.project.domain.ProjectLikeRepository;
+import es.princip.getp.domain.project.domain.ProjectRepository;
 import es.princip.getp.infra.config.QueryDslTestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,16 +26,17 @@ import static es.princip.getp.domain.member.domain.MemberType.ROLE_CLIENT;
 import static es.princip.getp.domain.member.domain.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
+import static es.princip.getp.domain.project.fixture.ProjectFixture.createProject;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
 @Import(QueryDslTestConfig.class)
-class PeopleLikeRepositoryTest {
+class ProjectLikeRepositoryTest {
 
     @Autowired
-    private PeopleLikeRepository peopleLikeRepository;
+    private ProjectLikeRepository projectLikeRepository;
 
     @Autowired
     private ClientRepository clientRepository;
@@ -40,16 +45,20 @@ class PeopleLikeRepositoryTest {
     private PeopleRepository peopleRepository;
 
     @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
     private MemberRepository memberRepository;
 
     @Nested
-    @DisplayName("existsByClient_ClientIdAndPeople_PeopleId()는")
-    class ExistsByClient_ClientIdAndPeople_PeopleId {
+    @DisplayName("existsByPeople_PeopleIdAndProject_ProjectId()는")
+    class ExistsByPeople_PeopleIdAndProject_ProjectId {
 
         private final Member peopleMember = createMember("test1@example.com", ROLE_PEOPLE);
         private final People people = createPeople(peopleMember);
         private final Member clientMember = createMember("test2@example.com", ROLE_CLIENT);
         private final Client client = createClient(clientMember);
+        private final Project project = createProject(client);
 
         @BeforeEach
         void setUp() {
@@ -57,28 +66,29 @@ class PeopleLikeRepositoryTest {
             peopleRepository.save(people);
             memberRepository.save(clientMember);
             clientRepository.save(client);
+            projectRepository.save(project);
         }
 
-        @DisplayName("의뢰자가 해당 피플에게 이미 좋아요를 눌렀으면 true를 반환한다.")
+        @DisplayName("회원이 해당 프로젝트에 이미 좋아요를 눌렀으면 true를 반환한다.")
         @Test
-        void existsByClient_ClientIdAndPeople_PeopleId() {
-            PeopleLike peopleLike = PeopleLike.builder()
-                .client(client)
+        void existsByMemberAndProject_ProjectId() {
+            ProjectLike projectLike = ProjectLike.builder()
                 .people(people)
+                .project(project)
                 .build();
-            peopleLikeRepository.save(peopleLike);
+            projectLikeRepository.save(projectLike);
 
-            boolean exists = peopleLikeRepository.existsByClient_ClientIdAndPeople_PeopleId(
-                client.getClientId(), people.getPeopleId()
+            boolean exists = projectLikeRepository.existsByPeople_PeopleIdAndProject_ProjectId(
+                people.getPeopleId(), project.getProjectId()
             );
             assertThat(exists).isTrue();
         }
 
-        @DisplayName("의뢰자가 해당 피플에게 좋아요를 누른적이 없으면 false를 반환한다.")
+        @DisplayName("회원이 해당 프로젝트에 좋아요를 누른적이 없으면 false를 반환한다.")
         @Test
-        void existsByClient_ClientIdAndPeople_PeopleId_When() {
-            boolean exists = peopleLikeRepository.existsByClient_ClientIdAndPeople_PeopleId(
-                client.getClientId(), people.getPeopleId()
+        void existsByMemberAndProject_ProjectId_When() {
+            boolean exists = projectLikeRepository.existsByPeople_PeopleIdAndProject_ProjectId(
+                people.getPeopleId(), project.getProjectId()
             );
             assertThat(exists).isFalse();
         }
