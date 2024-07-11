@@ -1,6 +1,5 @@
-package es.princip.getp.domain.client.repository;
+package es.princip.getp.domain.client.domain;
 
-import es.princip.getp.domain.client.domain.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

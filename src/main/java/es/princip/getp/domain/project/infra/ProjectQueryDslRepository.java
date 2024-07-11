@@ -1,4 +1,4 @@
-package es.princip.getp.domain.project.repository;
+package es.princip.getp.domain.project.infra;
 
 import es.princip.getp.domain.project.domain.Project;
 import org.springframework.data.domain.Page;

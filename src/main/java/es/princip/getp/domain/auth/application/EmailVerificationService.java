@@ -1,8 +1,8 @@
 package es.princip.getp.domain.auth.application;
 
 import es.princip.getp.domain.auth.domain.EmailVerification;
+import es.princip.getp.domain.auth.domain.EmailVerificationRepository;
 import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
-import es.princip.getp.domain.auth.repository.EmailVerificationRepository;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Value;

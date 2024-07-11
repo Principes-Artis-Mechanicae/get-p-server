@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.repository;
+package es.princip.getp.domain.people.infra;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
