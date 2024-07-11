@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.domain;
 
-import es.princip.getp.domain.base.BaseTimeEntity;
+import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;

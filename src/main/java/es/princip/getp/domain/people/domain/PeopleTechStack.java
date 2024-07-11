@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.domain;
 
-import es.princip.getp.domain.base.BaseTimeEntity;
+import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.project.domain.TechStack;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

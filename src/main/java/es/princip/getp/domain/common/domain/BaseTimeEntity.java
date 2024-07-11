@@ -1,4 +1,4 @@
-package es.princip.getp.domain.base;
+package es.princip.getp.domain.common.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

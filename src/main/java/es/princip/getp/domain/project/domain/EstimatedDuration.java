@@ -4,11 +4,12 @@ import es.princip.getp.domain.project.exception.ProjectErrorCode;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Embeddable
 @Getter
