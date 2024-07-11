@@ -1,8 +1,8 @@
 package es.princip.getp.domain.auth.exception;
 
-import es.princip.getp.global.exception.ErrorDescription;
+import es.princip.getp.infra.exception.ErrorDescription;
 import org.springframework.http.HttpStatus;
-import es.princip.getp.global.exception.ErrorCode;
+import es.princip.getp.infra.exception.ErrorCode;
 
 public enum EmailErrorCode implements ErrorCode {
     EMAIL_SERVER_UNAVAILABLE(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 서버 문제로 인해 전송 실패");

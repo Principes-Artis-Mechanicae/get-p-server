@@ -1,8 +1,8 @@
 package es.princip.getp.domain.member.exception;
 
-import es.princip.getp.global.exception.ErrorDescription;
+import es.princip.getp.infra.exception.ErrorDescription;
 import org.springframework.http.HttpStatus;
-import es.princip.getp.global.exception.ErrorCode;
+import es.princip.getp.infra.exception.ErrorCode;
 
 public enum MemberErrorCode implements ErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회원");

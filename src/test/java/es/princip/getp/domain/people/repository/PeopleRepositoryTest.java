@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.repository;
 
 import es.princip.getp.domain.member.repository.MemberRepository;
-import es.princip.getp.global.config.QueryDslTestConfig;
+import es.princip.getp.infra.config.QueryDslTestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.dto.response.people;
 
-import es.princip.getp.domain.people.domain.entity.People;
+import es.princip.getp.domain.people.domain.People;
 
 public record CreatePeopleResponse(Long peopleId) {
 

@@ -1,6 +1,6 @@
 package es.princip.getp.domain.serviceTerm.dto.reqeust;
 
-import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTerm;
+import es.princip.getp.domain.serviceTerm.domain.ServiceTerm;
 import jakarta.validation.constraints.NotNull;
 
 public record ServiceTermRequest(

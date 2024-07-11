@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.dto.response.people;
 
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.domain.enums.PeopleType;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleType;
 import es.princip.getp.domain.people.dto.response.peopleProfile.DetailPeopleProfileResponse;
 import lombok.Builder;
 

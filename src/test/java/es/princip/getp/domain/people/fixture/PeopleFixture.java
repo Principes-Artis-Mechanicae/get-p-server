@@ -1,9 +1,9 @@
 package es.princip.getp.domain.people.fixture;
 
-import es.princip.getp.domain.member.domain.entity.Member;
+import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
-import es.princip.getp.domain.people.domain.entity.People;
-import es.princip.getp.domain.people.domain.enums.PeopleType;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleType;
 import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
