@@ -1,0 +1,93 @@
+package es.princip.getp.domain.client.presentation;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import es.princip.getp.domain.client.domain.Client;
+import es.princip.getp.domain.client.dto.request.CreateClientRequest;
+import es.princip.getp.domain.client.service.ClientService;
+import es.princip.getp.domain.member.domain.Member;
+import es.princip.getp.domain.member.domain.MemberType;
+import es.princip.getp.infra.annotation.WithCustomMockUser;
+import es.princip.getp.infra.config.SecurityConfig;
+import es.princip.getp.infra.config.SecurityTestConfig;
+import es.princip.getp.infra.security.details.PrincipalDetails;
+import es.princip.getp.infra.support.PrincipalDetailsParameterResolver;
+import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static es.princip.getp.domain.client.fixture.ClientFixture.createClientRequest;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(ClientController.class)
+@Import({SecurityConfig.class, SecurityTestConfig.class})
+@ActiveProfiles("test")
+@RequiredArgsConstructor
+@ExtendWith(PrincipalDetailsParameterResolver.class)
+@DisplayName("의뢰자는")
+class ClientControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private ClientService clientService;
+
+    @Nested
+    @DisplayName("의뢰자 정보 등록")
+    class Create {
+
+        @Test
+        @DisplayName("의뢰자 정보를 등록할 수 있다.")
+        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
+        void create(PrincipalDetails principalDetails) throws Exception {
+            //given
+            Member member = principalDetails.getMember();
+            CreateClientRequest request = createClientRequest();
+            Client client = Client.from(member, request);
+            given(clientService.create(member.getMemberId(), request)).willReturn(client);
+
+            //when and then
+            mockMvc.perform(post("/client")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.data.clientId")
+                    .value(client.getClientId()))
+                .andExpect(jsonPath("$.data.nickname")
+                    .value(client.getNickname()))
+                .andExpect(jsonPath("$.data.email")
+                    .value(client.getEmail()))
+                .andExpect(jsonPath("$.data.phoneNumber")
+                    .value(client.getPhoneNumber()))
+                .andExpect(jsonPath("$.data.profileImageUri")
+                    .value(client.getProfileImageUri()))
+                .andExpect(jsonPath("$.data.address.zipcode")
+                    .value(client.getAddress().getZipcode()))
+                .andExpect(jsonPath("$.data.address.street")
+                    .value(client.getAddress().getStreet()))
+                .andExpect(jsonPath("$.data.address.detail")
+                    .value(client.getAddress().getDetail()))
+                .andExpect(jsonPath("$.data.bankAccount.bank")
+                    .value(client.getBankAccount().getBank()))
+                .andExpect(jsonPath("$.data.bankAccount.accountNumber")
+                    .value(client.getBankAccount().getAccountNumber()))
+                .andExpect(jsonPath("$.data.bankAccount.accountHolder")
+                    .value(client.getBankAccount().getAccountHolder()));
+        }
+    }
+}
