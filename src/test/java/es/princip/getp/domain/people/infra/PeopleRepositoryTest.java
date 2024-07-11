@@ -2,18 +2,11 @@ package es.princip.getp.domain.people.infra;
 
 import es.princip.getp.domain.member.domain.MemberRepository;
 import es.princip.getp.domain.people.domain.PeopleRepository;
-import es.princip.getp.infra.config.QueryDslTestConfig;
+import es.princip.getp.infra.annotation.RepositoryTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("test")
-@Import(QueryDslTestConfig.class)
+@RepositoryTest
 public class PeopleRepositoryTest {
 
     @Autowired

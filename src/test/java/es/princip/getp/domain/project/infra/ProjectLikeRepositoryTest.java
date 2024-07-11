@@ -10,16 +10,12 @@ import es.princip.getp.domain.project.domain.Project;
 import es.princip.getp.domain.project.domain.ProjectLike;
 import es.princip.getp.domain.project.domain.ProjectLikeRepository;
 import es.princip.getp.domain.project.domain.ProjectRepository;
-import es.princip.getp.infra.config.QueryDslTestConfig;
+import es.princip.getp.infra.annotation.RepositoryTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
 
 import static es.princip.getp.domain.client.fixture.ClientFixture.createClient;
 import static es.princip.getp.domain.member.domain.MemberType.ROLE_CLIENT;
@@ -29,10 +25,7 @@ import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
 import static es.princip.getp.domain.project.fixture.ProjectFixture.createProject;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("test")
-@Import(QueryDslTestConfig.class)
+@RepositoryTest
 class ProjectLikeRepositoryTest {
 
     @Autowired
