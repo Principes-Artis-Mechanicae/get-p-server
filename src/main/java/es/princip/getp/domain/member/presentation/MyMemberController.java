@@ -1,8 +1,8 @@
 package es.princip.getp.domain.member.presentation;
 
+import es.princip.getp.domain.member.application.MemberService;
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.dto.response.MemberResponse;
-import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import lombok.RequiredArgsConstructor;

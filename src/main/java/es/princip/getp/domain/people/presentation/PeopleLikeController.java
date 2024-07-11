@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.presentation;
 
-import es.princip.getp.domain.people.service.PeopleLikeService;
+import es.princip.getp.domain.people.application.PeopleLikeService;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;

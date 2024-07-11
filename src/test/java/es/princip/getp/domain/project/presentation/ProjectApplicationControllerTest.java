@@ -2,11 +2,11 @@ package es.princip.getp.domain.project.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.princip.getp.domain.member.domain.MemberType;
+import es.princip.getp.domain.project.application.ProjectApplicationService;
 import es.princip.getp.domain.project.domain.Project;
 import es.princip.getp.domain.project.domain.ProjectApplication;
 import es.princip.getp.domain.project.dto.request.ApplicateProjectRequest;
 import es.princip.getp.domain.project.fixture.ProjectApplicationFixture;
-import es.princip.getp.domain.project.service.ProjectApplicationService;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.config.SecurityConfig;
 import es.princip.getp.infra.config.SecurityTestConfig;

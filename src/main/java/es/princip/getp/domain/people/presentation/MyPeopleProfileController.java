@@ -1,10 +1,10 @@
 package es.princip.getp.domain.people.presentation;
 
 import es.princip.getp.domain.member.domain.Member;
+import es.princip.getp.domain.people.application.PeopleProfileService;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.response.peopleProfile.DetailPeopleProfileResponse;
-import es.princip.getp.domain.people.service.PeopleProfileService;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;

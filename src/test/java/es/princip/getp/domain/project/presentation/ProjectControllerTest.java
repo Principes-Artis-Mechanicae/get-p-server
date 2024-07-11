@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.presentation;
 
+import es.princip.getp.domain.project.application.ProjectService;
 import es.princip.getp.domain.project.domain.Project;
-import es.princip.getp.domain.project.service.ProjectService;
 import es.princip.getp.infra.config.SecurityConfig;
 import es.princip.getp.infra.config.SecurityTestConfig;
 import lombok.RequiredArgsConstructor;

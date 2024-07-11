@@ -1,10 +1,10 @@
 package es.princip.getp.domain.auth.presentation;
 
+import es.princip.getp.domain.auth.application.SignUpService;
 import es.princip.getp.domain.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.auth.fixture.SignUpFixture;
-import es.princip.getp.domain.auth.service.SignUpService;
 import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
 import es.princip.getp.infra.exception.BusinessLogicException;

@@ -1,10 +1,10 @@
 package es.princip.getp.domain.project.presentation;
 
+import es.princip.getp.domain.project.application.ProjectService;
 import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
 import es.princip.getp.domain.project.dto.response.CardProjectResponse;
 import es.princip.getp.domain.project.dto.response.CreateProjectResponse;
 import es.princip.getp.domain.project.dto.response.DetailProjectResponse;
-import es.princip.getp.domain.project.service.ProjectService;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;

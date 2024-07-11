@@ -1,6 +1,6 @@
 package es.princip.getp.infra.config;
 
-import es.princip.getp.domain.member.service.MemberService;
+import es.princip.getp.domain.member.application.MemberService;
 import es.princip.getp.infra.security.exception.handler.CustomAccessDeniedHandler;
 import es.princip.getp.infra.security.exception.handler.CustomAuthenticationEntryPoint;
 import es.princip.getp.infra.security.filter.JwtAuthorizationFilter;

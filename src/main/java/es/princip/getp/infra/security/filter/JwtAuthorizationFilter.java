@@ -1,10 +1,6 @@
 package es.princip.getp.infra.security.filter;
 
-import java.io.IOException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
-import es.princip.getp.domain.member.service.MemberService;
+import es.princip.getp.domain.member.application.MemberService;
 import es.princip.getp.infra.security.provider.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,6 +8,11 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.GenericFilterBean;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends GenericFilterBean {

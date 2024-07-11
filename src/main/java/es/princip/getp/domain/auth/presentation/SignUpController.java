@@ -1,9 +1,9 @@
 package es.princip.getp.domain.auth.presentation;
 
+import es.princip.getp.domain.auth.application.SignUpService;
 import es.princip.getp.domain.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.dto.response.SignUpResponse;
-import es.princip.getp.domain.auth.service.SignUpService;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import jakarta.validation.Valid;

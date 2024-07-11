@@ -1,9 +1,9 @@
 package es.princip.getp.domain.people.presentation;
 
 import es.princip.getp.domain.member.domain.MemberType;
+import es.princip.getp.domain.people.application.PeopleLikeService;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
-import es.princip.getp.domain.people.service.PeopleLikeService;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.support.AbstractControllerTest;

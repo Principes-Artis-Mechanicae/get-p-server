@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.presentation;
 
-import es.princip.getp.domain.project.service.ProjectLikeService;
+import es.princip.getp.domain.project.application.ProjectLikeService;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;

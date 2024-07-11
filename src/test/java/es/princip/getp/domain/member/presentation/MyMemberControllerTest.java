@@ -1,7 +1,7 @@
 package es.princip.getp.domain.member.presentation;
 
+import es.princip.getp.domain.member.application.MemberService;
 import es.princip.getp.domain.member.domain.MemberType;
-import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.domain.storage.exception.ImageErrorCode;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.presentation.ErrorCodeController;

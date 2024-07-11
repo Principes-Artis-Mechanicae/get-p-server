@@ -1,8 +1,8 @@
 package es.princip.getp.domain.serviceTerm.presentation;
 
+import es.princip.getp.domain.serviceTerm.application.ServiceTermService;
 import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermRequest;
 import es.princip.getp.domain.serviceTerm.dto.response.ServiceTermResponse;
-import es.princip.getp.domain.serviceTerm.service.ServiceTermService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

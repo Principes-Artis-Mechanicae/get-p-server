@@ -1,8 +1,8 @@
 package es.princip.getp.domain.client.presentation;
 
+import es.princip.getp.domain.client.application.ClientService;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.response.ClientResponse;
-import es.princip.getp.domain.client.service.ClientService;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;

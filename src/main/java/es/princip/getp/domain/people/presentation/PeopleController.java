@@ -1,9 +1,9 @@
 package es.princip.getp.domain.people.presentation;
 
+import es.princip.getp.domain.people.application.PeopleService;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.dto.response.people.PublicDetailPeopleResponse;
-import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.dto.response.PageResponse;

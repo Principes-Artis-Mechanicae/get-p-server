@@ -1,10 +1,10 @@
 package es.princip.getp.domain.auth.presentation;
 
+import es.princip.getp.domain.auth.application.AuthService;
 import es.princip.getp.domain.auth.dto.request.LoginRequest;
 import es.princip.getp.domain.auth.dto.response.Token;
 import es.princip.getp.domain.auth.exception.LoginErrorCode;
 import es.princip.getp.domain.auth.fixture.LoginFixture;
-import es.princip.getp.domain.auth.service.AuthService;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.presentation.ErrorCodeController;

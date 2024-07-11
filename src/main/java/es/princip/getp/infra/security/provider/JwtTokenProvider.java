@@ -1,8 +1,8 @@
 package es.princip.getp.infra.security.provider;
 
 import es.princip.getp.domain.auth.dto.response.Token;
+import es.princip.getp.domain.member.application.MemberService;
 import es.princip.getp.domain.member.domain.Member;
-import es.princip.getp.domain.member.service.MemberService;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

@@ -1,12 +1,12 @@
 package es.princip.getp.domain.people.presentation;
 
 import es.princip.getp.domain.member.domain.Member;
+import es.princip.getp.domain.people.application.PeopleService;
 import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.fixture.PeopleFixture;
 import es.princip.getp.domain.people.presentation.description.response.DetailPeopleResponseDescription;
 import es.princip.getp.domain.people.presentation.description.response.PublicDetailPeopleResponseDescription;
-import es.princip.getp.domain.people.service.PeopleService;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;
 import org.junit.jupiter.api.BeforeEach;

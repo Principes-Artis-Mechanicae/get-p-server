@@ -1,6 +1,7 @@
 package es.princip.getp.domain.people.presentation;
 
 import es.princip.getp.domain.member.domain.Member;
+import es.princip.getp.domain.people.application.PeopleProfileService;
 import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.domain.PeopleProfile;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
@@ -8,7 +9,6 @@ import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.presentation.description.request.CreatePeopleProfileRequestDescription;
 import es.princip.getp.domain.people.presentation.description.request.UpdatePeopleProfileRequestDescription;
 import es.princip.getp.domain.people.presentation.description.response.DetailPeopleProfileResponseDescription;
-import es.princip.getp.domain.people.service.PeopleProfileService;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import es.princip.getp.infra.support.AbstractControllerTest;

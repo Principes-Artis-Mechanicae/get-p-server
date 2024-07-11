@@ -1,8 +1,8 @@
 package es.princip.getp.domain.auth.presentation;
 
+import es.princip.getp.domain.auth.application.AuthService;
 import es.princip.getp.domain.auth.dto.request.LoginRequest;
 import es.princip.getp.domain.auth.dto.response.Token;
-import es.princip.getp.domain.auth.service.AuthService;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import jakarta.servlet.http.HttpServletRequest;

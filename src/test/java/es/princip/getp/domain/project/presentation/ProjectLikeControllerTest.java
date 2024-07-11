@@ -1,9 +1,9 @@
 package es.princip.getp.domain.project.presentation;
 
 import es.princip.getp.domain.member.domain.MemberType;
+import es.princip.getp.domain.project.application.ProjectLikeService;
 import es.princip.getp.domain.project.exception.ProjectErrorCode;
 import es.princip.getp.domain.project.exception.ProjectLikeErrorCode;
-import es.princip.getp.domain.project.service.ProjectLikeService;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.config.SecurityConfig;
 import es.princip.getp.infra.config.SecurityTestConfig;

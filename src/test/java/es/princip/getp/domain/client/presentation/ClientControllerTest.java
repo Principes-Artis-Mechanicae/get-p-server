@@ -1,9 +1,9 @@
 package es.princip.getp.domain.client.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import es.princip.getp.domain.client.application.ClientService;
 import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
-import es.princip.getp.domain.client.service.ClientService;
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
