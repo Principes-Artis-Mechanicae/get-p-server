@@ -1,6 +1,5 @@
-package es.princip.getp.domain.people.repository;
+package es.princip.getp.domain.people.domain;
 
-import es.princip.getp.domain.people.domain.PeopleLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

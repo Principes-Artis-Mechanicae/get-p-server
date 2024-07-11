@@ -1,10 +1,10 @@
 package es.princip.getp.domain.client.application;
 
 import es.princip.getp.domain.client.domain.Client;
+import es.princip.getp.domain.client.domain.ClientRepository;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.client.fixture.ClientFixture;
-import es.princip.getp.domain.client.repository.ClientRepository;
 import es.princip.getp.domain.member.application.MemberService;
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;

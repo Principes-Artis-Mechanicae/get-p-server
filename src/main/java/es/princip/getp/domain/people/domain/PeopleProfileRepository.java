@@ -1,11 +1,10 @@
-package es.princip.getp.domain.people.repository;
+package es.princip.getp.domain.people.domain;
 
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import es.princip.getp.domain.people.domain.PeopleProfile;
+import java.util.Optional;
 
 public interface PeopleProfileRepository extends JpaRepository<PeopleProfile, Long> {
     Optional<PeopleProfile> findByPeople_PeopleId(Long peopleId);

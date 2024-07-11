@@ -1,8 +1,8 @@
-package es.princip.getp.domain.member.repository;
+package es.princip.getp.domain.member.domain;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import es.princip.getp.domain.member.domain.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByEmail(String email);
