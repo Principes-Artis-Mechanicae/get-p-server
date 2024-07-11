@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -18,6 +20,14 @@ public class PeopleLikeService {
     private final PeopleService peopleService;
     private final ClientService clientService;
     private final PeopleLikeRepository peopleLikeRepository;
+
+    private PeopleLike get(Optional<PeopleLike> peopleLike) {
+        return peopleLike.orElseThrow(() -> new BusinessLogicException(PeopleLikeErrorCode.NEVER_LIKED));
+    }
+
+    public PeopleLike getByMemberIdAndPeopleId(Long memberId, Long peopleId) {
+        return get(peopleLikeRepository.findByPeople_PeopleIdAndClient_ClientId(memberId, peopleId));
+    }
 
     private void checkPeopleIsAlreadyLiked(Long clientId, Long peopleId) {
         if (peopleLikeRepository.existsByClient_ClientIdAndPeople_PeopleId(clientId, peopleId)) {
@@ -36,5 +46,11 @@ public class PeopleLikeService {
                 .people(people)
                 .build()
         );
+    }
+
+    @Transactional
+    public void unlike(Long memberId, Long peopleId) {
+        PeopleLike peopleLike = getByMemberIdAndPeopleId(memberId, peopleId);
+        peopleLikeRepository.delete(peopleLike);
     }
 }
