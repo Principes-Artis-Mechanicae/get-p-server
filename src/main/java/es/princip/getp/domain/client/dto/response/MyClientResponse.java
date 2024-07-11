@@ -1,6 +1,6 @@
 package es.princip.getp.domain.client.dto.response;
 
-import es.princip.getp.domain.client.domain.entity.Client;
+import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.member.dto.response.MemberResponse;
 
 public record MyClientResponse(

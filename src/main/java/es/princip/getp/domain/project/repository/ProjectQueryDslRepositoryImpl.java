@@ -2,19 +2,20 @@ package es.princip.getp.domain.project.repository;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import es.princip.getp.domain.project.domain.entity.Project;
-import es.princip.getp.domain.project.domain.entity.QProject;
-import java.util.List;
+import es.princip.getp.domain.project.domain.Project;
+import es.princip.getp.domain.project.domain.QProject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class ProjectQueryDslRepositoryImpl implements ProjectQueryDslRepository {
 
     private final JPAQueryFactory queryFactory;
-    private  final QProject project = QProject.project;
+    private final QProject project = QProject.project;
 
     public Page<Project> findProjectPage(Pageable pageable) {
         List<Project> content = getProjectContent(pageable);

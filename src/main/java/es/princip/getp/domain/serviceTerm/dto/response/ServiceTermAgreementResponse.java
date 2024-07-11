@@ -1,10 +1,11 @@
 package es.princip.getp.domain.serviceTerm.dto.response;
 
+import es.princip.getp.domain.serviceTerm.domain.ServiceTermAgreement;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import es.princip.getp.domain.serviceTerm.domain.entity.ServiceTermAgreement;
-import jakarta.validation.constraints.NotNull;
 
 public record ServiceTermAgreementResponse(
     @NotNull String tag, 

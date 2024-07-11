@@ -1,6 +1,6 @@
 package es.princip.getp.domain.storage.fixture;
 
-import es.princip.getp.global.util.PathUtil;
+import es.princip.getp.infra.util.PathUtil;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 

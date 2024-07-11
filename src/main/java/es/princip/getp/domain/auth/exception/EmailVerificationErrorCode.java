@@ -1,8 +1,8 @@
 package es.princip.getp.domain.auth.exception;
 
-import es.princip.getp.global.exception.ErrorDescription;
+import es.princip.getp.infra.exception.ErrorDescription;
 import org.springframework.http.HttpStatus;
-import es.princip.getp.global.exception.ErrorCode;
+import es.princip.getp.infra.exception.ErrorCode;
 
 public enum EmailVerificationErrorCode implements ErrorCode {
     INVALID_EMAIL_VERIFICATION(HttpStatus.NOT_FOUND, "유효하지 않은 이메일 인증"),
