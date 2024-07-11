@@ -1,12 +1,12 @@
 package es.princip.getp.domain.people.exception;
 
-import org.springframework.http.HttpStatus;
-
 import es.princip.getp.infra.exception.ErrorCode;
 import es.princip.getp.infra.exception.ErrorDescription;
+import org.springframework.http.HttpStatus;
 
 public enum PeopleLikeErrorCode implements ErrorCode {
-    ALREADY_LIKED(HttpStatus.CONFLICT, "이미 좋아요를 누른 피플입니다.");
+    ALREADY_LIKED(HttpStatus.CONFLICT, "이미 좋아요를 누른 피플입니다."),
+    NEVER_LIKED(HttpStatus.NOT_FOUND, "해당 피플에게 좋아요를 누른 적이 없습니다.");
 
     private final HttpStatus status;
     private final ErrorDescription description;

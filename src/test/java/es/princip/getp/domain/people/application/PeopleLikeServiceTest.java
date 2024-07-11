@@ -4,6 +4,7 @@ import es.princip.getp.domain.client.application.ClientService;
 import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleLike;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
 import es.princip.getp.domain.people.repository.PeopleLikeRepository;
@@ -16,9 +17,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static es.princip.getp.domain.client.fixture.ClientFixture.createClient;
 import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
+import static es.princip.getp.domain.people.fixture.PeopleLikeFixture.createPeopleLike;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,6 +55,7 @@ class PeopleLikeServiceTest {
 
         private final People people = createPeople(member);
         private final Client client = createClient();
+        private final PeopleLike peopleLike = createPeopleLike(client, people);
 
         @DisplayName("피플에게 좋아요를 누른다.")
         @Test
@@ -93,6 +98,29 @@ class PeopleLikeServiceTest {
                 catchThrowableOfType(() -> peopleLikeService.like(memberId, peopleId),
                     BusinessLogicException.class);
             assertThat(exception.getErrorCode()).isEqualTo(PeopleErrorCode.PEOPLE_NOT_FOUND);
+        }
+
+        @DisplayName("피플에게 좋아요를 취소한다.")
+        @Test
+        void unlike() {
+            given(peopleLikeRepository.findByPeople_PeopleIdAndClient_ClientId(memberId, peopleId)).willReturn(Optional.of(peopleLike));
+
+            peopleLikeService.unlike(memberId, peopleId);
+
+            verify(peopleLikeRepository, times(1)).delete(peopleLike);
+        }
+
+        @DisplayName("좋아요를 누르지 않은 피플에게 의뢰자가 좋아요를 취소할 경우 예외를 던진다.")
+        @Test
+        void unlike_ThrowExceptionWhenLikerCancelsLikeForPeopleNotLiked() {
+            given(peopleLikeRepository.findByPeople_PeopleIdAndClient_ClientId(peopleId, memberId)).willThrow(
+                new BusinessLogicException(PeopleLikeErrorCode.NEVER_LIKED)
+            );
+
+            BusinessLogicException exception =
+                catchThrowableOfType(() -> peopleLikeService.unlike(memberId, peopleId),
+                    BusinessLogicException.class);
+            assertThat(exception.getErrorCode()).isEqualTo(PeopleLikeErrorCode.NEVER_LIKED);
         }
     }
 }
