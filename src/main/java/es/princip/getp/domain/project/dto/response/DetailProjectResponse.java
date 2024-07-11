@@ -1,11 +1,12 @@
 package es.princip.getp.domain.project.dto.response;
 
 import es.princip.getp.domain.client.dto.response.ProjectClientResponse;
+import es.princip.getp.domain.project.domain.MeetingType;
 import es.princip.getp.domain.project.domain.Project;
 import es.princip.getp.domain.project.domain.ProjectAttachmentFile;
 import es.princip.getp.domain.project.domain.ProjectHashtag;
-import es.princip.getp.domain.project.domain.MeetingType;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 import java.util.List;
 

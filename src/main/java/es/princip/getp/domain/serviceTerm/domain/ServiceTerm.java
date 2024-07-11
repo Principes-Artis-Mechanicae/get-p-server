@@ -1,6 +1,6 @@
 package es.princip.getp.domain.serviceTerm.domain;
 
-import es.princip.getp.domain.base.BaseTimeEntity;
+import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

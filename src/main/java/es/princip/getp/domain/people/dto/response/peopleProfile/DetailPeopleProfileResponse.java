@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.dto.response.peopleProfile;
 
-import es.princip.getp.domain.hashtag.domain.Hashtag;
+import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.people.domain.Education;
 import es.princip.getp.domain.people.domain.PeopleProfile;
 import es.princip.getp.domain.people.domain.Portfolio;

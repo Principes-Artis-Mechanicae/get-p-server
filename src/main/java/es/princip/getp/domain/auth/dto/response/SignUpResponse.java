@@ -3,6 +3,7 @@ package es.princip.getp.domain.auth.dto.response;
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.domain.serviceTerm.dto.response.ServiceTermAgreementResponse;
+
 import java.util.List;
 
 public record SignUpResponse(
