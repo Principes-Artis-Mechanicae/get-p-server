@@ -2,10 +2,10 @@ package es.princip.getp.domain.people.application;
 
 import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.domain.PeopleProfile;
+import es.princip.getp.domain.people.domain.PeopleProfileRepository;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.exception.PeopleProfileErrorCode;
-import es.princip.getp.domain.people.repository.PeopleProfileRepository;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

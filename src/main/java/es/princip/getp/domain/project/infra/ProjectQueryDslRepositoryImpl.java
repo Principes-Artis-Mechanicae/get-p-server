@@ -1,4 +1,4 @@
-package es.princip.getp.domain.project.repository;
+package es.princip.getp.domain.project.infra;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;

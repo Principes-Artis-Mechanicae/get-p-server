@@ -1,6 +1,5 @@
-package es.princip.getp.domain.project.repository;
+package es.princip.getp.domain.project.domain;
 
-import es.princip.getp.domain.project.domain.ProjectLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectLikeRepository extends JpaRepository<ProjectLike, Long> {

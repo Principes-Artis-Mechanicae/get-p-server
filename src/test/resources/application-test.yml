@@ -7,7 +7,7 @@ spring:
     url: ${DB_TEST_URL}
     username: ${DB_TEST_USERNAME}
     password:
-    driver-class-name: org.h2.Driver
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
 
   jpa:
     hibernate:
