@@ -1,8 +1,8 @@
 package es.princip.getp.domain.people.domain;
 
+import es.princip.getp.domain.hashtag.domain.Hashtag;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
-import es.princip.getp.global.domain.Hashtag;
-import es.princip.getp.global.domain.TechStack;
+import es.princip.getp.domain.project.domain.TechStack;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

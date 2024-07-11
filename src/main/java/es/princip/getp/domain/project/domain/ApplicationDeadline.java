@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.domain;
 
 import es.princip.getp.domain.project.exception.ProjectErrorCode;
-import es.princip.getp.global.exception.BusinessLogicException;
+import es.princip.getp.infra.exception.BusinessLogicException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.time.LocalDate;

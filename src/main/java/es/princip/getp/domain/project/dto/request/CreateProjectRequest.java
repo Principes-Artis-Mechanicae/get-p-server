@@ -1,9 +1,10 @@
 package es.princip.getp.domain.project.dto.request;
 
-import es.princip.getp.domain.client.domain.entity.Client;
-import es.princip.getp.domain.project.domain.Project;
+import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.project.domain.MeetingType;
+import es.princip.getp.domain.project.domain.Project;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 import java.util.List;
 

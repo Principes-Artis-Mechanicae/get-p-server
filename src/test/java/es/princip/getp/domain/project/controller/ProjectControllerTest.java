@@ -2,8 +2,8 @@ package es.princip.getp.domain.project.controller;
 
 import es.princip.getp.domain.project.domain.Project;
 import es.princip.getp.domain.project.service.ProjectService;
-import es.princip.getp.global.config.SecurityConfig;
-import es.princip.getp.global.config.SecurityTestConfig;
+import es.princip.getp.infra.config.SecurityConfig;
+import es.princip.getp.infra.config.SecurityTestConfig;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

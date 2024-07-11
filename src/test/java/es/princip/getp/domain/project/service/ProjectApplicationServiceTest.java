@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.service;
 
-import es.princip.getp.domain.client.domain.entity.Client;
+import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.client.fixture.ClientFixture;
 import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.domain.people.domain.People;

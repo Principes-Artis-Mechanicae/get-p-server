@@ -1,7 +1,7 @@
 package es.princip.getp.domain.auth.service;
 
 import es.princip.getp.domain.auth.exception.EmailErrorCode;
-import es.princip.getp.global.exception.BusinessLogicException;
+import es.princip.getp.infra.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;

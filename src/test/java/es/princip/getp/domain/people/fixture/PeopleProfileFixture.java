@@ -1,5 +1,6 @@
 package es.princip.getp.domain.people.fixture;
 
+import es.princip.getp.domain.hashtag.domain.Hashtag;
 import es.princip.getp.domain.people.domain.Education;
 import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.domain.PeopleProfile;
@@ -7,8 +8,7 @@ import es.princip.getp.domain.people.domain.Portfolio;
 import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.global.domain.Hashtag;
-import es.princip.getp.global.domain.TechStack;
+import es.princip.getp.domain.project.domain.TechStack;
 
 import java.util.List;
 

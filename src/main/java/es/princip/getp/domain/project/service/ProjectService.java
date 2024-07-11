@@ -1,18 +1,19 @@
 package es.princip.getp.domain.project.service;
 
-import es.princip.getp.domain.client.domain.entity.Client;
+import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.client.service.ClientService;
-import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
 import es.princip.getp.domain.project.domain.Project;
+import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
 import es.princip.getp.domain.project.exception.ProjectErrorCode;
 import es.princip.getp.domain.project.repository.ProjectRepository;
-import es.princip.getp.global.exception.BusinessLogicException;
-import java.util.Optional;
+import es.princip.getp.infra.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)

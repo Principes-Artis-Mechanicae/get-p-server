@@ -1,8 +1,8 @@
 package es.princip.getp.fixture;
 
-import es.princip.getp.domain.client.domain.entity.Client;
-import es.princip.getp.domain.project.domain.Project;
+import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.project.domain.MeetingType;
+import es.princip.getp.domain.project.domain.Project;
 import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
 
 import java.time.LocalDate;

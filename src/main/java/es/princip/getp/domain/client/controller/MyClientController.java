@@ -4,20 +4,16 @@ import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.client.dto.response.MyClientResponse;
 import es.princip.getp.domain.client.service.ClientService;
 import es.princip.getp.domain.member.domain.Member;
-import es.princip.getp.global.security.details.PrincipalDetails;
-import es.princip.getp.global.util.ApiResponse;
-import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
+import es.princip.getp.infra.dto.response.ApiResponse;
+import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
+import es.princip.getp.infra.security.details.PrincipalDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/client/me")

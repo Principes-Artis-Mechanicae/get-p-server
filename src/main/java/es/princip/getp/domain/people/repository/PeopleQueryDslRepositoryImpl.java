@@ -2,14 +2,14 @@ package es.princip.getp.domain.people.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
+import es.princip.getp.domain.hashtag.domain.Hashtag;
 import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.domain.PeopleHashtag;
 import es.princip.getp.domain.people.domain.PeopleOrder;
 import es.princip.getp.domain.people.domain.PeopleType;
 import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
 import es.princip.getp.domain.people.dto.response.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.global.domain.Hashtag;
-import es.princip.getp.global.support.QueryDslRepositorySupport;
+import es.princip.getp.infra.support.QueryDslRepositorySupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

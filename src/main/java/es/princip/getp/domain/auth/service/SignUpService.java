@@ -5,7 +5,7 @@ import es.princip.getp.domain.auth.dto.response.SignUpResponse;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
 import es.princip.getp.domain.member.service.MemberService;
-import es.princip.getp.global.exception.BusinessLogicException;
+import es.princip.getp.infra.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

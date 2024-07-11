@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.domain;
 
-import es.princip.getp.global.validator.annotation.Hyperlink;
+import es.princip.getp.domain.project.annotation.Hyperlink;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;

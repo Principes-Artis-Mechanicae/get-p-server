@@ -5,7 +5,7 @@ import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementReques
 import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermRequest;
 import es.princip.getp.domain.serviceTerm.exception.ServiceTermErrorCode;
 import es.princip.getp.domain.serviceTerm.repository.ServiceTermRepository;
-import es.princip.getp.global.exception.BusinessLogicException;
+import es.princip.getp.infra.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

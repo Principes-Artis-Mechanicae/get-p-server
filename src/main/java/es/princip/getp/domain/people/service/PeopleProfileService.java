@@ -9,7 +9,7 @@ import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.domain.PeopleProfile;
 import es.princip.getp.domain.people.exception.PeopleProfileErrorCode;
 import es.princip.getp.domain.people.repository.PeopleProfileRepository;
-import es.princip.getp.global.exception.BusinessLogicException;
+import es.princip.getp.infra.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 
 @Service

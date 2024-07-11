@@ -1,12 +1,12 @@
 package es.princip.getp.domain.people.repository;
 
-import es.princip.getp.domain.client.domain.entity.Client;
+import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.client.repository.ClientRepository;
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.repository.MemberRepository;
 import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.people.domain.PeopleLike;
-import es.princip.getp.global.config.QueryDslTestConfig;
+import es.princip.getp.infra.config.QueryDslTestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

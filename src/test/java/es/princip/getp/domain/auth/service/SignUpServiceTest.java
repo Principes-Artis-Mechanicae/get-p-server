@@ -15,7 +15,7 @@ import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
 import es.princip.getp.domain.member.service.MemberService;
-import es.princip.getp.global.exception.BusinessLogicException;
+import es.princip.getp.infra.exception.BusinessLogicException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

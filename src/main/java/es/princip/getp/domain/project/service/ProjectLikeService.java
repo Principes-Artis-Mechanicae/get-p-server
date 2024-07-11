@@ -6,7 +6,7 @@ import es.princip.getp.domain.project.domain.Project;
 import es.princip.getp.domain.project.domain.ProjectLike;
 import es.princip.getp.domain.project.exception.ProjectLikeErrorCode;
 import es.princip.getp.domain.project.repository.ProjectLikeRepository;
-import es.princip.getp.global.exception.BusinessLogicException;
+import es.princip.getp.infra.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

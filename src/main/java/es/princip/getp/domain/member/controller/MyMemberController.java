@@ -3,8 +3,8 @@ package es.princip.getp.domain.member.controller;
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.dto.response.MemberResponse;
 import es.princip.getp.domain.member.service.MemberService;
-import es.princip.getp.global.security.details.PrincipalDetails;
-import es.princip.getp.global.util.ApiResponse;
+import es.princip.getp.infra.dto.response.ApiResponse;
+import es.princip.getp.infra.security.details.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import static es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
+import static es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 
 @RestController
 @RequestMapping("/member/me")

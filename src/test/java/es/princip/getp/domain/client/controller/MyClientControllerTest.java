@@ -1,19 +1,19 @@
 package es.princip.getp.domain.client.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import es.princip.getp.domain.client.domain.entity.Client;
+import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.client.exception.ClientErrorCode;
 import es.princip.getp.domain.client.fixture.ClientFixture;
 import es.princip.getp.domain.client.service.ClientService;
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.member.domain.MemberType;
-import es.princip.getp.global.config.SecurityConfig;
-import es.princip.getp.global.config.SecurityTestConfig;
-import es.princip.getp.global.exception.BusinessLogicException;
-import es.princip.getp.global.mock.PrincipalDetailsParameterResolver;
-import es.princip.getp.global.mock.WithCustomMockUser;
-import es.princip.getp.global.security.details.PrincipalDetails;
+import es.princip.getp.infra.config.SecurityConfig;
+import es.princip.getp.infra.config.SecurityTestConfig;
+import es.princip.getp.infra.exception.BusinessLogicException;
+import es.princip.getp.infra.mock.PrincipalDetailsParameterResolver;
+import es.princip.getp.infra.mock.WithCustomMockUser;
+import es.princip.getp.infra.security.details.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -1,8 +1,8 @@
 package es.princip.getp.domain.storage.service;
 
 import es.princip.getp.domain.storage.exception.ImageErrorCode;
-import es.princip.getp.global.exception.BusinessLogicException;
-import es.princip.getp.global.util.ImageUtil;
+import es.princip.getp.infra.exception.BusinessLogicException;
+import es.princip.getp.infra.util.ImageUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

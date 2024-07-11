@@ -1,9 +1,9 @@
 package es.princip.getp.domain.project.controller;
 
 import es.princip.getp.domain.project.service.ProjectLikeService;
-import es.princip.getp.global.security.details.PrincipalDetails;
-import es.princip.getp.global.util.ApiResponse;
-import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
+import es.princip.getp.infra.dto.response.ApiResponse;
+import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
+import es.princip.getp.infra.security.details.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

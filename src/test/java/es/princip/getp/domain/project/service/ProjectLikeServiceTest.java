@@ -7,7 +7,7 @@ import es.princip.getp.domain.project.domain.Project;
 import es.princip.getp.domain.project.exception.ProjectErrorCode;
 import es.princip.getp.domain.project.exception.ProjectLikeErrorCode;
 import es.princip.getp.domain.project.repository.ProjectLikeRepository;
-import es.princip.getp.global.exception.BusinessLogicException;
+import es.princip.getp.infra.exception.BusinessLogicException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
