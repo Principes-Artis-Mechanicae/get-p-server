@@ -1,8 +1,8 @@
-package es.princip.getp.infra.support;
+package es.princip.getp.infra.util;
 
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-import static es.princip.getp.infra.support.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
 
 public class PageResponseDescriptor {
 

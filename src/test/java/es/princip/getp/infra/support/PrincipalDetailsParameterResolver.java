@@ -1,4 +1,4 @@
-package es.princip.getp.infra.mock;
+package es.princip.getp.infra.support;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;

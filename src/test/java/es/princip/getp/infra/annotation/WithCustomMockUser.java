@@ -1,4 +1,4 @@
-package es.princip.getp.infra.mock;
+package es.princip.getp.infra.annotation;
 
 import es.princip.getp.domain.member.domain.MemberType;
 import org.springframework.security.test.context.support.WithSecurityContext;

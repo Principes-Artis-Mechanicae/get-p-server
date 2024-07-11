@@ -1,4 +1,4 @@
-package es.princip.getp.infra.support;
+package es.princip.getp.infra.util;
 
 import org.springframework.restdocs.constraints.Constraint;
 import org.springframework.restdocs.constraints.ConstraintDescriptionResolver;

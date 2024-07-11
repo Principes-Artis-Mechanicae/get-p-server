@@ -1,6 +1,6 @@
 package es.princip.getp.domain.auth.service;
 
-import static es.princip.getp.domain.auth.support.SignUpFixture.createSignUpRequest;
+import static es.princip.getp.domain.auth.fixture.SignUpFixture.createSignUpRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;

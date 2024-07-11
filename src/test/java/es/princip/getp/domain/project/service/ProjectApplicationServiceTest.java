@@ -19,9 +19,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
-import static es.princip.getp.fixture.ProjectApplicationFixture.createApplicateProjectRequest;
-import static es.princip.getp.fixture.ProjectApplicationFixture.createProjectApplication;
-import static es.princip.getp.fixture.ProjectFixture.createProject;
+import static es.princip.getp.domain.project.fixture.ProjectApplicationFixture.createApplicateProjectRequest;
+import static es.princip.getp.domain.project.fixture.ProjectApplicationFixture.createProjectApplication;
+import static es.princip.getp.domain.project.fixture.ProjectFixture.createProject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

@@ -8,7 +8,7 @@ import es.princip.getp.domain.member.fixture.MemberFixture;
 import es.princip.getp.domain.project.domain.Project;
 import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
 import es.princip.getp.domain.project.repository.ProjectRepository;
-import es.princip.getp.fixture.ProjectFixture;
+import es.princip.getp.domain.project.fixture.ProjectFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

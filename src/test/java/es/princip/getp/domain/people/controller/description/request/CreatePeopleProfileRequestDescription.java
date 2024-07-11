@@ -2,7 +2,7 @@ package es.princip.getp.domain.people.controller.description.request;
 
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-import static es.princip.getp.infra.support.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
 
 public class CreatePeopleProfileRequestDescription {
 

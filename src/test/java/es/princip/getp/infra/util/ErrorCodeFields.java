@@ -1,4 +1,4 @@
-package es.princip.getp.infra.support;
+package es.princip.getp.infra.util;
 
 import es.princip.getp.infra.exception.ErrorCode;
 import org.springframework.http.MediaType;

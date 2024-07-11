@@ -1,4 +1,4 @@
-package es.princip.getp.domain.auth.support;
+package es.princip.getp.domain.auth.fixture;
 
 import es.princip.getp.domain.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.domain.auth.dto.request.SignUpRequest;

@@ -5,7 +5,6 @@ import es.princip.getp.infra.config.SecurityConfig;
 import es.princip.getp.infra.config.SecurityTestConfig;
 import es.princip.getp.infra.config.SpringRestDocsConfig;
 import es.princip.getp.infra.exception.ErrorCode;
-import es.princip.getp.infra.mock.PrincipalDetailsParameterResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

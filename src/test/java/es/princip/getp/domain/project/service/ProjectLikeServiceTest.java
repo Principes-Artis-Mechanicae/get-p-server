@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
-import static es.princip.getp.fixture.ProjectFixture.createProject;
+import static es.princip.getp.domain.project.fixture.ProjectFixture.createProject;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.catchThrowableOfType;
 import static org.mockito.ArgumentMatchers.any;

@@ -24,7 +24,7 @@ import static es.princip.getp.domain.member.domain.MemberType.ROLE_CLIENT;
 import static es.princip.getp.domain.member.domain.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.MemberFixture.createMember;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.createPeople;
-import static es.princip.getp.fixture.ProjectFixture.createProject;
+import static es.princip.getp.domain.project.fixture.ProjectFixture.createProject;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest

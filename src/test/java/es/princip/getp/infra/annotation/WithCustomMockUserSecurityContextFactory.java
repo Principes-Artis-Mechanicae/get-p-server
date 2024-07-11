@@ -1,4 +1,4 @@
-package es.princip.getp.infra.mock;
+package es.princip.getp.infra.annotation;
 
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.infra.security.details.PrincipalDetails;

@@ -1,4 +1,4 @@
-package es.princip.getp.fixture;
+package es.princip.getp.domain.project.fixture;
 
 import es.princip.getp.domain.people.domain.People;
 import es.princip.getp.domain.project.dto.request.ApplicateProjectRequest;

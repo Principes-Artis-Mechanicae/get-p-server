@@ -1,4 +1,4 @@
-package es.princip.getp.fixture;
+package es.princip.getp.domain.project.fixture;
 
 import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.project.domain.MeetingType;
