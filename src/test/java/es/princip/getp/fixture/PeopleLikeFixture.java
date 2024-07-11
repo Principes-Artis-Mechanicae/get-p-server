@@ -5,7 +5,7 @@ import es.princip.getp.domain.people.domain.entity.People;
 import es.princip.getp.domain.people.domain.entity.PeopleLike;
 
 public class PeopleLikeFixture {
-    public static PeopleLike creatPeopleLike(final Client client, final People people) {
+    public static PeopleLike createPeopleLike(final Client client, final People people) {
         return PeopleLike.builder()
             .client(client)
             .people(people)

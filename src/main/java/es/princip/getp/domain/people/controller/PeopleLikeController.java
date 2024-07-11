@@ -1,19 +1,15 @@
 package es.princip.getp.domain.people.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import es.princip.getp.domain.people.service.PeopleLikeService;
 import es.princip.getp.global.security.details.PrincipalDetails;
 import es.princip.getp.global.util.ApiResponse;
 import es.princip.getp.global.util.ApiResponse.ApiSuccessResult;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/people")
@@ -52,7 +48,7 @@ public class PeopleLikeController {
         @AuthenticationPrincipal PrincipalDetails principalDetails
     ) {
         peopleLikeService.unlike(principalDetails.getMember().getMemberId(), peopleId);
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(ApiResponse.success(HttpStatus.OK));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+            .body(ApiResponse.success(HttpStatus.NO_CONTENT));
     }
 }

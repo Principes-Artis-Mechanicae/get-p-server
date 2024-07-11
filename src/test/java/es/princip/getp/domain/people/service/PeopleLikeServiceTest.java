@@ -1,18 +1,5 @@
 package es.princip.getp.domain.people.service;
 
-import static es.princip.getp.fixture.MemberFixture.createMember;
-import static es.princip.getp.fixture.PeopleFixture.createPeople;
-import static es.princip.getp.fixture.ClientFixture.createClient;
-import static es.princip.getp.fixture.PeopleLikeFixture.creatPeopleLike;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.catchThrowableOfType;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.util.Optional;
-
 import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.service.ClientService;
 import es.princip.getp.domain.member.domain.entity.Member;
@@ -29,6 +16,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
+import static es.princip.getp.fixture.ClientFixture.createClient;
+import static es.princip.getp.fixture.MemberFixture.createMember;
+import static es.princip.getp.fixture.PeopleFixture.createPeople;
+import static es.princip.getp.fixture.PeopleLikeFixture.createPeopleLike;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.catchThrowableOfType;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class PeopleLikeServiceTest {
@@ -55,7 +55,7 @@ class PeopleLikeServiceTest {
 
         private final People people = createPeople(member);
         private final Client client = createClient();
-        private final PeopleLike peopleLike = creatPeopleLike(client, people);
+        private final PeopleLike peopleLike = createPeopleLike(client, people);
 
         @DisplayName("피플에게 좋아요를 누른다.")
         @Test
@@ -114,13 +114,13 @@ class PeopleLikeServiceTest {
         @Test
         void unlike_ThrowExceptionWhenLikerCancelsLikeForPeopleNotLiked() {
             given(peopleLikeRepository.findByPeople_PeopleIdAndClient_ClientId(peopleId, memberId)).willThrow(
-                new BusinessLogicException(PeopleLikeErrorCode.PEOPLE_LIKE_NOT_FOUND)
+                new BusinessLogicException(PeopleLikeErrorCode.NEVER_LIKED)
             );
 
             BusinessLogicException exception =
                 catchThrowableOfType(() -> peopleLikeService.unlike(memberId, peopleId),
                     BusinessLogicException.class);
-            assertThat(exception.getErrorCode()).isEqualTo(PeopleLikeErrorCode.PEOPLE_LIKE_NOT_FOUND);
+            assertThat(exception.getErrorCode()).isEqualTo(PeopleLikeErrorCode.NEVER_LIKED);
         }
     }
 }

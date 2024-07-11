@@ -1,10 +1,5 @@
 package es.princip.getp.domain.people.service;
 
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import es.princip.getp.domain.client.domain.entity.Client;
 import es.princip.getp.domain.client.service.ClientService;
 import es.princip.getp.domain.people.domain.entity.People;
@@ -13,6 +8,10 @@ import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
 import es.princip.getp.domain.people.repository.PeopleLikeRepository;
 import es.princip.getp.global.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +22,10 @@ public class PeopleLikeService {
     private final PeopleLikeRepository peopleLikeRepository;
 
     private PeopleLike get(Optional<PeopleLike> peopleLike) {
-        return peopleLike.orElseThrow(() -> new BusinessLogicException(PeopleLikeErrorCode.PEOPLE_LIKE_NOT_FOUND));
+        return peopleLike.orElseThrow(() -> new BusinessLogicException(PeopleLikeErrorCode.NEVER_LIKED));
     }
 
-    public PeopleLike get(Long memberId, Long peopleId) {
+    public PeopleLike getByMemberIdAndPeopleId(Long memberId, Long peopleId) {
         return get(peopleLikeRepository.findByPeople_PeopleIdAndClient_ClientId(memberId, peopleId));
     }
 
@@ -51,7 +50,7 @@ public class PeopleLikeService {
 
     @Transactional
     public void unlike(Long memberId, Long peopleId) {
-        PeopleLike peopleLike = get(memberId, peopleId);
+        PeopleLike peopleLike = getByMemberIdAndPeopleId(memberId, peopleId);
         peopleLikeRepository.delete(peopleLike);
     }
 }
