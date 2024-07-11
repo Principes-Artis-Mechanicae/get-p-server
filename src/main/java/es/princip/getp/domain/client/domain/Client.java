@@ -1,8 +1,8 @@
 package es.princip.getp.domain.client.domain;
 
-import es.princip.getp.domain.base.BaseTimeEntity;
 import es.princip.getp.domain.client.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
+import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.member.domain.Member;
 import es.princip.getp.domain.people.domain.PeopleLike;
 import jakarta.persistence.*;

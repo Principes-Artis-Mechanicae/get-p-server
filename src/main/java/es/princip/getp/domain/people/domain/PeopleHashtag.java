@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.domain;
 
-import es.princip.getp.domain.base.BaseTimeEntity;
-import es.princip.getp.domain.hashtag.domain.Hashtag;
+import es.princip.getp.domain.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.common.domain.Hashtag;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

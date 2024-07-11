@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.domain;
 
-import es.princip.getp.domain.base.BaseTimeEntity;
+import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.member.dto.request.CreateMemberRequest;
 import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermAgreement;
