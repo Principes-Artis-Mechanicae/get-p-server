@@ -1,15 +1,16 @@
 package es.princip.getp.domain.member.dto.request;
 
-import es.princip.getp.domain.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.annotation.Password;
-import es.princip.getp.domain.member.domain.enums.MemberType;
-import es.princip.getp.domain.member.validator.annotation.UserMemberType;
+import es.princip.getp.domain.auth.dto.request.SignUpRequest;
+import es.princip.getp.domain.member.annotation.UserMemberType;
+import es.princip.getp.domain.member.domain.MemberType;
 import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermAgreementRequest;
-import es.princip.getp.global.validator.annotation.Enum;
+import es.princip.getp.infra.annotation.Enum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 public record CreateMemberRequest(
     @NotNull @Email String email,

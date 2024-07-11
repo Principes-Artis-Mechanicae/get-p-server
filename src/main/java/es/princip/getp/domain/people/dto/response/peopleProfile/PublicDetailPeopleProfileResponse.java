@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.dto.response.peopleProfile;
 
-import es.princip.getp.domain.people.domain.entity.PeopleProfile;
-import es.princip.getp.global.domain.values.Hashtag;
+import es.princip.getp.domain.hashtag.domain.Hashtag;
+import es.princip.getp.domain.people.domain.PeopleProfile;
 import lombok.Builder;
 
 import java.util.List;

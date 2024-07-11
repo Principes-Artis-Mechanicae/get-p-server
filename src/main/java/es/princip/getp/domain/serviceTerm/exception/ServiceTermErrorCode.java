@@ -1,8 +1,8 @@
 package es.princip.getp.domain.serviceTerm.exception;
 
-import es.princip.getp.global.exception.ErrorDescription;
+import es.princip.getp.infra.exception.ErrorDescription;
 import org.springframework.http.HttpStatus;
-import es.princip.getp.global.exception.ErrorCode;
+import es.princip.getp.infra.exception.ErrorCode;
 
 public enum ServiceTermErrorCode implements ErrorCode {
     SERVICE_TERM_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 서비스 약관");

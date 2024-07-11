@@ -1,6 +1,6 @@
 package es.princip.getp.domain.auth.fixture;
 
-import es.princip.getp.domain.auth.domain.entity.EmailVerification;
+import es.princip.getp.domain.auth.domain.EmailVerification;
 
 public class EmailVerificationFixture {
     public static EmailVerification createEmailVerification(String email, String verificationCode) {
