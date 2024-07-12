@@ -1,8 +1,8 @@
 package es.princip.getp.domain.auth.presentation;
 
 import es.princip.getp.domain.auth.application.AuthService;
-import es.princip.getp.domain.auth.dto.request.LoginRequest;
-import es.princip.getp.domain.auth.dto.response.Token;
+import es.princip.getp.domain.auth.presentation.dto.request.LoginRequest;
+import es.princip.getp.domain.auth.presentation.dto.response.Token;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
+
     private final AuthService authService;
 
     /**

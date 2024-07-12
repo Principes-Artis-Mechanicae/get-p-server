@@ -11,21 +11,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
-import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;import org.springframework.data.jpa.repository.support.Querydsl;
+import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
+import org.springframework.data.jpa.repository.support.Querydsl;
 import org.springframework.data.querydsl.SimpleEntityPathResolver;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
+
 import java.util.List;
 import java.util.function.Function;
 
 /**
-* QueryDsl 5.x 버전에 맞춘 QueryDsl 지원 라이브러리
-*
-* @author Jihun Yu
-* @see org.springframework.data.jpa.repository.support.QuerydslRepositorySupport 기반으로 한 Younghan Kim의 QueryDsl 4.x 지원 라이브러리
-*
-*/
+ * QueryDsl 5.x 버전에 맞춘 QueryDsl 지원 라이브러리
+ *
+ * @author Jihun Yu
+ * @see org.springframework.data.jpa.repository.support.QuerydslRepositorySupport 기반으로 한 Younghan Kim의 QueryDsl 4.x 지원 라이브러리
+ *
+ */
 @Repository
 public abstract class QueryDslRepositorySupport {
     private final Class domainClass;
@@ -42,7 +44,7 @@ public abstract class QueryDslRepositorySupport {
     public void setEntityManager(EntityManager entityManager) {
         Assert.notNull(entityManager, "EntityManager must not be null!");
         JpaEntityInformation entityInformation =
-        JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager);
+            JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager);
         SimpleEntityPathResolver resolver = SimpleEntityPathResolver.INSTANCE;
         EntityPath path = resolver.createPath(entityInformation.getJavaType());
         this.entityManager = entityManager;

@@ -1,8 +1,9 @@
 package es.princip.getp.infra.security.provider;
 
-import es.princip.getp.domain.auth.dto.response.Token;
-import es.princip.getp.domain.member.application.MemberService;
-import es.princip.getp.domain.member.domain.Member;
+import es.princip.getp.domain.auth.presentation.dto.response.Token;
+import es.princip.getp.domain.member.domain.model.Email;
+import es.princip.getp.domain.member.domain.model.Member;
+import es.princip.getp.domain.member.domain.model.MemberRepository;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -10,6 +11,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,6 +31,8 @@ public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
 
+    private final MemberRepository memberRepository;
+
     @Value("${spring.jwt.access-token.expire-time}")
     private Long ACCESS_TOKEN_EXPIRE_TIME;
 
@@ -38,7 +42,9 @@ public class JwtTokenProvider {
 
     private final Key key;
 
-    public JwtTokenProvider(@Value("${spring.jwt.secret}") String secretKey) {
+    @Autowired
+    public JwtTokenProvider(@Value("${spring.jwt.secret}") String secretKey, final MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -46,11 +52,7 @@ public class JwtTokenProvider {
     public Token generateToken(Authentication authentication) {
         String accessToken = doGenerateToken(authentication, ACCESS_TOKEN_EXPIRE_TIME);
         String refreshToken = doGenerateToken(authentication, REFRESH_TOKEN_EXPIRE_TIME);
-        return Token.builder()
-                .grantType(BEARER_TYPE)
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return new Token(BEARER_TYPE, accessToken, refreshToken);
     }
 
     private String doGenerateToken(Authentication authentication, long expireTime) {
@@ -67,7 +69,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public Authentication getAuthentication(String accessToken, MemberService memberService) {
+    public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
         if (claims.get(AUTHORITIES_KEY) == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
@@ -76,7 +78,8 @@ public class JwtTokenProvider {
                 .split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-        Member member = memberService.getByEmail(claims.getSubject());
+        Email email = Email.of(claims.getSubject());
+        Member member = memberRepository.findByEmail(email).orElseThrow();
         return new UsernamePasswordAuthenticationToken(new PrincipalDetails(member), "", authorities);
     }
 

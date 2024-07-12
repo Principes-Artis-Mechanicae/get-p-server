@@ -1,6 +1,5 @@
 package es.princip.getp.infra.config;
 
-import es.princip.getp.domain.member.application.MemberService;
 import es.princip.getp.infra.security.exception.handler.CustomAccessDeniedHandler;
 import es.princip.getp.infra.security.exception.handler.CustomAuthenticationEntryPoint;
 import es.princip.getp.infra.security.filter.JwtAuthorizationFilter;
@@ -37,7 +36,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberService memberService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -59,8 +57,7 @@ public class SecurityConfig {
         httpSecurity
             .authorizeHttpRequests(
                 request -> request.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-            .addFilterBefore(new JwtAuthorizationFilter(memberService, jwtTokenProvider),
-                UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JwtAuthorizationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
             .httpBasic(withDefaults());
 
         httpSecurity.exceptionHandling(authenticationManager -> authenticationManager
