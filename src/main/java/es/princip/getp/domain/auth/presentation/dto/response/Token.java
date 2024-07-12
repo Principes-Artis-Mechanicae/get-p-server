@@ -1,8 +1,5 @@
-package es.princip.getp.domain.auth.dto.response;
+package es.princip.getp.domain.auth.presentation.dto.response;
 
-import lombok.Builder;
-
-@Builder
 public record Token(
     String grantType,
     String accessToken,

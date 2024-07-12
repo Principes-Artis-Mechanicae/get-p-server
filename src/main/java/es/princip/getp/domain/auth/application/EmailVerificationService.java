@@ -3,6 +3,7 @@ package es.princip.getp.domain.auth.application;
 import es.princip.getp.domain.auth.domain.EmailVerification;
 import es.princip.getp.domain.auth.domain.EmailVerificationRepository;
 import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
+import es.princip.getp.domain.member.domain.model.Email;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,23 +34,23 @@ public class EmailVerificationService {
         this.VERIFICATION_CODE_LENGTH = VERIFICATION_CODE_LENGTH;
     }
 
-    public Optional<EmailVerification> getByEmail(String email) {
-        return emailVerificationRepository.findById(email);
+    public Optional<EmailVerification> getByEmail(Email email) {
+        return emailVerificationRepository.findById(email.getValue());
     }
 
     @Transactional
-    public void sendEmailVerificationCode(String email) {
+    public void sendEmailVerificationCode(Email email) {
         if (getByEmail(email).isPresent()) {
-            emailVerificationRepository.deleteById(email);
+            emailVerificationRepository.deleteById(email.getValue());
         }
         String verificationCode = RandomUtil.generateRandomCode(VERIFICATION_CODE_LENGTH);
         emailService.sendEmail(email, "GET-P 인증 번호", verificationCode);
-        EmailVerification emailVerification = new EmailVerification(email, verificationCode, EXPIRATION_TIME);
+        EmailVerification emailVerification = new EmailVerification(email.getValue(), verificationCode, EXPIRATION_TIME);
         emailVerificationRepository.save(emailVerification);
     }
 
     @Transactional
-    public void verifyEmail(String email, String verificationCode) {
+    public void verifyEmail(Email email, String verificationCode) {
         EmailVerification emailVerification = getByEmail(email).orElseThrow(() ->
             new BusinessLogicException(EmailVerificationErrorCode.INVALID_EMAIL_VERIFICATION));
         if (!emailVerification.verify(verificationCode)) {

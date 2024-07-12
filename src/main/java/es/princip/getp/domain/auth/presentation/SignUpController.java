@@ -1,9 +1,10 @@
 package es.princip.getp.domain.auth.presentation;
 
 import es.princip.getp.domain.auth.application.SignUpService;
-import es.princip.getp.domain.auth.dto.request.EmailVerificationCodeRequest;
-import es.princip.getp.domain.auth.dto.request.SignUpRequest;
-import es.princip.getp.domain.auth.dto.response.SignUpResponse;
+import es.princip.getp.domain.auth.application.command.SignUpCommand;
+import es.princip.getp.domain.auth.presentation.dto.request.EmailVerificationCodeRequest;
+import es.princip.getp.domain.auth.presentation.dto.request.SignUpRequest;
+import es.princip.getp.domain.member.domain.model.Email;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import jakarta.validation.Valid;
@@ -26,13 +27,15 @@ public class SignUpController {
      * 회원 가입
      *
      * @param request 회원 가입 요청
-     * @return 가입된 회원 정보
      */
     @PostMapping()
-    public ResponseEntity<ApiSuccessResult<SignUpResponse>> signUp(
-        @RequestBody @Valid SignUpRequest request) {
+    public ResponseEntity<ApiSuccessResult<?>> signUp(
+        @RequestBody @Valid SignUpRequest request
+    ) {
+        SignUpCommand command = request.toCommand();
+        signUpService.signUp(command);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED, signUpService.signUp(request)));
+            .body(ApiResponse.success(HttpStatus.CREATED));
     }
 
     /**
@@ -42,8 +45,9 @@ public class SignUpController {
      */
     @PostMapping("/email/send")
     public ResponseEntity<ApiSuccessResult<?>> sendEmailVerificationCodeForSignUp(
-        @RequestBody @Valid EmailVerificationCodeRequest request) {
-        String email = request.email();
+        @RequestBody @Valid EmailVerificationCodeRequest request
+    ) {
+        Email email = Email.of(request.email());
         signUpService.sendEmailVerificationCodeForSignUp(email);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK));
     }
