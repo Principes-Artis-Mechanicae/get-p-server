@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.annotation;
 
-import es.princip.getp.domain.member.domain.MemberType;
+import es.princip.getp.domain.member.domain.model.MemberType;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

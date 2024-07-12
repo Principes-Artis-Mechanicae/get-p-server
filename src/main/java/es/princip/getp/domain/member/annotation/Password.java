@@ -1,4 +1,4 @@
-package es.princip.getp.domain.auth.annotation;
+package es.princip.getp.domain.member.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Pattern(
-    regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*_+=/])[A-Za-z\\d!@#$%^&*_+=/]{8,20}$",
+    regexp = es.princip.getp.domain.member.domain.model.Password.PASSWORD_REGEX,
     message = "{validation.constraints.Password.message}"
 )
 @Retention(RetentionPolicy.RUNTIME)

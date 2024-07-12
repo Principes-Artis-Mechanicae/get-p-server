@@ -1,12 +1,13 @@
 package es.princip.getp.infra.security.details;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import es.princip.getp.domain.member.domain.model.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import es.princip.getp.domain.member.domain.Member;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class PrincipalDetails implements UserDetails {
     private final Member member;
@@ -28,12 +29,12 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return member.getPassword();
+        return member.getPassword().getValue();
     }
 
     @Override
     public String getUsername() {
-        return member.getEmail();
+        return member.getEmail().getValue();
     }
 
     @Override
