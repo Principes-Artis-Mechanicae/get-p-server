@@ -9,6 +9,10 @@ public record ServiceTermResponse(
     boolean revocable
 ) {
     public static ServiceTermResponse from(ServiceTerm serviceTerm) {
-        return new ServiceTermResponse(serviceTerm.getTag(), serviceTerm.isRequired(), serviceTerm.isRevocable()); 
+        return new ServiceTermResponse(
+            serviceTerm.getTag().getValue(),
+            serviceTerm.isRequired(),
+            serviceTerm.isRevocable()
+        );
     }
 }

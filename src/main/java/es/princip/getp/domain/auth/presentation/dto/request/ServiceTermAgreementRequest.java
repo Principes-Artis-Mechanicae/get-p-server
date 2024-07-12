@@ -1,4 +1,4 @@
-package es.princip.getp.domain.serviceTerm.dto.reqeust;
+package es.princip.getp.domain.auth.presentation.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 
