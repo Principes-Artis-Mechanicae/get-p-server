@@ -1,6 +1,12 @@
 package es.princip.getp.domain.project.presentation;
 
+import es.princip.getp.domain.client.domain.Client;
+import es.princip.getp.domain.client.domain.ClientRepository;
+import es.princip.getp.domain.member.domain.model.Member;
+import es.princip.getp.domain.member.domain.model.MemberRepository;
 import es.princip.getp.domain.project.application.ProjectService;
+import es.princip.getp.domain.project.domain.Project;
+import es.princip.getp.domain.project.domain.ProjectRepository;
 import es.princip.getp.domain.project.dto.request.CreateProjectRequest;
 import es.princip.getp.domain.project.dto.response.CardProjectResponse;
 import es.princip.getp.domain.project.dto.response.CreateProjectResponse;
@@ -25,6 +31,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProjectController {
 
+    private final ProjectRepository projectRepository;
+    private final MemberRepository memberRepository;
+    private final ClientRepository clientRepository;
     private final ProjectService projectService;
 
     /**
@@ -32,7 +41,6 @@ public class ProjectController {
      *
      * @param request          프로젝트 의뢰 요청
      * @param principalDetails 로그인한 사용자 정보
-     * @return 의뢰된 프로젝트
      */
     @PostMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
@@ -41,10 +49,9 @@ public class ProjectController {
         @AuthenticationPrincipal PrincipalDetails principalDetails
     ) {
         Long memberId = principalDetails.getMember().getMemberId();
-        CreateProjectResponse response = CreateProjectResponse.from(
-            projectService.create(memberId, request));
+        projectService.enroll(memberId, request);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED, response));
+            .body(ApiResponse.success(HttpStatus.CREATED));
     }
 
     /**
@@ -55,8 +62,7 @@ public class ProjectController {
     @GetMapping
     public ResponseEntity<ApiSuccessResult<Page<CardProjectResponse>>> getProjects(
         @PageableDefault(sort = "PROJECT_ID", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<CardProjectResponse> response = projectService.getProjectPage(pageable)
-            .map(CardProjectResponse::from);
+        Page<CardProjectResponse> response = projectRepository.findToCardProjectResponse(pageable);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 
@@ -70,8 +76,10 @@ public class ProjectController {
     @GetMapping("/{projectId}")
     public ResponseEntity<ApiSuccessResult<DetailProjectResponse>> getProject(
         @PathVariable Long projectId) {
-        DetailProjectResponse response = DetailProjectResponse.from(
-            projectService.getByProjectId(projectId));
+        Project project = projectRepository.findById(projectId).orElseThrow();
+        Client client = clientRepository.findById(project.getClientId()).orElseThrow();
+        Member member = memberRepository.findById(client.getMemberId()).orElseThrow();
+        DetailProjectResponse response = DetailProjectResponse.from(project, client, member);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 }

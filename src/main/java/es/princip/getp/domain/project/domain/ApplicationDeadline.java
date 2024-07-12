@@ -35,4 +35,8 @@ public class ApplicationDeadline {
     public static ApplicationDeadline from(LocalDate value, EstimatedDuration estimatedDuration) {
         return new ApplicationDeadline(value, estimatedDuration);
     }
+
+    public boolean isClosed() {
+        return value.isBefore(LocalDate.now());
+    }
 }

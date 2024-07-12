@@ -1,19 +1,17 @@
 package es.princip.getp.domain.project.domain;
 
-import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.common.domain.Hashtag;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
 @Table(name = "project")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Project extends BaseTimeEntity {
@@ -49,9 +47,8 @@ public class Project extends BaseTimeEntity {
     private MeetingType meetingType;
 
     // 의뢰자
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
-    private Client client;
+    @Column(name = "client_id")
+    private Long clientId;
 
     // 관심 수
     //TODO: 관심 수를 계산하는 로직 구현 필요
@@ -59,39 +56,25 @@ public class Project extends BaseTimeEntity {
     private int interestsCount;
 
     // 첨부 파일 목록
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProjectAttachmentFile> attachmentFiles = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "project_attachment_file", joinColumns = @JoinColumn(name = "project_id"))
+    @Builder.Default
+    private List<AttachmentFile> attachmentFiles = new ArrayList<>();
 
     // 해시태그 목록
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProjectHashtag> hashtags = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "project_hashtag", joinColumns = @JoinColumn(name = "project_id"))
+    @Builder.Default
+    private List<Hashtag> hashtags = new ArrayList<>();
 
-    @Builder
-    public Project(
-        final Long projectId,
-        final MeetingType meetingType,
-        final String title,
-        final String description,
-        final Long payment,
-        final LocalDate applicationDeadline,
-        final LocalDate estimatedStartDate,
-        final LocalDate estimatedEndDate,
-        final List<String> attachmentUris,
-        final List<String> hashtags,
-        final Client client) {
-        this.projectId = projectId;
-        this.meetingType = meetingType;
-        this.title = title;
-        this.description = description;
-        this.payment = payment;
-        this.estimatedDuration = EstimatedDuration.from(estimatedStartDate, estimatedEndDate);
-        this.applicationDeadline = ApplicationDeadline.from(applicationDeadline, estimatedDuration);
-        this.attachmentFiles.addAll(attachmentUris.stream()
-            .map(attachmentUri -> ProjectAttachmentFile.of(this, attachmentUri))
-            .toList());
-        this.hashtags.addAll(hashtags.stream()
-            .map(hashtag -> ProjectHashtag.of(this, hashtag))
-            .toList());
-        this.client = client;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "project_id")
+    private List<ProjectApplication> applications = new ArrayList<>();
+
+    public void apply(ProjectApplication application) {
+        if (applicationDeadline.isClosed()) {
+            throw new IllegalArgumentException("Application is closed");
+        }
+        applications.add(application);
     }
 }

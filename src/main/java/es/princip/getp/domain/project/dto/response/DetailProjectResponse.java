@@ -1,10 +1,12 @@
 package es.princip.getp.domain.project.dto.response;
 
-import es.princip.getp.domain.client.dto.response.ProjectClientResponse;
+import es.princip.getp.domain.client.domain.Client;
+import es.princip.getp.domain.client.presentation.dto.response.ProjectClientResponse;
+import es.princip.getp.domain.common.domain.Hashtag;
+import es.princip.getp.domain.member.domain.model.Member;
+import es.princip.getp.domain.project.domain.AttachmentFile;
 import es.princip.getp.domain.project.domain.MeetingType;
 import es.princip.getp.domain.project.domain.Project;
-import es.princip.getp.domain.project.domain.ProjectAttachmentFile;
-import es.princip.getp.domain.project.domain.ProjectHashtag;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -25,7 +27,7 @@ public record DetailProjectResponse(
     @NotNull ProjectClientResponse client
 ) {
 
-    public static DetailProjectResponse from(final Project project) {
+    public static DetailProjectResponse from(final Project project, final Client client, final Member member) {
         return new DetailProjectResponse(
             project.getProjectId(),
             project.getTitle(),
@@ -35,10 +37,10 @@ public record DetailProjectResponse(
             project.getEstimatedDuration().getEndDate(),
             project.getDescription(),
             project.getMeetingType(),
-            project.getAttachmentFiles().stream().map(ProjectAttachmentFile::getUri).toList(),
-            project.getHashtags().stream().map(ProjectHashtag::getValue).toList(),
+            project.getAttachmentFiles().stream().map(AttachmentFile::getUri).toList(),
+            project.getHashtags().stream().map(Hashtag::getValue).toList(),
             0L,
-            ProjectClientResponse.from(project.getClient())
+            ProjectClientResponse.from(client, member)
         );
     }
 }
