@@ -1,4 +1,4 @@
-package es.princip.getp.domain.member.domain;
+package es.princip.getp.domain.member.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
