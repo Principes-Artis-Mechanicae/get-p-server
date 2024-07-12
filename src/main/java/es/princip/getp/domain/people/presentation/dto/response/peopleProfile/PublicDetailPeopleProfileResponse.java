@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.dto.response.peopleProfile;
+package es.princip.getp.domain.people.presentation.dto.response.peopleProfile;
 
 import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.people.domain.PeopleProfile;
@@ -13,9 +13,9 @@ public record PublicDetailPeopleProfileResponse(
     Integer interestsCount
 ) {
 
-    public static PublicDetailPeopleProfileResponse from(final PeopleProfile peopleProfile) {
+    public static PublicDetailPeopleProfileResponse from(final PeopleProfile profile) {
         return PublicDetailPeopleProfileResponse.builder()
-            .hashtags(peopleProfile.getHashtags())
+            .hashtags(profile.getHashtags())
             .completedProjectsCount(0) //TODO: 완수한 프로젝트 수 계산
             .interestsCount(0) //TODO: 받은 관심 수 계산
             .build();

@@ -1,14 +1,15 @@
 package es.princip.getp.domain.people.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
-import es.princip.getp.domain.member.domain.Member;
-import es.princip.getp.domain.people.dto.request.CreatePeopleRequest;
-import es.princip.getp.domain.people.dto.request.UpdatePeopleRequest;
+import es.princip.getp.domain.member.domain.model.Email;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -22,56 +23,67 @@ public class People extends BaseTimeEntity {
     private Long peopleId;
 
     @Column(name = "email")
-    private String email;
+    private Email email;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "people_type")
     private PeopleType peopleType;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "member_id")
+    private Long memberId;
 
-    @OneToOne(mappedBy = "people")
+    @ElementCollection
+    @CollectionTable(
+        name = "people_project_like",
+        joinColumns = @JoinColumn(name = "client_id")
+    )
+    private Set<Long> projectLikes = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "people_profile_id")
     private PeopleProfile profile;
 
     @Builder
     public People(
-        final String email,
+        final Email email,
         final PeopleType peopleType,
-        final Member member
+        final Long memberId
     ) {
         this.email = email;
         this.peopleType = peopleType;
-        this.member = member;
+        this.memberId = memberId;
     }
 
-    public static People from(final Member member, final CreatePeopleRequest request) {
-        return People.builder()
-            .email(request.email())
-            .peopleType(request.peopleType())
-            .member(member)
-            .build();
+    public void changeEmail(Email email) {
+        this.email = email;
     }
 
-    public String getEmail() {
-        return this.email == null ? this.member.getEmail() : this.email;
+    public void changePeopleType(PeopleType peopleType) {
+        this.peopleType = peopleType;
     }
 
-    public String getNickname() {
-        return this.member.getNickname();
+    public void writeProfile(Long memberId, PeopleProfile profile) {
+        if (!this.memberId.equals(memberId)) {
+            throw new IllegalArgumentException("MemberId is not matched");
+        }
+        this.profile = profile;
     }
 
-    public String getPhoneNumber() {
-        return this.member.getPhoneNumber();
+    public void editProfile(Long memberId, PeopleProfile profile) {
+        if (!this.memberId.equals(memberId)) {
+            throw new IllegalArgumentException("MemberId is not matched");
+        }
+        this.profile = profile;
     }
 
-    public String getProfileImageUri() {
-        return this.member.getProfileImageUri();
+    private boolean alreadyLikedPeople(Long projectId) {
+        return projectLikes.contains(projectId);
     }
 
-    public void update(final UpdatePeopleRequest request) {
-        this.email = request.email();
-        this.peopleType = request.peopleType();
+    public void likeProject(Long projectId) {
+        if (alreadyLikedPeople(projectId)) {
+            throw new IllegalArgumentException("이미 좋아요를 누른 사람입니다.");
+        }
+        projectLikes.add(projectId);
     }
 }

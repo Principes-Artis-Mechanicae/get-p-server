@@ -1,10 +1,12 @@
 package es.princip.getp.domain.people.presentation;
 
-import es.princip.getp.domain.member.domain.Member;
+import es.princip.getp.domain.member.domain.model.Member;
 import es.princip.getp.domain.people.application.PeopleProfileService;
-import es.princip.getp.domain.people.dto.request.CreatePeopleProfileRequest;
-import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
-import es.princip.getp.domain.people.dto.response.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleRepository;
+import es.princip.getp.domain.people.presentation.dto.request.EditPeopleProfileRequest;
+import es.princip.getp.domain.people.presentation.dto.request.WritePeopleProfileRequest;
+import es.princip.getp.domain.people.presentation.dto.response.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class MyPeopleProfileController {
 
     private final PeopleProfileService peopleProfileService;
+    private final PeopleRepository peopleRepository;
 
     /**
      * 내 피플 프로필 등록
@@ -32,10 +35,10 @@ public class MyPeopleProfileController {
     @PostMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> createMyPeopleProfile(
-        @RequestBody @Valid CreatePeopleProfileRequest request,
+        @RequestBody @Valid WritePeopleProfileRequest request,
         @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        peopleProfileService.create(member.getMemberId(), request);
+        peopleProfileService.writeProfile(member.getMemberId(), request);
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.success(HttpStatus.CREATED));
     }
@@ -50,7 +53,8 @@ public class MyPeopleProfileController {
     public ResponseEntity<ApiSuccessResult<DetailPeopleProfileResponse>> getMyPeopleProfile(
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        DetailPeopleProfileResponse response = DetailPeopleProfileResponse.from(peopleProfileService.getByMemberId(member.getMemberId()));
+        People people = peopleRepository.findByMemberId(member.getMemberId()).orElseThrow();
+        DetailPeopleProfileResponse response = DetailPeopleProfileResponse.from(people.getProfile());
         return ResponseEntity.ok()
             .body(ApiResponse.success(HttpStatus.OK, response));
     }
@@ -64,10 +68,10 @@ public class MyPeopleProfileController {
     @PutMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> updateMyPeopleProfile(
-            @RequestBody @Valid UpdatePeopleProfileRequest request,
+            @RequestBody @Valid EditPeopleProfileRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        peopleProfileService.update(member.getMemberId(), request);
+        peopleProfileService.editProfile(member.getMemberId(), request);
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.success(HttpStatus.CREATED));
     }

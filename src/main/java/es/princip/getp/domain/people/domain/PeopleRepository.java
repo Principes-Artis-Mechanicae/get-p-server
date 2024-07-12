@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface PeopleRepository extends JpaRepository<People, Long>, PeopleQueryDslRepository {
-    Optional<People> findByMember_MemberId(Long memberId);
+    Optional<People> findByMemberId(Long memberId);
 }

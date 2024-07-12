@@ -1,108 +1,62 @@
 package es.princip.getp.domain.people.domain;
 
+import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.common.domain.Hashtag;
-import es.princip.getp.domain.people.dto.request.UpdatePeopleProfileRequest;
 import es.princip.getp.domain.project.domain.TechStack;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Getter
-@Table(name = "people_profile")
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PeopleProfile {
-    
+public class PeopleProfile extends BaseTimeEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "people_profile_id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long profileId;
 
     @Column(name = "introduction")
+    @Getter
     private String introduction;
 
     @Column(name = "activity_area")
+    @Getter
     private String activityArea;
 
     @Embedded
+    @Getter
     private Education education;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "people_id")
-    private People people;
-    
-    @OneToMany(mappedBy = "peopleProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PeopleHashtag> hashtags = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "people_profile_hashtag", joinColumns = @JoinColumn(name = "people_profile_id"))
+    @Builder.Default
+    private List<Hashtag> hashtags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "peopleProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PeopleTechStack> techStacks = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "people_profile_tech_stack", joinColumns = @JoinColumn(name = "people_profile_id"))
+    @Builder.Default
+    private List<TechStack> techStacks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "peopleProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PeoplePortfolio> portfolios = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "people_profile_portfolio", joinColumns = @JoinColumn(name = "people_profile_id"))
+    @Builder.Default
+    private List<Portfolio> portfolios = new ArrayList<>();
 
     public List<Hashtag> getHashtags() {
-        return hashtags.stream()
-            .map(PeopleHashtag::getHashtag)
-            .toList();
+        return Collections.unmodifiableList(hashtags);
     }
 
     public List<TechStack> getTechStacks() {
-        return techStacks.stream()
-            .map(PeopleTechStack::getTechStack)
-            .toList();
+        return Collections.unmodifiableList(techStacks);
     }
 
     public List<Portfolio> getPortfolios() {
-        return portfolios.stream()
-            .map(PeoplePortfolio::getPortfolio)
-            .toList();
-    }
-
-    @Builder
-    public PeopleProfile(
-        final String introduction,
-        final String activityArea,
-        final Education education,
-        final List<Hashtag> hashtags,
-        final List<TechStack> techStacks,
-        final List<Portfolio> portfolios,
-        final People people
-    ) {
-        this.introduction = introduction;
-        this.activityArea = activityArea;
-        this.education = education;
-        this.hashtags.addAll(hashtags.stream()
-            .map(hashtag -> PeopleHashtag.of(this, hashtag))
-            .toList());
-        this.techStacks.addAll(techStacks.stream()
-            .map(techStack -> PeopleTechStack.of(this, techStack))
-            .toList());
-        this.portfolios.addAll(portfolios.stream()
-            .map(portfolio -> PeoplePortfolio.of(this, portfolio))
-            .toList());
-        this.people = people;
-    }
-
-    public void update(final UpdatePeopleProfileRequest request) {
-        this.introduction = request.introduction();
-        this.activityArea = request.activityArea();
-        this.education = request.education();
-        this.hashtags.clear();
-        this.hashtags.addAll(request.hashtags().stream()
-            .map(hashtag -> PeopleHashtag.of(this, hashtag))
-            .toList());
-        this.techStacks.clear();
-        this.techStacks.addAll(request.techStacks().stream()
-            .map(techStack -> PeopleTechStack.of(this, techStack))
-            .toList());
-        this.portfolios.clear();
-        this.portfolios.addAll(request.portfolios().stream()
-            .map(portfolio -> PeoplePortfolio.of(this, portfolio))
-            .toList());
+        return Collections.unmodifiableList(portfolios);
     }
 }

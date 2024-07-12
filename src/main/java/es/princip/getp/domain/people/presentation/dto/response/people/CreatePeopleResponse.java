@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.dto.response.people;
+package es.princip.getp.domain.people.presentation.dto.response.people;
 
 import es.princip.getp.domain.people.domain.People;
 

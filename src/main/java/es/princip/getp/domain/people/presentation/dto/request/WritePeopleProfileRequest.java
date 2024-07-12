@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.dto.request;
+package es.princip.getp.domain.people.presentation.dto.request;
 
 import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.people.domain.Education;
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record UpdatePeopleProfileRequest(
+public record WritePeopleProfileRequest(
     @Valid Education education,
     @NotNull String activityArea,
     String introduction,

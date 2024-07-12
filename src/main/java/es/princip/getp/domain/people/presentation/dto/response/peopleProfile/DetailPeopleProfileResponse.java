@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.dto.response.peopleProfile;
+package es.princip.getp.domain.people.presentation.dto.response.peopleProfile;
 
 import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.people.domain.Education;
@@ -21,16 +21,16 @@ public record DetailPeopleProfileResponse(
     List<Portfolio> portfolios
 ) {
 
-    public static DetailPeopleProfileResponse from(final PeopleProfile peopleProfile) {
+    public static DetailPeopleProfileResponse from(final PeopleProfile profile) {
         return DetailPeopleProfileResponse.builder()
-            .introduction(peopleProfile.getIntroduction())
-            .activityArea(peopleProfile.getActivityArea())
-            .techStacks(peopleProfile.getTechStacks())
-            .education(peopleProfile.getEducation())
-            .hashtags(peopleProfile.getHashtags())
+            .introduction(profile.getIntroduction())
+            .activityArea(profile.getActivityArea())
+            .techStacks(profile.getTechStacks())
+            .education(profile.getEducation())
+            .hashtags(profile.getHashtags())
             .completedProjectsCount(0) //TODO: 완수한 프로젝트 수 계산
             .interestsCount(0) //TODO: 받은 관심 수 계산
-            .portfolios(peopleProfile.getPortfolios())
+            .portfolios(profile.getPortfolios())
             .build();
     }
 }

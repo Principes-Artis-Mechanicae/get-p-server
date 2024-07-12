@@ -30,7 +30,8 @@ public class PeopleLikeController {
         @PathVariable Long peopleId,
         @AuthenticationPrincipal PrincipalDetails principalDetails
     ) {
-        peopleLikeService.like(principalDetails.getMember().getMemberId(), peopleId);
+        Long memberId = principalDetails.getMember().getMemberId();
+        peopleLikeService.like(memberId, peopleId);
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.success(HttpStatus.CREATED));
     }
@@ -47,7 +48,8 @@ public class PeopleLikeController {
         @PathVariable Long peopleId,
         @AuthenticationPrincipal PrincipalDetails principalDetails
     ) {
-        peopleLikeService.unlike(principalDetails.getMember().getMemberId(), peopleId);
+        Long memberId = principalDetails.getMember().getMemberId();
+        peopleLikeService.unlike(memberId, peopleId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
             .body(ApiResponse.success(HttpStatus.NO_CONTENT));
     }

@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ServiceTermTag implements Serializable {
 
-    @Column(name = "service_term_tag")
+    @Column(name = "service_term_tag", nullable = false)
     private String value;
 
     private ServiceTermTag(final String value) {
@@ -21,6 +21,9 @@ public class ServiceTermTag implements Serializable {
     }
 
     public static ServiceTermTag of(final String value) {
+        if (value == null || value.isEmpty()) {
+            throw new IllegalArgumentException("ServiceTermTag value must not be null or empty");
+        }
         return new ServiceTermTag(value);
     }
 }

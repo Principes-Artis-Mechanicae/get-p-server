@@ -1,9 +1,13 @@
 package es.princip.getp.domain.people.presentation;
 
+import es.princip.getp.domain.member.domain.model.Member;
+import es.princip.getp.domain.member.domain.model.MemberRepository;
 import es.princip.getp.domain.people.application.PeopleService;
-import es.princip.getp.domain.people.dto.response.people.CardPeopleResponse;
-import es.princip.getp.domain.people.dto.response.people.DetailPeopleResponse;
-import es.princip.getp.domain.people.dto.response.people.PublicDetailPeopleResponse;
+import es.princip.getp.domain.people.domain.People;
+import es.princip.getp.domain.people.domain.PeopleRepository;
+import es.princip.getp.domain.people.presentation.dto.response.people.CardPeopleResponse;
+import es.princip.getp.domain.people.presentation.dto.response.people.DetailPeopleResponse;
+import es.princip.getp.domain.people.presentation.dto.response.people.PublicDetailPeopleResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.dto.response.PageResponse;
@@ -25,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PeopleController extends ControllerSupport {
 
     private final PeopleService peopleService;
+    private final MemberRepository memberRepository;
+    private final PeopleRepository peopleRepository;
 
     /**
      * 포트폴리오 개발 진행 후 완성 예정 - 피플 상세 조회
@@ -34,12 +40,14 @@ public class PeopleController extends ControllerSupport {
      */
     @GetMapping("/{peopleId}")
     public ResponseEntity<ApiSuccessResult<?>> getPeople(@PathVariable Long peopleId) {
+        People people = peopleRepository.findById(peopleId).orElseThrow();
+        Member member = memberRepository.findById(people.getMemberId()).orElseThrow();
         if (isAuthenticated()) {
-            DetailPeopleResponse response = DetailPeopleResponse.from(peopleService.getByPeopleId(peopleId));
+            DetailPeopleResponse response = DetailPeopleResponse.from(people, member);
             return ResponseEntity.ok()
                 .body(ApiResponse.success(HttpStatus.OK, response));
         }
-        PublicDetailPeopleResponse response = PublicDetailPeopleResponse.from(peopleService.getByPeopleId(peopleId));
+        PublicDetailPeopleResponse response = PublicDetailPeopleResponse.from(people, member);
         return ResponseEntity.ok()
             .body(ApiResponse.success(HttpStatus.OK, response));
     }
