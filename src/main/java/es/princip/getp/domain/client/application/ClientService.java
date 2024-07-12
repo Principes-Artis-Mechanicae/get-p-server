@@ -1,19 +1,14 @@
 package es.princip.getp.domain.client.application;
 
+import es.princip.getp.domain.client.application.command.CreateClientCommand;
+import es.princip.getp.domain.client.application.command.UpdateClientCommand;
 import es.princip.getp.domain.client.domain.Client;
 import es.princip.getp.domain.client.domain.ClientRepository;
-import es.princip.getp.domain.client.dto.request.CreateClientRequest;
-import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
-import es.princip.getp.domain.client.exception.ClientErrorCode;
 import es.princip.getp.domain.member.application.MemberService;
-import es.princip.getp.domain.member.dto.request.UpdateMemberRequest;
-import es.princip.getp.infra.exception.BusinessLogicException;
+import es.princip.getp.domain.member.application.command.UpdateMemberCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-import java.util.function.Supplier;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,43 +18,30 @@ public class ClientService {
     private final MemberService memberService;
     private final ClientRepository clientRepository;
 
-    private Client get(Optional<Client> client) {
-        return client.orElseThrow(
-            () -> new BusinessLogicException(ClientErrorCode.CLIENT_NOT_FOUND));
-    }
-
-    public Client getByMemberId(Long memberId) {
-        return get(clientRepository.findByMember_MemberId(memberId));
-    }
-
-    public <X extends Throwable> Client getByMemberId(Long memberId,
-        Supplier<? extends X> exceptionSupplier)
-        throws X {
-        return clientRepository.findByMember_MemberId(memberId).orElseThrow(exceptionSupplier);
-    }
-
-    public Client getByClientId(Long clientId) {
-        return get(clientRepository.findById(clientId));
+    @Transactional
+    public Long create(CreateClientCommand command) {
+        memberService.update(UpdateMemberCommand.from(command));
+        Client client = Client.builder()
+            .bankAccount(command.bankAccount())
+            .address(command.address())
+            .memberId(command.memberId())
+            .build();
+        clientRepository.save(client);
+        return client.getClientId();
     }
 
     @Transactional
-    public Client create(Long memberId, CreateClientRequest request) {
-        memberService.update(memberId, UpdateMemberRequest.from(request));
-        Client client = Client.from(memberService.getByMemberId(memberId), request);
-        return clientRepository.save(client);
-    }
-
-    @Transactional
-    public Client update(Long memberId, UpdateClientRequest request) {
-        memberService.update(memberId, UpdateMemberRequest.from(request));
-        Client client = getByMemberId(memberId);
-        client.update(request);
-        return client;
+    public void update(UpdateClientCommand command) {
+        memberService.update(UpdateMemberCommand.from(command));
+        Client client = clientRepository.findByMemberId(command.memberId()).orElseThrow();
+        client.changeAddress(command.address());
+        client.changeBankAccount(command.bankAccount());
+        client.changeEmail(command.email());
     }
 
     @Transactional
     public void delete(Long memberId) {
-        Client client = getByMemberId(memberId);
+        Client client = clientRepository.findByMemberId(memberId).orElseThrow();
         clientRepository.delete(client);
     }
 }

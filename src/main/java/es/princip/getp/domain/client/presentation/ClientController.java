@@ -1,40 +1,29 @@
 package es.princip.getp.domain.client.presentation;
 
-import es.princip.getp.domain.client.application.ClientService;
-import es.princip.getp.domain.client.dto.request.CreateClientRequest;
-import es.princip.getp.domain.client.dto.response.ClientResponse;
+import es.princip.getp.domain.client.domain.Client;
+import es.princip.getp.domain.client.domain.ClientRepository;
+import es.princip.getp.domain.client.presentation.dto.response.ClientResponse;
+import es.princip.getp.domain.member.domain.model.Member;
+import es.princip.getp.domain.member.domain.model.MemberRepository;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
-import es.princip.getp.infra.security.details.PrincipalDetails;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/client")
 @RequiredArgsConstructor
 public class ClientController {
-    private final ClientService clientService;
 
-    /**
-     * 의뢰자 정보 등록
-     * 
-     * @param request 등록할 의뢰자 정보
-     * @return 등록 완료된 의뢰자 정보
-     */
-    @PostMapping
-    @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<ClientResponse>> create(
-            @RequestBody @Valid CreateClientRequest request,
-            @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long memberId = principalDetails.getMember().getMemberId();
-        ClientResponse response = ClientResponse.from(clientService.create(memberId, request));
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED, response));
-    }
+    private final ClientRepository clientRepository;
+    private final MemberRepository memberRepository;
+
 
     /**
      * 의뢰자 정보 조회
@@ -45,7 +34,9 @@ public class ClientController {
     @GetMapping("/{clientId}")
     @PreAuthorize("(hasRole('ADMIN') or hasRole('MANAGER')) and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getClient(@PathVariable Long clientId) {
-        ClientResponse response = ClientResponse.from(clientService.getByMemberId(clientId));
+        Client client = clientRepository.findById(clientId).orElseThrow();
+        Member member = memberRepository.findById(client.getMemberId()).orElseThrow();
+        ClientResponse response = ClientResponse.from(client, member);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 }

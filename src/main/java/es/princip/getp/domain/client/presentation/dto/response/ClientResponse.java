@@ -1,8 +1,9 @@
-package es.princip.getp.domain.client.dto.response;
+package es.princip.getp.domain.client.presentation.dto.response;
 
 import es.princip.getp.domain.client.domain.Address;
 import es.princip.getp.domain.client.domain.BankAccount;
 import es.princip.getp.domain.client.domain.Client;
+import es.princip.getp.domain.member.domain.model.Member;
 
 import java.time.LocalDateTime;
 
@@ -15,18 +16,20 @@ public record ClientResponse(
     Address address,
     BankAccount bankAccount,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt) {
+    LocalDateTime updatedAt
+) {
 
-    public static ClientResponse from(final Client client) {
+    public static ClientResponse from(final Client client, final Member member) {
         return new ClientResponse(
             client.getClientId(),
-            client.getNickname(),
-            client.getEmail(),
-            client.getPhoneNumber(),
-            client.getProfileImageUri(),
+            member.getNickname().getValue(),
+            client.getEmail().getValue(),
+            member.getPhoneNumber().getValue(),
+            member.getProfileImage().getUri().toString(),
             client.getAddress(),
             client.getBankAccount(),
             client.getCreatedAt(),
-            client.getUpdatedAt());
+            client.getUpdatedAt()
+        );
     }
 }

@@ -1,9 +1,14 @@
 package es.princip.getp.domain.client.presentation;
 
 import es.princip.getp.domain.client.application.ClientService;
-import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
-import es.princip.getp.domain.client.dto.response.MyClientResponse;
-import es.princip.getp.domain.member.domain.Member;
+import es.princip.getp.domain.client.application.command.CreateClientCommand;
+import es.princip.getp.domain.client.application.command.UpdateClientCommand;
+import es.princip.getp.domain.client.domain.Client;
+import es.princip.getp.domain.client.domain.ClientRepository;
+import es.princip.getp.domain.client.presentation.dto.request.CreateClientRequest;
+import es.princip.getp.domain.client.presentation.dto.request.UpdateClientRequest;
+import es.princip.getp.domain.client.presentation.dto.response.ClientResponse;
+import es.princip.getp.domain.member.domain.model.Member;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
@@ -19,7 +24,25 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/client/me")
 @RequiredArgsConstructor
 public class MyClientController {
+
+    private final ClientRepository clientRepository;
     private final ClientService clientService;
+
+    /**
+     * 내 의뢰자 정보 등록
+     *
+     * @param request 등록할 내 의뢰자 정보
+     */
+    @PostMapping
+    @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
+    public ResponseEntity<ApiSuccessResult<ClientResponse>> create(
+        @RequestBody @Valid CreateClientRequest request,
+        @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        Long memberId = principalDetails.getMember().getMemberId();
+        CreateClientCommand command = request.toCommand(memberId);
+        clientService.create(command);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED));
+    }
 
     /**
      * 내 의뢰자 정보 조회
@@ -28,10 +51,11 @@ public class MyClientController {
      */
     @GetMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<MyClientResponse>> getMyClient(
+    public ResponseEntity<ApiSuccessResult<ClientResponse>> getMyClient(
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Member member = principalDetails.getMember();
-        MyClientResponse response = MyClientResponse.from(clientService.getByMemberId(member.getMemberId()));
+        Client client = clientRepository.findByMemberId(member.getMemberId()).orElseThrow();
+        ClientResponse response = ClientResponse.from(client, member);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 
@@ -39,15 +63,15 @@ public class MyClientController {
      * 내 의뢰자 정보 수정
      * 
      * @param request 수정할 내 의뢰자 정보
-     * @return 수정된 내 의뢰자 정보
      */
     @PutMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<MyClientResponse>> update(
+    public ResponseEntity<ApiSuccessResult<?>> update(
             @RequestBody @Valid UpdateClientRequest request,
             @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Member member = principalDetails.getMember();
-        MyClientResponse response = MyClientResponse.from(clientService.update(member.getMemberId(), request));
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+        Long memberId = principalDetails.getMember().getMemberId();
+        UpdateClientCommand command = request.toCommand(memberId);
+        clientService.update(command);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED));
     }
 }

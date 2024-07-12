@@ -1,18 +1,15 @@
 package es.princip.getp.domain.client.domain;
 
-import es.princip.getp.domain.client.dto.request.CreateClientRequest;
-import es.princip.getp.domain.client.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
-import es.princip.getp.domain.member.domain.Member;
-import es.princip.getp.domain.people.domain.PeopleLike;
+import es.princip.getp.domain.member.domain.model.Email;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,8 +22,8 @@ public class Client extends BaseTimeEntity {
     @Column(name = "client_id")
     private Long clientId;
 
-    @Column(name = "email")
-    private String email;
+    @Embedded
+    private Email email;
 
     //TODO: 주소기반산업지원서비스 API로 확장 예정
     @Embedded
@@ -35,53 +32,56 @@ public class Client extends BaseTimeEntity {
     @Embedded
     private BankAccount bankAccount;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "member_id")
+    private Long memberId;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PeopleLike> peopleLikes = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(
+        name = "client_people_like",
+        joinColumns = @JoinColumn(name = "client_id")
+    )
+    private Set<Long> peopleLikes = new HashSet<>();
 
     @Builder
     public Client(
-        final String email,
+        final Email email,
         final Address address,
         final BankAccount bankAccount,
-        final Member member
+        final Long memberId
     ) {
-        this.email = email == null ? member.getEmail() : email;
+        this.email = email;
         this.address = address;
         this.bankAccount = bankAccount;
-        this.member = member;
+        this.memberId = memberId;
     }
 
-    public static Client from(
-        final Member member,
-        final CreateClientRequest request
-    ) {
-        return Client.builder()
-            .email(request.email())
-            .address(request.address())
-            .bankAccount(request.bankAccount())
-            .member(member)
-            .build();
+    public void changeEmail(Email email) {
+        this.email = email;
     }
 
-    public String getNickname() {
-        return this.member.getNickname();
+    public void changeAddress(Address address) {
+        this.address = address;
     }
 
-    public String getPhoneNumber() {
-        return this.member.getPhoneNumber();
+    public void changeBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
-    public String getProfileImageUri() {
-        return this.member.getProfileImageUri();
+    private boolean alreadyLikedPeople(Long peopleId) {
+        return peopleLikes.contains(peopleId);
     }
 
-    public void update(final UpdateClientRequest request) {
-        this.email = request.email();
-        this.address = request.address();
-        this.bankAccount = request.bankAccount();
+    public void likePeople(Long peopleId) {
+        if (alreadyLikedPeople(peopleId)) {
+            throw new IllegalArgumentException("이미 좋아요를 누른 사람입니다.");
+        }
+        peopleLikes.add(peopleId);
+    }
+
+    public void unlikePeople(Long peopleId) {
+        if (!alreadyLikedPeople(peopleId)) {
+            throw new IllegalArgumentException("좋아요를 누르지 않은 사람입니다.");
+        }
+        peopleLikes.remove(peopleId);
     }
 }
