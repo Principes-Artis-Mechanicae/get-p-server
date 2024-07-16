@@ -49,10 +49,10 @@ include::{docdir}/my-people/get-my-people.adoc[]
 include::{docdir}/my-people/update-my-people.adoc[]
 
 === 내 피플 프로필 등록
-include::{docdir}/my-people-profile/create-my-people-profile.adoc[]
+include::{docdir}/my-people-profile/write-my-people-profile.adoc[]
 
 === 내 피플 프로필 조회
 include::{docdir}/my-people-profile/get-my-people-profile.adoc[]
 
 === 내 피플 프로필 수정
-include::{docdir}/my-people-profile/update-my-people-profile.adoc[]
+include::{docdir}/my-people-profile/edit-my-people-profile.adoc[]

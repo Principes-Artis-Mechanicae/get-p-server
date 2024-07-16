@@ -1,19 +1,15 @@
 package es.princip.getp.infra.config;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import es.princip.getp.domain.people.query.dao.PeopleDao;
+import es.princip.getp.domain.people.query.dao.PeopleDaoImpl;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @TestConfiguration
 public class QueryDslTestConfig {
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Bean
-    public JPAQueryFactory queryFactory() {
-        return new JPAQueryFactory(entityManager);
+    public PeopleDao peopleDao() {
+        return new PeopleDaoImpl();
     }
 }

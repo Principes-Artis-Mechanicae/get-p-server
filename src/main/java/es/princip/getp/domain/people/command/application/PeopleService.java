@@ -31,8 +31,7 @@ public class PeopleService {
             .peopleType(command.peopleType())
             .memberId(command.memberId())
             .build();
-        peopleRepository.save(people);
-        return people.getPeopleId();
+        return peopleRepository.save(people).getPeopleId();
     }
 
     @Transactional
