@@ -2,7 +2,7 @@ package es.princip.getp.domain.people.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.common.domain.Hashtag;
-import es.princip.getp.domain.project.domain.TechStack;
+import es.princip.getp.domain.common.domain.TechStack;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

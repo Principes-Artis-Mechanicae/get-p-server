@@ -2,13 +2,12 @@ package es.princip.getp.domain.people.query.dao;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
-import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleOrder;
 import es.princip.getp.domain.people.query.dto.people.*;
 import es.princip.getp.domain.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
-import es.princip.getp.infra.support.QueryDslRepositorySupport;
+import es.princip.getp.infra.support.QueryDslSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,12 +25,7 @@ import static es.princip.getp.domain.people.command.domain.QPeople.people;
 import static es.princip.getp.domain.people.command.domain.QPeopleProfile.peopleProfile;
 
 @Repository
-public class PeopleDaoImpl extends QueryDslRepositorySupport implements
-    PeopleDao {
-
-    public PeopleDaoImpl() {
-        super(People.class);
-    }
+public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
 
     private OrderSpecifier<?> getOrderSpecifier(Order order, PeopleOrder peopleOrder) {
         OrderSpecifier<?> orderSpecifier = new OrderSpecifier<>(DESC, people.peopleId);

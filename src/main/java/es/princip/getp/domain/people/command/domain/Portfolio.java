@@ -1,8 +1,9 @@
 package es.princip.getp.domain.people.command.domain;
 
-import es.princip.getp.domain.project.annotation.Hyperlink;
+import es.princip.getp.domain.common.domain.URI;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -15,20 +16,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Portfolio {
 
-    @Column(name = "uri")
-    @Hyperlink @NotBlank
-    private String uri;
+    @Embedded
+    private URI uri;
 
     @Column(name = "description")
     @NotBlank
     private String description;
 
-    private Portfolio(String uri, String description) {
+    private Portfolio(URI uri, String description) {
         this.uri = uri;
         this.description = description;
     }
 
     public static Portfolio of(String uri, String description) {
-        return new Portfolio(uri, description);
+        return new Portfolio(URI.from(uri), description);
     }
 }

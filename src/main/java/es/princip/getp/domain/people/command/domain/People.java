@@ -32,6 +32,7 @@ public class People extends BaseTimeEntity {
     private PeopleType peopleType;
 
     @Column(name = "member_id")
+    @Getter
     private Long memberId;
 
     @ElementCollection

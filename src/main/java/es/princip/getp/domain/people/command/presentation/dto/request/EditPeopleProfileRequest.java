@@ -1,9 +1,9 @@
 package es.princip.getp.domain.people.command.presentation.dto.request;
 
 import es.princip.getp.domain.common.domain.Hashtag;
+import es.princip.getp.domain.common.domain.TechStack;
 import es.princip.getp.domain.people.command.domain.Education;
 import es.princip.getp.domain.people.command.domain.Portfolio;
-import es.princip.getp.domain.project.domain.TechStack;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
