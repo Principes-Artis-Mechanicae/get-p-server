@@ -5,7 +5,8 @@ import es.princip.getp.infra.exception.ErrorDescription;
 import org.springframework.http.HttpStatus;
 
 public enum PeopleErrorCode implements ErrorCode {
-    PEOPLE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 피플을 찾을 수 없습니다.");
+    NOT_FOUND(HttpStatus.NOT_FOUND, "해당 피플을 찾을 수 없습니다."),
+    ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 등록한 피플 정보가 존재합니다.");
 
     private final HttpStatus status;
     private final ErrorDescription description;

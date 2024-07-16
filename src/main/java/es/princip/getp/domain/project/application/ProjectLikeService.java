@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.application;
 
-import es.princip.getp.domain.people.domain.People;
-import es.princip.getp.domain.people.domain.PeopleRepository;
+import es.princip.getp.domain.people.command.domain.People;
+import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.project.domain.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

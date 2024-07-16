@@ -4,8 +4,8 @@ import es.princip.getp.domain.client.application.command.CreateClientCommand;
 import es.princip.getp.domain.client.application.command.UpdateClientCommand;
 import es.princip.getp.domain.member.domain.model.Nickname;
 import es.princip.getp.domain.member.domain.model.PhoneNumber;
-import es.princip.getp.domain.people.application.command.CreatePeopleCommand;
-import es.princip.getp.domain.people.application.command.UpdatePeopleCommand;
+import es.princip.getp.domain.people.command.application.command.CreatePeopleCommand;
+import es.princip.getp.domain.people.command.application.command.UpdatePeopleCommand;
 
 public record UpdateMemberCommand(
     Long memberId,

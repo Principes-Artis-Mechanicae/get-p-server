@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.application;
 
-import es.princip.getp.domain.people.domain.People;
-import es.princip.getp.domain.people.domain.PeopleRepository;
+import es.princip.getp.domain.people.command.domain.People;
+import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.project.domain.AttachmentFile;
 import es.princip.getp.domain.project.domain.Project;
 import es.princip.getp.domain.project.domain.ProjectApplication;
