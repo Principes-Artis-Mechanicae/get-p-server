@@ -2,16 +2,12 @@ package es.princip.getp.domain.member.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import java.net.URI;
+import lombok.*;
 
 @Embeddable
 @ToString
 @EqualsAndHashCode
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProfileImage {
 
@@ -22,11 +18,7 @@ public class ProfileImage {
         this.uri = uri;
     }
 
-    public static ProfileImage of(final URI uri) {
-        return new ProfileImage(uri.toString());
-    }
-
-    public URI getUri() {
-        return URI.create(uri);
+    public static ProfileImage of(final String uri) {
+        return new ProfileImage(uri);
     }
 }

@@ -2,11 +2,9 @@ package es.princip.getp.domain.member.presentation.dto.response;
 
 import es.princip.getp.domain.member.domain.model.Member;
 import es.princip.getp.domain.member.domain.model.MemberType;
-import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-@Builder
 public record MemberResponse(
     Long memberId,
     String email,
@@ -18,14 +16,14 @@ public record MemberResponse(
 ) {
 
     public static MemberResponse from(final Member member) {
-        return MemberResponse.builder()
-            .memberId(member.getMemberId())
-            .email(member.getEmail().getValue())
-            .nickname(member.getNickname().getValue())
-            .profileImageUri(member.getProfileImage().getUri().toString())
-            .memberType(member.getMemberType())
-            .createdAt(member.getCreatedAt())
-            .updatedAt(member.getUpdatedAt())
-            .build();
+        return new MemberResponse(
+            member.getMemberId(),
+            member.getEmail().getValue(),
+            member.getNickname().getValue(),
+            member.getProfileImage().getUri(),
+            member.getMemberType(),
+            member.getCreatedAt(),
+            member.getUpdatedAt()
+        );
     }
 }

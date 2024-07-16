@@ -3,6 +3,7 @@ package es.princip.getp.domain.member.presentation;
 import es.princip.getp.domain.member.application.MemberService;
 import es.princip.getp.domain.member.domain.model.Member;
 import es.princip.getp.domain.member.presentation.dto.response.MemberResponse;
+import es.princip.getp.domain.member.presentation.dto.response.ProfileImageResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +38,10 @@ public class MyMemberController {
         @AuthenticationPrincipal PrincipalDetails principalDetails,
         @RequestPart MultipartFile image
     ) {
-        Member member = principalDetails.getMember();
-        return ResponseEntity.created(memberService.changeProfileImage(member.getMemberId(), image))
-            .body(ApiResponse.success(HttpStatus.CREATED));
+        Long memberId = principalDetails.getMember().getMemberId();
+        String profileImageUri = memberService.changeProfileImage(memberId, image);
+        ProfileImageResponse response = new ProfileImageResponse(profileImageUri);
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ApiResponse.success(HttpStatus.CREATED, response));
     }
 }

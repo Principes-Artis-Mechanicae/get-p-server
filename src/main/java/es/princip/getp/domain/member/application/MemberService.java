@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.URI;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -46,7 +44,7 @@ public class MemberService {
     }
 
     @Transactional
-    public URI changeProfileImage(Long memberId, MultipartFile image) {
+    public String changeProfileImage(Long memberId, MultipartFile image) {
         Member member = memberRepository.findById(memberId).orElseThrow();
         if (member.hasProfileImage()) {
             profileImageService.deleteProfileImage(member.getProfileImage());

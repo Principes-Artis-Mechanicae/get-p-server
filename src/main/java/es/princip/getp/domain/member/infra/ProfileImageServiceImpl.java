@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -28,7 +27,7 @@ public class ProfileImageServiceImpl implements ProfileImageService {
             throw new IllegalArgumentException("Image is empty");
         }
         try {
-            URI uri = imageStorageService.storeImage(destination, image.getInputStream());
+            String uri = imageStorageService.storeImage(destination, image.getInputStream());
             return ProfileImage.of(uri);
         } catch (IOException exception) {
             throw new IllegalArgumentException("Failed to save image");
