@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.command.domain;
 
-import es.princip.getp.domain.common.domain.URI;
+import es.princip.getp.domain.common.domain.URL;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import lombok.AccessLevel;
@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 public class AttachmentFile {
 
     @Embedded
-    private URI uri;
+    private URL url;
 
-    private AttachmentFile(final URI uri) {
-        this.uri = uri;
+    private AttachmentFile(final URL url) {
+        this.url = url;
     }
 
-    public static AttachmentFile from(final String uri) {
-        return new AttachmentFile(URI.from(uri));
+    public static AttachmentFile from(final String url) {
+        return new AttachmentFile(URL.from(url));
     }
 }
