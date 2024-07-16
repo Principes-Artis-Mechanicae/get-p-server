@@ -2,10 +2,14 @@ package es.princip.getp.domain.people.query.dao;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
+import es.princip.getp.domain.common.domain.Hashtag;
+import es.princip.getp.domain.common.domain.TechStack;
 import es.princip.getp.domain.people.command.domain.PeopleOrder;
+import es.princip.getp.domain.people.command.domain.Portfolio;
 import es.princip.getp.domain.people.query.dto.people.*;
 import es.princip.getp.domain.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.domain.people.query.dto.peopleProfile.PortfolioResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
 import es.princip.getp.infra.support.QueryDslSupport;
 import org.springframework.data.domain.Page;
@@ -53,6 +57,27 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
         return orderSpecifiers.toArray(OrderSpecifier[]::new);
     }
 
+    private List<String> fromHashtags(List<Hashtag> hashtags) {
+        return hashtags.stream()
+            .map(Hashtag::getValue)
+            .toList();
+    }
+
+    private List<String> fromTechStacks(List<TechStack> techStacks) {
+        return techStacks.stream()
+            .map(TechStack::getValue)
+            .toList();
+    }
+
+    private List<PortfolioResponse> fromPortfolios(List<Portfolio> portfolios) {
+        return portfolios.stream()
+            .map(portfolio -> new PortfolioResponse(
+                portfolio.getDescription(),
+                portfolio.getUrl().getValue()
+            ))
+            .toList();
+    }
+
     private List<CardPeopleResponse> getCardPeopleContent(Pageable pageable) {
         List<Tuple> result = getQueryFactory()
             .select(
@@ -81,7 +106,7 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
                 ),
                 new CardPeopleProfileResponse(
                     tuple.get(peopleProfile.activityArea),
-                    tuple.get(peopleProfile.hashtags),
+                    fromHashtags(tuple.get(peopleProfile.hashtags)),
                     0,
                     0
                 )
@@ -131,12 +156,12 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
             new DetailPeopleProfileResponse(
                 result.get(peopleProfile.introduction),
                 result.get(peopleProfile.activityArea),
-                result.get(peopleProfile.techStacks),
+                fromTechStacks(result.get(peopleProfile.techStacks)),
                 result.get(peopleProfile.education),
-                result.get(peopleProfile.hashtags),
+                fromHashtags(result.get(peopleProfile.hashtags)),
                 0,
                 0,
-                result.get(peopleProfile.portfolios)
+                fromPortfolios(result.get(peopleProfile.portfolios))
             )
         ));
     }
@@ -169,7 +194,7 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
                 result.get(member.profileImage.uri)
             ),
             new PublicDetailPeopleProfileResponse(
-                result.get(peopleProfile.hashtags),
+                fromHashtags(result.get(peopleProfile.hashtags)),
                 0,
                 0
             )
@@ -226,12 +251,12 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
         return Optional.of(new DetailPeopleProfileResponse(
             result.get(peopleProfile.introduction),
             result.get(peopleProfile.activityArea),
-            result.get(peopleProfile.techStacks),
+            fromTechStacks(result.get(peopleProfile.techStacks)),
             result.get(peopleProfile.education),
-            result.get(peopleProfile.hashtags),
+            fromHashtags(result.get(peopleProfile.hashtags)),
             0,
             0,
-            result.get(peopleProfile.portfolios)
+            fromPortfolios(result.get(peopleProfile.portfolios))
         ));
     }
 }

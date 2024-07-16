@@ -2,7 +2,7 @@ package es.princip.getp.domain.project.query.dao;
 
 import com.querydsl.core.Tuple;
 import es.princip.getp.domain.common.domain.Hashtag;
-import es.princip.getp.domain.common.domain.URI;
+import es.princip.getp.domain.common.domain.URL;
 import es.princip.getp.domain.project.command.domain.AttachmentFile;
 import es.princip.getp.domain.project.query.dto.CardProjectResponse;
 import es.princip.getp.domain.project.query.dto.DetailProjectResponse;
@@ -52,14 +52,14 @@ public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
                 tuple.get(project.payment),
                 0L,
                 tuple.get(project.applicationDuration),
-                hashtagsToString(tuple.get(project.hashtags)),
+                fromHashtags(tuple.get(project.hashtags)),
                 tuple.get(project.description),
                 tuple.get(project.status)
             ))
             .toList();
     }
 
-    private List<String> hashtagsToString(List<Hashtag> hashtags) {
+    private List<String> fromHashtags(List<Hashtag> hashtags) {
         return Optional.ofNullable(hashtags)
             .orElseGet(Collections::emptyList)
             .stream()
@@ -67,12 +67,12 @@ public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
             .toList();
     }
 
-    private List<String> attachmentFilesToString(List<AttachmentFile> attachmentFiles) {
+    private List<String> fromAttachmentFiles(List<AttachmentFile> attachmentFiles) {
         return Optional.ofNullable(attachmentFiles)
             .orElseGet(Collections::emptyList)
             .stream()
-            .map(AttachmentFile::getUri)
-            .map(URI::getValue)
+            .map(AttachmentFile::getUrl)
+            .map(URL::getValue)
             .toList();
     }
 
@@ -122,8 +122,8 @@ public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
             result.get(project.meetingType),
             result.get(project.category),
             result.get(project.status),
-            attachmentFilesToString(result.get(project.attachmentFiles)),
-            hashtagsToString(result.get(project.hashtags)),
+            fromAttachmentFiles(result.get(project.attachmentFiles)),
+            fromHashtags(result.get(project.hashtags)),
             0L,
             toProjectClientResponse(result)
         ));
