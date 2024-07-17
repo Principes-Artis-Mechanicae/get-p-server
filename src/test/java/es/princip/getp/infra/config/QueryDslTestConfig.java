@@ -1,5 +1,7 @@
 package es.princip.getp.infra.config;
 
+import es.princip.getp.domain.client.query.dao.ClientDao;
+import es.princip.getp.domain.client.query.dao.ClientDaoImpl;
 import es.princip.getp.domain.people.query.dao.PeopleDao;
 import es.princip.getp.domain.people.query.dao.PeopleDaoImpl;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -11,5 +13,10 @@ public class QueryDslTestConfig {
     @Bean
     public PeopleDao peopleDao() {
         return new PeopleDaoImpl();
+    }
+
+    @Bean
+    public ClientDao clientDao() {
+        return new ClientDaoImpl();
     }
 }

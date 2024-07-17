@@ -1,9 +1,6 @@
 package es.princip.getp.infra.annotation;
 
-import es.princip.getp.domain.member.domain.model.Email;
-import es.princip.getp.domain.member.domain.model.Member;
-import es.princip.getp.domain.member.domain.model.MemberType;
-import es.princip.getp.domain.member.domain.model.Password;
+import es.princip.getp.domain.member.domain.model.*;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,11 +21,15 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
     public SecurityContext createSecurityContext(WithCustomMockUser annotation) {
         Email email = Email.of(annotation.email());
         Password password = Password.of(annotation.password());
+        Nickname nickname = Nickname.of(annotation.nickname());
+        PhoneNumber phoneNumber = PhoneNumber.of(annotation.phoneNumber());
         MemberType memberType = annotation.memberType();
         LocalDateTime now = LocalDateTime.now();
 
         Member member = spy(Member.of(email, password, memberType));
         given(member.getMemberId()).willReturn(annotation.memberId());
+        given(member.getNickname()).willReturn(nickname);
+        given(member.getPhoneNumber()).willReturn(phoneNumber);
         given(member.getCreatedAt()).willReturn(now);
         given(member.getUpdatedAt()).willReturn(now);
 
