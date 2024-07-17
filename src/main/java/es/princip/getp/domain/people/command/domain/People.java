@@ -69,8 +69,8 @@ public class People extends BaseTimeEntity {
         final Email email,
         final PeopleType peopleType
     ) {
-        if (this.memberId.equals(memberId)) {
-            throw new IllegalArgumentException();
+        if (!this.memberId.equals(memberId)) {
+            throw new IllegalArgumentException("본인의 회원 정보만 수정할 수 있습니다.");
         }
         setEmail(email);
         setPeopleType(peopleType);
