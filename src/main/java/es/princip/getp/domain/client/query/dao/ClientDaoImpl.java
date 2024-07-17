@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 import static es.princip.getp.domain.client.command.domain.QClient.client;
-import static es.princip.getp.domain.member.domain.model.QMember.member;
+import static es.princip.getp.domain.member.command.domain.model.QMember.member;
 
 @Repository
 public class ClientDaoImpl extends QueryDslSupport implements ClientDao {

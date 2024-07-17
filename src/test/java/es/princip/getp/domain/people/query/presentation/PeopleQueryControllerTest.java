@@ -27,7 +27,7 @@ import java.util.Optional;
 
 import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagDtos;
 import static es.princip.getp.domain.common.fixture.TechStackFixture.techStackDtos;
-import static es.princip.getp.domain.member.domain.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
 import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
 import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;

@@ -25,9 +25,6 @@ include::{docdir}/auth/reissue-access-token.adoc[]
 
 == 사용자
 
-=== 내 사용자 정보 조회
-include::{docdir}/member/get-my-member.adoc[]
-
 === 내 프로필 사진 등록
 include::{docdir}/member/upload-profile-image.adoc[]
 

@@ -1,7 +1,7 @@
 package es.princip.getp.domain.auth.application;
 
 import es.princip.getp.domain.auth.exception.EmailErrorCode;
-import es.princip.getp.domain.member.domain.model.Email;
+import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

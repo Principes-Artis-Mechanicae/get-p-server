@@ -4,10 +4,10 @@ import es.princip.getp.domain.client.command.application.command.CreateClientCom
 import es.princip.getp.domain.client.command.application.command.UpdateClientCommand;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
-import es.princip.getp.domain.member.application.MemberService;
-import es.princip.getp.domain.member.application.command.UpdateMemberCommand;
-import es.princip.getp.domain.member.domain.model.Member;
-import es.princip.getp.domain.member.domain.model.MemberRepository;
+import es.princip.getp.domain.member.command.application.MemberService;
+import es.princip.getp.domain.member.command.application.command.UpdateMemberCommand;
+import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.domain.member.command.domain.model.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

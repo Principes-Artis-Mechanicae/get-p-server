@@ -1,8 +1,8 @@
 package es.princip.getp.infra.security.details;
 
-import es.princip.getp.domain.member.domain.model.Email;
-import es.princip.getp.domain.member.domain.model.Member;
-import es.princip.getp.domain.member.domain.model.MemberRepository;
+import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.domain.member.command.domain.model.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
-import es.princip.getp.domain.member.domain.model.Email;
+import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import jakarta.persistence.*;

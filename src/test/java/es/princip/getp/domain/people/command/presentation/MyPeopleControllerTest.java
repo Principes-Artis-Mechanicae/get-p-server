@@ -1,11 +1,9 @@
-package es.princip.getp.domain.people.presentation;
+package es.princip.getp.domain.people.command.presentation;
 
 import es.princip.getp.domain.people.command.application.PeopleService;
 import es.princip.getp.domain.people.command.application.command.CreatePeopleCommand;
 import es.princip.getp.domain.people.command.application.command.UpdatePeopleCommand;
 import es.princip.getp.domain.people.command.domain.PeopleType;
-import es.princip.getp.domain.people.command.presentation.MyPeopleController;
-import es.princip.getp.domain.people.command.presentation.PeopleErrorCodeController;
 import es.princip.getp.domain.people.command.presentation.description.request.CreatePeopleRequestDescription;
 import es.princip.getp.domain.people.command.presentation.description.request.UpdatePeopleRequestDescription;
 import es.princip.getp.domain.people.command.presentation.description.response.CreatePeopleResponseDescription;
@@ -20,8 +18,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.domain.member.domain.model.MemberType.ROLE_CLIENT;
-import static es.princip.getp.domain.member.domain.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_CLIENT;
+import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
 import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
 import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.PHONE_NUMBER;

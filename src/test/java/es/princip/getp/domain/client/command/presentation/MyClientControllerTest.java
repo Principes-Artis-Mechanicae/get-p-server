@@ -4,7 +4,7 @@ import es.princip.getp.domain.client.command.application.ClientService;
 import es.princip.getp.domain.client.command.presentation.dto.request.CreateClientRequest;
 import es.princip.getp.domain.client.command.presentation.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.client.exception.ClientErrorCode;
-import es.princip.getp.domain.member.domain.model.MemberType;
+import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.security.details.PrincipalDetails;

@@ -17,8 +17,8 @@ import java.util.Optional;
 
 import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagDtos;
 import static es.princip.getp.domain.common.fixture.TechStackFixture.techStackDtos;
-import static es.princip.getp.domain.member.domain.model.MemberType.ROLE_CLIENT;
-import static es.princip.getp.domain.member.domain.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_CLIENT;
+import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;
 import static es.princip.getp.domain.people.fixture.EducationFixture.education;
 import static es.princip.getp.domain.people.fixture.IntroductionFixture.introduction;

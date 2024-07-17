@@ -2,12 +2,12 @@ package es.princip.getp.domain.auth.application;
 
 import es.princip.getp.domain.auth.application.command.SignUpCommand;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
-import es.princip.getp.domain.member.application.MemberService;
-import es.princip.getp.domain.member.application.command.CreateMemberCommand;
-import es.princip.getp.domain.member.domain.model.Email;
-import es.princip.getp.domain.member.domain.model.Member;
-import es.princip.getp.domain.member.domain.model.MemberRepository;
-import es.princip.getp.domain.member.domain.model.MemberType;
+import es.princip.getp.domain.member.command.application.MemberService;
+import es.princip.getp.domain.member.command.application.command.CreateMemberCommand;
+import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.domain.member.command.domain.model.MemberRepository;
+import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

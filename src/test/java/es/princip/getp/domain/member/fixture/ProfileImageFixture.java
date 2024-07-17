@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.fixture;
 
-import es.princip.getp.domain.member.domain.model.ProfileImage;
+import es.princip.getp.domain.member.command.domain.model.ProfileImage;
 
 public class ProfileImageFixture {
 

@@ -1,11 +1,11 @@
 package es.princip.getp.domain.auth.presentation.dto.request;
 
 import es.princip.getp.domain.auth.application.command.SignUpCommand;
-import es.princip.getp.domain.member.annotation.UserMemberType;
-import es.princip.getp.domain.member.domain.command.ServiceTermAgreementCommand;
-import es.princip.getp.domain.member.domain.model.Email;
-import es.princip.getp.domain.member.domain.model.MemberType;
-import es.princip.getp.domain.member.domain.model.Password;
+import es.princip.getp.domain.member.command.annotation.UserMemberType;
+import es.princip.getp.domain.member.command.domain.command.ServiceTermAgreementCommand;
+import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.command.domain.model.Password;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;

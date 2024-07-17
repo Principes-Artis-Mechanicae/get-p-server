@@ -1,9 +1,9 @@
 package es.princip.getp.infra.security.provider;
 
 import es.princip.getp.domain.auth.presentation.dto.response.Token;
-import es.princip.getp.domain.member.domain.model.Email;
-import es.princip.getp.domain.member.domain.model.Member;
-import es.princip.getp.domain.member.domain.model.MemberRepository;
+import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.domain.member.command.domain.model.MemberRepository;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

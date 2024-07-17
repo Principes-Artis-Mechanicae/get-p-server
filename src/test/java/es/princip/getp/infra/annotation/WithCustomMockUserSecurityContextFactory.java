@@ -1,6 +1,6 @@
 package es.princip.getp.infra.annotation;
 
-import es.princip.getp.domain.member.domain.model.*;
+import es.princip.getp.domain.member.command.domain.model.*;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

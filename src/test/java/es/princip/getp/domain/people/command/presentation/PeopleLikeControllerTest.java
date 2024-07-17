@@ -1,9 +1,7 @@
-package es.princip.getp.domain.people.presentation;
+package es.princip.getp.domain.people.command.presentation;
 
-import es.princip.getp.domain.member.domain.model.MemberType;
+import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.people.command.application.PeopleLikeService;
-import es.princip.getp.domain.people.command.presentation.PeopleErrorCodeController;
-import es.princip.getp.domain.people.command.presentation.PeopleLikeController;
 import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
 import es.princip.getp.infra.annotation.WithCustomMockUser;

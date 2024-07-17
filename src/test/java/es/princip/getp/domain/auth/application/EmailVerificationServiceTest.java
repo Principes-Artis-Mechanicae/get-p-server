@@ -3,7 +3,7 @@ package es.princip.getp.domain.auth.application;
 import es.princip.getp.domain.auth.domain.EmailVerification;
 import es.princip.getp.domain.auth.domain.EmailVerificationRepository;
 import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
-import es.princip.getp.domain.member.domain.model.Email;
+import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

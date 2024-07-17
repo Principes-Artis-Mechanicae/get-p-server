@@ -6,7 +6,7 @@ import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.auth.presentation.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.domain.auth.presentation.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.domain.auth.presentation.dto.request.SignUpRequest;
-import es.princip.getp.domain.member.domain.model.MemberType;
+import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.infra.presentation.ErrorCodeController;
 import es.princip.getp.infra.support.AbstractControllerTest;
 import org.junit.jupiter.api.DisplayName;

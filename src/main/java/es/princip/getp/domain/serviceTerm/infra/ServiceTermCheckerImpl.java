@@ -1,6 +1,6 @@
 package es.princip.getp.domain.serviceTerm.infra;
 
-import es.princip.getp.domain.member.domain.command.ServiceTermAgreementCommand;
+import es.princip.getp.domain.member.command.domain.command.ServiceTermAgreementCommand;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTerm;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermChecker;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermRepository;

@@ -1,9 +1,8 @@
-package es.princip.getp.domain.project.presentation;
+package es.princip.getp.domain.project.command.presentation;
 
 import es.princip.getp.domain.common.domain.Duration;
-import es.princip.getp.domain.member.domain.model.MemberType;
+import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.project.command.application.ProjectApplicationService;
-import es.princip.getp.domain.project.command.presentation.ProjectApplicationController;
 import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectRequest;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;

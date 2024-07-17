@@ -3,9 +3,9 @@ package es.princip.getp.domain.client.command.presentation.dto.request;
 import es.princip.getp.domain.client.command.application.command.CreateClientCommand;
 import es.princip.getp.domain.client.command.domain.Address;
 import es.princip.getp.domain.client.command.domain.BankAccount;
-import es.princip.getp.domain.member.domain.model.Email;
-import es.princip.getp.domain.member.domain.model.Nickname;
-import es.princip.getp.domain.member.domain.model.PhoneNumber;
+import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.command.domain.model.Nickname;
+import es.princip.getp.domain.member.command.domain.model.PhoneNumber;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 

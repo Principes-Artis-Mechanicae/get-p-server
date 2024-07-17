@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static es.princip.getp.domain.member.domain.model.MemberType.ROLE_CLIENT;
-import static es.princip.getp.domain.member.domain.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_CLIENT;
+import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
 import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;

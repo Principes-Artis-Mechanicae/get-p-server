@@ -24,7 +24,7 @@ import java.util.Optional;
 
 import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
-import static es.princip.getp.domain.member.domain.model.QMember.member;
+import static es.princip.getp.domain.member.command.domain.model.QMember.member;
 import static es.princip.getp.domain.people.command.domain.QPeople.people;
 import static es.princip.getp.domain.people.command.domain.QPeopleProfile.peopleProfile;
 

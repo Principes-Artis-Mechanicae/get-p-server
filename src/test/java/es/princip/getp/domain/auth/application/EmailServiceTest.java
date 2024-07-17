@@ -1,6 +1,6 @@
 package es.princip.getp.domain.auth.application;
 
-import es.princip.getp.domain.member.domain.model.Email;
+import es.princip.getp.domain.member.command.domain.model.Email;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
