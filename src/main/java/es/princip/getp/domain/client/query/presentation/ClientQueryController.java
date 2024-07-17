@@ -1,12 +1,11 @@
-package es.princip.getp.domain.client.presentation;
+package es.princip.getp.domain.client.query.presentation;
 
-import es.princip.getp.domain.client.domain.Client;
-import es.princip.getp.domain.client.domain.ClientRepository;
-import es.princip.getp.domain.client.presentation.dto.response.ClientResponse;
-import es.princip.getp.domain.member.domain.model.Member;
-import es.princip.getp.domain.member.domain.model.MemberRepository;
+import es.princip.getp.domain.client.exception.ClientErrorCode;
+import es.princip.getp.domain.client.query.dao.ClientDao;
+import es.princip.getp.domain.client.query.dto.ClientResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
+import es.princip.getp.infra.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/client")
 @RequiredArgsConstructor
-public class ClientController {
+public class ClientQueryController {
 
-    private final ClientRepository clientRepository;
-    private final MemberRepository memberRepository;
-
+    private final ClientDao clientDao;
 
     /**
      * 의뢰자 정보 조회
@@ -34,9 +31,8 @@ public class ClientController {
     @GetMapping("/{clientId}")
     @PreAuthorize("(hasRole('ADMIN') or hasRole('MANAGER')) and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getClient(@PathVariable Long clientId) {
-        Client client = clientRepository.findById(clientId).orElseThrow();
-        Member member = memberRepository.findById(client.getMemberId()).orElseThrow();
-        ClientResponse response = ClientResponse.from(client, member);
+        final ClientResponse response = clientDao.findById(clientId)
+            .orElseThrow(() -> new BusinessLogicException(ClientErrorCode.NOT_FOUND));
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 }

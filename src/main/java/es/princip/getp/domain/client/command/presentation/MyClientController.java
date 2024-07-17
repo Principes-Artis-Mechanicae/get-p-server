@@ -1,14 +1,11 @@
-package es.princip.getp.domain.client.presentation;
+package es.princip.getp.domain.client.command.presentation;
 
-import es.princip.getp.domain.client.application.ClientService;
-import es.princip.getp.domain.client.application.command.CreateClientCommand;
-import es.princip.getp.domain.client.application.command.UpdateClientCommand;
-import es.princip.getp.domain.client.domain.Client;
-import es.princip.getp.domain.client.domain.ClientRepository;
-import es.princip.getp.domain.client.presentation.dto.request.CreateClientRequest;
-import es.princip.getp.domain.client.presentation.dto.request.UpdateClientRequest;
-import es.princip.getp.domain.client.presentation.dto.response.ClientResponse;
-import es.princip.getp.domain.member.domain.model.Member;
+import es.princip.getp.domain.client.command.application.ClientService;
+import es.princip.getp.domain.client.command.application.command.CreateClientCommand;
+import es.princip.getp.domain.client.command.application.command.UpdateClientCommand;
+import es.princip.getp.domain.client.command.presentation.dto.request.CreateClientRequest;
+import es.princip.getp.domain.client.command.presentation.dto.request.UpdateClientRequest;
+import es.princip.getp.domain.client.command.presentation.dto.response.CreateClientResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
@@ -25,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MyClientController {
 
-    private final ClientRepository clientRepository;
     private final ClientService clientService;
 
     /**
@@ -35,28 +31,15 @@ public class MyClientController {
      */
     @PostMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<ClientResponse>> create(
+    public ResponseEntity<ApiSuccessResult<CreateClientResponse>> create(
         @RequestBody @Valid CreateClientRequest request,
         @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Long memberId = principalDetails.getMember().getMemberId();
         CreateClientCommand command = request.toCommand(memberId);
-        clientService.create(command);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED));
-    }
-
-    /**
-     * 내 의뢰자 정보 조회
-     * 
-     * @return 내 의뢰자 정보
-     */
-    @GetMapping
-    @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<ClientResponse>> getMyClient(
-            @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Member member = principalDetails.getMember();
-        Client client = clientRepository.findByMemberId(member.getMemberId()).orElseThrow();
-        ClientResponse response = ClientResponse.from(client, member);
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+        Long clientId = clientService.create(command);
+        CreateClientResponse response = new CreateClientResponse(clientId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ApiResponse.success(HttpStatus.CREATED, response));
     }
 
     /**
@@ -72,6 +55,6 @@ public class MyClientController {
         Long memberId = principalDetails.getMember().getMemberId();
         UpdateClientCommand command = request.toCommand(memberId);
         clientService.update(command);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(HttpStatus.CREATED));
+        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK));
     }
 }

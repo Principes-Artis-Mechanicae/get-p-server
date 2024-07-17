@@ -1,4 +1,4 @@
-package es.princip.getp.domain.client.domain;
+package es.princip.getp.domain.client.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.member.domain.model.Email;
@@ -55,30 +55,45 @@ public class Client extends BaseTimeEntity {
         this.memberId = memberId;
     }
 
-    public void changeEmail(Email email) {
+    private void setEmail(final Email email) {
+        if (email == null) {
+            throw new IllegalArgumentException();
+        }
         this.email = email;
     }
 
-    public void changeAddress(Address address) {
+    private void setAddress(final Address address) {
+        if (address == null) {
+            throw new IllegalArgumentException();
+        }
         this.address = address;
     }
 
-    public void changeBankAccount(BankAccount bankAccount) {
+    private void setBankAccount(final BankAccount bankAccount) {
+        if (bankAccount == null) {
+            throw new IllegalArgumentException();
+        }
         this.bankAccount = bankAccount;
     }
 
-    private boolean alreadyLikedPeople(Long peopleId) {
+    public void edit(final Email email, final Address address, final BankAccount bankAccount) {
+        setEmail(email);
+        setAddress(address);
+        setBankAccount(bankAccount);
+    }
+
+    private boolean alreadyLikedPeople(final Long peopleId) {
         return peopleLikes.contains(peopleId);
     }
 
-    public void likePeople(Long peopleId) {
+    public void likePeople(final Long peopleId) {
         if (alreadyLikedPeople(peopleId)) {
             throw new IllegalArgumentException("이미 좋아요를 누른 사람입니다.");
         }
         peopleLikes.add(peopleId);
     }
 
-    public void unlikePeople(Long peopleId) {
+    public void unlikePeople(final Long peopleId) {
         if (!alreadyLikedPeople(peopleId)) {
             throw new IllegalArgumentException("좋아요를 누르지 않은 사람입니다.");
         }

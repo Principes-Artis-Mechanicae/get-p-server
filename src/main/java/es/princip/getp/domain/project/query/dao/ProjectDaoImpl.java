@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static es.princip.getp.domain.client.domain.QClient.client;
+import static es.princip.getp.domain.client.command.domain.QClient.client;
 import static es.princip.getp.domain.member.domain.model.QMember.member;
 import static es.princip.getp.domain.project.command.domain.QProject.project;
 

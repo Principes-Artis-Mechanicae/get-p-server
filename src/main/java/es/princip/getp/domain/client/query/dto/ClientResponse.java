@@ -1,8 +1,8 @@
-package es.princip.getp.domain.client.presentation.dto.response;
+package es.princip.getp.domain.client.query.dto;
 
-import es.princip.getp.domain.client.domain.Address;
-import es.princip.getp.domain.client.domain.BankAccount;
-import es.princip.getp.domain.client.domain.Client;
+import es.princip.getp.domain.client.command.domain.Address;
+import es.princip.getp.domain.client.command.domain.BankAccount;
+import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.member.domain.model.Member;
 
 import java.time.LocalDateTime;
@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 public record ClientResponse(
     Long clientId,
     String nickname,
-    String email,
     String phoneNumber,
+    String email,
     String profileImageUri,
     Address address,
     BankAccount bankAccount,
@@ -25,7 +25,7 @@ public record ClientResponse(
             member.getNickname().getValue(),
             client.getEmail().getValue(),
             member.getPhoneNumber().getValue(),
-            member.getProfileImage().getUri().toString(),
+            member.getProfileImage().getUri(),
             client.getAddress(),
             client.getBankAccount(),
             client.getCreatedAt(),

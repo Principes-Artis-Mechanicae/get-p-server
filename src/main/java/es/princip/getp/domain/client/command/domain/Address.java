@@ -1,4 +1,4 @@
-package es.princip.getp.domain.client.domain;
+package es.princip.getp.domain.client.command.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

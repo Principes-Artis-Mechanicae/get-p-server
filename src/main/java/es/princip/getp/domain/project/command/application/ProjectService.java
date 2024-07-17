@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.command.application;
 
-import es.princip.getp.domain.client.domain.ClientRepository;
+import es.princip.getp.domain.client.command.domain.ClientRepository;
 import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.project.command.domain.*;
 import es.princip.getp.domain.project.command.presentation.dto.request.RegisterProjectRequest;
