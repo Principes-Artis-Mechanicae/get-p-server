@@ -30,7 +30,7 @@ public class ProjectApplicationController {
      */
     @PostMapping("/{projectId}/applications")
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<ApplyProjectResponse>> applyProject(
+    public ResponseEntity<ApiSuccessResult<ApplyProjectResponse>> applyForProject(
         @RequestBody @Valid ApplyProjectRequest request,
         @AuthenticationPrincipal PrincipalDetails principalDetails,
         @PathVariable Long projectId) {

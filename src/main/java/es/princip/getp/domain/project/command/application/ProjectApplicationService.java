@@ -52,8 +52,6 @@ public class ProjectApplicationService {
             .applicationStatus(APPLICATION_COMPLETED)
             .build();
 
-        projectApplicationRepository.save(application);
-
-        return application.getApplicationId();
+        return projectApplicationRepository.save(application).getApplicationId();
     }
 }

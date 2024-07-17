@@ -24,6 +24,6 @@ public class ApplicationDuration extends Duration {
     }
 
     public boolean isClosed() {
-        return endDate.isAfter(LocalDate.now());
+        return endDate.isBefore(LocalDate.now());
     }
 }

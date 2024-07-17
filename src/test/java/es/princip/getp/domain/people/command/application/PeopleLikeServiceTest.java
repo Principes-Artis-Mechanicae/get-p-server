@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.application;
 
-import es.princip.getp.domain.client.domain.Client;
-import es.princip.getp.domain.client.domain.ClientRepository;
+import es.princip.getp.domain.client.command.domain.Client;
+import es.princip.getp.domain.client.command.domain.ClientRepository;
 import es.princip.getp.domain.people.command.application.PeopleLikeService;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import org.junit.jupiter.api.DisplayName;
