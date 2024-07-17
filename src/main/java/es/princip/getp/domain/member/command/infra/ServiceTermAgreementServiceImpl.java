@@ -1,8 +1,8 @@
 package es.princip.getp.domain.member.command.infra;
 
-import es.princip.getp.domain.member.command.domain.model.ServiceTermAgreement;
 import es.princip.getp.domain.member.command.domain.command.ServiceTermAgreementCommand;
 import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.domain.member.command.domain.model.ServiceTermAgreement;
 import es.princip.getp.domain.member.command.domain.service.ServiceTermAgreementService;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermChecker;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermRepository;
@@ -23,7 +23,7 @@ public class ServiceTermAgreementServiceImpl implements ServiceTermAgreementServ
 
     @Override
     public void agreeServiceTerms(final Member member, final List<ServiceTermAgreementCommand> commands) {
-        if (checker.isAgreedAllRequiredServiceTerms(commands)) {
+        if (!checker.isAgreedAllRequiredServiceTerms(commands)) {
             throw new IllegalArgumentException("Not agreed all required service terms");
         }
         Set<ServiceTermAgreement> agreements = commands.stream()
@@ -33,7 +33,7 @@ public class ServiceTermAgreementServiceImpl implements ServiceTermAgreementServ
     }
 
     private ServiceTermAgreement createServiceTermAgreement(final ServiceTermTag tag, final boolean agreed) {
-        if (serviceTermRepository.existsByTag(tag)) {
+        if (!serviceTermRepository.existsByTag(tag)) {
             throw new IllegalArgumentException("ServiceTerm not found");
         }
         return new ServiceTermAgreement(tag, agreed);
