@@ -1,41 +1,32 @@
 package es.princip.getp.domain.people.query.dao;
 
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import es.princip.getp.domain.people.command.domain.PeopleOrder;
 import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
-import static es.princip.getp.domain.people.command.domain.QPeople.people;
+import static es.princip.getp.domain.people.command.domain.QPeopleProfile.peopleProfile;
 
 class PeoplePaginationHelper {
 
-    private static OrderSpecifier<?> getOrderSpecifier(Sort.Order order, PeopleOrder peopleOrder) {
-        OrderSpecifier<?> orderSpecifier = new OrderSpecifier<>(DESC, people.peopleId);
-        switch (peopleOrder) {
-            case INTEREST_COUNT:
-                // TODO: 관심 수에 대하여 정렬하는 로직 추가
-                break;
-            case CREATED_AT:
-                orderSpecifier = new OrderSpecifier<>(order.isAscending() ? ASC : DESC,
-                    people.createdAt);
-                break;
-            default:
-                break;
-        }
-        return orderSpecifier;
+    private static Order convertTo(final Sort.Order order) {
+        return order.isAscending() ? ASC : DESC;
+    }
+
+    private static OrderSpecifier<?> getPeopleOrderSpecifier(final Sort.Order order, final PeopleOrder peopleOrder) {
+        final Order converted = convertTo(order);
+        return switch (peopleOrder) {
+            // TODO: case INTEREST_COUNT
+            case CREATED_AT -> new OrderSpecifier<>(converted, peopleProfile.createdAt);
+            default -> new OrderSpecifier<>(converted, peopleProfile.peopleId);
+        };
     }
 
     static OrderSpecifier<?>[] getPeopleOrderSpecifiers(Sort sort) {
-        List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
-        sort.stream().forEach(order -> {
-            PeopleOrder peopleOrder = PeopleOrder.get(order.getProperty());
-            OrderSpecifier<?> orderSpecifier = getOrderSpecifier(order, peopleOrder);
-            orderSpecifiers.add(orderSpecifier);
-        });
-        return orderSpecifiers.toArray(OrderSpecifier[]::new);
+        return sort.stream()
+            .map(order -> getPeopleOrderSpecifier(order, PeopleOrder.get(order.getProperty())))
+            .toArray(OrderSpecifier[]::new);
     }
 }

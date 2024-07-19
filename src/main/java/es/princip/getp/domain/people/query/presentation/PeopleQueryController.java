@@ -27,7 +27,7 @@ public class PeopleQueryController extends ControllerSupport {
     private final PeopleDao peopleDao;
 
     /**
-     * 포트폴리오 개발 진행 후 완성 예정 - 피플 상세 조회
+     * 피플 상세 조회
      * 
      * @param peopleId 피플 ID
      * @return 피플 ID에 해당되는 피플 상세 정보

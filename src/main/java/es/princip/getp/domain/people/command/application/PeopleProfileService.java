@@ -34,7 +34,7 @@ public class PeopleProfileService {
 
     private List<Portfolio> toPortfolios(List<PortfolioRequest> portfolios) {
         return portfolios.stream()
-            .map(portfolio -> Portfolio.of(portfolio.url(), portfolio.description()))
+            .map(portfolio -> Portfolio.of(portfolio.description(), portfolio.url()))
             .toList();
     }
 
