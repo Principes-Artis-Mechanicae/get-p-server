@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     environment: development
-    runs-on: ubuntu-latest
+    runs-on: get-p-dev
     permissions:
       checks: write
       pull-requests: write
