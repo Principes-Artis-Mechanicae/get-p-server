@@ -74,10 +74,10 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
                     NICKNAME,
                     profileImage(1L).getUri(),
                     PeopleType.INDIVIDUAL,
+                    0,
+                    0,
                     new CardPeopleProfileResponse(
                         activityArea(),
-                        0,
-                        0,
                         hashtagsResponse()
                     )
                 )
@@ -103,10 +103,10 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
                                 .attributes(key("format").value("TEAM, INDIVIDUAL")),
                             getDescriptor("content[].nickname", "닉네임"),
                             getDescriptor("content[].profileImageUri", "프로필 이미지 URI"),
+                            getDescriptor("content[].completedProjectsCount", "완수한 프로젝트 수"),
+                            getDescriptor("content[].interestsCount", "받은 관심 수"),
                             getDescriptor("content[].profile.activityArea", "활동 지역"),
-                            getDescriptor("content[].profile.hashtags[]", "해시태그"),
-                            getDescriptor("content[].profile.completedProjectsCount", "완수한 프로젝트 수"),
-                            getDescriptor("content[].profile.interestsCount", "받은 관심 수")
+                            getDescriptor("content[].profile.hashtags[]", "해시태그")
                         ).and(pageResponseFieldDescriptors())
                     )
                 )
@@ -136,9 +136,9 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
                 NICKNAME,
                 profileImage(1L).getUri(),
                 PeopleType.INDIVIDUAL,
+                0,
+                0,
                 new PublicDetailPeopleProfileResponse(
-                    0,
-                    0,
                     hashtagsResponse()
                 )
             );
@@ -162,12 +162,12 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
                 NICKNAME,
                 profileImage(1L).getUri(),
                 PeopleType.INDIVIDUAL,
+                0,
+                0,
                 new DetailPeopleProfileResponse(
                     introduction(),
                     activityArea(),
                     education(),
-                    0,
-                    0,
                     techStacksResponse(),
                     hashtagsResponse(),
                     portfoliosResponse()

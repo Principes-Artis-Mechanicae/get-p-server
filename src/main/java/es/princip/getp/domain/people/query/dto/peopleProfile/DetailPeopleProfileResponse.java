@@ -9,8 +9,6 @@ public record DetailPeopleProfileResponse(
     String introduction,
     String activityArea,
     Education education,
-    Integer completedProjectsCount,
-    Integer interestsCount,
     TechStacksResponse techStacks,
     HashtagsResponse hashtags,
     PortfoliosResponse portfolios
@@ -21,8 +19,6 @@ public record DetailPeopleProfileResponse(
             profile.getIntroduction(),
             profile.getActivityArea(),
             profile.getEducation(),
-            0,
-            0,
             TechStacksResponse.from(profile.getTechStacks()),
             HashtagsResponse.from(profile.getHashtags()),
             PortfoliosResponse.from(profile.getPortfolios())

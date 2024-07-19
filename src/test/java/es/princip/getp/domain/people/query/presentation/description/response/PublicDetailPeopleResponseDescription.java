@@ -12,12 +12,12 @@ public class PublicDetailPeopleResponseDescription {
         return new FieldDescriptor[] {
             getDescriptor("peopleId", "피플 ID"),
             getDescriptor("nickname", "닉네임"),
+            getDescriptor("profileImageUri", "프로필 이미지 URI"),
             getDescriptor("peopleType", "피플 유형")
                 .attributes(key("format").value("TEAM, INDIVIDUAL")),
-            getDescriptor("profileImageUri", "프로필 이미지 URI"),
-            getDescriptor("profile.hashtags[]", "해시태그"),
-            getDescriptor("profile.completedProjectsCount", "완수한 프로젝트 수"),
-            getDescriptor("profile.interestsCount", "받은 관심 수")
+            getDescriptor("completedProjectsCount", "완수한 프로젝트 수"),
+            getDescriptor("interestsCount", "받은 관심 수"),
+            getDescriptor("profile.hashtags[]", "해시태그")
         };
     }
 }

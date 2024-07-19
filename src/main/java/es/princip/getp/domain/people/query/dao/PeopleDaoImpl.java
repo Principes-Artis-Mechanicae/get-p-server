@@ -2,6 +2,7 @@ package es.princip.getp.domain.people.query.dao;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import es.princip.getp.domain.people.command.domain.PeopleProfile;
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
@@ -78,6 +79,8 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
                 memberAndPeople.get(peopleId).get(member.nickname.value),
                 memberAndPeople.get(peopleId).get(member.profileImage.uri),
                 memberAndPeople.get(peopleId).get(people.peopleType),
+                0,
+                0,
                 CardPeopleProfileResponse.from(profile)
             );
         }).toList();
@@ -108,6 +111,8 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
             memberAndPeople.get(member.nickname.value),
             memberAndPeople.get(member.profileImage.uri),
             memberAndPeople.get(people.peopleType),
+            0,
+            0,
             DetailPeopleProfileResponse.from(result)
         );
     }
@@ -128,6 +133,8 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
             memberAndPeople.get(member.nickname.value),
             memberAndPeople.get(member.profileImage.uri),
             memberAndPeople.get(people.peopleType),
+            0,
+            0,
             PublicDetailPeopleProfileResponse.from(profile)
         );
     }
@@ -143,6 +150,8 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
                     member.nickname.value,
                     member.profileImage.uri,
                     people.peopleType,
+                    Expressions.asNumber(0).as("completedProjectsCount"),
+                    Expressions.asNumber(0).as("interestsCount"),
                     people.createdAt,
                     people.updatedAt
                 )

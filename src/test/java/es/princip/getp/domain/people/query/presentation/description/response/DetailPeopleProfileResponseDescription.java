@@ -16,9 +16,7 @@ public class DetailPeopleProfileResponseDescription {
             getDescriptor("techStacks[]", "기술 스택"),
             getDescriptor("portfolios[].description", "포트폴리오 설명"),
             getDescriptor("portfolios[].url", "포트폴리오 URL"),
-            getDescriptor("hashtags[]", "해시태그"),
-            getDescriptor("completedProjectsCount", "완료한 프로젝트 수"),
-            getDescriptor("interestsCount", "받은 관심 수")
+            getDescriptor("hashtags[]", "해시태그")
         };
     }
 }

@@ -10,6 +10,8 @@ public record PeopleResponse(
     String nickname,
     String profileImageUri,
     PeopleType peopleType,
+    Integer completedProjectsCount,
+    Integer interestsCount,
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {

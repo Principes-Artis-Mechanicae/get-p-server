@@ -53,8 +53,6 @@ class MyPeopleProfileQueryControllerTest extends AbstractControllerTest {
                 introduction(),
                 activityArea(),
                 education(),
-                0,
-                0,
                 techStacksResponse(),
                 hashtagsResponse(),
                 portfoliosResponse()

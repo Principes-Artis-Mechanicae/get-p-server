@@ -55,6 +55,8 @@ class MyPeopleQueryControllerTest extends AbstractControllerTest {
                 NICKNAME,
                 profileImage(1L).getUri(),
                 PeopleType.INDIVIDUAL,
+                0,
+                0,
                 LocalDateTime.now(),
                 LocalDateTime.now()
             );
