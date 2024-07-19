@@ -1,11 +1,12 @@
 package es.princip.getp.domain.client.exception;
 
+import es.princip.getp.infra.exception.ErrorCode;
 import es.princip.getp.infra.exception.ErrorDescription;
 import org.springframework.http.HttpStatus;
-import es.princip.getp.infra.exception.ErrorCode;
 
 public enum ClientErrorCode implements ErrorCode {
-    CLIENT_NOT_FOUND(HttpStatus.NOT_FOUND, "등록되지 않은 의뢰자 정보");
+    NOT_FOUND(HttpStatus.NOT_FOUND, "해당 의뢰자 정보를 찾을 수 없습니다."),
+    ALREADY_EXIST(HttpStatus.BAD_REQUEST, "이미 등록한 의뢰자 정보가 존재합니다.");
 
     private final HttpStatus status;
     private final ErrorDescription description;

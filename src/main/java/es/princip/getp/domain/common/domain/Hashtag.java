@@ -3,14 +3,12 @@ package es.princip.getp.domain.common.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Embeddable
 @Getter
 @EqualsAndHashCode
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Hashtag {
 

@@ -2,11 +2,10 @@ package es.princip.getp.domain.auth.application;
 
 import es.princip.getp.domain.auth.domain.TokenVerification;
 import es.princip.getp.domain.auth.domain.TokenVerificationRepository;
-import es.princip.getp.domain.auth.dto.request.LoginRequest;
-import es.princip.getp.domain.auth.dto.response.Token;
 import es.princip.getp.domain.auth.exception.LoginErrorCode;
 import es.princip.getp.domain.auth.exception.TokenErrorCode;
-import es.princip.getp.domain.member.application.MemberService;
+import es.princip.getp.domain.auth.presentation.dto.request.LoginRequest;
+import es.princip.getp.domain.auth.presentation.dto.response.Token;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import es.princip.getp.infra.security.provider.JwtTokenProvider;
@@ -23,9 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthService {
+
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberService memberService;
     private final TokenVerificationRepository tokenVerificationRepository;
 
     @Value("${spring.jwt.refresh-token.expire-time}")
@@ -53,8 +52,7 @@ public class AuthService {
     public Token reissueAccessToken(HttpServletRequest servletRequest) {
         String refreshToken = jwtTokenProvider.resolveRefreshToken(servletRequest);
         if (isValidRefreshToken(refreshToken)) {
-            Authentication authentication =
-                    jwtTokenProvider.getAuthentication(refreshToken, memberService);
+            Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
             Long memberId = principalDetails.getMember().getMemberId();
             Token token = jwtTokenProvider.generateToken(authentication);

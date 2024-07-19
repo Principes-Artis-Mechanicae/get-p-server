@@ -1,6 +1,8 @@
 package es.princip.getp.domain.auth.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
@@ -11,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 @Getter
 @RedisHash(value = "email_verification")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EmailVerification {
 
     @Id

@@ -1,1 +1,0 @@
-operation::/get-my-member/get-my-member_-when-member-type-is-people[snippets="http-request,http-response,response-fields-data"]
