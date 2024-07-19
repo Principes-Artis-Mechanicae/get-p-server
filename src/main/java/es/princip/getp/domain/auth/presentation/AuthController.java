@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +45,6 @@ public class AuthController {
      * @return 재발급 된 Access Token과 Refresh Token
      */
     @PostMapping("/reissue")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<Token>> reissueAccessToken(HttpServletRequest servletRequest) {
         Token token = authService.reissueAccessToken(servletRequest);
         String authorization = token.grantType() + " " + token.accessToken();

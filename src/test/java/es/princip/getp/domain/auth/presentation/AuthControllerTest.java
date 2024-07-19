@@ -4,7 +4,6 @@ import es.princip.getp.domain.auth.application.AuthService;
 import es.princip.getp.domain.auth.exception.LoginErrorCode;
 import es.princip.getp.domain.auth.presentation.dto.request.LoginRequest;
 import es.princip.getp.domain.auth.presentation.dto.response.Token;
-import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.presentation.ErrorCodeController;
 import es.princip.getp.infra.support.AbstractControllerTest;
@@ -20,7 +19,6 @@ import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
 import static es.princip.getp.domain.member.fixture.PasswordFixture.PASSWORD;
 import static es.princip.getp.infra.util.ErrorCodeFields.errorCodeFields;
 import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
-import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.infra.util.HeaderDescriptorHelper.refreshTokenHeaderDescriptor;
 import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.any;
@@ -96,23 +94,18 @@ class AuthControllerTest extends AbstractControllerTest {
 
         @DisplayName("로그인 유지를 할 수 있다.")
         @Test
-        @WithCustomMockUser
         void reissueAccessToken() throws Exception {
             final Token token = new Token("Bearer", "${ACCESS_TOKEN}", "${REFRESH_TOKEN}");
             given(authService.reissueAccessToken(any(HttpServletRequest.class)))
                 .willReturn(token);
 
             mockMvc.perform(post("/auth/reissue")
-                .header("Authorization", "Bearer ${ACCESS_TOKEN}")
                 .header("Refresh-Token", "Bearer ${REFRESH_TOKEN}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andDo(
                     restDocs.document(
-                        requestHeaders(
-                            authorizationHeaderDescriptor(),
-                            refreshTokenHeaderDescriptor()
-                        ),
+                        requestHeaders(refreshTokenHeaderDescriptor()),
                         responseFields(
                             getDescriptor("grantType", "토큰 타입", Token.class)
                                 .attributes(key("format").value("Bearer")),
