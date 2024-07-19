@@ -1,8 +1,8 @@
 package es.princip.getp.domain.auth.presentation;
 
 import es.princip.getp.domain.auth.application.AuthService;
-import es.princip.getp.domain.auth.dto.request.LoginRequest;
-import es.princip.getp.domain.auth.dto.response.Token;
+import es.princip.getp.domain.auth.presentation.dto.request.LoginRequest;
+import es.princip.getp.domain.auth.presentation.dto.response.Token;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
+
     private final AuthService authService;
 
     /**
@@ -45,7 +45,6 @@ public class AuthController {
      * @return 재발급 된 Access Token과 Refresh Token
      */
     @PostMapping("/reissue")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<Token>> reissueAccessToken(HttpServletRequest servletRequest) {
         Token token = authService.reissueAccessToken(servletRequest);
         String authorization = token.grantType() + " " + token.accessToken();

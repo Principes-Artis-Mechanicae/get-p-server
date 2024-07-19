@@ -1,0 +1,1 @@
+operation::/write-my-people-profile/write-my-people-profile[snippets="http-request,request-headers,request-fields,http-response"]

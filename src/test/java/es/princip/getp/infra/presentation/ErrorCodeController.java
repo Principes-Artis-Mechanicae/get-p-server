@@ -2,9 +2,9 @@ package es.princip.getp.infra.presentation;
 
 import es.princip.getp.domain.auth.exception.LoginErrorCode;
 import es.princip.getp.domain.auth.exception.SignUpErrorCode;
-import es.princip.getp.domain.storage.exception.ImageErrorCode;
 import es.princip.getp.infra.dto.response.ErrorCodeResponse;
 import es.princip.getp.infra.exception.ErrorCode;
+import es.princip.getp.infra.storage.exception.ImageErrorCode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
