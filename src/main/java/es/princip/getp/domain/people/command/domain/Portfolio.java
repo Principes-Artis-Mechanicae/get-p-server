@@ -21,12 +21,12 @@ public class Portfolio {
     @NotBlank
     private String description;
 
-    private Portfolio(URL url, String description) {
+    private Portfolio(final String description, final URL url) {
         this.url = url;
         this.description = description;
     }
 
-    public static Portfolio of(String url, String description) {
-        return new Portfolio(URL.from(url), description);
+    public static Portfolio of(final String description, final String url) {
+        return new Portfolio(description, URL.from(url));
     }
 }

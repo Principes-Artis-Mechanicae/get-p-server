@@ -8,8 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Embeddable
 @Getter
 @EqualsAndHashCode
@@ -30,11 +28,5 @@ public class TechStack {
 
     public static TechStack of(String value) {
         return new TechStack(value);
-    }
-
-    public static List<String> toDto(final List<TechStack> techStacks) {
-        return techStacks.stream()
-            .map(TechStack::getValue)
-            .toList();
     }
 }

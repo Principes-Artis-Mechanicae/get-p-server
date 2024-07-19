@@ -6,19 +6,19 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Builder
 @AllArgsConstructor
 @Table(name = "project")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Project extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
-    @Getter
     private Long projectId;
 
     // 제목
@@ -80,14 +80,47 @@ public class Project extends BaseTimeEntity {
     // 첨부 파일 목록
     @ElementCollection
     @CollectionTable(name = "project_attachment_file", joinColumns = @JoinColumn(name = "project_id"))
-    @Builder.Default
     private List<AttachmentFile> attachmentFiles = new ArrayList<>();
 
     // 해시태그 목록
     @ElementCollection
     @CollectionTable(name = "project_hashtag", joinColumns = @JoinColumn(name = "project_id"))
-    @Builder.Default
     private List<Hashtag> hashtags = new ArrayList<>();
+
+    @Builder
+    public Project(
+        String title,
+        Long payment,
+        ApplicationDuration applicationDuration,
+        EstimatedDuration estimatedDuration,
+        String description,
+        MeetingType meetingType,
+        ProjectCategory category,
+        ProjectStatus status,
+        Long clientId,
+        List<AttachmentFile> attachmentFiles,
+        List<Hashtag> hashtags
+    ) {
+        this.title = title;
+        this.payment = payment;
+        this.applicationDuration = applicationDuration;
+        this.estimatedDuration = estimatedDuration;
+        this.description = description;
+        this.meetingType = meetingType;
+        this.category = category;
+        this.status = status;
+        this.clientId = clientId;
+        this.attachmentFiles = attachmentFiles;
+        this.hashtags = hashtags;
+    }
+
+    public List<AttachmentFile> getAttachmentFiles() {
+        return Collections.unmodifiableList(attachmentFiles);
+    }
+
+    public List<Hashtag> getHashtags() {
+        return Collections.unmodifiableList(hashtags);
+    }
 
     public boolean isApplicationClosed() {
         return applicationDuration.isClosed() || status != ProjectStatus.APPLYING;

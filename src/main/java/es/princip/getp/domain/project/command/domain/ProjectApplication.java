@@ -2,15 +2,16 @@ package es.princip.getp.domain.project.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "project_application")
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectApplication extends BaseTimeEntity {
 
@@ -50,6 +51,22 @@ public class ProjectApplication extends BaseTimeEntity {
     // 첨부 파일 목록
     @ElementCollection
     @CollectionTable(name = "project_application_attachment_file", joinColumns = @JoinColumn(name = "project_application_id"))
-    @Builder.Default
     private List<AttachmentFile> attachmentFiles = new ArrayList<>();
+
+    @Builder
+    public ProjectApplication(
+        final Long applicantId,
+        final Long projectId,
+        final ExpectedDuration expectedDuration,
+        final ProjectApplicationStatus applicationStatus,
+        final String description,
+        final List<AttachmentFile> attachmentFiles
+    ) {
+        this.applicantId = applicantId;
+        this.projectId = projectId;
+        this.expectedDuration = expectedDuration;
+        this.applicationStatus = applicationStatus;
+        this.description = description;
+        this.attachmentFiles = attachmentFiles;
+    }
 }

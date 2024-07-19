@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import es.princip.getp.domain.common.domain.Hashtag;
+import lombok.ToString;
 
 import java.io.IOException;
 import java.util.List;
 
+@ToString
 @JsonSerialize(using = HashtagsResponse.HashtagsResponseSerializer.class)
 public class HashtagsResponse {
 

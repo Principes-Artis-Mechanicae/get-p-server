@@ -1,10 +1,14 @@
 package es.princip.getp.domain.project.query.presentation;
 
 import es.princip.getp.domain.common.domain.Duration;
+import es.princip.getp.domain.common.domain.Hashtag;
+import es.princip.getp.domain.common.dto.HashtagsResponse;
+import es.princip.getp.domain.project.command.domain.AttachmentFile;
 import es.princip.getp.domain.project.command.domain.MeetingType;
 import es.princip.getp.domain.project.command.domain.ProjectCategory;
 import es.princip.getp.domain.project.command.domain.ProjectStatus;
 import es.princip.getp.domain.project.query.dao.ProjectDao;
+import es.princip.getp.domain.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.domain.project.query.dto.DetailProjectResponse;
 import es.princip.getp.domain.project.query.dto.ProjectClientResponse;
 import es.princip.getp.infra.support.AbstractControllerTest;
@@ -18,10 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static es.princip.getp.domain.client.fixture.AddressFixture.address;
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagDtos;
 import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,11 +62,18 @@ class ProjectQueryControllerTest extends AbstractControllerTest {
                 MeetingType.IN_PERSON,
                 ProjectCategory.BACKEND,
                 ProjectStatus.APPLYING,
-                List.of(
-                    "https://example.com/attachment1",
-                    "https://example.com/attachment2"
+                AttachmentFilesResponse.from(
+                    List.of(
+                        AttachmentFile.from("https://example.com/attachment1"),
+                        AttachmentFile.from("https://example.com/attachment2")
+                    )
                 ),
-                hashtagDtos(),
+                HashtagsResponse.from(
+                    List.of(
+                        Hashtag.of("#해시태그1"),
+                        Hashtag.of("#해시태그2")
+                    )
+                ),
                 5L,
                 new ProjectClientResponse(
                     1L,
@@ -72,7 +81,7 @@ class ProjectQueryControllerTest extends AbstractControllerTest {
                     address()
                 )
             );
-            given(projectDao.findDetailProjectById(peopleId)).willReturn(Optional.of(response));
+            given(projectDao.findDetailProjectById(peopleId)).willReturn(response);
 
             mockMvc.perform(get("/projects/{projectId}", peopleId))
                 .andExpect(status().isOk());

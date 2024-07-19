@@ -3,16 +3,12 @@ package es.princip.getp.domain.common.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.util.List;
+import lombok.*;
 
 @Embeddable
 @Getter
 @EqualsAndHashCode
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Hashtag {
 
@@ -30,11 +26,5 @@ public class Hashtag {
 
     public static Hashtag of(String value) {
         return new Hashtag(value);
-    }
-
-    public static List<String> toDto(final List<Hashtag> hashtags) {
-        return hashtags.stream()
-            .map(Hashtag::getValue)
-            .toList();
     }
 }

@@ -14,7 +14,7 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
-        show_sql: false
+        show_sql: true
         format_sql: true
         highlight_sql: true
         use_sql_comments: true
@@ -58,8 +58,6 @@ logging:
     org:
       springframework:
         security: DEBUG
-      hibernate:
-        SQL: DEBUG
       type:
         descriptor:
           sql:

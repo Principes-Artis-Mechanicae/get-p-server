@@ -1,13 +1,11 @@
 package es.princip.getp.domain.project.query.presentation;
 
-import es.princip.getp.domain.project.exception.ProjectErrorCode;
 import es.princip.getp.domain.project.query.dao.ProjectDao;
 import es.princip.getp.domain.project.query.dto.CardProjectResponse;
 import es.princip.getp.domain.project.query.dto.DetailProjectResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.dto.response.PageResponse;
-import es.princip.getp.infra.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -48,8 +46,7 @@ public class ProjectQueryController {
     @GetMapping("/{projectId}")
     public ResponseEntity<ApiSuccessResult<DetailProjectResponse>> getProject(
         @PathVariable Long projectId) {
-        DetailProjectResponse response = projectDao.findDetailProjectById(projectId)
-            .orElseThrow(() -> new BusinessLogicException(ProjectErrorCode.NOT_FOUND));
+        DetailProjectResponse response = projectDao.findDetailProjectById(projectId);
         return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
     }
 }
