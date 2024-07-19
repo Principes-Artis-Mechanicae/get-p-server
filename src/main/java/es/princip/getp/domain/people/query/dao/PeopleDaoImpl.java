@@ -1,262 +1,169 @@
 package es.princip.getp.domain.people.query.dao;
 
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.OrderSpecifier;
-import es.princip.getp.domain.common.domain.Hashtag;
-import es.princip.getp.domain.common.domain.TechStack;
-import es.princip.getp.domain.people.command.domain.PeopleOrder;
-import es.princip.getp.domain.people.command.domain.Portfolio;
-import es.princip.getp.domain.people.query.dto.people.*;
+import com.querydsl.core.types.Projections;
+import es.princip.getp.domain.people.command.domain.PeopleProfile;
+import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
+import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.domain.people.query.dto.people.PeopleResponse;
+import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
-import es.princip.getp.domain.people.query.dto.peopleProfile.PortfolioResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
 import es.princip.getp.infra.support.QueryDslSupport;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
-import static com.querydsl.core.types.Order.ASC;
-import static com.querydsl.core.types.Order.DESC;
 import static es.princip.getp.domain.member.command.domain.model.QMember.member;
 import static es.princip.getp.domain.people.command.domain.QPeople.people;
 import static es.princip.getp.domain.people.command.domain.QPeopleProfile.peopleProfile;
+import static es.princip.getp.domain.people.query.dao.PeoplePaginationHelper.getPeopleOrderSpecifiers;
+import static java.util.stream.Collectors.toMap;
 
 @Repository
 public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
 
-    private OrderSpecifier<?> getOrderSpecifier(Order order, PeopleOrder peopleOrder) {
-        OrderSpecifier<?> orderSpecifier = new OrderSpecifier<>(DESC, people.peopleId);
-        switch (peopleOrder) {
-            case INTEREST_COUNT:
-                // TODO: 관심 수에 대하여 정렬하는 로직 추가
-                break;
-            case CREATED_AT:
-                orderSpecifier = new OrderSpecifier<>(order.isAscending() ? ASC : DESC,
-                    people.createdAt);
-                break;
-            default:
-                break;
-        }
-        return orderSpecifier;
+    private Map<Long, Tuple> findMemberAndPeopleByPeopleId(Long... peopleId) {
+        return queryFactory.select(
+            member.nickname.value,
+            member.profileImage.uri,
+            people.peopleId,
+            people.peopleType
+        )
+        .from(people)
+        .join(member)
+        .on(people.memberId.eq(member.memberId))
+        .where(people.peopleId.in(peopleId)).fetch().stream()
+        .collect(toMap(tuple -> tuple.get(people.peopleId), Function.identity()));
     }
 
-    private OrderSpecifier<?>[] getPeopleOrderSpecifiers(Sort sort) {
-        List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
-        sort.stream().forEach(order -> {
-            PeopleOrder peopleOrder = PeopleOrder.get(order.getProperty());
-            OrderSpecifier<?> orderSpecifier = getOrderSpecifier(order, peopleOrder);
-            orderSpecifiers.add(orderSpecifier);
-        });
-        return orderSpecifiers.toArray(OrderSpecifier[]::new);
-    }
-
-    private List<String> fromHashtags(List<Hashtag> hashtags) {
-        return hashtags.stream()
-            .map(Hashtag::getValue)
-            .toList();
-    }
-
-    private List<String> fromTechStacks(List<TechStack> techStacks) {
-        return techStacks.stream()
-            .map(TechStack::getValue)
-            .toList();
-    }
-
-    private List<PortfolioResponse> fromPortfolios(List<Portfolio> portfolios) {
-        return portfolios.stream()
-            .map(portfolio -> new PortfolioResponse(
-                portfolio.getDescription(),
-                portfolio.getUrl().getValue()
-            ))
-            .toList();
-    }
-
-    private List<CardPeopleResponse> getCardPeopleContent(Pageable pageable) {
-        List<Tuple> result = getQueryFactory()
-            .select(
-                people.peopleId,
-                people.peopleType,
+    private Tuple findMemberAndPeopleByPeopleId(final Long peopleId) {
+        return Optional.ofNullable(
+            queryFactory.select(
                 member.nickname.value,
                 member.profileImage.uri,
-                peopleProfile.activityArea,
-                peopleProfile.hashtags
+                people.peopleId, people.peopleType
             )
             .from(people)
             .join(member).on(people.memberId.eq(member.memberId))
-            .join(peopleProfile).on(people.peopleId.eq(peopleProfile.peopleId))
+            .where(people.peopleId.eq(peopleId))
+            .fetchOne()
+        )
+        .orElseThrow();
+    }
+
+    private List<CardPeopleResponse> getCardPeopleContent(Pageable pageable) {
+        List<PeopleProfile> result = queryFactory.selectFrom(peopleProfile)
             .orderBy(getPeopleOrderSpecifiers(pageable.getSort()))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
 
-        return result.stream()
-            .map(tuple -> new CardPeopleResponse(
-                tuple.get(people.peopleId),
-                tuple.get(people.peopleType),
-                new PeopleMemberResponse(
-                    tuple.get(member.nickname.value),
-                    tuple.get(member.profileImage.uri)
-                ),
-                new CardPeopleProfileResponse(
-                    tuple.get(peopleProfile.activityArea),
-                    fromHashtags(tuple.get(peopleProfile.hashtags)),
-                    0,
-                    0
-                )
-            ))
-            .toList();
+        Long[] peopleIds = result.stream()
+            .map(PeopleProfile::getPeopleId)
+            .toArray(Long[]::new);
+
+        Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);
+
+        return result.stream().map(profile -> {
+            final Long peopleId = profile.getPeopleId();
+            return new CardPeopleResponse(
+                peopleId,
+                memberAndPeople.get(peopleId).get(member.nickname.value),
+                memberAndPeople.get(peopleId).get(member.profileImage.uri),
+                memberAndPeople.get(peopleId).get(people.peopleType),
+                CardPeopleProfileResponse.from(profile)
+            );
+        }).toList();
     }
 
     @Override
     public Page<CardPeopleResponse> findCardPeoplePage(Pageable pageable) {
-        return applyPagination(pageable,
+        return applyPagination(
+            pageable,
             getCardPeopleContent(pageable),
-            countQuery -> countQuery.select(people.count()).from(people));
+            queryFactory -> queryFactory.select(peopleProfile.count()).from(peopleProfile)
+        );
     }
 
     @Override
-    public Optional<DetailPeopleResponse> findDetailPeopleById(Long peopleId) {
-        Tuple result = getQueryFactory()
-            .select(
-                people.peopleId,
-                people.peopleType,
-                member.nickname.value,
-                member.profileImage.uri,
-                peopleProfile.introduction,
-                peopleProfile.activityArea,
-                peopleProfile.techStacks,
-                peopleProfile.education,
-                peopleProfile.hashtags,
-                peopleProfile.portfolios
+    public DetailPeopleResponse findDetailPeopleById(Long peopleId) {
+        PeopleProfile result = Optional.ofNullable(
+                queryFactory.selectFrom(peopleProfile)
+                    .where(peopleProfile.peopleId.eq(peopleId))
+                    .fetchOne()
+            )
+            .orElseThrow();
+
+        Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId);
+
+        return new DetailPeopleResponse(
+            peopleId,
+            memberAndPeople.get(member.nickname.value),
+            memberAndPeople.get(member.profileImage.uri),
+            memberAndPeople.get(people.peopleType),
+            DetailPeopleProfileResponse.from(result)
+        );
+    }
+
+    @Override
+    public PublicDetailPeopleResponse findPublicDetailPeopleById(Long peopleId) {
+        final PeopleProfile profile = Optional.ofNullable(
+                queryFactory.selectFrom(peopleProfile)
+                    .where(peopleProfile.peopleId.eq(peopleId))
+                    .fetchOne()
+            )
+            .orElseThrow();
+
+        final Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId);
+
+        return new PublicDetailPeopleResponse(
+            peopleId,
+            memberAndPeople.get(member.nickname.value),
+            memberAndPeople.get(member.profileImage.uri),
+            memberAndPeople.get(people.peopleType),
+            PublicDetailPeopleProfileResponse.from(profile)
+        );
+    }
+
+    @Override
+    public PeopleResponse findByMemberId(final Long memberId) {
+        return Optional.ofNullable(
+            queryFactory.select(
+                Projections.constructor(
+                    PeopleResponse.class,
+                    people.peopleId,
+                    people.email.value,
+                    member.nickname.value,
+                    member.profileImage.uri,
+                    people.peopleType,
+                    people.createdAt,
+                    people.updatedAt
+                )
             )
             .from(people)
             .join(member).on(people.memberId.eq(member.memberId))
-            .join(peopleProfile).on(people.peopleId.eq(peopleProfile.peopleId))
-            .where(people.peopleId.eq(peopleId))
-            .fetchOne();
-
-        if (result == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(new DetailPeopleResponse(
-            result.get(people.peopleId),
-            result.get(people.peopleType),
-            new PeopleMemberResponse(
-                result.get(member.nickname.value),
-                result.get(member.profileImage.uri)
-            ),
-            new DetailPeopleProfileResponse(
-                result.get(peopleProfile.introduction),
-                result.get(peopleProfile.activityArea),
-                fromTechStacks(result.get(peopleProfile.techStacks)),
-                result.get(peopleProfile.education),
-                fromHashtags(result.get(peopleProfile.hashtags)),
-                0,
-                0,
-                fromPortfolios(result.get(peopleProfile.portfolios))
-            )
-        ));
-    }
-
-    @Override
-    public Optional<PublicDetailPeopleResponse> findPublicDetailPeopleById(Long peopleId) {
-        Tuple result = getQueryFactory()
-            .select(
-                people.peopleId,
-                people.peopleType,
-                member.nickname.value,
-                member.profileImage.uri,
-                peopleProfile.hashtags
-            )
-            .from(people)
-            .join(member).on(people.memberId.eq(member.memberId))
-            .join(peopleProfile).on(people.peopleId.eq(peopleProfile.peopleId))
-            .where(people.peopleId.eq(peopleId))
-            .fetchOne();
-
-        if (result == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(new PublicDetailPeopleResponse(
-            result.get(people.peopleId),
-            result.get(people.peopleType),
-            new PeopleMemberResponse(
-                result.get(member.nickname.value),
-                result.get(member.profileImage.uri)
-            ),
-            new PublicDetailPeopleProfileResponse(
-                fromHashtags(result.get(peopleProfile.hashtags)),
-                0,
-                0
-            )
-        ));
-    }
-
-    @Override
-    public Optional<PeopleResponse> findByMemberId(final Long memberId) {
-        Tuple result = getQueryFactory()
-            .select(
-                people.peopleId,
-                people.email.value,
-                people.peopleType,
-                people.createdAt,
-                people.updatedAt
-            )
-            .from(people)
             .where(people.memberId.eq(memberId))
-            .fetchOne();
-
-        if (result == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(new PeopleResponse(
-            result.get(people.peopleId),
-            result.get(people.email.value),
-            result.get(people.peopleType),
-            result.get(people.createdAt),
-            result.get(people.updatedAt)
-        ));
+            .fetchOne()
+        )
+        .orElseThrow();
     }
 
     @Override
-    public Optional<DetailPeopleProfileResponse> findDetailPeopleProfileByMemberId(final Long memberId) {
-        Tuple result = getQueryFactory()
-            .select(
-                peopleProfile.introduction,
-                peopleProfile.activityArea,
-                peopleProfile.techStacks,
-                peopleProfile.education,
-                peopleProfile.hashtags,
-                peopleProfile.portfolios
+    public DetailPeopleProfileResponse findDetailPeopleProfileByMemberId(final Long memberId) {
+        return DetailPeopleProfileResponse.from(
+            Optional.ofNullable(
+                queryFactory.selectFrom(peopleProfile)
+                    .where(peopleProfile.peopleId.eq(memberId))
+                    .fetchOne()
             )
-            .from(peopleProfile)
-            .join(people).on(peopleProfile.peopleId.eq(people.peopleId))
-            .where(people.peopleId.eq(memberId))
-            .fetchOne();
-
-        if (result == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(new DetailPeopleProfileResponse(
-            result.get(peopleProfile.introduction),
-            result.get(peopleProfile.activityArea),
-            fromTechStacks(result.get(peopleProfile.techStacks)),
-            result.get(peopleProfile.education),
-            fromHashtags(result.get(peopleProfile.hashtags)),
-            0,
-            0,
-            fromPortfolios(result.get(peopleProfile.portfolios))
-        ));
+            .orElseThrow()
+        );
     }
 }

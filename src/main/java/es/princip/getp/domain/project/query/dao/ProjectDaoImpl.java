@@ -31,7 +31,7 @@ public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
     }
 
     private List<CardProjectResponse> getProjectContent(Pageable pageable) {
-        List<Tuple> result = getQueryFactory().select(
+        List<Tuple> result = queryFactory.select(
                 project.projectId,
                 project.title,
                 project.payment,
@@ -86,7 +86,7 @@ public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
 
     @Override
     public Optional<DetailProjectResponse> findDetailProjectById(final Long projectId) {
-        Tuple result = getQueryFactory().select(
+        Tuple result = queryFactory.select(
                 project.projectId,
                 project.title,
                 project.payment,

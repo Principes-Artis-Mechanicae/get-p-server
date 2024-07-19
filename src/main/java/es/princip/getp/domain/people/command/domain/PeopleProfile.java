@@ -5,17 +5,17 @@ import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.common.domain.TechStack;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class PeopleProfile extends BaseTimeEntity {
 
     @Id
@@ -26,7 +26,7 @@ public class PeopleProfile extends BaseTimeEntity {
     @Column(name = "introduction")
     private String introduction;
 
-    @Column(name = "activity_area")
+    @Column(name = "activity_area", nullable = false)
     private String activityArea;
 
     @Embedded
@@ -34,21 +34,56 @@ public class PeopleProfile extends BaseTimeEntity {
 
     @ElementCollection
     @CollectionTable(name = "people_profile_hashtag", joinColumns = @JoinColumn(name = "people_profile_id"))
-    @Builder.Default
     private List<Hashtag> hashtags = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "people_profile_tech_stack", joinColumns = @JoinColumn(name = "people_profile_id"))
-    @Builder.Default
     private List<TechStack> techStacks = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "people_profile_portfolio", joinColumns = @JoinColumn(name = "people_profile_id"))
-    @Builder.Default
     private List<Portfolio> portfolios = new ArrayList<>();
 
-    @Column(name = "people_id")
+    @Column(name = "people_id", nullable = false, unique = true)
     private Long peopleId;
+
+    @Builder
+    public PeopleProfile(
+        final String introduction,
+        final String activityArea,
+        final Education education,
+        final List<Hashtag> hashtags,
+        final List<TechStack> techStacks,
+        final List<Portfolio> portfolios,
+        final Long peopleId
+    ) {
+        setIntroduction(introduction);
+        setActivityArea(activityArea);
+        setEducation(education);
+        setHashtags(hashtags);
+        setTechStacks(techStacks);
+        setPortfolios(portfolios);
+        setPeopleId(peopleId);
+    }
+
+    public List<Hashtag> getHashtags() {
+        return Collections.unmodifiableList(hashtags);
+    }
+
+    public List<TechStack> getTechStacks() {
+        return Collections.unmodifiableList(techStacks);
+    }
+
+    public List<Portfolio> getPortfolios() {
+        return Collections.unmodifiableList(portfolios);
+    }
+
+    private void setPeopleId(final Long peopleId) {
+        if (peopleId == null) {
+            throw new IllegalArgumentException("peopleId must not be null");
+        }
+        this.peopleId = peopleId;
+    }
 
     private void setIntroduction(final String introduction) {
         this.introduction = introduction;

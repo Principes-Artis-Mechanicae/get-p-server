@@ -10,18 +10,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "people")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class People extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "people_id")
-    @Getter
     private Long peopleId;
 
     @Column(name = "email")
@@ -32,7 +33,6 @@ public class People extends BaseTimeEntity {
     private PeopleType peopleType;
 
     @Column(name = "member_id")
-    @Getter
     private Long memberId;
 
     @ElementCollection
@@ -51,6 +51,10 @@ public class People extends BaseTimeEntity {
         this.email = email;
         this.peopleType = peopleType;
         this.memberId = memberId;
+    }
+
+    public Set<Long> getLikedProjects() {
+        return Collections.unmodifiableSet(likedProjects);
     }
 
     private void setEmail(Email email) {

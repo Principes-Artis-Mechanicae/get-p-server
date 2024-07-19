@@ -1,6 +1,8 @@
 package es.princip.getp.infra.annotation;
 
-import es.princip.getp.infra.config.QueryDslTestConfig;
+import es.princip.getp.infra.config.DataLoaderConfig;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
@@ -15,7 +17,8 @@ import java.lang.annotation.Target;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-@Import(QueryDslTestConfig.class)
+@Import(DataLoaderConfig.class)
+@Execution(ExecutionMode.SAME_THREAD)
 @Testcontainers
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})

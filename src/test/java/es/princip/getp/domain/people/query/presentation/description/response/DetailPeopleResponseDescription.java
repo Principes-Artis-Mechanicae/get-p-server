@@ -13,8 +13,8 @@ public class DetailPeopleResponseDescription {
             getDescriptor("peopleId", "피플 ID"),
             getDescriptor("peopleType", "피플 유형")
                 .attributes(key("format").value("TEAM, INDIVIDUAL")),
-            getDescriptor("member.nickname", "닉네임"),
-            getDescriptor("member.profileImageUri", "프로필 이미지 URI"),
+            getDescriptor("nickname", "닉네임"),
+            getDescriptor("profileImageUri", "프로필 이미지 URI"),
             getDescriptor("profile.introduction", "소개"),
             getDescriptor("profile.activityArea", "활동 지역"),
             getDescriptor("profile.techStacks[]", "기술 스택"),

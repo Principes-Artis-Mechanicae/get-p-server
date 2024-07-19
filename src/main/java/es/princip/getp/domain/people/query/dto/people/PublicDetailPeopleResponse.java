@@ -5,8 +5,10 @@ import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleP
 
 public record PublicDetailPeopleResponse(
     Long peopleId,
+    String nickname,
+    String profileImageUri,
     PeopleType peopleType,
-    PeopleMemberResponse member,
     PublicDetailPeopleProfileResponse profile
 ) {
+
 }

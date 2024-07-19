@@ -25,7 +25,7 @@ import java.util.function.Function;
 public abstract class QueryDslSupport {
 
     private EntityManager entityManager;
-    private JPAQueryFactory queryFactory;
+    protected JPAQueryFactory queryFactory;
 
     @Autowired
     public void setEntityManager(EntityManager entityManager) {
@@ -40,16 +40,12 @@ public abstract class QueryDslSupport {
         Assert.notNull(queryFactory, "QueryFactory must not be null!");
     }
 
-    protected JPAQueryFactory getQueryFactory() {
-        return queryFactory;
-    }
-
     protected <T> Page<T> applyPagination(
         final Pageable pageable,
         final List<T> content,
         final Function<JPAQueryFactory, JPAQuery<Long>> countQuery
     ) {
-        JPAQuery<Long> countResult = countQuery.apply(getQueryFactory());
+        JPAQuery<Long> countResult = countQuery.apply(queryFactory);
         return PageableExecutionUtils.getPage(content, pageable, countResult::fetchOne);
     }
 }

@@ -1,10 +1,19 @@
 package es.princip.getp.domain.people.query.dto.peopleProfile;
 
-import java.util.List;
+import es.princip.getp.domain.common.dto.HashtagsResponse;
+import es.princip.getp.domain.people.command.domain.PeopleProfile;
 
 public record PublicDetailPeopleProfileResponse(
-    List<String> hashtags,
     Integer completedProjectsCount,
-    Integer interestsCount
+    Integer interestsCount,
+    HashtagsResponse hashtags
 ) {
+
+    public static PublicDetailPeopleProfileResponse from(final PeopleProfile profile) {
+        return new PublicDetailPeopleProfileResponse(
+            0,
+            0,
+            HashtagsResponse.from(profile.getHashtags())
+        );
+    }
 }

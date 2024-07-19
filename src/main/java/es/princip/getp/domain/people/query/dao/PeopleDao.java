@@ -8,17 +8,15 @@ import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfile
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
-
 public interface PeopleDao {
 
     Page<CardPeopleResponse> findCardPeoplePage(Pageable pageable);
 
-    Optional<DetailPeopleResponse> findDetailPeopleById(Long peopleId);
+    DetailPeopleResponse findDetailPeopleById(Long peopleId);
 
-    Optional<PublicDetailPeopleResponse> findPublicDetailPeopleById(Long peopleId);
+    PublicDetailPeopleResponse findPublicDetailPeopleById(Long peopleId);
 
-    Optional<PeopleResponse> findByMemberId(Long memberId);
+    PeopleResponse findByMemberId(Long memberId);
 
-    Optional<DetailPeopleProfileResponse> findDetailPeopleProfileByMemberId(Long memberId);
+    DetailPeopleProfileResponse findDetailPeopleProfileByMemberId(Long memberId);
 }

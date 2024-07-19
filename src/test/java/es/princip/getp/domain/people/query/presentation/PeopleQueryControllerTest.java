@@ -5,7 +5,6 @@ import es.princip.getp.domain.people.command.presentation.PeopleErrorCodeControl
 import es.princip.getp.domain.people.query.dao.PeopleDao;
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.domain.people.query.dto.people.PeopleMemberResponse;
 import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
@@ -23,17 +22,16 @@ import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
-import java.util.Optional;
 
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagDtos;
-import static es.princip.getp.domain.common.fixture.TechStackFixture.techStackDtos;
+import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.domain.common.fixture.TechStackFixture.techStacksResponse;
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
 import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
 import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;
 import static es.princip.getp.domain.people.fixture.EducationFixture.education;
 import static es.princip.getp.domain.people.fixture.IntroductionFixture.introduction;
-import static es.princip.getp.domain.people.fixture.PortfolioFixture.portfolioResponses;
+import static es.princip.getp.domain.people.fixture.PortfolioFixture.portfoliosResponse;
 import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.infra.util.PageResponseDescriptor.pageResponseFieldDescriptors;
@@ -51,13 +49,6 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
 
     @MockBean
     private PeopleDao peopleDao;
-
-    private PeopleMemberResponse peopleMemberResponse() {
-        return new PeopleMemberResponse(
-            NICKNAME,
-            profileImage(1L).getUri()
-        );
-    }
 
     @DisplayName("사용자는 피플 목록을 조회할 수 있다.")
     @Nested
@@ -80,13 +71,14 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
             List<CardPeopleResponse> content = List.of(
                 new CardPeopleResponse(
                     1L,
+                    NICKNAME,
+                    profileImage(1L).getUri(),
                     PeopleType.INDIVIDUAL,
-                    peopleMemberResponse(),
                     new CardPeopleProfileResponse(
                         activityArea(),
-                        hashtagDtos(),
                         0,
-                        0
+                        0,
+                        hashtagsResponse()
                     )
                 )
             );
@@ -109,8 +101,8 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
                             getDescriptor("content[].peopleId", "피플 ID"),
                             getDescriptor("content[].peopleType", "피플 유형")
                                 .attributes(key("format").value("TEAM, INDIVIDUAL")),
-                            getDescriptor("content[].member.nickname", "닉네임"),
-                            getDescriptor("content[].member.profileImageUri", "프로필 이미지 URI"),
+                            getDescriptor("content[].nickname", "닉네임"),
+                            getDescriptor("content[].profileImageUri", "프로필 이미지 URI"),
                             getDescriptor("content[].profile.activityArea", "활동 지역"),
                             getDescriptor("content[].profile.hashtags[]", "해시태그"),
                             getDescriptor("content[].profile.completedProjectsCount", "완수한 프로젝트 수"),
@@ -141,15 +133,16 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
         public void getPeople_WhenUserNotLogined() throws Exception {
             PublicDetailPeopleResponse response = new PublicDetailPeopleResponse(
                 peopleId,
+                NICKNAME,
+                profileImage(1L).getUri(),
                 PeopleType.INDIVIDUAL,
-                peopleMemberResponse(),
                 new PublicDetailPeopleProfileResponse(
-                    hashtagDtos(),
                     0,
-                    0
+                    0,
+                    hashtagsResponse()
                 )
             );
-            given(peopleDao.findPublicDetailPeopleById(peopleId)).willReturn(Optional.of(response));
+            given(peopleDao.findPublicDetailPeopleById(peopleId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())
@@ -166,20 +159,21 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
         public void getPeople_WhenUserLogined() throws Exception {
             DetailPeopleResponse response = new DetailPeopleResponse(
                 1L,
+                NICKNAME,
+                profileImage(1L).getUri(),
                 PeopleType.INDIVIDUAL,
-                peopleMemberResponse(),
                 new DetailPeopleProfileResponse(
                     introduction(),
                     activityArea(),
-                    techStackDtos(),
                     education(),
-                    hashtagDtos(),
                     0,
                     0,
-                    portfolioResponses()
+                    techStacksResponse(),
+                    hashtagsResponse(),
+                    portfoliosResponse()
                 )
             );
-            given(peopleDao.findDetailPeopleById(peopleId)).willReturn(Optional.of(response));
+            given(peopleDao.findDetailPeopleById(peopleId)).willReturn(response);
 
             performWithAccessToken()
                 .andExpect(status().isOk())

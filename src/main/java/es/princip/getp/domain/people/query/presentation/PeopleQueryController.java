@@ -1,6 +1,5 @@
 package es.princip.getp.domain.people.query.presentation;
 
-import es.princip.getp.domain.people.exception.PeopleErrorCode;
 import es.princip.getp.domain.people.query.dao.PeopleDao;
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
@@ -8,7 +7,6 @@ import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.dto.response.PageResponse;
-import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.support.ControllerSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -37,17 +35,11 @@ public class PeopleQueryController extends ControllerSupport {
     @GetMapping("/{peopleId}")
     public ResponseEntity<ApiSuccessResult<?>> getPeople(@PathVariable Long peopleId) {
         if (isAuthenticated()) {
-            DetailPeopleResponse response = peopleDao.findDetailPeopleById(peopleId)
-                .orElseThrow(
-                    () -> new BusinessLogicException(PeopleErrorCode.NOT_FOUND)
-                );
+            DetailPeopleResponse response = peopleDao.findDetailPeopleById(peopleId);
             return ResponseEntity.ok()
                 .body(ApiResponse.success(HttpStatus.OK, response));
         }
-        PublicDetailPeopleResponse response = peopleDao.findPublicDetailPeopleById(peopleId)
-            .orElseThrow(
-                () -> new BusinessLogicException(PeopleErrorCode.NOT_FOUND)
-            );
+        PublicDetailPeopleResponse response = peopleDao.findPublicDetailPeopleById(peopleId);
         return ResponseEntity.ok()
             .body(ApiResponse.success(HttpStatus.OK, response));
     }

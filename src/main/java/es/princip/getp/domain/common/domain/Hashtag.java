@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Embeddable
 @Getter
 @EqualsAndHashCode
@@ -28,5 +30,11 @@ public class Hashtag {
 
     public static Hashtag of(String value) {
         return new Hashtag(value);
+    }
+
+    public static List<String> toDto(final List<Hashtag> hashtags) {
+        return hashtags.stream()
+            .map(Hashtag::getValue)
+            .toList();
     }
 }

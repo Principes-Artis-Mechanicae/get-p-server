@@ -14,14 +14,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagDtos;
-import static es.princip.getp.domain.common.fixture.TechStackFixture.techStackDtos;
+import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsRequest;
+import static es.princip.getp.domain.common.fixture.TechStackFixture.techStacksRequest;
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_CLIENT;
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;
 import static es.princip.getp.domain.people.fixture.EducationFixture.education;
 import static es.princip.getp.domain.people.fixture.IntroductionFixture.introduction;
-import static es.princip.getp.domain.people.fixture.PortfolioFixture.portfolioRequests;
+import static es.princip.getp.domain.people.fixture.PortfolioFixture.portfoliosRequest;
 import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -46,9 +46,9 @@ class MyPeopleProfileControllerTest extends AbstractControllerTest {
             education(),
             activityArea(),
             introduction(),
-            techStackDtos(),
-            portfolioRequests(),
-            hashtagDtos()
+            techStacksRequest(),
+            portfoliosRequest(),
+            hashtagsRequest()
         );
 
         private ResultActions perform() throws Exception {
@@ -87,9 +87,9 @@ class MyPeopleProfileControllerTest extends AbstractControllerTest {
             education(),
             activityArea(),
             introduction(),
-            techStackDtos(),
-            portfolioRequests(),
-            hashtagDtos()
+            techStacksRequest(),
+            portfoliosRequest(),
+            hashtagsRequest()
         );
 
         private ResultActions perform() throws Exception {

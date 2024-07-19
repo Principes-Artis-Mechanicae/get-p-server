@@ -13,16 +13,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.Optional;
-
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagDtos;
-import static es.princip.getp.domain.common.fixture.TechStackFixture.techStackDtos;
+import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.domain.common.fixture.TechStackFixture.techStacksResponse;
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_CLIENT;
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;
 import static es.princip.getp.domain.people.fixture.EducationFixture.education;
 import static es.princip.getp.domain.people.fixture.IntroductionFixture.introduction;
-import static es.princip.getp.domain.people.fixture.PortfolioFixture.portfolioResponses;
+import static es.princip.getp.domain.people.fixture.PortfolioFixture.portfoliosResponse;
 import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
 import static org.mockito.BDDMockito.given;
@@ -54,14 +52,14 @@ class MyPeopleProfileQueryControllerTest extends AbstractControllerTest {
             DetailPeopleProfileResponse response = new DetailPeopleProfileResponse(
                 introduction(),
                 activityArea(),
-                techStackDtos(),
                 education(),
-                hashtagDtos(),
                 0,
                 0,
-                portfolioResponses()
+                techStacksResponse(),
+                hashtagsResponse(),
+                portfoliosResponse()
             );
-            given(peopleDao.findDetailPeopleProfileByMemberId(memberId)).willReturn(Optional.of(response));
+            given(peopleDao.findDetailPeopleProfileByMemberId(memberId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

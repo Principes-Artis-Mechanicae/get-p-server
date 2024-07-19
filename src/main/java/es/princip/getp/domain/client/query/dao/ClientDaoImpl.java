@@ -33,8 +33,7 @@ public class ClientDaoImpl extends QueryDslSupport implements ClientDao {
 
     @Override
     public Optional<ClientResponse> findById(final Long clientId) {
-        Tuple result = getQueryFactory()
-            .select(
+        Tuple result = queryFactory.select(
                 client.clientId,
                 member.nickname.value,
                 member.phoneNumber.value,
@@ -55,8 +54,7 @@ public class ClientDaoImpl extends QueryDslSupport implements ClientDao {
 
     @Override
     public Optional<ClientResponse> findByMemberId(final Long memberId) {
-        Tuple result = getQueryFactory()
-            .select(
+        Tuple result = queryFactory.select(
                 client.clientId,
                 member.nickname.value,
                 member.phoneNumber.value,
