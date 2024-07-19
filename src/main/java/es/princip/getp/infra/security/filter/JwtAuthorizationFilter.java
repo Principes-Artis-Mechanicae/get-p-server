@@ -1,6 +1,5 @@
 package es.princip.getp.infra.security.filter;
 
-import es.princip.getp.domain.member.application.MemberService;
 import es.princip.getp.infra.security.provider.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,7 +15,6 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends GenericFilterBean {
-    private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
@@ -29,8 +27,7 @@ public class JwtAuthorizationFilter extends GenericFilterBean {
         }
         String token = jwtTokenProvider.resolveAccessToken(servletRequest);
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            Authentication authentication
-                    = jwtTokenProvider.getAuthentication(token, memberService);
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);

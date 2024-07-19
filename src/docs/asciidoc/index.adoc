@@ -21,14 +21,15 @@ include::{docdir}/auth/login.adoc[]
 include::{docdir}/auth/send-email-verification-code-for-sign-up.adoc[]
 
 === Access Token 및 Refresh Token 재발급
+
+Access Token 및 Refresh Token 재발급 시 기존의 토큰들은 만료 처리가 됩니다. 새로운 토큰을 사용해주세요.
+
 include::{docdir}/auth/reissue-access-token.adoc[]
 
 == 사용자
 
-=== 내 사용자 정보 조회
-include::{docdir}/member/get-my-member.adoc[]
-
 === 내 프로필 사진 등록
+
 include::{docdir}/member/upload-profile-image.adoc[]
 
 == 피플
@@ -49,10 +50,10 @@ include::{docdir}/my-people/get-my-people.adoc[]
 include::{docdir}/my-people/update-my-people.adoc[]
 
 === 내 피플 프로필 등록
-include::{docdir}/my-people-profile/create-my-people-profile.adoc[]
+include::{docdir}/my-people-profile/write-my-people-profile.adoc[]
 
 === 내 피플 프로필 조회
 include::{docdir}/my-people-profile/get-my-people-profile.adoc[]
 
 === 내 피플 프로필 수정
-include::{docdir}/my-people-profile/update-my-people-profile.adoc[]
+include::{docdir}/my-people-profile/edit-my-people-profile.adoc[]

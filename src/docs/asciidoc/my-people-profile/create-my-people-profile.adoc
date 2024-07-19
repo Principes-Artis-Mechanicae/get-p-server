@@ -1,1 +1,0 @@
-operation::/create-my-people-profile/create-my-people-profile[snippets="http-request,request-headers,request-fields,http-response"]

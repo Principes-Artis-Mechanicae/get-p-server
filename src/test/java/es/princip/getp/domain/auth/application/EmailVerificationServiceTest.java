@@ -3,6 +3,7 @@ package es.princip.getp.domain.auth.application;
 import es.princip.getp.domain.auth.domain.EmailVerification;
 import es.princip.getp.domain.auth.domain.EmailVerificationRepository;
 import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
+import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static es.princip.getp.domain.auth.fixture.EmailVerificationFixture.createEmailVerification;
+import static es.princip.getp.domain.auth.fixture.EmailVerificationFixture.emailVerification;
+import static es.princip.getp.domain.member.fixture.EmailFixture.email;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,6 +26,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EmailVerificationServiceTest {
+
     @Mock
     private EmailService emailService;
 
@@ -49,26 +52,25 @@ class EmailVerificationServiceTest {
         @DisplayName("이메일 인증 코드를 전송한다.")
         @Test
         void sendVerificationCode() {
-            String email = "test@example.com";
+            final Email email = email();
 
             emailVerificationService.sendEmailVerificationCode(email);
 
-            verify(emailService, times(1)).sendEmail(eq(email), any(), any());
+            verify(emailService, times(1)).sendEmail(eq(email), anyString(), anyString());
             verify(emailVerificationRepository, times(1)).save(any(EmailVerification.class));
         }
 
         @DisplayName("이메일 인증 코드를 중복해서 전송하는 경우 기존의 이메일 인증 코드는 삭제한다.")
         @Test
         void sendVerificationCodeSeveralTimes() {
-            String email = "test@example.com";
-            String oldVerificationCode = "1234";
-            EmailVerification emailVerification = createEmailVerification(email, oldVerificationCode);
-            when(emailVerificationRepository.findById(email)).thenReturn(Optional.of(emailVerification));
+            final Email email = email();
+            EmailVerification emailVerification = spy(EmailVerification.class);
+            when(emailVerificationRepository.findById(email.getValue())).thenReturn(Optional.of(emailVerification));
 
             emailVerificationService.sendEmailVerificationCode(email);
 
-            verify(emailVerificationRepository, times(1)).deleteById(email);
-            verify(emailService, times(1)).sendEmail(eq(email), any(), any());
+            verify(emailVerificationRepository, times(1)).deleteById(email.getValue());
+            verify(emailService, times(1)).sendEmail(eq(email), anyString(), anyString());
             verify(emailVerificationRepository, times(1)).save(any(EmailVerification.class));
         }
     }
@@ -79,10 +81,10 @@ class EmailVerificationServiceTest {
         @DisplayName("이메일을 인증한다.")
         @Test
         void verifyEmail() {
-            String email = "test@example.com";
+            final Email email = email();
             String verificationCode = "1234";
-            EmailVerification emailVerification = createEmailVerification(email, verificationCode);
-            when(emailVerificationRepository.findById(email)).thenReturn(Optional.of(emailVerification));
+            EmailVerification emailVerification = emailVerification(email, verificationCode);
+            when(emailVerificationRepository.findById(email.getValue())).thenReturn(Optional.of(emailVerification));
 
             emailVerificationService.verifyEmail(email, verificationCode);
 
@@ -92,8 +94,8 @@ class EmailVerificationServiceTest {
         @DisplayName("유효하지 않은 이메일 인증인 경우 실패한다.")
         @Test
         void verifyEmail_WhenEmailVerificationIsInvalid_ShouldThrowException() {
-            String email = "test@example.com";
-            when(emailVerificationRepository.findById(email)).thenReturn(Optional.empty());
+            final Email email = email();
+            when(emailVerificationRepository.findById(email.getValue())).thenReturn(Optional.empty());
 
             BusinessLogicException exception =
                 assertThrows(BusinessLogicException.class, () -> emailVerificationService.verifyEmail(email, "1234"));
@@ -103,10 +105,10 @@ class EmailVerificationServiceTest {
         @DisplayName("이메일 인증 코드가 일치하지 않은 경우 실패한다.")
         @Test
         void verifyEmail_WhenVerificationCodeIsIncorrect_ShouldThrowException() {
-            String email = "test@example.com";
+            final Email email = email();
             String verificationCode = "5678";
-            EmailVerification emailVerification = createEmailVerification(email, verificationCode);
-            when(emailVerificationRepository.findById(email)).thenReturn(Optional.of(emailVerification));
+            EmailVerification emailVerification = emailVerification(email, verificationCode);
+            when(emailVerificationRepository.findById(email.getValue())).thenReturn(Optional.of(emailVerification));
 
             BusinessLogicException exception =
                 assertThrows(BusinessLogicException.class, () -> emailVerificationService.verifyEmail(email, "1234"));
