@@ -30,12 +30,11 @@ public class MyPeopleProfileController {
     @PostMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> createMyPeopleProfile(
-        @RequestBody @Valid WritePeopleProfileRequest request,
-        @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long memberId = principalDetails.getMember().getMemberId();
+        @RequestBody @Valid final WritePeopleProfileRequest request,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails) {
+        final Long memberId = principalDetails.getMember().getMemberId();
         peopleProfileService.writeProfile(memberId, request);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED));
+        return ApiResponse.success(HttpStatus.CREATED);
     }
 
     /**
@@ -47,11 +46,10 @@ public class MyPeopleProfileController {
     @PutMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> updateMyPeopleProfile(
-            @RequestBody @Valid EditPeopleProfileRequest request,
-            @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long memberId = principalDetails.getMember().getMemberId();
+            @RequestBody @Valid final EditPeopleProfileRequest request,
+            @AuthenticationPrincipal final PrincipalDetails principalDetails) {
+        final Long memberId = principalDetails.getMember().getMemberId();
         peopleProfileService.editProfile(memberId, request);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED));
+        return ApiResponse.success(HttpStatus.CREATED);
     }
 }

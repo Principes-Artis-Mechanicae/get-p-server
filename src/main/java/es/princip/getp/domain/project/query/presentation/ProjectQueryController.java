@@ -31,9 +31,9 @@ public class ProjectQueryController {
      */
     @GetMapping
     public ResponseEntity<ApiSuccessResult<PageResponse<CardProjectResponse>>> getProjects(
-        @PageableDefault(sort = "PROJECT_ID", direction = Sort.Direction.DESC) Pageable pageable) {
-        PageResponse<CardProjectResponse> response = PageResponse.from(projectDao.findCardProjectPage(pageable));
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+        @PageableDefault(sort = "PROJECT_ID", direction = Sort.Direction.DESC) final Pageable pageable) {
+        final PageResponse<CardProjectResponse> response = PageResponse.from(projectDao.findCardProjectPage(pageable));
+        return ApiResponse.success(HttpStatus.OK, response);
     }
 
     /**
@@ -45,8 +45,8 @@ public class ProjectQueryController {
     //TODO: 비로그인 사용자의 경우 특정 필드 내용에 대한 필터 처리가 필요함
     @GetMapping("/{projectId}")
     public ResponseEntity<ApiSuccessResult<DetailProjectResponse>> getProject(
-        @PathVariable Long projectId) {
-        DetailProjectResponse response = projectDao.findDetailProjectById(projectId);
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+        @PathVariable final Long projectId) {
+        final DetailProjectResponse response = projectDao.findDetailProjectById(projectId);
+        return ApiResponse.success(HttpStatus.OK, response);
     }
 }

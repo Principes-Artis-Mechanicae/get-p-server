@@ -30,12 +30,12 @@ public class AuthController {
      * @return 로그인 한 회원의 Access Token과 Refresh Token
      */
     @PostMapping("/login")
-    public ResponseEntity<ApiSuccessResult<Token>> login(@RequestBody @Valid LoginRequest request) {
-        Token token = authService.login(request);
-        String authorization = token.grantType() + " " + token.accessToken();
+    public ResponseEntity<ApiSuccessResult<Token>> login(@RequestBody @Valid final LoginRequest request) {
+        final Token token = authService.login(request);
+        final String authorization = token.grantType() + " " + token.accessToken();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.AUTHORIZATION, authorization)
-                .body(ApiResponse.success(HttpStatus.CREATED, token));
+                .body(ApiResponse.body(HttpStatus.CREATED, token));
     }
 
     /**
@@ -45,11 +45,11 @@ public class AuthController {
      * @return 재발급 된 Access Token과 Refresh Token
      */
     @PostMapping("/reissue")
-    public ResponseEntity<ApiSuccessResult<Token>> reissueAccessToken(HttpServletRequest servletRequest) {
-        Token token = authService.reissueAccessToken(servletRequest);
-        String authorization = token.grantType() + " " + token.accessToken();
+    public ResponseEntity<ApiSuccessResult<Token>> reissueAccessToken(final HttpServletRequest servletRequest) {
+        final Token token = authService.reissueAccessToken(servletRequest);
+        final String authorization = token.grantType() + " " + token.accessToken();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.AUTHORIZATION, authorization)
-                .body(ApiResponse.success(HttpStatus.CREATED, token));
+                .body(ApiResponse.body(HttpStatus.CREATED, token));
     }
 }

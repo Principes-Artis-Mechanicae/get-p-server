@@ -32,14 +32,13 @@ public class MyPeopleController {
     @PostMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<CreatePeopleResponse>> createMyPeople(
-        @RequestBody @Valid CreatePeopleRequest request,
-        @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long memberId = principalDetails.getMember().getMemberId();
-        CreatePeopleCommand command = request.toCommand(memberId);
-        Long peopleId = peopleService.create(command);
-        CreatePeopleResponse response = new CreatePeopleResponse(peopleId);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED, response));
+        @RequestBody @Valid final CreatePeopleRequest request,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails) {
+        final Long memberId = principalDetails.getMember().getMemberId();
+        final CreatePeopleCommand command = request.toCommand(memberId);
+        final Long peopleId = peopleService.create(command);
+        final CreatePeopleResponse response = new CreatePeopleResponse(peopleId);
+        return ApiResponse.success(HttpStatus.CREATED, response);
     }
 
     /**
@@ -50,12 +49,11 @@ public class MyPeopleController {
     @PutMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> updateMyPeople(
-            @RequestBody @Valid UpdatePeopleRequest request,
-            @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long memberId = principalDetails.getMember().getMemberId();
-        UpdatePeopleCommand command = request.toCommand(memberId);
+            @RequestBody @Valid final UpdatePeopleRequest request,
+            @AuthenticationPrincipal final PrincipalDetails principalDetails) {
+        final Long memberId = principalDetails.getMember().getMemberId();
+        final UpdatePeopleCommand command = request.toCommand(memberId);
         peopleService.update(command);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED));
+        return ApiResponse.success(HttpStatus.CREATED);
     }
 }

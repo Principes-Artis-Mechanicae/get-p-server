@@ -31,13 +31,12 @@ public class ProjectApplicationController {
     @PostMapping("/{projectId}/applications")
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ApplyProjectResponse>> applyForProject(
-        @RequestBody @Valid ApplyProjectRequest request,
-        @AuthenticationPrincipal PrincipalDetails principalDetails,
+        @RequestBody @Valid final ApplyProjectRequest request,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable Long projectId) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final Long applicationId = projectApplicationService.applyForProject(memberId, projectId, request);
         final ApplyProjectResponse response = new ApplyProjectResponse(applicationId);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED, response));
+        return ApiResponse.success(HttpStatus.CREATED, response);
     }
 }
