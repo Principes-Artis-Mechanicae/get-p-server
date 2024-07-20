@@ -24,13 +24,13 @@ public class ProfileImageServiceImpl implements ProfileImageService {
     public ProfileImage saveProfileImage(Member member, MultipartFile image) {
         Path destination = getPathToSaveProfileImage(member, image);
         if (image.isEmpty()) {
-            throw new IllegalArgumentException("Image is empty");
+            throw new IllegalArgumentException("사진이 비어있습니다.");
         }
         try {
             String uri = imageStorage.storeImage(destination, image.getInputStream());
             return ProfileImage.of(uri);
         } catch (IOException exception) {
-            throw new IllegalArgumentException("Failed to save image");
+            throw new IllegalArgumentException("사진 저장에 실패했습니다.");
         }
     }
 

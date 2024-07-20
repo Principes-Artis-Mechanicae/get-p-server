@@ -7,6 +7,7 @@ import es.princip.getp.domain.member.command.domain.service.ServiceTermAgreement
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermChecker;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermRepository;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermTag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ServiceTermAgreementServiceImpl implements ServiceTermAgreementServ
     @Override
     public void agreeServiceTerms(final Member member, final List<ServiceTermAgreementCommand> commands) {
         if (!checker.isAgreedAllRequiredServiceTerms(commands)) {
-            throw new IllegalArgumentException("Not agreed all required service terms");
+            throw new IllegalArgumentException("모든 필수 약관에 동의하지 않았습니다.");
         }
         Set<ServiceTermAgreement> agreements = commands.stream()
             .map(request -> createServiceTermAgreement(request.tag(), request.agreed()))
@@ -34,7 +35,7 @@ public class ServiceTermAgreementServiceImpl implements ServiceTermAgreementServ
 
     private ServiceTermAgreement createServiceTermAgreement(final ServiceTermTag tag, final boolean agreed) {
         if (!serviceTermRepository.existsByTag(tag)) {
-            throw new IllegalArgumentException("ServiceTerm not found");
+            throw new EntityNotFoundException("해당 서비스 약관이 존재하지 않습니다.");
         }
         return new ServiceTermAgreement(tag, agreed);
     }

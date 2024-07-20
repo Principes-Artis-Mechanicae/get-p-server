@@ -6,9 +6,10 @@ import es.princip.getp.domain.member.command.application.command.UpdateMemberCom
 import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.member.command.domain.model.MemberRepository;
 import es.princip.getp.domain.member.command.domain.model.ProfileImage;
+import es.princip.getp.domain.member.command.domain.service.ProfileImageService;
 import es.princip.getp.domain.member.command.domain.service.ServiceTermAgreementService;
-import es.princip.getp.domain.member.command.infra.ProfileImageServiceImpl;
 import es.princip.getp.infra.exception.BusinessLogicException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberService {
 
     private final ServiceTermAgreementService agreementService;
-    private final ProfileImageServiceImpl profileImageService;
+    private final ProfileImageService profileImageService;
 
     private final MemberRepository memberRepository;
+
+    private Member findById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(
+            () -> new EntityNotFoundException("해당 회원은 존재하지 않습니다.")
+        );
+    }
 
     @Transactional
     public Long create(CreateMemberCommand command) {
@@ -38,14 +45,14 @@ public class MemberService {
 
     @Transactional
     public void update(UpdateMemberCommand command) {
-        Member member = memberRepository.findById(command.memberId()).orElseThrow();
+        Member member = findById(command.memberId());
         member.changeNickname(command.nickname());
         member.changePhoneNumber(command.phoneNumber());
     }
 
     @Transactional
     public String changeProfileImage(Long memberId, MultipartFile image) {
-        Member member = memberRepository.findById(memberId).orElseThrow();
+        Member member = findById(memberId);
         if (member.hasProfileImage()) {
             profileImageService.deleteProfileImage(member.getProfileImage());
         }
