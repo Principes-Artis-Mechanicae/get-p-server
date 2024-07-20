@@ -17,9 +17,9 @@ public class PeopleLikeService {
     private final ClientRepository clientRepository;
 
     /**
-     * 피플을 좋아요 한다.
+     * 피플에게 좋아요를 누른다.
      *
-     * @param memberId 좋아요를 요청한 회원 ID
+     * @param memberId 좋아요를 요청한 의뢰자의 회원 ID
      * @param peopleId 좋아요 대상 피플 ID
      * @throws EntityNotFoundException 해당 피플이 존재하지 않는 경우
      */
@@ -33,9 +33,9 @@ public class PeopleLikeService {
     }
 
     /**
-     * 피플 좋아요를 취소한다.
+     * 피플에게 눌렀던 좋아요를 취소한다.
      *
-     * @param memberId 좋아요 취소를 요청한 회원 ID
+     * @param memberId 좋아요 취소를 요청한 의뢰자의 회원 ID
      * @param peopleId 좋아요 취소 대상 피플 ID
      * @throws EntityNotFoundException 해당 피플이 존재하지 않는 경우
      */

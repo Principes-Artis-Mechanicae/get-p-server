@@ -119,7 +119,7 @@ public class PeopleProfile extends BaseTimeEntity {
     }
 
     /**
-     * 피플 프로필 정보를 수정한다.
+     * 피플 프로필 정보를 수정한다. 이때, 수정하지 않은 정보도 함께 전달해야 한다.
      *
      * @param introduction 소개
      * @param activityArea 활동 지역

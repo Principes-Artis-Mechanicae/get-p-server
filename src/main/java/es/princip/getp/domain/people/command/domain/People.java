@@ -72,7 +72,7 @@ public class People extends BaseTimeEntity {
     }
 
     /**
-     * 피플 정보를 수정한다.
+     * 피플 정보를 수정한다. 이때, 수정하지 않은 정보도 함께 전달해야 한다.
      *
      * @param email 이메일
      * @param peopleType 피플 유형
@@ -90,7 +90,7 @@ public class People extends BaseTimeEntity {
     }
 
     /**
-     * 프로젝트를 좋아요 한다.
+     * 프로젝트에게 좋아요를 누른다.
      *
      * @param projectId 좋아요할 프로젝트 ID
      * @throws ProjectAlreadyLikedException 이미 좋아요한 프로젝트일 경우
