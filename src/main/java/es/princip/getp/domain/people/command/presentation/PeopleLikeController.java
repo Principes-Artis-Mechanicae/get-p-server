@@ -27,13 +27,12 @@ public class PeopleLikeController {
     @PostMapping("/{peopleId}/likes")
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> like(
-        @PathVariable Long peopleId,
-        @AuthenticationPrincipal PrincipalDetails principalDetails
+        @PathVariable final Long peopleId,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        Long memberId = principalDetails.getMember().getMemberId();
+        final Long memberId = principalDetails.getMember().getMemberId();
         peopleLikeService.like(memberId, peopleId);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED));
+        return ApiResponse.success(HttpStatus.CREATED);
     }
 
     /**
@@ -45,12 +44,11 @@ public class PeopleLikeController {
     @DeleteMapping("/{peopleId}/likes")
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> unlike(
-        @PathVariable Long peopleId,
-        @AuthenticationPrincipal PrincipalDetails principalDetails
+        @PathVariable final Long peopleId,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        Long memberId = principalDetails.getMember().getMemberId();
+        final Long memberId = principalDetails.getMember().getMemberId();
         peopleLikeService.unlike(memberId, peopleId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT)
-            .body(ApiResponse.success(HttpStatus.NO_CONTENT));
+        return ApiResponse.success(HttpStatus.NO_CONTENT);
     }
 }

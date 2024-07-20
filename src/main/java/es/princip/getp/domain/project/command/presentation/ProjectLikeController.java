@@ -30,12 +30,11 @@ public class ProjectLikeController {
     @PostMapping("/{projectId}/likes")
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> like(
-        @PathVariable Long projectId,
-        @AuthenticationPrincipal PrincipalDetails principalDetails
+        @PathVariable final Long projectId,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         projectLikeService.like(projectId, memberId);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED));
+        return ApiResponse.success(HttpStatus.CREATED);
     }
 }

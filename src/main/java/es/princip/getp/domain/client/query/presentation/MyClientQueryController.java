@@ -31,10 +31,10 @@ public class MyClientQueryController {
     @GetMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getMyClient(
-            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+            @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final ClientResponse response = clientDao.findByMemberId(memberId)
             .orElseThrow(() -> new BusinessLogicException(ClientErrorCode.NOT_FOUND));
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+        return ApiResponse.success(HttpStatus.OK, response);
     }
 }
