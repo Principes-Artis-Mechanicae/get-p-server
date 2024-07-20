@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 @Getter
 @RedisHash(value = "token_verification")
-public class TokenVerification {
+public class RefreshToken {
     @Id
     private Long memberId;
 
@@ -20,7 +20,7 @@ public class TokenVerification {
     @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private Long expiration;
 
-    public TokenVerification(Long memberId, String refreshToken, Long expiration) {
+    public RefreshToken(final Long memberId, final String refreshToken, final Long expiration) {
         this.memberId = memberId;
         this.refreshToken = refreshToken;
         this.expiration = expiration;
