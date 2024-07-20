@@ -1,7 +1,7 @@
 package es.princip.getp.infra.exception.handler;
 
-import es.princip.getp.infra.dto.response.ApiResponse;
-import es.princip.getp.infra.dto.response.ApiResponse.ApiErrorResult;
+import es.princip.getp.infra.dto.response.ApiErrorResponse;
+import es.princip.getp.infra.dto.response.ApiErrorResponse.ApiErrorResult;
 import es.princip.getp.infra.exception.ErrorDescription;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class MethodArgumentNotValidExceptionHandler {
             ))
             .toArray(ErrorDescription[]::new);
 
-        return ApiResponse.error(HttpStatus.BAD_REQUEST, descriptions);
+        return ApiErrorResponse.error(HttpStatus.BAD_REQUEST, descriptions);
     }
 
     private static String convertToSnakeCase(String camelCase) {

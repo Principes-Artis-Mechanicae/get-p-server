@@ -1,7 +1,7 @@
 package es.princip.getp.infra.exception.handler;
 
-import es.princip.getp.infra.dto.response.ApiResponse;
-import es.princip.getp.infra.dto.response.ApiResponse.ApiErrorResult;
+import es.princip.getp.infra.dto.response.ApiErrorResponse;
+import es.princip.getp.infra.dto.response.ApiErrorResponse.ApiErrorResult;
 import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.exception.ErrorDescription;
 import org.springframework.core.annotation.Order;
@@ -21,8 +21,8 @@ public class BusinessLogicExceptionHandler {
                 "CONFLICT",
                 exception.getMessage()
             );
-            return ApiResponse.error(HttpStatus.CONFLICT, description);
+            return ApiErrorResponse.error(HttpStatus.CONFLICT, description);
         }
-        return ApiResponse.error(exception.getErrorCode());
+        return ApiErrorResponse.error(exception.getErrorCode());
     }
 }
