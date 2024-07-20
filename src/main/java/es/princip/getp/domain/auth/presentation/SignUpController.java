@@ -30,12 +30,11 @@ public class SignUpController {
      */
     @PostMapping()
     public ResponseEntity<ApiSuccessResult<?>> signUp(
-        @RequestBody @Valid SignUpRequest request
+        @RequestBody @Valid final SignUpRequest request
     ) {
-        SignUpCommand command = request.toCommand();
+        final SignUpCommand command = request.toCommand();
         signUpService.signUp(command);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED));
+        return ApiResponse.success(HttpStatus.CREATED);
     }
 
     /**
@@ -45,10 +44,10 @@ public class SignUpController {
      */
     @PostMapping("/email/send")
     public ResponseEntity<ApiSuccessResult<?>> sendEmailVerificationCodeForSignUp(
-        @RequestBody @Valid EmailVerificationCodeRequest request
+        @RequestBody @Valid final EmailVerificationCodeRequest request
     ) {
-        Email email = Email.of(request.email());
+        final Email email = Email.of(request.email());
         signUpService.sendEmailVerificationCodeForSignUp(email);
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK));
+        return ApiResponse.success(HttpStatus.OK);
     }
 }

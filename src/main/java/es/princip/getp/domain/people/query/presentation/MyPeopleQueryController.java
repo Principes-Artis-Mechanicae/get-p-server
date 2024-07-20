@@ -29,10 +29,9 @@ public class MyPeopleQueryController {
     @GetMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<PeopleResponse>> getMyPeople(
-        @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long memberId = principalDetails.getMember().getMemberId();
-        PeopleResponse response = peopleDao.findByMemberId(memberId);
-        return ResponseEntity.ok()
-            .body(ApiResponse.success(HttpStatus.OK, response));
+        @AuthenticationPrincipal final PrincipalDetails principalDetails) {
+        final Long memberId = principalDetails.getMember().getMemberId();
+        final PeopleResponse response = peopleDao.findByMemberId(memberId);
+        return ApiResponse.success(HttpStatus.OK, response);
     }
 }

@@ -30,9 +30,9 @@ public class ClientQueryController {
      */
     @GetMapping("/{clientId}")
     @PreAuthorize("(hasRole('ADMIN') or hasRole('MANAGER')) and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<ClientResponse>> getClient(@PathVariable Long clientId) {
+    public ResponseEntity<ApiSuccessResult<ClientResponse>> getClient(@PathVariable final Long clientId) {
         final ClientResponse response = clientDao.findById(clientId)
             .orElseThrow(() -> new BusinessLogicException(ClientErrorCode.NOT_FOUND));
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK, response));
+        return ApiResponse.success(HttpStatus.OK, response);
     }
 }

@@ -3,6 +3,7 @@ package es.princip.getp.domain.member.command.presentation;
 import es.princip.getp.domain.member.command.application.MemberService;
 import es.princip.getp.domain.member.command.presentation.dto.response.ProfileImageResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
+import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,14 +25,13 @@ public class MyMemberController {
 
     @PostMapping("/profile-image")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> uploadProfileImage(
-        @AuthenticationPrincipal PrincipalDetails principalDetails,
-        @RequestPart MultipartFile image
+    public ResponseEntity<ApiSuccessResult<ProfileImageResponse>> uploadProfileImage(
+        @AuthenticationPrincipal final PrincipalDetails principalDetails,
+        @RequestPart final MultipartFile image
     ) {
-        Long memberId = principalDetails.getMember().getMemberId();
-        String profileImageUri = memberService.changeProfileImage(memberId, image);
-        ProfileImageResponse response = new ProfileImageResponse(profileImageUri);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED, response));
+        final Long memberId = principalDetails.getMember().getMemberId();
+        final String profileImageUri = memberService.changeProfileImage(memberId, image);
+        final ProfileImageResponse response = new ProfileImageResponse(profileImageUri);
+        return ApiResponse.success(HttpStatus.CREATED, response);
     }
 }

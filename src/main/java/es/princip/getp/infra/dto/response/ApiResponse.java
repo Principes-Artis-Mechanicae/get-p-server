@@ -6,26 +6,37 @@ import es.princip.getp.infra.exception.ErrorCode;
 import es.princip.getp.infra.exception.ErrorDescription;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 public class ApiResponse {
-    public static <T> ApiSuccessResult<T> success(HttpStatus status, T data) {
+
+    public static <T> ApiSuccessResult<T> body(final HttpStatus status, final T data) {
         return new ApiSuccessResult<>(status.value(), data);
     }
 
-    public static <T> ApiSuccessResult<T> success(HttpStatus status, String message) {
-        return new ApiSuccessResult<>(status.value(), message);
-    }
-
-    public static <T> ApiSuccessResult<T> success(HttpStatus status) {
+    public static <T> ApiSuccessResult<T> body(final HttpStatus status) {
         return new ApiSuccessResult<>(status.value());
     }
 
-    public static ApiErrorResult error(ErrorCode errorCode) {
-        return new ApiErrorResult(errorCode);
+    public static <T> ResponseEntity<ApiSuccessResult<T>> success(final HttpStatus status, final T data) {
+        return ResponseEntity.status(status).body(ApiResponse.body(status, data));
     }
 
-    public static ApiErrorResult error(HttpStatus status, ErrorDescription... descriptions) {
-        return new ApiErrorResult(status.value(), descriptions);
+    public static ResponseEntity<ApiSuccessResult<?>> success(final HttpStatus status) {
+        return ResponseEntity.status(status).body(ApiResponse.body(status));
+    }
+
+    public static ResponseEntity<ApiErrorResult> error(final ErrorCode errorCode) {
+        return ResponseEntity.status(errorCode.status())
+            .body(new ApiErrorResult(errorCode));
+    }
+
+    public static ResponseEntity<ApiErrorResult> error(
+        final HttpStatus status,
+        final ErrorDescription... descriptions
+    ) {
+        return ResponseEntity.status(status)
+            .body(new ApiErrorResult(status.value(), descriptions));
     }
     
     @JsonInclude(Include.NON_NULL)
@@ -33,24 +44,15 @@ public class ApiResponse {
     public static class ApiSuccessResult<T> {
         private final int status;
         private final T data;
-        private final String message;
 
-        private ApiSuccessResult(int status, T data) {
+        private ApiSuccessResult(final int status, final T data) {
             this.status = status;
             this.data = data;
-            this.message = null;
         }
 
-        private ApiSuccessResult(int status) {
+        private ApiSuccessResult(final int status) {
             this.status = status;
             this.data = null;
-            this.message = null;
-        }
-
-        private ApiSuccessResult(int status, String message) {
-            this.status = status;
-            this.data = null;
-            this.message = message;
         }
     }
 
@@ -60,12 +62,12 @@ public class ApiResponse {
         private final int status;
         private final ErrorDescription[] errors;
 
-        private ApiErrorResult(ErrorCode errorCode) {
+        private ApiErrorResult(final ErrorCode errorCode) {
             this.status = errorCode.status().value();
             this.errors = new ErrorDescription[] { errorCode.description() };
         }
 
-        private ApiErrorResult(int status, ErrorDescription... descriptions) {
+        private ApiErrorResult(final int status, final ErrorDescription... descriptions) {
             this.status = status;
             this.errors = descriptions;
         }
