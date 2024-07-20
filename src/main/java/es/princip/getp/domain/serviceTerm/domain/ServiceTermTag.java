@@ -2,6 +2,7 @@ package es.princip.getp.domain.serviceTerm.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -13,7 +14,8 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ServiceTermTag implements Serializable {
 
-    @Column(name = "service_term_tag", nullable = false)
+    @Column(name = "service_term_tag")
+    @NotNull
     private String value;
 
     private ServiceTermTag(final String value) {
