@@ -57,8 +57,7 @@ public class MemberService {
     @Transactional
     public void update(final UpdateMemberCommand command) {
         final Member member = findById(command.memberId());
-        member.changeNickname(command.nickname());
-        member.changePhoneNumber(command.phoneNumber());
+        member.edit(command.nickname(), command.phoneNumber());
     }
 
     /**

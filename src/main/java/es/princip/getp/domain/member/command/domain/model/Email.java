@@ -2,6 +2,7 @@ package es.princip.getp.domain.member.command.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.regex.Pattern;
@@ -15,18 +16,19 @@ public class Email {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 
     @Column(name = "email")
+    @NotNull
     private String value;
 
-    private Email(String value) {
+    private Email(final String value) {
         this.value = value;
     }
 
-    public static Email of(String value) {
+    public static Email of(final String value) {
         validate(value);
         return new Email(value);
     }
 
-    private static void validate(String value) {
+    private static void validate(final String value) {
         if (value == null) {
             throw new IllegalArgumentException("이메일은 필수 입력 값입니다.");
         }
@@ -35,7 +37,7 @@ public class Email {
         }
     }
 
-    public boolean isMatch(Email email) {
+    public boolean isMatch(final Email email) {
         return this.value.equals(email.value);
     }
 }

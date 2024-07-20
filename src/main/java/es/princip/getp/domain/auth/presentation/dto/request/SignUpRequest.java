@@ -6,6 +6,7 @@ import es.princip.getp.domain.member.command.domain.command.ServiceTermAgreement
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.member.command.domain.model.Password;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public record SignUpRequest(
     @NotNull String email,
     @NotNull String password,
     @NotNull String verificationCode,
-    @NotNull List<ServiceTermAgreementRequest> serviceTerms,
+    @NotNull @Valid List<ServiceTermAgreementRequest> serviceTerms,
     @UserMemberType MemberType memberType
 ) {
 

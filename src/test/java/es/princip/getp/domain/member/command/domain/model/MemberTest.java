@@ -59,22 +59,14 @@ class MemberTest {
     }
 
     @Test
-    void changeNickname() {
+    void edit() {
         Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
 
         Nickname newNickname = Nickname.of("new nickname");
-        member.changeNickname(newNickname);
+        PhoneNumber newPhoneNumber = PhoneNumber.of("01087654321");
+        member.edit(newNickname, newPhoneNumber);
 
         assertThat(member.getNickname()).isEqualTo(newNickname);
-    }
-
-    @Test
-    void changePhoneNumber() {
-        Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
-
-        PhoneNumber newPhoneNumber = PhoneNumber.of("01087654321");
-        member.changePhoneNumber(newPhoneNumber);
-
         assertThat(member.getPhoneNumber()).isEqualTo(newPhoneNumber);
     }
 

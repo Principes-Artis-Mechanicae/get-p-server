@@ -12,7 +12,7 @@ public record UpdateMemberCommand(
     Nickname nickname,
     PhoneNumber phoneNumber
 ) {
-    public static UpdateMemberCommand from(CreatePeopleCommand command) {
+    public static UpdateMemberCommand from(final CreatePeopleCommand command) {
         return new UpdateMemberCommand(
             command.memberId(),
             command.nickname(),
@@ -20,7 +20,7 @@ public record UpdateMemberCommand(
         );
     }
 
-    public static UpdateMemberCommand from(UpdatePeopleCommand command) {
+    public static UpdateMemberCommand from(final UpdatePeopleCommand command) {
         return new UpdateMemberCommand(
             command.memberId(),
             command.nickname(),
@@ -28,7 +28,7 @@ public record UpdateMemberCommand(
         );
     }
 
-    public static UpdateMemberCommand from(CreateClientCommand command) {
+    public static UpdateMemberCommand from(final CreateClientCommand command) {
         return new UpdateMemberCommand(
             command.memberId(),
             command.nickname(),
@@ -36,7 +36,7 @@ public record UpdateMemberCommand(
         );
     }
 
-    public static UpdateMemberCommand from(UpdateClientCommand command) {
+    public static UpdateMemberCommand from(final UpdateClientCommand command) {
         return new UpdateMemberCommand(
             command.memberId(),
             command.nickname(),

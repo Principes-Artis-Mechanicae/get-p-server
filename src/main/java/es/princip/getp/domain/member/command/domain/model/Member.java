@@ -2,51 +2,55 @@ package es.princip.getp.domain.member.command.domain.model;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "member",
-    uniqueConstraints = {@UniqueConstraint(name = "uq_email", columnNames = {"email"})}
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uq_email", columnNames = {"email"}),
+        @UniqueConstraint(name = "uq_nickname", columnNames = {"nickname"})
+    }
 )
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Validated
 public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     @Column(name = "member_id")
     private Long memberId;
 
     @Embedded
-    @Getter
+    @NotNull
     private Email email;
 
     @Embedded
-    @Getter
+    @NotNull
     private Password password;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "member_type")
-    @Getter
+    @NotNull
     private MemberType memberType;
 
     @Embedded
-    @Getter
     private Nickname nickname;
 
     @Embedded
-    @Getter
     private PhoneNumber phoneNumber;
 
     @Embedded
-    @Getter
     private ProfileImage profileImage;
 
     @ElementCollection
@@ -61,9 +65,12 @@ public class Member extends BaseTimeEntity {
         final Password password,
         final MemberType memberType
     ) {
-        setEmail(email);
+        Objects.requireNonNull(email, "이메일은 필수 입력 값입니다.");
+        Objects.requireNonNull(password, "비밀번호는 필수 입력 값입니다.");
+
+        this.email = email;
         setPassword(password);
-        setMemberType(memberType);
+        this.memberType = memberType;
     }
 
     public static Member of(
@@ -74,69 +81,69 @@ public class Member extends BaseTimeEntity {
         return new Member(email, password, memberType);
     }
 
-    private void setEmail(final Email email) {
-        if (email == null) {
-            throw new IllegalArgumentException("이메일은 필수 입력 값입니다.");
-        }
-        this.email = email;
-    }
-
-    private void setMemberType(final MemberType memberType) {
-        if (memberType == null) {
-            throw new IllegalArgumentException("이메일은 필수 입력 값입니다.");
-        }
-        this.memberType = memberType;
-    }
-
     private void setPassword(final Password password) {
-        if (password == null) {
-            throw new IllegalArgumentException("이메일은 필수 입력 값입니다.");
-        }
+        Objects.requireNonNull(password, "비밀번호는 필수 입력 값입니다.");
         this.password = password;
     }
 
-    private void setNickname(Nickname nickname) {
-        if (nickname == null) {
-            throw new IllegalArgumentException("닉네임은 필수 입력 값입니다.");
-        }
+    private void setNickname(final Nickname nickname) {
+        Objects.requireNonNull(nickname, "닉네임은 필수 입력 값입니다.");
         this.nickname = nickname;
     }
 
-    private void setPhoneNumber(PhoneNumber phoneNumber) {
-        if (phoneNumber == null) {
-            throw new IllegalArgumentException("전화번호는 필수 입력 값입니다.");
-        }
+    private void setPhoneNumber(final PhoneNumber phoneNumber) {
+        Objects.requireNonNull(phoneNumber, "전화번호는 필수 입력 값입니다.");
         this.phoneNumber = phoneNumber;
     }
 
-    private void setProfileImage(ProfileImage profileImage) {
-        if (profileImage == null) {
-            throw new IllegalArgumentException("프로필 사진은 필수 입력 값입니다.");
-        }
+    private void setProfileImage(final ProfileImage profileImage) {
         this.profileImage = profileImage;
     }
 
+    /**
+     * 서비스 약관에 동의한다.
+     *
+     * @param agreements 서비스 약관 동의
+     */
     public void agreeServiceTerms(final Set<ServiceTermAgreement> agreements) {
         this.agreements.clear();
         this.agreements.addAll(agreements);
     }
 
+    /**
+     * 프로필 이미지를 변경한다.
+     *
+     * @param profileImage 변경할 프로필 이미지
+     */
     public void changeProfileImage(final ProfileImage profileImage) {
         setProfileImage(profileImage);
     }
 
+    /**
+     * 프로필 이미지가 존재하는지 확인한다.
+     *
+     * @return 프로필 이미지가 존재하는 경우 true, 그렇지 않은 경우 false
+     */
     public boolean hasProfileImage() {
         return profileImage != null;
     }
 
-    public void changeNickname(final Nickname nickname) {
+    /**
+     * 회원 정보를 수정한다.
+     *
+     * @param nickname 닉네임
+     * @param phoneNumber 전화번호
+     */
+    public void edit(final Nickname nickname, final PhoneNumber phoneNumber) {
         setNickname(nickname);
-    }
-
-    public void changePhoneNumber(final PhoneNumber phoneNumber) {
         setPhoneNumber(phoneNumber);
     }
 
+    /**
+     * 비밀번호를 암호화한다.
+     *
+     * @param encoder 비밀번호 인코더
+     */
     public void encodePassword(final PasswordEncoder encoder) {
         if (password == null) {
             throw new IllegalStateException("비밀번호가 설정되어 있지 않습니다.");
@@ -147,6 +154,11 @@ public class Member extends BaseTimeEntity {
         this.password = password.encode(encoder);
     }
 
+    /**
+     * 서비스 약관 동의 목록을 반환한다.
+     *
+     * @return 서비스 약관 동의 목록
+     */
     public Set<ServiceTermAgreement> getServiceTermAgreements() {
         return Collections.unmodifiableSet(agreements);
     }
