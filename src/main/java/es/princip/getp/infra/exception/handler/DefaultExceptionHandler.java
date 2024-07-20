@@ -1,7 +1,7 @@
 package es.princip.getp.infra.exception.handler;
 
-import es.princip.getp.infra.dto.response.ApiResponse;
-import es.princip.getp.infra.dto.response.ApiResponse.ApiErrorResult;
+import es.princip.getp.infra.dto.response.ApiErrorResponse;
+import es.princip.getp.infra.dto.response.ApiErrorResponse.ApiErrorResult;
 import es.princip.getp.infra.exception.DefaultErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ public class DefaultExceptionHandler {
         final HttpRequestMethodNotSupportedException exception
     ) {
         log.info(exception.getMessage());
-        return ApiResponse.error(DefaultErrorCode.METHOD_NOT_ALLOWED);
+        return ApiErrorResponse.error(DefaultErrorCode.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResult> handleException(final Exception exception) {
         log.info(exception.getMessage());
-        return ApiResponse.error(DefaultErrorCode.INTERNAL_SERVER_ERROR);
+        return ApiErrorResponse.error(DefaultErrorCode.INTERNAL_SERVER_ERROR);
     }
 }
