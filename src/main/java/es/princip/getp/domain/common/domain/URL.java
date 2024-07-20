@@ -2,8 +2,10 @@ package es.princip.getp.domain.common.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Embeddable
@@ -13,23 +15,28 @@ import java.util.regex.Pattern;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class URL {
 
-    private static final String URL_PREFIX = "^(https|ftp|mailto|tel)://.*";
-    private static final Pattern URL_PATTERN = Pattern.compile(URL_PREFIX);
+    public static final String URL_REGEX = "^(https|ftp|mailto|tel)://.*";
+    private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
 
     @Column(name = "url")
+    @NotNull
     private String value;
 
-    private URL(String url) {
+    private URL(final String url) {
         this.value = url;
     }
 
-    private static void validate(String url) {
+    private static void validate(final String url) {
+        Objects.requireNonNull(url);
         if (!URL_PATTERN.matcher(url).matches()) {
-            throw new IllegalArgumentException("Invalid URL: " + url);
+            throw new IllegalArgumentException(String.format(
+                "%s는 유효하지 않은 URL입니다. URL은 https|ftp|mailto|tel://로 시작해야 합니다.",
+                url
+            ));
         }
     }
 
-    public static URL from(String url) {
+    public static URL from(final String url) {
         validate(url);
         return new URL(url);
     }
