@@ -2,18 +2,16 @@ package es.princip.getp.domain.people.command.presentation;
 
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.people.command.application.PeopleLikeService;
-import es.princip.getp.domain.people.exception.PeopleErrorCode;
-import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
+import es.princip.getp.domain.people.exception.ProjectAlreadyLikedException;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.support.AbstractControllerTest;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -23,7 +21,7 @@ import static org.mockito.BDDMockito.willThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({PeopleLikeController.class, PeopleErrorCodeController.class})
+@WebMvcTest(PeopleLikeController.class)
 public class PeopleLikeControllerTest extends AbstractControllerTest {
 
     @Autowired
@@ -43,38 +41,34 @@ public class PeopleLikeControllerTest extends AbstractControllerTest {
         void like() throws Exception {
             willDoNothing().given(peopleLikeService).like(any(), eq(peopleId));
 
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId)
-                    .contentType(MediaType.APPLICATION_JSON))
+            mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
                 .andExpect(status().isCreated());
         }
 
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
         void like_WhenPeopleIsAlreadyLiked_ShouldBeFailed() throws Exception {
-            willThrow(new BusinessLogicException(PeopleLikeErrorCode.ALREADY_LIKED))
+            willThrow(new ProjectAlreadyLikedException())
                 .given(peopleLikeService).like(any(), eq(peopleId));
 
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId)
-                    .contentType(MediaType.APPLICATION_JSON))
+            mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
                 .andExpect(status().isConflict());
         }
 
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
         void like_WhenMemberTypeIsPeople_ShouldBeFailed() throws Exception {
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId)
-                    .contentType(MediaType.APPLICATION_JSON))
+            mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
                 .andExpect(status().isForbidden());
         }
 
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
         void like_WhenPeopleIsNotFound_ShouldBeFailed() throws Exception {
-            willThrow(new BusinessLogicException(PeopleErrorCode.NOT_FOUND))
+            willThrow(new EntityNotFoundException())
                 .given(peopleLikeService).like(any(), eq(peopleId));
 
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId)
-                    .contentType(MediaType.APPLICATION_JSON))
+            mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
                 .andExpect(status().isNotFound());
         }
     }
@@ -90,16 +84,14 @@ public class PeopleLikeControllerTest extends AbstractControllerTest {
         void unlike() throws Exception {
             willDoNothing().given(peopleLikeService).unlike(any(), eq(peopleId));
 
-            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId)
-                    .contentType(MediaType.APPLICATION_JSON))
+            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId))
                 .andExpect(status().isNoContent());
         }
 
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
         void unlike_WhenMemberTypeIsPeople_ShouldBeFailed() throws Exception {
-            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId)
-                    .contentType(MediaType.APPLICATION_JSON))
+            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId))
                 .andExpect(status().isForbidden());
         }
     }
