@@ -9,9 +9,8 @@ import es.princip.getp.domain.people.command.domain.Portfolio;
 import es.princip.getp.domain.people.command.presentation.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.domain.people.command.presentation.dto.request.PortfolioRequest;
 import es.princip.getp.domain.people.command.presentation.dto.request.WritePeopleProfileRequest;
-import es.princip.getp.domain.people.exception.PeopleErrorCode;
-import es.princip.getp.domain.people.exception.PeopleProfileErrorCode;
-import es.princip.getp.infra.exception.BusinessLogicException;
+import es.princip.getp.infra.exception.EntityAlreadyExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,37 +25,45 @@ public class PeopleProfileService {
     private final PeopleProfileRepository peopleProfileRepository;
     private final PeopleRepository peopleRepository;
 
-    private List<TechStack> toTechStacks(List<String> techStacks) {
+    private List<TechStack> toTechStacks(final List<String> techStacks) {
         return techStacks.stream()
             .map(TechStack::of)
             .toList();
     }
 
-    private List<Portfolio> toPortfolios(List<PortfolioRequest> portfolios) {
+    private List<Portfolio> toPortfolios(final List<PortfolioRequest> portfolios) {
         return portfolios.stream()
             .map(portfolio -> Portfolio.of(portfolio.description(), portfolio.url()))
             .toList();
     }
 
-    private List<Hashtag> toHashtags(List<String> hashtags) {
+    private List<Hashtag> toHashtags(final List<String> hashtags) {
         return hashtags.stream()
             .map(Hashtag::of)
             .toList();
     }
 
+    /**
+     * 피플 프로필을 작성한다.
+     *
+     * @param memberId 회원 ID
+     * @param request 피플 프로필 작성 요청
+     * @throws EntityNotFoundException 등록된 피플 정보가 없는 경우
+     * @throws EntityAlreadyExistsException 이미 등록된 피플 프로필이 존재하는 경우
+     */
     @Transactional
-    public void writeProfile(Long memberId, WritePeopleProfileRequest request) {
-        Long peopleId = peopleRepository.findByMemberId(memberId)
+    public void writeProfile(final Long memberId, final WritePeopleProfileRequest request) {
+        final Long peopleId = peopleRepository.findByMemberId(memberId)
             .orElseThrow(
-                () -> new BusinessLogicException(PeopleErrorCode.NOT_FOUND)
+                () -> new EntityNotFoundException("등록된 피플 정보가 없습니다.")
             )
             .getPeopleId();
 
         if (peopleProfileRepository.existsByPeopleId(peopleId)) {
-            throw new BusinessLogicException(PeopleProfileErrorCode.ALREADY_EXISTS);
+            throw new EntityAlreadyExistsException("이미 등록된 피플 프로필이 존재합니다.");
         }
 
-        PeopleProfile profile = PeopleProfile.builder()
+        final PeopleProfile profile = PeopleProfile.builder()
             .introduction(request.introduction())
             .activityArea(request.activityArea())
             .education(request.education())
@@ -69,21 +76,28 @@ public class PeopleProfileService {
         peopleProfileRepository.save(profile);
     }
 
+    /**
+     * 피플 프로필을 수정한다.
+     *
+     * @param memberId 회원 ID
+     * @param request 피플 프로필 수정 요청
+     * @throws EntityNotFoundException 등록된 피플 정보가 없는 경우
+     * @throws EntityNotFoundException 등록된 피플 프로필이 없는 경우
+     */
     @Transactional
-    public void editProfile(Long memberId, EditPeopleProfileRequest request) {
-        Long peopleId = peopleRepository.findByMemberId(memberId)
+    public void editProfile(final Long memberId, final EditPeopleProfileRequest request) {
+        final Long peopleId = peopleRepository.findByMemberId(memberId)
             .orElseThrow(
-                () -> new BusinessLogicException(PeopleErrorCode.NOT_FOUND)
+                () -> new EntityNotFoundException("등록된 피플 정보가 없습니다.")
             )
             .getPeopleId();
 
-        PeopleProfile profile = peopleProfileRepository.findByPeopleId(peopleId)
+        final PeopleProfile profile = peopleProfileRepository.findByPeopleId(peopleId)
             .orElseThrow(
-                () -> new BusinessLogicException(PeopleProfileErrorCode.NOT_FOUND)
+                () -> new EntityNotFoundException("등록된 피플 프로필이 없습니다.")
             );
 
         profile.edit(
-            peopleId,
             request.introduction(),
             request.activityArea(),
             request.education(),

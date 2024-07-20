@@ -1,10 +1,12 @@
 package es.princip.getp.domain.member.command.domain.model;
 
+import es.princip.getp.domain.member.command.annotation.EmailValid;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Embeddable
@@ -13,10 +15,12 @@ import java.util.regex.Pattern;
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Email {
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+    public static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
     @Column(name = "email")
     @NotNull
+    @EmailValid
     private String value;
 
     private Email(final String value) {
@@ -29,9 +33,7 @@ public class Email {
     }
 
     private static void validate(final String value) {
-        if (value == null) {
-            throw new IllegalArgumentException("이메일은 필수 입력 값입니다.");
-        }
+        Objects.requireNonNull(value);
         if (!EMAIL_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다.");
         }

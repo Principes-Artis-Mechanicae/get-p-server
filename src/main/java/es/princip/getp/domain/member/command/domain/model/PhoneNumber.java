@@ -1,5 +1,6 @@
 package es.princip.getp.domain.member.command.domain.model;
 
+import es.princip.getp.domain.member.command.annotation.PhoneNumberValid;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ public class PhoneNumber {
     private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
 
     @Column(name = "phone_number")
+    @PhoneNumberValid
     @NotNull
     private String value;
 
@@ -32,7 +34,7 @@ public class PhoneNumber {
     }
 
     private static void validate(final String value) {
-        Objects.requireNonNull(value, "전화번호는 필수 입력 값입니다.");
+        Objects.requireNonNull(value);
         if (!PHONE_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException("전화번호 형식이 올바르지 않습니다.");
         }
