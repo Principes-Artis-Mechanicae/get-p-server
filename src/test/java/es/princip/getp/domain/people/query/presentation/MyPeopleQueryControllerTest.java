@@ -1,7 +1,6 @@
 package es.princip.getp.domain.people.query.presentation;
 
 import es.princip.getp.domain.people.command.domain.PeopleType;
-import es.princip.getp.domain.people.command.presentation.PeopleErrorCodeController;
 import es.princip.getp.domain.people.query.dao.PeopleDao;
 import es.princip.getp.domain.people.query.dto.people.PeopleResponse;
 import es.princip.getp.domain.people.query.presentation.description.response.PeopleResponseDescription;
@@ -29,8 +28,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-@WebMvcTest({MyPeopleQueryController.class, PeopleErrorCodeController.class})
+@WebMvcTest(MyPeopleQueryController.class)
 class MyPeopleQueryControllerTest extends AbstractControllerTest {
 
     @MockBean

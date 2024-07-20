@@ -43,7 +43,7 @@ public class Password {
     }
 
     private static void validate(final String value) {
-        Objects.requireNonNull(value, "비밀번호는 필수 입력 값입니다.");
+        Objects.requireNonNull(value);
         if (!PASSWORD_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException("비밀번호 형식이 올바르지 않습니다.");
         }

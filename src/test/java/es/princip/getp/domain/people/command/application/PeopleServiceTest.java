@@ -81,14 +81,14 @@ public class PeopleServiceTest {
         void update() {
             final People people = spy(People.class);
             willDoNothing().given(people)
-                .edit(command.memberId(), command.email(), command.peopleType());
+                .edit(command.email(), command.peopleType());
             given(peopleRepository.findByMemberId(command.memberId()))
                 .willReturn(Optional.of(people));
 
             peopleService.update(command);
 
             verify(memberService, times(1)).update(any(UpdateMemberCommand.class));
-            verify(people, times(1)).edit(command.memberId(), command.email(), command.peopleType());
+            verify(people, times(1)).edit(command.email(), command.peopleType());
         }
     }
 
