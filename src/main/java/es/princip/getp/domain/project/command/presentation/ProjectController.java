@@ -33,13 +33,12 @@ public class ProjectController {
     @PostMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<RegisterProjectResponse>> create(
-        @RequestBody @Valid RegisterProjectRequest request,
-        @AuthenticationPrincipal PrincipalDetails principalDetails
+        @RequestBody @Valid final RegisterProjectRequest request,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final Long projectId = projectService.register(memberId, request);
         final RegisterProjectResponse response = new RegisterProjectResponse(projectId);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED, response));
+        return ApiResponse.success(HttpStatus.CREATED, response);
     }
 }

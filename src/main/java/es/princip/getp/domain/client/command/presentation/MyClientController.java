@@ -32,14 +32,13 @@ public class MyClientController {
     @PostMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<CreateClientResponse>> create(
-        @RequestBody @Valid CreateClientRequest request,
-        @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long memberId = principalDetails.getMember().getMemberId();
-        CreateClientCommand command = request.toCommand(memberId);
-        Long clientId = clientService.create(command);
-        CreateClientResponse response = new CreateClientResponse(clientId);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED, response));
+        @RequestBody @Valid final CreateClientRequest request,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails) {
+        final Long memberId = principalDetails.getMember().getMemberId();
+        final CreateClientCommand command = request.toCommand(memberId);
+        final Long clientId = clientService.create(command);
+        final CreateClientResponse response = new CreateClientResponse(clientId);
+        return ApiResponse.success(HttpStatus.CREATED, response);
     }
 
     /**
@@ -50,11 +49,11 @@ public class MyClientController {
     @PutMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> update(
-            @RequestBody @Valid UpdateClientRequest request,
-            @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Long memberId = principalDetails.getMember().getMemberId();
-        UpdateClientCommand command = request.toCommand(memberId);
+            @RequestBody @Valid final UpdateClientRequest request,
+            @AuthenticationPrincipal final PrincipalDetails principalDetails) {
+        final Long memberId = principalDetails.getMember().getMemberId();
+        final UpdateClientCommand command = request.toCommand(memberId);
         clientService.update(command);
-        return ResponseEntity.ok().body(ApiResponse.success(HttpStatus.OK));
+        return ApiResponse.success(HttpStatus.OK);
     }
 }

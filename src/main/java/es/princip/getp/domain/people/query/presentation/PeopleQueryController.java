@@ -33,15 +33,13 @@ public class PeopleQueryController extends ControllerSupport {
      * @return 피플 ID에 해당되는 피플 상세 정보
      */
     @GetMapping("/{peopleId}")
-    public ResponseEntity<ApiSuccessResult<?>> getPeople(@PathVariable Long peopleId) {
+    public ResponseEntity<? extends ApiSuccessResult<?>> getPeople(@PathVariable final Long peopleId) {
         if (isAuthenticated()) {
-            DetailPeopleResponse response = peopleDao.findDetailPeopleById(peopleId);
-            return ResponseEntity.ok()
-                .body(ApiResponse.success(HttpStatus.OK, response));
+            final DetailPeopleResponse response = peopleDao.findDetailPeopleById(peopleId);
+            return ApiResponse.success(HttpStatus.OK, response);
         }
-        PublicDetailPeopleResponse response = peopleDao.findPublicDetailPeopleById(peopleId);
-        return ResponseEntity.ok()
-            .body(ApiResponse.success(HttpStatus.OK, response));
+        final PublicDetailPeopleResponse response = peopleDao.findPublicDetailPeopleById(peopleId);
+        return ApiResponse.success(HttpStatus.OK, response);
     }
 
     /**
@@ -52,9 +50,8 @@ public class PeopleQueryController extends ControllerSupport {
      */
     @GetMapping
     public ResponseEntity<ApiSuccessResult<PageResponse<CardPeopleResponse>>> getCardPeoplePage(
-        @PageableDefault(sort = "peopleId", direction = Sort.Direction.DESC) Pageable pageable) {
-        PageResponse<CardPeopleResponse> response = PageResponse.from(peopleDao.findCardPeoplePage(pageable));
-        return ResponseEntity.ok()
-            .body(ApiResponse.success(HttpStatus.OK, response));
+        @PageableDefault(sort = "peopleId", direction = Sort.Direction.DESC) final Pageable pageable) {
+        final PageResponse<CardPeopleResponse> response = PageResponse.from(peopleDao.findCardPeoplePage(pageable));
+        return ApiResponse.success(HttpStatus.OK, response);
     }
 }
