@@ -12,6 +12,7 @@ import es.princip.getp.domain.people.query.dto.peopleProfile.CardPeopleProfileRe
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
 import es.princip.getp.infra.support.QueryDslSupport;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -30,7 +31,7 @@ import static java.util.stream.Collectors.toMap;
 @Repository
 public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
 
-    private Map<Long, Tuple> findMemberAndPeopleByPeopleId(Long... peopleId) {
+    private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
         return queryFactory.select(
             member.nickname.value,
             member.profileImage.uri,
@@ -44,7 +45,7 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
         .collect(toMap(tuple -> tuple.get(people.peopleId), Function.identity()));
     }
 
-    private Tuple findMemberAndPeopleByPeopleId(final Long peopleId) {
+    private Optional<Tuple> findMemberAndPeopleByPeopleId(final Long peopleId) {
         return Optional.ofNullable(
             queryFactory.select(
                 member.nickname.value,
@@ -55,22 +56,21 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
             .join(member).on(people.memberId.eq(member.memberId))
             .where(people.peopleId.eq(peopleId))
             .fetchOne()
-        )
-        .orElseThrow();
+        );
     }
 
-    private List<CardPeopleResponse> getCardPeopleContent(Pageable pageable) {
-        List<PeopleProfile> result = queryFactory.selectFrom(peopleProfile)
+    private List<CardPeopleResponse> getCardPeopleContent(final Pageable pageable) {
+        final List<PeopleProfile> result = queryFactory.selectFrom(peopleProfile)
             .orderBy(getPeopleOrderSpecifiers(pageable.getSort()))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
 
-        Long[] peopleIds = result.stream()
+        final Long[] peopleIds = result.stream()
             .map(PeopleProfile::getPeopleId)
             .toArray(Long[]::new);
 
-        Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);
+        final Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);
 
         return result.stream().map(profile -> {
             final Long peopleId = profile.getPeopleId();
@@ -87,7 +87,7 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
     }
 
     @Override
-    public Page<CardPeopleResponse> findCardPeoplePage(Pageable pageable) {
+    public Page<CardPeopleResponse> findCardPeoplePage(final Pageable pageable) {
         return applyPagination(
             pageable,
             getCardPeopleContent(pageable),
@@ -96,15 +96,16 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
     }
 
     @Override
-    public DetailPeopleResponse findDetailPeopleById(Long peopleId) {
-        PeopleProfile result = Optional.ofNullable(
+    public DetailPeopleResponse findDetailPeopleById(final Long peopleId) {
+        final PeopleProfile result = Optional.ofNullable(
                 queryFactory.selectFrom(peopleProfile)
                     .where(peopleProfile.peopleId.eq(peopleId))
                     .fetchOne()
             )
-            .orElseThrow();
+            .orElseThrow(() -> new EntityNotFoundException("해당 피플의 프로필이 존재하지 않습니다."));
 
-        Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId);
+        final Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId)
+            .orElseThrow(() -> new EntityNotFoundException("해당 피플이 존재하지 않습니다."));
 
         return new DetailPeopleResponse(
             peopleId,
@@ -118,15 +119,16 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
     }
 
     @Override
-    public PublicDetailPeopleResponse findPublicDetailPeopleById(Long peopleId) {
+    public PublicDetailPeopleResponse findPublicDetailPeopleById(final Long peopleId) {
         final PeopleProfile profile = Optional.ofNullable(
                 queryFactory.selectFrom(peopleProfile)
                     .where(peopleProfile.peopleId.eq(peopleId))
                     .fetchOne()
             )
-            .orElseThrow();
+            .orElseThrow(() -> new EntityNotFoundException("해당 피플의 프로필이 존재하지 않습니다."));
 
-        final Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId);
+        final Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId)
+            .orElseThrow(() -> new EntityNotFoundException("해당 피플이 존재하지 않습니다."));
 
         return new PublicDetailPeopleResponse(
             peopleId,
@@ -161,7 +163,7 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
             .where(people.memberId.eq(memberId))
             .fetchOne()
         )
-        .orElseThrow();
+        .orElseThrow(() -> new EntityNotFoundException("해당 피플이 존재하지 않습니다."));
     }
 
     @Override
@@ -172,7 +174,7 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
                     .where(peopleProfile.peopleId.eq(memberId))
                     .fetchOne()
             )
-            .orElseThrow()
+            .orElseThrow(() -> new EntityNotFoundException("해당 피플의 프로필이 존재하지 않습니다."))
         );
     }
 }

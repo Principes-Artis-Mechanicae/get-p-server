@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Embeddable
 @ToString
@@ -28,7 +29,10 @@ public class ServiceTermAgreement {
     @NotNull
     private ServiceTermTag tag;
 
-    public ServiceTermAgreement(final ServiceTermTag tag, final boolean agreed) {
+    public ServiceTermAgreement(final ServiceTermTag tag, final Boolean agreed) {
+        Objects.requireNonNull(tag);
+        Objects.requireNonNull(agreed);
+
         this.agreed = agreed;
         this.tag = tag;
         this.agreedAt = LocalDateTime.now();

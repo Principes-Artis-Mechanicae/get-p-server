@@ -11,8 +11,8 @@ public record EditPeopleProfileRequest(
     @NotNull @Valid Education education,
     @NotBlank String activityArea,
     @NotBlank String introduction,
-    @NotNull List<String> techStacks,
+    @NotNull List<@NotBlank String> techStacks,
     @NotNull @Valid List<PortfolioRequest> portfolios,
-    @NotNull List<String> hashtags
+    @NotNull List<@NotBlank String> hashtags
 ) {
 }

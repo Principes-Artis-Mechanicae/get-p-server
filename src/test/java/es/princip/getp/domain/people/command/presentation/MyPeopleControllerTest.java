@@ -33,8 +33,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-@WebMvcTest({MyPeopleController.class, PeopleErrorCodeController.class})
+@WebMvcTest(MyPeopleController.class)
 class MyPeopleControllerTest extends AbstractControllerTest {
 
     @MockBean
