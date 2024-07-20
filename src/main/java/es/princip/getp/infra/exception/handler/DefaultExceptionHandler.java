@@ -27,10 +27,10 @@ public class DefaultExceptionHandler {
     public ResponseEntity<ApiErrorResult> handleIllegalArgumentException(final IllegalArgumentException exception) {
         log.info(exception.getMessage());
         final ErrorDescription description = ErrorDescription.of(
-            "BAD_REQUEST",
+            "CONFLICT",
             exception.getMessage()
         );
-        return ApiResponse.error(HttpStatus.BAD_REQUEST, description);
+        return ApiResponse.error(HttpStatus.CONFLICT, description);
     }
 
     @ExceptionHandler(Exception.class)
