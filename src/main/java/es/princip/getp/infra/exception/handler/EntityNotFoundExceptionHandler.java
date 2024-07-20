@@ -1,7 +1,7 @@
 package es.princip.getp.infra.exception.handler;
 
-import es.princip.getp.infra.dto.response.ApiResponse;
-import es.princip.getp.infra.dto.response.ApiResponse.ApiErrorResult;
+import es.princip.getp.infra.dto.response.ApiErrorResponse;
+import es.princip.getp.infra.dto.response.ApiErrorResponse.ApiErrorResult;
 import es.princip.getp.infra.exception.ErrorDescription;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +25,6 @@ public class EntityNotFoundExceptionHandler {
             "NOT_FOUND",
             exception.getMessage()
         );
-        return ApiResponse.error(HttpStatus.NOT_FOUND, description);
+        return ApiErrorResponse.error(HttpStatus.NOT_FOUND, description);
     }
 }
