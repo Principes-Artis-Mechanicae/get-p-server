@@ -3,9 +3,7 @@ package es.princip.getp.infra.exception.handler;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiErrorResult;
 import es.princip.getp.infra.exception.DefaultErrorCode;
-import es.princip.getp.infra.exception.ErrorDescription;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,16 +19,6 @@ public class DefaultExceptionHandler {
     ) {
         log.info(exception.getMessage());
         return ApiResponse.error(DefaultErrorCode.METHOD_NOT_ALLOWED);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiErrorResult> handleIllegalArgumentException(final IllegalArgumentException exception) {
-        log.info(exception.getMessage());
-        final ErrorDescription description = ErrorDescription.of(
-            "CONFLICT",
-            exception.getMessage()
-        );
-        return ApiResponse.error(HttpStatus.CONFLICT, description);
     }
 
     @ExceptionHandler(Exception.class)
