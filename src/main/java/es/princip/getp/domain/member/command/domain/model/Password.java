@@ -2,9 +2,12 @@ package es.princip.getp.domain.member.command.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Embeddable
@@ -19,12 +22,13 @@ public class Password {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
     @Column(name = "password")
+    @NotNull
     private String value;
 
-    @Column(name = "encoded")
+    @Transient
     private boolean encoded;
 
-    private Password(String value, boolean encoded) {
+    private Password(final String value, final boolean encoded) {
         this.value = value;
         this.encoded = encoded;
     }
@@ -39,9 +43,7 @@ public class Password {
     }
 
     private static void validate(final String value) {
-        if (value == null) {
-            throw new IllegalArgumentException("비밀번호는 필수 입력 값입니다.");
-        }
+        Objects.requireNonNull(value, "비밀번호는 필수 입력 값입니다.");
         if (!PASSWORD_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException("비밀번호 형식이 올바르지 않습니다.");
         }

@@ -2,7 +2,10 @@ package es.princip.getp.domain.member.command.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.Objects;
 
 @Embeddable
 @Getter
@@ -12,6 +15,7 @@ import lombok.*;
 public class Nickname {
 
     @Column(name = "nickname")
+    @NotNull
     private String value;
 
     private Nickname(final String value) {
@@ -24,8 +28,6 @@ public class Nickname {
     }
 
     private static void validate(final String value) {
-        if (value == null) {
-            throw new IllegalArgumentException("닉네임은 필수 입력 값입니다.");
-        }
+        Objects.requireNonNull(value, "닉네임은 필수 입력 값입니다.");
     }
 }

@@ -92,8 +92,7 @@ class MemberServiceTest {
 
             memberService.update(command);
 
-            verify(member, times(1)).changeNickname(command.nickname());
-            verify(member, times(1)).changePhoneNumber(command.phoneNumber());
+            verify(member, times(1)).edit(command.nickname(), command.phoneNumber());
         }
     }
 
