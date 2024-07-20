@@ -23,6 +23,13 @@ public class MyMemberController {
 
     private final MemberService memberService;
 
+    /**
+     * 내 프로필 이미지 등록
+     *
+     * @param principalDetails 로그인한 사용자 정보
+     * @param image 프로필 이미지
+     * @return 등록된 프로필 이미지의 URI
+     */
     @PostMapping("/profile-image")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ProfileImageResponse>> uploadProfileImage(
