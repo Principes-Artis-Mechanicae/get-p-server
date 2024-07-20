@@ -65,8 +65,8 @@ public class Member extends BaseTimeEntity {
         final Password password,
         final MemberType memberType
     ) {
-        Objects.requireNonNull(email, "이메일은 필수 입력 값입니다.");
-        Objects.requireNonNull(password, "비밀번호는 필수 입력 값입니다.");
+        Objects.requireNonNull(email);
+        Objects.requireNonNull(password);
 
         this.email = email;
         setPassword(password);
@@ -82,17 +82,17 @@ public class Member extends BaseTimeEntity {
     }
 
     private void setPassword(final Password password) {
-        Objects.requireNonNull(password, "비밀번호는 필수 입력 값입니다.");
+        Objects.requireNonNull(password);
         this.password = password;
     }
 
     private void setNickname(final Nickname nickname) {
-        Objects.requireNonNull(nickname, "닉네임은 필수 입력 값입니다.");
+        Objects.requireNonNull(nickname);
         this.nickname = nickname;
     }
 
     private void setPhoneNumber(final PhoneNumber phoneNumber) {
-        Objects.requireNonNull(phoneNumber, "전화번호는 필수 입력 값입니다.");
+        Objects.requireNonNull(phoneNumber);
         this.phoneNumber = phoneNumber;
     }
 

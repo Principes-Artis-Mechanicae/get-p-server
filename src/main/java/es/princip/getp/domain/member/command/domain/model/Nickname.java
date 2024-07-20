@@ -28,6 +28,6 @@ public class Nickname {
     }
 
     private static void validate(final String value) {
-        Objects.requireNonNull(value, "닉네임은 필수 입력 값입니다.");
+        Objects.requireNonNull(value);
     }
 }

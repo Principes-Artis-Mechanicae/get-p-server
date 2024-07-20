@@ -1,5 +1,6 @@
 package es.princip.getp.domain.common.domain;
 
+import es.princip.getp.domain.common.annotation.URLValid;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ public class URL {
     private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
 
     @Column(name = "url")
+    @URLValid
     @NotNull
     private String value;
 

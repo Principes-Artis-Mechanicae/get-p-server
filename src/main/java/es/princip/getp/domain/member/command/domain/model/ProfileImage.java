@@ -23,7 +23,11 @@ public class ProfileImage {
     }
 
     public static ProfileImage of(final String uri) {
-        Objects.requireNonNull(uri, "이미지 URI는 필수 입력 값입니다.");
+        validate(uri);
         return new ProfileImage(uri);
+    }
+
+    private static void validate(final String uri) {
+        Objects.requireNonNull(uri);
     }
 }

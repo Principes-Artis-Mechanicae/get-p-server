@@ -1,5 +1,6 @@
 package es.princip.getp.domain.member.command.domain.model;
 
+import es.princip.getp.domain.member.command.annotation.EmailValid;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ public class Email {
 
     @Column(name = "email")
     @NotNull
+    @EmailValid
     private String value;
 
     private Email(final String value) {
