@@ -4,6 +4,8 @@ import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.common.domain.TechStack;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,12 +27,15 @@ public class PeopleProfile extends BaseTimeEntity {
     private Long profileId;
 
     @Column(name = "introduction")
+    @NotBlank
     private String introduction;
 
-    @Column(name = "activity_area", nullable = false)
+    @Column(name = "activity_area")
+    @NotBlank
     private String activityArea;
 
     @Embedded
+    @NotNull
     private Education education;
 
     @ElementCollection
@@ -45,6 +51,7 @@ public class PeopleProfile extends BaseTimeEntity {
     private List<Portfolio> portfolios = new ArrayList<>();
 
     @Column(name = "people_id", nullable = false, unique = true)
+    @NotNull
     private Long peopleId;
 
     @Builder
@@ -63,7 +70,7 @@ public class PeopleProfile extends BaseTimeEntity {
         setHashtags(hashtags);
         setTechStacks(techStacks);
         setPortfolios(portfolios);
-        setPeopleId(peopleId);
+        this.peopleId = peopleId;
     }
 
     public List<Hashtag> getHashtags() {
@@ -78,57 +85,50 @@ public class PeopleProfile extends BaseTimeEntity {
         return Collections.unmodifiableList(portfolios);
     }
 
-    private void setPeopleId(final Long peopleId) {
-        if (peopleId == null) {
-            throw new IllegalArgumentException("peopleId must not be null");
-        }
-        this.peopleId = peopleId;
-    }
-
     private void setIntroduction(final String introduction) {
+        Objects.requireNonNull(introduction);
         this.introduction = introduction;
     }
 
     private void setActivityArea(final String activityArea) {
-        if (activityArea == null) {
-            throw new IllegalArgumentException("activityArea must not be null");
-        }
+        Objects.requireNonNull(activityArea);
         this.activityArea = activityArea;
     }
 
     private void setEducation(final Education education) {
-        if (education == null) {
-            throw new IllegalArgumentException("education must not be null");
-        }
+        Objects.requireNonNull(education);
         this.education = education;
     }
 
     private void setHashtags(final List<Hashtag> hashtags) {
-        if (hashtags == null) {
-            throw new IllegalArgumentException("hashtags must not be null");
-        }
+        Objects.requireNonNull(hashtags);
         this.hashtags.clear();
         this.hashtags.addAll(hashtags);
     }
 
     private void setTechStacks(final List<TechStack> techStacks) {
-        if (techStacks == null) {
-            throw new IllegalArgumentException("techStacks must not be null");
-        }
+        Objects.requireNonNull(techStacks);
         this.techStacks.clear();
         this.techStacks.addAll(techStacks);
     }
 
     private void setPortfolios(final List<Portfolio> portfolios) {
-        if (portfolios == null) {
-            throw new IllegalArgumentException("portfolios must not be null");
-        }
+        Objects.requireNonNull(portfolios);
         this.portfolios.clear();
         this.portfolios.addAll(portfolios);
     }
 
+    /**
+     * 피플 프로필 정보를 수정한다.
+     *
+     * @param introduction 소개
+     * @param activityArea 활동 지역
+     * @param education 학력
+     * @param hashtags 해시태그
+     * @param techStacks 기술 스택
+     * @param portfolios 포트폴리오
+     */
     public void edit(
-        final Long peopleId,
         final String introduction,
         final String activityArea,
         final Education education,
@@ -136,9 +136,6 @@ public class PeopleProfile extends BaseTimeEntity {
         final List<TechStack> techStacks,
         final List<Portfolio> portfolios
     ) {
-        if (!this.peopleId.equals(peopleId)) {
-            throw new IllegalArgumentException("peopleId must be same");
-        }
         setIntroduction(introduction);
         setActivityArea(activityArea);
         setEducation(education);

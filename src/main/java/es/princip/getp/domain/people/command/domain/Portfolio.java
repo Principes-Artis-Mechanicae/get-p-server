@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Embeddable
@@ -15,6 +16,7 @@ import lombok.*;
 public class Portfolio {
 
     @Embedded
+    @NotNull
     private URL url;
 
     @Column(name = "description")

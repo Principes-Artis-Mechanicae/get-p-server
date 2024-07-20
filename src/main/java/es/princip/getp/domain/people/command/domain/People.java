@@ -2,9 +2,9 @@ package es.princip.getp.domain.people.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.member.command.domain.model.Email;
-import es.princip.getp.domain.people.exception.PeopleLikeErrorCode;
-import es.princip.getp.infra.exception.BusinessLogicException;
+import es.princip.getp.domain.people.exception.ProjectAlreadyLikedException;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -25,14 +26,17 @@ public class People extends BaseTimeEntity {
     @Column(name = "people_id")
     private Long peopleId;
 
-    @Column(name = "email")
+    @Embedded
+    @NotNull
     private Email email;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "people_type")
+    @NotNull
     private PeopleType peopleType;
 
     @Column(name = "member_id")
+    @NotNull
     private Long memberId;
 
     @ElementCollection
@@ -57,36 +61,43 @@ public class People extends BaseTimeEntity {
         return Collections.unmodifiableSet(likedProjects);
     }
 
-    private void setEmail(Email email) {
+    private void setEmail(final Email email) {
+        Objects.requireNonNull(email);
         this.email = email;
     }
 
-    private void setPeopleType(PeopleType peopleType) {
-        if (peopleType == null) {
-            throw new IllegalArgumentException();
-        }
+    private void setPeopleType(final PeopleType peopleType) {
+        Objects.requireNonNull(peopleType);
         this.peopleType = peopleType;
     }
 
+    /**
+     * 피플 정보를 수정한다.
+     *
+     * @param email 이메일
+     * @param peopleType 피플 유형
+     */
     public void edit(
-        final Long memberId,
         final Email email,
         final PeopleType peopleType
     ) {
-        if (!this.memberId.equals(memberId)) {
-            throw new IllegalArgumentException("본인의 회원 정보만 수정할 수 있습니다.");
-        }
         setEmail(email);
         setPeopleType(peopleType);
     }
 
-    private boolean alreadyLikedProject(Long projectId) {
+    private boolean alreadyLikedProject(final Long projectId) {
         return likedProjects.contains(projectId);
     }
 
-    public void likeProject(Long projectId) {
+    /**
+     * 프로젝트를 좋아요 한다.
+     *
+     * @param projectId 좋아요할 프로젝트 ID
+     * @throws ProjectAlreadyLikedException 이미 좋아요한 프로젝트일 경우
+     */
+    public void likeProject(final Long projectId) {
         if (alreadyLikedProject(projectId)) {
-            throw new BusinessLogicException(PeopleLikeErrorCode.ALREADY_LIKED);
+            throw new ProjectAlreadyLikedException();
         }
         likedProjects.add(projectId);
     }

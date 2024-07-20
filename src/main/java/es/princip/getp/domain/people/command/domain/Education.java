@@ -5,6 +5,8 @@ import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.Objects;
+
 @Embeddable
 @Getter
 @EqualsAndHashCode
@@ -15,7 +17,7 @@ public class Education {
     @Column(name = "school")
     private String school;
 
-    @Column(name = "major", nullable = false)
+    @Column(name = "major")
     @NotBlank
     private String major;
 
@@ -25,9 +27,7 @@ public class Education {
     }
 
     public static Education of(final String school, final String major) {
-        if (major == null) {
-            throw new IllegalArgumentException("major is null");
-        }
+        Objects.requireNonNull(major);
         return new Education(school, major);
     }
 }
