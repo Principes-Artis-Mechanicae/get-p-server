@@ -15,7 +15,7 @@ public record CreateMemberCommand(
     MemberType memberType
 ) {
 
-    public static CreateMemberCommand from(SignUpCommand command) {
+    public static CreateMemberCommand from(final SignUpCommand command) {
         return new CreateMemberCommand(
             command.email(),
             command.password(),
