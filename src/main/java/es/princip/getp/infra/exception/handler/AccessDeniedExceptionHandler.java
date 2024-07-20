@@ -1,7 +1,7 @@
 package es.princip.getp.infra.exception.handler;
 
-import es.princip.getp.infra.dto.response.ApiResponse;
-import es.princip.getp.infra.dto.response.ApiResponse.ApiErrorResult;
+import es.princip.getp.infra.dto.response.ApiErrorResponse;
+import es.princip.getp.infra.dto.response.ApiErrorResponse.ApiErrorResult;
 import es.princip.getp.infra.exception.DefaultErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -18,6 +18,6 @@ public class AccessDeniedExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiErrorResult> handleAccessDeniedException(final AccessDeniedException exception) {
         log.info(exception.getMessage());
-        return ApiResponse.error(DefaultErrorCode.ACCESS_DENIED);
+        return ApiErrorResponse.error(DefaultErrorCode.ACCESS_DENIED);
     }
 }

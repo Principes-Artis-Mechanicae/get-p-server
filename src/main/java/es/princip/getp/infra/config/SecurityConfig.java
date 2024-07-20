@@ -1,9 +1,7 @@
 package es.princip.getp.infra.config;
 
-import es.princip.getp.infra.security.exception.handler.CustomAccessDeniedHandler;
-import es.princip.getp.infra.security.exception.handler.CustomAuthenticationEntryPoint;
-import es.princip.getp.infra.security.filter.JwtAuthorizationFilter;
-import es.princip.getp.infra.security.provider.JwtTokenProvider;
+import es.princip.getp.infra.security.filter.AccessTokenAuthorizationFilter;
+import es.princip.getp.infra.security.filter.AccessTokenExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +33,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AccessTokenAuthorizationFilter accessTokenAuthorizationFilter;
+    private final AccessTokenExceptionFilter accessTokenExceptionFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -57,12 +56,9 @@ public class SecurityConfig {
         httpSecurity
             .authorizeHttpRequests(
                 request -> request.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-            .addFilterBefore(new JwtAuthorizationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(accessTokenAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(accessTokenExceptionFilter, AccessTokenAuthorizationFilter.class)
             .httpBasic(withDefaults());
-
-        httpSecurity.exceptionHandling(authenticationManager -> authenticationManager
-            .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-            .accessDeniedHandler(new CustomAccessDeniedHandler()));
 
         return httpSecurity.build();
     }
