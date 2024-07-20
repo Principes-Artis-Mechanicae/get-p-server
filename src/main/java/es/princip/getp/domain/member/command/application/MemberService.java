@@ -27,31 +27,30 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    private Member findById(Long memberId) {
+    private Member findById(final Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(
             () -> new EntityNotFoundException("해당 회원은 존재하지 않습니다.")
         );
     }
 
     @Transactional
-    public Long create(CreateMemberCommand command) {
+    public Long create(final CreateMemberCommand command) {
         if (memberRepository.existsByEmail(command.email()))
             throw new BusinessLogicException(SignUpErrorCode.DUPLICATED_EMAIL);
         final Member member = Member.of(command.email(), command.password(), command.memberType());
         agreementService.agreeServiceTerms(member, command.serviceTerms());
-        Member created = memberRepository.save(member);
-        return created.getMemberId();
+        return memberRepository.save(member).getMemberId();
     }
 
     @Transactional
-    public void update(UpdateMemberCommand command) {
-        Member member = findById(command.memberId());
+    public void update(final UpdateMemberCommand command) {
+        final Member member = findById(command.memberId());
         member.changeNickname(command.nickname());
         member.changePhoneNumber(command.phoneNumber());
     }
 
     @Transactional
-    public String changeProfileImage(Long memberId, MultipartFile image) {
+    public String changeProfileImage(final Long memberId, final MultipartFile image) {
         Member member = findById(memberId);
         if (member.hasProfileImage()) {
             profileImageService.deleteProfileImage(member.getProfileImage());
