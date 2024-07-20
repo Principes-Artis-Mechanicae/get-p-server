@@ -3,6 +3,7 @@ package es.princip.getp.infra.exception.handler;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiErrorResult;
 import es.princip.getp.infra.exception.ErrorDescription;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Order(100)
 public class MethodArgumentNotValidExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiErrorResult> validationException(
-        final MethodArgumentNotValidException exception) {
-        ErrorDescription[] descriptions = exception.getBindingResult()
+    public ResponseEntity<ApiErrorResult> handleMethodNotValidException(
+        final MethodArgumentNotValidException exception
+    ) {
+        final ErrorDescription[] descriptions = exception.getBindingResult()
             .getFieldErrors()
             .stream()
             .map((FieldError fieldError) -> ErrorDescription.of(
@@ -25,8 +28,7 @@ public class MethodArgumentNotValidExceptionHandler {
             ))
             .toArray(ErrorDescription[]::new);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(ApiResponse.error(HttpStatus.BAD_REQUEST, descriptions));
+        return ApiResponse.error(HttpStatus.BAD_REQUEST, descriptions);
     }
 
     private static String convertToSnakeCase(String camelCase) {
