@@ -24,9 +24,7 @@ public class ServiceTermAgreementServiceImpl implements ServiceTermAgreementServ
 
     @Override
     public void agreeServiceTerms(final Member member, final List<ServiceTermAgreementCommand> commands) {
-        if (!checker.isAgreedAllRequiredServiceTerms(commands)) {
-            throw new IllegalArgumentException("모든 필수 약관에 동의하지 않았습니다.");
-        }
+        checker.checkAllRequiredServiceTermsAreAgreed(commands);
         Set<ServiceTermAgreement> agreements = commands.stream()
             .map(request -> createServiceTermAgreement(request.tag(), request.agreed()))
             .collect(Collectors.toSet());
