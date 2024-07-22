@@ -16,19 +16,19 @@ services:
       - /data:/storage
 
   database:
-    image: postgres:latest
+    image: mysql:9.0.0
     container_name: get-p-database
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    command: -p ${DB_PORT}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     expose:
       - ${DB_PORT}
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${DB_PORT}:3306
     restart: always
     volumes:
-      - get-p-database:/var/lib/postgresql/data
+      - get-p-database:/var/lib/mysql
 
   redis:
     image: redis:latest

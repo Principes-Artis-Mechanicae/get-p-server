@@ -21,6 +21,8 @@ spring:
         format_sql: true
         jdbc:
           time_zone: Asia/Seoul
+        default_batch_fetch_size: 20
+        dialect: org.hibernate.dialect.MySQLDialect
 
   mail:
     host: smtp.gmail.com
