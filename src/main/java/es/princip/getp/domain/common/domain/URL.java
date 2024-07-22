@@ -24,7 +24,8 @@ public class URL {
     @NotNull
     private String value;
 
-    private URL(final String url) {
+    public URL(final String url) {
+        validate(url);
         this.value = url;
     }
 
@@ -39,7 +40,6 @@ public class URL {
     }
 
     public static URL from(final String url) {
-        validate(url);
         return new URL(url);
     }
 }
