@@ -4,6 +4,7 @@ import es.princip.getp.domain.client.command.domain.ClientRepository;
 import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.project.command.domain.*;
 import es.princip.getp.domain.project.command.presentation.dto.request.RegisterProjectRequest;
+import es.princip.getp.domain.project.exception.ApplicationDurationIsNotBeforeEstimatedDurationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class ProjectService {
         final EstimatedDuration estimatedDuration = EstimatedDuration.from(request.estimatedDuration());
 
         if (!applicationDuration.isBefore(estimatedDuration)) {
-            throw new IllegalArgumentException("applicationDuration must be less than or equal to estimatedDuration");
+            throw new ApplicationDurationIsNotBeforeEstimatedDurationException();
         }
 
         final List<AttachmentFile> attachmentFiles = request.attachmentUris().stream()
