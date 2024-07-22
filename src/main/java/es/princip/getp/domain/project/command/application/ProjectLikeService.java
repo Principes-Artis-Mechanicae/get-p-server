@@ -16,12 +16,33 @@ public class ProjectLikeService {
     private final ProjectRepository projectRepository;
     private final PeopleRepository peopleRepository;
 
+    /**
+     * 프로젝트 좋아요
+     *
+     * @param memberId 좋아요를 누를 피플의 사용자 ID
+     * @param projectId 좋아요를 누를 프로젝트 ID
+     */
     @Transactional
-    public void like(Long memberId, Long projectId) {
+    public void like(final Long memberId, final Long projectId) {
         if (!projectRepository.existsById(projectId)) {
             throw new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다.");
         }
         final People people = peopleRepository.findByMemberId(memberId).orElseThrow();
         people.likeProject(projectId);
+    }
+
+    /**
+     * 프로젝트 좋아요 취소
+     *
+     * @param memberId 좋아요를 취소할 피플의 사용자 ID
+     * @param projectId 좋아요를 취소할 프로젝트 ID
+     */
+    @Transactional
+    public void unlike(final Long memberId, final Long projectId) {
+        if (!projectRepository.existsById(projectId)) {
+            throw new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다.");
+        }
+        final People people = peopleRepository.findByMemberId(memberId).orElseThrow();
+        people.unlikeProject(projectId);
     }
 }

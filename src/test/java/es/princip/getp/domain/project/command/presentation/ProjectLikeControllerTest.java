@@ -9,10 +9,13 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 
-import static org.mockito.ArgumentMatchers.any;
+import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectLikeController.class)
@@ -23,28 +26,53 @@ public class ProjectLikeControllerTest extends AbstractControllerTest {
 
     @Nested
     @DisplayName("프로젝트 좋아요")
-    class Like {
+    class LikeProject {
 
         private final Long projectId = 1L;
+
+        private ResultActions perform() throws Exception {
+            return mockMvc.perform(post("/projects/{projectId}/likes", projectId)
+                .header("Authorization", "Bearer ${ACCESS_TOKEN}"));
+        }
 
         @DisplayName("피플은 프로젝트에 좋아요를 누를 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
-        void like() throws Exception {
-            willDoNothing().given(projectLikeService).like(any(), any());
+        void likeProject() throws Exception {
+            willDoNothing().given(projectLikeService).like(anyLong(), anyLong());
 
-            mockMvc.perform(post("/projects/{projectId}/likes", projectId)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+            perform()
+                .andExpect(status().isCreated())
+                .andDo(restDocs.document(
+                    requestHeaders(authorizationHeaderDescriptor())
+                ))
+                .andDo(print());
+        }
+    }
+
+    @Nested
+    @DisplayName("프로젝트 좋아요 취소")
+    class UnlikeProject {
+
+        private final Long projectId = 1L;
+
+        private ResultActions perform() throws Exception {
+            return mockMvc.perform(delete("/projects/{projectId}/likes", projectId)
+                .header("Authorization", "Bearer ${ACCESS_TOKEN}"));
         }
 
-        @DisplayName("의뢰자는 프로젝트에 좋아요를 누를 수 없다.")
-        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
+        @DisplayName("피플은 프로젝트에 눌렀던 좋아요를 취소할 수 있다.")
+        @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
-        void like_WhenMemberTypeIsClient_ShouldBeFailed() throws Exception {
-            mockMvc.perform(post("/projects/{projectId}/likes", projectId)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden());
+        void unlikeProject() throws Exception {
+            willDoNothing().given(projectLikeService).unlike(anyLong(), anyLong());
+
+            perform()
+                .andExpect(status().isNoContent())
+                .andDo(restDocs.document(
+                    requestHeaders(authorizationHeaderDescriptor())
+                ))
+                .andDo(print());
         }
     }
 }

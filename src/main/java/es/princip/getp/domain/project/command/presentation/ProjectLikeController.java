@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/projects")
@@ -29,12 +26,29 @@ public class ProjectLikeController {
      */
     @PostMapping("/{projectId}/likes")
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<?>> like(
+    public ResponseEntity<ApiSuccessResult<?>> likeProject(
         @PathVariable final Long projectId,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         projectLikeService.like(projectId, memberId);
         return ApiResponse.success(HttpStatus.CREATED);
+    }
+
+    /**
+     * 프로젝트 좋아요 취소
+     *
+     * @param projectId        좋아요를 취소할 프로젝트 ID
+     * @param principalDetails 로그인한 사용자 정보
+     */
+    @DeleteMapping("/{projectId}/likes")
+    @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
+    public ResponseEntity<ApiSuccessResult<?>> unlikeProject(
+        @PathVariable final Long projectId,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails
+    ) {
+        final Long memberId = principalDetails.getMember().getMemberId();
+        projectLikeService.unlike(projectId, memberId);
+        return ApiResponse.success(HttpStatus.NO_CONTENT);
     }
 }
