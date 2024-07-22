@@ -12,5 +12,5 @@ public interface ProjectMapper {
 
     ApplyProjectCommand toCommand(Long memberId, Long projectId, ApplyProjectRequest request);
 
-    AttachmentFile stringToAttachmentFile(URL url);
+    AttachmentFile urlToAttachmentFile(URL url);
 }

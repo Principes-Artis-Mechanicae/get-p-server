@@ -42,9 +42,9 @@ class ProjectMapperTest {
     }
 
     @Test
-    void stringToAttachmentFile() {
+    void urlToAttachmentFile() {
         final URL url = new URL("https://url.com");
-        final AttachmentFile attachmentFile = projectMapper.stringToAttachmentFile(url);
+        final AttachmentFile attachmentFile = projectMapper.urlToAttachmentFile(url);
         
         assertThat(attachmentFile).isNotNull();
     }
