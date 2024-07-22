@@ -37,25 +37,27 @@ public abstract class AbstractControllerTest {
     @Value("${server.servlet.context-path}")
     protected String contextPath;
 
-    protected MockHttpServletRequestBuilder get(String uri, Object... values) {
-        return RestDocumentationRequestBuilders.get(contextPath + uri, values)
-            .contextPath(contextPath)
-            .contentType(MediaType.APPLICATION_JSON);
+    private MockHttpServletRequestBuilder contextPathAndContentType(final MockHttpServletRequestBuilder builder) {
+        return builder.contextPath(contextPath).contentType(MediaType.APPLICATION_JSON);
     }
 
-    protected MockHttpServletRequestBuilder post(String uri, Object... values) {
-        return RestDocumentationRequestBuilders.post(contextPath + uri, values)
-            .contextPath(contextPath)
-            .contentType(MediaType.APPLICATION_JSON);
+    protected MockHttpServletRequestBuilder get(final String uri, final Object... values) {
+        return contextPathAndContentType(RestDocumentationRequestBuilders.get(contextPath + uri, values));
     }
 
-    protected MockHttpServletRequestBuilder put(String uri, Object... values) {
-        return RestDocumentationRequestBuilders.put(contextPath + uri, values)
-            .contextPath(contextPath)
-            .contentType(MediaType.APPLICATION_JSON);
+    protected MockHttpServletRequestBuilder post(final String uri, final Object... values) {
+        return contextPathAndContentType(RestDocumentationRequestBuilders.post(contextPath + uri, values));
     }
 
-    protected static ResultMatcher errorCode(ErrorCode errorCode) {
+    protected MockHttpServletRequestBuilder put(final String uri, final Object... values) {
+        return contextPathAndContentType(RestDocumentationRequestBuilders.put(contextPath + uri, values));
+    }
+
+    protected MockHttpServletRequestBuilder delete(final String uri, final Object... values) {
+        return contextPathAndContentType(RestDocumentationRequestBuilders.delete(contextPath + uri, values));
+    }
+
+    protected static ResultMatcher errorCode(final ErrorCode errorCode) {
         return status().is(errorCode.status().value());
     }
 
@@ -82,7 +84,7 @@ public abstract class AbstractControllerTest {
                 .build();
     }
 
-    protected static void expectForbidden(ResultActions result) throws Exception {
+    protected static void expectForbidden(final ResultActions result) throws Exception {
         result
             .andExpect(status().isForbidden())
             .andDo(print());

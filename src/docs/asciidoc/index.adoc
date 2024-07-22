@@ -57,3 +57,14 @@ include::{docdir}/my-people-profile/get-my-people-profile.adoc[]
 
 === 내 피플 프로필 수정
 include::{docdir}/my-people-profile/edit-my-people-profile.adoc[]
+
+== 프로젝트
+
+=== 프로젝트 좋아요
+
+피플만 프로젝트에 좋아요를 누를 수 있습니다. 의뢰자는 프로젝트에 좋아요를 누를 수 없습니다.
+
+include::{docdir}/project/like-project.adoc[]
+
+=== 프로젝트 좋아요 취소
+include::{docdir}/project/unlike-project.adoc[]
