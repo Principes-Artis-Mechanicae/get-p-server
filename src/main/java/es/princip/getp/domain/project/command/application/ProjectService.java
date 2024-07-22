@@ -30,7 +30,7 @@ public class ProjectService {
             throw new ApplicationDurationIsNotBeforeEstimatedDurationException();
         }
 
-        final List<AttachmentFile> attachmentFiles = request.attachmentUris().stream()
+        final List<AttachmentFile> attachmentFiles = request.attachmentFiles().stream()
             .map(AttachmentFile::from)
             .toList();
         final List<Hashtag> hashtags = request.hashtags().stream()

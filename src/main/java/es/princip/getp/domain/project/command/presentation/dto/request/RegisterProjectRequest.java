@@ -17,7 +17,7 @@ public record RegisterProjectRequest(
     @NotBlank String description,
     @Enum MeetingType meetingType,
     @Enum ProjectCategory category,
-    @NotNull List<String> attachmentUris,
+    @NotNull List<String> attachmentFiles,
     @NotNull List<String> hashtags
 ) {
 }

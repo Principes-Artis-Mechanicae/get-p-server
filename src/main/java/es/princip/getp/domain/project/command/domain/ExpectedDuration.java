@@ -9,9 +9,10 @@ import java.time.LocalDate;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+
 public class ExpectedDuration extends Duration {
 
-    private ExpectedDuration(final LocalDate startDate, final LocalDate endDate) {
+    public ExpectedDuration(final LocalDate startDate, final LocalDate endDate) {
         super(startDate, endDate);
     }
 
