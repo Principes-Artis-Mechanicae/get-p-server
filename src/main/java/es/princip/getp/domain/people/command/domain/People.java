@@ -3,6 +3,7 @@ package es.princip.getp.domain.people.command.domain;
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.people.exception.ProjectAlreadyLikedException;
+import es.princip.getp.domain.people.exception.ProjectNeverLikedException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -89,6 +90,10 @@ public class People extends BaseTimeEntity {
         return likedProjects.contains(projectId);
     }
 
+    private boolean neverLikedProject(final Long projectId) {
+        return !likedProjects.contains(projectId);
+    }
+
     /**
      * 프로젝트에게 좋아요를 누른다.
      *
@@ -100,5 +105,18 @@ public class People extends BaseTimeEntity {
             throw new ProjectAlreadyLikedException();
         }
         likedProjects.add(projectId);
+    }
+
+    /**
+     * 프로젝트에게 눌렀던 좋아요를 취소한다.
+     *
+     * @param projectId 좋아요를 취소할 프로젝트 ID
+     * @throws ProjectNeverLikedException 좋아요한 적이 없었던 경우
+     */
+    public void unlikeProject(final Long projectId) {
+        if (neverLikedProject(projectId)) {
+            throw new ProjectNeverLikedException();
+        }
+        likedProjects.remove(projectId);
     }
 }
