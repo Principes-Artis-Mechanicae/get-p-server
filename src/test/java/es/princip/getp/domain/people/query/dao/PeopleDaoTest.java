@@ -6,7 +6,7 @@ import es.princip.getp.domain.people.query.dto.people.PeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.people.query.infra.PeopleDaoConfig;
-import es.princip.getp.infra.annotation.DataTest;
+import es.princip.getp.infra.support.DaoTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,13 +16,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import static es.princip.getp.infra.config.DataLoaderConfig.TEST_SIZE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataTest
-@Import(PeopleDaoConfig.class)
 @Slf4j
-public class PeopleDaoTest {
+@Import(PeopleDaoConfig.class)
+public class PeopleDaoTest extends DaoTest {
 
     @Autowired
     private PeopleDao peopleDao;
