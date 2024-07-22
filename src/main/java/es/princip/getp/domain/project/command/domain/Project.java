@@ -29,7 +29,7 @@ public class Project extends BaseTimeEntity {
     @Column(name = "payment")
     private Long payment;
 
-    // 지원자 모집 마감일
+    // 지원자 모집 기간
     @Embedded
     @AttributeOverrides(
         {

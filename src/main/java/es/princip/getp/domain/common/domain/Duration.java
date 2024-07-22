@@ -1,5 +1,6 @@
 package es.princip.getp.domain.common.domain;
 
+import es.princip.getp.domain.common.exception.StartDateIsAfterEndDateException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.MappedSuperclass;
@@ -29,7 +30,7 @@ public class Duration {
 
     private void validate(LocalDate startDate, LocalDate endDate) {
         if (startDate.isAfter(endDate)) {
-            throw new IllegalArgumentException("Start date must be before or equal to end date");
+            throw new StartDateIsAfterEndDateException();
         }
     }
 
