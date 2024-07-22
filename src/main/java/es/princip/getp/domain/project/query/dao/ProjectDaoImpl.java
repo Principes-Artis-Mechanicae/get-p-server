@@ -8,6 +8,7 @@ import es.princip.getp.domain.project.query.dto.CardProjectResponse;
 import es.princip.getp.domain.project.query.dto.DetailProjectResponse;
 import es.princip.getp.domain.project.query.dto.ProjectClientResponse;
 import es.princip.getp.infra.support.QueryDslSupport;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -56,17 +57,17 @@ public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
             .where(client.clientId.eq(clientId))
             .fetchOne()
         )
-        .orElseThrow();
+        .orElseThrow(() -> new EntityNotFoundException("해당 의뢰자가 존재하지 않습니다."));
     }
 
     @Override
     public DetailProjectResponse findDetailProjectById(final Long projectId) {
-        Project result = Optional.ofNullable(
+        final Project result = Optional.ofNullable(
             queryFactory.selectFrom(project)
                 .where(project.projectId.eq(projectId))
                 .fetchOne()
             )
-            .orElseThrow();
+            .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
 
         return new DetailProjectResponse(
             result.getProjectId(),

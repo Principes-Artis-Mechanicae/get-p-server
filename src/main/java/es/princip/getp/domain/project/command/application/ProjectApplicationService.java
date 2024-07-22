@@ -5,6 +5,8 @@ import es.princip.getp.domain.people.command.domain.PeopleProfileRepository;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.project.command.domain.*;
 import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectRequest;
+import es.princip.getp.domain.project.exception.PeopleProfileNotRegisteredException;
+import es.princip.getp.domain.project.exception.ProjectApplicationClosedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,14 +30,14 @@ public class ProjectApplicationService {
         final Project project = projectRepository.findById(projectId).orElseThrow();
 
         if (project.isApplicationClosed()) {
-            throw new IllegalArgumentException("Project application is closed");
+            throw new ProjectApplicationClosedException();
         }
 
         final People people = peopleRepository.findByMemberId(memberId).orElseThrow();
 
         // 피플 프로필을 등록한 경우에만 프로젝트에 지원할 수 있음
         if (!peopleProfileRepository.existsByPeopleId(people.getMemberId())) {
-            throw new IllegalArgumentException("People profile is not completed");
+            throw new PeopleProfileNotRegisteredException();
         }
 
         final ExpectedDuration expectedDuration = ExpectedDuration.from(request.expectedDuration());
