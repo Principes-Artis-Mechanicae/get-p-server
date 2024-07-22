@@ -5,13 +5,11 @@ server:
 spring:
   datasource:
     url: ${DB_TEST_URL}
-    username: ${DB_TEST_USERNAME}
-    password:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
@@ -22,6 +20,7 @@ spring:
           time_zone: Asia/Seoul
           batch_size: 100
         default_batch_fetch_size: 20
+        dialect: org.hibernate.dialect.MySQLDialect
 
   mail:
     host: smtp.gmail.com

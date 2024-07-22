@@ -3,7 +3,7 @@ package es.princip.getp.domain.project.query.dao;
 import es.princip.getp.domain.project.query.dto.CardProjectResponse;
 import es.princip.getp.domain.project.query.dto.DetailProjectResponse;
 import es.princip.getp.domain.project.query.infra.ProjectDaoConfig;
-import es.princip.getp.infra.annotation.DataTest;
+import es.princip.getp.infra.support.DaoTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import static es.princip.getp.infra.config.DataLoaderConfig.TEST_SIZE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataTest
-@Import(ProjectDaoConfig.class)
 @Slf4j
-class ProjectDaoImplTest {
+@Import(ProjectDaoConfig.class)
+class ProjectDaoTest extends DaoTest {
 
     @Autowired
     private ProjectDao projectDao;
