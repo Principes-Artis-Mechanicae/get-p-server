@@ -44,7 +44,7 @@ public class ProjectQueryController {
      */
     //TODO: 비로그인 사용자의 경우 특정 필드 내용에 대한 필터 처리가 필요함
     @GetMapping("/{projectId}")
-    public ResponseEntity<ApiSuccessResult<ProjectDetailResponse>> getProject(
+    public ResponseEntity<ApiSuccessResult<ProjectDetailResponse>> getProjectByProjectId(
         @PathVariable final Long projectId) {
         final ProjectDetailResponse response = projectDao.findProjectDetailById(projectId);
         return ApiResponse.success(HttpStatus.OK, response);
