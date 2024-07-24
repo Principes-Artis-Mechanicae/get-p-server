@@ -1,8 +1,8 @@
 package es.princip.getp.domain.project.query.presentation;
 
 import es.princip.getp.domain.project.query.dao.ProjectDao;
-import es.princip.getp.domain.project.query.dto.CardProjectResponse;
-import es.princip.getp.domain.project.query.dto.DetailProjectResponse;
+import es.princip.getp.domain.project.query.dto.ProjectCardResponse;
+import es.princip.getp.domain.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.dto.response.PageResponse;
@@ -30,9 +30,9 @@ public class ProjectQueryController {
      * @return 프로젝트 목록
      */
     @GetMapping
-    public ResponseEntity<ApiSuccessResult<PageResponse<CardProjectResponse>>> getProjects(
+    public ResponseEntity<ApiSuccessResult<PageResponse<ProjectCardResponse>>> getProjects(
         @PageableDefault(sort = "PROJECT_ID", direction = Sort.Direction.DESC) final Pageable pageable) {
-        final PageResponse<CardProjectResponse> response = PageResponse.from(projectDao.findCardProjectPage(pageable));
+        final PageResponse<ProjectCardResponse> response = PageResponse.from(projectDao.findPagedProjectCard(pageable));
         return ApiResponse.success(HttpStatus.OK, response);
     }
 
@@ -44,9 +44,9 @@ public class ProjectQueryController {
      */
     //TODO: 비로그인 사용자의 경우 특정 필드 내용에 대한 필터 처리가 필요함
     @GetMapping("/{projectId}")
-    public ResponseEntity<ApiSuccessResult<DetailProjectResponse>> getProject(
+    public ResponseEntity<ApiSuccessResult<ProjectDetailResponse>> getProject(
         @PathVariable final Long projectId) {
-        final DetailProjectResponse response = projectDao.findDetailProjectById(projectId);
+        final ProjectDetailResponse response = projectDao.findProjectDetailById(projectId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }
