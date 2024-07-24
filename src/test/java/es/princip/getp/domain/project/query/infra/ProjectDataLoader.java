@@ -3,17 +3,19 @@ package es.princip.getp.domain.project.query.infra;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.project.command.domain.Project;
+import es.princip.getp.domain.project.command.domain.ProjectStatus;
 import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.LongStream;
 
 import static es.princip.getp.domain.client.fixture.ClientFixture.clientList;
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.MemberFixture.memberList;
-import static es.princip.getp.domain.project.fixture.ProjectFixture.projectList;
+import static es.princip.getp.domain.project.fixture.ProjectFixture.project;
 
 @RequiredArgsConstructor
 public class ProjectDataLoader implements DataLoader {
@@ -45,7 +47,9 @@ public class ProjectDataLoader implements DataLoader {
     private void loadProject(final int size) {
         final long clientIdBias = 1;
 
-        List<Project> projectList = projectList(size, clientIdBias);
+        List<Project> projectList = LongStream.range(0, size)
+            .mapToObj(i -> project(clientIdBias + i, ProjectStatus.APPLYING))
+            .toList();
 
         projectList.forEach(entityManager::persist);
     }

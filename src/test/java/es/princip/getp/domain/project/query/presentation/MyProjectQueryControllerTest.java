@@ -23,8 +23,7 @@ import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsRespo
 import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.infra.util.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -45,14 +44,14 @@ class MyProjectQueryControllerTest extends AbstractControllerTest {
 
         private final int page = 0;
         private final int size = 10;
-        private final Sort sort = Sort.by(Sort.Order.desc("PROJECT_ID"));
+        private final Sort sort = Sort.by(Sort.Order.desc("projectId"));
 
         private ResultActions perform() throws Exception {
             return mockMvc.perform(get("/projects/me")
                 .header("Authorization", "Bearer ${ACCESS_TOKEN}")
                 .queryParam("page", String.valueOf(page))
                 .queryParam("size", String.valueOf(size))
-                .queryParam("sort", "PROJECT_ID,desc"));
+                .queryParam("sort", "projectId,desc"));
         }
 
         @Test
@@ -76,7 +75,8 @@ class MyProjectQueryControllerTest extends AbstractControllerTest {
                 )
             );
             Page<MyProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
-            given(myProjectDao.findPagedMyProjectCard(any(Pageable.class), anyLong())).willReturn(page);
+            given(myProjectDao.findPagedMyProjectCard(any(Pageable.class), anyLong(), anyBoolean()))
+                .willReturn(page);
 
             perform()
                 .andExpect(status().isOk())
@@ -85,11 +85,17 @@ class MyProjectQueryControllerTest extends AbstractControllerTest {
                         requestHeaders(authorizationHeaderDescriptor()),
                         queryParameters(
                             parameterWithName("page").description("페이지 번호")
-                                .optional().attributes(key("default").value("0")),
+                                .optional()
+                                .attributes(key("default").value("0")),
                             parameterWithName("size").description("페이지 크기")
-                                .optional().attributes(key("default").value("10")),
+                                .optional()
+                                .attributes(key("default").value("10")),
                             parameterWithName("sort").description("정렬 방식")
-                                .optional().attributes(key("default").value("PROJECT_ID,desc"))
+                                .optional()
+                                .attributes(key("default").value("projectId,desc")),
+                            parameterWithName("cancelled").description("만료된 프로젝트 보기 여부")
+                                .optional()
+                                .attributes(key("default").value("false"))
                         ),
                         responseFields(ProjectCardResponseDescription.description())
                             .and(pageResponseFieldDescriptors())
