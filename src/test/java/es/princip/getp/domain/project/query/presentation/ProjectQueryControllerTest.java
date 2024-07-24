@@ -9,8 +9,8 @@ import es.princip.getp.domain.project.command.domain.ProjectCategory;
 import es.princip.getp.domain.project.command.domain.ProjectStatus;
 import es.princip.getp.domain.project.query.dao.ProjectDao;
 import es.princip.getp.domain.project.query.dto.AttachmentFilesResponse;
-import es.princip.getp.domain.project.query.dto.DetailProjectResponse;
 import es.princip.getp.domain.project.query.dto.ProjectClientResponse;
+import es.princip.getp.domain.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.infra.support.AbstractControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -46,7 +46,7 @@ class ProjectQueryControllerTest extends AbstractControllerTest {
         @Test
         @DisplayName("사용자는 프로젝트의 상세 정보를 조회할 수 있다.")
         void getProject() throws Exception {
-            DetailProjectResponse response = new DetailProjectResponse(
+            ProjectDetailResponse response = new ProjectDetailResponse(
                 peopleId,
                 "프로젝트 제목",
                 1_000_000L,
@@ -81,7 +81,7 @@ class ProjectQueryControllerTest extends AbstractControllerTest {
                     address()
                 )
             );
-            given(projectDao.findDetailProjectById(peopleId)).willReturn(response);
+            given(projectDao.findProjectDetailById(peopleId)).willReturn(response);
 
             mockMvc.perform(get("/projects/{projectId}", peopleId))
                 .andExpect(status().isOk());

@@ -6,7 +6,7 @@ import es.princip.getp.domain.project.command.domain.MeetingType;
 import es.princip.getp.domain.project.command.domain.ProjectCategory;
 import es.princip.getp.domain.project.command.domain.ProjectStatus;
 
-public record DetailProjectResponse(
+public record ProjectDetailResponse(
     Long projectId,
     String title,
     Long payment,

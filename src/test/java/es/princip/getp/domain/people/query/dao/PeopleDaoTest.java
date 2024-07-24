@@ -22,6 +22,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(PeopleDaoConfig.class)
 public class PeopleDaoTest extends DaoTest {
 
+    public PeopleDaoTest() {
+        super(100);
+    }
+
     @Autowired
     private PeopleDao peopleDao;
 

@@ -1,8 +1,8 @@
 package es.princip.getp.domain.project.query.infra;
 
+import es.princip.getp.domain.project.query.dao.MyProjectDao;
+import es.princip.getp.domain.project.query.dao.MyProjectQueryDslDao;
 import es.princip.getp.domain.project.query.dao.ProjectApplicationDao;
-import es.princip.getp.domain.project.query.dao.ProjectDao;
-import es.princip.getp.domain.project.query.dao.ProjectQueryDslDao;
 import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import;
 
 @TestConfiguration
 @Import(ProjectApplicationDaoConfig.class)
-public class ProjectDaoConfig {
+public class MyProjectDaoConfig {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -22,12 +22,12 @@ public class ProjectDaoConfig {
     private ProjectApplicationDao projectApplicationDao;
 
     @Bean
-    public ProjectDao projectDao() {
-        return new ProjectQueryDslDao(projectApplicationDao);
+    public MyProjectDao myProjectDao() {
+        return new MyProjectQueryDslDao(projectApplicationDao);
     }
 
     @Bean
-    public DataLoader projectDataLoader() {
-        return new ProjectDataLoader(entityManager);
+    public DataLoader myProjectDataLoader() {
+        return new MyProjectDataLoader(entityManager);
     }
 }
