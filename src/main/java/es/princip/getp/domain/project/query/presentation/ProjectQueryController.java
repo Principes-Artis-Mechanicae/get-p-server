@@ -31,7 +31,7 @@ public class ProjectQueryController {
      */
     @GetMapping
     public ResponseEntity<ApiSuccessResult<PageResponse<ProjectCardResponse>>> getProjects(
-        @PageableDefault(sort = "PROJECT_ID", direction = Sort.Direction.DESC) final Pageable pageable) {
+        @PageableDefault(sort = "projectId", direction = Sort.Direction.DESC) final Pageable pageable) {
         final PageResponse<ProjectCardResponse> response = PageResponse.from(projectDao.findPagedProjectCard(pageable));
         return ApiResponse.success(HttpStatus.OK, response);
     }
