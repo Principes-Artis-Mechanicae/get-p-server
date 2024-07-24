@@ -5,7 +5,7 @@ import es.princip.getp.domain.common.dto.HashtagsResponse;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.command.domain.ProjectStatus;
 
-public record ProjectCardResponse(
+public record MyProjectCardResponse(
     Long projectId,
     String title,
     Long payment,
@@ -17,8 +17,22 @@ public record ProjectCardResponse(
     ProjectStatus status
 ) {
 
-    public static ProjectCardResponse from(final Project project, final Long applicantsCount) {
-        return new ProjectCardResponse(
+    public static MyProjectCardResponse from(final Project project) {
+        return new MyProjectCardResponse(
+            project.getProjectId(),
+            project.getTitle(),
+            project.getPayment(),
+            0L,
+            project.getEstimatedDuration().days(),
+            project.getApplicationDuration(),
+            HashtagsResponse.from(project.getHashtags()),
+            project.getDescription(),
+            project.getStatus()
+        );
+    }
+
+    public static MyProjectCardResponse from(final Project project, final Long applicantsCount) {
+        return new MyProjectCardResponse(
             project.getProjectId(),
             project.getTitle(),
             project.getPayment(),

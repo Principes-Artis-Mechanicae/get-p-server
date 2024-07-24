@@ -7,6 +7,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Embeddable
 @MappedSuperclass
@@ -38,16 +39,32 @@ public class Duration {
         return new Duration(startDate, endDate);
     }
 
-    public boolean isBetween(Duration duration) {
-        return (startDate.isEqual(duration.startDate) || startDate.isAfter(duration.startDate)) &&
-            (endDate.isEqual(duration.endDate) || endDate.isBefore(duration.endDate));
-    }
-
+    /**
+     * 주어진 기간의 시작일보다 종료일이 느린지 비교한다.
+     *
+     * @param duration 비교할 기간
+     * @return 종료일이 느리면 true, 그렇지 않으면 false
+     */
     public boolean isBefore(Duration duration) {
         return endDate.isBefore(duration.startDate);
     }
 
+    /**
+     * 주어진 기간의 종료일보다 시작일이 빠른지 비교한다.
+     *
+     * @param duration 비교할 기간
+     * @return 시작일이 빠르면 true, 그렇지 않으면 false
+     */
     public boolean isAfter(Duration duration) {
         return startDate.isAfter(duration.endDate);
+    }
+
+    /**
+     * 시작일과 종료일의 차이를 구한다.
+     *
+     * @return 시작일과 종료일의 차이 일수
+     */
+    public Long days() {
+        return ChronoUnit.DAYS.between(startDate, endDate);
     }
 }

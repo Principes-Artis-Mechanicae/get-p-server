@@ -9,37 +9,56 @@ import es.princip.getp.domain.project.query.dto.ProjectClientResponse;
 import es.princip.getp.domain.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.infra.support.QueryDslSupport;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static es.princip.getp.domain.client.command.domain.QClient.client;
 import static es.princip.getp.domain.member.command.domain.model.QMember.member;
 import static es.princip.getp.domain.project.command.domain.QProject.project;
+import static es.princip.getp.domain.project.query.dao.ProjectDaoHelper.toProjectIds;
 
 @Repository
-public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
+@RequiredArgsConstructor
+public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
 
-    @Override
-    public Page<ProjectCardResponse> findPagedProjectCard(Pageable pageable) {
-        return applyPagination(
-            pageable,
-            getProjectContent(pageable),
-            countQuery -> countQuery.select(project.count()).from(project)
-        );
-    }
+    private final ProjectApplicationDao projectApplicationDao;
 
-    private List<ProjectCardResponse> getProjectContent(Pageable pageable) {
+    private List<Project> getProjects(Pageable pageable) {
         return queryFactory.selectFrom(project)
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
-            .fetch()
-            .stream()
-            .map(ProjectCardResponse::from)
+            .fetch();
+    }
+
+    private List<ProjectCardResponse> assembleProjectCardResponse(
+        final List<Project> projects,
+        final Map<Long, Long> projectApplicationCounts
+    ) {
+        return projects.stream()
+            .map(project -> ProjectCardResponse.from(
+                project,
+                projectApplicationCounts.get(project.getProjectId())
+            ))
             .toList();
+    }
+
+    @Override
+    public Page<ProjectCardResponse> findPagedProjectCard(Pageable pageable) {
+        final List<Project> projects = getProjects(pageable);
+        final Long[] projectIds = toProjectIds(projects);
+        final Map<Long, Long> projectApplicationCounts = projectApplicationDao.countByProjectIds(projectIds);
+        final List<ProjectCardResponse> content = assembleProjectCardResponse(projects, projectApplicationCounts);
+        return applyPagination(
+            pageable,
+            content,
+            countQuery -> countQuery.select(project.count()).from(project)
+        );
     }
 
     private ProjectClientResponse getProjectClientResponseByClientId(final Long clientId) {
