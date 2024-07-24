@@ -4,11 +4,14 @@ import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.project.command.domain.Project;
+import es.princip.getp.domain.project.command.domain.ProjectStatus;
 import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -42,9 +45,15 @@ public class MyProjectDataLoader implements DataLoader {
     }
 
     private void loadProject(final int size, final Long clientId) {
-        final List<Project> projectList = IntStream.rangeClosed(1, size)
-            .mapToObj(i -> project(clientId))
-            .toList();
+        final List<Project> projectList = new ArrayList<>();
+        final int eachSize = size / ProjectStatus.values().length;
+
+        Arrays.stream(ProjectStatus.values()).forEach(status -> {
+            final List<Project> projects = IntStream.rangeClosed(1, eachSize)
+                .mapToObj(i -> project(clientId, status))
+                .toList();
+            projectList.addAll(projects);
+        });
 
         projectList.forEach(entityManager::persist);
     }
