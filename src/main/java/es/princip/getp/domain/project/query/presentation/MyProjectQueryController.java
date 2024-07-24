@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,11 +37,12 @@ public class MyProjectQueryController {
     @GetMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<PageResponse<MyProjectCardResponse>>> getMyProjects(
-        @PageableDefault(sort = "PROJECT_ID", direction = Sort.Direction.DESC) final Pageable pageable,
+        @PageableDefault(sort = "projectId", direction = Sort.Direction.DESC) final Pageable pageable,
+        @RequestParam(defaultValue = "false") final Boolean cancelled, // 만료된 프로젝트 보기 여부
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final Page<MyProjectCardResponse> page = myProjectDao.findPagedMyProjectCard(pageable, memberId);
+        final Page<MyProjectCardResponse> page = myProjectDao.findPagedMyProjectCard(pageable, memberId, cancelled);
         final PageResponse<MyProjectCardResponse> response = PageResponse.from(page);
         return ApiResponse.success(HttpStatus.OK, response);
     }

@@ -13,5 +13,5 @@ public interface MyProjectDao {
      * @param memberId 의뢰자의 회원 ID
      * @return 의뢰자가 의뢰한 프로젝트 목록 페이지
      */
-    Page<MyProjectCardResponse> findPagedMyProjectCard(Pageable pageable, Long memberId);
+    Page<MyProjectCardResponse> findPagedMyProjectCard(Pageable pageable, Long memberId, Boolean cancelled);
 }
