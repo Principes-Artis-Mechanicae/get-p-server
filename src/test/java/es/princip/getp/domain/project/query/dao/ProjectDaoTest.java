@@ -18,6 +18,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(ProjectDaoConfig.class)
 class ProjectDaoTest extends DaoTest {
 
+    public ProjectDaoTest() {
+        super(100);
+    }
+
     @Autowired
     private ProjectDao projectDao;
 

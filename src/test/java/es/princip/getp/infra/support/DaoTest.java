@@ -21,7 +21,11 @@ import java.util.List;
 @Execution(ExecutionMode.SAME_THREAD)
 public abstract class DaoTest {
 
-    public static final int TEST_SIZE = 100;
+    protected final int TEST_SIZE;
+
+    public DaoTest(final int TEST_SIZE) {
+        this.TEST_SIZE = TEST_SIZE;
+    }
 
     @Autowired
     private List<DataLoader> dataLoaders;
