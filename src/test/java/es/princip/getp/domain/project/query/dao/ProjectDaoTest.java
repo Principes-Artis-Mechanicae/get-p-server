@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.query.dao;
 
-import es.princip.getp.domain.project.query.dto.CardProjectResponse;
-import es.princip.getp.domain.project.query.dto.DetailProjectResponse;
+import es.princip.getp.domain.project.query.dto.ProjectCardResponse;
+import es.princip.getp.domain.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.domain.project.query.infra.ProjectDaoConfig;
 import es.princip.getp.infra.support.DaoTest;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +18,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(ProjectDaoConfig.class)
 class ProjectDaoTest extends DaoTest {
 
+    public ProjectDaoTest() {
+        super(100);
+    }
+
     @Autowired
     private ProjectDao projectDao;
 
     @Test
-    void findCardProjectPage() {
+    void findPagedProjectCard() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page<CardProjectResponse> response = projectDao.findCardProjectPage(pageable);
+        Page<ProjectCardResponse> response = projectDao.findPagedProjectCard(pageable);
 
         log.info("response: {}", response.getContent());
 
@@ -34,8 +38,8 @@ class ProjectDaoTest extends DaoTest {
     }
 
     @Test
-    void findDetailProjectById() {
-        DetailProjectResponse response = projectDao.findDetailProjectById(1L);
+    void findProjectDetailById() {
+        ProjectDetailResponse response = projectDao.findProjectDetailById(1L);
 
         log.info("response: {}", response);
 

@@ -5,11 +5,10 @@ import es.princip.getp.domain.project.command.domain.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.LongStream;
 
 public class ProjectFixture {
 
-    public static Project project(final Long clientId) {
+    public static Project project(final Long clientId, final ProjectStatus status) {
         return Project.builder()
             .clientId(clientId)
             .category(ProjectCategory.BACKEND)
@@ -18,7 +17,7 @@ public class ProjectFixture {
                 AttachmentFile.from("https://example.com/attachment2")
             ))
             .payment(1_000_000L)
-            .status(ProjectStatus.APPLYING)
+            .status(status)
             .title("프로젝트 제목")
             .description("프로젝트 설명")
             .meetingType(MeetingType.IN_PERSON)
@@ -35,11 +34,5 @@ public class ProjectFixture {
                 Hashtag.of("Spring Boot")
             ))
             .build();
-    }
-
-    public static List<Project> projectList(final int size, final Long clientIdBias) {
-        return LongStream.range(0, size)
-            .mapToObj(i -> project(clientIdBias + i))
-            .toList();
     }
 }
