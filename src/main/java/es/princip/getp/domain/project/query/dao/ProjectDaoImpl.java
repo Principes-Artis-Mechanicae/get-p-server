@@ -4,9 +4,9 @@ import com.querydsl.core.types.Projections;
 import es.princip.getp.domain.common.dto.HashtagsResponse;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.query.dto.AttachmentFilesResponse;
-import es.princip.getp.domain.project.query.dto.CardProjectResponse;
-import es.princip.getp.domain.project.query.dto.DetailProjectResponse;
+import es.princip.getp.domain.project.query.dto.ProjectCardResponse;
 import es.princip.getp.domain.project.query.dto.ProjectClientResponse;
+import es.princip.getp.domain.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.infra.support.QueryDslSupport;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,7 @@ import static es.princip.getp.domain.project.command.domain.QProject.project;
 public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
 
     @Override
-    public Page<CardProjectResponse> findCardProjectPage(Pageable pageable) {
+    public Page<ProjectCardResponse> findPagedProjectCard(Pageable pageable) {
         return applyPagination(
             pageable,
             getProjectContent(pageable),
@@ -32,13 +32,13 @@ public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
         );
     }
 
-    private List<CardProjectResponse> getProjectContent(Pageable pageable) {
+    private List<ProjectCardResponse> getProjectContent(Pageable pageable) {
         return queryFactory.selectFrom(project)
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch()
             .stream()
-            .map(CardProjectResponse::from)
+            .map(ProjectCardResponse::from)
             .toList();
     }
 
@@ -61,7 +61,7 @@ public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
     }
 
     @Override
-    public DetailProjectResponse findDetailProjectById(final Long projectId) {
+    public ProjectDetailResponse findProjectDetailById(final Long projectId) {
         final Project result = Optional.ofNullable(
             queryFactory.selectFrom(project)
                 .where(project.projectId.eq(projectId))
@@ -69,7 +69,7 @@ public class ProjectDaoImpl extends QueryDslSupport implements ProjectDao {
             )
             .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
 
-        return new DetailProjectResponse(
+        return new ProjectDetailResponse(
             result.getProjectId(),
             result.getTitle(),
             result.getPayment(),
