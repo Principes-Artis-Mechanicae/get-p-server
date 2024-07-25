@@ -3,17 +3,17 @@ package es.princip.getp.domain.project.fixture;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.project.command.domain.MeetingType;
 import es.princip.getp.domain.project.command.domain.ProjectCategory;
-import es.princip.getp.domain.project.command.presentation.dto.request.RegisterProjectRequest;
+import es.princip.getp.domain.project.command.presentation.dto.request.CommissionProjectRequest;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsRequest;
 
-public class RegisterProjectRequestFixture {
+public class CommissionProjectRequestFixture {
 
-    public static RegisterProjectRequest registerProjectRequest() {
-        return new RegisterProjectRequest(
+    public static CommissionProjectRequest registerProjectRequest() {
+        return new CommissionProjectRequest(
             "프로젝트 제목",
             1_000_000L,
             Duration.of(

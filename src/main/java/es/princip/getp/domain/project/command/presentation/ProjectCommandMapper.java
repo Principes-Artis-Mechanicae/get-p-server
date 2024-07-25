@@ -7,7 +7,7 @@ import es.princip.getp.domain.project.command.application.command.ApplyProjectCo
 import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;
 import es.princip.getp.domain.project.command.domain.AttachmentFile;
 import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectRequest;
-import es.princip.getp.domain.project.command.presentation.dto.request.RegisterProjectRequest;
+import es.princip.getp.domain.project.command.presentation.dto.request.CommissionProjectRequest;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {URLMapper.class, HashtagMapper.class})
@@ -17,5 +17,5 @@ public interface ProjectCommandMapper {
 
     AttachmentFile mapToAttachmentFile(URL url);
 
-    RegisterProjectCommand mapToCommand(Long memberId, RegisterProjectRequest request);
+    RegisterProjectCommand mapToCommand(Long memberId, CommissionProjectRequest request);
 }
