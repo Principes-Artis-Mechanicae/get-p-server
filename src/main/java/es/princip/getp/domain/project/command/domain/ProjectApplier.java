@@ -1,11 +1,14 @@
 package es.princip.getp.domain.project.command.domain;
 
+import es.princip.getp.domain.common.domain.ClockHolder;
+import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleProfileChecker;
 import es.princip.getp.domain.project.exception.ProjectApplicationClosedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Clock;
 import java.util.List;
 
 import static es.princip.getp.domain.project.command.domain.ProjectApplicationStatus.APPLICATION_COMPLETED;
@@ -15,6 +18,7 @@ import static es.princip.getp.domain.project.command.domain.ProjectApplicationSt
 public class ProjectApplier {
 
     private final PeopleProfileChecker peopleProfileChecker;
+    private final ClockHolder clockHolder;
 
     /**
      * 프로젝트 지원
@@ -29,16 +33,15 @@ public class ProjectApplier {
     public ProjectApplication applyForProject(
         final People people,
         final Project project,
-        final ExpectedDuration expectedDuration,
+        final Duration expectedDuration,
         final String description,
         final List<AttachmentFile> attachmentFiles
     ) {
-        if (project.isApplicationClosed()) {
+        final Clock clock = clockHolder.getClock();
+        if (project.isApplicationClosed(clock)) {
             throw new ProjectApplicationClosedException();
         }
-
         peopleProfileChecker.checkPeopleProfileIsRegistered(people);
-
         return ProjectApplication.builder()
             .applicantId(people.getPeopleId())
             .projectId(project.getProjectId())

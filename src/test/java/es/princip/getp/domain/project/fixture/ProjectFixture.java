@@ -1,5 +1,6 @@
 package es.princip.getp.domain.project.fixture;
 
+import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.project.command.domain.*;
 
@@ -21,11 +22,11 @@ public class ProjectFixture {
             .title("프로젝트 제목")
             .description("프로젝트 설명")
             .meetingType(MeetingType.IN_PERSON)
-            .applicationDuration(ApplicationDuration.of(
+            .applicationDuration(Duration.of(
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 7, 31)
             ))
-            .estimatedDuration(EstimatedDuration.of(
+            .estimatedDuration(Duration.of(
                 LocalDate.of(2024, 8, 1),
                 LocalDate.of(2024, 8, 31)
             ))
