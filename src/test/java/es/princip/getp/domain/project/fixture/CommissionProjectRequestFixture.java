@@ -17,12 +17,12 @@ public class CommissionProjectRequestFixture {
             "프로젝트 제목",
             1_000_000L,
             Duration.of(
-                LocalDate.of(2024, 1, 1),
-                LocalDate.of(2024, 1, 2)
+                LocalDate.of(2024, 7, 1),
+                LocalDate.of(2024, 7, 31)
             ),
             Duration.of(
-                LocalDate.of(2024, 1, 1),
-                LocalDate.of(2024, 1, 2)
+                LocalDate.of(2024, 8, 1),
+                LocalDate.of(2024, 8, 31)
             ),
             "프로젝트 설명",
             MeetingType.IN_PERSON,
