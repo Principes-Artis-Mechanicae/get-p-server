@@ -1,10 +1,12 @@
 package es.princip.getp.domain.project.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.common.domain.Hashtag;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +39,7 @@ public class Project extends BaseTimeEntity {
             @AttributeOverride(name = "endDate", column = @Column(name = "application_end_date"))
         }
     )
-    private ApplicationDuration applicationDuration;
+    private Duration applicationDuration;
 
     // 예상 작업 기간
     @Embedded
@@ -47,7 +49,7 @@ public class Project extends BaseTimeEntity {
             @AttributeOverride(name = "endDate", column = @Column(name = "estimated_end_date"))
         }
     )
-    private EstimatedDuration estimatedDuration;
+    private Duration estimatedDuration;
 
     // 상세 설명
     @Column(name = "description")
@@ -89,17 +91,17 @@ public class Project extends BaseTimeEntity {
 
     @Builder
     public Project(
-        String title,
-        Long payment,
-        ApplicationDuration applicationDuration,
-        EstimatedDuration estimatedDuration,
-        String description,
-        MeetingType meetingType,
-        ProjectCategory category,
-        ProjectStatus status,
-        Long clientId,
-        List<AttachmentFile> attachmentFiles,
-        List<Hashtag> hashtags
+        final String title,
+        final Long payment,
+        final Duration applicationDuration,
+        final Duration estimatedDuration,
+        final String description,
+        final MeetingType meetingType,
+        final ProjectCategory category,
+        final ProjectStatus status,
+        final Long clientId,
+        final List<AttachmentFile> attachmentFiles,
+        final List<Hashtag> hashtags
     ) {
         this.title = title;
         this.payment = payment;
@@ -122,7 +124,7 @@ public class Project extends BaseTimeEntity {
         return Collections.unmodifiableList(hashtags);
     }
 
-    public boolean isApplicationClosed() {
-        return applicationDuration.isClosed() || status != ProjectStatus.APPLYING;
+    public boolean isApplicationClosed(final Clock clock) {
+        return applicationDuration.isEnded(clock) || status != ProjectStatus.APPLYING;
     }
 }

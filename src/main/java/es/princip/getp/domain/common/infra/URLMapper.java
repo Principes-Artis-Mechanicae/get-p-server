@@ -6,5 +6,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface URLMapper {
 
-    URL stringToURL(String url);
+    URL mapToURL(String url);
 }
