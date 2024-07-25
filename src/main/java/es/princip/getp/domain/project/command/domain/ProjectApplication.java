@@ -1,6 +1,7 @@
 package es.princip.getp.domain.project.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.common.domain.Duration;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,7 +38,7 @@ public class ProjectApplication extends BaseTimeEntity {
             @AttributeOverride(name = "endDate", column = @Column(name = "expected_end_date"))
         }
     )
-    private ExpectedDuration expectedDuration;
+    private Duration expectedDuration;
 
     // 지원 상태
     @Enumerated(EnumType.STRING)
@@ -57,7 +58,7 @@ public class ProjectApplication extends BaseTimeEntity {
     public ProjectApplication(
         final Long applicantId,
         final Long projectId,
-        final ExpectedDuration expectedDuration,
+        final Duration expectedDuration,
         final ProjectApplicationStatus applicationStatus,
         final String description,
         final List<AttachmentFile> attachmentFiles
