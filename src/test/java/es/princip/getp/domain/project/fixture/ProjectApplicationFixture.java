@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.fixture;
 
-import es.princip.getp.domain.project.command.domain.ExpectedDuration;
+import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.project.command.domain.ProjectApplication;
 import es.princip.getp.domain.project.command.domain.ProjectApplicationStatus;
 
@@ -12,7 +12,7 @@ public class ProjectApplicationFixture {
         return ProjectApplication.builder()
             .applicantId(peopleId)
             .projectId(projectID)
-            .expectedDuration(ExpectedDuration.of(
+            .expectedDuration(Duration.of(
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 7, 31)
             ))

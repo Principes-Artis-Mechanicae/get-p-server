@@ -1,10 +1,8 @@
 package es.princip.getp.domain.project.command.presentation;
 
-import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.project.command.application.ProjectApplicationService;
 import es.princip.getp.domain.project.command.application.command.ApplyProjectCommand;
-import es.princip.getp.domain.project.command.infra.ProjectMapper;
 import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectRequest;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;
@@ -15,10 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.time.LocalDate;
-import java.util.List;
-
+import static es.princip.getp.domain.project.fixture.ApplyProjectRequestFixture.applyProjectRequest;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,14 +24,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProjectApplicationControllerTest extends AbstractControllerTest {
 
     @MockBean
-    private ProjectMapper projectMapper;
+    private ProjectCommandMapper projectCommandMapper;
 
     @MockBean
     private ProjectApplicationService projectApplicationService;
 
     @BeforeEach
     void setUp() {
-        given(projectMapper.toCommand(any(), any(), any())).willReturn(mock(ApplyProjectCommand.class));
+        given(projectCommandMapper.mapToCommand(anyLong(), anyLong(), any(ApplyProjectRequest.class)))
+            .willReturn(mock(ApplyProjectCommand.class));
     }
 
     @Nested
@@ -43,11 +41,7 @@ class ProjectApplicationControllerTest extends AbstractControllerTest {
 
         private final Long projectId = 1L;
         private final Long applicationId = 1L;
-        private final ApplyProjectRequest request = new ApplyProjectRequest(
-            Duration.of(LocalDate.now(), LocalDate.now()),
-            "설명",
-            List.of()
-        );
+        private final ApplyProjectRequest request = applyProjectRequest();
 
         @Test
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
