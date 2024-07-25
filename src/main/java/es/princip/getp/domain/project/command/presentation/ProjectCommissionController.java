@@ -1,7 +1,8 @@
 package es.princip.getp.domain.project.command.presentation;
 
 import es.princip.getp.domain.project.command.application.ProjectService;
-import es.princip.getp.domain.project.command.presentation.dto.request.RegisterProjectRequest;
+import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;
+import es.princip.getp.domain.project.command.presentation.dto.request.CommissionProjectRequest;
 import es.princip.getp.domain.project.command.presentation.dto.response.RegisterProjectResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
@@ -20,8 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/projects")
 @RequiredArgsConstructor
-public class ProjectController {
+public class ProjectCommissionController {
 
+    private final ProjectCommandMapper projectCommandMapper;
     private final ProjectService projectService;
 
     /**
@@ -32,12 +34,13 @@ public class ProjectController {
      */
     @PostMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<RegisterProjectResponse>> create(
-        @RequestBody @Valid final RegisterProjectRequest request,
+    public ResponseEntity<ApiSuccessResult<RegisterProjectResponse>> commissionProject(
+        @RequestBody @Valid final CommissionProjectRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final Long projectId = projectService.register(memberId, request);
+        final RegisterProjectCommand command = projectCommandMapper.mapToCommand(memberId, request);
+        final Long projectId = projectService.registerProject(command);
         final RegisterProjectResponse response = new RegisterProjectResponse(projectId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }

@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record RegisterProjectRequest(
+public record CommissionProjectRequest(
     @NotBlank String title,
     @NotNull Long payment,
     @NotNull Duration applicationDuration,
