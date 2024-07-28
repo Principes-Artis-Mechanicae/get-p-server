@@ -28,6 +28,12 @@ include::{docdir}/auth/reissue-access-token.adoc[]
 
 == 사용자
 
+=== 내 회원 정보 조회
+
+회원은 자신의 회원 정보를 조회할 수 있습니다.
+
+include::{docdir}/member/get-my-member.adoc[]
+
 === 내 프로필 사진 등록
 
 include::{docdir}/member/upload-profile-image.adoc[]

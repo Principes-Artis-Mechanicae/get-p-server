@@ -7,7 +7,7 @@ public class ProfileImageFixture {
     private static final String FILE_NAME = "image.jpg";
 
     public static ProfileImage profileImage(final Long memberId) {
-        final String profileImage = String.format("/images/profile/%d/%s", memberId, FILE_NAME);
+        final String profileImage = String.format("/images/%d/profile/%s", memberId, FILE_NAME);
         return ProfileImage.of(profileImage);
     }
 }
