@@ -12,31 +12,34 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.spy;
 
 public class WithCustomMockUserSecurityContextFactory implements WithSecurityContextFactory<WithCustomMockUser> {
 
     @Override
-    public SecurityContext createSecurityContext(WithCustomMockUser annotation) {
-        Email email = Email.of(annotation.email());
-        Password password = Password.of(annotation.password());
-        Nickname nickname = Nickname.of(annotation.nickname());
-        PhoneNumber phoneNumber = PhoneNumber.of(annotation.phoneNumber());
-        MemberType memberType = annotation.memberType();
-        LocalDateTime now = LocalDateTime.now();
+    public SecurityContext createSecurityContext(final WithCustomMockUser annotation) {
+        final Email email = Email.of(annotation.email());
+        final Password password = Password.of(annotation.password());
+        final Nickname nickname = Nickname.of(annotation.nickname());
+        final PhoneNumber phoneNumber = PhoneNumber.of(annotation.phoneNumber());
+        final ProfileImage profileImage = profileImage(annotation.memberId());
+        final MemberType memberType = annotation.memberType();
+        final LocalDateTime now = LocalDateTime.now();
 
-        Member member = spy(Member.of(email, password, memberType));
+        final Member member = spy(Member.of(email, password, memberType));
         given(member.getMemberId()).willReturn(annotation.memberId());
         given(member.getNickname()).willReturn(nickname);
         given(member.getPhoneNumber()).willReturn(phoneNumber);
+        given(member.getProfileImage()).willReturn(profileImage);
         given(member.getCreatedAt()).willReturn(now);
         given(member.getUpdatedAt()).willReturn(now);
 
-        String role = annotation.memberType().name();
-        Authentication auth = new UsernamePasswordAuthenticationToken(new PrincipalDetails(member), "",
+        final String role = annotation.memberType().name();
+        final Authentication auth = new UsernamePasswordAuthenticationToken(new PrincipalDetails(member), "",
             List.of(new SimpleGrantedAuthority(role)));
-        SecurityContext context = SecurityContextHolder.getContext();
+        final SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(auth);
 
         return context;
