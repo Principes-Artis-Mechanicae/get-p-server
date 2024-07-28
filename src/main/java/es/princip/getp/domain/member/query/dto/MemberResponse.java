@@ -2,8 +2,11 @@ package es.princip.getp.domain.member.query.dto;
 
 import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.command.domain.model.Nickname;
+import es.princip.getp.domain.member.command.domain.model.ProfileImage;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public record MemberResponse(
     Long memberId,
@@ -18,8 +21,12 @@ public record MemberResponse(
         return new MemberResponse(
             member.getMemberId(),
             member.getEmail().getValue(),
-            member.getNickname().getValue(),
-            member.getProfileImage().getUri(),
+            Optional.ofNullable(member.getNickname())
+                .map(Nickname::getValue)
+                .orElse(null),
+            Optional.ofNullable(member.getProfileImage())
+                .map(ProfileImage::getUri)
+                .orElse(null),
             member.getMemberType(),
             member.getCreatedAt(),
             member.getUpdatedAt()
