@@ -1,6 +1,6 @@
 package es.princip.getp.domain.client.command.application;
 
-import es.princip.getp.domain.client.command.application.command.CreateClientCommand;
+import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
 import es.princip.getp.domain.client.command.application.command.UpdateClientCommand;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
@@ -24,7 +24,7 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     @Transactional
-    public Long create(CreateClientCommand command) {
+    public Long registerClient(RegisterClientCommand command) {
         if (clientRepository.existsByMemberId(command.memberId())) {
             throw new BusinessLogicException(ClientErrorCode.ALREADY_EXIST);
         }
