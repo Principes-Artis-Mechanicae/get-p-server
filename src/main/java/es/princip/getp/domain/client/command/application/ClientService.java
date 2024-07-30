@@ -1,7 +1,7 @@
 package es.princip.getp.domain.client.command.application;
 
+import es.princip.getp.domain.client.command.application.command.EditClientCommand;
 import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
-import es.princip.getp.domain.client.command.application.command.UpdateClientCommand;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
 import es.princip.getp.domain.client.exception.ClientErrorCode;
@@ -44,7 +44,7 @@ public class ClientService {
     }
 
     @Transactional
-    public void update(UpdateClientCommand command) {
+    public void editClient(EditClientCommand command) {
         memberService.update(UpdateMemberCommand.from(command));
         Client client = clientRepository.findByMemberId(command.memberId()).orElseThrow();
         client.edit(command.email(), command.address(), command.bankAccount());
