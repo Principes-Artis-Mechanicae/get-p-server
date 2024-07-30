@@ -1,11 +1,9 @@
 package es.princip.getp.domain.client.query.presentation;
 
-import es.princip.getp.domain.client.exception.ClientErrorCode;
 import es.princip.getp.domain.client.query.dao.ClientDao;
 import es.princip.getp.domain.client.query.dto.ClientResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
-import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,8 +31,7 @@ public class MyClientQueryController {
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getMyClient(
             @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final ClientResponse response = clientDao.findByMemberId(memberId)
-            .orElseThrow(() -> new BusinessLogicException(ClientErrorCode.NOT_FOUND));
+        final ClientResponse response = clientDao.findByMemberId(memberId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }
