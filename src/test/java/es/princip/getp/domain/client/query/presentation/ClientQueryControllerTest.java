@@ -13,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static es.princip.getp.domain.client.fixture.AddressFixture.address;
 import static es.princip.getp.domain.client.fixture.BankAccountFixture.bankAccount;
@@ -53,7 +52,7 @@ class ClientQueryControllerTest extends AbstractControllerTest {
                 now,
                 now
             );
-            given(clientDao.findById(clientId)).willReturn(Optional.of(response));
+            given(clientDao.findById(clientId)).willReturn(response);
 
             mockMvc.perform(get("/client/{clientId}", clientId))
                 .andExpect(status().isOk())
@@ -76,7 +75,7 @@ class ClientQueryControllerTest extends AbstractControllerTest {
                 now,
                 now
             );
-            given(clientDao.findById(clientId)).willReturn(Optional.of(response));
+            given(clientDao.findById(clientId)).willReturn(response);
 
             mockMvc.perform(get("/client/{clientId}", clientId))
                 .andExpect(status().isOk())

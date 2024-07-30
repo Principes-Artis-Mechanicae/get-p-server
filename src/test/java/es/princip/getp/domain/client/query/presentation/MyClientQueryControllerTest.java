@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static es.princip.getp.domain.client.fixture.AddressFixture.address;
 import static es.princip.getp.domain.client.fixture.BankAccountFixture.bankAccount;
@@ -62,7 +61,7 @@ class MyClientQueryControllerTest extends AbstractControllerTest {
         @DisplayName("의뢰자는 자신의 의뢰자 정보를 조회할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void getMyClient() throws Exception {
-            given(clientDao.findByMemberId(memberId)).willReturn(Optional.of(response));
+            given(clientDao.findByMemberId(memberId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())
