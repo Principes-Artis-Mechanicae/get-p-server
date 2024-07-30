@@ -1,6 +1,8 @@
 package es.princip.getp.domain.auth.application;
 
+import es.princip.getp.domain.auth.infra.VerificationSenderImpl;
 import es.princip.getp.domain.member.command.domain.model.Email;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,7 +25,7 @@ class EmailServiceTest {
     private JavaMailSender emailSender;
 
     @InjectMocks
-    private EmailServiceImpl emailService;
+    private VerificationSenderImpl emailService;
 
     @Nested
     @DisplayName("sendEmail()은")
@@ -32,10 +34,9 @@ class EmailServiceTest {
         @Test
         void sendEmail() {
             Email email = email();
-            String title = "title";
             String text = "text";
 
-            emailService.sendEmail(email, title, text);
+            emailService.send(email, text);
 
             verify(emailSender, times(1)).send(any(SimpleMailMessage.class));
         }

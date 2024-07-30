@@ -35,7 +35,7 @@ import static org.mockito.Mockito.*;
 class SignUpServiceTest {
 
     @Mock
-    private EmailVerificationService emailVerificationService;
+    private VerificationService emailVerificationService;
 
     @Mock
     private MemberService memberService;
@@ -61,7 +61,7 @@ class SignUpServiceTest {
 
             signUpService.sendEmailVerificationCodeForSignUp(email);
 
-            verify(emailVerificationService, times(1)).sendEmailVerificationCode(email);
+            verify(emailVerificationService, times(1)).sendVerificationCode(email);
         }
 
         @Test
