@@ -8,7 +8,7 @@ import es.princip.getp.domain.project.command.domain.ProjectCategory;
 
 import java.util.List;
 
-public record RegisterProjectCommand(
+public record CommissionProjectCommand(
     Long memberId,
     String title,
     Long payment,
