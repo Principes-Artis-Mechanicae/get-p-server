@@ -16,9 +16,9 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
-public @interface URLValid {
+public @interface URLPattern {
 
-    String message() default "";
+    String message() default "{validation.constraints.URL.message}";
 
     Class<?>[] groups() default {};
 
