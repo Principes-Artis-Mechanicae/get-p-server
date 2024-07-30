@@ -16,12 +16,8 @@ public class Hashtag {
     @NotBlank
     private String value;
 
-    private Hashtag(String value) {
-        this.value = validate(value);
-    }
-
-    private String validate(String value) {
-        return value;
+    public Hashtag(final String value) {
+        this.value = value;
     }
 
     public static Hashtag of(String value) {

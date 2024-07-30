@@ -1,6 +1,7 @@
 package es.princip.getp.domain.project.command.presentation;
 
 import es.princip.getp.domain.project.command.application.ProjectApplicationService;
+import es.princip.getp.domain.project.command.application.command.ApplyProjectCommand;
 import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectRequest;
 import es.princip.getp.domain.project.command.presentation.dto.response.ApplyProjectResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectApplicationController {
 
     private final ProjectApplicationService projectApplicationService;
+    private final ProjectCommandMapper projectCommandMapper;
 
     /**
      * 프로젝트 지원
@@ -35,7 +37,8 @@ public class ProjectApplicationController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable Long projectId) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final Long applicationId = projectApplicationService.applyForProject(memberId, projectId, request);
+        final ApplyProjectCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
+        final Long applicationId = projectApplicationService.applyForProject(command);
         final ApplyProjectResponse response = new ApplyProjectResponse(applicationId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }

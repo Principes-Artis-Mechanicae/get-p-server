@@ -15,7 +15,7 @@ public class AttachmentFile {
     @Embedded
     private URL url;
 
-    private AttachmentFile(final URL url) {
+    public AttachmentFile(final URL url) {
         this.url = url;
     }
 
