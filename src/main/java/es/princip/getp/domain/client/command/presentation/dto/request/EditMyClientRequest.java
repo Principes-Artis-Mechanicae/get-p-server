@@ -14,11 +14,11 @@ import jakarta.validation.constraints.NotNull;
 
 // 갱신 명령은 기존 필드를 모두 가지고 있어야 한다.
 public record EditMyClientRequest(
-    @NotBlank String nickname, // 필수
-    @NotNull @EmailPattern String email, // 선택, 미입력 시 회원 가입 시 작성한 이메일 주소가 기본값
-    @NotNull @PhoneNumberPattern String phoneNumber, // 필수
-    @NotNull @Valid Address address, // 선택
-    @NotNull @Valid BankAccount bankAccount // 선택
+    @NotBlank String nickname,
+    @NotNull @EmailPattern String email,
+    @NotNull @PhoneNumberPattern String phoneNumber,
+    @NotNull @Valid Address address,
+    @NotNull @Valid BankAccount bankAccount
 ) {
 
     public EditClientCommand toCommand(final Long memberId) {

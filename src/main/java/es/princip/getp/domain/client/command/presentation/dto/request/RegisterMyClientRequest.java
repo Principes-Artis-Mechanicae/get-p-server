@@ -10,11 +10,12 @@ import es.princip.getp.domain.member.command.domain.model.Nickname;
 import es.princip.getp.domain.member.command.domain.model.PhoneNumber;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record RegisterMyClientRequest(
     @NotBlank String nickname, // 필수
     @EmailPattern String email, // 선택, 미입력 시 회원 가입 시 작성한 이메일 주소가 기본값
-    @PhoneNumberPattern String phoneNumber, // 필수
+    @NotNull @PhoneNumberPattern String phoneNumber, // 필수
     @Valid Address address, // 선택
     @Valid BankAccount bankAccount // 선택
 ) {
