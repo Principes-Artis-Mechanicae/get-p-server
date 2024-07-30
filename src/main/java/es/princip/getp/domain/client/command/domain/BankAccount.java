@@ -3,6 +3,7 @@ package es.princip.getp.domain.client.command.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -19,8 +20,8 @@ public class BankAccount {
     private String bank;
 
     @Column(name = "account_number")
-    @NotBlank
-    @Pattern(regexp = "^[0-9]+$") // 계좌 번호는 숫자만 포함
+    @NotNull
+    @Pattern(regexp = "^[0-9]+$", message = "{validation.constraints.AccountNumber.message}") // 계좌 번호는 숫자만 포함
     private String accountNumber;
 
     @Column(name = "account_holder")

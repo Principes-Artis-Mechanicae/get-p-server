@@ -1,6 +1,6 @@
 package es.princip.getp.domain.client.command.presentation.description;
 
-import es.princip.getp.domain.client.command.presentation.dto.request.RegisterMyClientRequest;
+import es.princip.getp.domain.client.command.presentation.dto.request.EditMyClientRequest;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 import java.util.ArrayList;
@@ -8,13 +8,13 @@ import java.util.List;
 
 import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
 
-public class RegisterMyClientRequestDescription {
+public class EditMyClientRequestDescription {
 
     public static FieldDescriptor[] description() {
-        final Class<?> clazz = RegisterMyClientRequest.class;
+        final Class<?> clazz = EditMyClientRequest.class;
         final List<FieldDescriptor> descriptions = new ArrayList<>(List.of(
             getDescriptor("nickname", "닉네임", clazz),
-            getDescriptor("email", "이메일. 미입력 시 회원 정보의 이메일로 등록됩니다.", clazz),
+            getDescriptor("email", "이메일", clazz),
             getDescriptor("phoneNumber", "전화번호", clazz)
         ));
         descriptions.addAll(List.of(AddressDescription.description()));

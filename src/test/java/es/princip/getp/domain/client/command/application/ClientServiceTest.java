@@ -1,7 +1,7 @@
 package es.princip.getp.domain.client.command.application;
 
+import es.princip.getp.domain.client.command.application.command.EditClientCommand;
 import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
-import es.princip.getp.domain.client.command.application.command.UpdateClientCommand;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
 import es.princip.getp.domain.member.command.application.MemberService;
@@ -101,15 +101,15 @@ public class ClientServiceTest {
     }
 
     @Nested
-    @DisplayName("update()는")
-    class Update {
+    @DisplayName("editClient()는")
+    class EditClient {
 
         private final Long memberId = 1L;
 
         @Test
         @DisplayName("의뢰자 정보를 수정한다.")
-        void update() {
-            final UpdateClientCommand command = new UpdateClientCommand(
+        void editClient() {
+            final EditClientCommand command = new EditClientCommand(
                 memberId,
                 nickname(),
                 email(),
@@ -120,7 +120,7 @@ public class ClientServiceTest {
             final Client client = spy(Client.class);
             given(clientRepository.findByMemberId(command.memberId())).willReturn(Optional.of(client));
 
-            clientService.update(command);
+            clientService.editClient(command);
 
             verify(client, times(1)).edit(command.email(), command.address(), command.bankAccount());
         }
