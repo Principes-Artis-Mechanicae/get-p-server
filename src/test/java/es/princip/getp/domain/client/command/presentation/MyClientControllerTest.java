@@ -1,6 +1,7 @@
 package es.princip.getp.domain.client.command.presentation;
 
 import es.princip.getp.domain.client.command.application.ClientService;
+import es.princip.getp.domain.client.command.presentation.description.RegisterMyClientRequestDescription;
 import es.princip.getp.domain.client.command.presentation.dto.request.RegisterMyClientRequest;
 import es.princip.getp.domain.client.command.presentation.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.client.exception.ClientErrorCode;
@@ -27,6 +28,7 @@ import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFiel
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,6 +72,7 @@ class MyClientControllerTest extends AbstractControllerTest {
                 .andDo(
                     restDocs.document(
                         requestHeaders(authorizationHeaderDescriptor()),
+                        requestFields(RegisterMyClientRequestDescription.description()),
                         responseFields(
                            getDescriptor("clientId", "등록된 의뢰자 ID")
                         )
