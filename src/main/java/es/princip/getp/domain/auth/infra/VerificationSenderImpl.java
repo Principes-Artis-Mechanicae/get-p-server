@@ -1,34 +1,31 @@
-package es.princip.getp.domain.auth.application;
+package es.princip.getp.domain.auth.infra;
 
+import es.princip.getp.domain.auth.application.VerificationSender;
 import es.princip.getp.domain.auth.exception.EmailErrorCode;
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.infra.exception.BusinessLogicException;
+import es.princip.getp.infra.util.MailUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
-@Service
 @Slf4j
-public class EmailServiceImpl implements EmailService {
+@Service
+@RequiredArgsConstructor
+public class VerificationSenderImpl implements VerificationSender {
 
     private final JavaMailSender emailSender;
     
-    private SimpleMailMessage createEmailForm(Email email, String title, String text) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email.getValue());
-        message.setSubject(title);
-        message.setText(text);
-        return message;
-    }
-
-    public void sendEmail(Email email, String title, String text) {
-        SimpleMailMessage emailForm = createEmailForm(email, title, text);
+    @Async
+    @Override
+    public void send(Email email, String text) {
+        SimpleMailMessage message = MailUtil.createEmailForm(email, text);
         try {
-            emailSender.send(emailForm);
+            emailSender.send(message);
         } catch (MailException mailException) {
             log.error(mailException.getMessage());
             throw new BusinessLogicException(EmailErrorCode.EMAIL_SERVER_UNAVAILABLE);

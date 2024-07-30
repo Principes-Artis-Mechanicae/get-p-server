@@ -14,21 +14,21 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class EmailVerificationService {
+public class VerificationService {
 
-    private final EmailService emailService;
+    private final VerificationSender verificationSender;
     private final EmailVerificationRepository emailVerificationRepository;
 
     private final Long EXPIRATION_TIME;
     private final Integer VERIFICATION_CODE_LENGTH;
 
-    public EmailVerificationService(
-        EmailService emailService,
+    public VerificationService(
+        VerificationSender verificationSender,
         EmailVerificationRepository emailVerificationRepository,
         @Value("${spring.verification-code.expire-time}") Long EXPIRATION_TIME,
         @Value("${spring.verification-code.length}") Integer VERIFICATION_CODE_LENGTH
     ) {
-        this.emailService = emailService;
+        this.verificationSender = verificationSender;
         this.emailVerificationRepository = emailVerificationRepository;
         this.EXPIRATION_TIME = EXPIRATION_TIME;
         this.VERIFICATION_CODE_LENGTH = VERIFICATION_CODE_LENGTH;
@@ -39,12 +39,12 @@ public class EmailVerificationService {
     }
 
     @Transactional
-    public void sendEmailVerificationCode(Email email) {
+    public void sendVerificationCode(Email email) {
         if (getByEmail(email).isPresent()) {
             emailVerificationRepository.deleteById(email.getValue());
         }
         String verificationCode = RandomUtil.generateRandomCode(VERIFICATION_CODE_LENGTH);
-        emailService.sendEmail(email, "GET-P 인증 번호", verificationCode);
+        verificationSender.send(email, verificationCode);
         EmailVerification emailVerification = new EmailVerification(email.getValue(), verificationCode, EXPIRATION_TIME);
         emailVerificationRepository.save(emailVerification);
     }

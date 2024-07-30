@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "project_application")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -68,5 +69,9 @@ public class ProjectApplication extends BaseTimeEntity {
         this.applicationStatus = applicationStatus;
         this.description = description;
         this.attachmentFiles = attachmentFiles;
+    }
+    
+    public void setStatus(final ProjectApplicationStatus applicationStatus) {
+        this.applicationStatus = applicationStatus;
     }
 }

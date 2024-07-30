@@ -10,4 +10,6 @@ public interface ProjectDao {
     Page<CardProjectResponse> findCardProjectPage(Pageable pageable);
 
     DetailProjectResponse findDetailProjectById(Long projectId);
+
+    boolean existsByProjectIdAndMemberId(Long projectId, Long memberId);
 }
