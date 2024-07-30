@@ -3,6 +3,7 @@ package es.princip.getp.domain.client.query.dao;
 import com.querydsl.core.Tuple;
 import es.princip.getp.domain.client.query.dto.ClientResponse;
 import es.princip.getp.infra.support.QueryDslSupport;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class ClientDaoImpl extends QueryDslSupport implements ClientDao {
     }
 
     @Override
-    public Optional<ClientResponse> findById(final Long clientId) {
+    public ClientResponse findById(final Long clientId) {
         Tuple result = queryFactory.select(
                 client.clientId,
                 member.nickname.value,
@@ -49,11 +50,13 @@ public class ClientDaoImpl extends QueryDslSupport implements ClientDao {
             .where(client.clientId.eq(clientId))
             .fetchOne();
 
-        return Optional.ofNullable(toClientResponse(result));
+        return Optional.ofNullable(toClientResponse(result)).orElseThrow(
+            () -> new EntityNotFoundException("해당 의뢰자 정보가 존재하지 않습니다.")
+        );
     }
 
     @Override
-    public Optional<ClientResponse> findByMemberId(final Long memberId) {
+    public ClientResponse findByMemberId(final Long memberId) {
         Tuple result = queryFactory.select(
                 client.clientId,
                 member.nickname.value,
@@ -70,6 +73,8 @@ public class ClientDaoImpl extends QueryDslSupport implements ClientDao {
             .where(client.memberId.eq(memberId))
             .fetchOne();
 
-        return Optional.ofNullable(toClientResponse(result));
+        return Optional.ofNullable(toClientResponse(result)).orElseThrow(
+            () -> new EntityNotFoundException("해당 의뢰자 정보가 존재하지 않습니다.")
+        );
     }
 }
