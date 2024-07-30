@@ -1,9 +1,9 @@
 package es.princip.getp.domain.client.command.presentation;
 
 import es.princip.getp.domain.client.command.application.ClientService;
-import es.princip.getp.domain.client.command.application.command.CreateClientCommand;
+import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
 import es.princip.getp.domain.client.command.application.command.UpdateClientCommand;
-import es.princip.getp.domain.client.command.presentation.dto.request.CreateClientRequest;
+import es.princip.getp.domain.client.command.presentation.dto.request.RegisterMyClientRequest;
 import es.princip.getp.domain.client.command.presentation.dto.request.UpdateClientRequest;
 import es.princip.getp.domain.client.command.presentation.dto.response.CreateClientResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
@@ -31,12 +31,12 @@ public class MyClientController {
      */
     @PostMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<CreateClientResponse>> create(
-        @RequestBody @Valid final CreateClientRequest request,
+    public ResponseEntity<ApiSuccessResult<CreateClientResponse>> registerMyClient(
+        @RequestBody @Valid final RegisterMyClientRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final CreateClientCommand command = request.toCommand(memberId);
-        final Long clientId = clientService.create(command);
+        final RegisterClientCommand command = request.toCommand(memberId);
+        final Long clientId = clientService.registerClient(command);
         final CreateClientResponse response = new CreateClientResponse(clientId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }

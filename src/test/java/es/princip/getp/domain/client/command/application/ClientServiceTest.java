@@ -1,6 +1,6 @@
 package es.princip.getp.domain.client.command.application;
 
-import es.princip.getp.domain.client.command.application.command.CreateClientCommand;
+import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
 import es.princip.getp.domain.client.command.application.command.UpdateClientCommand;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
@@ -46,16 +46,16 @@ public class ClientServiceTest {
     private ClientRepository clientRepository;
 
     @Nested
-    @DisplayName("create()는")
-    class Create {
+    @DisplayName("registerClient()는")
+    class RegisterClient {
 
         private final Long clientId = 1L;
         private final Long memberId = 1L;
 
         @Test
         @DisplayName("의뢰자 정보를 등록한다.")
-        void create() {
-            final CreateClientCommand command = new CreateClientCommand(
+        void registerClient() {
+            final RegisterClientCommand command = new RegisterClientCommand(
                 memberId,
                 nickname(),
                 email(),
@@ -69,15 +69,15 @@ public class ClientServiceTest {
             willDoNothing().given(memberService).update(eq(UpdateMemberCommand.from(command)));
             given(clientRepository.save(any(Client.class))).willReturn(client);
 
-            final Long clientId = clientService.create(command);
+            final Long clientId = clientService.registerClient(command);
 
             assertThat(clientId).isEqualTo(this.clientId);
         }
 
         @Test
         @DisplayName("이메일이 입력되지 않은 경우 회원 정보의 이메일 주소를 사용한다.")
-        void create_WhenEmailIsNull_UseEmailOfMember() {
-            final CreateClientCommand command = new CreateClientCommand(
+        void registerClient_WhenEmailIsNull_UseEmailOfMember() {
+            final RegisterClientCommand command = new RegisterClientCommand(
                 memberId,
                 nickname(),
                 null,
@@ -94,7 +94,7 @@ public class ClientServiceTest {
             given(memberRepository.findById(command.memberId())).willReturn(Optional.of(member));
             given(clientRepository.save(any(Client.class))).willReturn(client);
 
-            final Long clientId = clientService.create(command);
+            final Long clientId = clientService.registerClient(command);
 
             assertThat(clientId).isEqualTo(this.clientId);
         }

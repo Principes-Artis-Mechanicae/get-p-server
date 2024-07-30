@@ -6,7 +6,7 @@ import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.member.command.domain.model.Nickname;
 import es.princip.getp.domain.member.command.domain.model.PhoneNumber;
 
-public record CreateClientCommand(
+public record RegisterClientCommand(
     Long memberId,
     Nickname nickname,
     Email email, // 미입력 시 회원 가입 시 작성한 이메일 주소가 기본값
