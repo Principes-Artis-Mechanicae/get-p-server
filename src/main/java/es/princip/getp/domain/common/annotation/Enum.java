@@ -1,4 +1,4 @@
-package es.princip.getp.infra.annotation;
+package es.princip.getp.domain.common.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
