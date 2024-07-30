@@ -20,7 +20,7 @@ public class BankAccount {
 
     @Column(name = "account_number")
     @NotBlank
-    @Pattern(regexp = "^[0-9]+$") // 계좌 번호는 숫자만 포함
+    @Pattern(regexp = "^[0-9]+$", message = "{validation.constraints.AccountNumber.message}") // 계좌 번호는 숫자만 포함
     private String accountNumber;
 
     @Column(name = "account_holder")
