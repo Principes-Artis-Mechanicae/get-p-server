@@ -57,6 +57,12 @@ include::{docdir}/member/upload-profile-image.adoc[]
 
 include::{docdir}/my-client/register-my-client.adoc[]
 
+=== 내 의뢰자 정보 수정
+
+의뢰자는 자신의 의뢰자 정보를 수정할 수 있습니다.
+
+include::{docdir}/my-client/edit-my-client.adoc[]
+
 == 피플
 
 === 피플 상세 조회
