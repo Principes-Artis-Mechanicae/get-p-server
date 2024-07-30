@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.command.presentation.dto.request;
 
-import es.princip.getp.domain.member.command.annotation.EmailValid;
-import es.princip.getp.domain.member.command.annotation.PhoneNumberValid;
+import es.princip.getp.domain.member.command.annotation.EmailPattern;
+import es.princip.getp.domain.member.command.annotation.PhoneNumberPattern;
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.member.command.domain.model.Nickname;
 import es.princip.getp.domain.member.command.domain.model.PhoneNumber;
@@ -13,8 +13,8 @@ import jakarta.validation.constraints.NotNull;
 
 public record CreatePeopleRequest(
     @NotBlank String nickname,
-    @NotNull @EmailValid String email,
-    @NotNull @PhoneNumberValid String phoneNumber,
+    @NotNull @EmailPattern String email,
+    @NotNull @PhoneNumberPattern String phoneNumber,
     @Enum PeopleType peopleType
 ) {
 

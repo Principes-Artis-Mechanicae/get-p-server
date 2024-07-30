@@ -1,13 +1,12 @@
 package es.princip.getp.domain.client.command.presentation;
 
 import es.princip.getp.domain.client.command.application.ClientService;
+import es.princip.getp.domain.client.command.presentation.description.EditMyClientRequestDescription;
 import es.princip.getp.domain.client.command.presentation.description.RegisterMyClientRequestDescription;
+import es.princip.getp.domain.client.command.presentation.dto.request.EditMyClientRequest;
 import es.princip.getp.domain.client.command.presentation.dto.request.RegisterMyClientRequest;
-import es.princip.getp.domain.client.command.presentation.dto.request.UpdateClientRequest;
-import es.princip.getp.domain.client.exception.ClientErrorCode;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import es.princip.getp.infra.support.AbstractControllerTest;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +25,8 @@ import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -84,36 +84,37 @@ class MyClientControllerTest extends AbstractControllerTest {
 
     @Nested
     @DisplayName("내 의뢰자 정보 수정")
-    class Update {
+    class EditMyClient {
 
-        final UpdateClientRequest request = new UpdateClientRequest(
-            NICKNAME, EMAIL, PHONE_NUMBER, address(), bankAccount()
+        final EditMyClientRequest request = new EditMyClientRequest(
+            NICKNAME,
+            EMAIL,
+            PHONE_NUMBER,
+            address(),
+            bankAccount()
         );
+
+        private ResultActions perform() throws Exception {
+            return mockMvc.perform(put(REQUEST_URI)
+                .header("Authorization", "Bearer ${ACCESS_TOKEN}")
+                .content(objectMapper.writeValueAsString(request)));
+        }
 
         @Test
         @DisplayName("의뢰자는 자신의 의뢰자 정보를 수정할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
-        void update(final PrincipalDetails principalDetails) throws Exception {
+        void editMyClient(final PrincipalDetails principalDetails) throws Exception {
             final Long memberId = principalDetails.getMember().getMemberId();
-            willDoNothing().given(clientService).update(eq(request.toCommand(memberId)));
+            willDoNothing().given(clientService).editClient(eq(request.toCommand(memberId)));
 
-            mockMvc.perform(put(REQUEST_URI)
-                .content(objectMapper.writeValueAsString(request)))
+            perform()
                 .andExpect(status().isOk())
-                .andDo(print());
-        }
-
-        @Test
-        @DisplayName("의뢰자는 자신의 의뢰자 정보를 등록하지 않으면 자신의 의뢰자 정보를 수정할 수 없다.")
-        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
-        void update_WhenMyClientDoesNotExists_Fail(final PrincipalDetails principalDetails) throws Exception {
-            final Long memberId = principalDetails.getMember().getMemberId();
-            willThrow(new BusinessLogicException(ClientErrorCode.NOT_FOUND))
-                .given(clientService).update(eq(request.toCommand(memberId)));
-
-            mockMvc.perform(put(REQUEST_URI)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isNotFound())
+                .andDo(
+                    restDocs.document(
+                        requestHeaders(authorizationHeaderDescriptor()),
+                        requestFields(EditMyClientRequestDescription.description())
+                    )
+                )
                 .andDo(print());
         }
     }
