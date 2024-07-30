@@ -8,6 +8,6 @@ import java.util.List;
 public record ApplyProjectRequest(
     @NotNull Duration expectedDuration,
     @NotNull String description,
-    @NotNull List<String> attachmentUris
+    @NotNull List<String> attachmentFiles
 ) {
 }
