@@ -16,14 +16,14 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class VerificationService {
 
-    private final VerificationSender verificationSender;
+    private final VerificationCodeSender verificationSender;
     private final EmailVerificationRepository emailVerificationRepository;
 
     private final Long EXPIRATION_TIME;
     private final Integer VERIFICATION_CODE_LENGTH;
 
     public VerificationService(
-        VerificationSender verificationSender,
+        VerificationCodeSender verificationSender,
         EmailVerificationRepository emailVerificationRepository,
         @Value("${spring.verification-code.expire-time}") Long EXPIRATION_TIME,
         @Value("${spring.verification-code.length}") Integer VERIFICATION_CODE_LENGTH

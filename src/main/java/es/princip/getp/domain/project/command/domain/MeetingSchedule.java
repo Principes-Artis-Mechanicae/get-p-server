@@ -1,4 +1,4 @@
-package es.princip.getp.domain.project.command.presentation.dto;
+package es.princip.getp.domain.project.command.domain;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

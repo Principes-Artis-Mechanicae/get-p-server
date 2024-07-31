@@ -32,15 +32,15 @@ public class ProjectMeetingApplyController {
      * @param principalDetails 로그인한 사용자 정보
      * @param peopleId         프로젝트 ID
      */
-    @PostMapping("/meeting/{applicationId}/apply")
+    @PostMapping("/meetings")
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> applyForProjectMeeting(
         @RequestBody @Valid final ApplyProjectMeetingRequest request,
-        @AuthenticationPrincipal final PrincipalDetails principalDetails,
-        @PathVariable Long applicationId) {
+        @AuthenticationPrincipal final PrincipalDetails principalDetails
+    ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         
-        projectMeetingApplyService.applyForProjectMeeting(memberId, applicationId, request);
+        projectMeetingApplyService.applyForProjectMeeting(memberId, request);
         return ApiResponse.success(HttpStatus.OK);
     }
 }

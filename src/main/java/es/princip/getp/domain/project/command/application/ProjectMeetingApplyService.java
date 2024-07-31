@@ -29,8 +29,8 @@ public class ProjectMeetingApplyService {
     private final ProjectDao projectDao;
 
     @Transactional
-    public void applyForProjectMeeting(Long memberId, Long applicationId, ApplyProjectMeetingRequest request) {
-        final ProjectApplication projectApplication = projectApplicationRepository.findById(applicationId).orElseThrow();
+    public void applyForProjectMeeting(Long memberId, ApplyProjectMeetingRequest request) {
+        final ProjectApplication projectApplication = projectApplicationRepository.findById(request.applicationId()).orElseThrow();
         
         // 의뢰자 본인 프로젝트인지 검증
         boolean exist = projectDao.existsByProjectIdAndMemberId(projectApplication.getProjectId(), memberId);

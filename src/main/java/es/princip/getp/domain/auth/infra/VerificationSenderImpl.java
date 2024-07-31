@@ -1,6 +1,6 @@
 package es.princip.getp.domain.auth.infra;
 
-import es.princip.getp.domain.auth.application.VerificationSender;
+import es.princip.getp.domain.auth.application.VerificationCodeSender;
 import es.princip.getp.domain.auth.exception.EmailErrorCode;
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.infra.exception.BusinessLogicException;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class VerificationSenderImpl implements VerificationSender {
+public class VerificationSenderImpl implements VerificationCodeSender {
 
     private final JavaMailSender emailSender;
     

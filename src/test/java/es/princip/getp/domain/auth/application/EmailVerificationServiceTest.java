@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
 class EmailVerificationServiceTest {
 
     @Mock
-    private VerificationSender emailService;
+    private VerificationCodeSender emailService;
 
     @Mock
     private EmailVerificationRepository emailVerificationRepository;

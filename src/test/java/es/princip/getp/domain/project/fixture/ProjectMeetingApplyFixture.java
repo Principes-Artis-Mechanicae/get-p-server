@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import es.princip.getp.domain.project.command.presentation.dto.MeetingSchedule;
+import es.princip.getp.domain.project.command.domain.MeetingSchedule;
 import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectMeetingRequest;
 
 public class ProjectMeetingApplyFixture {

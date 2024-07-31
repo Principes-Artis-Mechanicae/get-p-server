@@ -6,7 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.project.command.presentation.dto.MeetingSchedule;
+import es.princip.getp.domain.project.command.domain.MeetingSchedule;
 import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectMeetingRequest;
 
 public class MailUtil {

@@ -14,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.project.command.application.ProjectMeetingApplyService;
-import es.princip.getp.domain.project.command.presentation.dto.MeetingSchedule;
+import es.princip.getp.domain.project.command.domain.MeetingSchedule;
 import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectMeetingRequest;
 
 import es.princip.getp.infra.annotation.WithCustomMockUser;
