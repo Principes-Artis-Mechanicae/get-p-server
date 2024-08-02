@@ -9,9 +9,9 @@ public class TechStackFixture {
 
     public static List<TechStack> techStacks() {
         return List.of(
-            TechStack.of("Java"),
-            TechStack.of("Spring"),
-            TechStack.of("JPA")
+            TechStack.from("Java"),
+            TechStack.from("Spring"),
+            TechStack.from("JPA")
         );
     }
 
@@ -22,9 +22,9 @@ public class TechStackFixture {
     public static TechStacksResponse techStacksResponse() {
         return TechStacksResponse.from(
             List.of(
-                TechStack.of("Java"),
-                TechStack.of("Spring"),
-                TechStack.of("JPA")
+                TechStack.from("Java"),
+                TechStack.from("Spring"),
+                TechStack.from("JPA")
             )
         );
     }
