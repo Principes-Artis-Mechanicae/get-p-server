@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.exception;
+package es.princip.getp.domain.project.exception;
 
 import es.princip.getp.infra.exception.BusinessLogicException;
 

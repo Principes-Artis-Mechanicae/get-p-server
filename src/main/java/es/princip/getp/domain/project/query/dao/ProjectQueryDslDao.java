@@ -27,6 +27,7 @@ import static es.princip.getp.domain.project.query.dao.ProjectDaoHelper.toProjec
 @RequiredArgsConstructor
 public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
 
+    private final ProjectLikeDao projectLikeDao;
     private final ProjectApplicationDao projectApplicationDao;
 
     private List<Project> getProjects(Pageable pageable) {
@@ -87,6 +88,7 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
                 .fetchOne()
             )
             .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
+        final Long likesCount = projectLikeDao.countByProjectId(projectId);
 
         return new ProjectDetailResponse(
             result.getProjectId(),
@@ -100,7 +102,7 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
             result.getStatus(),
             AttachmentFilesResponse.from(result.getAttachmentFiles()),
             HashtagsResponse.from(result.getHashtags()),
-            0L,
+            likesCount,
             getProjectClientResponseByClientId(result.getClientId())
         );
     }
