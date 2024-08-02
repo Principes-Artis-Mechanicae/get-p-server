@@ -17,7 +17,7 @@ public record ProjectCardResponse(
     ProjectStatus status
 ) {
 
-    public static ProjectCardResponse from(final Project project, final Long applicantsCount) {
+    public static ProjectCardResponse of(final Project project, final Long applicantsCount) {
         return new ProjectCardResponse(
             project.getProjectId(),
             project.getTitle(),

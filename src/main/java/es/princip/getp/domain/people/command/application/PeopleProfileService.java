@@ -27,7 +27,7 @@ public class PeopleProfileService {
 
     private List<TechStack> toTechStacks(final List<String> techStacks) {
         return techStacks.stream()
-            .map(TechStack::of)
+            .map(TechStack::from)
             .toList();
     }
 
@@ -39,7 +39,7 @@ public class PeopleProfileService {
 
     private List<Hashtag> toHashtags(final List<String> hashtags) {
         return hashtags.stream()
-            .map(Hashtag::of)
+            .map(Hashtag::from)
             .toList();
     }
 
