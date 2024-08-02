@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.presentation;
 
 import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.domain.project.command.application.ProjectService;
+import es.princip.getp.domain.project.command.application.ProjectCommissionService;
 import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;
 import es.princip.getp.domain.project.command.presentation.description.RegisterProjectRequestDescription;
 import es.princip.getp.domain.project.command.presentation.description.RegisterProjectResponseDescription;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProjectCommissionControllerTest extends AbstractControllerTest {
 
     @MockBean
-    private ProjectService projectService;
+    private ProjectCommissionService projectCommissionService;
 
     @MockBean
     private ProjectCommandMapper projectCommandMapper;
@@ -54,7 +54,7 @@ class ProjectCommissionControllerTest extends AbstractControllerTest {
         void commissionProject() throws Exception {
             given(projectCommandMapper.mapToCommand(anyLong(), any(CommissionProjectRequest.class)))
                 .willReturn(mock(RegisterProjectCommand.class));
-            given(projectService.registerProject(any(RegisterProjectCommand.class)))
+            given(projectCommissionService.commissionProject(any(RegisterProjectCommand.class)))
                 .willReturn(1L);
 
             perform()

@@ -14,10 +14,10 @@ import static es.princip.getp.domain.project.fixture.AttachmentFileFixture.attac
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ProjectRegisterTest {
+class ProjectCommissionerTest {
 
     private final ClockHolder clockHolder = new StubClockHolder(LocalDate.of(2024, 7, 1));
-    private final ProjectRegister projectRegister = new ProjectRegister(clockHolder);
+    private final ProjectCommissioner projectCommissioner = new ProjectCommissioner(clockHolder);
 
     @Test
     void 지원자_모집_기간이_오늘보다_이전일_수_없다() {
@@ -41,7 +41,7 @@ class ProjectRegisterTest {
             hashtags()
         );
 
-        assertThatThrownBy(() -> projectRegister.registerProject(data))
+        assertThatThrownBy(() -> projectCommissioner.commissionProject(data))
             .isInstanceOf(ApplicationDurationIsEndedException.class);
     }
 
@@ -67,7 +67,7 @@ class ProjectRegisterTest {
             hashtags()
         );
 
-        final Project project = projectRegister.registerProject(data);
+        final Project project = projectCommissioner.commissionProject(data);
 
         assertThat(project).usingRecursiveComparison().isNotNull();
     }
@@ -94,7 +94,7 @@ class ProjectRegisterTest {
             hashtags()
         );
 
-        assertThatThrownBy(() -> projectRegister.registerProject(data))
+        assertThatThrownBy(() -> projectCommissioner.commissionProject(data))
             .isInstanceOf(ApplicationDurationIsNotBeforeEstimatedDurationException.class);
     }
 }

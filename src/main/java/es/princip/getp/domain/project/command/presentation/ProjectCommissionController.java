@@ -1,9 +1,9 @@
 package es.princip.getp.domain.project.command.presentation;
 
-import es.princip.getp.domain.project.command.application.ProjectService;
+import es.princip.getp.domain.project.command.application.ProjectCommissionService;
 import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;
 import es.princip.getp.domain.project.command.presentation.dto.request.CommissionProjectRequest;
-import es.princip.getp.domain.project.command.presentation.dto.response.RegisterProjectResponse;
+import es.princip.getp.domain.project.command.presentation.dto.response.CommissionProjectResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProjectCommissionController {
 
     private final ProjectCommandMapper projectCommandMapper;
-    private final ProjectService projectService;
+    private final ProjectCommissionService projectCommissionService;
 
     /**
      * 프로젝트 의뢰
@@ -34,14 +34,14 @@ public class ProjectCommissionController {
      */
     @PostMapping
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<RegisterProjectResponse>> commissionProject(
+    public ResponseEntity<ApiSuccessResult<CommissionProjectResponse>> commissionProject(
         @RequestBody @Valid final CommissionProjectRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final RegisterProjectCommand command = projectCommandMapper.mapToCommand(memberId, request);
-        final Long projectId = projectService.registerProject(command);
-        final RegisterProjectResponse response = new RegisterProjectResponse(projectId);
+        final Long projectId = projectCommissionService.commissionProject(command);
+        final CommissionProjectResponse response = new CommissionProjectResponse(projectId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }
 }

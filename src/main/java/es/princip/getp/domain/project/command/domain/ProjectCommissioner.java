@@ -11,11 +11,11 @@ import java.time.Clock;
 
 @DomainService
 @RequiredArgsConstructor
-public class ProjectRegister {
+public class ProjectCommissioner {
 
     private final ClockHolder clockHolder;
 
-    public Project registerProject(final ProjectData data) {
+    public Project commissionProject(final ProjectData data) {
         final Clock clock = clockHolder.getClock();
         final Duration applicationDuration = data.applicationDuration();
         final Duration estimatedDuration = data.estimatedDuration();
