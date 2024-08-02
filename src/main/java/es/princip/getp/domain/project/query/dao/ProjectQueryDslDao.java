@@ -42,7 +42,7 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
         final Map<Long, Long> projectApplicationCounts
     ) {
         return projects.stream()
-            .map(project -> ProjectCardResponse.from(
+            .map(project -> ProjectCardResponse.of(
                 project,
                 projectApplicationCounts.get(project.getProjectId())
             ))

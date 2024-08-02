@@ -17,21 +17,7 @@ public record MyProjectCardResponse(
     ProjectStatus status
 ) {
 
-    public static MyProjectCardResponse from(final Project project) {
-        return new MyProjectCardResponse(
-            project.getProjectId(),
-            project.getTitle(),
-            project.getPayment(),
-            0L,
-            project.getEstimatedDuration().days(),
-            project.getApplicationDuration(),
-            HashtagsResponse.from(project.getHashtags()),
-            project.getDescription(),
-            project.getStatus()
-        );
-    }
-
-    public static MyProjectCardResponse from(final Project project, final Long applicantsCount) {
+    public static MyProjectCardResponse of(final Project project, final Long applicantsCount) {
         return new MyProjectCardResponse(
             project.getProjectId(),
             project.getTitle(),

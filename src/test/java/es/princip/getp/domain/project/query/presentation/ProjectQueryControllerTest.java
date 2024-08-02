@@ -77,8 +77,8 @@ class ProjectQueryControllerTest extends AbstractControllerTest {
                     ),
                     HashtagsResponse.from(
                         List.of(
-                            Hashtag.of("#해시태그1"),
-                            Hashtag.of("#해시태그2")
+                            Hashtag.from("#해시태그1"),
+                            Hashtag.from("#해시태그2")
                         )
                     ),
                     "프로젝트 설명",
@@ -137,8 +137,8 @@ class ProjectQueryControllerTest extends AbstractControllerTest {
                 ),
                 HashtagsResponse.from(
                     List.of(
-                        Hashtag.of("#해시태그1"),
-                        Hashtag.of("#해시태그2")
+                        Hashtag.from("#해시태그1"),
+                        Hashtag.from("#해시태그2")
                     )
                 ),
                 5L,

@@ -26,7 +26,7 @@ public class TechStack {
         return value;
     }
 
-    public static TechStack of(String value) {
+    public static TechStack from(String value) {
         return new TechStack(value);
     }
 }
