@@ -31,8 +31,8 @@ public class ProjectFixture {
                 LocalDate.of(2024, 8, 31)
             ))
             .hashtags(List.of(
-                Hashtag.of("Java"),
-                Hashtag.of("Spring Boot")
+                Hashtag.from("Java"),
+                Hashtag.from("Spring Boot")
             ))
             .build();
     }

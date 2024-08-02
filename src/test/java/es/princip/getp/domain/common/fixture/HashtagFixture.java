@@ -9,8 +9,8 @@ public class HashtagFixture {
 
     public static List<Hashtag> hashtags() {
         return List.of(
-            Hashtag.of("#해시태그1"),
-            Hashtag.of("#해시태그2")
+            Hashtag.from("#해시태그1"),
+            Hashtag.from("#해시태그2")
         );
     }
 
@@ -24,8 +24,8 @@ public class HashtagFixture {
     public static HashtagsResponse hashtagsResponse() {
         return HashtagsResponse.from(
             List.of(
-                Hashtag.of("#해시태그1"),
-                Hashtag.of("#해시태그2")
+                Hashtag.from("#해시태그1"),
+                Hashtag.from("#해시태그2")
             )
         );
     }
