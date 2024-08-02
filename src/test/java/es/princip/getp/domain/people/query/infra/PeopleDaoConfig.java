@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.query.infra;
 
 import es.princip.getp.domain.people.query.dao.PeopleDao;
-import es.princip.getp.domain.people.query.dao.PeopleDaoImpl;
+import es.princip.getp.domain.people.query.dao.PeopleQueryDslDao;
 import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,7 +16,7 @@ public class PeopleDaoConfig {
 
     @Bean
     public PeopleDao peopleDao() {
-        return new PeopleDaoImpl();
+        return new PeopleQueryDslDao();
     }
 
     @Bean

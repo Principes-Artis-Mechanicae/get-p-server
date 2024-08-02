@@ -9,7 +9,7 @@ public record PublicDetailPeopleResponse(
     String profileImageUri,
     PeopleType peopleType,
     Integer completedProjectsCount,
-    Integer interestsCount,
+    Integer likesCount,
     PublicDetailPeopleProfileResponse profile
 ) {
 }

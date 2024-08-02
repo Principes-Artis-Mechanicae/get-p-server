@@ -9,7 +9,7 @@ public record CardPeopleResponse(
     String profileImageUri,
     PeopleType peopleType,
     Integer completedProjectsCount,
-    Integer interestsCount,
+    Integer likesCount,
     CardPeopleProfileResponse profile
 ) {
 }

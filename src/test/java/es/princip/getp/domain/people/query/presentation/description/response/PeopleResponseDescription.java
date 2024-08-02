@@ -16,7 +16,7 @@ public class PeopleResponseDescription {
             getDescriptor("peopleType", "피플 유형")
                 .attributes(key("format").value("TEAM, INDIVIDUAL")),
             getDescriptor("completedProjectsCount", "완수한 프로젝트 수"),
-            getDescriptor("interestsCount", "받은 관심 수"),
+            getDescriptor("likesCount", "받은 관심 수"),
             getDescriptor("createdAt", "피플 정보 등록 일시"),
             getDescriptor("updatedAt", "최근 피플 정보 수정 일시")
         };
