@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.command.domain;
 
-import es.princip.getp.domain.people.exception.PeopleProfileNotRegisteredException;
+import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ public class PeopleProfileChecker {
     public void checkPeopleProfileIsRegistered(final People people) {
         final Long peopleId = people.getPeopleId();
         if (!peopleProfileRepository.existsByPeopleId(peopleId)) {
-            throw new PeopleProfileNotRegisteredException();
+            throw new NotRegisteredPeopleProfileException();
         }
     }
 }
