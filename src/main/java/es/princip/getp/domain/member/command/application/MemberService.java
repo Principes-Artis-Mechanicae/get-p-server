@@ -8,7 +8,7 @@ import es.princip.getp.domain.member.command.domain.model.ProfileImage;
 import es.princip.getp.domain.member.command.domain.service.ProfileImageService;
 import es.princip.getp.domain.member.command.domain.service.ServiceTermAgreementService;
 import es.princip.getp.domain.member.command.exception.AlreadyUsedEmailException;
-import jakarta.persistence.EntityNotFoundException;
+import es.princip.getp.domain.member.command.exception.NotFoundMemberException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,9 +27,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     private Member findById(final Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(
-            () -> new EntityNotFoundException("해당 회원은 존재하지 않습니다.")
-        );
+        return memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
     }
 
     /**
@@ -52,7 +50,7 @@ public class MemberService {
      * 회원 정보를 수정한다.
      *
      * @param command 회원 정보 수정 명령
-     * @throws EntityNotFoundException 해당 회원이 존재하지 않는 경우
+     * @throws NotFoundMemberException 해당 회원이 존재하지 않는 경우
      */
     @Transactional
     public void update(final UpdateMemberCommand command) {
@@ -65,7 +63,7 @@ public class MemberService {
      *
      * @param memberId 회원 식별자
      * @param image 프로필 이미지
-     * @throws EntityNotFoundException 해당 회원이 존재하지 않는 경우
+     * @throws NotFoundMemberException 해당 회원이 존재하지 않는 경우
      * @return 수정된 프로필 이미지의 URI
      */
     @Transactional
