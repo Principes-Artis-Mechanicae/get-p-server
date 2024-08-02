@@ -7,7 +7,7 @@ import es.princip.getp.domain.member.command.domain.service.ServiceTermAgreement
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermChecker;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermRepository;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermTag;
-import jakarta.persistence.EntityNotFoundException;
+import es.princip.getp.domain.serviceTerm.exception.NotFoundServiceTermException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class ServiceTermAgreementServiceImpl implements ServiceTermAgreementServ
 
     private ServiceTermAgreement createServiceTermAgreement(final ServiceTermTag tag, final boolean agreed) {
         if (!serviceTermRepository.existsByTag(tag)) {
-            throw new EntityNotFoundException("해당 서비스 약관이 존재하지 않습니다.");
+            throw new NotFoundServiceTermException();
         }
         return new ServiceTermAgreement(tag, agreed);
     }
