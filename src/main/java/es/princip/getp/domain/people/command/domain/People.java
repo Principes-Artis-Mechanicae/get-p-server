@@ -2,8 +2,6 @@ package es.princip.getp.domain.people.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.member.command.domain.model.Email;
-import es.princip.getp.domain.people.exception.ProjectAlreadyLikedException;
-import es.princip.getp.domain.people.exception.ProjectNeverLikedException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -11,10 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "people")
@@ -40,13 +35,6 @@ public class People extends BaseTimeEntity {
     @NotNull
     private Long memberId;
 
-    @ElementCollection
-    @CollectionTable(
-        name = "people_project_like",
-        joinColumns = @JoinColumn(name = "people_id")
-    )
-    private Set<Long> likedProjects = new HashSet<>();
-
     @Builder
     public People(
         final Email email,
@@ -56,10 +44,6 @@ public class People extends BaseTimeEntity {
         this.email = email;
         this.peopleType = peopleType;
         this.memberId = memberId;
-    }
-
-    public Set<Long> getLikedProjects() {
-        return Collections.unmodifiableSet(likedProjects);
     }
 
     private void setEmail(final Email email) {
@@ -84,39 +68,5 @@ public class People extends BaseTimeEntity {
     ) {
         setEmail(email);
         setPeopleType(peopleType);
-    }
-
-    private boolean alreadyLikedProject(final Long projectId) {
-        return likedProjects.contains(projectId);
-    }
-
-    private boolean neverLikedProject(final Long projectId) {
-        return !likedProjects.contains(projectId);
-    }
-
-    /**
-     * 프로젝트에게 좋아요를 누른다.
-     *
-     * @param projectId 좋아요할 프로젝트 ID
-     * @throws ProjectAlreadyLikedException 이미 좋아요한 프로젝트일 경우
-     */
-    public void likeProject(final Long projectId) {
-        if (alreadyLikedProject(projectId)) {
-            throw new ProjectAlreadyLikedException();
-        }
-        likedProjects.add(projectId);
-    }
-
-    /**
-     * 프로젝트에게 눌렀던 좋아요를 취소한다.
-     *
-     * @param projectId 좋아요를 취소할 프로젝트 ID
-     * @throws ProjectNeverLikedException 좋아요한 적이 없었던 경우
-     */
-    public void unlikeProject(final Long projectId) {
-        if (neverLikedProject(projectId)) {
-            throw new ProjectNeverLikedException();
-        }
-        likedProjects.remove(projectId);
     }
 }
