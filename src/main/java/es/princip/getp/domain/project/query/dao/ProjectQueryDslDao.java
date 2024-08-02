@@ -3,6 +3,7 @@ package es.princip.getp.domain.project.query.dao;
 import com.querydsl.core.types.Projections;
 import es.princip.getp.domain.common.dto.HashtagsResponse;
 import es.princip.getp.domain.project.command.domain.Project;
+import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import es.princip.getp.domain.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.domain.project.query.dto.ProjectCardResponse;
 import es.princip.getp.domain.project.query.dto.ProjectClientResponse;
@@ -87,7 +88,7 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
                 .where(project.projectId.eq(projectId))
                 .fetchOne()
             )
-            .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
+            .orElseThrow(NotFoundProjectException::new);
         final Long likesCount = projectLikeDao.countByProjectId(projectId);
 
         return new ProjectDetailResponse(

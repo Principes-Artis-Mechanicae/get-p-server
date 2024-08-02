@@ -4,7 +4,7 @@ import es.princip.getp.domain.common.domain.ClockHolder;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleProfileChecker;
-import es.princip.getp.domain.project.exception.ProjectApplicationClosedException;
+import es.princip.getp.domain.project.exception.ClosedProjectApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +39,7 @@ public class ProjectApplier {
     ) {
         final Clock clock = clockHolder.getClock();
         if (project.isApplicationClosed(clock)) {
-            throw new ProjectApplicationClosedException();
+            throw new ClosedProjectApplicationException();
         }
         peopleProfileChecker.checkPeopleProfileIsRegistered(people);
         return ProjectApplication.builder()
