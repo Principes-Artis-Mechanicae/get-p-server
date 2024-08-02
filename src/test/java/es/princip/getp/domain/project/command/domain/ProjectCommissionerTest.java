@@ -3,8 +3,8 @@ package es.princip.getp.domain.project.command.domain;
 import es.princip.getp.domain.common.domain.ClockHolder;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.common.infra.StubClockHolder;
-import es.princip.getp.domain.project.exception.ApplicationDurationIsEndedException;
-import es.princip.getp.domain.project.exception.ApplicationDurationIsNotBeforeEstimatedDurationException;
+import es.princip.getp.domain.project.exception.ApplicationDurationNotBeforeEstimatedDurationException;
+import es.princip.getp.domain.project.exception.EndedApplicationDurationException;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -42,7 +42,7 @@ class ProjectCommissionerTest {
         );
 
         assertThatThrownBy(() -> projectCommissioner.commissionProject(data))
-            .isInstanceOf(ApplicationDurationIsEndedException.class);
+            .isInstanceOf(EndedApplicationDurationException.class);
     }
 
     @Test
@@ -95,6 +95,6 @@ class ProjectCommissionerTest {
         );
 
         assertThatThrownBy(() -> projectCommissioner.commissionProject(data))
-            .isInstanceOf(ApplicationDurationIsNotBeforeEstimatedDurationException.class);
+            .isInstanceOf(ApplicationDurationNotBeforeEstimatedDurationException.class);
     }
 }

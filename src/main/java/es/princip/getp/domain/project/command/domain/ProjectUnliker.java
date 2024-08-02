@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.domain;
 
 import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.project.exception.ProjectNeverLikedException;
+import es.princip.getp.domain.project.exception.NeverLikedProjectException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ public class ProjectUnliker {
 
     private void checkProjectNeverLiked(final Long peopleId, final Long projectId) {
         if (!projectLikeRepository.existsByPeopleIdAndProjectId(peopleId, projectId)) {
-            throw new ProjectNeverLikedException();
+            throw new NeverLikedProjectException();
         }
     }
 
@@ -22,7 +22,7 @@ public class ProjectUnliker {
      *
      * @param people 좋아요를 취소하는 피플
      * @param project 좋아요를 취소할 프로젝트
-     * @throws ProjectNeverLikedException 프로젝트에 좋아요를 누른 적이 없는 경우
+     * @throws NeverLikedProjectException 프로젝트에 좋아요를 누른 적이 없는 경우
      */
     public void unlike(final People people, final Project project) {
         final Long peopleId = people.getPeopleId();

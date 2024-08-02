@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.domain;
 
 import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.project.exception.ProjectNeverLikedException;
+import es.princip.getp.domain.project.exception.NeverLikedProjectException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,6 +50,6 @@ class ProjectUnlikerTest {
             .willReturn(false);
 
         assertThatThrownBy(() -> projectUnliker.unlike(people, project))
-            .isInstanceOf(ProjectNeverLikedException.class);
+            .isInstanceOf(NeverLikedProjectException.class);
     }
 }
