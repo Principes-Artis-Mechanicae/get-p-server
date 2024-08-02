@@ -29,7 +29,7 @@ import static es.princip.getp.domain.people.query.dao.PeoplePaginationHelper.get
 import static java.util.stream.Collectors.toMap;
 
 @Repository
-public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
+public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
 
     private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
         return queryFactory.select(
@@ -153,7 +153,7 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
                     member.profileImage.uri,
                     people.peopleType,
                     Expressions.asNumber(0).as("completedProjectsCount"),
-                    Expressions.asNumber(0).as("interestsCount"),
+                    Expressions.asNumber(0).as("likesCount"),
                     people.createdAt,
                     people.updatedAt
                 )
