@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.domain;
 
 import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.project.exception.ProjectAlreadyLikedException;
+import es.princip.getp.domain.project.exception.AlreadyLikedProjectException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,6 +51,6 @@ class ProjectLikerTest {
             .willReturn(true);
 
         assertThatThrownBy(() -> projectLiker.like(people, project))
-            .isInstanceOf(ProjectAlreadyLikedException.class);
+            .isInstanceOf(AlreadyLikedProjectException.class);
     }
 }

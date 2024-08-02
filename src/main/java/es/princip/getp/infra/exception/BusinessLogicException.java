@@ -4,32 +4,27 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public class BusinessLogicException extends RuntimeException {
-    private final HttpStatus stauts;
+public class BusinessLogicException extends ApiErrorException {
+
+    private static final HttpStatus status = HttpStatus.CONFLICT;
 
     @Deprecated
     private final ErrorCode errorCode;
 
-    private final ErrorDescription description;
-
+    @Deprecated
     public BusinessLogicException(final ErrorCode errorCode) {
-        super(errorCode.description().message());
-        this.stauts = errorCode.status();
+        super(status, errorCode.description());
         this.errorCode = errorCode;
-        this.description = errorCode.description();
     }
 
+    @Deprecated
     public BusinessLogicException(final String message) {
-        super(message);
-        this.stauts = HttpStatus.CONFLICT;
+        super(status, ErrorDescription.of("COMMON_ERROR", message));
         this.errorCode = null;
-        this.description = ErrorDescription.of("COMMON_ERROR", message);
     }
 
-    public BusinessLogicException(final HttpStatus status, final ErrorDescription description) {
-        super(description.message());
-        this.stauts = status;
+    public BusinessLogicException(final ErrorDescription description) {
+        super(status, description);
         this.errorCode = null;
-        this.description = description;
     }
 }
