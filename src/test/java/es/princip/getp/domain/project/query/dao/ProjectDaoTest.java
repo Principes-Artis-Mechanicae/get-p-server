@@ -45,13 +45,4 @@ class ProjectDaoTest extends DaoTest {
 
         assertThat(response).isNotNull();
     }
-
-    @Test
-    void existsByProjectIdAndMemberId() {
-        boolean response = projectDao.existsByProjectIdAndMemberId(1L, 1L);
-
-        log.info("response: {}", response);
-
-        assertThat(response).isNotNull();
-    }
 }

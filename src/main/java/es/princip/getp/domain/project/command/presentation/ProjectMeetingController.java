@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.princip.getp.domain.project.command.application.ProjectMeetingApplyService;
-import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectMeetingRequest;
+import es.princip.getp.domain.project.command.application.ProjectMeetingService;
+import es.princip.getp.domain.project.command.application.command.ScheduleMeetingCommand;
+import es.princip.getp.domain.project.command.presentation.dto.request.ScheduleMeetingRequest;
+import es.princip.getp.domain.project.command.presentation.dto.response.ScheduleMeetingResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
@@ -21,27 +23,31 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/projects")
 @RequiredArgsConstructor
-public class ProjectMeetingApplyController {
+public class ProjectMeetingController {
 
-    private final ProjectMeetingApplyService projectMeetingApplyService;
+    private final ProjectMeetingService projectMeetingService;
+
+    private final ProjectCommandMapper projectCommandMapper;
 
     /**
      * 프로젝트 미팅 신청
-     *
+     * 
      * @param request          프로젝트 미팅 신청 요청
      * @param principalDetails 로그인한 사용자 정보
-     * @param peopleId         프로젝트 ID
+     * @param projectId        프로젝트 ID
+     * @return
      */
-    @PostMapping("/meetings")
+    @PostMapping("/{projectId}/meetings")
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<?>> applyForProjectMeeting(
-        @RequestBody @Valid final ApplyProjectMeetingRequest request,
-        @AuthenticationPrincipal final PrincipalDetails principalDetails
+    public ResponseEntity<ApiSuccessResult<ScheduleMeetingResponse>> scheduleMeeting(
+        @RequestBody @Valid final ScheduleMeetingRequest request,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails,
+        @PathVariable Long projectId
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        
-        projectMeetingApplyService.applyForProjectMeeting(memberId, request);
-        return ApiResponse.success(HttpStatus.OK);
+        ScheduleMeetingCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
+        Long meetingId = projectMeetingService.ScheduleMeeting(command);
+        ScheduleMeetingResponse response = new ScheduleMeetingResponse(meetingId);
+        return ApiResponse.success(HttpStatus.CREATED, response);
     }
 }
-

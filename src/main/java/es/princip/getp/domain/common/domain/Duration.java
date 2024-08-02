@@ -10,11 +10,11 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+@Getter
+@ToString
 @Embeddable
 @MappedSuperclass
 @EqualsAndHashCode
-@ToString
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Duration {
 

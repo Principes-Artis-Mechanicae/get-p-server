@@ -35,7 +35,8 @@ public class ProjectApplicationController {
     public ResponseEntity<ApiSuccessResult<ApplyProjectResponse>> applyForProject(
         @RequestBody @Valid final ApplyProjectRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
-        @PathVariable Long projectId) {
+        @PathVariable Long projectId
+    ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final ApplyProjectCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
         final Long applicationId = projectApplicationService.applyForProject(command);

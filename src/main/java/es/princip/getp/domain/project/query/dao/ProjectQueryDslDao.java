@@ -104,19 +104,4 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
             getProjectClientResponseByClientId(result.getClientId())
         );
     }
-
-    @Override
-    public boolean existsByProjectIdAndMemberId(Long projectId, Long memberId) {
-        Long count = queryFactory.select(project.projectId.count())
-            .from(project)
-            .join(client)
-            .on(
-                project.clientId.eq(client.clientId)
-                .and(project.projectId.eq(projectId))
-                .and(client.memberId.eq(memberId))
-            )
-            .fetchOne();
-
-        return count > 0;
-    }
 }

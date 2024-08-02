@@ -1,15 +1,15 @@
 package es.princip.getp.domain.project.command.domain;
 
+import es.princip.getp.domain.common.annotation.DomainService;
 import es.princip.getp.domain.common.domain.ClockHolder;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.project.exception.ApplicationDurationIsEndedException;
 import es.princip.getp.domain.project.exception.ApplicationDurationIsNotBeforeEstimatedDurationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 
-@Component
+@DomainService
 @RequiredArgsConstructor
 public class ProjectRegister {
 
