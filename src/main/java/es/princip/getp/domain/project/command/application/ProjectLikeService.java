@@ -2,8 +2,9 @@ package es.princip.getp.domain.project.command.application;
 
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
+import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.domain.project.command.domain.*;
-import jakarta.persistence.EntityNotFoundException;
+import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,9 +30,9 @@ public class ProjectLikeService {
     @Transactional
     public void like(final Long memberId, final Long projectId) {
         final People people = peopleRepository.findById(memberId)
-            .orElseThrow(() -> new EntityNotFoundException("해당 피플을 찾을 수 없습니다."));
+            .orElseThrow(NotFoundPeopleException::new);
         final Project project = projectRepository.findById(projectId)
-            .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트를 찾을 수 없습니다."));
+            .orElseThrow(NotFoundProjectException::new);
 
         final ProjectLike like = projectLiker.like(people, project);
 
@@ -47,9 +48,9 @@ public class ProjectLikeService {
     @Transactional
     public void unlike(final Long memberId, final Long projectId) {
         final People people = peopleRepository.findById(memberId)
-            .orElseThrow(() -> new EntityNotFoundException("해당 피플을 찾을 수 없습니다."));
+            .orElseThrow(NotFoundPeopleException::new);
         final Project project = projectRepository.findById(projectId)
-            .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트를 찾을 수 없습니다."));
+            .orElseThrow(NotFoundProjectException::new);
 
         projectUnliker.unlike(people, project);
     }

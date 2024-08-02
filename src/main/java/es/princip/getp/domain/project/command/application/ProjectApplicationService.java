@@ -2,9 +2,10 @@ package es.princip.getp.domain.project.command.application;
 
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
+import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.domain.project.command.application.command.ApplyProjectCommand;
 import es.princip.getp.domain.project.command.domain.*;
-import jakarta.persistence.EntityNotFoundException;
+import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +29,9 @@ public class ProjectApplicationService {
     @Transactional
     public Long applyForProject(final ApplyProjectCommand command) {
         final People people = peopleRepository.findByMemberId(command.memberId())
-            .orElseThrow(() -> new EntityNotFoundException("해당 피플이 존재하지 않습니다."));
+            .orElseThrow(NotFoundPeopleException::new);
         final Project project = projectRepository.findById(command.projectId())
-            .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
+            .orElseThrow(NotFoundProjectException::new);
         final ProjectApplication application = projectApplier.applyForProject(
             people,
             project,
