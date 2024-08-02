@@ -6,8 +6,8 @@ import es.princip.getp.domain.people.command.application.command.CreatePeopleCom
 import es.princip.getp.domain.people.command.application.command.UpdatePeopleCommand;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
-import es.princip.getp.infra.exception.EntityAlreadyExistsException;
-import jakarta.persistence.EntityNotFoundException;
+import es.princip.getp.domain.people.exception.AlreadyExistsPeopleException;
+import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +25,12 @@ public class PeopleService {
      *
      * @param command 피플 정보 생성 명령
      * @return 생성된 피플 정보의 ID
-     * @throws EntityAlreadyExistsException 이미 등록된 피플 정보가 존재하는 경우
+     * @throws AlreadyExistsPeopleException 이미 등록된 피플 정보가 존재하는 경우
      */
     @Transactional
     public Long create(final CreatePeopleCommand command) {
         if (peopleRepository.existsByMemberId(command.memberId())) {
-            throw new EntityAlreadyExistsException("이미 등록된 피플 정보가 존재합니다.");
+            throw new AlreadyExistsPeopleException();
         }
         memberService.update(UpdateMemberCommand.from(command));
         final People people = People.builder()
@@ -45,14 +45,13 @@ public class PeopleService {
      * 피플 정보를 수정한다.
      *
      * @param command 피플 정보 수정 명령
-     * @throws EntityNotFoundException 회원의 피플 정보를 등록하지 않은 경우
+     * @throws NotFoundPeopleException 회원의 피플 정보를 등록하지 않은 경우
      */
     @Transactional
     public void update(final UpdatePeopleCommand command) {
         memberService.update(UpdateMemberCommand.from(command));
-        final People people = peopleRepository.findByMemberId(command.memberId()).orElseThrow(
-            () -> new EntityNotFoundException("등록된 피플 정보가 없습니다.")
-        );
+        final People people = peopleRepository.findByMemberId(command.memberId())
+            .orElseThrow(NotFoundPeopleException::new);
         people.edit(command.email(), command.peopleType());
     }
 
@@ -60,13 +59,12 @@ public class PeopleService {
      * 피플 정보를 삭제한다.
      *
      * @param memberId 회원 ID
-     * @throws EntityNotFoundException 회원의 피플 정보를 등록하지 않은 경우
+     * @throws NotFoundPeopleException 회원의 피플 정보를 등록하지 않은 경우
      */
     @Transactional
     public void delete(final Long memberId) {
-        final People people = peopleRepository.findByMemberId(memberId).orElseThrow(
-            () -> new EntityNotFoundException("등록된 피플 정보가 없습니다.")
-        );
+        final People people = peopleRepository.findByMemberId(memberId)
+            .orElseThrow(NotFoundPeopleException::new);
         peopleRepository.delete(people);
     }
 }
