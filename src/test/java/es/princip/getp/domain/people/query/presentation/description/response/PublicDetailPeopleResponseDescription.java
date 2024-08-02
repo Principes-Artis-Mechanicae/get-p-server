@@ -16,7 +16,7 @@ public class PublicDetailPeopleResponseDescription {
             getDescriptor("peopleType", "피플 유형")
                 .attributes(key("format").value("TEAM, INDIVIDUAL")),
             getDescriptor("completedProjectsCount", "완수한 프로젝트 수"),
-            getDescriptor("interestsCount", "받은 관심 수"),
+            getDescriptor("likesCount", "받은 좋아요 수"),
             getDescriptor("profile.hashtags[]", "해시태그")
         };
     }

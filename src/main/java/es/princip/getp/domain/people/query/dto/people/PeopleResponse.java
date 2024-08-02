@@ -11,7 +11,7 @@ public record PeopleResponse(
     String profileImageUri,
     PeopleType peopleType,
     Integer completedProjectsCount,
-    Integer interestsCount,
+    Integer likesCount,
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {
