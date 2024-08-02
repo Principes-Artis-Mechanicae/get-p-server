@@ -18,7 +18,7 @@ public record ProjectDetailResponse(
     ProjectStatus status,
     AttachmentFilesResponse attachmentFiles,
     HashtagsResponse hashtags,
-    Long interestCount,
+    Long likesCount,
     ProjectClientResponse client
 ) {
 }
