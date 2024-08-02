@@ -9,8 +9,9 @@ import es.princip.getp.domain.people.command.domain.Portfolio;
 import es.princip.getp.domain.people.command.presentation.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.domain.people.command.presentation.dto.request.PortfolioRequest;
 import es.princip.getp.domain.people.command.presentation.dto.request.WritePeopleProfileRequest;
-import es.princip.getp.infra.exception.EntityAlreadyExistsException;
-import jakarta.persistence.EntityNotFoundException;
+import es.princip.getp.domain.people.exception.AlreadyExistsPeopleProfileException;
+import es.princip.getp.domain.people.exception.NotFoundPeopleException;
+import es.princip.getp.domain.people.exception.NotFoundPeopleProfileException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,19 +49,17 @@ public class PeopleProfileService {
      *
      * @param memberId 회원 ID
      * @param request 피플 프로필 작성 요청
-     * @throws EntityNotFoundException 등록된 피플 정보가 없는 경우
-     * @throws EntityAlreadyExistsException 이미 등록된 피플 프로필이 존재하는 경우
+     * @throws NotFoundPeopleException 등록된 피플 정보가 없는 경우
+     * @throws AlreadyExistsPeopleProfileException 이미 등록된 피플 프로필이 존재하는 경우
      */
     @Transactional
     public void writeProfile(final Long memberId, final WritePeopleProfileRequest request) {
         final Long peopleId = peopleRepository.findByMemberId(memberId)
-            .orElseThrow(
-                () -> new EntityNotFoundException("등록된 피플 정보가 없습니다.")
-            )
+            .orElseThrow(NotFoundPeopleException::new)
             .getPeopleId();
 
         if (peopleProfileRepository.existsByPeopleId(peopleId)) {
-            throw new EntityAlreadyExistsException("이미 등록된 피플 프로필이 존재합니다.");
+            throw new AlreadyExistsPeopleProfileException();
         }
 
         final PeopleProfile profile = PeopleProfile.builder()
@@ -81,21 +80,17 @@ public class PeopleProfileService {
      *
      * @param memberId 회원 ID
      * @param request 피플 프로필 수정 요청
-     * @throws EntityNotFoundException 등록된 피플 정보가 없는 경우
-     * @throws EntityNotFoundException 등록된 피플 프로필이 없는 경우
+     * @throws NotFoundPeopleException 등록된 피플 정보가 없는 경우
+     * @throws NotFoundPeopleProfileException 등록된 피플 프로필이 없는 경우
      */
     @Transactional
     public void editProfile(final Long memberId, final EditPeopleProfileRequest request) {
         final Long peopleId = peopleRepository.findByMemberId(memberId)
-            .orElseThrow(
-                () -> new EntityNotFoundException("등록된 피플 정보가 없습니다.")
-            )
+            .orElseThrow(NotFoundPeopleException::new)
             .getPeopleId();
 
         final PeopleProfile profile = peopleProfileRepository.findByPeopleId(peopleId)
-            .orElseThrow(
-                () -> new EntityNotFoundException("등록된 피플 프로필이 없습니다.")
-            );
+            .orElseThrow(NotFoundPeopleProfileException::new );
 
         profile.edit(
             request.introduction(),
