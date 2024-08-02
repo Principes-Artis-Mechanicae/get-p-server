@@ -21,7 +21,7 @@ public class ProjectDetailResponseDescription {
             getDescriptor("status", "프로젝트 상태"),
             getDescriptor("attachmentFiles[]", "첨부 파일 목록"),
             getDescriptor("hashtags[]", "해시태그"),
-            getDescriptor("interestCount", "프로젝트 관심 수"),
+            getDescriptor("likesCount", "프로젝트 좋아요 수"),
             getDescriptor("client.clientId", "의뢰자 ID"),
             getDescriptor("client.nickname", "의뢰자 닉네임"),
             getDescriptor("client.address.zipcode", "의뢰자 우편번호"),

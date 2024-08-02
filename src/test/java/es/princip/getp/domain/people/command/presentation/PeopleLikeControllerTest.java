@@ -2,7 +2,7 @@ package es.princip.getp.domain.people.command.presentation;
 
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.people.command.application.PeopleLikeService;
-import es.princip.getp.domain.people.exception.ProjectAlreadyLikedException;
+import es.princip.getp.domain.project.exception.ProjectAlreadyLikedException;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,7 +18,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.BDDMockito.willThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PeopleLikeController.class)
