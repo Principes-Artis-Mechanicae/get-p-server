@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import es.princip.getp.domain.common.exception.StartTimeIsAfterEndTimeException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Embeddable
+@MappedSuperclass
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MeetingSchedule {
