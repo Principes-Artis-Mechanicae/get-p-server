@@ -3,17 +3,17 @@ package es.princip.getp.infra.mail;
 import es.princip.getp.infra.mail.command.SendMailCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class MailSender {
+public class EmailSender {
 
-    private final JavaMailSender mailSender;
+    private final MailSender mailSender;
 
     @Async
     public void send(final SendMailCommand command) {
