@@ -9,8 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @Entity
 @Table(name = "project_meeting")
@@ -31,12 +29,12 @@ public class ProjectMeeting extends BaseTimeEntity {
     private Long applicantId;
 
     // 미팅 장소
-    @Column(name = "meeting_location")
-    private String meetingLocation;
+    @Column(name = "location")
+    private String location;
 
     // 미팅 일정
     @Embedded
-    private List<MeetingSchedule> meetingSchedules;
+    private MeetingSchedule schedule;
 
     // 연락처
     @Embedded
@@ -50,15 +48,15 @@ public class ProjectMeeting extends BaseTimeEntity {
     public ProjectMeeting(
         final Long projectId,
         final Long applicantId,
-        final String meetingLocation,
-        final List<MeetingSchedule> meetingSchedules,
+        final String location,
+        final MeetingSchedule schedule,
         final PhoneNumber phoneNumber,
         final String description
     ) {
         this.projectId = projectId;
         this.applicantId = applicantId;
-        this.meetingLocation = meetingLocation;
-        this.meetingSchedules = meetingSchedules;
+        this.location = location;
+        this.schedule = schedule;
         this.phoneNumber = phoneNumber;
         this.description = description;
     }

@@ -2,12 +2,11 @@ package es.princip.getp.domain.project.command.application;
 
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
+import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.domain.project.command.application.command.ScheduleMeetingCommand;
 import es.princip.getp.domain.project.command.domain.*;
-import es.princip.getp.infra.exception.BusinessLogicException;
-import jakarta.persistence.EntityNotFoundException;
+import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProjectMeetingService {
 
     private final PeopleRepository peopleRepository;
-    
     private final ProjectRepository projectRepository;
+    private final ProjectMeetingRepository meetingRepository;
 
-    private final ProjectMeetingRepository projectMeetingRepository;
-
-    private final ProjectMeetingApplier projectMeetingApplier;
-
+    private final ProjectMeetingScheduler meetingScheduler;
     private final MeetingSender meetingSender;
 
     /**
@@ -34,34 +30,24 @@ public class ProjectMeetingService {
      */
     @Transactional
     public Long ScheduleMeeting(final ScheduleMeetingCommand command) {
-        
-        // 프로젝트 지원한 피플이 존재하는지 확인
         final People people = peopleRepository.findByMemberId(command.applicantId())
-            .orElseThrow(() -> new EntityNotFoundException("해당 피플이 존재하지 않습니다."));
-        
-        // 프로젝트가 존재하는지 확인
+            .orElseThrow(NotFoundPeopleException::new);
         final Project project = projectRepository.findById(command.projectId())
-            .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
-        
-        // 의뢰자 본인 프로젝트인지 검증
-        boolean exist = projectMeetingRepository.existsByProjectIdAndMemberId(project.getProjectId(), command.memberId());
-        if (!exist) {
-            throw new BusinessLogicException("해당 프로젝트에 대한 권한이 없습니다.");
-        }
+            .orElseThrow(NotFoundProjectException::new);
 
-        //TODO: 프로젝트에 지원한 피플이 맞는지 확인
-        
-        ProjectMeeting projectMeeting = projectMeetingApplier.scheduleMeeting(
+        final ProjectMeeting projectMeeting = meetingScheduler.scheduleMeeting(
+            command.memberId(),
             project,
             people,
-            command.meetingLocation(),
-            command.meetingSchedules(),
-            command.contactPhoneNumber(),
+            command.location(),
+            command.schedule(),
+            command.phoneNumber(),
             command.description()
         );
 
+        meetingRepository.save(projectMeeting);
         meetingSender.send(people, project, projectMeeting);
         
-        return projectMeetingRepository.save(projectMeeting).getMeetingId();
+        return projectMeeting.getMeetingId();
     }
 }

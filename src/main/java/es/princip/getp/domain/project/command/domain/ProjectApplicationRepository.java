@@ -5,5 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProjectApplicationRepository extends JpaRepository<ProjectApplication, Long> {
-    
+
+    boolean existsByApplicantIdAndProjectId(Long applicantId, Long projectId);
 }

@@ -1,6 +1,5 @@
 package es.princip.getp.domain.project.command.infra;
 
-import es.princip.getp.domain.common.domain.MeetingSchedule;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.project.command.application.MeetingSender;
 import es.princip.getp.domain.project.command.domain.Project;
@@ -11,8 +10,6 @@ import es.princip.getp.infra.mail.command.SendMailCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
-
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +34,8 @@ public class MailMeetingSender implements MeetingSender {
             미팅을 수락하신다면 본 메일로 회신 부탁드립니다.",
             """,
             project.getTitle(), 
-            meeting.getMeetingLocation(),
-            meeting.getMeetingSchedules()
-                .stream()
-                .map(MeetingSchedule::toString)
-                .collect(Collectors.joining("")), 
+            meeting.getLocation(),
+            meeting.getSchedule(),
             meeting.getDescription()
         );
     }
