@@ -2,7 +2,7 @@ package es.princip.getp.domain.project.command.presentation;
 
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.project.command.application.ProjectCommissionService;
-import es.princip.getp.domain.project.command.application.command.CommissionProjectCommand;
+import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;
 import es.princip.getp.domain.project.command.presentation.description.RegisterProjectRequestDescription;
 import es.princip.getp.domain.project.command.presentation.description.RegisterProjectResponseDescription;
 import es.princip.getp.domain.project.command.presentation.dto.request.CommissionProjectRequest;
@@ -53,8 +53,8 @@ class ProjectCommissionControllerTest extends AbstractControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void commissionProject() throws Exception {
             given(projectCommandMapper.mapToCommand(anyLong(), any(CommissionProjectRequest.class)))
-                .willReturn(mock(CommissionProjectCommand.class));
-            given(projectCommissionService.commissionProject(any(CommissionProjectCommand.class)))
+                .willReturn(mock(RegisterProjectCommand.class));
+            given(projectCommissionService.commissionProject(any(RegisterProjectCommand.class)))
                 .willReturn(1L);
 
             perform()

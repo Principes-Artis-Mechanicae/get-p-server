@@ -1,19 +1,19 @@
 package es.princip.getp.domain.project.command.domain;
 
+import es.princip.getp.domain.common.annotation.DomainService;
 import es.princip.getp.domain.common.domain.ClockHolder;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleProfileChecker;
 import es.princip.getp.domain.project.exception.ClosedProjectApplicationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.util.List;
 
 import static es.princip.getp.domain.project.command.domain.ProjectApplicationStatus.APPLICATION_COMPLETED;
 
-@Component
+@DomainService
 @RequiredArgsConstructor
 public class ProjectApplier {
 

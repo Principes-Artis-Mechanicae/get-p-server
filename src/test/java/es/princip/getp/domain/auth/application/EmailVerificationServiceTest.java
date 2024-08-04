@@ -28,17 +28,17 @@ import static org.mockito.Mockito.*;
 class EmailVerificationServiceTest {
 
     @Mock
-    private EmailService emailService;
+    private VerificationCodeSender emailService;
 
     @Mock
     private EmailVerificationRepository emailVerificationRepository;
 
     @InjectMocks
-    private EmailVerificationService emailVerificationService;
+    private VerificationService emailVerificationService;
 
     @BeforeEach
     void beforeAll() {
-        emailVerificationService = new EmailVerificationService(
+        emailVerificationService = new VerificationService(
             emailService,
             emailVerificationRepository,
             1000L,
@@ -54,9 +54,9 @@ class EmailVerificationServiceTest {
         void sendVerificationCode() {
             final Email email = email();
 
-            emailVerificationService.sendEmailVerificationCode(email);
+            emailVerificationService.sendVerificationCode(email);
 
-            verify(emailService, times(1)).sendEmail(eq(email), anyString(), anyString());
+            verify(emailService, times(1)).send(eq(email), anyString());
             verify(emailVerificationRepository, times(1)).save(any(EmailVerification.class));
         }
 
@@ -67,10 +67,10 @@ class EmailVerificationServiceTest {
             EmailVerification emailVerification = spy(EmailVerification.class);
             when(emailVerificationRepository.findById(email.getValue())).thenReturn(Optional.of(emailVerification));
 
-            emailVerificationService.sendEmailVerificationCode(email);
+            emailVerificationService.sendVerificationCode(email);
 
             verify(emailVerificationRepository, times(1)).deleteById(email.getValue());
-            verify(emailService, times(1)).sendEmail(eq(email), anyString(), anyString());
+            verify(emailService, times(1)).send(eq(email), anyString());
             verify(emailVerificationRepository, times(1)).save(any(EmailVerification.class));
         }
     }

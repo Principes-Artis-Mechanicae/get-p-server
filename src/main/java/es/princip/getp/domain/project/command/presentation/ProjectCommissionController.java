@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.presentation;
 
 import es.princip.getp.domain.project.command.application.ProjectCommissionService;
-import es.princip.getp.domain.project.command.application.command.CommissionProjectCommand;
+import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;
 import es.princip.getp.domain.project.command.presentation.dto.request.CommissionProjectRequest;
 import es.princip.getp.domain.project.command.presentation.dto.response.CommissionProjectResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
@@ -39,7 +39,7 @@ public class ProjectCommissionController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final CommissionProjectCommand command = projectCommandMapper.mapToCommand(memberId, request);
+        final RegisterProjectCommand command = projectCommandMapper.mapToCommand(memberId, request);
         final Long projectId = projectCommissionService.commissionProject(command);
         final CommissionProjectResponse response = new CommissionProjectResponse(projectId);
         return ApiResponse.success(HttpStatus.CREATED, response);
