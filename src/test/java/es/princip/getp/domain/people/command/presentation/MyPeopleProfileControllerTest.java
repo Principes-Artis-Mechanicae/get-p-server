@@ -1,10 +1,12 @@
 package es.princip.getp.domain.people.command.presentation;
 
 import es.princip.getp.domain.people.command.application.PeopleProfileService;
+import es.princip.getp.domain.people.command.application.command.EditPeopleProfileCommand;
+import es.princip.getp.domain.people.command.application.command.RegisterPeopleProfileCommand;
 import es.princip.getp.domain.people.command.presentation.description.request.EditPeopleProfileRequestDescription;
 import es.princip.getp.domain.people.command.presentation.description.request.WritePeopleProfileRequestDescription;
 import es.princip.getp.domain.people.command.presentation.dto.request.EditPeopleProfileRequest;
-import es.princip.getp.domain.people.command.presentation.dto.request.WritePeopleProfileRequest;
+import es.princip.getp.domain.people.command.presentation.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;
 import org.junit.jupiter.api.DisplayName;
@@ -34,6 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MyPeopleProfileControllerTest extends AbstractControllerTest {
 
     @MockBean
+    private PeopleCommandMapper peopleCommandMapper;
+
+    @MockBean
     private PeopleProfileService peopleProfileService;
 
     private static final String MY_PEOPLE_PROFILE_URI = "/people/me/profile";
@@ -42,7 +47,7 @@ class MyPeopleProfileControllerTest extends AbstractControllerTest {
     @Nested
     class WriteMyPeopleProfile {
 
-        private final WritePeopleProfileRequest request = new WritePeopleProfileRequest(
+        private final RegisterPeopleProfileRequest request = new RegisterPeopleProfileRequest(
             education(),
             activityArea(),
             introduction(),
@@ -61,7 +66,7 @@ class MyPeopleProfileControllerTest extends AbstractControllerTest {
         @Test
         void writeMyPeopleProfile() throws Exception {
             willDoNothing().given(peopleProfileService)
-                .writeProfile(any(Long.class), any(WritePeopleProfileRequest.class));
+                .registerProfile(any(RegisterPeopleProfileCommand.class));
 
             perform()
                 .andExpect(status().isCreated())
@@ -102,10 +107,10 @@ class MyPeopleProfileControllerTest extends AbstractControllerTest {
         @Test
         void editMyPeopleProfile() throws Exception {
             willDoNothing().given(peopleProfileService)
-                .editProfile(any(Long.class), any(EditPeopleProfileRequest.class));
+                .editProfile(any(EditPeopleProfileCommand.class));
 
             perform()
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andDo(restDocs.document(
                     requestHeaders(authorizationHeaderDescriptor()),
                     requestFields(EditPeopleProfileRequestDescription.description())
