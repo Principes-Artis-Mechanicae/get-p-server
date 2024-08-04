@@ -47,7 +47,7 @@ public class EmailMeetingSender implements MeetingSender {
         final ProjectMeeting meeting
     ) {
         final SendMailCommand message = SendMailCommand.of(
-            people.getEmail(),
+            people.getPeopleInfo().getEmail(),
             title(project),
             text(project, meeting)
         );
