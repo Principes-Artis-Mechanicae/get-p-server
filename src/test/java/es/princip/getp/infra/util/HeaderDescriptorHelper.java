@@ -11,6 +11,6 @@ public class HeaderDescriptorHelper {
     }
 
     public static HeaderDescriptor refreshTokenHeaderDescriptor() {
-        return headerWithName("Refresh-Token").description("Bearer ${REFRESHTOKEN}");
+        return headerWithName("Refresh-Token").description("Bearer ${REFRESH_TOKEN}");
     }
 }

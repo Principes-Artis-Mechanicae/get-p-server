@@ -2,7 +2,7 @@ package es.princip.getp.domain.project.query.dao;
 
 import es.princip.getp.domain.project.query.infra.ProjectApplicationDaoConfig;
 import es.princip.getp.infra.support.DaoTest;
-import lombok.extern.slf4j.Slf4j;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -12,7 +12,6 @@ import java.util.stream.LongStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Slf4j
 @Import(ProjectApplicationDaoConfig.class)
 class ProjectApplicationDaoTest extends DaoTest {
 

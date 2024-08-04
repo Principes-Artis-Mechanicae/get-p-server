@@ -1,9 +1,9 @@
 package es.princip.getp.domain.project.command.presentation;
 
-import es.princip.getp.domain.project.command.application.ProjectApplicationService;
-import es.princip.getp.domain.project.command.application.command.ApplyProjectCommand;
-import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectRequest;
-import es.princip.getp.domain.project.command.presentation.dto.response.ApplyProjectResponse;
+import es.princip.getp.domain.project.command.application.ProjectMeetingService;
+import es.princip.getp.domain.project.command.application.command.ScheduleMeetingCommand;
+import es.princip.getp.domain.project.command.presentation.dto.request.ScheduleMeetingRequest;
+import es.princip.getp.domain.project.command.presentation.dto.response.ScheduleMeetingResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
@@ -18,29 +18,30 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/projects")
 @RequiredArgsConstructor
-public class ProjectApplicationController {
+public class ProjectMeetingController {
 
-    private final ProjectApplicationService projectApplicationService;
+    private final ProjectMeetingService projectMeetingService;
+
     private final ProjectCommandMapper projectCommandMapper;
 
     /**
-     * 프로젝트 지원
-     *
-     * @param request          프로젝트 지원 요청
+     * 프로젝트 미팅 신청
+     * 
+     * @param request          프로젝트 미팅 신청 요청
      * @param principalDetails 로그인한 사용자 정보
      * @param projectId        프로젝트 ID
      */
-    @PostMapping("/{projectId}/applications")
-    @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<ApplyProjectResponse>> applyForProject(
-        @RequestBody @Valid final ApplyProjectRequest request,
+    @PostMapping("/{projectId}/meetings")
+    @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
+    public ResponseEntity<ApiSuccessResult<ScheduleMeetingResponse>> scheduleMeeting(
+        @RequestBody @Valid final ScheduleMeetingRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable Long projectId
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final ApplyProjectCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
-        final Long applicationId = projectApplicationService.applyForProject(command);
-        final ApplyProjectResponse response = new ApplyProjectResponse(applicationId);
+        final ScheduleMeetingCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
+        final Long meetingId = projectMeetingService.ScheduleMeeting(command);
+        final ScheduleMeetingResponse response = new ScheduleMeetingResponse(meetingId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }
 }
