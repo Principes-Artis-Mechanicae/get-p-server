@@ -20,7 +20,7 @@ public class Hashtag {
         this.value = value;
     }
 
-    public static Hashtag of(String value) {
+    public static Hashtag from(String value) {
         return new Hashtag(value);
     }
 }

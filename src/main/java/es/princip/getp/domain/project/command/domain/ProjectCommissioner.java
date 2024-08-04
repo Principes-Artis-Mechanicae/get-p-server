@@ -3,8 +3,8 @@ package es.princip.getp.domain.project.command.domain;
 import es.princip.getp.domain.common.annotation.DomainService;
 import es.princip.getp.domain.common.domain.ClockHolder;
 import es.princip.getp.domain.common.domain.Duration;
-import es.princip.getp.domain.project.exception.ApplicationDurationIsEndedException;
-import es.princip.getp.domain.project.exception.ApplicationDurationIsNotBeforeEstimatedDurationException;
+import es.princip.getp.domain.project.exception.ApplicationDurationNotBeforeEstimatedDurationException;
+import es.princip.getp.domain.project.exception.EndedApplicationDurationException;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Clock;
@@ -21,10 +21,10 @@ public class ProjectCommissioner {
         final Duration estimatedDuration = data.estimatedDuration();
 
         if (applicationDuration.isEnded(clock)) {
-            throw new ApplicationDurationIsEndedException();
+            throw new EndedApplicationDurationException();
         }
         if (!applicationDuration.isBefore(estimatedDuration)) {
-            throw new ApplicationDurationIsNotBeforeEstimatedDurationException();
+            throw new ApplicationDurationNotBeforeEstimatedDurationException();
         }
 
         final ProjectStatus status = ProjectStatus.determineStatus(applicationDuration, clock);

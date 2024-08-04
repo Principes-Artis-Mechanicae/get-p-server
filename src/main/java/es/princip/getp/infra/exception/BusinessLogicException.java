@@ -1,21 +1,30 @@
 package es.princip.getp.infra.exception;
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
-public class BusinessLogicException extends RuntimeException {
-    private final ErrorCode errorCode;
-    private final String message;
+public class BusinessLogicException extends ApiErrorException {
 
+    private static final HttpStatus status = HttpStatus.CONFLICT;
+
+    @Deprecated
+    private final ErrorCode errorCode;
+
+    @Deprecated
     public BusinessLogicException(final ErrorCode errorCode) {
-        super(errorCode.description().message());
+        super(status, errorCode.description());
         this.errorCode = errorCode;
-        this.message = null;
     }
 
+    @Deprecated
     public BusinessLogicException(final String message) {
-        super(message);
+        super(status, ErrorDescription.of("COMMON_ERROR", message));
         this.errorCode = null;
-        this.message = message;
+    }
+
+    public BusinessLogicException(final ErrorDescription description) {
+        super(status, description);
+        this.errorCode = null;
     }
 }

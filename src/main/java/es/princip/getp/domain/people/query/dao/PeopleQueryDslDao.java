@@ -4,6 +4,8 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import es.princip.getp.domain.people.command.domain.PeopleProfile;
+import es.princip.getp.domain.people.exception.NotFoundPeopleException;
+import es.princip.getp.domain.people.exception.NotFoundPeopleProfileException;
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.PeopleResponse;
@@ -12,7 +14,6 @@ import es.princip.getp.domain.people.query.dto.peopleProfile.CardPeopleProfileRe
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
 import es.princip.getp.infra.support.QueryDslSupport;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -29,7 +30,7 @@ import static es.princip.getp.domain.people.query.dao.PeoplePaginationHelper.get
 import static java.util.stream.Collectors.toMap;
 
 @Repository
-public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
+public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
 
     private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
         return queryFactory.select(
@@ -102,10 +103,10 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
                     .where(peopleProfile.peopleId.eq(peopleId))
                     .fetchOne()
             )
-            .orElseThrow(() -> new EntityNotFoundException("해당 피플의 프로필이 존재하지 않습니다."));
+            .orElseThrow(NotFoundPeopleProfileException::new);
 
         final Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId)
-            .orElseThrow(() -> new EntityNotFoundException("해당 피플이 존재하지 않습니다."));
+            .orElseThrow(NotFoundPeopleException::new);
 
         return new DetailPeopleResponse(
             peopleId,
@@ -125,10 +126,10 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
                     .where(peopleProfile.peopleId.eq(peopleId))
                     .fetchOne()
             )
-            .orElseThrow(() -> new EntityNotFoundException("해당 피플의 프로필이 존재하지 않습니다."));
+            .orElseThrow(NotFoundPeopleProfileException::new);
 
         final Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId)
-            .orElseThrow(() -> new EntityNotFoundException("해당 피플이 존재하지 않습니다."));
+            .orElseThrow(NotFoundPeopleException::new);
 
         return new PublicDetailPeopleResponse(
             peopleId,
@@ -153,7 +154,7 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
                     member.profileImage.uri,
                     people.peopleType,
                     Expressions.asNumber(0).as("completedProjectsCount"),
-                    Expressions.asNumber(0).as("interestsCount"),
+                    Expressions.asNumber(0).as("likesCount"),
                     people.createdAt,
                     people.updatedAt
                 )
@@ -162,8 +163,7 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
             .join(member).on(people.memberId.eq(member.memberId))
             .where(people.memberId.eq(memberId))
             .fetchOne()
-        )
-        .orElseThrow(() -> new EntityNotFoundException("해당 피플이 존재하지 않습니다."));
+        ).orElseThrow(NotFoundPeopleException::new);
     }
 
     @Override
@@ -174,7 +174,7 @@ public class PeopleDaoImpl extends QueryDslSupport implements PeopleDao {
                     .where(peopleProfile.peopleId.eq(memberId))
                     .fetchOne()
             )
-            .orElseThrow(() -> new EntityNotFoundException("해당 피플의 프로필이 존재하지 않습니다."))
+            .orElseThrow(NotFoundPeopleProfileException::new)
         );
     }
 }

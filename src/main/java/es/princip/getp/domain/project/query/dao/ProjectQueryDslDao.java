@@ -3,6 +3,7 @@ package es.princip.getp.domain.project.query.dao;
 import com.querydsl.core.types.Projections;
 import es.princip.getp.domain.common.dto.HashtagsResponse;
 import es.princip.getp.domain.project.command.domain.Project;
+import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import es.princip.getp.domain.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.domain.project.query.dto.ProjectCardResponse;
 import es.princip.getp.domain.project.query.dto.ProjectClientResponse;
@@ -27,6 +28,7 @@ import static es.princip.getp.domain.project.query.dao.ProjectDaoHelper.toProjec
 @RequiredArgsConstructor
 public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
 
+    private final ProjectLikeDao projectLikeDao;
     private final ProjectApplicationDao projectApplicationDao;
 
     private List<Project> getProjects(Pageable pageable) {
@@ -41,7 +43,7 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
         final Map<Long, Long> projectApplicationCounts
     ) {
         return projects.stream()
-            .map(project -> ProjectCardResponse.from(
+            .map(project -> ProjectCardResponse.of(
                 project,
                 projectApplicationCounts.get(project.getProjectId())
             ))
@@ -86,7 +88,8 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
                 .where(project.projectId.eq(projectId))
                 .fetchOne()
             )
-            .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
+            .orElseThrow(NotFoundProjectException::new);
+        final Long likesCount = projectLikeDao.countByProjectId(projectId);
 
         return new ProjectDetailResponse(
             result.getProjectId(),
@@ -100,7 +103,7 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
             result.getStatus(),
             AttachmentFilesResponse.from(result.getAttachmentFiles()),
             HashtagsResponse.from(result.getHashtags()),
-            0L,
+            likesCount,
             getProjectClientResponseByClientId(result.getClientId())
         );
     }

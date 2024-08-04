@@ -2,10 +2,10 @@ package es.princip.getp.domain.people.command.presentation;
 
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.people.command.application.PeopleLikeService;
-import es.princip.getp.domain.people.exception.ProjectAlreadyLikedException;
+import es.princip.getp.domain.people.exception.NotFoundPeopleException;
+import es.princip.getp.domain.project.exception.AlreadyLikedProjectException;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ public class PeopleLikeControllerTest extends AbstractControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
         void like_WhenPeopleIsAlreadyLiked_ShouldBeFailed() throws Exception {
-            willThrow(new ProjectAlreadyLikedException())
+            willThrow(new AlreadyLikedProjectException())
                 .given(peopleLikeService).like(any(), eq(peopleId));
 
             mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
@@ -64,7 +64,7 @@ public class PeopleLikeControllerTest extends AbstractControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
         void like_WhenPeopleIsNotFound_ShouldBeFailed() throws Exception {
-            willThrow(new EntityNotFoundException())
+            willThrow(new NotFoundPeopleException())
                 .given(peopleLikeService).like(any(), eq(peopleId));
 
             mockMvc.perform(post("/people/{peopleId}/likes", peopleId))

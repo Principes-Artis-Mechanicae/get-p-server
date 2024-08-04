@@ -19,7 +19,7 @@ public record ClientResponse(
     LocalDateTime updatedAt
 ) {
 
-    public static ClientResponse from(final Client client, final Member member) {
+    public static ClientResponse of(final Client client, final Member member) {
         return new ClientResponse(
             client.getClientId(),
             member.getNickname().getValue(),

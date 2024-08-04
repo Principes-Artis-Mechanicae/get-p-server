@@ -76,6 +76,7 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
                     0,
                     0,
                     new CardPeopleProfileResponse(
+                        "소개",
                         activityArea(),
                         hashtagsResponse()
                     )
@@ -103,7 +104,8 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
                             getDescriptor("content[].nickname", "닉네임"),
                             getDescriptor("content[].profileImageUri", "프로필 이미지 URI"),
                             getDescriptor("content[].completedProjectsCount", "완수한 프로젝트 수"),
-                            getDescriptor("content[].interestsCount", "받은 관심 수"),
+                            getDescriptor("content[].likesCount", "받은 좋아요 수"),
+                            getDescriptor("content[].profile.introduction", "소개"),
                             getDescriptor("content[].profile.activityArea", "활동 지역"),
                             getDescriptor("content[].profile.hashtags[]", "해시태그")
                         ).and(pageResponseFieldDescriptors())
