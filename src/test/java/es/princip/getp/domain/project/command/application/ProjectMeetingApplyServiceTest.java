@@ -1,5 +1,8 @@
 package es.princip.getp.domain.project.command.application;
 
+import es.princip.getp.domain.people.command.domain.PeopleRepository;
+import es.princip.getp.domain.project.command.domain.ProjectApplicationRepository;
+import es.princip.getp.domain.project.command.infra.MailMeetingSender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -9,28 +12,25 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import es.princip.getp.domain.people.command.domain.PeopleRepository;
-import es.princip.getp.domain.project.command.domain.ProjectApplicationRepository;
-import es.princip.getp.domain.project.command.infra.MeetingSenderImpl;
-
 @ExtendWith(MockitoExtension.class)
 public class ProjectMeetingApplyServiceTest {
 
-        @Mock
-        private JavaMailSender emailSender;
+    @Mock
+    private JavaMailSender emailSender;
 
-        @Mock
-        private PeopleRepository peopleRepository;
+    @Mock
+    private PeopleRepository peopleRepository;
 
-        @Mock
-        private ProjectApplicationRepository projectApplicationRepository;
+    @Mock
+    private ProjectApplicationRepository projectApplicationRepository;
 
-        @InjectMocks
-        private MeetingSenderImpl meetingSender;
+    @InjectMocks
+    private MailMeetingSender meetingSender;
 
     @Nested
     @DisplayName("프로젝트 미팅 신청은")
     class ApplyProjectMeeting{
+
         @Test
         @DisplayName("이메일을 전송한다.")
         void sendEmail() {
