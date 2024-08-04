@@ -1,10 +1,10 @@
 package es.princip.getp.domain.people.command.domain;
 
-import es.princip.getp.domain.common.annotation.DomainService;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-@DomainService
+@Component
 @RequiredArgsConstructor
 public class PeopleProfileChecker {
 
