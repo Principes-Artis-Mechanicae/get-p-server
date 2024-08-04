@@ -4,6 +4,7 @@ import es.princip.getp.domain.common.exception.StartTimeIsAfterEndTimeException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,12 +22,15 @@ import java.time.format.DateTimeFormatter;
 public class MeetingSchedule {
 
     @Column(name = "date")
+    @NotNull
     private LocalDate date;
     
     @Column(name = "start_time")
+    @NotNull
     private LocalTime startTime;
 
     @Column(name = "end_time")
+    @NotNull
     private LocalTime endTime;
 
     public MeetingSchedule(
