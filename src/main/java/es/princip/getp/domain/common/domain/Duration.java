@@ -3,18 +3,16 @@ package es.princip.getp.domain.common.domain;
 import es.princip.getp.domain.common.exception.StartDateIsAfterEndDateException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.MappedSuperclass;
 import lombok.*;
 
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-@Embeddable
-@MappedSuperclass
-@EqualsAndHashCode
-@ToString
 @Getter
+@ToString
+@Embeddable
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Duration {
 

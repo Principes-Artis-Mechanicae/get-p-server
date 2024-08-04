@@ -24,12 +24,12 @@ public class PhoneNumber {
     @NotNull
     private String value;
 
-    private PhoneNumber(final String value) {
+    public PhoneNumber(final String value) {
+        validate(value);
         this.value = value;
     }
 
     public static PhoneNumber of(final String value) {
-        validate(value);
         return new PhoneNumber(value);
     }
 

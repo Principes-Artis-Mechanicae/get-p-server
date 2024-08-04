@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SignUpService {
 
-    private final EmailVerificationService emailVerificationService;
+    private final VerificationService emailVerificationService;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
@@ -28,7 +28,7 @@ public class SignUpService {
         if (memberRepository.existsByEmail(email)) {
             throw new BusinessLogicException(SignUpErrorCode.DUPLICATED_EMAIL);
         }
-        emailVerificationService.sendEmailVerificationCode(email);
+        emailVerificationService.sendVerificationCode(email);
     }
 
     @Transactional

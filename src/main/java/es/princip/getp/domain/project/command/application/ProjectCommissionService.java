@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.application;
 
 import es.princip.getp.domain.client.command.domain.ClientRepository;
-import es.princip.getp.domain.project.command.application.command.CommissionProjectCommand;
+import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.command.domain.ProjectCommissioner;
 import es.princip.getp.domain.project.command.domain.ProjectData;
@@ -22,7 +22,7 @@ public class ProjectCommissionService {
     private final ProjectCommissioner projectCommissioner;
 
     @Transactional
-    public Long commissionProject(final CommissionProjectCommand command) {
+    public Long commissionProject(final RegisterProjectCommand command) {
         final Long clientId = clientRepository.findByMemberId(command.memberId())
             .orElseThrow(() -> new EntityNotFoundException("해당 의뢰자가 존재하지 않습니다."))
             .getClientId();

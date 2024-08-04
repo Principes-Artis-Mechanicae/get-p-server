@@ -4,7 +4,7 @@ import es.princip.getp.domain.project.command.domain.ProjectStatus;
 import es.princip.getp.domain.project.query.dto.MyProjectCardResponse;
 import es.princip.getp.domain.project.query.infra.MyProjectDaoConfig;
 import es.princip.getp.infra.support.DaoTest;
-import lombok.extern.slf4j.Slf4j;
+
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Import(MyProjectDaoConfig.class)
-@Slf4j
 class MyProjectDaoTest extends DaoTest {
 
     public MyProjectDaoTest() {

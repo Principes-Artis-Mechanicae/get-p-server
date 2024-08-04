@@ -5,10 +5,10 @@ import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-@Embeddable
 @Getter
-@EqualsAndHashCode
 @ToString
+@Embeddable
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Hashtag {
 
