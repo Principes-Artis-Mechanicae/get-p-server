@@ -23,7 +23,7 @@ public class Portfolio {
     @NotBlank
     private String description;
 
-    private Portfolio(final String description, final URL url) {
+    public Portfolio(final String description, final URL url) {
         this.url = url;
         this.description = description;
     }

@@ -18,15 +18,11 @@ public class TechStack {
     @NotBlank
     private String value;
 
-    private TechStack(String value) {
-        this.value = validate(value);
+    public TechStack(final String value) {
+        this.value = value;
     }
 
-    private String validate(String value) {
-        return value;
-    }
-
-    public static TechStack from(String value) {
+    public static TechStack from(final String value) {
         return new TechStack(value);
     }
 }

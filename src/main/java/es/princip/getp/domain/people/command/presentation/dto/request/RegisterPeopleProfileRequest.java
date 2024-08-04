@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record WritePeopleProfileRequest(
+public record RegisterPeopleProfileRequest(
     @NotNull @Valid Education education,
     @NotBlank String activityArea,
     @NotBlank String introduction,
