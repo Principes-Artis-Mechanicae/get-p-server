@@ -3,6 +3,7 @@ package es.princip.getp.domain.project.command.domain;
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.common.domain.Hashtag;
+import es.princip.getp.domain.like.command.domain.LikeReceivable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Table(name = "project")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Project extends BaseTimeEntity {
+public class Project extends BaseTimeEntity implements LikeReceivable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -126,5 +127,10 @@ public class Project extends BaseTimeEntity {
 
     public boolean isApplicationClosed(final Clock clock) {
         return applicationDuration.isEnded(clock) || status != ProjectStatus.APPLYING;
+    }
+
+    @Override
+    public Long getId() {
+        return projectId;
     }
 }

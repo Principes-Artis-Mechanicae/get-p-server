@@ -1,6 +1,7 @@
 package es.princip.getp.domain.client.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.like.command.domain.Likeable;
 import es.princip.getp.domain.member.command.domain.model.Email;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,14 +9,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Getter
 @Table(name = "client")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Client extends BaseTimeEntity {
+public class Client extends BaseTimeEntity implements Likeable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +32,6 @@ public class Client extends BaseTimeEntity {
 
     @Column(name = "member_id")
     private Long memberId;
-
-    @ElementCollection
-    @CollectionTable(
-        name = "client_people_like",
-        joinColumns = @JoinColumn(name = "client_id")
-    )
-    private Set<Long> peopleLikes = new HashSet<>();
 
     @Builder
     public Client(
@@ -82,21 +73,8 @@ public class Client extends BaseTimeEntity {
         setBankAccount(bankAccount);
     }
 
-    private boolean alreadyLikedPeople(final Long peopleId) {
-        return peopleLikes.contains(peopleId);
-    }
-
-    public void likePeople(final Long peopleId) {
-        if (alreadyLikedPeople(peopleId)) {
-            throw new IllegalArgumentException("이미 좋아요를 누른 사람입니다.");
-        }
-        peopleLikes.add(peopleId);
-    }
-
-    public void unlikePeople(final Long peopleId) {
-        if (!alreadyLikedPeople(peopleId)) {
-            throw new IllegalArgumentException("좋아요를 누르지 않은 사람입니다.");
-        }
-        peopleLikes.remove(peopleId);
+    @Override
+    public Long getId() {
+        return this.clientId;
     }
 }
