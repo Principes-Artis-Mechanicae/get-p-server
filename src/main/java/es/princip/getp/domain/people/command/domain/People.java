@@ -25,18 +25,18 @@ public class People extends BaseTimeEntity {
     private Long memberId;
 
     @Embedded
-    private PeopleInfo peopleInfo;
+    private PeopleInfo info;
 
     @Embedded
-    private PeopleProfile peopleProfile;
+    private PeopleProfile profile;
 
-    public People(final Long memberId, final PeopleInfo peopleInfo) {
+    public People(final Long memberId, final PeopleInfo info) {
         this.memberId = memberId;
-        this.peopleInfo = peopleInfo;
+        this.info = info;
     }
 
     public void editInfo(final Email email, final PeopleType peopleType) {
-        this.peopleInfo = new PeopleInfo(email, peopleType);
+        this.info = new PeopleInfo(email, peopleType);
     }
 
     private PeopleProfile buildProfile(final PeopleProfileData data) {
@@ -54,14 +54,14 @@ public class People extends BaseTimeEntity {
         if (isProfileRegistered()) {
             throw new AlreadyRegisteredPeopleProfileException();
         }
-        this.peopleProfile = buildProfile(data);
+        this.profile = buildProfile(data);
     }
 
     public boolean isProfileRegistered() {
-        return this.peopleProfile != null;
+        return this.profile != null;
     }
 
     public void editProfile(final PeopleProfileData data) {
-        this.peopleProfile = buildProfile(data);
+        this.profile = buildProfile(data);
     }
 }
