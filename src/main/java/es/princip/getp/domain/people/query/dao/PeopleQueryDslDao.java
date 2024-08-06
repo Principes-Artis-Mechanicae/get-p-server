@@ -10,7 +10,7 @@ import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.domain.people.query.dto.people.PeopleResponse;
+import es.princip.getp.domain.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
@@ -154,14 +154,15 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
     }
 
     @Override
-    public PeopleResponse findByMemberId(final Long memberId) {
+    public MyPeopleResponse findByMemberId(final Long memberId) {
         return Optional.ofNullable(
             queryFactory.select(
                 Projections.constructor(
-                    PeopleResponse.class,
+                    MyPeopleResponse.class,
                     people.peopleId,
                     people.info.email.value,
                     member.nickname.value,
+                    member.phoneNumber.value,
                     member.profileImage.uri,
                     people.info.peopleType,
                     Expressions.asNumber(0).as("completedProjectsCount"),
