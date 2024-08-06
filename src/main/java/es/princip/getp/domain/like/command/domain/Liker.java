@@ -4,7 +4,7 @@ import es.princip.getp.domain.like.exception.AlreadyLikedException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public abstract class Liker {
+public abstract class Liker<T extends Like> {
 
     private final LikeRepository likeRepository;
 
@@ -14,5 +14,5 @@ public abstract class Liker {
         }
     }
 
-    public abstract Like like(final Likeable likeable, final LikeReceivable likeReceivable);
+    public abstract T like(final Likeable likeable, final LikeReceivable likeReceivable);
 }

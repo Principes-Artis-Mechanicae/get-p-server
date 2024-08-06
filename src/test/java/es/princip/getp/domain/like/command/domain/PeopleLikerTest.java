@@ -46,11 +46,10 @@ class PeopleLikerTest {
         given(peopleLikeRepository.existsByLikerIdAndLikedId(likerId, likedId))
             .willReturn(false);
 
-        final Like like = peopleLiker.like(client, people);
+        final PeopleLike like = peopleLiker.like(client, people);
 
-        assertThat(like).isInstanceOf(PeopleLike.class);
         assertThat(like).isNotNull();
-        verify(peopleLikeRepository).save((PeopleLike) like);
+        verify(peopleLikeRepository).save(like);
     }
 
     @Test

@@ -8,8 +8,8 @@ public record PublicDetailPeopleResponse(
     String nickname,
     String profileImageUri,
     PeopleType peopleType,
-    Integer completedProjectsCount,
-    Integer likesCount,
+    long completedProjectsCount,
+    long likesCount,
     PublicDetailPeopleProfileResponse profile
 ) {
 }

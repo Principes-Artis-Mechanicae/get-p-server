@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PeopleDaoTest extends DaoTest {
 
     public PeopleDaoTest() {
-        super(100);
+        super(20);
     }
 
     @Autowired
