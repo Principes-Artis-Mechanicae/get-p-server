@@ -1,7 +1,11 @@
-package es.princip.getp.domain.project.command.domain;
+package es.princip.getp.domain.like.command.domain;
 
+import es.princip.getp.domain.like.command.domain.project.ProjectLike;
+import es.princip.getp.domain.like.command.domain.project.ProjectLikeRepository;
+import es.princip.getp.domain.like.command.domain.project.ProjectLiker;
+import es.princip.getp.domain.like.exception.AlreadyLikedException;
 import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.project.exception.AlreadyLikedProjectException;
+import es.princip.getp.domain.project.command.domain.Project;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,18 +30,18 @@ class ProjectLikerTest {
     private final Long peopleId = 1L;
     private final Long projectId = 1L;
 
-    private final People people = mock(People.class);
-    private final Project project = mock(Project.class);
+    private final Likeable people = mock(People.class);
+    private final LikeReceivable project = mock(Project.class);
 
     @BeforeEach
     void setUp() {
-        given(people.getPeopleId()).willReturn(peopleId);
-        given(project.getProjectId()).willReturn(projectId);
+        given(people.getId()).willReturn(peopleId);
+        given(project.getId()).willReturn(projectId);
     }
 
     @Test
     void 피플은_프로젝트에_좋아요를_누를_수_있다() {
-        given(projectLikeRepository.existsByPeopleIdAndProjectId(peopleId, projectId))
+        given(projectLikeRepository.existsByLikerIdAndLikedId(peopleId, projectId))
             .willReturn(false);
 
         ProjectLike like = projectLiker.like(people, project);
@@ -47,10 +51,10 @@ class ProjectLikerTest {
 
     @Test
     void 피플은_프로젝트에_좋아요를_중복으로_누를_수_없다() {
-        given(projectLikeRepository.existsByPeopleIdAndProjectId(peopleId, projectId))
+        given(projectLikeRepository.existsByLikerIdAndLikedId(peopleId, projectId))
             .willReturn(true);
 
         assertThatThrownBy(() -> projectLiker.like(people, project))
-            .isInstanceOf(AlreadyLikedProjectException.class);
+            .isInstanceOf(AlreadyLikedException.class);
     }
 }

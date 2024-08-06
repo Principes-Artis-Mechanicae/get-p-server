@@ -2,9 +2,9 @@ package es.princip.getp.domain.like.command.domain.people;
 
 import es.princip.getp.domain.like.command.domain.Unliker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class PeopleUnliker extends Unliker {
 
     @Autowired

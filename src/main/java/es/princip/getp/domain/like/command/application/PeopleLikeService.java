@@ -3,8 +3,8 @@ package es.princip.getp.domain.like.command.application;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
 import es.princip.getp.domain.client.exception.NotFoundClientException;
-import es.princip.getp.domain.like.command.domain.Liker;
-import es.princip.getp.domain.like.command.domain.Unliker;
+import es.princip.getp.domain.like.command.domain.people.PeopleLiker;
+import es.princip.getp.domain.like.command.domain.people.PeopleUnliker;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PeopleLikeService {
 
-    private final Liker peopleLiker;
-    private final Unliker peopleUnliker;
+    private final PeopleLiker peopleLiker;
+    private final PeopleUnliker peopleUnliker;
 
     private final ClientRepository clientRepository;
     private final PeopleRepository peopleRepository;

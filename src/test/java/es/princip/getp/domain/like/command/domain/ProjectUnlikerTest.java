@@ -1,7 +1,10 @@
-package es.princip.getp.domain.project.command.domain;
+package es.princip.getp.domain.like.command.domain;
 
+import es.princip.getp.domain.like.command.domain.project.ProjectLikeRepository;
+import es.princip.getp.domain.like.command.domain.project.ProjectUnliker;
+import es.princip.getp.domain.like.exception.NeverLikedException;
 import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.project.exception.NeverLikedProjectException;
+import es.princip.getp.domain.project.command.domain.Project;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,18 +29,18 @@ class ProjectUnlikerTest {
     private final Long peopleId = 1L;
     private final Long projectId = 1L;
 
-    private final People people = mock(People.class);
-    private final Project project = mock(Project.class);
+    private final Likeable people = mock(People.class);
+    private final LikeReceivable project = mock(Project.class);
 
     @BeforeEach
     void setUp() {
-        given(people.getPeopleId()).willReturn(peopleId);
-        given(project.getProjectId()).willReturn(projectId);
+        given(people.getId()).willReturn(peopleId);
+        given(project.getId()).willReturn(projectId);
     }
 
     @Test
     void 피플은_프로젝트에_눌렀던_좋아요를_취소할_수_있다() {
-        given(projectLikeRepository.existsByPeopleIdAndProjectId(peopleId, projectId))
+        given(projectLikeRepository.existsByLikerIdAndLikedId(peopleId, projectId))
             .willReturn(true);
 
         assertThatCode(() -> projectUnliker.unlike(people, project))
@@ -46,10 +49,10 @@ class ProjectUnlikerTest {
 
     @Test
     void 피플은_좋아요를_누른적이_없는_프로젝트에_좋아요를_취소할_수_없다() {
-        given(projectLikeRepository.existsByPeopleIdAndProjectId(peopleId, projectId))
+        given(projectLikeRepository.existsByLikerIdAndLikedId(peopleId, projectId))
             .willReturn(false);
 
         assertThatThrownBy(() -> projectUnliker.unlike(people, project))
-            .isInstanceOf(NeverLikedProjectException.class);
+            .isInstanceOf(NeverLikedException.class);
     }
 }

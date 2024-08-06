@@ -3,7 +3,7 @@ package es.princip.getp.domain.people.query.dao;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
-import es.princip.getp.domain.like.query.dao.LikeDao;
+import es.princip.getp.domain.like.query.dao.PeopleLikeDao;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleProfile;
 import es.princip.getp.domain.people.command.domain.QPeople;
@@ -37,7 +37,7 @@ import static java.util.stream.Collectors.toMap;
 // TODO: 조회 성능 개선 필요
 public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
 
-    private final LikeDao peopleLikeDao;
+    private final PeopleLikeDao peopleLikeDao;
 
     private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
         return queryFactory.select(

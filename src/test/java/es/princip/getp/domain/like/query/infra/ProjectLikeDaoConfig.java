@@ -1,7 +1,7 @@
-package es.princip.getp.domain.project.query.infra;
+package es.princip.getp.domain.like.query.infra;
 
-import es.princip.getp.domain.project.query.dao.ProjectLikeDao;
-import es.princip.getp.domain.project.query.dao.ProjectLikeQueryDslDao;
+import es.princip.getp.domain.like.query.dao.ProjectLikeDao;
+import es.princip.getp.domain.like.query.dao.ProjectLikeQueryDslDao;
 import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

@@ -1,9 +1,9 @@
 package es.princip.getp.domain.like.command.presentation;
 
 import es.princip.getp.domain.like.command.application.PeopleLikeService;
+import es.princip.getp.domain.like.exception.AlreadyLikedException;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
-import es.princip.getp.domain.project.exception.AlreadyLikedProjectException;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;
 import org.junit.jupiter.api.DisplayName;
@@ -47,7 +47,7 @@ public class PeopleLikeControllerTest extends AbstractControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
         void like_WhenPeopleIsAlreadyLiked_ShouldBeFailed() throws Exception {
-            willThrow(new AlreadyLikedProjectException())
+            willThrow(new AlreadyLikedException())
                 .given(peopleLikeService).like(any(), eq(peopleId));
 
             mockMvc.perform(post("/people/{peopleId}/likes", peopleId))

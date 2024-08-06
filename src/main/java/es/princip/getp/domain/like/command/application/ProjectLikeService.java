@@ -1,9 +1,12 @@
-package es.princip.getp.domain.project.command.application;
+package es.princip.getp.domain.like.command.application;
 
+import es.princip.getp.domain.like.command.domain.project.ProjectLiker;
+import es.princip.getp.domain.like.command.domain.project.ProjectUnliker;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
-import es.princip.getp.domain.project.command.domain.*;
+import es.princip.getp.domain.project.command.domain.Project;
+import es.princip.getp.domain.project.command.domain.ProjectRepository;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +19,6 @@ public class ProjectLikeService {
 
     private final ProjectRepository projectRepository;
     private final PeopleRepository peopleRepository;
-    private final ProjectLikeRepository projectLikeRepository;
 
     private final ProjectLiker projectLiker;
     private final ProjectUnliker projectUnliker;
@@ -34,9 +36,7 @@ public class ProjectLikeService {
         final Project project = projectRepository.findById(projectId)
             .orElseThrow(NotFoundProjectException::new);
 
-        final ProjectLike like = projectLiker.like(people, project);
-
-        projectLikeRepository.save(like);
+        projectLiker.like(people, project);
     }
 
     /**

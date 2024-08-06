@@ -4,9 +4,9 @@ import es.princip.getp.domain.like.command.domain.LikeReceivable;
 import es.princip.getp.domain.like.command.domain.Likeable;
 import es.princip.getp.domain.like.command.domain.Liker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class PeopleLiker extends Liker<PeopleLike> {
 
     private final PeopleLikeRepository peopleLikeRepository;

@@ -1,6 +1,6 @@
-package es.princip.getp.domain.project.query.infra;
+package es.princip.getp.domain.like.query.infra;
 
-import es.princip.getp.domain.project.command.domain.ProjectLike;
+import es.princip.getp.domain.like.command.domain.project.ProjectLike;
 import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

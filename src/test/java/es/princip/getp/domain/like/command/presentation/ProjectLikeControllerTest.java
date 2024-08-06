@@ -1,7 +1,7 @@
-package es.princip.getp.domain.project.command.presentation;
+package es.princip.getp.domain.like.command.presentation;
 
+import es.princip.getp.domain.like.command.application.ProjectLikeService;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.domain.project.command.application.ProjectLikeService;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;
 import org.junit.jupiter.api.DisplayName;
