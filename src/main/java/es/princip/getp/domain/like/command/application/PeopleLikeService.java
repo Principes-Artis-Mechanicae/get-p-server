@@ -1,10 +1,10 @@
-package es.princip.getp.domain.people.command.application;
+package es.princip.getp.domain.like.command.application;
 
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
 import es.princip.getp.domain.client.exception.NotFoundClientException;
-import es.princip.getp.domain.like.command.domain.LikeService;
-import es.princip.getp.domain.like.command.domain.UnlikeService;
+import es.princip.getp.domain.like.command.domain.Liker;
+import es.princip.getp.domain.like.command.domain.Unliker;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
@@ -17,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PeopleLikeService {
 
-    private final LikeService likePeopleService;
-    private final UnlikeService unlikePeopleService;
+    private final Liker peopleLiker;
+    private final Unliker peopleUnliker;
 
     private final ClientRepository clientRepository;
     private final PeopleRepository peopleRepository;
@@ -37,7 +37,7 @@ public class PeopleLikeService {
         final People people = peopleRepository.findById(peopleId)
             .orElseThrow(NotFoundPeopleException::new);
 
-        likePeopleService.like(client, people);
+        peopleLiker.like(client, people);
     }
 
     /**
@@ -54,6 +54,6 @@ public class PeopleLikeService {
         final People people = peopleRepository.findById(peopleId)
             .orElseThrow(NotFoundPeopleException::new);
 
-        unlikePeopleService.unlike(client, people);
+        peopleUnliker.unlike(client, people);
     }
 }

@@ -4,7 +4,7 @@ import es.princip.getp.domain.like.exception.NeverLikedException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public abstract class UnlikeService {
+public abstract class Unliker {
 
     private final LikeRepository likeRepository;
 
@@ -14,8 +14,8 @@ public abstract class UnlikeService {
         }
     }
 
-    public void unlike(final Likeable liker, final LikeReceivable liked) {
-        checkNeverLiked(liker.getId(), liked.getId());
-        likeRepository.deleteByLikerIdAndLikedId(liker.getId(), liked.getId());
+    public void unlike(final Likeable likeable, final LikeReceivable likeReceivable) {
+        checkNeverLiked(likeable.getId(), likeReceivable.getId());
+        likeRepository.deleteByLikerIdAndLikedId(likeable.getId(), likeReceivable.getId());
     }
 }

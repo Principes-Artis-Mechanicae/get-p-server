@@ -1,19 +1,19 @@
-package es.princip.getp.domain.people.command.domain;
+package es.princip.getp.domain.like.command.domain.people;
 
 import es.princip.getp.domain.like.command.domain.Like;
 import es.princip.getp.domain.like.command.domain.LikeReceivable;
-import es.princip.getp.domain.like.command.domain.LikeService;
 import es.princip.getp.domain.like.command.domain.Likeable;
+import es.princip.getp.domain.like.command.domain.Liker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LikePeopleService extends LikeService {
+public class PeopleLiker extends Liker {
 
     private final PeopleLikeRepository peopleLikeRepository;
 
     @Autowired
-    public LikePeopleService(final PeopleLikeRepository peopleLikeRepository) {
+    public PeopleLiker(final PeopleLikeRepository peopleLikeRepository) {
         super(peopleLikeRepository);
         this.peopleLikeRepository = peopleLikeRepository;
     }

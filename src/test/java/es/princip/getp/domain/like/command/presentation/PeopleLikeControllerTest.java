@@ -1,7 +1,7 @@
-package es.princip.getp.domain.people.command.presentation;
+package es.princip.getp.domain.like.command.presentation;
 
+import es.princip.getp.domain.like.command.application.PeopleLikeService;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.domain.people.command.application.PeopleLikeService;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.domain.project.exception.AlreadyLikedProjectException;
 import es.princip.getp.infra.annotation.WithCustomMockUser;

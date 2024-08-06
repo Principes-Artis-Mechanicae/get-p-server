@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.command.domain;
+package es.princip.getp.domain.like.command.domain.people;
 
 import es.princip.getp.domain.like.command.domain.Like;
 import jakarta.persistence.*;
