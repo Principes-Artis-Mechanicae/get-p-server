@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.query.presentation;
 
 import es.princip.getp.domain.people.query.dao.PeopleDao;
-import es.princip.getp.domain.people.query.dto.people.PeopleResponse;
+import es.princip.getp.domain.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
@@ -28,10 +28,10 @@ public class MyPeopleQueryController {
      */
     @GetMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<PeopleResponse>> getMyPeople(
+    public ResponseEntity<ApiSuccessResult<MyPeopleResponse>> getMyPeople(
         @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final PeopleResponse response = peopleDao.findByMemberId(memberId);
+        final MyPeopleResponse response = peopleDao.findByMemberId(memberId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

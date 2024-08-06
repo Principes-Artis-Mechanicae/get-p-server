@@ -2,7 +2,7 @@ package es.princip.getp.domain.people.query.dao;
 
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.domain.people.query.dto.people.PeopleResponse;
+import es.princip.getp.domain.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,7 @@ public interface PeopleDao {
 
     PublicDetailPeopleResponse findPublicDetailPeopleById(Long peopleId);
 
-    PeopleResponse findByMemberId(Long memberId);
+    MyPeopleResponse findByMemberId(Long memberId);
 
     DetailPeopleProfileResponse findDetailPeopleProfileByMemberId(Long memberId);
 }
