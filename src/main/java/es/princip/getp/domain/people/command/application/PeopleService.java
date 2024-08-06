@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PeopleService {
 
+    private final PeopleMapper peopleMapper;
+
     private final MemberService memberService;
     private final PeopleRepository peopleRepository;
 
@@ -33,11 +35,7 @@ public class PeopleService {
             throw new AlreadyExistsPeopleException();
         }
         memberService.update(UpdateMemberCommand.from(command));
-        final People people = People.builder()
-            .email(command.email())
-            .peopleType(command.peopleType())
-            .memberId(command.memberId())
-            .build();
+        final People people = peopleMapper.mapToPeople(command.memberId(), command.email(), command.peopleType());
         return peopleRepository.save(people).getPeopleId();
     }
 
@@ -52,7 +50,7 @@ public class PeopleService {
         memberService.update(UpdateMemberCommand.from(command));
         final People people = peopleRepository.findByMemberId(command.memberId())
             .orElseThrow(NotFoundPeopleException::new);
-        people.edit(command.email(), command.peopleType());
+        people.editInfo(command.email(), command.peopleType());
     }
 
     /**

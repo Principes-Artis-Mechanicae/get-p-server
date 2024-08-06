@@ -2,71 +2,66 @@ package es.princip.getp.domain.people.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.people.exception.AlreadyRegisteredPeopleProfileException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
-
+@Getter
 @Entity
 @Table(name = "people")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
 public class People extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "people_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long peopleId;
 
-    @Embedded
     @NotNull
-    private Email email;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "people_type")
-    @NotNull
-    private PeopleType peopleType;
-
     @Column(name = "member_id")
-    @NotNull
     private Long memberId;
 
-    @Builder
-    public People(
-        final Email email,
-        final PeopleType peopleType,
-        final Long memberId
-    ) {
-        this.email = email;
-        this.peopleType = peopleType;
+    @Embedded
+    private PeopleInfo info;
+
+    @Embedded
+    private PeopleProfile profile;
+
+    public People(final Long memberId, final PeopleInfo info) {
         this.memberId = memberId;
+        this.info = info;
     }
 
-    private void setEmail(final Email email) {
-        Objects.requireNonNull(email);
-        this.email = email;
+    public void editInfo(final Email email, final PeopleType peopleType) {
+        this.info = new PeopleInfo(email, peopleType);
     }
 
-    private void setPeopleType(final PeopleType peopleType) {
-        Objects.requireNonNull(peopleType);
-        this.peopleType = peopleType;
+    private PeopleProfile buildProfile(final PeopleProfileData data) {
+        return PeopleProfile.builder()
+            .introduction(data.introduction())
+            .activityArea(data.activityArea())
+            .education(data.education())
+            .hashtags(data.hashtags())
+            .techStacks(data.techStacks())
+            .portfolios(data.portfolios())
+            .build();
     }
 
-    /**
-     * 피플 정보를 수정한다. 이때, 수정하지 않은 정보도 함께 전달해야 한다.
-     *
-     * @param email 이메일
-     * @param peopleType 피플 유형
-     */
-    public void edit(
-        final Email email,
-        final PeopleType peopleType
-    ) {
-        setEmail(email);
-        setPeopleType(peopleType);
+    public void registerProfile(final PeopleProfileData data) {
+        if (isProfileRegistered()) {
+            throw new AlreadyRegisteredPeopleProfileException();
+        }
+        this.profile = buildProfile(data);
+    }
+
+    public boolean isProfileRegistered() {
+        return this.profile != null;
+    }
+
+    public void editProfile(final PeopleProfileData data) {
+        this.profile = buildProfile(data);
     }
 }

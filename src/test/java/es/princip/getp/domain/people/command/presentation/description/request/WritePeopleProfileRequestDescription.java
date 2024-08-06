@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.command.presentation.description.request;
 
-import es.princip.getp.domain.people.command.presentation.dto.request.WritePeopleProfileRequest;
+import es.princip.getp.domain.people.command.presentation.dto.request.RegisterPeopleProfileRequest;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
@@ -8,7 +8,7 @@ import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
 public class WritePeopleProfileRequestDescription {
 
     public static FieldDescriptor[] description() {
-        final Class<?> clazz = WritePeopleProfileRequest.class;
+        final Class<?> clazz = RegisterPeopleProfileRequest.class;
         return new FieldDescriptor[] {
             getDescriptor("education.school", "학력", clazz),
             getDescriptor("education.major", "전공", clazz),
