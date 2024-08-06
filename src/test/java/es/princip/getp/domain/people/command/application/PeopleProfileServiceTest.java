@@ -1,6 +1,5 @@
 package es.princip.getp.domain.people.command.application;
 
-import es.princip.getp.domain.people.command.domain.PeopleProfileRepository;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,9 +14,6 @@ public class PeopleProfileServiceTest {
 
     @InjectMocks
     private PeopleProfileService peopleProfileService;
-
-    @Mock
-    private PeopleProfileRepository peopleProfileRepository;
 
     @Mock
     private PeopleRepository peopleRepository;

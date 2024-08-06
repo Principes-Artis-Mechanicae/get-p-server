@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 
 import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
-import static es.princip.getp.domain.people.command.domain.QPeopleProfile.peopleProfile;
+import static es.princip.getp.domain.people.command.domain.QPeople.people;
 
 class PeoplePaginationHelper {
 
@@ -19,8 +19,8 @@ class PeoplePaginationHelper {
         final Order converted = convertTo(order);
         return switch (peopleOrder) {
             // TODO: case INTEREST_COUNT
-            case CREATED_AT -> new OrderSpecifier<>(converted, peopleProfile.createdAt);
-            default -> new OrderSpecifier<>(converted, peopleProfile.peopleId);
+            case CREATED_AT -> new OrderSpecifier<>(converted, people.createdAt);
+            default -> new OrderSpecifier<>(converted, people.peopleId);
         };
     }
 

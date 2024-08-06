@@ -3,7 +3,6 @@ package es.princip.getp.domain.project.command.domain;
 import es.princip.getp.domain.common.domain.MeetingSchedule;
 import es.princip.getp.domain.member.command.domain.model.PhoneNumber;
 import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleProfileChecker;
 import es.princip.getp.domain.project.exception.NotApplicantException;
 import es.princip.getp.domain.project.exception.NotClientOfProjectException;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +14,6 @@ public class ProjectMeetingScheduler {
 
     private final ProjectApplicationRepository applicationRepository;
     private final ProjectMeetingRepository meetingRepository;
-
-    private final PeopleProfileChecker peopleProfileChecker;
 
     /**
      * 프로젝트 미팅 신청
@@ -44,8 +41,6 @@ public class ProjectMeetingScheduler {
 
         checkMemberIsClientOfProject(memberId, projectId);
         checkPeopleIsApplicant(applicantId, projectId);
-
-        peopleProfileChecker.checkPeopleProfileIsRegistered(people);
 
         return ProjectMeeting.builder()
                 .projectId(project.getProjectId())

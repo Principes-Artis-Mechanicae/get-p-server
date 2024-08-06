@@ -1,8 +1,10 @@
 package es.princip.getp.domain.people.command.presentation;
 
 import es.princip.getp.domain.people.command.application.PeopleProfileService;
+import es.princip.getp.domain.people.command.application.command.EditPeopleProfileCommand;
+import es.princip.getp.domain.people.command.application.command.RegisterPeopleProfileCommand;
 import es.princip.getp.domain.people.command.presentation.dto.request.EditPeopleProfileRequest;
-import es.princip.getp.domain.people.command.presentation.dto.request.WritePeopleProfileRequest;
+import es.princip.getp.domain.people.command.presentation.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MyPeopleProfileController {
 
+    private final PeopleCommandMapper peopleCommandMapper;
+
     private final PeopleProfileService peopleProfileService;
 
     /**
@@ -30,10 +34,12 @@ public class MyPeopleProfileController {
     @PostMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> createMyPeopleProfile(
-        @RequestBody @Valid final WritePeopleProfileRequest request,
-        @AuthenticationPrincipal final PrincipalDetails principalDetails) {
+        @RequestBody @Valid final RegisterPeopleProfileRequest request,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails
+    ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        peopleProfileService.writeProfile(memberId, request);
+        final RegisterPeopleProfileCommand command = peopleCommandMapper.mapToCommand(memberId, request);
+        peopleProfileService.registerProfile(command);
         return ApiResponse.success(HttpStatus.CREATED);
     }
 
@@ -46,10 +52,12 @@ public class MyPeopleProfileController {
     @PutMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> updateMyPeopleProfile(
-            @RequestBody @Valid final EditPeopleProfileRequest request,
-            @AuthenticationPrincipal final PrincipalDetails principalDetails) {
+        @RequestBody @Valid final EditPeopleProfileRequest request,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails
+    ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        peopleProfileService.editProfile(memberId, request);
-        return ApiResponse.success(HttpStatus.CREATED);
+        final EditPeopleProfileCommand command = peopleCommandMapper.mapToCommand(memberId, request);
+        peopleProfileService.editProfile(command);
+        return ApiResponse.success(HttpStatus.OK);
     }
 }
