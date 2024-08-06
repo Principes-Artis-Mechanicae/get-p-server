@@ -2,7 +2,7 @@ package es.princip.getp.domain.people.query.dao;
 
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.domain.people.query.dto.people.PeopleResponse;
+import es.princip.getp.domain.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.people.query.infra.PeopleDaoConfig;
@@ -66,7 +66,7 @@ public class PeopleDaoTest extends DaoTest {
     @Test
     @DisplayName("멤버 ID로 피플 정보를 조회한다.")
     void findByMemberId() {
-        PeopleResponse response = peopleDao.findByMemberId(1L);
+        MyPeopleResponse response = peopleDao.findByMemberId(1L);
 
         log.info("response: {}", response);
 
