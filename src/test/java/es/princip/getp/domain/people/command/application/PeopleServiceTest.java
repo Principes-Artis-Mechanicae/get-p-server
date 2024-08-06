@@ -38,6 +38,9 @@ public class PeopleServiceTest {
     private PeopleService peopleService;
 
     @Mock
+    private PeopleMapper peopleMapper;
+
+    @Mock
     private MemberService memberService;
 
     @Mock
@@ -58,6 +61,8 @@ public class PeopleServiceTest {
             given(peopleRepository.existsByMemberId(command.memberId())).willReturn(false);
             final People people = spy(People.class);
             given(people.getPeopleId()).willReturn(peopleId);
+            given(peopleMapper.mapToPeople(command.memberId(), command.email(), command.peopleType()))
+                .willReturn(people);
             given(peopleRepository.save(any(People.class))).willReturn(people);
 
             final Long peopleId = peopleService.create(command);
@@ -81,14 +86,14 @@ public class PeopleServiceTest {
         void update() {
             final People people = spy(People.class);
             willDoNothing().given(people)
-                .edit(command.email(), command.peopleType());
+                .editInfo(command.email(), command.peopleType());
             given(peopleRepository.findByMemberId(command.memberId()))
                 .willReturn(Optional.of(people));
 
             peopleService.update(command);
 
             verify(memberService, times(1)).update(any(UpdateMemberCommand.class));
-            verify(people, times(1)).edit(command.email(), command.peopleType());
+            verify(people, times(1)).editInfo(command.email(), command.peopleType());
         }
     }
 

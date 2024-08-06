@@ -3,7 +3,7 @@ package es.princip.getp.domain.project.command.domain;
 import es.princip.getp.domain.common.domain.ClockHolder;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleProfileChecker;
+import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.domain.project.exception.ClosedProjectApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,6 @@ import static es.princip.getp.domain.project.command.domain.ProjectApplicationSt
 @RequiredArgsConstructor
 public class ProjectApplier {
 
-    private final PeopleProfileChecker peopleProfileChecker;
     private final ClockHolder clockHolder;
 
     /**
@@ -41,7 +40,9 @@ public class ProjectApplier {
         if (project.isApplicationClosed(clock)) {
             throw new ClosedProjectApplicationException();
         }
-        peopleProfileChecker.checkPeopleProfileIsRegistered(people);
+        if (people.isProfileRegistered()) {
+            throw new NotRegisteredPeopleProfileException();
+        }
         return ProjectApplication.builder()
             .applicantId(people.getPeopleId())
             .projectId(project.getProjectId())

@@ -1,7 +1,6 @@
 package es.princip.getp.domain.project.command.domain;
 
 import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleProfileChecker;
 import es.princip.getp.domain.project.exception.NotApplicantException;
 import es.princip.getp.domain.project.exception.NotClientOfProjectException;
 import org.junit.jupiter.api.Test;
@@ -14,10 +13,8 @@ import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.phoneNumb
 import static es.princip.getp.domain.project.fixture.ProjectMeetingFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,9 +25,6 @@ class ProjectMeetingSchedulerTest {
 
     @Mock
     private ProjectMeetingRepository meetingRepository;
-
-    @Mock
-    private PeopleProfileChecker peopleProfileChecker;
 
     @InjectMocks
     private ProjectMeetingScheduler meetingScheduler;
@@ -45,7 +39,6 @@ class ProjectMeetingSchedulerTest {
             .willReturn(true);
         given(applicationRepository.existsByApplicantIdAndProjectId(anyLong(), anyLong()))
             .willReturn(true);
-        willDoNothing().given(peopleProfileChecker).checkPeopleProfileIsRegistered(any(People.class));
 
         final ProjectMeeting meeting = meetingScheduler.scheduleMeeting(
             memberId,
