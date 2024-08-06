@@ -2,6 +2,10 @@ package es.princip.getp.domain.people.command.application;
 
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
+import es.princip.getp.domain.client.exception.NotFoundClientException;
+import es.princip.getp.domain.like.command.domain.LikeService;
+import es.princip.getp.domain.like.command.domain.UnlikeService;
+import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PeopleLikeService {
 
-    private final PeopleRepository peopleRepository;
+    private final LikeService likePeopleService;
+    private final UnlikeService unlikePeopleService;
+
     private final ClientRepository clientRepository;
+    private final PeopleRepository peopleRepository;
 
     /**
      * 피플에게 좋아요를 누른다.
@@ -25,11 +32,12 @@ public class PeopleLikeService {
      */
     @Transactional
     public void like(final Long memberId, final Long peopleId) {
-        if (!peopleRepository.existsById(peopleId)) {
-            throw new NotFoundPeopleException();
-        }
-        final Client client = clientRepository.findByMemberId(memberId).orElseThrow();
-        client.likePeople(peopleId);
+        final Client client = clientRepository.findByMemberId(memberId)
+            .orElseThrow(NotFoundClientException::new);
+        final People people = peopleRepository.findById(peopleId)
+            .orElseThrow(NotFoundPeopleException::new);
+
+        likePeopleService.like(client, people);
     }
 
     /**
@@ -41,10 +49,11 @@ public class PeopleLikeService {
      */
     @Transactional
     public void unlike(final Long memberId, final Long peopleId) {
-        if (!peopleRepository.existsById(peopleId)) {
-            throw new NotFoundPeopleException();
-        }
-        final Client client = clientRepository.findByMemberId(memberId).orElseThrow();
-        client.unlikePeople(peopleId);
+        final Client client = clientRepository.findByMemberId(memberId)
+            .orElseThrow(NotFoundClientException::new);
+        final People people = peopleRepository.findById(peopleId)
+            .orElseThrow(NotFoundPeopleException::new);
+
+        unlikePeopleService.unlike(client, people);
     }
 }

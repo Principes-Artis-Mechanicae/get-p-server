@@ -1,6 +1,7 @@
 package es.princip.getp.domain.people.command.domain;
 
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.like.command.domain.LikeReceivable;
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.people.exception.AlreadyRegisteredPeopleProfileException;
 import jakarta.persistence.*;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "people")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class People extends BaseTimeEntity {
+public class People extends BaseTimeEntity implements LikeReceivable {
 
     @Id
     @Column(name = "people_id")
@@ -63,5 +64,10 @@ public class People extends BaseTimeEntity {
 
     public void editProfile(final PeopleProfileData data) {
         this.profile = buildProfile(data);
+    }
+
+    @Override
+    public Long getId() {
+        return this.peopleId;
     }
 }
