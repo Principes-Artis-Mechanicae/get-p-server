@@ -1,5 +1,6 @@
 package es.princip.getp.infra.support;
 
+import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.annotation.PostConstruct;
@@ -28,10 +29,10 @@ public abstract class QueryDslSupport {
     protected JPAQueryFactory queryFactory;
 
     @Autowired
-    public void setEntityManager(EntityManager entityManager) {
+    public void setEntityManager(final EntityManager entityManager) {
         Assert.notNull(entityManager, "EntityManager must not be null!");
         this.entityManager = entityManager;
-        this.queryFactory = new JPAQueryFactory(entityManager);
+        this.queryFactory = new JPAQueryFactory(JPQLTemplates.DEFAULT, entityManager);
     }
 
     @PostConstruct

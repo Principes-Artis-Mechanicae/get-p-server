@@ -7,6 +7,7 @@ import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleProfile;
 import es.princip.getp.domain.people.command.domain.QPeople;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
+import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.PeopleResponse;
@@ -30,8 +31,7 @@ import static es.princip.getp.domain.people.query.dao.PeoplePaginationHelper.get
 import static java.util.stream.Collectors.toMap;
 
 @Repository
-// TODO: 피플 프로필 조회 성능 개선 필요
-// TODO: 피플 프로필 등록 여부에 대한 필터링 논의 필요
+// TODO: 조회 성능 개선 필요
 public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
 
     private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
@@ -39,7 +39,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
             member.nickname.value,
             member.profileImage.uri,
             people.peopleId,
-            people.peopleInfo.peopleType
+            people.info.peopleType
         )
         .from(people)
         .join(member)
@@ -54,7 +54,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
                 member.nickname.value,
                 member.profileImage.uri,
                 people.peopleId,
-                people.peopleInfo.peopleType
+                people.info.peopleType
             )
             .from(people)
             .join(member).on(people.memberId.eq(member.memberId))
@@ -65,6 +65,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
 
     private List<CardPeopleResponse> getCardPeopleContent(final Pageable pageable) {
         final List<People> result = queryFactory.selectFrom(people)
+            .where(people.profile.isNotNull())
             .orderBy(getPeopleOrderSpecifiers(pageable.getSort()))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
@@ -83,10 +84,10 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
                 peopleId,
                 memberAndPeople.get(peopleId).get(member.nickname.value),
                 memberAndPeople.get(peopleId).get(member.profileImage.uri),
-                memberAndPeople.get(peopleId).get(qPeople.peopleInfo.peopleType),
+                memberAndPeople.get(peopleId).get(qPeople.info.peopleType),
                 0,
                 0,
-                CardPeopleProfileResponse.from(people.getPeopleProfile())
+                CardPeopleProfileResponse.from(people.getProfile())
             );
         }).toList();
     }
@@ -105,11 +106,12 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
         final PeopleProfile profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
-                    .where(people.peopleId.eq(peopleId))
+                    .where(people.peopleId.eq(peopleId)
+                        .and(people.profile.isNotNull()))
                     .fetchOne()
             )
             .orElseThrow(NotFoundPeopleException::new)
-            .getPeopleProfile();
+            .getProfile();
 
         final Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId)
             .orElseThrow(NotFoundPeopleException::new);
@@ -118,7 +120,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
             peopleId,
             memberAndPeople.get(member.nickname.value),
             memberAndPeople.get(member.profileImage.uri),
-            memberAndPeople.get(people.peopleInfo.peopleType),
+            memberAndPeople.get(people.info.peopleType),
             0,
             0,
             DetailPeopleProfileResponse.from(profile)
@@ -130,11 +132,12 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
         final PeopleProfile profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
-                    .where(people.peopleId.eq(peopleId))
+                    .where(people.peopleId.eq(peopleId)
+                        .and(people.profile.isNotNull()))
                     .fetchOne()
             )
             .orElseThrow(NotFoundPeopleException::new)
-            .getPeopleProfile();
+            .getProfile();
 
         final Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId)
             .orElseThrow(NotFoundPeopleException::new);
@@ -143,7 +146,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
             peopleId,
             memberAndPeople.get(member.nickname.value),
             memberAndPeople.get(member.profileImage.uri),
-            memberAndPeople.get(people.peopleInfo.peopleType),
+            memberAndPeople.get(people.info.peopleType),
             0,
             0,
             PublicDetailPeopleProfileResponse.from(profile)
@@ -157,10 +160,10 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
                 Projections.constructor(
                     PeopleResponse.class,
                     people.peopleId,
-                    people.peopleInfo.email.value,
+                    people.info.email.value,
                     member.nickname.value,
                     member.profileImage.uri,
-                    people.peopleInfo.peopleType,
+                    people.info.peopleType,
                     Expressions.asNumber(0).as("completedProjectsCount"),
                     Expressions.asNumber(0).as("likesCount"),
                     people.createdAt,
@@ -180,11 +183,12 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
             Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
-                    .where(people.memberId.eq(memberId))
+                    .where(people.memberId.eq(memberId)
+                        .and(people.profile.isNotNull()))
                     .fetchOne()
             )
-            .orElseThrow(NotFoundPeopleException::new)
-            .getPeopleProfile()
+            .orElseThrow(NotRegisteredPeopleProfileException::new)
+            .getProfile()
         );
     }
 }
