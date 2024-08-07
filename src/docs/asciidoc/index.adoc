@@ -164,3 +164,11 @@ include::{docdir}/project/get-my-projects.adoc[]
 의뢰자는 프로젝트 지원자에게 미팅을 신청할 수 있습니다.
 
 include::{docdir}/project/schedule-meeting.adoc[]
+
+== 스토리지
+
+=== 파일 업로드
+
+사용자는 파일을 업로드할 수 있습니다. 업로드할 수 있는 파일 확장자는 `pdf`, `zip`, `ppt`, `docx`, `hwp`, `jpg`, `png` 입니다.
+
+include::{docdir}/storage/upload-file.adoc[]
