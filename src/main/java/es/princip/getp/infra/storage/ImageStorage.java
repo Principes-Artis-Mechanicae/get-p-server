@@ -1,7 +1,6 @@
 package es.princip.getp.infra.storage;
 
-import es.princip.getp.infra.exception.BusinessLogicException;
-import es.princip.getp.infra.storage.exception.ImageErrorCode;
+import es.princip.getp.infra.storage.exception.FailedImageSaveException;
 import es.princip.getp.infra.util.ImageUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,7 @@ import java.nio.file.StandardCopyOption;
 @Getter
 public class ImageStorage {
 
-    public ImageStorage(@Value("${spring.storage.path}") String storagePath) {
+    public ImageStorage(@Value("${spring.storage.local.path}") String storagePath) {
         this.storagePath = Paths.get(storagePath).normalize().toAbsolutePath();
         this.imageStoragePath = Paths.get("images");
     }
@@ -55,7 +54,7 @@ public class ImageStorage {
                 Files.delete(this.storagePath.resolve(destination));
             }
         } catch (IOException exception) {
-            throw new BusinessLogicException(ImageErrorCode.IMAGE_DELETE_FAILED);
+            throw new FailedImageSaveException();
         }
     }
 
@@ -75,7 +74,7 @@ public class ImageStorage {
      */
     private void validateImage(InputStream imageStream) {
         if (!ImageUtil.isValidImage(imageStream)) {
-            throw new BusinessLogicException(ImageErrorCode.NOT_ALLOWED_EXTENSION);
+            throw new FailedImageSaveException();
         }
     }
 
@@ -101,7 +100,7 @@ public class ImageStorage {
             makeDirectories(destination.getParent());
             Files.copy(imageStream, destination, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException exception) {
-            throw new BusinessLogicException(ImageErrorCode.IMAGE_SAVE_FAILED);
+            throw new FailedImageSaveException();
         }
     }
 
@@ -114,7 +113,7 @@ public class ImageStorage {
         File directory = new File(path.toUri());
         if (!directory.exists()) {
             if (!directory.mkdirs()) {
-                throw new BusinessLogicException(ImageErrorCode.IMAGE_SAVE_FAILED);
+                throw new FailedImageSaveException();
             }
         }
     }

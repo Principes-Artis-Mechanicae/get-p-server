@@ -5,7 +5,9 @@ server:
 
 spring:
   storage:
-    path: ${STORAGE_PATH}
+    local:
+      path: ${STORAGE_PATH}
+    base-uri: ${STORAGE_BASE_URI}
 
   datasource:
     url: ${DB_URL}
