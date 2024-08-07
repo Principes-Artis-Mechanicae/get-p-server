@@ -1,5 +1,6 @@
-package es.princip.getp.infra.storage;
+package es.princip.getp.infra.storage.infra;
 
+import es.princip.getp.infra.storage.application.ImageStorage;
 import es.princip.getp.infra.storage.exception.FailedImageSaveException;
 import es.princip.getp.infra.util.ImageUtil;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,13 +20,21 @@ import java.nio.file.StandardCopyOption;
 @Component
 @Slf4j
 @Getter
-public class ImageStorage {
+public class LocalImageStorage implements ImageStorage {
 
-    public ImageStorage(@Value("${spring.storage.local.path}") String storagePath) {
+    public LocalImageStorage(
+        @Value("${server.servlet.context-path}") String contextPath,
+        @Value("${spring.storage.base-uri}") String baseUri,
+        @Value("${spring.storage.local.path}") String storagePath
+    ) {
+        this.contextPath = contextPath;
+        this.baseUri = baseUri;
         this.storagePath = Paths.get(storagePath).normalize().toAbsolutePath();
         this.imageStoragePath = Paths.get("images");
     }
 
+    private final String contextPath;
+    private final String baseUri;
     private final Path storagePath; // 절대 경로
     private final Path imageStoragePath; // 상대 경로
 
@@ -35,10 +45,13 @@ public class ImageStorage {
      * @param imageStream 사진의 InputStream
      * @return imageStoragePath부터 시작하는 URI
      */
-    public String storeImage(Path destination, InputStream imageStream) {
+    @Override
+    public URI storeImage(Path destination, InputStream imageStream) throws IOException {
         validateImage(imageStream);
-        copyImageToDestination(imageStream, resolvePath(destination));
-        return "/" + storagePath.relativize(destination).toUri();
+        final Path resolvedPath = resolvePath(destination);
+        makeDirectories(resolvedPath.getParent());
+        Files.copy(imageStream, resolvedPath, StandardCopyOption.REPLACE_EXISTING);
+        return createFileUri(resolvedPath);
     }
 
     /**
@@ -46,12 +59,14 @@ public class ImageStorage {
      *
      * @param destination 삭제할 사진 경로
      */
-    public void deleteImage(Path destination) {
+    @Override
+    public void deleteImage(URI destination) {
+        final Path path = Paths.get(destination.getPath().replace(contextPath, ""));
         try {
-            if (destination.startsWith(getAbsoluteImageStoragePath())) {
-                Files.delete(destination);
+            if (path.startsWith(getAbsoluteImageStoragePath())) {
+                Files.delete(path);
             } else {
-                Files.delete(this.storagePath.resolve(destination));
+                Files.delete(this.storagePath.resolve(path));
             }
         } catch (IOException exception) {
             throw new FailedImageSaveException();
@@ -90,21 +105,6 @@ public class ImageStorage {
     }
 
     /**
-     * 이미지를 destination에 복사합니다.
-     *
-     * @param imageStream 이미지의 InputStream
-     * @param destination 이미지를 저장할 경로
-     */
-    private void copyImageToDestination(InputStream imageStream, Path destination) {
-        try {
-            makeDirectories(destination.getParent());
-            Files.copy(imageStream, destination, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException exception) {
-            throw new FailedImageSaveException();
-        }
-    }
-
-    /**
      * path에 디렉토리를 생성합니다.
      *
      * @param path 디렉토리를 생성할 경로
@@ -116,5 +116,11 @@ public class ImageStorage {
                 throw new FailedImageSaveException();
             }
         }
+    }
+
+    private URI createFileUri(final Path path) {
+        final Path relativePath = storagePath.relativize(path);
+        final String fileUri = relativePath.toString().replace("\\", "/");
+        return URI.create(baseUri + fileUri);
     }
 }

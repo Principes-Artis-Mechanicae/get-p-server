@@ -19,8 +19,10 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        show-sql: true
+        show_sql: true
         format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
         jdbc:
           time_zone: Asia/Seoul
         default_batch_fetch_size: 20
@@ -67,8 +69,6 @@ logging:
     org:
       springframework:
         security: DEBUG
-      hibernate:
-        SQL: DEBUG
       type:
         descriptor:
           sql:

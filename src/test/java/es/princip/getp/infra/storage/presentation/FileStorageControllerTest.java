@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 
@@ -47,8 +48,8 @@ class FileStorageControllerTest extends AbstractControllerTest {
         @WithCustomMockUser
         @DisplayName("사용자는 파일을 업로드할 수 있다.")
         void uploadFile() throws Exception {
-            given(fileUploadService.uploadFile(any()))
-                .willReturn(URI.create("https://storage.princip.es/files/1/test.txt"));
+            given(fileUploadService.uploadFile(any(MultipartFile.class)))
+                .willReturn(URI.create("https://storage.princip.es/files/1/test.pdf"));
 
             perform()
                 .andExpect(status().isCreated())

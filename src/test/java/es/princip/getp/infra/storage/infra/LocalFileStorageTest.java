@@ -10,13 +10,13 @@ import java.net.URI;
 import java.nio.file.Path;
 
 import static es.princip.getp.infra.storage.fixture.FileStorageFixture.DUMMY_TEXT;
-import static es.princip.getp.infra.storage.fixture.StorageFixture.BASE_URL;
+import static es.princip.getp.infra.storage.fixture.StorageFixture.BASE_URI;
 import static es.princip.getp.infra.storage.fixture.StorageFixture.STORAGE_PATH_STR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LocalFileStorageTest {
 
-    private final LocalFileStorage localFileStorage = new LocalFileStorage(BASE_URL, STORAGE_PATH_STR);
+    private final LocalFileStorage localFileStorage = new LocalFileStorage(BASE_URI, STORAGE_PATH_STR);
 
     @Test
     void 파일을_로컬_스토리지에_저장한다() throws IOException {
@@ -28,6 +28,6 @@ class LocalFileStorageTest {
 
         final File saved = new File(STORAGE_PATH_STR + "files/" + filePath);
         assertThat(saved).exists();
-        assertThat(fileUri).isEqualTo(URI.create(BASE_URL).resolve("files/" + filePath));
+        assertThat(fileUri).isEqualTo(URI.create(BASE_URI).resolve("files/" + filePath));
     }
 }
