@@ -2,7 +2,6 @@ package es.princip.getp.infra.storage.infra;
 
 import es.princip.getp.infra.storage.application.ImageStorage;
 import es.princip.getp.infra.storage.exception.FailedImageSaveException;
-import es.princip.getp.infra.util.ImageUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +46,6 @@ public class LocalImageStorage implements ImageStorage {
      */
     @Override
     public URI storeImage(Path destination, InputStream imageStream) throws IOException {
-        validateImage(imageStream);
         final Path resolvedPath = resolvePath(destination);
         makeDirectories(resolvedPath.getParent());
         Files.copy(imageStream, resolvedPath, StandardCopyOption.REPLACE_EXISTING);
@@ -80,17 +78,6 @@ public class LocalImageStorage implements ImageStorage {
      */
     private Path getAbsoluteImageStoragePath() {
         return storagePath.resolve(imageStoragePath);
-    }
-
-    /**
-     * 이미지의 확장자를 검증합니다.
-     *
-     * @param imageStream 이미지의 InputStream
-     */
-    private void validateImage(InputStream imageStream) {
-        if (!ImageUtil.isValidImage(imageStream)) {
-            throw new FailedImageSaveException();
-        }
     }
 
     /**
