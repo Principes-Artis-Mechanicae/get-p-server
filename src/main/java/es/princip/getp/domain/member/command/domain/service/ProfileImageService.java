@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +25,18 @@ public class ProfileImageService {
 
     private final ImageStorage imageStorage;
 
+    private static final List<String> whiteImageExtensionList = Arrays.asList(
+        "image/jpeg",
+        "image/pjpeg",
+        "image/png",
+        "image/bmp",
+        "image/x-windows-bmp"
+    );
+
     public ProfileImage saveProfileImage(final Member member, final MultipartFile image) {
+        if (!whiteImageExtensionList.contains(image.getContentType())) {
+            throw new FailedToSaveProfileImageException();
+        }
         final Path destination = getPathToSaveProfileImage(member, image);
         try (InputStream in = image.getInputStream()) {
             final URI uri = imageStorage.storeImage(destination, in);
