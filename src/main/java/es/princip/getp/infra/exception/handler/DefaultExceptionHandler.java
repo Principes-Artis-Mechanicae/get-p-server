@@ -23,7 +23,7 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResult> handleException(final Exception exception) {
-        log.info(exception.getMessage());
+        log.error(exception.getMessage(), exception);
         return ApiErrorResponse.error(DefaultErrorCode.INTERNAL_SERVER_ERROR);
     }
 }
