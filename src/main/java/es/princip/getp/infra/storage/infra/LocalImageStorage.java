@@ -17,9 +17,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-@Component
 @Slf4j
 @Getter
+@Component
 public class LocalImageStorage implements ImageStorage {
 
     public LocalImageStorage(
@@ -61,13 +61,13 @@ public class LocalImageStorage implements ImageStorage {
      */
     @Override
     public void deleteImage(URI destination) {
-        final Path path = Paths.get(contextPath).relativize(Paths.get(destination.getPath()));
+        Path path = Paths.get(destination.getPath().replaceFirst("/", ""));
+        if (!path.startsWith(getAbsoluteImageStoragePath())) {
+            path = storagePath.resolve(path);
+        }
+        log.debug("실제 삭제 경로: {}", path);
         try {
-            if (path.startsWith(getAbsoluteImageStoragePath())) {
-                Files.delete(path);
-            } else {
-                Files.delete(this.storagePath.resolve(path));
-            }
+            Files.delete(path);
         } catch (IOException exception) {
             throw new FailedImageSaveException();
         }
