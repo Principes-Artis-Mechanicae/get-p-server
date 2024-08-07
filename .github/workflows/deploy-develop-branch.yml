@@ -1,6 +1,7 @@
 name: get-p-server CD (development)
 
 on:
+  workflow_dispatch:
   push:
     branches: [ develop ]
 
