@@ -3,8 +3,6 @@ package es.princip.getp.domain.member.command.presentation;
 import es.princip.getp.domain.member.command.application.MemberService;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.presentation.ErrorCodeController;
-import es.princip.getp.infra.storage.exception.ImageErrorCode;
 import es.princip.getp.infra.support.AbstractControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
 import static es.princip.getp.infra.storage.fixture.ImageStorageFixture.imageMultiPartFile;
-import static es.princip.getp.infra.util.ErrorCodeFields.errorCodeFields;
 import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
@@ -25,11 +22,10 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({MyMemberController.class, ErrorCodeController.class})
+@WebMvcTest(MyMemberController.class)
 class MyMemberControllerTest extends AbstractControllerTest {
 
     @MockBean
@@ -63,13 +59,6 @@ class MyMemberControllerTest extends AbstractControllerTest {
                 )
             )
             .andDo(print());
-        }
-
-        @Test
-        void uploadProfileImageErrorCode() throws Exception {
-            mockMvc.perform(get("/error-code/storage/images"))
-                .andExpect(status().isOk())
-                .andDo(restDocs.document(errorCodeFields(ImageErrorCode.values())));
         }
     }
 }

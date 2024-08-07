@@ -105,6 +105,7 @@ local.sh
 
 # Static Resources
 src/main/resources/static/*
+src/test/resources/static/*
 storage/
 
 # Yml File

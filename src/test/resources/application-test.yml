@@ -3,6 +3,11 @@ server:
     context-path: ${BASE_PATH}
 
 spring:
+  storage:
+    local:
+      path: ${STORAGE_PATH}
+    base-uri: ${STORAGE_BASE_URI}
+
   datasource:
     url: ${DB_TEST_URL}
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
