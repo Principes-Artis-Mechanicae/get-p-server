@@ -2,6 +2,11 @@ package es.princip.getp.domain.project.query.dao;
 
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import es.princip.getp.domain.project.query.dto.AppliedProjectCardResponse;
+
 public interface ProjectApplicationDao {
 
     /**
@@ -11,4 +16,6 @@ public interface ProjectApplicationDao {
      * @return (프로젝트 ID, 지원자 수) 맵
      */
     Map<Long, Long> countByProjectIds(Long[] projectIds);
+
+    Page<AppliedProjectCardResponse> findPagedMyAppliedProjects(Pageable pageable, Long memberId, Boolean cancelled);
 }
