@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.princip.getp.domain.project.query.dao.ProjectApplicationDao;
 import es.princip.getp.domain.project.query.dto.AppliedProjectCardResponse;
-import es.princip.getp.domain.project.query.dto.MyProjectCardResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.dto.response.PageResponse;
