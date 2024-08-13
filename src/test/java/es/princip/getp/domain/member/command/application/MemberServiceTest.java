@@ -6,8 +6,8 @@ import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.member.command.domain.model.MemberRepository;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.member.command.domain.model.ProfileImage;
+import es.princip.getp.domain.member.command.domain.service.ProfileImageService;
 import es.princip.getp.domain.member.command.domain.service.ServiceTermAgreementService;
-import es.princip.getp.domain.member.command.infra.ProfileImageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -45,7 +45,7 @@ class MemberServiceTest {
     private ServiceTermAgreementService agreementService;
 
     @Mock
-    private ProfileImageServiceImpl profileImageService;
+    private ProfileImageService profileImageService;
 
     @InjectMocks
     private MemberService memberService;

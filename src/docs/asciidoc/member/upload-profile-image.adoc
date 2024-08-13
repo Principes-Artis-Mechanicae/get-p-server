@@ -1,2 +1,1 @@
-operation::/upload-profile-image/upload-profile-image/[snippets="httpie-request,request-parts,http-response,response-fields-data"]
-operation::/upload-profile-image/upload-profile-image-error-code/[snippets="error-code-fields"]
+operation::/upload-profile-image/upload-profile-image/[snippets="httpie-request,request-headers,request-parts,http-response,response-fields-data"]

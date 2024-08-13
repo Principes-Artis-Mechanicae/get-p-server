@@ -1,8 +1,7 @@
-package es.princip.getp.infra.storage;
+package es.princip.getp.infra.storage.infra;
 
-import es.princip.getp.infra.exception.BusinessLogicException;
-import es.princip.getp.infra.storage.exception.ImageErrorCode;
-import es.princip.getp.infra.util.ImageUtil;
+import es.princip.getp.infra.storage.application.ImageStorage;
+import es.princip.getp.infra.storage.exception.FailedImageSaveException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,21 +10,30 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-@Component
 @Slf4j
 @Getter
-public class ImageStorage {
+@Component
+public class LocalImageStorage implements ImageStorage {
 
-    public ImageStorage(@Value("${spring.storage.path}") String storagePath) {
+    public LocalImageStorage(
+        @Value("${server.servlet.context-path}") String contextPath,
+        @Value("${spring.storage.base-uri}") String baseUri,
+        @Value("${spring.storage.local.path}") String storagePath
+    ) {
+        this.contextPath = contextPath;
+        this.baseUri = baseUri;
         this.storagePath = Paths.get(storagePath).normalize().toAbsolutePath();
         this.imageStoragePath = Paths.get("images");
     }
 
+    private final String contextPath;
+    private final String baseUri;
     private final Path storagePath; // 절대 경로
     private final Path imageStoragePath; // 상대 경로
 
@@ -36,10 +44,12 @@ public class ImageStorage {
      * @param imageStream 사진의 InputStream
      * @return imageStoragePath부터 시작하는 URI
      */
-    public String storeImage(Path destination, InputStream imageStream) {
-        validateImage(imageStream);
-        copyImageToDestination(imageStream, resolvePath(destination));
-        return "/" + storagePath.relativize(destination).toUri();
+    @Override
+    public URI storeImage(Path destination, InputStream imageStream) throws IOException {
+        final Path resolvedPath = resolvePath(destination);
+        makeDirectories(resolvedPath.getParent());
+        Files.copy(imageStream, resolvedPath, StandardCopyOption.REPLACE_EXISTING);
+        return createFileUri(resolvedPath);
     }
 
     /**
@@ -47,15 +57,17 @@ public class ImageStorage {
      *
      * @param destination 삭제할 사진 경로
      */
-    public void deleteImage(Path destination) {
+    @Override
+    public void deleteImage(URI destination) {
+        Path path = Paths.get(destination.getPath().replaceFirst("/", ""));
+        if (!path.startsWith(getAbsoluteImageStoragePath())) {
+            path = storagePath.resolve(path);
+        }
+        log.debug("실제 삭제 경로: {}", path);
         try {
-            if (destination.startsWith(getAbsoluteImageStoragePath())) {
-                Files.delete(destination);
-            } else {
-                Files.delete(this.storagePath.resolve(destination));
-            }
+            Files.delete(path);
         } catch (IOException exception) {
-            throw new BusinessLogicException(ImageErrorCode.IMAGE_DELETE_FAILED);
+            throw new FailedImageSaveException();
         }
     }
 
@@ -66,17 +78,6 @@ public class ImageStorage {
      */
     private Path getAbsoluteImageStoragePath() {
         return storagePath.resolve(imageStoragePath);
-    }
-
-    /**
-     * 이미지의 확장자를 검증합니다.
-     *
-     * @param imageStream 이미지의 InputStream
-     */
-    private void validateImage(InputStream imageStream) {
-        if (!ImageUtil.isValidImage(imageStream)) {
-            throw new BusinessLogicException(ImageErrorCode.NOT_ALLOWED_EXTENSION);
-        }
     }
 
     /**
@@ -91,21 +92,6 @@ public class ImageStorage {
     }
 
     /**
-     * 이미지를 destination에 복사합니다.
-     *
-     * @param imageStream 이미지의 InputStream
-     * @param destination 이미지를 저장할 경로
-     */
-    private void copyImageToDestination(InputStream imageStream, Path destination) {
-        try {
-            makeDirectories(destination.getParent());
-            Files.copy(imageStream, destination, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException exception) {
-            throw new BusinessLogicException(ImageErrorCode.IMAGE_SAVE_FAILED);
-        }
-    }
-
-    /**
      * path에 디렉토리를 생성합니다.
      *
      * @param path 디렉토리를 생성할 경로
@@ -114,8 +100,14 @@ public class ImageStorage {
         File directory = new File(path.toUri());
         if (!directory.exists()) {
             if (!directory.mkdirs()) {
-                throw new BusinessLogicException(ImageErrorCode.IMAGE_SAVE_FAILED);
+                throw new FailedImageSaveException();
             }
         }
+    }
+
+    private URI createFileUri(final Path path) {
+        final Path relativePath = storagePath.relativize(path);
+        final String fileUri = relativePath.toString().replace("\\", "/");
+        return URI.create(baseUri + fileUri);
     }
 }

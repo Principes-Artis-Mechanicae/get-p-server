@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -55,6 +56,12 @@ public abstract class AbstractControllerTest {
 
     protected MockHttpServletRequestBuilder delete(final String uri, final Object... values) {
         return contextPathAndContentType(RestDocumentationRequestBuilders.delete(contextPath + uri, values));
+    }
+
+    protected MockMultipartHttpServletRequestBuilder multipart(final String uri, final Object... values) {
+        return (MockMultipartHttpServletRequestBuilder) RestDocumentationRequestBuilders
+            .multipart(contextPath + uri, values)
+            .contextPath(contextPath);
     }
 
     protected static ResultMatcher errorCode(final ErrorCode errorCode) {
