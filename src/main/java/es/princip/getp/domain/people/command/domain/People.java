@@ -5,6 +5,7 @@ import es.princip.getp.domain.like.command.domain.LikeReceivable;
 import es.princip.getp.domain.like.command.domain.Likeable;
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.people.exception.AlreadyRegisteredPeopleProfileException;
+import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -60,10 +61,13 @@ public class People extends BaseTimeEntity implements Likeable, LikeReceivable {
     }
 
     public boolean isProfileRegistered() {
-        return this.profile != null;
+        return this.profile != null && this.profile.isRegistered();
     }
 
     public void editProfile(final PeopleProfileData data) {
+        if (!isProfileRegistered()) {
+            throw new NotRegisteredPeopleProfileException();
+        }
         this.profile = buildProfile(data);
     }
 

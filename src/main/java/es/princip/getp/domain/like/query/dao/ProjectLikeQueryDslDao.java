@@ -3,6 +3,7 @@ package es.princip.getp.domain.like.query.dao;
 import es.princip.getp.infra.support.QueryDslSupport;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 
@@ -23,7 +24,9 @@ public class ProjectLikeQueryDslDao extends QueryDslSupport implements ProjectLi
 
     @Override
     public Map<Long, Long> countByLikedIds(final Long... likedIds) {
-        return queryFactory.select(projectLike.likedId, projectLike.count())
+        final Map<Long, Long> counts = Arrays.stream(likedIds)
+            .collect(toMap(id -> id, id -> 0L));
+        final Map<Long, Long> result = queryFactory.select(projectLike.likedId, projectLike.count())
             .from(projectLike)
             .where(projectLike.likedId.in(likedIds))
             .groupBy(projectLike.likedId)
@@ -36,5 +39,7 @@ public class ProjectLikeQueryDslDao extends QueryDslSupport implements ProjectLi
                         .orElse(0L)
                 )
             );
+        counts.putAll(result);
+        return counts;
     }
 }
