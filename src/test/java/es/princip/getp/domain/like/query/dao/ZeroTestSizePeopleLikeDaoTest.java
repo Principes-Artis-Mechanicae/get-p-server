@@ -14,10 +14,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @Import(PeopleLikeDaoConfig.class)
-public class PeopleLikeDaoTest extends DaoTest {
+public class ZeroTestSizePeopleLikeDaoTest extends DaoTest {
 
-    public PeopleLikeDaoTest() {
-        super(10);
+    public ZeroTestSizePeopleLikeDaoTest() {
+        super(0);
     }
 
     @Autowired
@@ -25,17 +25,17 @@ public class PeopleLikeDaoTest extends DaoTest {
 
     @Test
     void 피플_ID에_대해_피플이_받은_좋아요_수를_조회한다() {
-        assertThat(peopleLikeDao.countByLikedId(1L)).isEqualTo(TEST_SIZE);
+        assertThat(peopleLikeDao.countByLikedId(1L)).isEqualTo(0);
     }
 
     @Test
     void 여러개의_피플_ID에_대해_피플이_받은_좋아요_수를_조회한다() {
-        final Long[] peopleIds = LongStream.rangeClosed(1, TEST_SIZE)
+        final Long[] peopleIds = LongStream.rangeClosed(1, 10)
             .boxed()
             .toArray(Long[]::new);
         final Map<Long, Long> likesCounts = peopleLikeDao.countByLikedIds(peopleIds);
         assertThat(likesCounts).hasSize(peopleIds.length)
             .containsOnlyKeys(peopleIds)
-            .containsValues(Long.valueOf(TEST_SIZE));
+            .containsValues(Long.valueOf(0));
     }
 }
