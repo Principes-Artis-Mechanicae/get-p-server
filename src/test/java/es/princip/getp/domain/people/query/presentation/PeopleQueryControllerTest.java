@@ -8,8 +8,8 @@ import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse
 import es.princip.getp.domain.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
-import es.princip.getp.domain.people.query.presentation.description.response.DetailPeopleResponseDescription;
-import es.princip.getp.domain.people.query.presentation.description.response.PublicDetailPeopleResponseDescription;
+import es.princip.getp.domain.people.query.presentation.description.DetailPeopleResponseDescription;
+import es.princip.getp.domain.people.query.presentation.description.PublicDetailPeopleResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;
 import org.junit.jupiter.api.DisplayName;
