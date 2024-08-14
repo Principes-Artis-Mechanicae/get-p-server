@@ -3,6 +3,8 @@ package es.princip.getp.domain.project.command.presentation;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.project.command.application.ProjectApplicationService;
 import es.princip.getp.domain.project.command.application.command.ApplyProjectCommand;
+import es.princip.getp.domain.project.command.presentation.description.ApplyProjectRequestDescription;
+import es.princip.getp.domain.project.command.presentation.description.ApplyProjectResponseDescription;
 import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectRequest;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;
@@ -14,10 +16,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static es.princip.getp.domain.project.fixture.ApplyProjectRequestFixture.applyProjectRequest;
+import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProjectApplicationController.class)
@@ -51,8 +60,18 @@ class ProjectApplicationControllerTest extends AbstractControllerTest {
                 .willReturn(applicationId);
 
             mockMvc.perform(post("/projects/{projectId}/applications", projectId)
+                    .header("Authorization", "Bearer ${ACCESS_TOKEN}")
                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andDo(
+                    restDocs.document(
+                        requestHeaders(authorizationHeaderDescriptor()),
+                        pathParameters(parameterWithName("projectId").description("프로젝트 ID")),
+                        requestFields(ApplyProjectRequestDescription.description()),
+                        responseFields(ApplyProjectResponseDescription.description())
+                    )
+                )
+                .andDo(print());
         }
 
         @Test
