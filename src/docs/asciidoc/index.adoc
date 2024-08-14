@@ -151,6 +151,12 @@ include::{docdir}/project/unlike-project.adoc[]
 
 include::{docdir}/project/commission-project.adoc[]
 
+=== [피플] 프로젝트 지원
+
+피플은 프로젝트에 지원할 수 있습니다.
+
+include::{docdir}/project/apply-for-project.adoc[]
+
 == 프로젝트 관리
 
 === [의뢰자] 의뢰한 프로젝트 목록 조회

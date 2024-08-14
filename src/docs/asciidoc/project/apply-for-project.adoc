@@ -1,0 +1,1 @@
+operation::/apply-for-project/apply-for-project[snippets="http-request,request-headers,path-parameters,request-fields,http-response,response-fields-data"]
