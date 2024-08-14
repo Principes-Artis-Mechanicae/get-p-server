@@ -1,10 +1,9 @@
 package es.princip.getp.domain.project.query.dao;
 
 import es.princip.getp.domain.project.command.domain.ProjectStatus;
-import es.princip.getp.domain.project.query.dto.MyProjectCardResponse;
+import es.princip.getp.domain.project.query.dto.MyCommissionedProjectCardResponse;
 import es.princip.getp.domain.project.query.infra.MyProjectDaoConfig;
 import es.princip.getp.infra.support.DaoTest;
-
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +15,24 @@ import org.springframework.data.domain.Pageable;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Import(MyProjectDaoConfig.class)
-class MyProjectDaoTest extends DaoTest {
+class MyCommissionedProjectDaoTest extends DaoTest {
 
-    public MyProjectDaoTest() {
+    public MyCommissionedProjectDaoTest() {
         super(10);
     }
 
     @Autowired
-    private MyProjectDao myProjectDao;
+    private MyCommissionedProjectDao myCommissionedProjectDao;
 
     @Nested
-    class 내_프로젝트_목록_페이지_조회 {
+    class 의뢰한_프로젝트_목록_페이지_조회 {
 
         final int pageSize = 10;
         final Pageable pageable = PageRequest.of(0, pageSize);
 
         @Test
         void 만료된_프로젝트도_보는_경우() {
-            final Page<MyProjectCardResponse> response = myProjectDao.findPagedMyProjectCard(
+            final Page<MyCommissionedProjectCardResponse> response = myCommissionedProjectDao.findPagedMyCommissionedProjectCard(
                 pageable,
                 1L,
                 true
@@ -47,7 +46,7 @@ class MyProjectDaoTest extends DaoTest {
 
         @Test
         void 만료된_프로젝트는_보지_않는_경우() {
-            final Page<MyProjectCardResponse> response = myProjectDao.findPagedMyProjectCard(
+            final Page<MyCommissionedProjectCardResponse> response = myCommissionedProjectDao.findPagedMyCommissionedProjectCard(
                 pageable,
                 1L,
                 false
