@@ -1,0 +1,1 @@
+operation::/get-applicants-by-project-id/get-applicants-by-project-id[snippets="http-request,request-headers,path-parameters,query-parameters,http-response,response-fields-data"]
