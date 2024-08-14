@@ -16,8 +16,8 @@ public class MemberFixture {
         return Member.of(email(), password(), memberType);
     }
 
-    public static List<Member> memberList(final int size, final MemberType memberType) {
-        return IntStream.range(0, size)
+    public static List<Member> memberList(final int size, final int bias, final MemberType memberType) {
+        return IntStream.range(bias, bias + size)
             .mapToObj(i -> Member.of(Email.of("test" + i + "@example.com"), password(), memberType))
             .toList();
     }

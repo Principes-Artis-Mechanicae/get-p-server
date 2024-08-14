@@ -5,80 +5,82 @@ import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
-import es.princip.getp.domain.people.query.infra.PeopleDaoConfig;
+import es.princip.getp.domain.people.query.infra.PeopleDataLoader;
+import es.princip.getp.infra.DataLoader;
 import es.princip.getp.infra.support.DaoTest;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.DisplayName;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Slf4j
-@Import(PeopleDaoConfig.class)
 public class PeopleDaoTest extends DaoTest {
 
-    public PeopleDaoTest() {
-        super(20);
-    }
+    private static final int TEST_SIZE = 20;
+    private static final int PAGE_SIZE = 10;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private PeopleDao peopleDao;
 
-    private static final int PAGE_SIZE = 10;
+    private List<DataLoader> dataLoaders;
+
+    @BeforeEach
+    void setUp() {
+        dataLoaders = List.of(
+            new PeopleDataLoader(entityManager)
+        );
+        dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
+    }
+
+    @AfterEach
+    void teardown() {
+        dataLoaders.forEach(DataLoader::teardown);
+    }
 
     @Test
-    @DisplayName("피플 카드 목록 페이지를 조회한다.")
-    void findCardPeoplePage() {
-        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
-        Page<CardPeopleResponse> response = peopleDao.findCardPeoplePage(pageable);
-
-        log.info("response: {}", response.getContent());
+    void 피플_카드_목록_페이지를_조회한다() {
+        final Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        final Page<CardPeopleResponse> response = peopleDao.findCardPeoplePage(pageable);
 
         assertThat(response.getNumberOfElements()).isEqualTo(PAGE_SIZE);
         assertThat(response.getTotalElements()).isEqualTo(TEST_SIZE);
     }
 
     @Test
-    @DisplayName("피플 ID로 피플 상세 정보를 조회한다.")
-    void findDetailPeopleById() {
-        DetailPeopleResponse response = peopleDao.findDetailPeopleById(1L);
-
-        log.info("response: {}", response);
+    void 피플_ID로_피플_상세_정보를_조회한다() {
+        final DetailPeopleResponse response = peopleDao.findDetailPeopleById(1L);
 
         assertThat(response).isNotNull();
     }
 
     @Test
-    @DisplayName("피플 ID로 피플 공개 상세 정보를 조회한다.")
-    void findPublicDetailPeopleById() {
-        PublicDetailPeopleResponse response = peopleDao.findPublicDetailPeopleById(1L);
-
-        log.info("response: {}", response);
+    void 피플_ID로_피플_공개_상세_정보를_조회한다() {
+        final PublicDetailPeopleResponse response = peopleDao.findPublicDetailPeopleById(1L);
 
         assertThat(response).isNotNull();
     }
 
     @Test
-    @DisplayName("멤버 ID로 피플 정보를 조회한다.")
-    void findByMemberId() {
-        MyPeopleResponse response = peopleDao.findByMemberId(1L);
-
-        log.info("response: {}", response);
+    void 멤버_ID로_피플_정보를_조회한다() {
+        final MyPeopleResponse response = peopleDao.findByMemberId(1L);
 
         assertThat(response).isNotNull();
     }
 
     @Test
-    @DisplayName("멤버 ID로 피플 상세 프로필을 조회한다.")
-    void findDetailPeopleProfileByMemberId() {
-        DetailPeopleProfileResponse response = peopleDao.findDetailPeopleProfileByMemberId(1L);
-
-        log.info("response: {}", response);
+    void 멤버_ID로_피플_상세_프로필을_조회한다() {
+        final DetailPeopleProfileResponse response = peopleDao.findDetailPeopleProfileByMemberId(1L);
 
         assertThat(response).isNotNull();
     }
