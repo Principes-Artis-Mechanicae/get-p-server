@@ -23,7 +23,7 @@ import java.util.Optional;
 import static es.princip.getp.domain.client.command.domain.QClient.client;
 import static es.princip.getp.domain.member.command.domain.model.QMember.member;
 import static es.princip.getp.domain.project.command.domain.QProject.project;
-import static es.princip.getp.domain.project.query.dao.ProjectDaoHelper.toProjectIds;
+import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectIds;
 
 @Repository
 @RequiredArgsConstructor
