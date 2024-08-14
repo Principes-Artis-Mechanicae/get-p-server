@@ -12,7 +12,7 @@ import static es.princip.getp.domain.client.command.domain.QClient.client;
 import static es.princip.getp.domain.member.command.domain.model.QMember.member;
 
 @Repository
-public class ClientDaoImpl extends QueryDslSupport implements ClientDao {
+public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
 
     private ClientResponse toClientResponse(final Tuple result) {
         if (result == null) {

@@ -15,13 +15,9 @@ public class ProjectLikeDataLoader implements DataLoader {
 
     private final EntityManager entityManager;
 
-    @Transactional
     @Override
+    @Transactional
     public void load(final int size) {
-        loadProjectLike(size);
-    }
-
-    private void loadProjectLike(final int size) {
         final List<ProjectLike> projectLikeList = new ArrayList<>();
         LongStream.rangeClosed(1, size).forEach(projectId ->
             LongStream.rangeClosed(1, size).forEach(peopleId ->
@@ -29,5 +25,12 @@ public class ProjectLikeDataLoader implements DataLoader {
             )
         );
         projectLikeList.forEach(entityManager::persist);
+    }
+
+    @Override
+    public void teardown() {
+        entityManager.createQuery("DELETE FROM ProjectLike").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE project_like AUTO_INCREMENT = 1")
+            .executeUpdate();
     }
 }
