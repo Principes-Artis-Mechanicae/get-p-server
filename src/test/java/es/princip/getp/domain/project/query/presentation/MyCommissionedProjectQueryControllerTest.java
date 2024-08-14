@@ -3,8 +3,9 @@ package es.princip.getp.domain.project.query.presentation;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.project.command.domain.ProjectStatus;
-import es.princip.getp.domain.project.query.dao.MyProjectDao;
-import es.princip.getp.domain.project.query.dto.MyProjectCardResponse;
+import es.princip.getp.domain.project.query.dao.MyCommissionedProjectDao;
+import es.princip.getp.domain.project.query.dto.MyCommissionedProjectCardResponse;
+import es.princip.getp.domain.project.query.presentation.description.GetMyCommissionedProjectQueryParameterDescription;
 import es.princip.getp.domain.project.query.presentation.description.ProjectCardResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.support.AbstractControllerTest;
@@ -25,29 +26,28 @@ import static es.princip.getp.infra.util.PageResponseDescriptor.pageResponseFiel
 import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.data.domain.Sort.Order.desc;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
-import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MyProjectQueryController.class)
-class MyProjectQueryControllerTest extends AbstractControllerTest {
+@WebMvcTest(MyCommissionedProjectQueryController.class)
+class MyCommissionedProjectQueryControllerTest extends AbstractControllerTest {
 
     @MockBean
-    private MyProjectDao myProjectDao;
+    private MyCommissionedProjectDao myCommissionedProjectDao;
 
-    @DisplayName("의뢰자는 자신이 의뢰한 프로젝트 목록을 조회할 수 있다.")
     @Nested
-    class GetMyProjects {
+    @DisplayName("의뢰한 프로젝트 목록 조회")
+    class GetMyCommissionedProjects {
 
         private final int page = 0;
         private final int size = 10;
-        private final Sort sort = Sort.by(Sort.Order.desc("projectId"));
+        private final Sort sort = Sort.by(desc("projectId"));
 
         private ResultActions perform() throws Exception {
-            return mockMvc.perform(get("/projects/me")
+            return mockMvc.perform(get("/client/me/projects")
                 .header("Authorization", "Bearer ${ACCESS_TOKEN}")
                 .queryParam("page", String.valueOf(page))
                 .queryParam("size", String.valueOf(size))
@@ -56,10 +56,11 @@ class MyProjectQueryControllerTest extends AbstractControllerTest {
 
         @Test
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
-        public void getMyProjects() throws Exception {
-            Pageable pageable = PageRequest.of(page, size, sort);
-            List<MyProjectCardResponse> content = List.of(
-                new MyProjectCardResponse(
+        @DisplayName("의뢰자는 자신이 의뢰한 프로젝트 목록을 조회할 수 있다.")
+        public void getMyCommissionedProjects() throws Exception {
+            final Pageable pageable = PageRequest.of(page, size, sort);
+            final List<MyCommissionedProjectCardResponse> content = List.of(
+                new MyCommissionedProjectCardResponse(
                     1L,
                     "프로젝트 제목",
                     1_000_000L,
@@ -74,8 +75,8 @@ class MyProjectQueryControllerTest extends AbstractControllerTest {
                     ProjectStatus.APPLYING
                 )
             );
-            Page<MyProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
-            given(myProjectDao.findPagedMyProjectCard(any(Pageable.class), anyLong(), anyBoolean()))
+            final Page<MyCommissionedProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
+            given(myCommissionedProjectDao.findPagedMyCommissionedProjectCard(any(Pageable.class), anyLong(), anyBoolean()))
                 .willReturn(page);
 
             perform()
@@ -83,20 +84,7 @@ class MyProjectQueryControllerTest extends AbstractControllerTest {
                 .andDo(
                     restDocs.document(
                         requestHeaders(authorizationHeaderDescriptor()),
-                        queryParameters(
-                            parameterWithName("page").description("페이지 번호")
-                                .optional()
-                                .attributes(key("default").value("0")),
-                            parameterWithName("size").description("페이지 크기")
-                                .optional()
-                                .attributes(key("default").value("10")),
-                            parameterWithName("sort").description("정렬 방식")
-                                .optional()
-                                .attributes(key("default").value("projectId,desc")),
-                            parameterWithName("cancelled").description("만료된 프로젝트 보기 여부")
-                                .optional()
-                                .attributes(key("default").value("false"))
-                        ),
+                        queryParameters(GetMyCommissionedProjectQueryParameterDescription.description()),
                         responseFields(ProjectCardResponseDescription.description())
                             .and(pageResponseFieldDescriptors())
                     )

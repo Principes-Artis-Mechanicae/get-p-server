@@ -4,7 +4,7 @@ import es.princip.getp.domain.project.command.domain.Project;
 
 import java.util.List;
 
-public class ProjectDaoHelper {
+public class ProjectDaoUtil {
 
     public static Long[] toProjectIds(final List<Project> projects) {
         return projects.stream()
