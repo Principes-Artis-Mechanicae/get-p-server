@@ -24,7 +24,7 @@ class ProjectLikeDaoTest extends DaoTest {
     private EntityManager entityManager;
 
     @Autowired
-    private LikeDao projectLikeDao;
+    private ProjectLikeDao projectLikeDao;
 
     private List<DataLoader> dataLoaders;
 

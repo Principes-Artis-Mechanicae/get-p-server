@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.query.presentation.description.response;
+package es.princip.getp.domain.people.query.presentation.description;
 
 import org.springframework.restdocs.payload.FieldDescriptor;
 

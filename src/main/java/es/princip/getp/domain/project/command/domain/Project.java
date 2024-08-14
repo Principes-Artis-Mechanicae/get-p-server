@@ -1,5 +1,6 @@
 package es.princip.getp.domain.project.command.domain;
 
+import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.common.domain.Hashtag;
@@ -127,6 +128,10 @@ public class Project extends BaseTimeEntity implements LikeReceivable {
 
     public boolean isApplicationClosed(final Clock clock) {
         return applicationDuration.isEnded(clock) || status != ProjectStatus.APPLYING;
+    }
+
+    public boolean isClient(final Client client) {
+        return clientId.equals(client.getClientId());
     }
 
     @Override
