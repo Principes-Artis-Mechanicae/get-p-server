@@ -4,7 +4,10 @@ import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.domain.project.command.application.command.ApplyProjectCommand;
-import es.princip.getp.domain.project.command.domain.*;
+import es.princip.getp.domain.project.command.domain.Project;
+import es.princip.getp.domain.project.command.domain.ProjectApplication;
+import es.princip.getp.domain.project.command.domain.ProjectApplier;
+import es.princip.getp.domain.project.command.domain.ProjectRepository;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,6 @@ public class ProjectApplicationService {
 
     private final ProjectRepository projectRepository;
     private final PeopleRepository peopleRepository;
-    private final ProjectApplicationRepository projectApplicationRepository;
     private final ProjectApplier projectApplier;
 
     /**
@@ -39,7 +41,6 @@ public class ProjectApplicationService {
             command.description(),
             command.attachmentFiles()
         );
-        projectApplicationRepository.save(application);
         return application.getApplicationId();
     }
 }
