@@ -4,7 +4,6 @@ import es.princip.getp.domain.like.command.domain.people.PeopleLike;
 import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +14,8 @@ public class PeopleLikeDataLoader implements DataLoader {
 
     private final EntityManager entityManager;
 
-    @Transactional
     @Override
     public void load(final int size) {
-        loadPeopleLike(size);
-    }
-
-    private void loadPeopleLike(final int size) {
         final List<PeopleLike> likeList = new ArrayList<>();
         LongStream.range(0, size).forEach(i ->
             LongStream.rangeClosed(1, size).forEach(j ->
@@ -29,5 +23,12 @@ public class PeopleLikeDataLoader implements DataLoader {
             )
         );
         likeList.forEach(entityManager::persist);
+    }
+
+    @Override
+    public void teardown() {
+        entityManager.createQuery("DELETE FROM PeopleLike").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE people_like AUTO_INCREMENT = 1")
+            .executeUpdate();
     }
 }

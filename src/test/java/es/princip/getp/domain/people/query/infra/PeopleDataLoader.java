@@ -6,9 +6,7 @@ import es.princip.getp.domain.people.command.domain.PeopleType;
 import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
@@ -20,26 +18,29 @@ public class PeopleDataLoader implements DataLoader {
 
     private final EntityManager entityManager;
 
-    @Transactional
     @Override
     public void load(final int size) {
-        loadMember(size);
-        loadPeople(size);
-    }
-
-    private void loadMember(final int size) {
-        List<Member> memberList = memberList(size, ROLE_PEOPLE);
-
+        final List<Member> memberList = memberList(size, 1, ROLE_PEOPLE);
         memberList.forEach(entityManager::persist);
+
+        final Long memberIdBias = memberList.stream()
+            .findFirst()
+            .map(Member::getMemberId)
+            .orElse(1L);
+        final int individualSize = size / 2;
+        final int teamSize = (size % 2) == 0 ? size / 2 : (size / 2) + 1;
+
+        final List<People> individualList = peopleList(individualSize, memberIdBias, PeopleType.INDIVIDUAL);
+        final List<People> teamList = peopleList(teamSize, size + memberIdBias, PeopleType.TEAM);
+        individualList.forEach(entityManager::persist);
+        teamList.forEach(entityManager::persist);
     }
 
-    private void loadPeople(final int size) {
-        final long memberIdBias = 1;
-        final int half = size / 2;
-
-        List<People> peopleList = new ArrayList<>(peopleList(half, memberIdBias, PeopleType.INDIVIDUAL));
-        peopleList.addAll(peopleList((size % 2) == 0 ? half : half + 1, size + memberIdBias, PeopleType.TEAM));
-
-        peopleList.forEach(entityManager::persist);
+    @Override
+    public void teardown() {
+        entityManager.createQuery("DELETE FROM People").executeUpdate();
+        entityManager.createQuery("DELETE FROM Member").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE member AUTO_INCREMENT = 1").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE people AUTO_INCREMENT = 1").executeUpdate();
     }
 }
