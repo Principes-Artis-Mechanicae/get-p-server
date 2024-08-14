@@ -2,7 +2,7 @@ package es.princip.getp.domain.people.query.presentation;
 
 import es.princip.getp.domain.people.query.dao.PeopleDao;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
-import es.princip.getp.domain.people.query.presentation.description.response.DetailPeopleProfileResponseDescription;
+import es.princip.getp.domain.people.query.presentation.description.DetailPeopleProfileResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import es.princip.getp.infra.support.AbstractControllerTest;

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 
 @Slf4j
@@ -14,7 +14,12 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @Execution(ExecutionMode.SAME_THREAD)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Import({DaoBeanConfig.class})
+@ComponentScan(basePackages = {
+    "es.princip.getp.domain.client.query.dao",
+    "es.princip.getp.domain.like.query.dao",
+    "es.princip.getp.domain.people.query.dao",
+    "es.princip.getp.domain.project.query.dao"
+})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public abstract class DaoTest {
 }
