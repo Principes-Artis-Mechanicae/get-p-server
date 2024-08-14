@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.query.infra;
 
-import es.princip.getp.domain.project.query.dao.MyProjectDao;
-import es.princip.getp.domain.project.query.dao.MyProjectQueryDslDao;
+import es.princip.getp.domain.project.query.dao.MyCommissionedProjectDao;
+import es.princip.getp.domain.project.query.dao.MyCommissionedProjectQueryDslDao;
 import es.princip.getp.domain.project.query.dao.ProjectApplicationDao;
 import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
@@ -22,8 +22,8 @@ public class MyProjectDaoConfig {
     private ProjectApplicationDao projectApplicationDao;
 
     @Bean
-    public MyProjectDao myProjectDao() {
-        return new MyProjectQueryDslDao(projectApplicationDao);
+    public MyCommissionedProjectDao myProjectDao() {
+        return new MyCommissionedProjectQueryDslDao(projectApplicationDao);
     }
 
     @Bean
