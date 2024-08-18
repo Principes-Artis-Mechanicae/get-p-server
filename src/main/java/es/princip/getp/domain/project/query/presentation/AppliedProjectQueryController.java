@@ -3,7 +3,7 @@ package es.princip.getp.domain.project.query.presentation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.princip.getp.domain.project.query.dao.ProjectApplicationDao;
+import es.princip.getp.domain.project.query.dao.AppliedProjectDao;
 import es.princip.getp.domain.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
@@ -20,24 +20,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/people")
 @RequiredArgsConstructor
 public class AppliedProjectQueryController {
 
-    private final ProjectApplicationDao projectApplicationDao;
+    private final AppliedProjectDao appliedProjectDao;
 
-    @GetMapping("/me/applications")
+    @GetMapping("/me/projects")
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<PageResponse<AppliedProjectCardResponse>>> getMyAppliedProjects(
         @PageableDefault(sort = "projectId", direction = Sort.Direction.DESC) final Pageable pageable,
-        @RequestParam(defaultValue = "false") final Boolean cancelled, // 만료된 프로젝트 보기 여부
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final Page<AppliedProjectCardResponse> page = projectApplicationDao.findPagedMyAppliedProjects(pageable, memberId, cancelled);
+        final Page<AppliedProjectCardResponse> page = appliedProjectDao.findPagedMyAppliedProjects(pageable, memberId);
         final PageResponse<AppliedProjectCardResponse> response = PageResponse.from(page);
         return ApiResponse.success(HttpStatus.OK, response);
     }
