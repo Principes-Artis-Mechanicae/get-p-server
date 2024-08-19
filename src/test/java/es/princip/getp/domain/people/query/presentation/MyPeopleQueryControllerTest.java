@@ -1,12 +1,12 @@
 package es.princip.getp.domain.people.query.presentation;
 
+import es.princip.getp.common.util.ControllerTest;
 import es.princip.getp.domain.people.command.domain.PeopleType;
 import es.princip.getp.domain.people.query.dao.PeopleDao;
 import es.princip.getp.domain.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.domain.people.query.presentation.description.MyPeopleResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.security.details.PrincipalDetails;
-import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -21,8 +21,8 @@ import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
 import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
 import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.PHONE_NUMBER;
 import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
-import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.infra.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static es.princip.getp.infra.docs.PayloadDocumentationHelper.responseFields;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

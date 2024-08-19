@@ -8,7 +8,7 @@ import es.princip.getp.domain.project.command.presentation.dto.request.Commissio
 import java.time.LocalDate;
 import java.util.List;
 
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsRequest;
+import static es.princip.getp.common.fixture.HashtagFixture.hashtagsRequest;
 
 public class CommissionProjectRequestFixture {
 

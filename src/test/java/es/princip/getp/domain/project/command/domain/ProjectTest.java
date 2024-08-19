@@ -1,8 +1,8 @@
 package es.princip.getp.domain.project.command.domain;
 
 import es.princip.getp.common.domain.Duration;
+import es.princip.getp.common.infra.StubClockHolder;
 import es.princip.getp.domain.client.command.domain.Client;
-import es.princip.getp.domain.common.infra.StubClockHolder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

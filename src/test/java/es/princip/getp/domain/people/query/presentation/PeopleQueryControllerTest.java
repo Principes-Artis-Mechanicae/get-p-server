@@ -1,6 +1,7 @@
 package es.princip.getp.domain.people.query.presentation;
 
-import es.princip.getp.domain.common.description.PaginationDescription;
+import es.princip.getp.common.description.PaginationDescription;
+import es.princip.getp.common.util.ControllerTest;
 import es.princip.getp.domain.people.command.domain.PeopleType;
 import es.princip.getp.domain.people.query.dao.PeopleDao;
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
@@ -12,7 +13,6 @@ import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleP
 import es.princip.getp.domain.people.query.presentation.description.DetailPeopleResponseDescription;
 import es.princip.getp.domain.people.query.presentation.description.PublicDetailPeopleResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -22,8 +22,8 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsResponse;
-import static es.princip.getp.domain.common.fixture.TechStackFixture.techStacksResponse;
+import static es.princip.getp.common.fixture.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.common.fixture.TechStackFixture.techStacksResponse;
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
 import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
@@ -31,10 +31,10 @@ import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activity
 import static es.princip.getp.domain.people.fixture.EducationFixture.education;
 import static es.princip.getp.domain.people.fixture.IntroductionFixture.introduction;
 import static es.princip.getp.domain.people.fixture.PortfolioFixture.portfoliosResponse;
-import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
-import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.infra.util.PageResponseDescriptor.pageResponseFieldDescriptors;
-import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.infra.docs.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.infra.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static es.princip.getp.infra.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
+import static es.princip.getp.infra.docs.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
