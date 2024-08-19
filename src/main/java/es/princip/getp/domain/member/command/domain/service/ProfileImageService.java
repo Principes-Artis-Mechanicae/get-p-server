@@ -3,7 +3,7 @@ package es.princip.getp.domain.member.command.domain.service;
 import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.member.command.domain.model.ProfileImage;
 import es.princip.getp.domain.member.command.exception.FailedToSaveProfileImageException;
-import es.princip.getp.infra.storage.application.ImageStorage;
+import es.princip.getp.storage.application.ImageStorage;
 import es.princip.getp.infra.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package es.princip.getp.infra.storage.presentation.dto;
+package es.princip.getp.storage.presentation.dto;
 
 import java.net.URI;
 

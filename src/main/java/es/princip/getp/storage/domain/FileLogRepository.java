@@ -1,4 +1,4 @@
-package es.princip.getp.infra.storage.domain;
+package es.princip.getp.storage.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

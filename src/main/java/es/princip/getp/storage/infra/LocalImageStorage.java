@@ -1,7 +1,7 @@
-package es.princip.getp.infra.storage.infra;
+package es.princip.getp.storage.infra;
 
-import es.princip.getp.infra.storage.application.ImageStorage;
-import es.princip.getp.infra.storage.exception.FailedImageSaveException;
+import es.princip.getp.storage.application.ImageStorage;
+import es.princip.getp.storage.exception.FailedImageSaveException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

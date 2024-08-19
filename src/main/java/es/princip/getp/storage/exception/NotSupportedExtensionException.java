@@ -1,4 +1,4 @@
-package es.princip.getp.infra.storage.exception;
+package es.princip.getp.storage.exception;
 
 import es.princip.getp.common.exception.BusinessLogicException;
 import es.princip.getp.common.exception.ErrorDescription;

@@ -24,7 +24,7 @@ import es.princip.getp.domain.serviceTerm.application.ServiceTermService;
 import es.princip.getp.infra.config.SecurityConfig;
 import es.princip.getp.infra.config.SecurityTestConfig;
 import es.princip.getp.infra.config.SpringRestDocsConfig;
-import es.princip.getp.infra.storage.application.FileUploadService;
+import es.princip.getp.storage.application.FileUploadService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;

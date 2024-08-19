@@ -1,8 +1,8 @@
-package es.princip.getp.infra.storage.presentation;
+package es.princip.getp.storage.presentation;
 
 import es.princip.getp.common.adapter.in.web.dto.ApiResponse;
-import es.princip.getp.infra.storage.application.FileUploadService;
-import es.princip.getp.infra.storage.presentation.dto.FileUploadResponse;
+import es.princip.getp.storage.application.FileUploadService;
+import es.princip.getp.storage.presentation.dto.FileUploadResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

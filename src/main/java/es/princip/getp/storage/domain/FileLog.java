@@ -1,4 +1,4 @@
-package es.princip.getp.infra.storage.domain;
+package es.princip.getp.storage.domain;
 
 import es.princip.getp.common.domain.BaseTimeEntity;
 import jakarta.persistence.*;

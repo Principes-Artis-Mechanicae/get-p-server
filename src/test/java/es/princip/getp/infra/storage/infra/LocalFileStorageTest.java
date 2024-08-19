@@ -1,5 +1,6 @@
 package es.princip.getp.infra.storage.infra;
 
+import es.princip.getp.storage.infra.LocalFileStorage;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

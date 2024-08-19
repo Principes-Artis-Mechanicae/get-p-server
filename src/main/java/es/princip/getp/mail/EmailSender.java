@@ -1,6 +1,6 @@
-package es.princip.getp.infra.mail;
+package es.princip.getp.mail;
 
-import es.princip.getp.infra.mail.command.SendMailCommand;
+import es.princip.getp.mail.command.SendMailCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailSender;

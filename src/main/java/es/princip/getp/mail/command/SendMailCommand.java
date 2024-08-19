@@ -1,4 +1,4 @@
-package es.princip.getp.infra.mail.command;
+package es.princip.getp.mail.command;
 
 import es.princip.getp.domain.member.command.domain.model.Email;
 

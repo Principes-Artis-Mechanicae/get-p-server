@@ -1,7 +1,7 @@
-package es.princip.getp.infra.storage.application;
+package es.princip.getp.storage.application;
 
-import es.princip.getp.infra.storage.domain.FileLog;
-import es.princip.getp.infra.storage.domain.FileLogRepository;
+import es.princip.getp.storage.domain.FileLog;
+import es.princip.getp.storage.domain.FileLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

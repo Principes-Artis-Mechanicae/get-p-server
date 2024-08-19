@@ -1,8 +1,8 @@
-package es.princip.getp.infra.storage.application;
+package es.princip.getp.storage.application;
 
-import es.princip.getp.infra.storage.domain.FileLog;
-import es.princip.getp.infra.storage.exception.FailedFileSaveException;
-import es.princip.getp.infra.storage.exception.NotSupportedExtensionException;
+import es.princip.getp.storage.domain.FileLog;
+import es.princip.getp.storage.exception.FailedFileSaveException;
+import es.princip.getp.storage.exception.NotSupportedExtensionException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

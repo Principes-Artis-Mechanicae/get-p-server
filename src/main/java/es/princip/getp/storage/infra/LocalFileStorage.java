@@ -1,7 +1,7 @@
-package es.princip.getp.infra.storage.infra;
+package es.princip.getp.storage.infra;
 
-import es.princip.getp.infra.storage.application.FileStorage;
-import es.princip.getp.infra.storage.exception.FailedFileSaveException;
+import es.princip.getp.storage.application.FileStorage;
+import es.princip.getp.storage.exception.FailedFileSaveException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
