@@ -45,6 +45,7 @@ public class MemberJpaEntity extends BaseTimeEntity {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
+    @Builder.Default
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
         name = "member_service_term_agreement",
