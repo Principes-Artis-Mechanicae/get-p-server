@@ -1,6 +1,6 @@
 package es.princip.getp.domain.serviceTerm.domain;
 
-import es.princip.getp.domain.common.domain.BaseTimeEntity;
+import es.princip.getp.common.domain.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

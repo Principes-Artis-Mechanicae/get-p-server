@@ -1,15 +1,15 @@
 package es.princip.getp.domain.project.command.domain;
 
-import es.princip.getp.domain.common.domain.ClockHolder;
-import es.princip.getp.domain.common.domain.Duration;
-import es.princip.getp.domain.common.infra.StubClockHolder;
+import es.princip.getp.common.domain.ClockHolder;
+import es.princip.getp.common.domain.Duration;
+import es.princip.getp.common.infra.StubClockHolder;
 import es.princip.getp.domain.project.exception.ApplicationDurationNotBeforeEstimatedDurationException;
 import es.princip.getp.domain.project.exception.EndedApplicationDurationException;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtags;
+import static es.princip.getp.common.fixture.HashtagFixture.hashtags;
 import static es.princip.getp.domain.project.fixture.AttachmentFileFixture.attachmentFiles;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

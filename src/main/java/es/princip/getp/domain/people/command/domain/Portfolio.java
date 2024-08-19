@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.command.domain;
 
-import es.princip.getp.domain.common.domain.URL;
+import es.princip.getp.common.domain.URL;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;

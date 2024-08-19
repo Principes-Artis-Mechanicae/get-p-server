@@ -1,6 +1,6 @@
 package es.princip.getp.domain.like.command.domain;
 
-import es.princip.getp.domain.common.domain.BaseTimeEntity;
+import es.princip.getp.common.domain.BaseTimeEntity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

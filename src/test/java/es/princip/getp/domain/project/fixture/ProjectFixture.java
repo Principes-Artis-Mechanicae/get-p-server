@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.fixture;
 
-import es.princip.getp.domain.common.domain.Duration;
-import es.princip.getp.domain.common.domain.Hashtag;
+import es.princip.getp.common.domain.Duration;
+import es.princip.getp.common.domain.Hashtag;
 import es.princip.getp.domain.project.command.domain.*;
 
 import java.time.LocalDate;

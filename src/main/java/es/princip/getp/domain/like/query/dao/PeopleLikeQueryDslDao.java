@@ -1,6 +1,6 @@
 package es.princip.getp.domain.like.query.dao;
 
-import es.princip.getp.infra.support.QueryDslSupport;
+import es.princip.getp.common.util.QueryDslSupport;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;

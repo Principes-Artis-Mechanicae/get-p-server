@@ -1,11 +1,11 @@
 package es.princip.getp.domain.project.query.presentation;
 
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse;
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse.ApiSuccessResult;
+import es.princip.getp.common.adapter.in.web.dto.PageResponse;
 import es.princip.getp.domain.project.query.dao.ProjectDao;
 import es.princip.getp.domain.project.query.dto.ProjectCardResponse;
 import es.princip.getp.domain.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.infra.dto.response.ApiResponse;
-import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
-import es.princip.getp.infra.dto.response.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

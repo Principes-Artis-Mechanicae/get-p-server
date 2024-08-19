@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.query.dto;
 
-import es.princip.getp.infra.util.StringUtil;
+import es.princip.getp.common.util.StringUtil;
 
 public enum MyProjectSearchOrder {
     PROJECT_ID, CREATED_AT, PAYMENT, APPLICATION_DURATION;

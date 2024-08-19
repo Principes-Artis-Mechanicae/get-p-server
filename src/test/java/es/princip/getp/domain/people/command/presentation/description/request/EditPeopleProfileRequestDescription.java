@@ -3,7 +3,7 @@ package es.princip.getp.domain.people.command.presentation.description.request;
 import es.princip.getp.domain.people.command.presentation.dto.request.EditPeopleProfileRequest;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.infra.docs.FieldDescriptorHelper.getDescriptor;
 
 public class EditPeopleProfileRequestDescription {
 

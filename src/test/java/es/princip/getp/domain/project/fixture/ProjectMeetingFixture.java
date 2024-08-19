@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.fixture;
 
-import es.princip.getp.domain.common.domain.MeetingSchedule;
+import es.princip.getp.common.domain.MeetingSchedule;
 import es.princip.getp.domain.project.command.domain.ProjectMeeting;
 
 import java.time.LocalDate;

@@ -1,10 +1,11 @@
 package es.princip.getp.infra.security.exception;
 
-import es.princip.getp.infra.exception.BusinessLogicException;
+import es.princip.getp.common.exception.BusinessLogicException;
+import es.princip.getp.common.exception.ErrorDescription;
 
 public abstract class JwtTokenException extends BusinessLogicException {
 
-    protected JwtTokenException(final String message) {
-        super(message);
+    protected JwtTokenException(final ErrorDescription description) {
+        super(description);
     }
 }

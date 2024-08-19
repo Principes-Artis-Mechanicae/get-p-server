@@ -1,8 +1,7 @@
 package es.princip.getp.domain.project.query.dao;
 
-import es.princip.getp.infra.support.QueryDslSupport;
+import es.princip.getp.common.util.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

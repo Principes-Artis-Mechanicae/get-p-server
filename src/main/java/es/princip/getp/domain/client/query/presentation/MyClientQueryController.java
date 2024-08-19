@@ -2,8 +2,8 @@ package es.princip.getp.domain.client.query.presentation;
 
 import es.princip.getp.domain.client.query.dao.ClientDao;
 import es.princip.getp.domain.client.query.dto.ClientResponse;
-import es.princip.getp.infra.dto.response.ApiResponse;
-import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse;
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

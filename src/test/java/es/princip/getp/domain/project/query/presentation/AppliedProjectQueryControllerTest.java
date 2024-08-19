@@ -1,14 +1,14 @@
 package es.princip.getp.domain.project.query.presentation;
 
-import es.princip.getp.domain.common.description.PaginationDescription;
-import es.princip.getp.domain.common.domain.Duration;
+import es.princip.getp.common.description.PaginationDescription;
+import es.princip.getp.common.domain.Duration;
+import es.princip.getp.common.util.ControllerTest;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.project.command.domain.ProjectStatus;
 import es.princip.getp.domain.project.query.dao.AppliedProjectDao;
 import es.princip.getp.domain.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.domain.project.query.presentation.description.AppliedProjectCardResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,10 +19,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDate;
 import java.util.List;
 
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsResponse;
-import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.infra.util.PageResponseDescriptor.pageResponseFieldDescriptors;
-import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.common.fixture.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.infra.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static es.princip.getp.infra.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
+import static es.princip.getp.infra.docs.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;

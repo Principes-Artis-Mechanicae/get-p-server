@@ -1,16 +1,16 @@
 package es.princip.getp.domain.like.command.presentation;
 
+import es.princip.getp.common.util.ControllerTest;
 import es.princip.getp.domain.like.command.application.ProjectLikeService;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static es.princip.getp.infra.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;

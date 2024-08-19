@@ -1,8 +1,8 @@
 package es.princip.getp.domain.client.query.infra;
 
+import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 

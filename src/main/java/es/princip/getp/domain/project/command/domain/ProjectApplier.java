@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.domain;
 
-import es.princip.getp.domain.common.domain.ClockHolder;
-import es.princip.getp.domain.common.domain.Duration;
+import es.princip.getp.common.domain.ClockHolder;
+import es.princip.getp.common.domain.Duration;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.domain.project.exception.AlreadyAppliedProjectException;

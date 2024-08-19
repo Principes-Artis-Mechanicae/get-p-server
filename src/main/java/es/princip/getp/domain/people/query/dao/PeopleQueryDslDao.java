@@ -3,6 +3,7 @@ package es.princip.getp.domain.people.query.dao;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
+import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.PeopleLikeDao;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleProfile;
@@ -16,7 +17,6 @@ import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse
 import es.princip.getp.domain.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
-import es.princip.getp.infra.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

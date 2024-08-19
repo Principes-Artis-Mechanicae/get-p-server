@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.domain;
 
-import es.princip.getp.domain.common.domain.ClockHolder;
-import es.princip.getp.domain.common.domain.Duration;
+import es.princip.getp.common.domain.ClockHolder;
+import es.princip.getp.common.domain.Duration;
 import es.princip.getp.domain.project.exception.ApplicationDurationNotBeforeEstimatedDurationException;
 import es.princip.getp.domain.project.exception.EndedApplicationDurationException;
 import lombok.RequiredArgsConstructor;

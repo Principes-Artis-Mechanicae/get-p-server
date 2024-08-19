@@ -1,12 +1,12 @@
 package es.princip.getp.domain.people.command.presentation;
 
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse;
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.domain.people.command.application.PeopleProfileService;
 import es.princip.getp.domain.people.command.application.command.EditPeopleProfileCommand;
 import es.princip.getp.domain.people.command.application.command.RegisterPeopleProfileCommand;
 import es.princip.getp.domain.people.command.presentation.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.domain.people.command.presentation.dto.request.RegisterPeopleProfileRequest;
-import es.princip.getp.infra.dto.response.ApiResponse;
-import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
