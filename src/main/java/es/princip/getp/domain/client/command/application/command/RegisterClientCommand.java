@@ -2,9 +2,9 @@ package es.princip.getp.domain.client.command.application.command;
 
 import es.princip.getp.domain.client.command.domain.Address;
 import es.princip.getp.domain.client.command.domain.BankAccount;
-import es.princip.getp.domain.member.command.domain.model.Email;
-import es.princip.getp.domain.member.command.domain.model.Nickname;
-import es.princip.getp.domain.member.command.domain.model.PhoneNumber;
+import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.member.model.Nickname;
+import es.princip.getp.domain.member.model.PhoneNumber;
 
 public record RegisterClientCommand(
     Long memberId,

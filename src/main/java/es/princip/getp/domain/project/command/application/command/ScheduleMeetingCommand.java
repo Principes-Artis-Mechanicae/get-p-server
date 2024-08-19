@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.application.command;
 
 import es.princip.getp.common.domain.MeetingSchedule;
-import es.princip.getp.domain.member.command.domain.model.PhoneNumber;
+import es.princip.getp.domain.member.model.PhoneNumber;
 
 public record ScheduleMeetingCommand(
     Long memberId,

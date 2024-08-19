@@ -6,7 +6,7 @@ import es.princip.getp.api.controller.auth.dto.request.ServiceTermAgreementReque
 import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;
 import es.princip.getp.domain.auth.application.SignUpService;
 import es.princip.getp.domain.auth.application.command.SignUpCommand;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

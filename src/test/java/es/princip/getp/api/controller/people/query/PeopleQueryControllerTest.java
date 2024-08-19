@@ -29,7 +29,7 @@ import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldD
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static es.princip.getp.common.fixture.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.common.fixture.TechStackFixture.techStacksResponse;
-import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
 import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
 import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;
@@ -71,7 +71,7 @@ class PeopleQueryControllerTest extends ControllerTest {
                 new CardPeopleResponse(
                     1L,
                     NICKNAME,
-                    profileImage(1L).getUri(),
+                    profileImage(1L).getUrl(),
                     PeopleType.INDIVIDUAL,
                     0,
                     0,
@@ -128,7 +128,7 @@ class PeopleQueryControllerTest extends ControllerTest {
             PublicDetailPeopleResponse response = new PublicDetailPeopleResponse(
                 peopleId,
                 NICKNAME,
-                profileImage(1L).getUri(),
+                profileImage(1L).getUrl(),
                 PeopleType.INDIVIDUAL,
                 0,
                 0,
@@ -154,7 +154,7 @@ class PeopleQueryControllerTest extends ControllerTest {
             DetailPeopleResponse response = new DetailPeopleResponse(
                 1L,
                 NICKNAME,
-                profileImage(1L).getUri(),
+                profileImage(1L).getUrl(),
                 PeopleType.INDIVIDUAL,
                 0,
                 0,

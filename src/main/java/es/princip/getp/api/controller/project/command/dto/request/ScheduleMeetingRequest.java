@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.project.command.dto.request;
 
 import es.princip.getp.common.domain.MeetingSchedule;
-import es.princip.getp.domain.member.command.annotation.PhoneNumberPattern;
+import es.princip.getp.api.validation.PhoneNumberPattern;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 

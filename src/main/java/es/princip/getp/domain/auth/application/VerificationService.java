@@ -5,7 +5,7 @@ import es.princip.getp.domain.auth.domain.EmailVerification;
 import es.princip.getp.domain.auth.domain.EmailVerificationRepository;
 import es.princip.getp.domain.auth.exception.IncorrectVerificationCodeException;
 import es.princip.getp.domain.auth.exception.NotFoundVerificationException;
-import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.model.Email;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

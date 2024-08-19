@@ -2,7 +2,7 @@ package es.princip.getp.domain.auth.infra;
 
 import es.princip.getp.domain.auth.application.VerificationCodeSender;
 import es.princip.getp.domain.auth.exception.FailedVerificationCodeSendingException;
-import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.mail.EmailSender;
 import es.princip.getp.mail.command.SendMailCommand;
 import lombok.RequiredArgsConstructor;

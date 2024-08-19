@@ -7,10 +7,10 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@Embeddable
-@ToString
-@EqualsAndHashCode
 @Getter
+@ToString
+@Embeddable
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ServiceTermTag implements Serializable {
 
@@ -18,7 +18,7 @@ public class ServiceTermTag implements Serializable {
     @NotNull
     private String value;
 
-    private ServiceTermTag(final String value) {
+    public ServiceTermTag(final String value) {
         this.value = value;
     }
 

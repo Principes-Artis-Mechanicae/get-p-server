@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.command.application;
 
-import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleInfo;
 import es.princip.getp.domain.people.command.domain.PeopleType;

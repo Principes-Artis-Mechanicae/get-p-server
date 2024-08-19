@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.domain;
 
 import es.princip.getp.common.domain.MeetingSchedule;
-import es.princip.getp.domain.member.command.domain.model.PhoneNumber;
+import es.princip.getp.domain.member.model.PhoneNumber;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.project.exception.NotApplicantException;
 import es.princip.getp.domain.project.exception.NotClientOfProjectException;

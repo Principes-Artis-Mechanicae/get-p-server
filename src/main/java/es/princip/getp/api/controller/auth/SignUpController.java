@@ -6,7 +6,7 @@ import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
 import es.princip.getp.domain.auth.application.SignUpService;
 import es.princip.getp.domain.auth.application.command.SignUpCommand;
-import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.model.Email;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
