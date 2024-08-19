@@ -35,6 +35,6 @@ public class ServiceTermAgreementServiceImpl implements ServiceTermAgreementServ
         if (!serviceTermRepository.existsByTag(tag)) {
             throw new NotFoundServiceTermException();
         }
-        return new ServiceTermAgreement(tag, agreed);
+        return ServiceTermAgreement.of(tag, agreed);
     }
 }

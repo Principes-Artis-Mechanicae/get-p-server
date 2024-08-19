@@ -1,64 +1,27 @@
 package es.princip.getp.domain.member.command.domain.model;
 
 import es.princip.getp.common.domain.BaseTimeEntity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name = "member",
-    uniqueConstraints = {
-        @UniqueConstraint(name = "uq_email", columnNames = {"email"}),
-        @UniqueConstraint(name = "uq_nickname", columnNames = {"nickname"})
-    }
-)
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Validated
+@AllArgsConstructor
 public class Member extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
     private Long memberId;
-
-    @Embedded
-    @NotNull
     private Email email;
-
-    @Embedded
-    @NotNull
     private Password password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "member_type")
-    @NotNull
     private MemberType memberType;
-
-    @Embedded
     private Nickname nickname;
-
-    @Embedded
     private PhoneNumber phoneNumber;
-
-    @Embedded
     private ProfileImage profileImage;
-
-    @ElementCollection
-    @CollectionTable(
-        name = "member_service_term_agreement",
-        joinColumns = @JoinColumn(name = "member_id")
-    )
-    private Set<ServiceTermAgreement> agreements = new HashSet<>();
+    private Set<ServiceTermAgreement> serviceTermAgreements = new HashSet<>();
 
     private Member(
         final Email email,
@@ -106,8 +69,8 @@ public class Member extends BaseTimeEntity {
      * @param agreements 서비스 약관 동의
      */
     public void agreeServiceTerms(final Set<ServiceTermAgreement> agreements) {
-        this.agreements.clear();
-        this.agreements.addAll(agreements);
+        this.serviceTermAgreements.clear();
+        this.serviceTermAgreements.addAll(agreements);
     }
 
     /**
@@ -160,6 +123,6 @@ public class Member extends BaseTimeEntity {
      * @return 서비스 약관 동의 목록
      */
     public Set<ServiceTermAgreement> getServiceTermAgreements() {
-        return Collections.unmodifiableSet(agreements);
+        return Collections.unmodifiableSet(serviceTermAgreements);
     }
 }

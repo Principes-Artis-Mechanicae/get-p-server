@@ -1,34 +1,26 @@
 package es.princip.getp.domain.member.command.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Transient;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-@Embeddable
-@ToString
 @Getter
+@ToString
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Password {
 
     public static final String PASSWORD_REGEX
         = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*_+=/])[A-Za-z\\d!@#$%^&*_+=/]{8,20}$";
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
-    @Column(name = "password")
-    @NotNull
-    private String value;
+    private final String value;
+    private final boolean encoded;
 
-    @Transient
-    private boolean encoded;
-
-    private Password(final String value, final boolean encoded) {
+    public Password(final String value, final boolean encoded) {
         this.value = value;
         this.encoded = encoded;
     }

@@ -1,4 +1,4 @@
-package es.princip.getp.domain.member.command.exception;
+package es.princip.getp.persistence.adapter.member;
 
 import es.princip.getp.common.exception.ErrorDescription;
 import es.princip.getp.common.exception.NotFoundException;

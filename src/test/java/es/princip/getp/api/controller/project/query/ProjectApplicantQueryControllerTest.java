@@ -77,7 +77,7 @@ class ProjectApplicantQueryControllerTest extends ControllerTest {
                 new DetailPeopleResponse(
                     1L,
                     NICKNAME,
-                    profileImage(1L).getUri(),
+                    profileImage(1L).getUrl(),
                     PeopleType.INDIVIDUAL,
                     0,
                     0,

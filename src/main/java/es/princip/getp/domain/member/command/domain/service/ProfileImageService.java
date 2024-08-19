@@ -53,6 +53,6 @@ public class ProfileImageService {
     }
 
     public void deleteProfileImage(final ProfileImage profileImage) {
-        imageStorage.deleteImage(URI.create(profileImage.getUri()));
+        imageStorage.deleteImage(URI.create(profileImage.getUrl()));
     }
 }

@@ -1,33 +1,28 @@
 package es.princip.getp.domain.member.command.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
-@Embeddable
+@Getter
 @ToString
 @EqualsAndHashCode
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProfileImage {
 
-    @Column(name = "profile_image_uri")
-    @NotNull
-    private String uri;
+    private final String url;
 
-    private ProfileImage(final String uri) {
-        this.uri = uri;
+    public ProfileImage(final String url) {
+        this.url = url;
     }
 
-    public static ProfileImage of(final String uri) {
-        validate(uri);
-        return new ProfileImage(uri);
+    public static ProfileImage of(final String url) {
+        validate(url);
+        return new ProfileImage(url);
     }
 
-    private static void validate(final String uri) {
-        Objects.requireNonNull(uri);
+    private static void validate(final String url) {
+        Objects.requireNonNull(url);
     }
 }

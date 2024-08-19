@@ -25,7 +25,7 @@ public record ClientResponse(
             member.getNickname().getValue(),
             client.getEmail().getValue(),
             member.getPhoneNumber().getValue(),
-            member.getProfileImage().getUri(),
+            member.getProfileImage().getUrl(),
             client.getAddress(),
             client.getBankAccount(),
             client.getCreatedAt(),

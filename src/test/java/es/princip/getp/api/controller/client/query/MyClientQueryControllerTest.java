@@ -43,7 +43,7 @@ class MyClientQueryControllerTest extends ControllerTest {
             NICKNAME,
             PHONE_NUMBER,
             EMAIL,
-            profileImage(memberId).getUri(),
+            profileImage(memberId).getUrl(),
             address(),
             bankAccount(),
             now,

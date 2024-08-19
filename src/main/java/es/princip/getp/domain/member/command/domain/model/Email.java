@@ -9,21 +9,22 @@ import lombok.*;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-@Embeddable
 @Getter
 @ToString
+@Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Email {
+
     public static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
-    @Column(name = "email")
     @NotNull
     @EmailPattern
+    @Column(name = "email")
     private String value;
 
-    private Email(final String value) {
+    public Email(final String value) {
         this.value = value;
     }
 

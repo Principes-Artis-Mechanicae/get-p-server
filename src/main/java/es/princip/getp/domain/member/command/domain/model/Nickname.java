@@ -1,24 +1,19 @@
 package es.princip.getp.domain.member.command.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
-@Embeddable
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Nickname {
 
-    @Column(name = "nickname")
-    @NotNull
-    private String value;
+    private final String value;
 
-    private Nickname(final String value) {
+    public Nickname(final String value) {
         this.value = value;
     }
 

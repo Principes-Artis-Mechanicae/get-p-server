@@ -71,7 +71,7 @@ class PeopleQueryControllerTest extends ControllerTest {
                 new CardPeopleResponse(
                     1L,
                     NICKNAME,
-                    profileImage(1L).getUri(),
+                    profileImage(1L).getUrl(),
                     PeopleType.INDIVIDUAL,
                     0,
                     0,
@@ -128,7 +128,7 @@ class PeopleQueryControllerTest extends ControllerTest {
             PublicDetailPeopleResponse response = new PublicDetailPeopleResponse(
                 peopleId,
                 NICKNAME,
-                profileImage(1L).getUri(),
+                profileImage(1L).getUrl(),
                 PeopleType.INDIVIDUAL,
                 0,
                 0,
@@ -154,7 +154,7 @@ class PeopleQueryControllerTest extends ControllerTest {
             DetailPeopleResponse response = new DetailPeopleResponse(
                 1L,
                 NICKNAME,
-                profileImage(1L).getUri(),
+                profileImage(1L).getUrl(),
                 PeopleType.INDIVIDUAL,
                 0,
                 0,

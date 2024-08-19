@@ -52,7 +52,7 @@ class MyPeopleQueryControllerTest extends ControllerTest {
                 EMAIL,
                 NICKNAME,
                 PHONE_NUMBER,
-                profileImage(1L).getUri(),
+                profileImage(1L).getUrl(),
                 PeopleType.INDIVIDUAL,
                 0,
                 0,

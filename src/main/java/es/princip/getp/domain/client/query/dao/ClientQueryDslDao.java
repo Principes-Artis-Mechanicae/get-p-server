@@ -3,16 +3,18 @@ package es.princip.getp.domain.client.query.dao;
 import com.querydsl.core.Tuple;
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.common.util.QueryDslSupport;
-import jakarta.persistence.EntityNotFoundException;
+import es.princip.getp.domain.client.exception.NotFoundClientException;
+import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 import static es.princip.getp.domain.client.command.domain.QClient.client;
-import static es.princip.getp.domain.member.command.domain.model.QMember.member;
 
 @Repository
 public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
+
+    private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
     private ClientResponse toClientResponse(final Tuple result) {
         if (result == null) {
@@ -21,10 +23,10 @@ public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
 
         return new ClientResponse(
             result.get(client.clientId),
-            result.get(member.nickname.value),
-            result.get(member.phoneNumber.value),
+            result.get(member.nickname),
+            result.get(member.phoneNumber),
             result.get(client.email.value),
-            result.get(member.profileImage.uri),
+            result.get(member.profileImageUrl),
             result.get(client.address),
             result.get(client.bankAccount),
             result.get(client.createdAt),
@@ -36,10 +38,10 @@ public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
     public ClientResponse findById(final Long clientId) {
         Tuple result = queryFactory.select(
                 client.clientId,
-                member.nickname.value,
-                member.phoneNumber.value,
+                member.nickname,
+                member.phoneNumber,
                 client.email,
-                member.profileImage.uri,
+                member.profileImageUrl,
                 client.address,
                 client.bankAccount,
                 client.createdAt,
@@ -50,19 +52,18 @@ public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
             .where(client.clientId.eq(clientId))
             .fetchOne();
 
-        return Optional.ofNullable(toClientResponse(result)).orElseThrow(
-            () -> new EntityNotFoundException("해당 의뢰자 정보가 존재하지 않습니다.")
-        );
+        return Optional.ofNullable(toClientResponse(result))
+            .orElseThrow(NotFoundClientException::new);
     }
 
     @Override
     public ClientResponse findByMemberId(final Long memberId) {
         Tuple result = queryFactory.select(
                 client.clientId,
-                member.nickname.value,
-                member.phoneNumber.value,
+                member.nickname,
+                member.phoneNumber,
                 client.email.value,
-                member.profileImage.uri,
+                member.profileImageUrl,
                 client.address,
                 client.bankAccount,
                 client.createdAt,
@@ -73,8 +74,7 @@ public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
             .where(client.memberId.eq(memberId))
             .fetchOne();
 
-        return Optional.ofNullable(toClientResponse(result)).orElseThrow(
-            () -> new EntityNotFoundException("해당 의뢰자 정보가 존재하지 않습니다.")
-        );
+        return Optional.ofNullable(toClientResponse(result))
+            .orElseThrow(NotFoundClientException::new);
     }
 }

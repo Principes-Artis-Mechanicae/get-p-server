@@ -25,7 +25,7 @@ public record MemberResponse(
                 .map(Nickname::getValue)
                 .orElse(null),
             Optional.ofNullable(member.getProfileImage())
-                .map(ProfileImage::getUri)
+                .map(ProfileImage::getUrl)
                 .orElse(null),
             member.getMemberType(),
             member.getCreatedAt(),

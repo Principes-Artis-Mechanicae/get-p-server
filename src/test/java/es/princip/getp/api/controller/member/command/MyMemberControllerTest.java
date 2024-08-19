@@ -40,7 +40,7 @@ class MyMemberControllerTest extends ControllerTest {
         @Test
         public void uploadProfileImage() throws Exception {
             given(memberService.changeProfileImage(eq(memberId), any(MultipartFile.class)))
-                .willReturn(profileImage(memberId).getUri());
+                .willReturn(profileImage(memberId).getUrl());
 
             mockMvc.perform(multipart("/member/me/profile-image")
                 .file(imageMultiPartFile())

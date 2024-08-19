@@ -1,28 +1,21 @@
 package es.princip.getp.domain.member.command.domain.model;
 
-import es.princip.getp.domain.member.command.annotation.PhoneNumberPattern;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-@Embeddable
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PhoneNumber {
 
     public static final String PHONE_REGEX = "^[0-9]+$";
     private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
 
-    @Column(name = "phone_number")
-    @PhoneNumberPattern
-    @NotNull
-    private String value;
+    private final String value;
 
     public PhoneNumber(final String value) {
         validate(value);
