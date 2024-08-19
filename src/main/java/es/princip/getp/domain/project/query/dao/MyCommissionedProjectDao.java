@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.query.dao;
 
-import es.princip.getp.domain.project.query.dto.MyCommissionedProjectCardResponse;
+import es.princip.getp.api.controller.project.query.dto.MyCommissionedProjectCardResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

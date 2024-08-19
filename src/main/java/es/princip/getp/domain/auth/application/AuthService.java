@@ -1,10 +1,10 @@
 package es.princip.getp.domain.auth.application;
 
+import es.princip.getp.api.controller.auth.dto.request.LoginRequest;
+import es.princip.getp.api.controller.auth.dto.response.Token;
+import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.domain.auth.exception.IncorrectEmailOrPasswordException;
-import es.princip.getp.domain.auth.presentation.dto.request.LoginRequest;
-import es.princip.getp.domain.auth.presentation.dto.response.Token;
 import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.infra.security.details.PrincipalDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

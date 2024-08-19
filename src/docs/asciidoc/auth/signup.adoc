@@ -1,2 +1,1 @@
 operation::/sign-up/sign-up[snippets="http-request,request-fields,http-response"]
-operation::/sign-up/sign-up-error-code[snippets="error-code-fields"]

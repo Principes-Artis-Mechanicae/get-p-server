@@ -1,8 +1,8 @@
 package es.princip.getp.domain.people.fixture;
 
 import es.princip.getp.domain.people.command.domain.Portfolio;
-import es.princip.getp.domain.people.command.presentation.dto.request.PortfolioRequest;
-import es.princip.getp.domain.people.query.dto.peopleProfile.PortfoliosResponse;
+import es.princip.getp.api.controller.people.command.dto.request.PortfolioRequest;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.PortfoliosResponse;
 
 import java.util.List;
 
