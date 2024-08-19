@@ -1,12 +1,14 @@
 package es.princip.getp.application.member.service;
 
-import es.princip.getp.application.member.command.UpdateMemberCommand;
+import es.princip.getp.application.member.command.ChangeProfileImageCommand;
+import es.princip.getp.application.member.command.EditMemberCommand;
+import es.princip.getp.application.member.port.in.ChangeProfileImageUseCase;
+import es.princip.getp.application.member.port.in.EditMemberUseCase;
 import es.princip.getp.application.member.port.out.LoadMemberPort;
 import es.princip.getp.application.member.port.out.UpdateMemberPort;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.ProfileImage;
 import es.princip.getp.domain.member.service.ProfileImageService;
-import es.princip.getp.persistence.adapter.member.NotFoundMemberException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,37 +19,27 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberService {
+public class MemberService implements EditMemberUseCase, ChangeProfileImageUseCase {
 
     private final ProfileImageService profileImageService;
 
     private final UpdateMemberPort updateMemberPort;
     private final LoadMemberPort loadMemberPort;
 
-    /**
-     * 회원 정보를 수정한다.
-     *
-     * @param command 회원 정보 수정 명령
-     * @throws NotFoundMemberException 해당 회원이 존재하지 않는 경우
-     */
+    @Override
     @Transactional
-    public void update(final UpdateMemberCommand command) {
+    public void editMember(final EditMemberCommand command) {
         final Member member = loadMemberPort.loadBy(command.memberId());
         member.edit(command.nickname(), command.phoneNumber());
         updateMemberPort.update(member);
     }
 
-    /**
-     * 회원의 프로필 이미지를 수정한다. 기존의 프로필 이미지가 존재하는 경우 삭제한다.
-     *
-     * @param memberId 회원 식별자
-     * @param image 프로필 이미지
-     * @throws NotFoundMemberException 해당 회원이 존재하지 않는 경우
-     * @return 수정된 프로필 이미지의 URI
-     */
+    @Override
     @Transactional
-    public String changeProfileImage(final Long memberId, final MultipartFile image) {
-        Member member = loadMemberPort.loadBy(memberId);
+    public String changeProfileImage(final ChangeProfileImageCommand command) {
+        final Long memberId = command.memberId();
+        final MultipartFile image = command.image();
+        final Member member = loadMemberPort.loadBy(memberId);
         if (member.hasProfileImage()) {
             profileImageService.deleteProfileImage(member.getProfileImage());
         }

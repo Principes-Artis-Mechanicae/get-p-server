@@ -1,8 +1,8 @@
 package es.princip.getp.domain.client.command.application;
 
-import es.princip.getp.application.member.command.UpdateMemberCommand;
+import es.princip.getp.application.member.command.EditMemberCommand;
+import es.princip.getp.application.member.port.in.EditMemberUseCase;
 import es.princip.getp.application.member.port.out.LoadMemberPort;
-import es.princip.getp.application.member.service.MemberService;
 import es.princip.getp.domain.client.command.application.command.EditClientCommand;
 import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
 import es.princip.getp.domain.client.command.domain.Client;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ClientService {
 
-    private final MemberService memberService;
+    private final EditMemberUseCase editMemberUseCase;
     private final LoadMemberPort loadMemberPort;
     private final ClientRepository clientRepository;
 
@@ -27,13 +27,13 @@ public class ClientService {
         if (clientRepository.existsByMemberId(command.memberId())) {
             throw new AlreadyExistsClientException();
         }
-        memberService.update(UpdateMemberCommand.from(command));
+        editMemberUseCase.editMember(EditMemberCommand.from(command));
         // 이메일이 입력되지 않은 경우 회원 가입 시 작성한 이메일 주소를 기본값으로 사용
         Email email = command.email();
         if (email == null) {
             email = loadMemberPort.loadBy(command.memberId()).getEmail();
         }
-        Client client = Client.builder()
+        final Client client = Client.builder()
             .email(email)
             .bankAccount(command.bankAccount())
             .address(command.address())
@@ -44,14 +44,14 @@ public class ClientService {
 
     @Transactional
     public void editClient(EditClientCommand command) {
-        memberService.update(UpdateMemberCommand.from(command));
-        Client client = clientRepository.findByMemberId(command.memberId()).orElseThrow();
+        editMemberUseCase.editMember(EditMemberCommand.from(command));
+        final Client client = clientRepository.findByMemberId(command.memberId()).orElseThrow();
         client.edit(command.email(), command.address(), command.bankAccount());
     }
 
     @Transactional
     public void delete(Long memberId) {
-        Client client = clientRepository.findByMemberId(memberId).orElseThrow();
+        final Client client = clientRepository.findByMemberId(memberId).orElseThrow();
         clientRepository.delete(client);
     }
 }
