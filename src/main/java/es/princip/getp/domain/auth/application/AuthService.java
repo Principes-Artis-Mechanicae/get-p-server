@@ -1,10 +1,9 @@
 package es.princip.getp.domain.auth.application;
 
-import es.princip.getp.domain.auth.exception.LoginErrorCode;
+import es.princip.getp.domain.auth.exception.IncorrectEmailOrPasswordException;
 import es.princip.getp.domain.auth.presentation.dto.request.LoginRequest;
 import es.princip.getp.domain.auth.presentation.dto.response.Token;
 import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.infra.exception.BusinessLogicException;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +36,8 @@ public class AuthService {
             final Member member = principalDetails.getMember();
 
             return tokenFactory.generateToken(member);
-        } catch (Exception e) {
-            throw new BusinessLogicException(LoginErrorCode.INCORRECT_EMAIL_OR_PASSWORD);
+        } catch (final Exception e) {
+            throw new IncorrectEmailOrPasswordException();
         }
     }
 
