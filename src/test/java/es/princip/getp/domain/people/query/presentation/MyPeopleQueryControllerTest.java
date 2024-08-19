@@ -6,12 +6,11 @@ import es.princip.getp.domain.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.domain.people.query.presentation.description.MyPeopleResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.security.details.PrincipalDetails;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
@@ -29,10 +28,9 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MyPeopleQueryController.class)
-class MyPeopleQueryControllerTest extends AbstractControllerTest {
+class MyPeopleQueryControllerTest extends ControllerTest {
 
-    @MockBean
+    @Autowired
     private PeopleDao peopleDao;
 
     @Nested

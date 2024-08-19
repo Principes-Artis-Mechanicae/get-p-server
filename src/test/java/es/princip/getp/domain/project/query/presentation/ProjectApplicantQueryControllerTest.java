@@ -11,12 +11,11 @@ import es.princip.getp.domain.project.query.presentation.description.GetApplican
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.dto.response.PageResponse;
 import es.princip.getp.infra.security.details.PrincipalDetails;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,10 +43,9 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ProjectApplicantQueryController.class)
-class ProjectApplicantQueryControllerTest extends AbstractControllerTest {
+class ProjectApplicantQueryControllerTest extends ControllerTest {
 
-    @MockBean
+    @Autowired
     private ProjectApplicantService projectApplicantService;
 
     @Nested
