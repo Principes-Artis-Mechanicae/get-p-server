@@ -1,6 +1,6 @@
 package es.princip.getp.domain.common.infra;
 
-import es.princip.getp.domain.common.domain.ClockHolder;
+import es.princip.getp.common.domain.ClockHolder;
 
 import java.time.Clock;
 import java.time.LocalDate;

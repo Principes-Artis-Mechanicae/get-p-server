@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.query.presentation;
 
+import es.princip.getp.common.domain.Duration;
 import es.princip.getp.domain.common.description.PaginationDescription;
-import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.project.command.domain.ProjectStatus;
 import es.princip.getp.domain.project.query.dao.AppliedProjectDao;

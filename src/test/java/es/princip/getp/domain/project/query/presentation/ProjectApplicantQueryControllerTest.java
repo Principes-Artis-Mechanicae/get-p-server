@@ -1,5 +1,6 @@
 package es.princip.getp.domain.project.query.presentation;
 
+import es.princip.getp.common.adapter.in.web.dto.PageResponse;
 import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.people.command.domain.PeopleType;
@@ -9,7 +10,6 @@ import es.princip.getp.domain.people.query.presentation.description.PagedDetailP
 import es.princip.getp.domain.project.query.application.ProjectApplicantService;
 import es.princip.getp.domain.project.query.presentation.description.GetApplicantsByProjectIdQueryParameterDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.dto.response.PageResponse;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;

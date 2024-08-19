@@ -1,7 +1,7 @@
 package es.princip.getp.infra.storage.exception;
 
-import es.princip.getp.infra.exception.ErrorDescription;
-import es.princip.getp.infra.exception.ExternalApiErrorException;
+import es.princip.getp.common.exception.ErrorDescription;
+import es.princip.getp.common.exception.ExternalApiErrorException;
 
 public class FailedFileSaveException extends ExternalApiErrorException {
 

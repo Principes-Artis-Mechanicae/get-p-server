@@ -1,6 +1,6 @@
 package es.princip.getp.infra.dto.response;
 
-import es.princip.getp.infra.exception.ErrorCode;
+import es.princip.getp.common.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

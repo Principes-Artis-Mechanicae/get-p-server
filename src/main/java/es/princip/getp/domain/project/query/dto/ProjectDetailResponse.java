@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.query.dto;
 
-import es.princip.getp.domain.common.domain.Duration;
-import es.princip.getp.domain.common.dto.HashtagsResponse;
+import es.princip.getp.common.domain.Duration;
+import es.princip.getp.common.dto.HashtagsResponse;
 import es.princip.getp.domain.project.command.domain.MeetingType;
 import es.princip.getp.domain.project.command.domain.ProjectCategory;
 import es.princip.getp.domain.project.command.domain.ProjectStatus;

@@ -1,7 +1,7 @@
 package es.princip.getp.domain.common.fixture;
 
-import es.princip.getp.domain.common.domain.Hashtag;
-import es.princip.getp.domain.common.dto.HashtagsResponse;
+import es.princip.getp.common.domain.Hashtag;
+import es.princip.getp.common.dto.HashtagsResponse;
 
 import java.util.List;
 

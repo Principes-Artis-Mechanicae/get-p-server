@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.fixture;
 
-import es.princip.getp.domain.common.domain.Duration;
+import es.princip.getp.common.domain.Duration;
 import es.princip.getp.domain.project.command.domain.ProjectApplication;
 import es.princip.getp.domain.project.command.domain.ProjectApplicationStatus;
 

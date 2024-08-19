@@ -1,9 +1,9 @@
 package es.princip.getp.domain.project.command.presentation;
 
-import es.princip.getp.domain.common.domain.URL;
-import es.princip.getp.domain.common.infra.HashtagMapper;
-import es.princip.getp.domain.common.infra.PhoneNumberMapper;
-import es.princip.getp.domain.common.infra.URLMapper;
+import es.princip.getp.common.domain.URL;
+import es.princip.getp.common.infra.HashtagMapper;
+import es.princip.getp.common.infra.PhoneNumberMapper;
+import es.princip.getp.common.infra.URLMapper;
 import es.princip.getp.domain.project.command.application.command.ApplyProjectCommand;
 import es.princip.getp.domain.project.command.application.command.ScheduleMeetingCommand;
 import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;

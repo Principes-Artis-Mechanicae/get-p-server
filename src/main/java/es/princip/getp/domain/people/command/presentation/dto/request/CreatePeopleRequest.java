@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.command.presentation.dto.request;
 
-import es.princip.getp.domain.common.annotation.Enum;
+import es.princip.getp.common.annotation.Enum;
 import es.princip.getp.domain.member.command.annotation.EmailPattern;
 import es.princip.getp.domain.member.command.annotation.PhoneNumberPattern;
 import es.princip.getp.domain.member.command.domain.model.Email;

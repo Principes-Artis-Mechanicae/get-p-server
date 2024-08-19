@@ -1,6 +1,6 @@
 package es.princip.getp.infra.util;
 
-import es.princip.getp.infra.exception.ErrorCode;
+import es.princip.getp.common.exception.ErrorCode;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.Operation;
 import org.springframework.restdocs.payload.AbstractFieldsSnippet;

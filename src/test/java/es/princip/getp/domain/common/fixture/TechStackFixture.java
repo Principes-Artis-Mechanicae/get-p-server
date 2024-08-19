@@ -1,7 +1,7 @@
 package es.princip.getp.domain.common.fixture;
 
-import es.princip.getp.domain.common.domain.TechStack;
-import es.princip.getp.domain.common.dto.TechStacksResponse;
+import es.princip.getp.common.domain.TechStack;
+import es.princip.getp.common.dto.TechStacksResponse;
 
 import java.util.List;
 

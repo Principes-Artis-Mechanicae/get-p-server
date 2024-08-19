@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.exception;
 
-import es.princip.getp.infra.exception.ErrorDescription;
-import es.princip.getp.infra.exception.NotFoundException;
+import es.princip.getp.common.exception.ErrorDescription;
+import es.princip.getp.common.exception.NotFoundException;
 
 public class NotFoundProjectException extends NotFoundException {
 

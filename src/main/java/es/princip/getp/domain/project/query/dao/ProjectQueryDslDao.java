@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.query.dao;
 
 import com.querydsl.core.types.Projections;
-import es.princip.getp.domain.common.dto.HashtagsResponse;
+import es.princip.getp.common.dto.HashtagsResponse;
 import es.princip.getp.domain.like.query.dao.ProjectLikeDao;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
