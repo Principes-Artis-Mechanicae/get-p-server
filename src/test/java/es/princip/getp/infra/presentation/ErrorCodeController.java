@@ -1,7 +1,6 @@
 package es.princip.getp.infra.presentation;
 
 import es.princip.getp.domain.auth.exception.LoginErrorCode;
-import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.infra.dto.response.ErrorCodeResponse;
 import es.princip.getp.infra.exception.ErrorCode;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,15 +18,6 @@ public class ErrorCodeController {
     public Map<String, ErrorCodeResponse> getLoginErrorCode() {
         Map<String, ErrorCodeResponse> map = new HashMap<>();
         for (ErrorCode errorCode : LoginErrorCode.values()) {
-            map.put(errorCode.description().code(), ErrorCodeResponse.from(errorCode));
-        }
-        return map;
-    }
-
-    @GetMapping("/signup")
-    public Map<String, ErrorCodeResponse> getSignUpErrorCode() {
-        Map<String, ErrorCodeResponse> map = new HashMap<>();
-        for (ErrorCode errorCode : SignUpErrorCode.values()) {
             map.put(errorCode.description().code(), ErrorCodeResponse.from(errorCode));
         }
         return map;
