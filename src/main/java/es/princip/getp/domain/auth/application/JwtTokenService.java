@@ -3,9 +3,9 @@ package es.princip.getp.domain.auth.application;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.security.exception.ExpiredTokenException;
 import es.princip.getp.api.security.exception.InvalidTokenException;
+import es.princip.getp.domain.member.command.application.port.out.LoadMemberPort;
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.domain.member.command.domain.model.MemberRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -27,20 +27,20 @@ public abstract class JwtTokenService {
     protected final Key key;
     protected final String tokenType;
     protected final String header;
-    protected final MemberRepository memberRepository;
+    protected final LoadMemberPort loadMemberPort;
 
     protected JwtTokenService(
         final Long expireTime,
         final String secretKey,
         final String tokenType,
         final String header,
-        final MemberRepository memberRepository
+        final LoadMemberPort loadMemberPort
     ) {
         this.expireTime = expireTime;
         this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
         this.tokenType = tokenType;
         this.header = header;
-        this.memberRepository = memberRepository;
+        this.loadMemberPort = loadMemberPort;
     }
 
     /**
@@ -70,7 +70,7 @@ public abstract class JwtTokenService {
     public Authentication getAuthentication(final String token) {
         final Claims claims = validateAndParseToken(token);
         final Email email = Email.of(claims.getSubject());
-        final Member member = memberRepository.findByEmail(email).orElseThrow();
+        final Member member = loadMemberPort.loadBy(email);
         final PrincipalDetails principalDetails = new PrincipalDetails(member);
 
         return new UsernamePasswordAuthenticationToken(principalDetails, "", principalDetails.getAuthorities());

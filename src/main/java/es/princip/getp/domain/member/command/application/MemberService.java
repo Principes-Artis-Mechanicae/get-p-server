@@ -1,14 +1,12 @@
 package es.princip.getp.domain.member.command.application;
 
-import es.princip.getp.domain.member.command.application.command.CreateMemberCommand;
 import es.princip.getp.domain.member.command.application.command.UpdateMemberCommand;
+import es.princip.getp.domain.member.command.application.port.out.LoadMemberPort;
+import es.princip.getp.domain.member.command.application.port.out.UpdateMemberPort;
 import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.domain.member.command.domain.model.MemberRepository;
 import es.princip.getp.domain.member.command.domain.model.ProfileImage;
 import es.princip.getp.domain.member.command.domain.service.ProfileImageService;
-import es.princip.getp.domain.member.command.domain.service.ServiceTermAgreementService;
-import es.princip.getp.domain.member.command.exception.AlreadyUsedEmailException;
-import es.princip.getp.domain.member.command.exception.NotFoundMemberException;
+import es.princip.getp.persistence.adapter.member.NotFoundMemberException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,30 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional(readOnly = true)
 public class MemberService {
 
-    private final ServiceTermAgreementService agreementService;
     private final ProfileImageService profileImageService;
 
-    private final MemberRepository memberRepository;
-
-    private Member findById(final Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
-    }
-
-    /**
-     * 회원을 생성한다.
-     *
-     * @param command 회원 생성 명령
-     * @throws AlreadyUsedEmailException 이미 사용 중인 이메일인 경우
-     * @return 생성된 회원의 식별자
-     */
-    @Transactional
-    public Long create(final CreateMemberCommand command) {
-        if (memberRepository.existsByEmail(command.email()))
-            throw new AlreadyUsedEmailException();
-        final Member member = Member.of(command.email(), command.password(), command.memberType());
-        agreementService.agreeServiceTerms(member, command.serviceTerms());
-        return memberRepository.save(member).getMemberId();
-    }
+    private final UpdateMemberPort updateMemberPort;
+    private final LoadMemberPort loadMemberPort;
 
     /**
      * 회원 정보를 수정한다.
@@ -54,8 +32,9 @@ public class MemberService {
      */
     @Transactional
     public void update(final UpdateMemberCommand command) {
-        final Member member = findById(command.memberId());
+        final Member member = loadMemberPort.loadBy(command.memberId());
         member.edit(command.nickname(), command.phoneNumber());
+        updateMemberPort.update(member);
     }
 
     /**
@@ -68,12 +47,13 @@ public class MemberService {
      */
     @Transactional
     public String changeProfileImage(final Long memberId, final MultipartFile image) {
-        Member member = findById(memberId);
+        Member member = loadMemberPort.loadBy(memberId);
         if (member.hasProfileImage()) {
             profileImageService.deleteProfileImage(member.getProfileImage());
         }
         ProfileImage profileImage = profileImageService.saveProfileImage(member, image);
         member.changeProfileImage(profileImage);
-        return profileImage.getUri();
+        updateMemberPort.update(member);
+        return profileImage.getUrl();
     }
 }

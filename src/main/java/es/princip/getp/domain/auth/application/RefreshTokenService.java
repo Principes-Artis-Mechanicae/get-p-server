@@ -3,7 +3,7 @@ package es.princip.getp.domain.auth.application;
 import es.princip.getp.api.security.exception.InvalidTokenException;
 import es.princip.getp.domain.auth.domain.RefreshToken;
 import es.princip.getp.domain.auth.domain.RefreshTokenRepository;
-import es.princip.getp.domain.member.command.domain.model.MemberRepository;
+import es.princip.getp.domain.member.command.application.port.out.LoadMemberPort;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ public class RefreshTokenService extends JwtTokenService {
     public RefreshTokenService(
         @Value("${spring.jwt.refresh-token.expire-time}") final Long expireTime,
         @Value("${spring.jwt.secret}") final String secretKey,
-        final MemberRepository memberRepository,
+        final LoadMemberPort loadMemberPort,
         final RefreshTokenRepository refreshTokenRepository
     ) {
-        super(expireTime, secretKey,"Refresh", "Refresh-Token", memberRepository);
+        super(expireTime, secretKey,"Refresh", "Refresh-Token", loadMemberPort);
         this.refreshTokenRepository = refreshTokenRepository;
     }
 

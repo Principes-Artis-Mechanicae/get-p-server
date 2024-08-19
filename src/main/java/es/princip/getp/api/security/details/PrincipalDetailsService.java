@@ -1,8 +1,7 @@
 package es.princip.getp.api.security.details;
 
+import es.princip.getp.domain.member.command.application.port.out.LoadMemberPort;
 import es.princip.getp.domain.member.command.domain.model.Email;
-import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.domain.member.command.domain.model.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,12 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService {
-    private final MemberRepository memberRepository;
+
+    private final LoadMemberPort loadMemberPort;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(Email.of(username))
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new PrincipalDetails(member);
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+        return new PrincipalDetails(loadMemberPort.loadBy(Email.of(username)));
     }
 }

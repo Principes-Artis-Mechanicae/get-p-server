@@ -7,8 +7,8 @@ import es.princip.getp.domain.client.command.domain.ClientRepository;
 import es.princip.getp.domain.client.exception.AlreadyExistsClientException;
 import es.princip.getp.domain.member.command.application.MemberService;
 import es.princip.getp.domain.member.command.application.command.UpdateMemberCommand;
+import es.princip.getp.domain.member.command.application.port.out.LoadMemberPort;
 import es.princip.getp.domain.member.command.domain.model.Email;
-import es.princip.getp.domain.member.command.domain.model.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClientService {
 
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
+    private final LoadMemberPort loadMemberPort;
     private final ClientRepository clientRepository;
 
     @Transactional
@@ -31,7 +31,7 @@ public class ClientService {
         // 이메일이 입력되지 않은 경우 회원 가입 시 작성한 이메일 주소를 기본값으로 사용
         Email email = command.email();
         if (email == null) {
-            email = memberRepository.findById(command.memberId()).orElseThrow().getEmail();
+            email = loadMemberPort.loadBy(command.memberId()).getEmail();
         }
         Client client = Client.builder()
             .email(email)
