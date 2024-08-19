@@ -71,4 +71,8 @@ public class PeopleProfile {
     public List<Portfolio> getPortfolios() {
         return Collections.unmodifiableList(portfolios);
     }
+
+    public boolean isRegistered() {
+        return this.introduction != null || this.activityArea != null || this.education != null;
+    }
 }

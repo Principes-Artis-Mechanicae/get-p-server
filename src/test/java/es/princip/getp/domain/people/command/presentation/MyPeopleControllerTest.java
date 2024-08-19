@@ -10,12 +10,11 @@ import es.princip.getp.domain.people.command.presentation.description.response.C
 import es.princip.getp.domain.people.command.presentation.dto.request.CreatePeopleRequest;
 import es.princip.getp.domain.people.command.presentation.dto.request.UpdatePeopleRequest;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_CLIENT;
@@ -33,10 +32,9 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MyPeopleController.class)
-class MyPeopleControllerTest extends AbstractControllerTest {
+class MyPeopleControllerTest extends ControllerTest {
 
-    @MockBean
+    @Autowired
     private PeopleService peopleService;
 
     @DisplayName("피플은 자신의 정보를 등록할 수 있다.")

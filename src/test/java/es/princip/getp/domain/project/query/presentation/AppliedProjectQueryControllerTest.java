@@ -1,23 +1,5 @@
 package es.princip.getp.domain.project.query.presentation;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-
-import java.time.LocalDate;
-import java.util.List;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.test.web.servlet.ResultActions;
-
 import es.princip.getp.domain.common.description.PaginationDescription;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
@@ -26,20 +8,30 @@ import es.princip.getp.domain.project.query.dao.AppliedProjectDao;
 import es.princip.getp.domain.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.domain.project.query.presentation.description.AppliedProjectCardResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.*;
+import org.springframework.test.web.servlet.ResultActions;
+
+import java.time.LocalDate;
+import java.util.List;
 
 import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.infra.util.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AppliedProjectQueryController.class)
-public class AppliedProjectQueryControllerTest extends AbstractControllerTest{
+public class AppliedProjectQueryControllerTest extends ControllerTest {
     @MockBean
     private AppliedProjectDao appliedProjectDao;
 
@@ -62,8 +54,8 @@ public class AppliedProjectQueryControllerTest extends AbstractControllerTest{
         @Test
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         public void getMyAppliedProjects() throws Exception {
-            Pageable pageable = PageRequest.of(page, size, sort);
-            List<AppliedProjectCardResponse> content = List.of(
+            final Pageable pageable = PageRequest.of(page, size, sort);
+            final List<AppliedProjectCardResponse> content = List.of(
                 new AppliedProjectCardResponse(
                     1L,
                     "프로젝트 제목",
@@ -79,7 +71,7 @@ public class AppliedProjectQueryControllerTest extends AbstractControllerTest{
                     ProjectStatus.APPLYING
                 )
             );
-            Page<AppliedProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
+            final Page<AppliedProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
             given(appliedProjectDao.findPagedMyAppliedProjects(any(Pageable.class), anyLong()))
                 .willReturn(page);
 
@@ -88,7 +80,7 @@ public class AppliedProjectQueryControllerTest extends AbstractControllerTest{
                 .andDo(
                     restDocs.document(
                         requestHeaders(authorizationHeaderDescriptor()),
-                        queryParameters(PaginationDescription.description("projectId,desc")),
+                        queryParameters(PaginationDescription.description(this.page, size, "projectId,desc")),
                         responseFields(AppliedProjectCardResponseDescription.description())
                             .and(pageResponseFieldDescriptors())
                     )

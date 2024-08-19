@@ -2,27 +2,23 @@ package es.princip.getp.domain.auth.presentation;
 
 import es.princip.getp.domain.auth.application.SignUpService;
 import es.princip.getp.domain.auth.application.command.SignUpCommand;
-import es.princip.getp.domain.auth.exception.SignUpErrorCode;
 import es.princip.getp.domain.auth.presentation.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.domain.auth.presentation.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.domain.auth.presentation.dto.request.SignUpRequest;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.infra.presentation.ErrorCodeController;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static es.princip.getp.domain.auth.fixture.EmailVerificationFixture.VERIFICATION_CODE;
 import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
 import static es.princip.getp.domain.member.fixture.PasswordFixture.PASSWORD;
-import static es.princip.getp.infra.util.ErrorCodeFields.errorCodeFields;
 import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -31,10 +27,9 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({SignUpController.class, ErrorCodeController.class})
-public class SignUpControllerTest extends AbstractControllerTest {
+class SignUpControllerTest extends ControllerTest {
 
-    @MockBean
+    @Autowired
     private SignUpService signUpService;
 
     @Nested
@@ -63,13 +58,6 @@ public class SignUpControllerTest extends AbstractControllerTest {
     @Nested
     @DisplayName("사용자는")
     class SignUp {
-
-        @Test
-        void signUpErrorCode() throws Exception {
-            mockMvc.perform(get("/error-code/signup"))
-                .andExpect(status().isOk())
-                .andDo(restDocs.document(errorCodeFields(SignUpErrorCode.values())));
-        }
 
         @DisplayName("회원 가입을 할 수 있다.")
         @ParameterizedTest

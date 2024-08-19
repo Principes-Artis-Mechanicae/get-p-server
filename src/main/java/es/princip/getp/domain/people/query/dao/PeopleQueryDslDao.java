@@ -29,7 +29,8 @@ import java.util.function.Function;
 
 import static es.princip.getp.domain.member.command.domain.model.QMember.member;
 import static es.princip.getp.domain.people.command.domain.QPeople.people;
-import static es.princip.getp.domain.people.query.dao.PeoplePaginationHelper.getPeopleOrderSpecifiers;
+import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.orderSpecifiersFromSort;
+import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.toPeopleIds;
 import static java.util.stream.Collectors.toMap;
 
 @Repository
@@ -71,14 +72,12 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
     private List<CardPeopleResponse> getCardPeopleContent(final Pageable pageable) {
         final List<People> result = queryFactory.selectFrom(people)
             .where(people.profile.isNotNull())
-            .orderBy(getPeopleOrderSpecifiers(pageable.getSort()))
+            .orderBy(orderSpecifiersFromSort(pageable.getSort()))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
 
-        final Long[] peopleIds = result.stream()
-            .map(People::getPeopleId)
-            .toArray(Long[]::new);
+        final Long[] peopleIds = toPeopleIds(result);
 
         final Map<Long, Long> likesCounts = peopleLikeDao.countByLikedIds(peopleIds);
         final Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);

@@ -9,15 +9,14 @@ import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse
 import es.princip.getp.domain.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
-import es.princip.getp.domain.people.query.presentation.description.response.DetailPeopleResponseDescription;
-import es.princip.getp.domain.people.query.presentation.description.response.PublicDetailPeopleResponseDescription;
+import es.princip.getp.domain.people.query.presentation.description.DetailPeopleResponseDescription;
+import es.princip.getp.domain.people.query.presentation.description.PublicDetailPeopleResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -44,10 +43,9 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(PeopleQueryController.class)
-class PeopleQueryControllerTest extends AbstractControllerTest {
+class PeopleQueryControllerTest extends ControllerTest {
 
-    @MockBean
+    @Autowired
     private PeopleDao peopleDao;
 
     @DisplayName("사용자는 피플 목록을 조회할 수 있다.")
@@ -67,8 +65,8 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
 
         @Test
         public void getCardPeoplePage() throws Exception {
-            Pageable pageable = PageRequest.of(page, size, sort);
-            List<CardPeopleResponse> content = List.of(
+            final Pageable pageable = PageRequest.of(page, size, sort);
+            final List<CardPeopleResponse> content = List.of(
                 new CardPeopleResponse(
                     1L,
                     NICKNAME,
@@ -83,14 +81,14 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
                     )
                 )
             );
-            Page<CardPeopleResponse> page = new PageImpl<>(content, pageable, content.size());
+            final Page<CardPeopleResponse> page = new PageImpl<>(content, pageable, content.size());
             given(peopleDao.findCardPeoplePage(any(Pageable.class))).willReturn(page);
 
             perform()
                 .andExpect(status().isOk())
                 .andDo(
                     restDocs.document(
-                        queryParameters(PaginationDescription.description("peopleId,desc")),
+                        queryParameters(PaginationDescription.description(this.page, size, "peopleId,desc")),
                         responseFields(
                             getDescriptor("content[].peopleId", "피플 ID"),
                             getDescriptor("content[].peopleType", "피플 유형")

@@ -1,33 +1,58 @@
 package es.princip.getp.domain.project.query.dao;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import es.princip.getp.domain.people.query.infra.PeopleDataLoader;
+import es.princip.getp.domain.project.query.dto.AppliedProjectCardResponse;
+import es.princip.getp.domain.project.query.infra.ProjectApplicationDataLoader;
+import es.princip.getp.domain.project.query.infra.ProjectDataLoader;
+import es.princip.getp.infra.DataLoader;
+import es.princip.getp.infra.support.DaoTest;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import es.princip.getp.domain.project.query.dto.AppliedProjectCardResponse;
-import es.princip.getp.domain.project.query.infra.AppliedProjectDaoConfig;
-import es.princip.getp.infra.support.DaoTest;
+import java.util.List;
 
-@Import(AppliedProjectDaoConfig.class)
-public class AppliedProjectDaoTest extends DaoTest{
+import static org.assertj.core.api.Assertions.assertThat;
 
-    public AppliedProjectDaoTest() {
-        super(10);
-    }
+public class AppliedProjectDaoTest extends DaoTest {
+
+    private static final int TEST_SIZE = 20;
+    private static final int PAGE_SIZE = 10;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private AppliedProjectDao appliedProjectDao;
 
+    private List<DataLoader> dataLoaders;
+
+    @BeforeEach
+    void setUp() {
+        dataLoaders = List.of(
+            new PeopleDataLoader(entityManager),
+            new ProjectDataLoader(entityManager),
+            new ProjectApplicationDataLoader(entityManager)
+        );
+        dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
+    }
+
+    @AfterEach
+    void teardown() {
+        dataLoaders.forEach(DataLoader::teardown);
+    }
+
     @Nested
     class 지원한_프로젝트_목록_조회 {
-        final int pageSize = 10;
-        final Pageable pageable = PageRequest.of(0, pageSize);
+
+        final Pageable pageable = PageRequest.of(0, PAGE_SIZE);
 
         @Test
         void 프로젝트_목록_조회() {

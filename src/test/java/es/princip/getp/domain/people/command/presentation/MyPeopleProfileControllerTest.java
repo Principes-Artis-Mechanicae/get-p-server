@@ -8,12 +8,11 @@ import es.princip.getp.domain.people.command.presentation.description.request.Wr
 import es.princip.getp.domain.people.command.presentation.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.domain.people.command.presentation.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsRequest;
@@ -32,13 +31,9 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({MyPeopleProfileController.class})
-class MyPeopleProfileControllerTest extends AbstractControllerTest {
+class MyPeopleProfileControllerTest extends ControllerTest {
 
-    @MockBean
-    private PeopleCommandMapper peopleCommandMapper;
-
-    @MockBean
+    @Autowired
     private PeopleProfileService peopleProfileService;
 
     private static final String MY_PEOPLE_PROFILE_URI = "/people/me/profile";

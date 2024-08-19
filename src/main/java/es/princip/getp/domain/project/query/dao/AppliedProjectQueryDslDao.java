@@ -1,23 +1,21 @@
 package es.princip.getp.domain.project.query.dao;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
-
 import com.querydsl.jpa.impl.JPAQuery;
-
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.infra.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
 
 import static es.princip.getp.domain.people.command.domain.QPeople.people;
 import static es.princip.getp.domain.project.command.domain.QProject.project;
 import static es.princip.getp.domain.project.command.domain.QProjectApplication.projectApplication;
-import static es.princip.getp.domain.project.query.dao.ProjectDaoHelper.toProjectIds;
+import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectIds;
 
 @Repository
 @RequiredArgsConstructor

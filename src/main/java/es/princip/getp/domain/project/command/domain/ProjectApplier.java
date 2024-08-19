@@ -4,6 +4,7 @@ import es.princip.getp.domain.common.domain.ClockHolder;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
+import es.princip.getp.domain.project.exception.AlreadyAppliedProjectException;
 import es.princip.getp.domain.project.exception.ClosedProjectApplicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import static es.princip.getp.domain.project.command.domain.ProjectApplicationSt
 @RequiredArgsConstructor
 public class ProjectApplier {
 
+    private final ProjectApplicationRepository projectApplicationRepository;
     private final ClockHolder clockHolder;
 
     /**
@@ -36,14 +38,19 @@ public class ProjectApplier {
         final String description,
         final List<AttachmentFile> attachmentFiles
     ) {
+        final Long peopleId = people.getPeopleId();
+        final Long projectId = project.getProjectId();
+        if (projectApplicationRepository.existsByApplicantIdAndProjectId(peopleId, projectId)) {
+            throw new AlreadyAppliedProjectException();
+        }
         final Clock clock = clockHolder.getClock();
         if (project.isApplicationClosed(clock)) {
             throw new ClosedProjectApplicationException();
         }
-        if (people.isProfileRegistered()) {
+        if (!people.isProfileRegistered()) {
             throw new NotRegisteredPeopleProfileException();
         }
-        return ProjectApplication.builder()
+        final ProjectApplication application = ProjectApplication.builder()
             .applicantId(people.getPeopleId())
             .projectId(project.getProjectId())
             .expectedDuration(expectedDuration)
@@ -51,5 +58,7 @@ public class ProjectApplier {
             .attachmentFiles(attachmentFiles)
             .applicationStatus(APPLICATION_COMPLETED)
             .build();
+        projectApplicationRepository.save(application);
+        return application;
     }
 }

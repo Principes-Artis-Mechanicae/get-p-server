@@ -8,10 +8,10 @@ import java.time.LocalDate;
 
 public class ProjectApplicationFixture {
 
-    public static ProjectApplication projectApplication(final Long peopleId, final Long projectID) {
+    public static ProjectApplication projectApplication(final Long peopleId, final Long projectId) {
         return ProjectApplication.builder()
             .applicantId(peopleId)
-            .projectId(projectID)
+            .projectId(projectId)
             .expectedDuration(Duration.of(
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 7, 31)

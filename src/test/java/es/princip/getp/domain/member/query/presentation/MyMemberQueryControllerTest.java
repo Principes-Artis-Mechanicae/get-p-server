@@ -2,11 +2,10 @@ package es.princip.getp.domain.member.query.presentation;
 
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
@@ -17,8 +16,7 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MyMemberQueryController.class)
-class MyMemberQueryControllerTest extends AbstractControllerTest {
+class MyMemberQueryControllerTest extends ControllerTest {
 
     @DisplayName("내 회원 정보 조회")
     @Nested
