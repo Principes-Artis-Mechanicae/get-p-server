@@ -1,10 +1,10 @@
 package es.princip.getp.domain.people.query.dao;
 
-import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.domain.people.query.dto.people.MyPeopleResponse;
-import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse;
-import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

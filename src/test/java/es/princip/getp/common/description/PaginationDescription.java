@@ -3,7 +3,7 @@ package es.princip.getp.common.description;
 
 import org.springframework.restdocs.request.ParameterDescriptor;
 
-import static es.princip.getp.infra.docs.ParameterDescriptorHelper.getDescriptor;
+import static es.princip.getp.api.docs.ParameterDescriptorHelper.getDescriptor;
 
 public class PaginationDescription {
     

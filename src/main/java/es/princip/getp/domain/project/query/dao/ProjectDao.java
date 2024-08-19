@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.query.dao;
 
-import es.princip.getp.domain.project.query.dto.ProjectCardResponse;
-import es.princip.getp.domain.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
+import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

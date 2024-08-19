@@ -1,7 +1,7 @@
 package es.princip.getp.storage.presentation;
 
-import es.princip.getp.common.util.ControllerTest;
-import es.princip.getp.infra.annotation.WithCustomMockUser;
+import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.storage.application.FileUploadService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,9 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 
-import static es.princip.getp.infra.docs.FieldDescriptorHelper.getDescriptor;
-import static es.princip.getp.infra.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.infra.docs.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static es.princip.getp.storage.fixture.FileStorageFixture.DUMMY_TEXT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;

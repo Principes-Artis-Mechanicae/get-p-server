@@ -3,7 +3,7 @@ package es.princip.getp.domain.serviceTerm.application;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTerm;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermRepository;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermTag;
-import es.princip.getp.domain.serviceTerm.dto.reqeust.ServiceTermRequest;
+import es.princip.getp.api.controller.serviceTerm.dto.reqeust.ServiceTermRequest;
 import es.princip.getp.domain.serviceTerm.exception.DuplicatedTagException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
