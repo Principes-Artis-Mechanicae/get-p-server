@@ -1,13 +1,13 @@
 package es.princip.getp.domain.auth.application;
 
+import es.princip.getp.application.member.port.out.CheckMemberPort;
+import es.princip.getp.application.member.port.out.SaveMemberPort;
 import es.princip.getp.domain.auth.application.command.SignUpCommand;
 import es.princip.getp.domain.auth.exception.DuplicatedEmailException;
-import es.princip.getp.domain.member.command.application.port.out.CheckMemberPort;
-import es.princip.getp.domain.member.command.application.port.out.SaveMemberPort;
-import es.princip.getp.domain.member.command.domain.model.Email;
-import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.domain.member.command.domain.service.ServiceTermAgreementService;
-import es.princip.getp.domain.member.command.exception.AlreadyUsedEmailException;
+import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.service.ServiceTermAgreementService;
+import es.princip.getp.domain.member.exception.AlreadyUsedEmailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

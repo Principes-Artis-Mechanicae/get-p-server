@@ -8,8 +8,8 @@ import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopl
 import es.princip.getp.api.controller.project.query.description.GetApplicantsByProjectIdQueryParameterDescription;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.people.command.domain.PeopleType;
 import es.princip.getp.domain.project.query.application.ProjectApplicantService;
 import org.junit.jupiter.api.DisplayName;

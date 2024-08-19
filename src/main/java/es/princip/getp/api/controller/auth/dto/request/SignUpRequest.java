@@ -1,11 +1,11 @@
 package es.princip.getp.api.controller.auth.dto.request;
 
 import es.princip.getp.domain.auth.application.command.SignUpCommand;
-import es.princip.getp.domain.member.command.annotation.UserMemberType;
-import es.princip.getp.domain.member.command.domain.command.ServiceTermAgreementCommand;
-import es.princip.getp.domain.member.command.domain.model.Email;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.domain.member.command.domain.model.Password;
+import es.princip.getp.api.validation.UserMemberType;
+import es.princip.getp.domain.member.command.ServiceTermAgreementCommand;
+import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.member.model.MemberType;
+import es.princip.getp.domain.member.model.Password;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 

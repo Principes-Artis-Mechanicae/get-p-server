@@ -2,9 +2,9 @@ package es.princip.getp.api.controller.member.command;
 
 import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.controller.member.command.dto.response.ProfileImageResponse;
-import es.princip.getp.domain.member.command.application.MemberService;
+import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

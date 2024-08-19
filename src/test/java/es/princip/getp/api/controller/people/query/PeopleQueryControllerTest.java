@@ -29,7 +29,7 @@ import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldD
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static es.princip.getp.common.fixture.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.common.fixture.TechStackFixture.techStacksResponse;
-import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
 import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
 import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;

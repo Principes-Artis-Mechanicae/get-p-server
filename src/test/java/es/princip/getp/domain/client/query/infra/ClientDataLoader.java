@@ -2,7 +2,7 @@ package es.princip.getp.domain.client.query.infra;
 
 import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.domain.client.command.domain.Client;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.persistence.adapter.member.MemberJpaEntity;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

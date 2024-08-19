@@ -1,8 +1,8 @@
 package es.princip.getp.domain.member.fixture;
 
-import es.princip.getp.domain.member.command.domain.model.Email;
-import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.MemberType;
 
 import java.util.List;
 import java.util.stream.IntStream;

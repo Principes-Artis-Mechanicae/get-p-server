@@ -1,9 +1,9 @@
 package es.princip.getp.api.controller.member.query.dto.response;
 
-import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.domain.member.command.domain.model.Nickname;
-import es.princip.getp.domain.member.command.domain.model.ProfileImage;
+import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.MemberType;
+import es.princip.getp.domain.member.model.Nickname;
+import es.princip.getp.domain.member.model.ProfileImage;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.member;
 
 import es.princip.getp.common.domain.BaseTimeEntity;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.model.MemberType;
 import jakarta.persistence.*;
 import lombok.*;
 

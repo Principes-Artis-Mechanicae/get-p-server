@@ -5,7 +5,7 @@ import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.PageResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.project.query.application.ProjectApplicantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

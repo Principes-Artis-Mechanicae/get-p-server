@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.member;
 
-import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.domain.member.command.domain.model.ServiceTermAgreement;
+import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.ServiceTermAgreement;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

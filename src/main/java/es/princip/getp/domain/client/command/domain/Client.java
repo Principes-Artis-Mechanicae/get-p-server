@@ -2,7 +2,7 @@ package es.princip.getp.domain.client.command.domain;
 
 import es.princip.getp.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.like.command.domain.Likeable;
-import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.model.Email;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

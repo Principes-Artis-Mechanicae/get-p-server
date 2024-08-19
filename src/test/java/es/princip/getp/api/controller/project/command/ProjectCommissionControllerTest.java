@@ -6,7 +6,7 @@ import es.princip.getp.api.controller.project.command.description.RegisterProjec
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.command.application.ProjectCommissionService;
 import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;
 import org.junit.jupiter.api.DisplayName;

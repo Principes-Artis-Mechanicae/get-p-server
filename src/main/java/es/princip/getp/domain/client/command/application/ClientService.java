@@ -1,14 +1,14 @@
 package es.princip.getp.domain.client.command.application;
 
+import es.princip.getp.application.member.command.UpdateMemberCommand;
+import es.princip.getp.application.member.port.out.LoadMemberPort;
+import es.princip.getp.application.member.service.MemberService;
 import es.princip.getp.domain.client.command.application.command.EditClientCommand;
 import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
 import es.princip.getp.domain.client.exception.AlreadyExistsClientException;
-import es.princip.getp.domain.member.command.application.MemberService;
-import es.princip.getp.domain.member.command.application.command.UpdateMemberCommand;
-import es.princip.getp.domain.member.command.application.port.out.LoadMemberPort;
-import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.model.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,11 +1,11 @@
 package es.princip.getp.persistence.adapter.member;
 
-import es.princip.getp.domain.member.command.application.port.out.CheckMemberPort;
-import es.princip.getp.domain.member.command.application.port.out.LoadMemberPort;
-import es.princip.getp.domain.member.command.application.port.out.SaveMemberPort;
-import es.princip.getp.domain.member.command.application.port.out.UpdateMemberPort;
-import es.princip.getp.domain.member.command.domain.model.Email;
-import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.application.member.port.out.CheckMemberPort;
+import es.princip.getp.application.member.port.out.LoadMemberPort;
+import es.princip.getp.application.member.port.out.SaveMemberPort;
+import es.princip.getp.application.member.port.out.UpdateMemberPort;
+import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.member.model.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

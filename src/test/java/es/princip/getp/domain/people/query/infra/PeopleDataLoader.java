@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.stream.LongStream;
 
-import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.member.fixture.PasswordFixture.PASSWORD;
 import static es.princip.getp.domain.people.fixture.PeopleFixture.peopleList;
 

@@ -2,7 +2,7 @@ package es.princip.getp.domain.project.command.domain;
 
 import es.princip.getp.common.domain.BaseTimeEntity;
 import es.princip.getp.common.domain.MeetingSchedule;
-import es.princip.getp.domain.member.command.domain.model.PhoneNumber;
+import es.princip.getp.domain.member.model.PhoneNumber;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

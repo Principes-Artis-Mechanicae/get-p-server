@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.command.application;
 
-import es.princip.getp.domain.member.command.application.MemberService;
-import es.princip.getp.domain.member.command.application.command.UpdateMemberCommand;
+import es.princip.getp.application.member.command.UpdateMemberCommand;
+import es.princip.getp.application.member.service.MemberService;
 import es.princip.getp.domain.people.command.application.command.CreatePeopleCommand;
 import es.princip.getp.domain.people.command.application.command.UpdatePeopleCommand;
 import es.princip.getp.domain.people.command.domain.People;
