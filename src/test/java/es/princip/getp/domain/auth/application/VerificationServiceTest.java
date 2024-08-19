@@ -2,9 +2,9 @@ package es.princip.getp.domain.auth.application;
 
 import es.princip.getp.domain.auth.domain.EmailVerification;
 import es.princip.getp.domain.auth.domain.EmailVerificationRepository;
-import es.princip.getp.domain.auth.exception.EmailVerificationErrorCode;
+import es.princip.getp.domain.auth.exception.IncorrectVerificationCodeException;
+import es.princip.getp.domain.auth.exception.NotFoundVerificationException;
 import es.princip.getp.domain.member.command.domain.model.Email;
-import es.princip.getp.infra.exception.BusinessLogicException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -18,14 +18,13 @@ import java.util.Optional;
 
 import static es.princip.getp.domain.auth.fixture.EmailVerificationFixture.emailVerification;
 import static es.princip.getp.domain.member.fixture.EmailFixture.email;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class EmailVerificationServiceTest {
+class VerificationServiceTest {
 
     @Mock
     private VerificationCodeSender emailService;
@@ -53,19 +52,6 @@ class EmailVerificationServiceTest {
         @Test
         void sendVerificationCode() {
             final Email email = email();
-
-            emailVerificationService.sendVerificationCode(email);
-
-            verify(emailService, times(1)).send(eq(email), anyString());
-            verify(emailVerificationRepository, times(1)).save(any(EmailVerification.class));
-        }
-
-        @DisplayName("이메일 인증 코드를 중복해서 전송하는 경우 기존의 이메일 인증 코드는 삭제한다.")
-        @Test
-        void sendVerificationCodeSeveralTimes() {
-            final Email email = email();
-            EmailVerification emailVerification = spy(EmailVerification.class);
-            when(emailVerificationRepository.findById(email.getValue())).thenReturn(Optional.of(emailVerification));
 
             emailVerificationService.sendVerificationCode(email);
 
@@ -97,9 +83,8 @@ class EmailVerificationServiceTest {
             final Email email = email();
             when(emailVerificationRepository.findById(email.getValue())).thenReturn(Optional.empty());
 
-            BusinessLogicException exception =
-                assertThrows(BusinessLogicException.class, () -> emailVerificationService.verifyEmail(email, "1234"));
-            assertEquals(exception.getErrorCode(), EmailVerificationErrorCode.INVALID_EMAIL_VERIFICATION);
+            assertThatCode(() -> emailVerificationService.verifyEmail(email, "1234"))
+                .isInstanceOf(NotFoundVerificationException.class);
         }
 
         @DisplayName("이메일 인증 코드가 일치하지 않은 경우 실패한다.")
@@ -110,9 +95,8 @@ class EmailVerificationServiceTest {
             EmailVerification emailVerification = emailVerification(email, verificationCode);
             when(emailVerificationRepository.findById(email.getValue())).thenReturn(Optional.of(emailVerification));
 
-            BusinessLogicException exception =
-                assertThrows(BusinessLogicException.class, () -> emailVerificationService.verifyEmail(email, "1234"));
-            assertEquals(exception.getErrorCode(), EmailVerificationErrorCode.INCORRECT_EMAIL_VERIFICATION_CODE);
+            assertThatCode(() -> emailVerificationService.verifyEmail(email, "1234"))
+                .isInstanceOf(IncorrectVerificationCodeException.class);
         }
     }
 }
