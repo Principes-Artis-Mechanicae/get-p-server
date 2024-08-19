@@ -1,11 +1,11 @@
 package es.princip.getp.domain.project.command.presentation;
 
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse;
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.domain.project.command.application.ProjectApplicationService;
 import es.princip.getp.domain.project.command.application.command.ApplyProjectCommand;
 import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectRequest;
 import es.princip.getp.domain.project.command.presentation.dto.response.ApplyProjectResponse;
-import es.princip.getp.infra.dto.response.ApiResponse;
-import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

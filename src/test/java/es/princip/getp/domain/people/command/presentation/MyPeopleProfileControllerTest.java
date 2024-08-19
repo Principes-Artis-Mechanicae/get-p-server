@@ -1,5 +1,6 @@
 package es.princip.getp.domain.people.command.presentation;
 
+import es.princip.getp.common.util.ControllerTest;
 import es.princip.getp.domain.people.command.application.PeopleProfileService;
 import es.princip.getp.domain.people.command.application.command.EditPeopleProfileCommand;
 import es.princip.getp.domain.people.command.application.command.RegisterPeopleProfileCommand;
@@ -8,22 +9,21 @@ import es.princip.getp.domain.people.command.presentation.description.request.Wr
 import es.princip.getp.domain.people.command.presentation.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.domain.people.command.presentation.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsRequest;
-import static es.princip.getp.domain.common.fixture.TechStackFixture.techStacksRequest;
+import static es.princip.getp.common.fixture.HashtagFixture.hashtagsRequest;
+import static es.princip.getp.common.fixture.TechStackFixture.techStacksRequest;
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_CLIENT;
 import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;
 import static es.princip.getp.domain.people.fixture.EducationFixture.education;
 import static es.princip.getp.domain.people.fixture.IntroductionFixture.introduction;
 import static es.princip.getp.domain.people.fixture.PortfolioFixture.portfoliosRequest;
-import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static es.princip.getp.infra.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;

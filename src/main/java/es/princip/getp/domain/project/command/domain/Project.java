@@ -1,9 +1,9 @@
 package es.princip.getp.domain.project.command.domain;
 
+import es.princip.getp.common.domain.BaseTimeEntity;
+import es.princip.getp.common.domain.Duration;
+import es.princip.getp.common.domain.Hashtag;
 import es.princip.getp.domain.client.command.domain.Client;
-import es.princip.getp.domain.common.domain.BaseTimeEntity;
-import es.princip.getp.domain.common.domain.Duration;
-import es.princip.getp.domain.common.domain.Hashtag;
 import es.princip.getp.domain.like.command.domain.LikeReceivable;
 import jakarta.persistence.*;
 import lombok.*;

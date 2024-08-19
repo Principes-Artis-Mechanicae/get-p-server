@@ -4,7 +4,7 @@ import es.princip.getp.domain.member.command.domain.model.ProfileImage;
 
 import java.net.URI;
 
-import static es.princip.getp.infra.storage.fixture.StorageFixture.BASE_URI;
+import static es.princip.getp.storage.fixture.StorageFixture.BASE_URI;
 
 public class ProfileImageFixture {
 

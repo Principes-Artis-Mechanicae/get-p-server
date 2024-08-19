@@ -1,11 +1,11 @@
 package es.princip.getp.domain.client.query.presentation;
 
+import es.princip.getp.common.exception.BusinessLogicException;
+import es.princip.getp.common.util.ControllerTest;
 import es.princip.getp.domain.client.query.dao.ClientDao;
 import es.princip.getp.domain.client.query.dto.ClientResponse;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.exception.BusinessLogicException;
-import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

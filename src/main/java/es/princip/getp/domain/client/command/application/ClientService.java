@@ -4,11 +4,11 @@ import es.princip.getp.domain.client.command.application.command.EditClientComma
 import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
+import es.princip.getp.domain.client.exception.AlreadyExistsClientException;
 import es.princip.getp.domain.member.command.application.MemberService;
 import es.princip.getp.domain.member.command.application.command.UpdateMemberCommand;
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.member.command.domain.model.MemberRepository;
-import es.princip.getp.infra.exception.EntityAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ public class ClientService {
     @Transactional
     public Long registerClient(RegisterClientCommand command) {
         if (clientRepository.existsByMemberId(command.memberId())) {
-            throw new EntityAlreadyExistsException("이미 등록한 의뢰자 정보가 존재합니다.");
+            throw new AlreadyExistsClientException();
         }
         memberService.update(UpdateMemberCommand.from(command));
         // 이메일이 입력되지 않은 경우 회원 가입 시 작성한 이메일 주소를 기본값으로 사용

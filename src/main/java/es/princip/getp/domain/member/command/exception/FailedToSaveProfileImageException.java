@@ -1,7 +1,7 @@
 package es.princip.getp.domain.member.command.exception;
 
-import es.princip.getp.infra.exception.ApiErrorException;
-import es.princip.getp.infra.exception.ErrorDescription;
+import es.princip.getp.common.exception.ApiErrorException;
+import es.princip.getp.common.exception.ErrorDescription;
 import org.springframework.http.HttpStatus;
 
 public class FailedToSaveProfileImageException extends ApiErrorException {

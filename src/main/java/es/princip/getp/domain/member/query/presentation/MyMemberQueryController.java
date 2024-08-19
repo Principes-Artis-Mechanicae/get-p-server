@@ -1,8 +1,8 @@
 package es.princip.getp.domain.member.query.presentation;
 
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse;
 import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.member.query.dto.MemberResponse;
-import es.princip.getp.infra.dto.response.ApiResponse;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

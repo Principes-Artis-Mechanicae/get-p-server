@@ -1,9 +1,9 @@
 package es.princip.getp.domain.auth.presentation;
 
+import es.princip.getp.common.util.ControllerTest;
 import es.princip.getp.domain.auth.application.AuthService;
 import es.princip.getp.domain.auth.presentation.dto.request.LoginRequest;
 import es.princip.getp.domain.auth.presentation.dto.response.Token;
-import es.princip.getp.infra.support.ControllerTest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
 import static es.princip.getp.domain.member.fixture.PasswordFixture.PASSWORD;
-import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
-import static es.princip.getp.infra.util.HeaderDescriptorHelper.refreshTokenHeaderDescriptor;
-import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.infra.docs.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.infra.docs.HeaderDescriptorHelper.refreshTokenHeaderDescriptor;
+import static es.princip.getp.infra.docs.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;

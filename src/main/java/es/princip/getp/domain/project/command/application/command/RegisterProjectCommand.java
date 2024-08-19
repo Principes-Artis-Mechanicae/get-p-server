@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.application.command;
 
-import es.princip.getp.domain.common.domain.Duration;
-import es.princip.getp.domain.common.domain.Hashtag;
+import es.princip.getp.common.domain.Duration;
+import es.princip.getp.common.domain.Hashtag;
 import es.princip.getp.domain.project.command.domain.AttachmentFile;
 import es.princip.getp.domain.project.command.domain.MeetingType;
 import es.princip.getp.domain.project.command.domain.ProjectCategory;

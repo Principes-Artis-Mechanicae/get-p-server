@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.command.domain.model;
 
-import es.princip.getp.domain.common.domain.BaseTimeEntity;
+import es.princip.getp.common.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;

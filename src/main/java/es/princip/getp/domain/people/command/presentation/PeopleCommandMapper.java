@@ -1,8 +1,8 @@
 package es.princip.getp.domain.people.command.presentation;
 
-import es.princip.getp.domain.common.infra.HashtagMapper;
-import es.princip.getp.domain.common.infra.TechStackMapper;
-import es.princip.getp.domain.common.infra.URLMapper;
+import es.princip.getp.common.infra.HashtagMapper;
+import es.princip.getp.common.infra.TechStackMapper;
+import es.princip.getp.common.infra.URLMapper;
 import es.princip.getp.domain.people.command.application.command.EditPeopleProfileCommand;
 import es.princip.getp.domain.people.command.application.command.RegisterPeopleProfileCommand;
 import es.princip.getp.domain.people.command.domain.Portfolio;

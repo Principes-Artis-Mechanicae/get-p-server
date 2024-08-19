@@ -3,7 +3,7 @@ package es.princip.getp.domain.client.command.presentation.description;
 import es.princip.getp.domain.client.command.domain.BankAccount;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.infra.docs.FieldDescriptorHelper.getDescriptor;
 
 public class BankAccountDescription {
 

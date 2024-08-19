@@ -1,7 +1,7 @@
 package es.princip.getp.domain.auth.exception;
 
-import es.princip.getp.infra.exception.BusinessLogicException;
-import es.princip.getp.infra.exception.ErrorDescription;
+import es.princip.getp.common.exception.BusinessLogicException;
+import es.princip.getp.common.exception.ErrorDescription;
 
 public class NotVerifiedEmailException extends BusinessLogicException {
 

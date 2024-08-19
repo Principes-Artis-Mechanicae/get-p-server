@@ -1,9 +1,9 @@
 package es.princip.getp.domain.member.command.presentation;
 
+import es.princip.getp.common.util.ControllerTest;
 import es.princip.getp.domain.member.command.application.MemberService;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
-import static es.princip.getp.infra.storage.fixture.ImageStorageFixture.imageMultiPartFile;
-import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
-import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.infra.docs.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.infra.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static es.princip.getp.infra.docs.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.storage.fixture.ImageStorageFixture.imageMultiPartFile;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;

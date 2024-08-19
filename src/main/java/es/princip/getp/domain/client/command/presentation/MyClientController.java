@@ -6,8 +6,8 @@ import es.princip.getp.domain.client.command.application.command.RegisterClientC
 import es.princip.getp.domain.client.command.presentation.dto.request.EditMyClientRequest;
 import es.princip.getp.domain.client.command.presentation.dto.request.RegisterMyClientRequest;
 import es.princip.getp.domain.client.command.presentation.dto.response.RegisterMyClientResponse;
-import es.princip.getp.infra.dto.response.ApiResponse;
-import es.princip.getp.infra.dto.response.ApiResponse.ApiSuccessResult;
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse;
+import es.princip.getp.common.adapter.in.web.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.infra.security.details.PrincipalDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

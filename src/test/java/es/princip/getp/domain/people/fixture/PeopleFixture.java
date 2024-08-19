@@ -8,8 +8,8 @@ import es.princip.getp.domain.people.command.domain.PeopleType;
 import java.util.List;
 import java.util.stream.LongStream;
 
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtags;
-import static es.princip.getp.domain.common.fixture.TechStackFixture.techStacks;
+import static es.princip.getp.common.fixture.HashtagFixture.hashtags;
+import static es.princip.getp.common.fixture.TechStackFixture.techStacks;
 import static es.princip.getp.domain.member.fixture.EmailFixture.email;
 import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;
 import static es.princip.getp.domain.people.fixture.EducationFixture.education;

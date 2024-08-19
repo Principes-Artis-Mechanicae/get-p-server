@@ -1,8 +1,8 @@
 package es.princip.getp.domain.client.query.dao;
 
 import com.querydsl.core.Tuple;
+import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.client.query.dto.ClientResponse;
-import es.princip.getp.infra.support.QueryDslSupport;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
 

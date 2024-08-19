@@ -1,5 +1,6 @@
 package es.princip.getp.domain.client.command.presentation;
 
+import es.princip.getp.common.util.ControllerTest;
 import es.princip.getp.domain.client.command.application.ClientService;
 import es.princip.getp.domain.client.command.presentation.description.EditMyClientRequestDescription;
 import es.princip.getp.domain.client.command.presentation.description.RegisterMyClientRequestDescription;
@@ -8,7 +9,6 @@ import es.princip.getp.domain.client.command.presentation.dto.request.RegisterMy
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.security.details.PrincipalDetails;
-import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,9 +20,9 @@ import static es.princip.getp.domain.client.fixture.BankAccountFixture.bankAccou
 import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
 import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
 import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.PHONE_NUMBER;
-import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
-import static es.princip.getp.infra.util.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.infra.docs.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.infra.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static es.princip.getp.infra.docs.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;

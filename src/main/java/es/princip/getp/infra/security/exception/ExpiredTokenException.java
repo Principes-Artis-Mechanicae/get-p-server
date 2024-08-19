@@ -1,8 +1,12 @@
 package es.princip.getp.infra.security.exception;
 
+import es.princip.getp.common.exception.ErrorDescription;
+
 public class ExpiredTokenException extends JwtTokenException {
 
+    private static final String code = "EXPIRED_TOKEN";
+
     public ExpiredTokenException(final String tokenType) {
-        super(String.format("만료된 %s Token 입니다.", tokenType));
+        super(ErrorDescription.of(code ,String.format("만료된 %s Token 입니다.", tokenType)));
     }
 }

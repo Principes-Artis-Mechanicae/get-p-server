@@ -1,10 +1,10 @@
 package es.princip.getp.domain.member.command.domain.service;
 
+import es.princip.getp.common.util.ImageUtil;
 import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.member.command.domain.model.ProfileImage;
 import es.princip.getp.domain.member.command.exception.FailedToSaveProfileImageException;
-import es.princip.getp.infra.storage.application.ImageStorage;
-import es.princip.getp.infra.util.ImageUtil;
+import es.princip.getp.storage.application.ImageStorage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
