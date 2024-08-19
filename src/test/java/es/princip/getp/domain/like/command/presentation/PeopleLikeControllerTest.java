@@ -5,14 +5,11 @@ import es.princip.getp.domain.like.exception.AlreadyLikedException;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -20,13 +17,9 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.BDDMockito.willThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(PeopleLikeController.class)
-public class PeopleLikeControllerTest extends AbstractControllerTest {
+class PeopleLikeControllerTest extends ControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
     private PeopleLikeService peopleLikeService;
 
     @DisplayName("의뢰자는 피플에게 좋아요를 누를 수 있다.")

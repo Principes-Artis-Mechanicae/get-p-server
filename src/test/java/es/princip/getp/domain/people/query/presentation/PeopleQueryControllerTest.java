@@ -11,12 +11,11 @@ import es.princip.getp.domain.people.query.dto.peopleProfile.PublicDetailPeopleP
 import es.princip.getp.domain.people.query.presentation.description.DetailPeopleResponseDescription;
 import es.princip.getp.domain.people.query.presentation.description.PublicDetailPeopleResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -43,10 +42,9 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(PeopleQueryController.class)
-class PeopleQueryControllerTest extends AbstractControllerTest {
+class PeopleQueryControllerTest extends ControllerTest {
 
-    @MockBean
+    @Autowired
     private PeopleDao peopleDao;
 
     @DisplayName("사용자는 피플 목록을 조회할 수 있다.")
