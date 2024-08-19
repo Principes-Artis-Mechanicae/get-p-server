@@ -1,7 +1,6 @@
 package es.princip.getp.domain.project.query.presentation;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
 
 import java.time.LocalDate;
@@ -19,10 +18,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.web.servlet.ResultActions;
 
+import es.princip.getp.domain.common.description.PaginationDescription;
 import es.princip.getp.domain.common.domain.Duration;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
 import es.princip.getp.domain.project.command.domain.ProjectStatus;
-import es.princip.getp.domain.project.query.dao.ProjectApplicationDao;
+import es.princip.getp.domain.project.query.dao.AppliedProjectDao;
 import es.princip.getp.domain.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.domain.project.query.presentation.description.AppliedProjectCardResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
@@ -34,16 +34,14 @@ import static es.princip.getp.infra.util.PageResponseDescriptor.pageResponseFiel
 import static es.princip.getp.infra.util.PayloadDocumentationHelper.responseFields;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
-import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AppliedProjectQueryController.class)
 public class AppliedProjectQueryControllerTest extends AbstractControllerTest{
     @MockBean
-    private ProjectApplicationDao projectApplicationDao;
+    private AppliedProjectDao appliedProjectDao;
 
     @DisplayName("피플은 자신이 지원한 프로젝트 목록을 조회할 수 있다.")
     @Nested
@@ -54,7 +52,7 @@ public class AppliedProjectQueryControllerTest extends AbstractControllerTest{
         private final Sort sort = Sort.by(Sort.Order.desc("projectId"));
 
         private ResultActions perform() throws Exception {
-            return mockMvc.perform(get("/people/me/applications")
+            return mockMvc.perform(get("/people/me/projects")
                 .header("Authorization", "Bearer ${ACCESS_TOKEN}")
                 .queryParam("page", String.valueOf(page))
                 .queryParam("size", String.valueOf(size))
@@ -82,7 +80,7 @@ public class AppliedProjectQueryControllerTest extends AbstractControllerTest{
                 )
             );
             Page<AppliedProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
-            given(projectApplicationDao.findPagedMyAppliedProjects(any(Pageable.class), anyLong(), anyBoolean()))
+            given(appliedProjectDao.findPagedMyAppliedProjects(any(Pageable.class), anyLong()))
                 .willReturn(page);
 
             perform()
@@ -90,20 +88,7 @@ public class AppliedProjectQueryControllerTest extends AbstractControllerTest{
                 .andDo(
                     restDocs.document(
                         requestHeaders(authorizationHeaderDescriptor()),
-                        queryParameters(
-                            parameterWithName("page").description("페이지 번호")
-                                .optional()
-                                .attributes(key("default").value("0")),
-                            parameterWithName("size").description("페이지 크기")
-                                .optional()
-                                .attributes(key("default").value("10")),
-                            parameterWithName("sort").description("정렬 방식")
-                                .optional()
-                                .attributes(key("default").value("projectId,desc")),
-                            parameterWithName("cancelled").description("만료된 프로젝트 보기 여부")
-                                .optional()
-                                .attributes(key("default").value("false"))
-                        ),
+                        queryParameters(PaginationDescription.description("projectId,desc")),
                         responseFields(AppliedProjectCardResponseDescription.description())
                             .and(pageResponseFieldDescriptors())
                     )

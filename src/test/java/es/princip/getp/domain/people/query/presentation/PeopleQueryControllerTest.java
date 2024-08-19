@@ -1,5 +1,6 @@
 package es.princip.getp.domain.people.query.presentation;
 
+import es.princip.getp.domain.common.description.PaginationDescription;
 import es.princip.getp.domain.people.command.domain.PeopleType;
 import es.princip.getp.domain.people.query.dao.PeopleDao;
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
@@ -89,14 +90,7 @@ class PeopleQueryControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(
                     restDocs.document(
-                        queryParameters(
-                            parameterWithName("page").description("페이지 번호")
-                                .optional().attributes(key("default").value("0")),
-                            parameterWithName("size").description("페이지 크기")
-                                .optional().attributes(key("default").value("10")),
-                            parameterWithName("sort").description("정렬 방식")
-                                .optional().attributes(key("default").value("peopleId,desc"))
-                        ),
+                        queryParameters(PaginationDescription.description("peopleId,desc")),
                         responseFields(
                             getDescriptor("content[].peopleId", "피플 ID"),
                             getDescriptor("content[].peopleType", "피플 유형")

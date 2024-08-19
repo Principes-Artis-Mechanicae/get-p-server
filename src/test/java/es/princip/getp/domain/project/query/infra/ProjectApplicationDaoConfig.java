@@ -6,7 +6,6 @@ import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -16,12 +15,9 @@ public class ProjectApplicationDaoConfig {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private ProjectApplicationDao projectApplicationDao;
-
     @Bean
     public ProjectApplicationDao projectApplicationDao() {
-        return new ProjectApplicationQueryDslDao(projectApplicationDao);
+        return new ProjectApplicationQueryDslDao();
     }
 
     @Bean
