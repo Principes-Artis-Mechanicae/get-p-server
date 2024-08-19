@@ -1,5 +1,6 @@
 package es.princip.getp.domain.people.query.presentation;
 
+import es.princip.getp.domain.common.description.PaginationDescription;
 import es.princip.getp.domain.people.command.domain.PeopleType;
 import es.princip.getp.domain.people.query.dao.PeopleDao;
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
@@ -64,8 +65,8 @@ class PeopleQueryControllerTest extends ControllerTest {
 
         @Test
         public void getCardPeoplePage() throws Exception {
-            Pageable pageable = PageRequest.of(page, size, sort);
-            List<CardPeopleResponse> content = List.of(
+            final Pageable pageable = PageRequest.of(page, size, sort);
+            final List<CardPeopleResponse> content = List.of(
                 new CardPeopleResponse(
                     1L,
                     NICKNAME,
@@ -80,21 +81,14 @@ class PeopleQueryControllerTest extends ControllerTest {
                     )
                 )
             );
-            Page<CardPeopleResponse> page = new PageImpl<>(content, pageable, content.size());
+            final Page<CardPeopleResponse> page = new PageImpl<>(content, pageable, content.size());
             given(peopleDao.findCardPeoplePage(any(Pageable.class))).willReturn(page);
 
             perform()
                 .andExpect(status().isOk())
                 .andDo(
                     restDocs.document(
-                        queryParameters(
-                            parameterWithName("page").description("페이지 번호")
-                                .optional().attributes(key("default").value("0")),
-                            parameterWithName("size").description("페이지 크기")
-                                .optional().attributes(key("default").value("10")),
-                            parameterWithName("sort").description("정렬 방식")
-                                .optional().attributes(key("default").value("peopleId,desc"))
-                        ),
+                        queryParameters(PaginationDescription.description(this.page, size, "peopleId,desc")),
                         responseFields(
                             getDescriptor("content[].peopleId", "피플 ID"),
                             getDescriptor("content[].peopleType", "피플 유형")

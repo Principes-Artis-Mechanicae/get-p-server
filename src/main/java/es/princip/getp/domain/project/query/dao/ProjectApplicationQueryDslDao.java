@@ -1,6 +1,8 @@
 package es.princip.getp.domain.project.query.dao;
 
 import es.princip.getp.infra.support.QueryDslSupport;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 import static es.princip.getp.domain.project.command.domain.QProjectApplication.projectApplication;
 
 @Repository
+@RequiredArgsConstructor
 public class ProjectApplicationQueryDslDao extends QueryDslSupport implements ProjectApplicationDao {
 
     @Override

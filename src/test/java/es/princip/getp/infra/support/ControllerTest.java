@@ -17,13 +17,13 @@ import es.princip.getp.domain.project.command.application.ProjectCommissionServi
 import es.princip.getp.domain.project.command.application.ProjectMeetingService;
 import es.princip.getp.domain.project.command.presentation.ProjectCommandMapper;
 import es.princip.getp.domain.project.query.application.ProjectApplicantService;
+import es.princip.getp.domain.project.query.dao.AppliedProjectDao;
 import es.princip.getp.domain.project.query.dao.MyCommissionedProjectDao;
 import es.princip.getp.domain.project.query.dao.ProjectDao;
 import es.princip.getp.domain.serviceTerm.application.ServiceTermService;
 import es.princip.getp.infra.config.SecurityConfig;
 import es.princip.getp.infra.config.SecurityTestConfig;
 import es.princip.getp.infra.config.SpringRestDocsConfig;
-import es.princip.getp.infra.exception.ErrorCode;
 import es.princip.getp.infra.storage.application.FileUploadService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
@@ -43,7 +43,6 @@ import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -77,7 +76,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     ProjectApplicantService.class,
     ProjectDao.class,
     ServiceTermService.class,
-    FileUploadService.class
+    FileUploadService.class,
+    AppliedProjectDao.class
 })
 @Execution(ExecutionMode.SAME_THREAD)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -114,10 +114,6 @@ public abstract class ControllerTest {
             .contextPath(contextPath);
     }
 
-    protected static ResultMatcher errorCode(final ErrorCode errorCode) {
-        return status().is(errorCode.status().value());
-    }
-
     @Autowired
     protected RestDocumentationResultHandler restDocs;
 
@@ -132,7 +128,7 @@ public abstract class ControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(documentationConfiguration(restDocumentation).uris()
                     .withScheme("https")
-                    .withHost("api.princip.es")
+                    .withHost("api.principes.xyz")
                     .withPort(443)
                 )
                 .alwaysDo(MockMvcResultHandlers.print())
