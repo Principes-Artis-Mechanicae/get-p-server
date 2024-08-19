@@ -1,4 +1,4 @@
-package es.princip.getp.infra.support;
+package es.princip.getp.common.util;
 
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQuery;

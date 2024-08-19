@@ -1,4 +1,4 @@
-package es.princip.getp.infra.util;
+package es.princip.getp.common.util;
 
 public class StringUtil {
 

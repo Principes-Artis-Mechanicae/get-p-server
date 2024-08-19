@@ -2,6 +2,7 @@ package es.princip.getp.domain.project.query.dao;
 
 import com.querydsl.core.types.Projections;
 import es.princip.getp.common.dto.HashtagsResponse;
+import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.ProjectLikeDao;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
@@ -9,7 +10,6 @@ import es.princip.getp.domain.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.domain.project.query.dto.ProjectCardResponse;
 import es.princip.getp.domain.project.query.dto.ProjectClientResponse;
 import es.princip.getp.domain.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.infra.support.QueryDslSupport;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

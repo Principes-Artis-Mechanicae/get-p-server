@@ -1,4 +1,4 @@
-package es.princip.getp.infra.support;
+package es.princip.getp.common.util;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

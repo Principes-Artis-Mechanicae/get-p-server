@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.command.infra;
 
-import es.princip.getp.infra.support.QueryDslSupport;
+import es.princip.getp.common.util.QueryDslSupport;
 
 import static es.princip.getp.domain.client.command.domain.QClient.client;
 import static es.princip.getp.domain.project.command.domain.QProject.project;

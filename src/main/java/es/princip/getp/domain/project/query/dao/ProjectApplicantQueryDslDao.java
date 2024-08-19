@@ -1,12 +1,12 @@
 package es.princip.getp.domain.project.query.dao;
 
 import com.querydsl.core.Tuple;
+import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.PeopleLikeDao;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.QPeople;
 import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
-import es.princip.getp.infra.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

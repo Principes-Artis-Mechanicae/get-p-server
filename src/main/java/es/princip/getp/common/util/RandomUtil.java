@@ -1,17 +1,17 @@
-package es.princip.getp.infra.util;
+package es.princip.getp.common.util;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 import java.util.UUID;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class RandomUtil {
     public static String generateRandomUUIDString() {
         UUID uuid = UUID.randomUUID();
-        String randomUUIDString = uuid.toString();
-        return randomUUIDString;
+        return uuid.toString();
     }
 
     public static String generateRandomCode(int length) {
