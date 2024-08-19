@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.fixture;
 
 import es.princip.getp.common.domain.Duration;
-import es.princip.getp.domain.project.command.presentation.dto.request.ApplyProjectRequest;
+import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
 
 import java.time.LocalDate;
 import java.util.List;

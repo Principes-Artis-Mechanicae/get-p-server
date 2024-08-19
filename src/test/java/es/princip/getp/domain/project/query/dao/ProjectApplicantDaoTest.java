@@ -2,7 +2,7 @@ package es.princip.getp.domain.project.query.dao;
 
 import es.princip.getp.common.util.DaoTest;
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.query.infra.PeopleDataLoader;
 import es.princip.getp.domain.project.query.infra.ProjectApplicationDataLoader;
 import es.princip.getp.domain.project.query.infra.ProjectDataLoader;

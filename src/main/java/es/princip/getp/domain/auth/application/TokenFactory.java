@@ -1,6 +1,6 @@
 package es.princip.getp.domain.auth.application;
 
-import es.princip.getp.domain.auth.presentation.dto.response.Token;
+import es.princip.getp.api.controller.auth.dto.response.Token;
 import es.princip.getp.domain.member.command.domain.model.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

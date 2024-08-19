@@ -2,7 +2,7 @@ package es.princip.getp.domain.project.query.dao;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import es.princip.getp.domain.project.query.dto.MyProjectSearchOrder;
+import es.princip.getp.api.controller.project.query.dto.MyProjectSearchOrder;
 import org.springframework.data.domain.Sort;
 
 import static com.querydsl.core.types.Order.ASC;

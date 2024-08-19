@@ -3,7 +3,7 @@ package es.princip.getp.domain.project.query.dao;
 import com.querydsl.jpa.impl.JPAQuery;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.project.command.domain.Project;
-import es.princip.getp.domain.project.query.dto.AppliedProjectCardResponse;
+import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
