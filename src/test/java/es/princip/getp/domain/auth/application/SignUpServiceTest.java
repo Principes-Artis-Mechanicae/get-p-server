@@ -1,14 +1,14 @@
 package es.princip.getp.domain.auth.application;
 
 import es.princip.getp.domain.auth.application.command.SignUpCommand;
-import es.princip.getp.domain.auth.exception.SignUpErrorCode;
+import es.princip.getp.domain.auth.exception.DuplicatedEmailException;
+import es.princip.getp.domain.auth.exception.NotVerifiedEmailException;
 import es.princip.getp.domain.member.command.application.MemberService;
 import es.princip.getp.domain.member.command.application.command.CreateMemberCommand;
 import es.princip.getp.domain.member.command.domain.model.Email;
 import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.member.command.domain.model.MemberRepository;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.infra.exception.BusinessLogicException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,8 +26,7 @@ import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
 import static es.princip.getp.domain.member.fixture.EmailFixture.email;
 import static es.princip.getp.domain.member.fixture.MemberFixture.member;
 import static es.princip.getp.domain.member.fixture.PasswordFixture.password;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -70,10 +69,8 @@ class SignUpServiceTest {
             Email email = Email.of(EMAIL);
             given(memberRepository.existsByEmail(email)).willReturn(true);
 
-            BusinessLogicException exception =
-                assertThrows(BusinessLogicException.class,
-                    () -> signUpService.sendEmailVerificationCodeForSignUp(email));
-            assertThat(exception.getErrorCode()).isEqualTo(SignUpErrorCode.DUPLICATED_EMAIL);
+            assertThatCode(() -> signUpService.sendEmailVerificationCodeForSignUp(email))
+                .isInstanceOf(DuplicatedEmailException.class);
         }
     }
 
@@ -103,15 +100,12 @@ class SignUpServiceTest {
         @DisplayName("이메일이 인증되지 않은 경우 실패한다.")
         @Test
         void signUp_WhenEmailIsNotVerified_ShouldThrowException() {
-            doThrow(new BusinessLogicException(SignUpErrorCode.NOT_VERIFIED_EMAIL))
+            doThrow(new NotVerifiedEmailException())
                 .when(emailVerificationService)
                 .verifyEmail(command.email(), command.verificationCode());
 
-            BusinessLogicException exception =
-                assertThrows(BusinessLogicException.class,
-                    () -> signUpService.signUp(command));
-
-            assertThat(exception.getErrorCode()).isEqualTo(SignUpErrorCode.NOT_VERIFIED_EMAIL);
+            assertThatCode(() -> signUpService.signUp(command))
+                .isInstanceOf(NotVerifiedEmailException.class);
         }
     }
 }
