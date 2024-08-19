@@ -8,12 +8,11 @@ import es.princip.getp.domain.project.query.dto.MyCommissionedProjectCardRespons
 import es.princip.getp.domain.project.query.presentation.description.GetMyCommissionedProjectQueryParameterDescription;
 import es.princip.getp.domain.project.query.presentation.description.ProjectCardResponseDescription;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -32,10 +31,9 @@ import static org.springframework.restdocs.request.RequestDocumentation.queryPar
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MyCommissionedProjectQueryController.class)
-class MyCommissionedProjectQueryControllerTest extends AbstractControllerTest {
+class MyCommissionedProjectQueryControllerTest extends ControllerTest {
 
-    @MockBean
+    @Autowired
     private MyCommissionedProjectDao myCommissionedProjectDao;
 
     @Nested

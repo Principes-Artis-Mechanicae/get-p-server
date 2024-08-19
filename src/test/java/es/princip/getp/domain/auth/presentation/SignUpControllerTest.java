@@ -7,15 +7,13 @@ import es.princip.getp.domain.auth.presentation.dto.request.EmailVerificationCod
 import es.princip.getp.domain.auth.presentation.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.domain.auth.presentation.dto.request.SignUpRequest;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.infra.presentation.ErrorCodeController;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -31,10 +29,9 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({SignUpController.class, ErrorCodeController.class})
-public class SignUpControllerTest extends AbstractControllerTest {
+class SignUpControllerTest extends ControllerTest {
 
-    @MockBean
+    @Autowired
     private SignUpService signUpService;
 
     @Nested
