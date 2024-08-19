@@ -1,6 +1,6 @@
 package es.princip.getp.domain.client.query.dao;
 
-import es.princip.getp.domain.client.query.dto.ClientResponse;
+import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 
 public interface ClientDao {
 

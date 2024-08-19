@@ -1,11 +1,11 @@
 package es.princip.getp.domain.project.query.application;
 
+import es.princip.getp.api.controller.PageResponse;
 import es.princip.getp.domain.client.command.domain.Client;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
 import es.princip.getp.domain.client.exception.NotFoundClientException;
-import es.princip.getp.common.adapter.in.web.dto.PageResponse;
 import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.command.domain.ProjectRepository;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
