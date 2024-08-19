@@ -7,12 +7,11 @@ import es.princip.getp.domain.project.command.presentation.description.ScheduleM
 import es.princip.getp.domain.project.command.presentation.description.ScheduleMeetingResponseDescription;
 import es.princip.getp.domain.project.command.presentation.dto.request.ScheduleMeetingRequest;
 import es.princip.getp.infra.annotation.WithCustomMockUser;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.PHONE_NUMBER;
@@ -27,13 +26,12 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ProjectMeetingController.class)
-public class ProjectMeetingControllerTest extends AbstractControllerTest {
+public class ProjectMeetingControllerTest extends ControllerTest {
 
-    @MockBean
+    @Autowired
     private ProjectCommandMapper projectCommandMapper;
 
-    @MockBean
+    @Autowired
     private ProjectMeetingService projectMeetingService;
     
     @Nested

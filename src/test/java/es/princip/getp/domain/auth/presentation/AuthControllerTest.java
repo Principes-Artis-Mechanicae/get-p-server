@@ -5,14 +5,12 @@ import es.princip.getp.domain.auth.exception.LoginErrorCode;
 import es.princip.getp.domain.auth.presentation.dto.request.LoginRequest;
 import es.princip.getp.domain.auth.presentation.dto.response.Token;
 import es.princip.getp.infra.exception.BusinessLogicException;
-import es.princip.getp.infra.presentation.ErrorCodeController;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
@@ -29,10 +27,9 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({AuthController.class, ErrorCodeController.class})
-class AuthControllerTest extends AbstractControllerTest {
+class AuthControllerTest extends ControllerTest {
 
-    @MockBean
+    @Autowired
     private AuthService authService;
 
     @DisplayName("사용자는")

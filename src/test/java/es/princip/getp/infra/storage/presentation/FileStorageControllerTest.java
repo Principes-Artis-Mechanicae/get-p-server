@@ -2,7 +2,7 @@ package es.princip.getp.infra.storage.presentation;
 
 import es.princip.getp.infra.annotation.WithCustomMockUser;
 import es.princip.getp.infra.storage.application.FileUploadService;
-import es.princip.getp.infra.support.AbstractControllerTest;
+import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(FileStorageController.class)
-class FileStorageControllerTest extends AbstractControllerTest {
+class FileStorageControllerTest extends ControllerTest {
 
     @MockBean
     private FileUploadService fileUploadService;
