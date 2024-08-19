@@ -1,6 +1,6 @@
 package es.princip.getp.domain.serviceTerm.domain;
 
-import es.princip.getp.domain.member.command.domain.command.ServiceTermAgreementCommand;
+import es.princip.getp.domain.member.command.ServiceTermAgreementCommand;
 import es.princip.getp.domain.serviceTerm.exception.NotAgreedAllRequiredServiceTermException;
 import jakarta.persistence.EntityNotFoundException;
 

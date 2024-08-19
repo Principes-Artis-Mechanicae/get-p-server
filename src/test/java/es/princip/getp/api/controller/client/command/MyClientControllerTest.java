@@ -8,7 +8,7 @@ import es.princip.getp.api.controller.client.command.dto.request.RegisterMyClien
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.domain.client.command.application.ClientService;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

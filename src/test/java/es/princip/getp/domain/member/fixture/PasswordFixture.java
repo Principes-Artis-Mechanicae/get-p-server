@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.fixture;
 
-import es.princip.getp.domain.member.command.domain.model.Password;
+import es.princip.getp.domain.member.model.Password;
 
 public class PasswordFixture {
 

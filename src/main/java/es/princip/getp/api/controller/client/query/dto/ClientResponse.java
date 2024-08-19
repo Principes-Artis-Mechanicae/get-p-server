@@ -3,7 +3,7 @@ package es.princip.getp.api.controller.client.query.dto;
 import es.princip.getp.domain.client.command.domain.Address;
 import es.princip.getp.domain.client.command.domain.BankAccount;
 import es.princip.getp.domain.client.command.domain.Client;
-import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.domain.member.model.Member;
 
 import java.time.LocalDateTime;
 
@@ -25,7 +25,7 @@ public record ClientResponse(
             member.getNickname().getValue(),
             client.getEmail().getValue(),
             member.getPhoneNumber().getValue(),
-            member.getProfileImage().getUri(),
+            member.getProfileImage().getUrl(),
             client.getAddress(),
             client.getBankAccount(),
             client.getCreatedAt(),

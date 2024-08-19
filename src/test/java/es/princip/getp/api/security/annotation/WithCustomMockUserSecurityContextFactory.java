@@ -1,7 +1,7 @@
 package es.princip.getp.api.security.annotation;
 
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.member.command.domain.model.*;
+import es.princip.getp.domain.member.model.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

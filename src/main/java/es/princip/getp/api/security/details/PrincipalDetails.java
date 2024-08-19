@@ -1,6 +1,6 @@
 package es.princip.getp.api.security.details;
 
-import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.domain.member.model.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
