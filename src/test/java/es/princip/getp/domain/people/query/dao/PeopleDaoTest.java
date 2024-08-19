@@ -1,13 +1,13 @@
 package es.princip.getp.domain.people.query.dao;
 
+import es.princip.getp.common.util.DaoTest;
+import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.domain.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.domain.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.domain.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.people.query.infra.PeopleDataLoader;
-import es.princip.getp.infra.DataLoader;
-import es.princip.getp.infra.support.DaoTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterEach;

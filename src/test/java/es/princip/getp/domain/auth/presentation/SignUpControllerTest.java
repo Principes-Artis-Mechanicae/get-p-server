@@ -1,12 +1,12 @@
 package es.princip.getp.domain.auth.presentation;
 
+import es.princip.getp.common.util.ControllerTest;
 import es.princip.getp.domain.auth.application.SignUpService;
 import es.princip.getp.domain.auth.application.command.SignUpCommand;
 import es.princip.getp.domain.auth.presentation.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.domain.auth.presentation.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.domain.auth.presentation.dto.request.SignUpRequest;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.infra.support.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import java.util.List;
 import static es.princip.getp.domain.auth.fixture.EmailVerificationFixture.VERIFICATION_CODE;
 import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
 import static es.princip.getp.domain.member.fixture.PasswordFixture.PASSWORD;
-import static es.princip.getp.infra.util.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.infra.docs.FieldDescriptorHelper.getDescriptor;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;

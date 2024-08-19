@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.fixture;
 
-import es.princip.getp.domain.common.domain.Duration;
+import es.princip.getp.common.domain.Duration;
 import es.princip.getp.domain.project.command.domain.MeetingType;
 import es.princip.getp.domain.project.command.domain.ProjectCategory;
 import es.princip.getp.domain.project.command.presentation.dto.request.CommissionProjectRequest;
@@ -8,7 +8,7 @@ import es.princip.getp.domain.project.command.presentation.dto.request.Commissio
 import java.time.LocalDate;
 import java.util.List;
 
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtagsRequest;
+import static es.princip.getp.common.fixture.HashtagFixture.hashtagsRequest;
 
 public class CommissionProjectRequestFixture {
 

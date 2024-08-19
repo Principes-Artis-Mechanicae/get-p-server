@@ -28,7 +28,7 @@ import static es.princip.getp.domain.member.fixture.NicknameFixture.nickname;
 import static es.princip.getp.domain.member.fixture.PasswordFixture.password;
 import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.phoneNumber;
 import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
-import static es.princip.getp.infra.storage.fixture.ImageStorageFixture.imageMultiPartFile;
+import static es.princip.getp.storage.fixture.ImageStorageFixture.imageMultiPartFile;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;

@@ -2,8 +2,8 @@ package es.princip.getp.domain.people.fixture;
 
 import es.princip.getp.domain.people.command.domain.PeopleProfile;
 
-import static es.princip.getp.domain.common.fixture.HashtagFixture.hashtags;
-import static es.princip.getp.domain.common.fixture.TechStackFixture.techStacks;
+import static es.princip.getp.common.fixture.HashtagFixture.hashtags;
+import static es.princip.getp.common.fixture.TechStackFixture.techStacks;
 import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;
 import static es.princip.getp.domain.people.fixture.EducationFixture.education;
 import static es.princip.getp.domain.people.fixture.IntroductionFixture.introduction;

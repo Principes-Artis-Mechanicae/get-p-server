@@ -1,7 +1,7 @@
 package es.princip.getp.domain.like.query.infra;
 
+import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.domain.like.command.domain.people.PeopleLike;
-import es.princip.getp.infra.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
