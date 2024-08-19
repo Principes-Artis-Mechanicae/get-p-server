@@ -1,12 +1,13 @@
 package es.princip.getp.domain.project.query.dao;
 
 import com.querydsl.core.Tuple;
+import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.PeopleLikeDao;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.QPeople;
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static es.princip.getp.domain.member.command.domain.model.QMember.member;
 import static es.princip.getp.domain.people.command.domain.QPeople.people;
 import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.orderSpecifiersFromSort;
 import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.toPeopleIds;
@@ -28,12 +28,14 @@ import static java.util.stream.Collectors.toMap;
 // TODO: 조회 성능 개선 필요
 public class ProjectApplicantQueryDslDao extends QueryDslSupport implements ProjectApplicantDao {
 
+    private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
+
     private final PeopleLikeDao peopleLikeDao;
 
     private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
         return queryFactory.select(
-            member.nickname.value,
-            member.profileImage.uri,
+            member.nickname,
+            member.profileImageUrl,
             people.peopleId,
             people.info.peopleType
         )
@@ -77,8 +79,8 @@ public class ProjectApplicantQueryDslDao extends QueryDslSupport implements Proj
             final Long peopleId = people.getPeopleId();
             return new DetailPeopleResponse(
                 peopleId,
-                memberAndPeople.get(peopleId).get(member.nickname.value),
-                memberAndPeople.get(peopleId).get(member.profileImage.uri),
+                memberAndPeople.get(peopleId).get(member.nickname),
+                memberAndPeople.get(peopleId).get(member.profileImageUrl),
                 memberAndPeople.get(peopleId).get(qPeople.info.peopleType),
                 0,
                 likesCounts.get(peopleId),

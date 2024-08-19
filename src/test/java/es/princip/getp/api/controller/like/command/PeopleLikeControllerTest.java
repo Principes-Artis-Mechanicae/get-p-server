@@ -3,7 +3,7 @@ package es.princip.getp.api.controller.like.command;
 import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.domain.like.command.application.PeopleLikeService;
 import es.princip.getp.domain.like.exception.AlreadyLikedException;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import org.junit.jupiter.api.DisplayName;

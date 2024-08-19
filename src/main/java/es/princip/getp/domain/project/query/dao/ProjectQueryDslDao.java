@@ -1,15 +1,16 @@
 package es.princip.getp.domain.project.query.dao;
 
 import com.querydsl.core.types.Projections;
+import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
+import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
+import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
+import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.common.dto.HashtagsResponse;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.ProjectLikeDao;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
-import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,13 +22,14 @@ import java.util.Map;
 import java.util.Optional;
 
 import static es.princip.getp.domain.client.command.domain.QClient.client;
-import static es.princip.getp.domain.member.command.domain.model.QMember.member;
 import static es.princip.getp.domain.project.command.domain.QProject.project;
 import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectIds;
 
 @Repository
 @RequiredArgsConstructor
 public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
+
+    private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
     private final ProjectLikeDao projectLikeDao;
     private final ProjectApplicationDao projectApplicationDao;
@@ -70,7 +72,7 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
                 Projections.constructor(
                     ProjectClientResponse.class,
                     client.clientId,
-                    member.nickname.value,
+                    member.nickname,
                     client.address
                 )
             )

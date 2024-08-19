@@ -2,13 +2,13 @@ package es.princip.getp.api.controller.member.command;
 
 import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.domain.member.command.application.MemberService;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.application.member.command.ChangeProfileImageCommand;
+import es.princip.getp.application.member.port.in.ChangeProfileImageUseCase;
+import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
@@ -16,7 +16,6 @@ import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields
 import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
 import static es.princip.getp.storage.fixture.ImageStorageFixture.imageMultiPartFile;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
@@ -27,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MyMemberControllerTest extends ControllerTest {
 
     @Autowired
-    private MemberService memberService;
+    private ChangeProfileImageUseCase changeProfileImageUseCase;
 
     @Nested
     @DisplayName("프로필 업로드")
@@ -39,8 +38,8 @@ class MyMemberControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
         public void uploadProfileImage() throws Exception {
-            given(memberService.changeProfileImage(eq(memberId), any(MultipartFile.class)))
-                .willReturn(profileImage(memberId).getUri());
+            given(changeProfileImageUseCase.changeProfileImage(any(ChangeProfileImageCommand.class)))
+                .willReturn(profileImage(memberId).getUrl());
 
             mockMvc.perform(multipart("/member/me/profile-image")
                 .file(imageMultiPartFile())

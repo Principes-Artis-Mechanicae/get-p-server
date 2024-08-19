@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.auth.dto.request;
 
-import es.princip.getp.domain.member.command.domain.command.ServiceTermAgreementCommand;
+import es.princip.getp.domain.member.command.ServiceTermAgreementCommand;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermTag;
 import jakarta.validation.constraints.NotNull;
 

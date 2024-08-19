@@ -2,7 +2,7 @@ package es.princip.getp.api.controller.member.query;
 
 import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
