@@ -14,7 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import java.util.Set;
 
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.domain.auth.fixture.EmailVerificationFixture.VERIFICATION_CODE;
@@ -67,7 +67,7 @@ class SignUpControllerTest extends ControllerTest {
                 EMAIL,
                 PASSWORD,
                 VERIFICATION_CODE,
-                List.of(
+                Set.of(
                     new ServiceTermAgreementRequest("tag1", true),
                     new ServiceTermAgreementRequest("tag2", false)
                 ),
@@ -103,7 +103,7 @@ class SignUpControllerTest extends ControllerTest {
                 EMAIL,
                 PASSWORD,
                 VERIFICATION_CODE,
-                List.of(
+                Set.of(
                     new ServiceTermAgreementRequest("tag1", true),
                     new ServiceTermAgreementRequest("tag2", false)
                 ),
