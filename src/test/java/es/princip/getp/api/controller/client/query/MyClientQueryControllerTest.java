@@ -59,7 +59,7 @@ class MyClientQueryControllerTest extends ControllerTest {
         @DisplayName("의뢰자는 자신의 의뢰자 정보를 조회할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void getMyClient() throws Exception {
-            given(clientQuery.findByMemberId(memberId)).willReturn(response);
+            given(clientQuery.findClientByMemberId(memberId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

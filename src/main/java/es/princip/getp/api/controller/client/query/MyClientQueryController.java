@@ -31,7 +31,7 @@ public class MyClientQueryController {
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getMyClient(
             @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final ClientResponse response = clientQuery.findByMemberId(memberId);
+        final ClientResponse response = clientQuery.findClientByMemberId(memberId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

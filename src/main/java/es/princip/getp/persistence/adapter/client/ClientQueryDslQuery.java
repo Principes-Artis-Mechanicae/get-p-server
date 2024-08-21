@@ -2,13 +2,12 @@ package es.princip.getp.persistence.adapter.client;
 
 import com.querydsl.core.Tuple;
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
+import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,11 +18,13 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
     private static final QClientJpaEntity client = QClientJpaEntity.clientJpaEntity;
     private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
-    private ClientResponse mapToResponse(final Tuple result) {
+    private void validateTuple(final Tuple result) {
         if (result == null) {
-            return null;
+            throw new NotFoundClientException();
         }
+    }
 
+    private ClientResponse mapToClientResponse(final Tuple result) {
         return new ClientResponse(
             result.get(client.clientId),
             result.get(member.nickname),
@@ -38,7 +39,7 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
     }
 
     @Override
-    public ClientResponse findById(final Long clientId) {
+    public ClientResponse findClientById(final Long clientId) {
         final Tuple result = queryFactory.select(
                 client.clientId,
                 member.nickname,
@@ -54,13 +55,12 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
             .join(member).on(client.memberId.eq(member.memberId))
             .where(client.clientId.eq(clientId))
             .fetchOne();
-
-        return Optional.ofNullable(mapToResponse(result))
-            .orElseThrow(NotFoundClientException::new);
+        validateTuple(result);
+        return mapToClientResponse(result);
     }
 
     @Override
-    public ClientResponse findByMemberId(final Long memberId) {
+    public ClientResponse findClientByMemberId(final Long memberId) {
         final Tuple result = queryFactory.select(
                 client.clientId,
                 member.nickname,
@@ -76,8 +76,26 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
             .join(member).on(client.memberId.eq(member.memberId))
             .where(client.memberId.eq(memberId))
             .fetchOne();
+        validateTuple(result);
+        return mapToClientResponse(result);
+    }
 
-        return Optional.ofNullable(mapToResponse(result))
-            .orElseThrow(NotFoundClientException::new);
+    @Override
+    public ProjectClientResponse findProjectClientById(final Long clientId) {
+        final Tuple result = queryFactory.select(
+                client.clientId,
+                member.nickname,
+                client.address
+            )
+            .from(client)
+            .join(member).on(client.memberId.eq(member.memberId))
+            .where(client.clientId.eq(clientId))
+            .fetchOne();
+        validateTuple(result);
+        return new ProjectClientResponse(
+            result.get(client.clientId),
+            result.get(member.nickname),
+            mapper.mapToDomain(result.get(client.address))
+        );
     }
 }

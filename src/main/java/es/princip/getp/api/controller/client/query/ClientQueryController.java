@@ -29,7 +29,7 @@ public class ClientQueryController {
     @GetMapping("/{clientId}")
     @PreAuthorize("(hasRole('ADMIN') or hasRole('MANAGER')) and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getClient(@PathVariable final Long clientId) {
-        final ClientResponse response = clientQuery.findById(clientId);
+        final ClientResponse response = clientQuery.findClientById(clientId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

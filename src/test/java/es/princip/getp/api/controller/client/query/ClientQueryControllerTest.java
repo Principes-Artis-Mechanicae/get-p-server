@@ -57,7 +57,7 @@ class ClientQueryControllerTest extends ControllerTest {
                 now,
                 now
             );
-            given(clientQuery.findById(clientId)).willReturn(response);
+            given(clientQuery.findClientById(clientId)).willReturn(response);
 
             mockMvc.perform(get("/client/{clientId}", clientId))
                 .andExpect(status().isOk())
@@ -80,7 +80,7 @@ class ClientQueryControllerTest extends ControllerTest {
                 now,
                 now
             );
-            given(clientQuery.findById(clientId)).willReturn(response);
+            given(clientQuery.findClientById(clientId)).willReturn(response);
 
             mockMvc.perform(get("/client/{clientId}", clientId))
                 .andExpect(status().isOk())
@@ -91,7 +91,7 @@ class ClientQueryControllerTest extends ControllerTest {
         @DisplayName("관리자나 매니저가 아니면 의뢰자 정보를 조회할 수 없다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void getClient_WhenMemberTypeIsNotAdminOrManager_Fail() throws Exception {
-            given(clientQuery.findById(clientId)).willThrow(BusinessLogicException.class);
+            given(clientQuery.findClientById(clientId)).willThrow(BusinessLogicException.class);
 
             mockMvc.perform(get("/client/{clientId}", clientId))
                 .andExpect(status().isForbidden())
