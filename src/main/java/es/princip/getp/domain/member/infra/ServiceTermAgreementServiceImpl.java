@@ -5,9 +5,9 @@ import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.ServiceTermAgreement;
 import es.princip.getp.domain.member.service.ServiceTermAgreementService;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermChecker;
-import es.princip.getp.domain.serviceTerm.domain.ServiceTermRepository;
 import es.princip.getp.domain.serviceTerm.domain.ServiceTermTag;
-import es.princip.getp.domain.serviceTerm.exception.NotFoundServiceTermException;
+import es.princip.getp.domain.serviceTerm.port.out.CheckServiceTermPort;
+import es.princip.getp.persistence.adapter.serviceTerm.NotFoundServiceTermException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class ServiceTermAgreementServiceImpl implements ServiceTermAgreementService {
 
     private final ServiceTermChecker checker;
-    private final ServiceTermRepository serviceTermRepository;
+    private final CheckServiceTermPort checkServiceTermPort;
 
     @Override
     public void agreeServiceTerms(final Member member, final List<ServiceTermAgreementCommand> commands) {
@@ -32,7 +32,7 @@ public class ServiceTermAgreementServiceImpl implements ServiceTermAgreementServ
     }
 
     private ServiceTermAgreement createServiceTermAgreement(final ServiceTermTag tag, final boolean agreed) {
-        if (!serviceTermRepository.existsByTag(tag)) {
+        if (!checkServiceTermPort.existsBy(tag)) {
             throw new NotFoundServiceTermException();
         }
         return ServiceTermAgreement.of(tag, agreed);
