@@ -4,7 +4,7 @@ import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;
-import es.princip.getp.domain.auth.application.SignUpService;
+import es.princip.getp.application.auth.service.SignUpService;
 import es.princip.getp.domain.member.model.Email;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
