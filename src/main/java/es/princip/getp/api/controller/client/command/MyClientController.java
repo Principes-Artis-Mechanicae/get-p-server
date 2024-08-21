@@ -10,6 +10,7 @@ import es.princip.getp.application.client.command.EditClientCommand;
 import es.princip.getp.application.client.command.RegisterClientCommand;
 import es.princip.getp.application.client.port.in.EditClientUseCase;
 import es.princip.getp.application.client.port.in.RegisterClientUseCase;
+import es.princip.getp.domain.member.model.Member;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,8 +38,8 @@ public class MyClientController {
         @RequestBody @Valid final RegisterMyClientRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
-        final RegisterClientCommand command = request.toCommand(memberId);
+        final Member member = principalDetails.getMember();
+        final RegisterClientCommand command = request.toCommand(member);
         final Long clientId = registerClientUseCase.register(command);
         final RegisterMyClientResponse response = new RegisterMyClientResponse(clientId);
         return ApiResponse.success(HttpStatus.CREATED, response);
