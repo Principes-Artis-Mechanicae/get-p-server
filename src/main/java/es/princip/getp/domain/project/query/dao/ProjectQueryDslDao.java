@@ -1,17 +1,14 @@
 package es.princip.getp.domain.project.query.dao;
 
-import com.querydsl.core.types.Projections;
 import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.application.client.port.out.ClientQuery;
 import es.princip.getp.common.dto.HashtagsResponse;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.ProjectLikeDao;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
-import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static es.princip.getp.domain.client.command.domain.QClient.client;
 import static es.princip.getp.domain.project.command.domain.QProject.project;
 import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectIds;
 
@@ -29,8 +25,7 @@ import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectI
 @RequiredArgsConstructor
 public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
 
-    private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
-
+    private final ClientQuery clientQuery;
     private final ProjectLikeDao projectLikeDao;
     private final ProjectApplicationDao projectApplicationDao;
 
@@ -66,24 +61,6 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
         );
     }
 
-    private ProjectClientResponse getProjectClientResponseByClientId(final Long clientId) {
-        return Optional.ofNullable(
-            queryFactory.select(
-                Projections.constructor(
-                    ProjectClientResponse.class,
-                    client.clientId,
-                    member.nickname,
-                    client.address
-                )
-            )
-            .from(client)
-            .join(member).on(client.memberId.eq(member.memberId))
-            .where(client.clientId.eq(clientId))
-            .fetchOne()
-        )
-        .orElseThrow(() -> new EntityNotFoundException("해당 의뢰자가 존재하지 않습니다."));
-    }
-
     @Override
     public ProjectDetailResponse findProjectDetailById(final Long projectId) {
         final Project result = Optional.ofNullable(
@@ -107,7 +84,7 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
             AttachmentFilesResponse.from(result.getAttachmentFiles()),
             HashtagsResponse.from(result.getHashtags()),
             likesCount,
-            getProjectClientResponseByClientId(result.getClientId())
+            clientQuery.findProjectClientById(result.getClientId())
         );
     }
 }

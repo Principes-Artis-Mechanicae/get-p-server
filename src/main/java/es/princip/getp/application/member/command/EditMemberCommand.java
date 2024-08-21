@@ -1,7 +1,7 @@
 package es.princip.getp.application.member.command;
 
-import es.princip.getp.domain.client.command.application.command.EditClientCommand;
-import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
+import es.princip.getp.application.client.command.EditClientCommand;
+import es.princip.getp.application.client.command.RegisterClientCommand;
 import es.princip.getp.domain.member.model.Nickname;
 import es.princip.getp.domain.member.model.PhoneNumber;
 import es.princip.getp.domain.people.command.application.command.CreatePeopleCommand;
@@ -30,7 +30,7 @@ public record EditMemberCommand(
 
     public static EditMemberCommand from(final RegisterClientCommand command) {
         return new EditMemberCommand(
-            command.memberId(),
+            command.member().getMemberId(),
             command.nickname(),
             command.phoneNumber()
         );

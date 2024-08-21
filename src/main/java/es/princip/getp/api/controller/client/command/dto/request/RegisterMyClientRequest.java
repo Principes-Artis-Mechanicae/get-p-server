@@ -1,11 +1,12 @@
 package es.princip.getp.api.controller.client.command.dto.request;
 
-import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
-import es.princip.getp.domain.client.command.domain.Address;
-import es.princip.getp.domain.client.command.domain.BankAccount;
 import es.princip.getp.api.validation.EmailPattern;
 import es.princip.getp.api.validation.PhoneNumberPattern;
+import es.princip.getp.application.client.command.RegisterClientCommand;
+import es.princip.getp.domain.client.model.Address;
+import es.princip.getp.domain.client.model.BankAccount;
 import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.Nickname;
 import es.princip.getp.domain.member.model.PhoneNumber;
 import jakarta.validation.Valid;
@@ -20,9 +21,9 @@ public record RegisterMyClientRequest(
     @Valid BankAccount bankAccount // 선택
 ) {
 
-    public RegisterClientCommand toCommand(final Long memberId) {
+    public RegisterClientCommand toCommand(final Member member) {
         return new RegisterClientCommand(
-            memberId,
+            member,
             Nickname.of(nickname()),
             email() == null ? null : Email.of(email()),
             PhoneNumber.of(phoneNumber()),

@@ -1,11 +1,11 @@
 package es.princip.getp.domain.project.query.dao;
 
-import es.princip.getp.common.util.DaoTest;
-import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.client.query.infra.ClientDataLoader;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.common.util.DaoTest;
+import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.domain.project.query.infra.ProjectDataLoader;
+import es.princip.getp.persistence.adapter.client.ClientDataLoader;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
