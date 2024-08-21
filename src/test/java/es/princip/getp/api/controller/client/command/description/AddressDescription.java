@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.client.command.description;
 
-import es.princip.getp.domain.client.command.domain.Address;
+import es.princip.getp.domain.client.model.Address;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;

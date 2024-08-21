@@ -7,7 +7,9 @@ import es.princip.getp.api.controller.client.command.dto.request.EditMyClientReq
 import es.princip.getp.api.controller.client.command.dto.request.RegisterMyClientRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.client.command.application.ClientService;
+import es.princip.getp.application.client.port.in.EditClientUseCase;
+import es.princip.getp.application.client.port.in.RegisterClientUseCase;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -34,7 +36,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MyClientControllerTest extends ControllerTest {
 
     @Autowired
-    private ClientService clientService;
+    private RegisterClientUseCase registerClientUseCase;
+
+    @Autowired
+    private EditClientUseCase editClientUseCase;
 
     private static final String REQUEST_URI = "/client/me";
 
@@ -61,8 +66,9 @@ class MyClientControllerTest extends ControllerTest {
         @Test
         @DisplayName("의뢰자는 의뢰자 정보를 등록할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
-        void registerMyClient() throws Exception {
-            given(clientService.registerClient(eq(request.toCommand(memberId))))
+        void registerMyClient(PrincipalDetails principalDetails) throws Exception {
+            final Member member = principalDetails.getMember();
+            given(registerClientUseCase.register(eq(request.toCommand(member))))
                 .willReturn(clientId);
 
             perform()
@@ -103,7 +109,7 @@ class MyClientControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void editMyClient(final PrincipalDetails principalDetails) throws Exception {
             final Long memberId = principalDetails.getMember().getMemberId();
-            willDoNothing().given(clientService).editClient(eq(request.toCommand(memberId)));
+            willDoNothing().given(editClientUseCase).edit(eq(request.toCommand(memberId)));
 
             perform()
                 .andExpect(status().isOk())
