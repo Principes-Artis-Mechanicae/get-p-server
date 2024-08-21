@@ -9,7 +9,6 @@ import es.princip.getp.domain.auth.exception.DuplicatedEmailException;
 import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.ServiceTermAgreementData;
-import es.princip.getp.domain.member.service.AlreadyUsedEmailException;
 import es.princip.getp.domain.serviceTerm.model.ServiceTerm;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +45,7 @@ public class SignUpService {
     public void signUp(final SignUpCommand command) {
         emailVerificationService.verifyEmail(command.email(), command.verificationCode());
         if (checkMemberPort.existsByEmail(command.email())) {
-            throw new AlreadyUsedEmailException();
+            throw new DuplicatedEmailException();
         }
         final Member member = Member.of(command.email(), command.password(), command.memberType());
         member.encodePassword(passwordEncoder);

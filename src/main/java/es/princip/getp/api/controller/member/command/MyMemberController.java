@@ -4,8 +4,8 @@ import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.member.command.dto.response.ProfileImageResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.application.member.command.ChangeProfileImageCommand;
-import es.princip.getp.application.member.port.in.ChangeProfileImageUseCase;
+import es.princip.getp.application.member.command.RegisterProfileImageCommand;
+import es.princip.getp.application.member.port.in.ProfileImageUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/member/me")
 public class MyMemberController {
 
-    private final ChangeProfileImageUseCase changeProfileImageUseCase;
+    private final ProfileImageUseCase profileImageUseCase;
 
     /**
      * 내 프로필 이미지 등록
@@ -38,8 +38,8 @@ public class MyMemberController {
         @RequestPart final MultipartFile image
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final ChangeProfileImageCommand command = new ChangeProfileImageCommand(memberId, image);
-        final String profileImageUri = changeProfileImageUseCase.changeProfileImage(command);
+        final RegisterProfileImageCommand command = new RegisterProfileImageCommand(memberId, image);
+        final String profileImageUri = profileImageUseCase.registerProfileImage(command);
         final ProfileImageResponse response = new ProfileImageResponse(profileImageUri);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }

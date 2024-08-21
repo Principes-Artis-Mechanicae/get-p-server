@@ -2,8 +2,8 @@ package es.princip.getp.api.controller.member.command;
 
 import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.application.member.command.ChangeProfileImageCommand;
-import es.princip.getp.application.member.port.in.ChangeProfileImageUseCase;
+import es.princip.getp.application.member.command.RegisterProfileImageCommand;
+import es.princip.getp.application.member.port.in.ProfileImageUseCase;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MyMemberControllerTest extends ControllerTest {
 
     @Autowired
-    private ChangeProfileImageUseCase changeProfileImageUseCase;
+    private ProfileImageUseCase profileImageUseCase;
 
     @Nested
     @DisplayName("프로필 업로드")
@@ -38,7 +38,7 @@ class MyMemberControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
         public void uploadProfileImage() throws Exception {
-            given(changeProfileImageUseCase.changeProfileImage(any(ChangeProfileImageCommand.class)))
+            given(profileImageUseCase.registerProfileImage(any(RegisterProfileImageCommand.class)))
                 .willReturn(profileImage(memberId).getUrl());
 
             mockMvc.perform(multipart("/member/me/profile-image")
