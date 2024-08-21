@@ -1,11 +1,10 @@
 package es.princip.getp.domain.project.query.application;
 
 import es.princip.getp.api.controller.PageResponse;
-import es.princip.getp.domain.client.command.domain.Client;
-import es.princip.getp.domain.client.command.domain.ClientRepository;
-import es.princip.getp.domain.client.exception.NotFoundClientException;
-import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.application.client.port.out.LoadClientPort;
+import es.princip.getp.domain.client.model.Client;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.command.domain.ProjectRepository;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class ProjectApplicantService {
 
     private final ProjectApplicantDao projectApplicantDao;
-    private final ClientRepository clientRepository;
+    private final LoadClientPort loadClientPort;
     private final ProjectRepository projectRepository;
 
     public PageResponse<DetailPeopleResponse> getApplicants(
@@ -29,7 +28,7 @@ public class ProjectApplicantService {
         final Pageable pageable
     ) {
         final Long memberId = member.getMemberId();
-        final Client client = clientRepository.findByMemberId(memberId).orElseThrow(NotFoundClientException::new);
+        final Client client = loadClientPort.loadBy(memberId);
         final Project project = projectRepository.findById(projectId).orElseThrow(NotFoundProjectException::new);
         if (!project.isClient(client)) {
             throw new NotMyProjectException();
