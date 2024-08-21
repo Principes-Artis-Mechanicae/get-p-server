@@ -1,34 +1,68 @@
 package es.princip.getp.domain.member.model;
 
+import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import static es.princip.getp.domain.member.fixture.EmailFixture.email;
 import static es.princip.getp.domain.member.fixture.PasswordFixture.password;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 
 @DisplayName("회원")
 @ExtendWith(MockitoExtension.class)
 class MemberTest {
 
-    @Test
-    void agreeServiceTerms() {
-        Set<ServiceTermAgreement> agreements = spy(new HashSet<>());
-        Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
+    @Nested
+    class 회원은_서비스_약관에_동의할_수_있다 {
 
-        member.agreeServiceTerms(agreements);
+        private final Set<ServiceTermTag> requiredTags = Set.of(
+            new ServiceTermTag("필수 서비스 약관1"),
+            new ServiceTermTag("필수 서비스 약관2")
+        );
 
-        assertThat(member.getServiceTermAgreements()).isEqualTo(agreements);
+        @Test
+        void 모든_필수_서비스_약관에_동의한_경우() {
+            final Set<ServiceTermAgreementData> agreements = Set.of(
+                new ServiceTermAgreementData(new ServiceTermTag("필수 서비스 약관1"), true),
+                new ServiceTermAgreementData(new ServiceTermTag("필수 서비스 약관2"), true),
+                new ServiceTermAgreementData(new ServiceTermTag("서비스 약관1"), true),
+                new ServiceTermAgreementData(new ServiceTermTag("서비스 약관2"), false)
+            );
+            final Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
+
+            member.agreeServiceTerms(requiredTags, agreements);
+
+            assertThat(member.getServiceTermAgreements()).containsExactlyInAnyOrder(
+                ServiceTermAgreement.of(new ServiceTermTag("필수 서비스 약관1"), true),
+                ServiceTermAgreement.of(new ServiceTermTag("필수 서비스 약관2"), true),
+                ServiceTermAgreement.of(new ServiceTermTag("서비스 약관1"), true),
+                ServiceTermAgreement.of(new ServiceTermTag("서비스 약관2"), false)
+            );
+        }
+
+        @Test
+        void 모든_필수_서비스_약관에_동의하지_않은_경우() {
+            final Set<ServiceTermAgreementData> agreements = Set.of(
+                new ServiceTermAgreementData(new ServiceTermTag("필수 서비스 약관1"), true),
+                new ServiceTermAgreementData(new ServiceTermTag("필수 서비스 약관2"), false),
+                new ServiceTermAgreementData(new ServiceTermTag("서비스 약관1"), true),
+                new ServiceTermAgreementData(new ServiceTermTag("서비스 약관2"), false)
+            );
+            final Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
+
+            assertThatThrownBy(() -> member.agreeServiceTerms(requiredTags, agreements))
+                .isInstanceOf(NotAgreedAllRequiredServiceTermException.class);
+        }
     }
 
     @Test
