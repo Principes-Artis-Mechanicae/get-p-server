@@ -1,4 +1,4 @@
-package es.princip.getp.domain.serviceTerm.domain;
+package es.princip.getp.domain.serviceTerm.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

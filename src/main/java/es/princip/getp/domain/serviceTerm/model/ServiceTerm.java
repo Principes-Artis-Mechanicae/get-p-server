@@ -1,4 +1,4 @@
-package es.princip.getp.domain.serviceTerm.domain;
+package es.princip.getp.domain.serviceTerm.model;
 
 import es.princip.getp.common.domain.BaseTimeEntity;
 import lombok.AllArgsConstructor;

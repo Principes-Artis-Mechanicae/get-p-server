@@ -1,4 +1,4 @@
-package es.princip.getp.domain.serviceTerm.exception;
+package es.princip.getp.application.serviceTerm.exception;
 
 import es.princip.getp.common.exception.BusinessLogicException;
 import es.princip.getp.common.exception.ErrorDescription;
