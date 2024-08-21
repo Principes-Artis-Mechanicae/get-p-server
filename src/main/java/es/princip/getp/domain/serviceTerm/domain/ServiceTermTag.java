@@ -1,31 +1,24 @@
 package es.princip.getp.domain.serviceTerm.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
-import java.io.Serializable;
+import java.util.Objects;
 
 @Getter
 @ToString
-@Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ServiceTermTag implements Serializable {
+public class ServiceTermTag {
 
-    @Column(name = "service_term_tag")
-    @NotNull
-    private String value;
+    private final String value;
 
     public ServiceTermTag(final String value) {
         this.value = value;
     }
 
     public static ServiceTermTag of(final String value) {
-        if (value == null || value.isEmpty()) {
-            throw new IllegalArgumentException("ServiceTermTag value must not be null or empty");
-        }
+        Objects.requireNonNull(value);
         return new ServiceTermTag(value);
     }
 }

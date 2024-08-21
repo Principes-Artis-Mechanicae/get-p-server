@@ -19,6 +19,6 @@ public class ServiceTermController {
     @PostMapping
     // TODO: 관리자만 접근 가능하도록 권한 제어
     public ServiceTermResponse createServiceTerm(@RequestBody @Valid ServiceTermRequest serviceTermRequest) {
-        return ServiceTermResponse.from(serviceTermService.create(serviceTermRequest));
+        return ServiceTermResponse.from(serviceTermService.register(serviceTermRequest));
     }
 }

@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.member;
 
-import es.princip.getp.common.domain.BaseTimeEntity;
 import es.princip.getp.domain.member.model.MemberType;
+import es.princip.getp.persistence.adapter.BaseTimeJpaEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +19,7 @@ import java.util.Set;
     }
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberJpaEntity extends BaseTimeEntity {
+public class MemberJpaEntity extends BaseTimeJpaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
