@@ -1,22 +1,25 @@
-package es.princip.getp.domain.client.query.dao;
+package es.princip.getp.persistence.adapter.client;
 
 import com.querydsl.core.Tuple;
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
+import es.princip.getp.application.client.port.out.ClientQuery;
 import es.princip.getp.common.util.QueryDslSupport;
-import es.princip.getp.domain.client.exception.NotFoundClientException;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-import static es.princip.getp.domain.client.command.domain.QClient.client;
-
 @Repository
-public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
+@RequiredArgsConstructor
+class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
 
+    private final ClientPersistenceMapper mapper;
+
+    private static final QClientJpaEntity client = QClientJpaEntity.clientJpaEntity;
     private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
-    private ClientResponse toClientResponse(final Tuple result) {
+    private ClientResponse mapToResponse(final Tuple result) {
         if (result == null) {
             return null;
         }
@@ -25,10 +28,10 @@ public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
             result.get(client.clientId),
             result.get(member.nickname),
             result.get(member.phoneNumber),
-            result.get(client.email.value),
+            result.get(client.email),
             result.get(member.profileImageUrl),
-            result.get(client.address),
-            result.get(client.bankAccount),
+            mapper.mapToDomain(result.get(client.address)),
+            mapper.mapToDomain(result.get(client.bankAccount)),
             result.get(client.createdAt),
             result.get(client.updatedAt)
         );
@@ -36,7 +39,7 @@ public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
 
     @Override
     public ClientResponse findById(final Long clientId) {
-        Tuple result = queryFactory.select(
+        final Tuple result = queryFactory.select(
                 client.clientId,
                 member.nickname,
                 member.phoneNumber,
@@ -52,17 +55,17 @@ public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
             .where(client.clientId.eq(clientId))
             .fetchOne();
 
-        return Optional.ofNullable(toClientResponse(result))
+        return Optional.ofNullable(mapToResponse(result))
             .orElseThrow(NotFoundClientException::new);
     }
 
     @Override
     public ClientResponse findByMemberId(final Long memberId) {
-        Tuple result = queryFactory.select(
+        final Tuple result = queryFactory.select(
                 client.clientId,
                 member.nickname,
                 member.phoneNumber,
-                client.email.value,
+                client.email,
                 member.profileImageUrl,
                 client.address,
                 client.bankAccount,
@@ -74,7 +77,7 @@ public class ClientQueryDslDao extends QueryDslSupport implements ClientDao {
             .where(client.memberId.eq(memberId))
             .fetchOne();
 
-        return Optional.ofNullable(toClientResponse(result))
+        return Optional.ofNullable(mapToResponse(result))
             .orElseThrow(NotFoundClientException::new);
     }
 }

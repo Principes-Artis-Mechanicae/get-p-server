@@ -1,9 +1,9 @@
 package es.princip.getp.api.controller.client.query;
 
-import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
-import es.princip.getp.domain.client.query.dao.ClientDao;
+import es.princip.getp.api.controller.client.query.dto.ClientResponse;
+import es.princip.getp.application.client.port.out.ClientQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ClientQueryController {
 
-    private final ClientDao clientDao;
+    private final ClientQuery clientQuery;
 
     /**
      * 의뢰자 정보 조회
@@ -29,7 +29,7 @@ public class ClientQueryController {
     @GetMapping("/{clientId}")
     @PreAuthorize("(hasRole('ADMIN') or hasRole('MANAGER')) and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getClient(@PathVariable final Long clientId) {
-        final ClientResponse response = clientDao.findById(clientId);
+        final ClientResponse response = clientQuery.findById(clientId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

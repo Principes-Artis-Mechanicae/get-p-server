@@ -5,7 +5,7 @@ import es.princip.getp.api.controller.client.query.description.ClientResponseDes
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.domain.client.query.dao.ClientDao;
+import es.princip.getp.application.client.port.out.ClientQuery;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MyClientQueryControllerTest extends ControllerTest {
 
     @Autowired
-    private ClientDao clientDao;
+    private ClientQuery clientQuery;
 
     @Nested
     @DisplayName("내 의뢰자 정보 조회")
@@ -59,7 +59,7 @@ class MyClientQueryControllerTest extends ControllerTest {
         @DisplayName("의뢰자는 자신의 의뢰자 정보를 조회할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void getMyClient() throws Exception {
-            given(clientDao.findByMemberId(memberId)).willReturn(response);
+            given(clientQuery.findByMemberId(memberId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

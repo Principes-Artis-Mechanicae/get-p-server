@@ -1,37 +1,22 @@
-package es.princip.getp.domain.client.command.domain;
+package es.princip.getp.domain.client.model;
 
-import es.princip.getp.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.BaseEntity;
 import es.princip.getp.domain.like.command.domain.Likeable;
 import es.princip.getp.domain.member.model.Email;
-import jakarta.persistence.*;
-import lombok.AccessLevel;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
-@Table(name = "client")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Client extends BaseTimeEntity implements Likeable {
+@AllArgsConstructor
+public class Client extends BaseEntity implements Likeable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_id")
     private Long clientId;
-
-    @Embedded
-    private Email email;
-
-    //TODO: 주소기반산업지원서비스 API로 확장 예정
-    @Embedded
-    private Address address;
-
-    @Embedded
+    @NotNull private Email email;
+    private Address address; //TODO: 주소기반산업지원서비스 API로 확장 예정
     private BankAccount bankAccount;
-
-    @Column(name = "member_id")
-    private Long memberId;
+    @NotNull private Long memberId;
 
     @Builder
     public Client(
@@ -44,6 +29,8 @@ public class Client extends BaseTimeEntity implements Likeable {
         this.address = address;
         this.bankAccount = bankAccount;
         this.memberId = memberId;
+
+        validate();
     }
 
     private void setEmail(final Email email) {

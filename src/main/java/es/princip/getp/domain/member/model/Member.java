@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.model;
 
-import es.princip.getp.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.BaseEntity;
 import es.princip.getp.domain.member.exception.NotAgreedAllRequiredServiceTermException;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
-public class Member extends BaseTimeEntity {
+public class Member extends BaseEntity {
 
     private Long memberId;
     private Email email;

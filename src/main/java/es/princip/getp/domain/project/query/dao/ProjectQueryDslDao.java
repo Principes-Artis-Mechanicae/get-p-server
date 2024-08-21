@@ -10,6 +10,7 @@ import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.ProjectLikeDao;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
+import es.princip.getp.persistence.adapter.client.QClientJpaEntity;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static es.princip.getp.domain.client.command.domain.QClient.client;
 import static es.princip.getp.domain.project.command.domain.QProject.project;
 import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectIds;
 
@@ -29,6 +29,7 @@ import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectI
 @RequiredArgsConstructor
 public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
 
+    private static final QClientJpaEntity client = QClientJpaEntity.clientJpaEntity;
     private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
     private final ProjectLikeDao projectLikeDao;
