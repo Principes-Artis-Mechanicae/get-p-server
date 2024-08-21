@@ -1,4 +1,4 @@
-package es.princip.getp.domain.auth.application.command;
+package es.princip.getp.application.auth.command;
 
 import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.member.model.MemberType;

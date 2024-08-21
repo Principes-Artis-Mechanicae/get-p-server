@@ -1,4 +1,4 @@
-package es.princip.getp.domain.auth.application;
+package es.princip.getp.application.auth.service;
 
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.security.exception.ExpiredTokenException;

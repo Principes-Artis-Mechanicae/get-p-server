@@ -4,8 +4,8 @@ import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.api.controller.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.api.controller.auth.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;
-import es.princip.getp.domain.auth.application.SignUpService;
-import es.princip.getp.domain.auth.application.command.SignUpCommand;
+import es.princip.getp.application.auth.command.SignUpCommand;
+import es.princip.getp.application.auth.service.SignUpService;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -38,33 +38,31 @@ class SignUpControllerTest extends ControllerTest {
     private SignUpService signUpService;
 
     @Nested
-    @DisplayName("사용자는")
     class SendEmailVerificationCodeForSignUp {
 
         private final EmailVerificationCodeRequest request = new EmailVerificationCodeRequest(EMAIL);
 
-        @DisplayName("회원 가입 시 이메일 인증을 해야 한다.")
+        @DisplayName("사용자는 회원 가입 시 이메일 인증을 해야 한다.")
         @Test
         void sendEmailVerificationCodeForSignUp() throws Exception {
             mockMvc.perform(post("/auth/signup/email/send")
-            .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isOk())
-            .andDo(
-                restDocs.document(
-                    requestFields(
-                        getDescriptor("email", "이메일", EmailVerificationCodeRequest.class)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andDo(
+                    restDocs.document(
+                        requestFields(
+                            getDescriptor("email", "이메일", EmailVerificationCodeRequest.class)
+                        )
                     )
                 )
-            )
-            .andDo(print());
+                .andDo(print());
         }
     }
 
     @Nested
-    @DisplayName("사용자는")
     class SignUp {
 
-        @DisplayName("회원 가입을 할 수 있다.")
+        @DisplayName("사용자는 회원 가입을 할 수 있다.")
         @ParameterizedTest
         @EnumSource(value = MemberType.class, names = { "ROLE_PEOPLE", "ROLE_CLIENT" })
         void signUp(MemberType memberType) throws Exception {

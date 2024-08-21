@@ -1,10 +1,8 @@
-package es.princip.getp.domain.auth.application;
+package es.princip.getp.application.auth.service;
 
+import es.princip.getp.application.auth.exception.IncorrectVerificationCodeException;
+import es.princip.getp.application.auth.exception.NotFoundVerificationException;
 import es.princip.getp.common.util.RandomUtil;
-import es.princip.getp.domain.auth.domain.EmailVerification;
-import es.princip.getp.domain.auth.domain.EmailVerificationRepository;
-import es.princip.getp.domain.auth.exception.IncorrectVerificationCodeException;
-import es.princip.getp.domain.auth.exception.NotFoundVerificationException;
 import es.princip.getp.domain.member.model.Email;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
