@@ -1,8 +1,8 @@
 package es.princip.getp.api.controller.client.command.dto.request;
 
-import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
-import es.princip.getp.domain.client.command.domain.Address;
-import es.princip.getp.domain.client.command.domain.BankAccount;
+import es.princip.getp.application.client.command.RegisterClientCommand;
+import es.princip.getp.domain.client.model.Address;
+import es.princip.getp.domain.client.model.BankAccount;
 import es.princip.getp.api.validation.EmailPattern;
 import es.princip.getp.api.validation.PhoneNumberPattern;
 import es.princip.getp.domain.member.model.Email;
