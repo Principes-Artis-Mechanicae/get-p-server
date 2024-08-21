@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.payload.PayloadDocumentation;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static es.princip.getp.api.controller.project.command.CommissionProjectRequestFixture.registerProjectRequest;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.domain.project.fixture.CommissionProjectRequestFixture.registerProjectRequest;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;

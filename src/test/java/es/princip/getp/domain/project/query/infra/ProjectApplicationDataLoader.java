@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.LongStream;
 
-import static es.princip.getp.domain.project.fixture.ProjectApplicationFixture.projectApplication;
+import static es.princip.getp.fixture.project.ProjectApplicationFixture.projectApplication;
 
 @RequiredArgsConstructor
 public class ProjectApplicationDataLoader implements DataLoader {

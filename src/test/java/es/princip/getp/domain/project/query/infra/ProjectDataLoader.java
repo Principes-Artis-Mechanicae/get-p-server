@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.LongStream;
 
-import static es.princip.getp.domain.project.fixture.ProjectFixture.project;
+import static es.princip.getp.fixture.project.ProjectFixture.project;
 
 @RequiredArgsConstructor
 public class ProjectDataLoader implements DataLoader {

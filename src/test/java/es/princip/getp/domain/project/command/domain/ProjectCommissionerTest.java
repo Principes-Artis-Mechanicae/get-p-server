@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static es.princip.getp.common.fixture.HashtagFixture.hashtags;
-import static es.princip.getp.domain.project.fixture.AttachmentFileFixture.attachmentFiles;
+import static es.princip.getp.fixture.common.HashtagFixture.hashtags;
+import static es.princip.getp.fixture.project.AttachmentFileFixture.attachmentFiles;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

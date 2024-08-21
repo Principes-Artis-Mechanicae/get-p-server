@@ -17,8 +17,8 @@ import org.springframework.restdocs.payload.PayloadDocumentation;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.PHONE_NUMBER;
-import static es.princip.getp.domain.project.fixture.ProjectMeetingFixture.*;
+import static es.princip.getp.fixture.member.PhoneNumberFixture.PHONE_NUMBER;
+import static es.princip.getp.fixture.project.ProjectMeetingFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
