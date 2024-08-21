@@ -1,4 +1,4 @@
-package es.princip.getp.domain.member.exception;
+package es.princip.getp.domain.member.service;
 
 import es.princip.getp.common.exception.BusinessLogicException;
 import es.princip.getp.common.exception.ErrorDescription;
