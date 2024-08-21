@@ -1,6 +1,7 @@
 package es.princip.getp.domain.member.model;
 
 import es.princip.getp.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.member.exception.NotAgreedAllRequiredServiceTermException;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -85,11 +86,9 @@ public class Member extends BaseTimeEntity {
     }
 
     /**
-     * 프로필 이미지를 변경한다.
-     *
-     * @param profileImage 변경할 프로필 이미지
+     * 프로필 이미지를 등록한다.
      */
-    public void changeProfileImage(final ProfileImage profileImage) {
+    public void registerProfileImage(final ProfileImage profileImage) {
         setProfileImage(profileImage);
     }
 

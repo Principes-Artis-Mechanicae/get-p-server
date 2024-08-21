@@ -1,11 +1,17 @@
-package es.princip.getp.domain.member.service;
+package es.princip.getp.application.member.service;
 
+import es.princip.getp.application.member.command.RegisterProfileImageCommand;
+import es.princip.getp.application.member.exception.FailedToSaveProfileImageException;
+import es.princip.getp.application.member.port.in.ProfileImageUseCase;
+import es.princip.getp.application.member.port.out.LoadMemberPort;
+import es.princip.getp.application.member.port.out.UpdateMemberPort;
 import es.princip.getp.common.util.ImageUtil;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.ProfileImage;
 import es.princip.getp.storage.application.ImageStorage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,9 +24,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProfileImageService {
+class ProfileImageService implements ProfileImageUseCase {
 
-    public static final String PROFILE_IMAGE_PREFIX = "profile";
+    private static final String PROFILE_IMAGE_PREFIX = "profile";
+
+    private final LoadMemberPort loadMemberPort;
+    private final UpdateMemberPort updateMemberPort;
 
     private final ImageStorage imageStorage;
 
@@ -32,7 +41,22 @@ public class ProfileImageService {
         "image/x-windows-bmp"
     );
 
-    public ProfileImage saveProfileImage(final Member member, final MultipartFile image) {
+    @Override
+    @Transactional
+    public String registerProfileImage(final RegisterProfileImageCommand command) {
+        final Long memberId = command.memberId();
+        final Member member = loadMemberPort.loadBy(memberId);
+        if (member.hasProfileImage()) {
+            deleteProfileImage(member.getProfileImage());
+        }
+        final MultipartFile image = command.image();
+        final ProfileImage profileImage = saveProfileImage(member, image);
+        member.registerProfileImage(profileImage);
+        updateMemberPort.update(member);
+        return profileImage.getUrl();
+    }
+
+    private ProfileImage saveProfileImage(final Member member, final MultipartFile image) {
         if (!whiteImageExtensionList.contains(image.getContentType())) {
             throw new FailedToSaveProfileImageException();
         }
@@ -51,7 +75,7 @@ public class ProfileImageService {
         return Paths.get(memberId).resolve(PROFILE_IMAGE_PREFIX).resolve(fileName);
     }
 
-    public void deleteProfileImage(final ProfileImage profileImage) {
+    private void deleteProfileImage(final ProfileImage profileImage) {
         imageStorage.deleteImage(URI.create(profileImage.getUrl()));
     }
 }

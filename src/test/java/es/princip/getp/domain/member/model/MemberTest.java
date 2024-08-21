@@ -1,5 +1,7 @@
 package es.princip.getp.domain.member.model;
 
+import es.princip.getp.domain.member.exception.NotAgreedAllRequiredServiceTermException;
+import es.princip.getp.domain.member.infra.SimplePasswordEncoder;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,8 +16,6 @@ import static es.princip.getp.domain.member.fixture.EmailFixture.email;
 import static es.princip.getp.domain.member.fixture.PasswordFixture.password;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 @DisplayName("회원")
@@ -66,38 +66,41 @@ class MemberTest {
     }
 
     @Test
-    void changeProfileImage() {
-        Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
-        ProfileImage profileImage = mock(ProfileImage.class);
+    void 회원은_프로필_이미지를_등록할_수_있다() {
+        final Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
+        final ProfileImage profileImage = mock(ProfileImage.class);
 
-        member.changeProfileImage(profileImage);
+        member.registerProfileImage(profileImage);
 
         assertThat(member.getProfileImage()).isEqualTo(profileImage);
     }
 
-    @Test
-    void hasProfileImage_WhenMemberHasProfileImage_ShouldReturn_True() {
-        Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
-        ProfileImage profileImage = mock(ProfileImage.class);
+    @Nested
+    class 회원은_프로필_이미지를_등록했는지_확인할_수_있다 {
 
-        member.changeProfileImage(profileImage);
+        @Test
+        void 프로필_이미지를_등록한_경우() {
+            final Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
+            final ProfileImage profileImage = mock(ProfileImage.class);
+            member.registerProfileImage(profileImage);
 
-        assertThat(member.hasProfileImage()).isTrue();
+            assertThat(member.hasProfileImage()).isTrue();
+        }
+
+        @Test
+        void 프로필_이미지를_등록하지_않은_경우() {
+            final Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
+
+            assertThat(member.hasProfileImage()).isFalse();
+        }
     }
 
     @Test
-    void hasProfileImage_WhenMemberDoesNotHaveProfileImage_ShouldReturn_False() {
-        Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
+    void 회원은_자신의_회원_정보를_수정할_수_있다() {
+        final Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
 
-        assertThat(member.hasProfileImage()).isFalse();
-    }
-
-    @Test
-    void edit() {
-        Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
-
-        Nickname newNickname = Nickname.of("new nickname");
-        PhoneNumber newPhoneNumber = PhoneNumber.of("01087654321");
+        final Nickname newNickname = Nickname.of("new nickname");
+        final PhoneNumber newPhoneNumber = PhoneNumber.of("01087654321");
         member.edit(newNickname, newPhoneNumber);
 
         assertThat(member.getNickname()).isEqualTo(newNickname);
@@ -105,13 +108,13 @@ class MemberTest {
     }
 
     @Test
-    void encodePassword() {
-        Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
-        PasswordEncoder encoder = mock(PasswordEncoder.class);
-        given(encoder.encode(anyString())).willReturn(anyString());
+    void 회원은_비밀번호를_암호화_할_수_있다() {
+        final Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
+        final PasswordEncoder encoder = new SimplePasswordEncoder();
 
         member.encodePassword(encoder);
 
-        assertThat(member.getPassword()).isNotEqualTo(password());
+        assertThat(encoder.matches(password().getValue(), member.getPassword().getValue()))
+            .isTrue();
     }
 }
