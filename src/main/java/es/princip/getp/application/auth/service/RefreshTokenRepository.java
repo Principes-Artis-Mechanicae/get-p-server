@@ -1,4 +1,4 @@
-package es.princip.getp.domain.auth.domain;
+package es.princip.getp.application.auth.service;
 
 import org.springframework.data.keyvalue.repository.KeyValueRepository;
 

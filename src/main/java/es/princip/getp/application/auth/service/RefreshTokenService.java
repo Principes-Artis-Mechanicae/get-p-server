@@ -1,9 +1,7 @@
-package es.princip.getp.domain.auth.application;
+package es.princip.getp.application.auth.service;
 
 import es.princip.getp.api.security.exception.InvalidTokenException;
 import es.princip.getp.application.member.port.out.LoadMemberPort;
-import es.princip.getp.domain.auth.domain.RefreshToken;
-import es.princip.getp.domain.auth.domain.RefreshTokenRepository;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

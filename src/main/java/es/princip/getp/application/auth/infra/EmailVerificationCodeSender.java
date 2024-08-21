@@ -1,7 +1,7 @@
-package es.princip.getp.domain.auth.infra;
+package es.princip.getp.application.auth.infra;
 
-import es.princip.getp.domain.auth.application.VerificationCodeSender;
-import es.princip.getp.domain.auth.exception.FailedVerificationCodeSendingException;
+import es.princip.getp.application.auth.exception.FailedVerificationCodeSendingException;
+import es.princip.getp.application.auth.service.VerificationCodeSender;
 import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.mail.EmailSender;
 import es.princip.getp.mail.command.SendMailCommand;

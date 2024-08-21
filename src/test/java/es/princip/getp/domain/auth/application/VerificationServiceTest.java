@@ -1,9 +1,11 @@
 package es.princip.getp.domain.auth.application;
 
-import es.princip.getp.domain.auth.domain.EmailVerification;
-import es.princip.getp.domain.auth.domain.EmailVerificationRepository;
-import es.princip.getp.domain.auth.exception.IncorrectVerificationCodeException;
-import es.princip.getp.domain.auth.exception.NotFoundVerificationException;
+import es.princip.getp.application.auth.exception.IncorrectVerificationCodeException;
+import es.princip.getp.application.auth.exception.NotFoundVerificationException;
+import es.princip.getp.application.auth.service.EmailVerification;
+import es.princip.getp.application.auth.service.EmailVerificationRepository;
+import es.princip.getp.application.auth.service.VerificationCodeSender;
+import es.princip.getp.application.auth.service.VerificationService;
 import es.princip.getp.domain.member.model.Email;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

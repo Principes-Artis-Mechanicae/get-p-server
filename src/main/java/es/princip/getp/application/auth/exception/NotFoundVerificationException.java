@@ -1,4 +1,4 @@
-package es.princip.getp.domain.auth.exception;
+package es.princip.getp.application.auth.exception;
 
 import es.princip.getp.common.exception.ErrorDescription;
 import es.princip.getp.common.exception.NotFoundException;
