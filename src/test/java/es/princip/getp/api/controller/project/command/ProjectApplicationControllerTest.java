@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.payload.PayloadDocumentation;
 
+import static es.princip.getp.api.controller.project.command.ApplyProjectRequestFixture.applyProjectRequest;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.domain.project.fixture.ApplyProjectRequestFixture.applyProjectRequest;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;

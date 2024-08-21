@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.LongStream;
 
-import static es.princip.getp.domain.client.fixture.ClientFixture.clientList;
-import static es.princip.getp.domain.member.fixture.PasswordFixture.PASSWORD;
+import static es.princip.getp.fixture.client.ClientFixture.clientList;
+import static es.princip.getp.fixture.member.PasswordFixture.PASSWORD;
 
 @RequiredArgsConstructor
 public class ClientDataLoader implements DataLoader {
@@ -36,7 +36,7 @@ public class ClientDataLoader implements DataLoader {
             .orElse(1L);
 
         final List<Client> clientList = new ArrayList<>(clientList(size, memberIdBias));
-        clientList.forEach(entityManager::persist);;
+        clientList.forEach(entityManager::persist);
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.net.URI;
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
-import static es.princip.getp.storage.fixture.FileStorageFixture.DUMMY_TEXT;
+import static es.princip.getp.fixture.storage.FileStorageFixture.DUMMY_TEXT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;

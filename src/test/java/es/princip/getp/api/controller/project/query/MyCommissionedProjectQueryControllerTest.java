@@ -23,7 +23,7 @@ import java.util.List;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
-import static es.princip.getp.common.fixture.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.data.domain.Sort.Order.desc;

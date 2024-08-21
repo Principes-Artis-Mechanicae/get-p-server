@@ -12,7 +12,7 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
+import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.spy;
 
