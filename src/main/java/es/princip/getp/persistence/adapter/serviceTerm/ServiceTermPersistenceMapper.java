@@ -1,6 +1,6 @@
 package es.princip.getp.persistence.adapter.serviceTerm;
 
-import es.princip.getp.domain.serviceTerm.domain.ServiceTerm;
+import es.princip.getp.domain.serviceTerm.model.ServiceTerm;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

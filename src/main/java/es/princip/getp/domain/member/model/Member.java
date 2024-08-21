@@ -1,6 +1,7 @@
 package es.princip.getp.domain.member.model;
 
 import es.princip.getp.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,6 +10,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
@@ -65,12 +67,21 @@ public class Member extends BaseTimeEntity {
 
     /**
      * 서비스 약관에 동의한다.
-     *
-     * @param agreements 서비스 약관 동의
      */
-    public void agreeServiceTerms(final Set<ServiceTermAgreement> agreements) {
-        this.serviceTermAgreements.clear();
-        this.serviceTermAgreements.addAll(agreements);
+    public void agreeServiceTerms(
+        final Set<ServiceTermTag> requiredTags,
+        final Set<ServiceTermAgreementData> agreements
+    ) {
+        final Set<ServiceTermTag> agreedTags = agreements.stream()
+            .filter(ServiceTermAgreementData::agreed)
+            .map(ServiceTermAgreementData::tag)
+            .collect(Collectors.toSet());
+        if (!agreedTags.containsAll(requiredTags)) {
+            throw new NotAgreedAllRequiredServiceTermException();
+        }
+        this.serviceTermAgreements = agreements.stream()
+            .map(agreement -> ServiceTermAgreement.of(agreement.tag(), agreement.agreed()))
+            .collect(Collectors.toSet());
     }
 
     /**

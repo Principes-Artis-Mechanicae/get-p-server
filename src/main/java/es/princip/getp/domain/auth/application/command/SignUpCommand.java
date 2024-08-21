@@ -1,17 +1,17 @@
 package es.princip.getp.domain.auth.application.command;
 
-import es.princip.getp.domain.member.command.ServiceTermAgreementCommand;
 import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.member.model.Password;
+import es.princip.getp.domain.member.model.ServiceTermAgreementData;
 
-import java.util.List;
+import java.util.Set;
 
 public record SignUpCommand(
     Email email,
     Password password,
     String verificationCode,
-    List<ServiceTermAgreementCommand> serviceTerms,
+    Set<ServiceTermAgreementData> serviceTerms,
     MemberType memberType
 ) {
 }

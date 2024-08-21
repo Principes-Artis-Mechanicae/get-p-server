@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.serviceTerm.dto.response;
 
-import es.princip.getp.domain.serviceTerm.domain.ServiceTerm;
+import es.princip.getp.domain.serviceTerm.model.ServiceTerm;
 import jakarta.validation.constraints.NotNull;
 
 public record ServiceTermResponse(
