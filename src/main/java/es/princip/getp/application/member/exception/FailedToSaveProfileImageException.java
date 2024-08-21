@@ -1,4 +1,4 @@
-package es.princip.getp.domain.member.service;
+package es.princip.getp.application.member.exception;
 
 import es.princip.getp.common.exception.ApiErrorException;
 import es.princip.getp.common.exception.ErrorDescription;
