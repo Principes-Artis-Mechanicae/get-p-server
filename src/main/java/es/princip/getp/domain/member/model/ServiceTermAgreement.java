@@ -19,7 +19,7 @@ public class ServiceTermAgreement {
     private final boolean agreed;
     private final LocalDateTime agreedAt;
 
-    public static ServiceTermAgreement of(final ServiceTermTag tag, final Boolean agreed) {
+    public static ServiceTermAgreement of(final ServiceTermTag tag, final boolean agreed) {
         return new ServiceTermAgreement(tag, agreed, LocalDateTime.now());
     }
 }
