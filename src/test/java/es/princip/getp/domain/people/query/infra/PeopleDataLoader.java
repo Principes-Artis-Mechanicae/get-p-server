@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.stream.LongStream;
 
 import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
-import static es.princip.getp.domain.member.fixture.PasswordFixture.PASSWORD;
-import static es.princip.getp.domain.people.fixture.PeopleFixture.peopleList;
+import static es.princip.getp.fixture.member.PasswordFixture.PASSWORD;
+import static es.princip.getp.fixture.people.PeopleFixture.peopleList;
 
 @RequiredArgsConstructor
 public class PeopleDataLoader implements DataLoader {

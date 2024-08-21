@@ -12,8 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
-import static es.princip.getp.domain.member.fixture.EmailFixture.email;
-import static es.princip.getp.domain.member.fixture.PasswordFixture.password;
+import static es.princip.getp.fixture.member.EmailFixture.email;
+import static es.princip.getp.fixture.member.PasswordFixture.password;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;

@@ -1,6 +1,6 @@
 package es.princip.getp.storage.infra;
 
-import es.princip.getp.storage.fixture.StorageFixture;
+import es.princip.getp.fixture.storage.StorageFixture;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
 
-import static es.princip.getp.storage.fixture.FileStorageFixture.DUMMY_TEXT;
+import static es.princip.getp.fixture.storage.FileStorageFixture.DUMMY_TEXT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LocalFileStorageTest {

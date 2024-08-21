@@ -5,7 +5,7 @@ import es.princip.getp.api.controller.project.query.description.AppliedProjectCa
 import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.common.description.PaginationDescription;
+import es.princip.getp.api.docs.PaginationDescription;
 import es.princip.getp.common.domain.Duration;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.command.domain.ProjectStatus;
@@ -22,7 +22,7 @@ import java.util.List;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
-import static es.princip.getp.common.fixture.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
