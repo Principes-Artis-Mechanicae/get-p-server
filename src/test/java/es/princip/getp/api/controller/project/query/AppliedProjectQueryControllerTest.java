@@ -13,7 +13,7 @@ import es.princip.getp.domain.project.query.dao.AppliedProjectDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -32,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AppliedProjectQueryControllerTest extends ControllerTest {
-    @MockBean
+
+    @Autowired
     private AppliedProjectDao appliedProjectDao;
 
     @DisplayName("피플은 자신이 지원한 프로젝트 목록을 조회할 수 있다.")

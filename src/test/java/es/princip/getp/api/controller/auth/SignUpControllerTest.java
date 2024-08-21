@@ -21,13 +21,18 @@ import static es.princip.getp.domain.auth.fixture.EmailVerificationFixture.VERIF
 import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
 import static es.princip.getp.domain.member.fixture.PasswordFixture.PASSWORD;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class SignUpControllerTest extends ControllerTest {
+
+    @Autowired
+    private SignUpCommandMapper mapper;
 
     @Autowired
     private SignUpService signUpService;
@@ -73,6 +78,7 @@ class SignUpControllerTest extends ControllerTest {
                 ),
                 memberType
             );
+            given(mapper.mapToCommand(request)).willReturn(mock(SignUpCommand.class));
             willDoNothing().given(signUpService).signUp(any(SignUpCommand.class));
 
             mockMvc.perform(post("/auth/signup")
