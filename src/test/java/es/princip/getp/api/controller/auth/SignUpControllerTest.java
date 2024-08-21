@@ -17,9 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Set;
 
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
-import static es.princip.getp.domain.auth.fixture.EmailVerificationFixture.VERIFICATION_CODE;
-import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
-import static es.princip.getp.domain.member.fixture.PasswordFixture.PASSWORD;
+import static es.princip.getp.fixture.auth.EmailVerificationFixture.VERIFICATION_CODE;
+import static es.princip.getp.fixture.member.EmailFixture.EMAIL;
+import static es.princip.getp.fixture.member.PasswordFixture.PASSWORD;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;

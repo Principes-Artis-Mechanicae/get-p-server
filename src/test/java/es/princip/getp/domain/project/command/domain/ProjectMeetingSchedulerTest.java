@@ -9,8 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.phoneNumber;
-import static es.princip.getp.domain.project.fixture.ProjectMeetingFixture.*;
+import static es.princip.getp.fixture.member.PhoneNumberFixture.phoneNumber;
+import static es.princip.getp.fixture.project.ProjectMeetingFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyLong;

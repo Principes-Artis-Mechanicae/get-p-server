@@ -28,8 +28,8 @@ import java.util.List;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
-import static es.princip.getp.domain.client.fixture.AddressFixture.address;
-import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
+import static es.princip.getp.fixture.client.AddressFixture.address;
+import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
