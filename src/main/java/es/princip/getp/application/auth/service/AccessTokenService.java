@@ -1,4 +1,4 @@
-package es.princip.getp.domain.auth.application;
+package es.princip.getp.application.auth.service;
 
 import es.princip.getp.application.member.port.out.LoadMemberPort;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package es.princip.getp.domain.auth.domain;
+package es.princip.getp.application.auth.service;
 
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 @Getter
 @RedisHash(value = "token_verification")
 public class RefreshToken {
+
     @Id
     private Long memberId;
 

@@ -1,9 +1,9 @@
-package es.princip.getp.domain.auth.application;
+package es.princip.getp.application.auth.service;
 
 import es.princip.getp.api.controller.auth.dto.request.LoginRequest;
 import es.princip.getp.api.controller.auth.dto.response.Token;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.auth.exception.IncorrectEmailOrPasswordException;
+import es.princip.getp.application.auth.exception.IncorrectEmailOrPasswordException;
 import es.princip.getp.domain.member.model.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

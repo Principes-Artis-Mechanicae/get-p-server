@@ -1,11 +1,11 @@
-package es.princip.getp.domain.auth.application;
+package es.princip.getp.application.auth.service;
 
+import es.princip.getp.application.auth.command.SignUpCommand;
+import es.princip.getp.application.auth.exception.DuplicatedEmailException;
 import es.princip.getp.application.member.port.out.CheckMemberPort;
 import es.princip.getp.application.member.port.out.SaveMemberPort;
 import es.princip.getp.application.serviceTerm.port.out.CheckServiceTermPort;
 import es.princip.getp.application.serviceTerm.port.out.LoadServiceTermPort;
-import es.princip.getp.domain.auth.application.command.SignUpCommand;
-import es.princip.getp.domain.auth.exception.DuplicatedEmailException;
 import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.ServiceTermAgreementData;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SignUpService {
 
-    private final VerificationService emailVerificationService;
+    private final VerificationService verificationService;
 
     private final LoadServiceTermPort loadServiceTermPort;
     private final CheckServiceTermPort checkServiceTermPort;
@@ -38,12 +38,12 @@ public class SignUpService {
         if (checkMemberPort.existsByEmail(email)) {
             throw new DuplicatedEmailException();
         }
-        emailVerificationService.sendVerificationCode(email);
+        verificationService.sendVerificationCode(email);
     }
 
     @Transactional
     public void signUp(final SignUpCommand command) {
-        emailVerificationService.verifyEmail(command.email(), command.verificationCode());
+        verificationService.verifyEmail(command.email(), command.verificationCode());
         if (checkMemberPort.existsByEmail(command.email())) {
             throw new DuplicatedEmailException();
         }
