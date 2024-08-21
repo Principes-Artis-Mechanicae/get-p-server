@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.command.infra;
 
+import es.princip.getp.application.projectMeeting.MeetingSender;
 import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.project.command.application.MeetingSender;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.command.domain.ProjectMeeting;
 import es.princip.getp.domain.project.exception.FailedMeetingSendingException;

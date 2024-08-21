@@ -1,4 +1,4 @@
-package es.princip.getp.domain.project.command.application;
+package es.princip.getp.application.projectMeeting;
 
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.project.command.domain.Project;

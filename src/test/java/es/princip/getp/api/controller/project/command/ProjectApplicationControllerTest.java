@@ -6,9 +6,10 @@ import es.princip.getp.api.controller.project.command.description.ApplyProjectRe
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.application.projectMeeting.ProjectApplicationService;
+import es.princip.getp.application.projectMeeting.command.ApplyProjectCommand;
 import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.domain.project.command.application.ProjectApplicationService;
-import es.princip.getp.domain.project.command.application.command.ApplyProjectCommand;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

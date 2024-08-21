@@ -1,4 +1,4 @@
-package es.princip.getp.domain.project.command.application.command;
+package es.princip.getp.application.projectMeeting.command;
 
 import es.princip.getp.common.domain.Duration;
 import es.princip.getp.domain.project.command.domain.AttachmentFile;

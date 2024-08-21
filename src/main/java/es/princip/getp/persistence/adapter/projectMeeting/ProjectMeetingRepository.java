@@ -1,5 +1,6 @@
-package es.princip.getp.domain.project.command.domain;
+package es.princip.getp.persistence.adapter.projectMeeting;
 
+import es.princip.getp.domain.project.command.domain.ProjectMeeting;
 import es.princip.getp.domain.project.command.infra.ProjectMeetingQueryDslRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 

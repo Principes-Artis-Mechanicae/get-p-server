@@ -1,9 +1,9 @@
-package es.princip.getp.domain.project.command.application;
+package es.princip.getp.application.projectMeeting;
 
+import es.princip.getp.application.projectMeeting.command.ApplyProjectCommand;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
-import es.princip.getp.domain.project.command.application.command.ApplyProjectCommand;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.command.domain.ProjectApplication;
 import es.princip.getp.domain.project.command.domain.ProjectApplier;

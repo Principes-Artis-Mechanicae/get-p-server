@@ -1,7 +1,7 @@
-package es.princip.getp.domain.project.command.application;
+package es.princip.getp.application.projectMeeting;
 
+import es.princip.getp.application.projectMeeting.command.RegisterProjectCommand;
 import es.princip.getp.domain.client.command.domain.ClientRepository;
-import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;
 import es.princip.getp.domain.project.command.domain.Project;
 import es.princip.getp.domain.project.command.domain.ProjectCommissioner;
 import es.princip.getp.domain.project.command.domain.ProjectData;

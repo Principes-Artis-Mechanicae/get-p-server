@@ -3,10 +3,10 @@ package es.princip.getp.api.controller.project.command;
 import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.projectMeeting.ProjectMeetingService;
+import es.princip.getp.application.projectMeeting.command.ScheduleMeetingCommand;
 import es.princip.getp.api.controller.project.command.dto.request.ScheduleMeetingRequest;
 import es.princip.getp.api.controller.project.command.dto.response.ScheduleMeetingResponse;
-import es.princip.getp.domain.project.command.application.ProjectMeetingService;
-import es.princip.getp.domain.project.command.application.command.ScheduleMeetingCommand;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,7 +40,7 @@ public class ProjectMeetingController {
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final ScheduleMeetingCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
-        final Long meetingId = projectMeetingService.ScheduleMeeting(command);
+        final Long meetingId = projectMeetingService.scheduleMeeting(command);
         final ScheduleMeetingResponse response = new ScheduleMeetingResponse(meetingId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }
