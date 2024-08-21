@@ -6,9 +6,11 @@ import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.common.exception.BusinessLogicException;
 import es.princip.getp.domain.client.query.dao.ClientDao;
 import es.princip.getp.domain.member.model.MemberType;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -27,6 +29,11 @@ class ClientQueryControllerTest extends ControllerTest {
 
     @Autowired
     private ClientDao clientDao;
+
+    @AfterEach
+    void tearDown() {
+        Mockito.reset(clientDao);
+    }
 
     @Nested
     @DisplayName("의뢰자 정보 조회")
