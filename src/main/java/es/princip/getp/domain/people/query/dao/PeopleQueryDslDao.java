@@ -45,7 +45,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
     private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
         return queryFactory.select(
             member.nickname,
-            member.profileImageUrl,
+            member.profileImage,
             people.peopleId,
             people.info.peopleType
         )
@@ -60,7 +60,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
         return Optional.ofNullable(
             queryFactory.select(
                 member.nickname,
-                member.profileImageUrl,
+                member.profileImage,
                 people.peopleId,
                 people.info.peopleType
             )
@@ -90,7 +90,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
             return new CardPeopleResponse(
                 peopleId,
                 memberAndPeople.get(peopleId).get(member.nickname),
-                memberAndPeople.get(peopleId).get(member.profileImageUrl),
+                memberAndPeople.get(peopleId).get(member.profileImage),
                 memberAndPeople.get(peopleId).get(qPeople.info.peopleType),
                 0,
                 likesCounts.get(peopleId),
@@ -126,7 +126,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
         return new DetailPeopleResponse(
             peopleId,
             memberAndPeople.get(member.nickname),
-            memberAndPeople.get(member.profileImageUrl),
+            memberAndPeople.get(member.profileImage),
             memberAndPeople.get(people.info.peopleType),
             0,
             peopleLikeDao.countByLikedId(peopleId),
@@ -152,7 +152,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
         return new PublicDetailPeopleResponse(
             peopleId,
             memberAndPeople.get(member.nickname),
-            memberAndPeople.get(member.profileImageUrl),
+            memberAndPeople.get(member.profileImage),
             memberAndPeople.get(people.info.peopleType),
             0,
             peopleLikeDao.countByLikedId(peopleId),
@@ -170,7 +170,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
                     people.info.email.value,
                     member.nickname,
                     member.phoneNumber,
-                    member.profileImageUrl,
+                    member.profileImage,
                     people.info.peopleType,
                     Expressions.asNumber(0).as("completedProjectsCount"),
                     Expressions.asNumber(0).as("likesCount"),

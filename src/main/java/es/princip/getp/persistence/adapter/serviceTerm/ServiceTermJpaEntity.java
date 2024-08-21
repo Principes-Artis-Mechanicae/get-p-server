@@ -5,15 +5,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @Table(name = "service_term")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class ServiceTermJpaEntity extends BaseTimeJpaEntity {
 
@@ -26,4 +25,19 @@ class ServiceTermJpaEntity extends BaseTimeJpaEntity {
 
     @Column(name = "revocable")
     private boolean revocable;
+
+    @Builder
+    public ServiceTermJpaEntity(
+        final String tag,
+        final boolean required,
+        final boolean revocable,
+        final LocalDateTime createdAt,
+        final LocalDateTime updatedAt
+    ) {
+        super(createdAt, updatedAt);
+
+        this.tag = tag;
+        this.required = required;
+        this.revocable = revocable;
+    }
 }

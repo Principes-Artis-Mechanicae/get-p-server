@@ -1,6 +1,6 @@
 package es.princip.getp.domain.like.command.domain;
 
-import es.princip.getp.domain.client.command.domain.Client;
+import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.like.command.domain.people.PeopleLike;
 import es.princip.getp.domain.like.command.domain.people.PeopleLikeRepository;
 import es.princip.getp.domain.like.command.domain.people.PeopleLiker;

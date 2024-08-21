@@ -1,6 +1,6 @@
 package es.princip.getp.fixture.client;
 
-import es.princip.getp.domain.client.command.domain.Client;
+import es.princip.getp.domain.client.model.Client;
 
 import java.util.List;
 import java.util.stream.LongStream;

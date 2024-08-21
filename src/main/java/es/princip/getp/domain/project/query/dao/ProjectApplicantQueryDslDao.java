@@ -35,7 +35,7 @@ public class ProjectApplicantQueryDslDao extends QueryDslSupport implements Proj
     private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
         return queryFactory.select(
             member.nickname,
-            member.profileImageUrl,
+            member.profileImage,
             people.peopleId,
             people.info.peopleType
         )
@@ -80,7 +80,7 @@ public class ProjectApplicantQueryDslDao extends QueryDslSupport implements Proj
             return new DetailPeopleResponse(
                 peopleId,
                 memberAndPeople.get(peopleId).get(member.nickname),
-                memberAndPeople.get(peopleId).get(member.profileImageUrl),
+                memberAndPeople.get(peopleId).get(member.profileImage),
                 memberAndPeople.get(peopleId).get(qPeople.info.peopleType),
                 0,
                 likesCounts.get(peopleId),
