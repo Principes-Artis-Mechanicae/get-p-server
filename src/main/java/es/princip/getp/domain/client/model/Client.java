@@ -4,12 +4,12 @@ import es.princip.getp.domain.BaseEntity;
 import es.princip.getp.domain.like.command.domain.Likeable;
 import es.princip.getp.domain.member.model.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
-@AllArgsConstructor
 public class Client extends BaseEntity implements Likeable {
 
     private Long clientId;
@@ -20,11 +20,17 @@ public class Client extends BaseEntity implements Likeable {
 
     @Builder
     public Client(
+        final Long clientId,
         final Email email,
         final Address address,
         final BankAccount bankAccount,
-        final Long memberId
+        final Long memberId,
+        final LocalDateTime createdAt,
+        final LocalDateTime updatedAt
     ) {
+        super(createdAt, updatedAt);
+
+        this.clientId = clientId;
         this.email = email;
         this.address = address;
         this.bankAccount = bankAccount;

@@ -22,4 +22,14 @@ public abstract class BaseTimeJpaEntity {
     @LastModifiedDate
     @Column(columnDefinition = "TIMESTAMP")
     protected LocalDateTime updatedAt;
+
+    protected BaseTimeJpaEntity() {
+        this.createdAt = null;
+        this.updatedAt = null;
+    }
+
+    protected BaseTimeJpaEntity(final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }

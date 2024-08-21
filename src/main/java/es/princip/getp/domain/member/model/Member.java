@@ -3,10 +3,12 @@ package es.princip.getp.domain.member.model;
 import es.princip.getp.domain.BaseEntity;
 import es.princip.getp.domain.member.exception.NotAgreedAllRequiredServiceTermException;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -14,29 +16,54 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
-@AllArgsConstructor
 public class Member extends BaseEntity {
 
     private Long memberId;
-    private Email email;
-    private Password password;
-    private MemberType memberType;
+    @NotNull private Email email;
+    @NotNull private Password password;
+    @NotNull private MemberType memberType;
     private Nickname nickname;
     private PhoneNumber phoneNumber;
     private ProfileImage profileImage;
     private Set<ServiceTermAgreement> serviceTermAgreements = new HashSet<>();
+
+    @Builder
+    public Member(
+        final Long memberId,
+        final Email email,
+        final Password password,
+        final MemberType memberType,
+        final Nickname nickname,
+        final PhoneNumber phoneNumber,
+        final ProfileImage profileImage,
+        final Set<ServiceTermAgreement> serviceTermAgreements,
+        final LocalDateTime createdAt,
+        final LocalDateTime updatedAt
+    ) {
+        super(createdAt, updatedAt);
+
+        this.memberId = memberId;
+        this.email = email;
+        this.password = password;
+        this.memberType = memberType;
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+        this.profileImage = profileImage;
+        this.serviceTermAgreements = serviceTermAgreements;
+
+        validate();
+    }
 
     private Member(
         final Email email,
         final Password password,
         final MemberType memberType
     ) {
-        Objects.requireNonNull(email);
-        Objects.requireNonNull(password);
-
         this.email = email;
-        setPassword(password);
+        this.password = password;
         this.memberType = memberType;
+
+        validate();
     }
 
     public static Member of(
@@ -124,7 +151,7 @@ public class Member extends BaseEntity {
         if (password.isEncoded()) {
             return;
         }
-        this.password = password.encode(encoder);
+        setPassword(password.encode(encoder));
     }
 
     /**
