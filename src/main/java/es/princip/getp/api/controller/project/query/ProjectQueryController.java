@@ -5,7 +5,7 @@ import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.common.dto.PageResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.domain.project.query.dao.ProjectDao;
+import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProjectQueryController {
 
-    private final ProjectDao projectDao;
+    private final GetProjectQuery getProjectQuery;
 
     /**
      * 프로젝트 목록 조회
@@ -32,7 +32,7 @@ public class ProjectQueryController {
     @GetMapping
     public ResponseEntity<ApiSuccessResult<PageResponse<ProjectCardResponse>>> getProjects(
         @PageableDefault(sort = "projectId", direction = Sort.Direction.DESC) final Pageable pageable) {
-        final PageResponse<ProjectCardResponse> response = PageResponse.from(projectDao.findPagedProjectCard(pageable));
+        final PageResponse<ProjectCardResponse> response = PageResponse.from(getProjectQuery.getPagedCards(pageable));
         return ApiResponse.success(HttpStatus.OK, response);
     }
 
@@ -46,7 +46,7 @@ public class ProjectQueryController {
     @GetMapping("/{projectId}")
     public ResponseEntity<ApiSuccessResult<ProjectDetailResponse>> getProjectByProjectId(
         @PathVariable final Long projectId) {
-        final ProjectDetailResponse response = projectDao.findProjectDetailById(projectId);
+        final ProjectDetailResponse response = getProjectQuery.getDetailById(projectId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

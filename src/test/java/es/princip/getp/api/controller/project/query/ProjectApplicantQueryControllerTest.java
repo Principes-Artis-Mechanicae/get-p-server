@@ -1,25 +1,21 @@
 package es.princip.getp.api.controller.project.query;
 
 import es.princip.getp.api.controller.ControllerTest;
-import es.princip.getp.api.controller.common.dto.PageResponse;
 import es.princip.getp.api.controller.people.query.description.PagedDetailPeopleResponseDescription;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.api.controller.project.query.description.GetApplicantsByProjectIdQueryParameterDescription;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.project.apply.port.in.GetProjectApplicantQuery;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.people.command.domain.PeopleType;
-import es.princip.getp.domain.project.query.application.ProjectApplicantService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.restdocs.request.RequestDocumentation;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -48,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProjectApplicantQueryControllerTest extends ControllerTest {
 
     @Autowired
-    private ProjectApplicantService projectApplicantService;
+    private GetProjectApplicantQuery getProjectApplicantQuery;
 
     @Nested
     @DisplayName("프로젝트 지원자 목록 조회")
@@ -91,9 +87,8 @@ class ProjectApplicantQueryControllerTest extends ControllerTest {
                     )
                 )
             );
-            final PageResponse<DetailPeopleResponse> page =
-                PageResponse.from(new PageImpl<>(content, pageable, content.size()));
-            given(projectApplicantService.getApplicants(eq(projectId), eq(member), eq(pageable)))
+            final Page<DetailPeopleResponse> page = new PageImpl<>(content, pageable, content.size());
+            given(getProjectApplicantQuery.getPagedDetails(eq(projectId), eq(member), eq(pageable)))
                 .willReturn(page);
 
             perform()

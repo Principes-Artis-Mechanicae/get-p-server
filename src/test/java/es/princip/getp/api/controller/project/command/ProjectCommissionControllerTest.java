@@ -52,7 +52,7 @@ class ProjectCommissionControllerTest extends ControllerTest {
         void commissionProject() throws Exception {
             given(projectCommandMapper.mapToCommand(anyLong(), any(CommissionProjectRequest.class)))
                 .willReturn(mock(CommissionProjectCommand.class));
-            given(projectCommissionService.commissionProject(any(CommissionProjectCommand.class)))
+            given(projectCommissionService.commission(any(CommissionProjectCommand.class)))
                 .willReturn(1L);
 
             perform()

@@ -3,13 +3,13 @@ package es.princip.getp.api.controller.project.query;
 import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.api.controller.project.query.description.GetMyCommissionedProjectQueryParameterDescription;
 import es.princip.getp.api.controller.project.query.description.ProjectCardResponseDescription;
-import es.princip.getp.api.controller.project.query.dto.MyCommissionedProjectCardResponse;
+import es.princip.getp.api.controller.project.query.dto.CommissionedProjectCardResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.application.project.commission.port.in.GetCommissionedProjectQuery;
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
-import es.princip.getp.domain.project.query.dao.MyCommissionedProjectDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,10 +31,10 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class MyCommissionedProjectQueryControllerTest extends ControllerTest {
+class CommissionedProjectQueryControllerTest extends ControllerTest {
 
     @Autowired
-    private MyCommissionedProjectDao myCommissionedProjectDao;
+    private GetCommissionedProjectQuery getCommissionedProjectQuery;
 
     @Nested
     @DisplayName("의뢰한 프로젝트 목록 조회")
@@ -57,8 +57,8 @@ class MyCommissionedProjectQueryControllerTest extends ControllerTest {
         @DisplayName("의뢰자는 자신이 의뢰한 프로젝트 목록을 조회할 수 있다.")
         public void getMyCommissionedProjects() throws Exception {
             final Pageable pageable = PageRequest.of(page, size, sort);
-            final List<MyCommissionedProjectCardResponse> content = List.of(
-                new MyCommissionedProjectCardResponse(
+            final List<CommissionedProjectCardResponse> content = List.of(
+                new CommissionedProjectCardResponse(
                     1L,
                     "프로젝트 제목",
                     1_000_000L,
@@ -73,8 +73,8 @@ class MyCommissionedProjectQueryControllerTest extends ControllerTest {
                     ProjectStatus.APPLYING
                 )
             );
-            final Page<MyCommissionedProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
-            given(myCommissionedProjectDao.findPagedMyCommissionedProjectCard(any(Pageable.class), anyLong(), anyBoolean()))
+            final Page<CommissionedProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
+            given(getCommissionedProjectQuery.getPagedCards(anyLong(), anyBoolean(), any(Pageable.class)))
                 .willReturn(page);
 
             perform()

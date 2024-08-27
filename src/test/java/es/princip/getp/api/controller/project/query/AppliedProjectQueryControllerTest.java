@@ -6,10 +6,10 @@ import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardRespon
 import es.princip.getp.api.docs.PaginationDescription;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.application.project.apply.port.in.GetAppliedProjectQuery;
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
-import es.princip.getp.domain.project.query.dao.AppliedProjectDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AppliedProjectQueryControllerTest extends ControllerTest {
 
     @Autowired
-    private AppliedProjectDao appliedProjectDao;
+    private GetAppliedProjectQuery getAppliedProjectQuery;
 
     @DisplayName("피플은 자신이 지원한 프로젝트 목록을 조회할 수 있다.")
     @Nested
@@ -73,7 +73,7 @@ public class AppliedProjectQueryControllerTest extends ControllerTest {
                 )
             );
             final Page<AppliedProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
-            given(appliedProjectDao.findPagedMyAppliedProjects(any(Pageable.class), anyLong()))
+            given(getAppliedProjectQuery.getPagedCards(anyLong(), any(Pageable.class)))
                 .willReturn(page);
 
             perform()

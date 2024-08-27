@@ -5,8 +5,8 @@ import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;
 import es.princip.getp.api.controller.project.command.dto.response.CommissionProjectResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.application.project.commission.ProjectCommissionService;
 import es.princip.getp.application.project.commission.command.CommissionProjectCommand;
+import es.princip.getp.application.project.commission.port.in.CommissionProjectUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProjectCommissionController {
 
     private final ProjectCommandMapper projectCommandMapper;
-    private final ProjectCommissionService projectCommissionService;
+    private final CommissionProjectUseCase commissionProjectUseCase;
 
     /**
      * 프로젝트 의뢰
@@ -40,7 +40,7 @@ public class ProjectCommissionController {
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final CommissionProjectCommand command = projectCommandMapper.mapToCommand(memberId, request);
-        final Long projectId = projectCommissionService.commissionProject(command);
+        final Long projectId = commissionProjectUseCase.commission(command);
         final CommissionProjectResponse response = new CommissionProjectResponse(projectId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }

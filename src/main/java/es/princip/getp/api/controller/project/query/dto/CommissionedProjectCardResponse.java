@@ -5,7 +5,7 @@ import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 
-public record MyCommissionedProjectCardResponse(
+public record CommissionedProjectCardResponse(
     Long projectId,
     String title,
     Long payment,
@@ -17,8 +17,8 @@ public record MyCommissionedProjectCardResponse(
     ProjectStatus status
 ) {
 
-    public static MyCommissionedProjectCardResponse of(final Project project, final Long applicantsCount) {
-        return new MyCommissionedProjectCardResponse(
+    public static CommissionedProjectCardResponse of(final Project project, final Long applicantsCount) {
+        return new CommissionedProjectCardResponse(
             project.getProjectId(),
             project.getTitle(),
             project.getPayment(),
