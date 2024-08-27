@@ -1,5 +1,6 @@
 package es.princip.getp.application.project.meeting;
 
+import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
 import es.princip.getp.application.project.meeting.exception.NotApplicantException;
 import es.princip.getp.application.project.meeting.exception.NotClientOfProjectException;
@@ -9,9 +10,7 @@ import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.domain.project.apply.ProjectApplicationRepository;
-import es.princip.getp.domain.project.commission.ProjectRepository;
 import es.princip.getp.domain.project.commission.model.Project;
-import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProjectMeetingService {
 
     private final PeopleRepository peopleRepository;
-    private final ProjectRepository projectRepository;
+    private final LoadProjectPort loadProjectPort;
 
     private final ProjectApplicationRepository applicationRepository;
 
@@ -42,8 +41,7 @@ public class ProjectMeetingService {
     public Long scheduleMeeting(final ScheduleMeetingCommand command) {
         final People people = peopleRepository.findByMemberId(command.applicantId())
             .orElseThrow(NotFoundPeopleException::new);
-        final Project project = projectRepository.findById(command.projectId())
-            .orElseThrow(NotFoundProjectException::new);
+        final Project project = loadProjectPort.loadBy(command.projectId());
 
         checkMemberIsClientOfProject(command.memberId(), command.projectId());
         checkPeopleIsApplicant(command.applicantId(), command.projectId());

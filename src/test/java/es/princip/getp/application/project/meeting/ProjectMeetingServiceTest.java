@@ -1,5 +1,6 @@
 package es.princip.getp.application.project.meeting;
 
+import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
 import es.princip.getp.application.project.meeting.exception.NotApplicantException;
 import es.princip.getp.application.project.meeting.exception.NotClientOfProjectException;
@@ -9,7 +10,6 @@ import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.people.command.domain.PeopleType;
 import es.princip.getp.domain.project.apply.ProjectApplicationRepository;
-import es.princip.getp.domain.project.commission.ProjectRepository;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
@@ -36,26 +36,16 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class ProjectMeetingServiceTest {
 
-    @Mock
-    private ProjectApplicationRepository applicationRepository;
+    @Mock private ProjectApplicationRepository applicationRepository;
+    @Mock private PeopleRepository peopleRepository;
     
-    @Mock
-    private PeopleRepository peopleRepository;
-    
-    @Mock
-    private ProjectRepository projectRepository;
+    @Mock private LoadProjectPort loadProjectPort;
+    @Mock private SaveProjectMeetingPort saveProjectMeetingPort;
+    @Mock private CheckProjectMeetingPort checkProjectMeetingPort;
 
-    @Mock
-    private SaveProjectMeetingPort saveProjectMeetingPort;
-    
-    @Mock
-    private CheckProjectMeetingPort checkProjectMeetingPort;
+    @Mock private MeetingSender meetingSender;
 
-    @Mock
-    private MeetingSender meetingSender;
-
-    @InjectMocks
-    private ProjectMeetingService projectMeetingService;
+    @InjectMocks private ProjectMeetingService projectMeetingService;
 
     private final Long memberId = 1L;
     private final Long projectId = 1L;
@@ -68,8 +58,7 @@ class ProjectMeetingServiceTest {
     void setUp() {
         given(peopleRepository.findByMemberId(memberId))
             .willReturn(Optional.of(people));
-        given(projectRepository.findById(projectId))
-            .willReturn(Optional.of(project));
+        given(loadProjectPort.loadBy(projectId)).willReturn(project);
     }
 
     @Test
