@@ -16,13 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 import static es.princip.getp.domain.people.command.domain.QPeople.people;
-import static es.princip.getp.domain.project.apply.model.QProjectApplication.projectApplication;
 import static es.princip.getp.persistence.adapter.project.ProjectPersistenceUtil.toProjectIds;
 
 @Repository
 @RequiredArgsConstructor
 class FindAppliedProjectAdapter extends QueryDslSupport implements FindAppliedProjectPort {
 
+    private static final QProjectApplicationJpaEntity projectApplication
+        = QProjectApplicationJpaEntity.projectApplicationJpaEntity;
     private static final QProjectJpaEntity project = QProjectJpaEntity.projectJpaEntity;
 
     private final FindProjectApplicationAdapter findProjectApplicationAdapter;

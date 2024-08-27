@@ -6,8 +6,8 @@ import es.princip.getp.api.controller.project.command.description.ApplyProjectRe
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.application.project.apply.ProjectApplicationService;
 import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
+import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +34,7 @@ class ProjectApplicationControllerTest extends ControllerTest {
     private ProjectCommandMapper projectCommandMapper;
 
     @Autowired
-    private ProjectApplicationService projectApplicationService;
+    private ApplyProjectUseCase applyProjectUseCase;
 
     @BeforeEach
     void setUp() {
@@ -54,7 +54,7 @@ class ProjectApplicationControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @DisplayName("피플은 프로젝트에 지원할 수 있다.")
         void applyForProject() throws Exception {
-            given(projectApplicationService.applyForProject(any(ApplyProjectCommand.class)))
+            given(applyProjectUseCase.apply(any(ApplyProjectCommand.class)))
                 .willReturn(applicationId);
 
             mockMvc.perform(post("/projects/{projectId}/applications", projectId)

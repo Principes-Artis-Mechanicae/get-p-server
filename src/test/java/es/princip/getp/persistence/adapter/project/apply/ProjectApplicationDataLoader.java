@@ -1,7 +1,6 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
@@ -14,14 +13,15 @@ import static es.princip.getp.fixture.project.ProjectApplicationFixture.projectA
 @RequiredArgsConstructor
 public class ProjectApplicationDataLoader implements DataLoader {
 
+    private final ProjectApplicationPersistenceMapper mapper;
     private final EntityManager entityManager;
 
     @Override
     public void load(final int size) {
-        final List<ProjectApplication> projectApplicationList = new ArrayList<>();
+        final List<ProjectApplicationJpaEntity> projectApplicationList = new ArrayList<>();
         LongStream.rangeClosed(1, size).forEach(projectId ->
             LongStream.rangeClosed(1, size).forEach(peopleId ->
-                projectApplicationList.add(projectApplication(peopleId, projectId))
+                projectApplicationList.add(mapper.mapToJpa(projectApplication(peopleId, projectId)))
             )
         );
         projectApplicationList.forEach(entityManager::persist);
@@ -29,7 +29,7 @@ public class ProjectApplicationDataLoader implements DataLoader {
 
     @Override
     public void teardown() {
-        entityManager.createQuery("DELETE FROM ProjectApplication").executeUpdate();
+        entityManager.createQuery("DELETE FROM ProjectApplicationJpaEntity").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE project_application AUTO_INCREMENT = 1")
             .executeUpdate();
     }

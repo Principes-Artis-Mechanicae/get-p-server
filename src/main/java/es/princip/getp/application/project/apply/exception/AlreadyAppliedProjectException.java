@@ -1,4 +1,4 @@
-package es.princip.getp.domain.project.apply.exception;
+package es.princip.getp.application.project.apply.exception;
 
 import es.princip.getp.common.exception.BusinessLogicException;
 import es.princip.getp.common.exception.ErrorDescription;
