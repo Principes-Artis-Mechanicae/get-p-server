@@ -5,8 +5,8 @@ import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleRespon
 import es.princip.getp.application.client.port.out.LoadClientPort;
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.member.model.Member;
-import es.princip.getp.domain.project.command.domain.Project;
-import es.princip.getp.domain.project.command.domain.ProjectRepository;
+import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.ProjectRepository;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import es.princip.getp.domain.project.exception.NotMyProjectException;
 import es.princip.getp.domain.project.query.dao.ProjectApplicantDao;

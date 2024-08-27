@@ -6,9 +6,9 @@ import es.princip.getp.api.controller.project.command.description.ScheduleMeetin
 import es.princip.getp.api.controller.project.command.dto.request.ScheduleMeetingRequest;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.application.project.meeting.ProjectMeetingService;
+import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
 import es.princip.getp.domain.member.model.MemberType;
-import es.princip.getp.domain.project.command.application.ProjectMeetingService;
-import es.princip.getp.domain.project.command.application.command.ScheduleMeetingCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -63,7 +63,7 @@ public class ProjectMeetingControllerTest extends ControllerTest {
         void scheduleMeeting() throws Exception {
             given(projectCommandMapper.mapToCommand(memberId, projectId, request))
                 .willReturn(mock(ScheduleMeetingCommand.class));
-            given(projectMeetingService.ScheduleMeeting(any(ScheduleMeetingCommand.class)))
+            given(projectMeetingService.scheduleMeeting(any(ScheduleMeetingCommand.class)))
                 .willReturn(meetingId);
 
             perform()

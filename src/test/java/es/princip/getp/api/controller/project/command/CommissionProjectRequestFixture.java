@@ -2,8 +2,8 @@ package es.princip.getp.api.controller.project.command;
 
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;
 import es.princip.getp.common.domain.Duration;
-import es.princip.getp.domain.project.command.domain.MeetingType;
-import es.princip.getp.domain.project.command.domain.ProjectCategory;
+import es.princip.getp.domain.project.commission.model.MeetingType;
+import es.princip.getp.domain.project.commission.model.ProjectCategory;
 
 import java.time.LocalDate;
 import java.util.List;

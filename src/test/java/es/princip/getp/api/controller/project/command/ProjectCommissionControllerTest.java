@@ -6,9 +6,9 @@ import es.princip.getp.api.controller.project.command.description.RegisterProjec
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.application.project.commission.ProjectCommissionService;
+import es.princip.getp.application.project.commission.command.CommissionProjectCommand;
 import es.princip.getp.domain.member.model.MemberType;
-import es.princip.getp.domain.project.command.application.ProjectCommissionService;
-import es.princip.getp.domain.project.command.application.command.RegisterProjectCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -51,8 +51,8 @@ class ProjectCommissionControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void commissionProject() throws Exception {
             given(projectCommandMapper.mapToCommand(anyLong(), any(CommissionProjectRequest.class)))
-                .willReturn(mock(RegisterProjectCommand.class));
-            given(projectCommissionService.commissionProject(any(RegisterProjectCommand.class)))
+                .willReturn(mock(CommissionProjectCommand.class));
+            given(projectCommissionService.commissionProject(any(CommissionProjectCommand.class)))
                 .willReturn(1L);
 
             perform()

@@ -1,35 +1,24 @@
 package es.princip.getp.common.domain;
 
 import es.princip.getp.common.exception.StartTimeIsAfterEndTimeException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Getter
-@Embeddable
-@MappedSuperclass
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MeetingSchedule {
 
-    @Column(name = "date")
     @NotNull
     private LocalDate date;
     
-    @Column(name = "start_time")
     @NotNull
     private LocalTime startTime;
 
-    @Column(name = "end_time")
     @NotNull
     private LocalTime endTime;
 
