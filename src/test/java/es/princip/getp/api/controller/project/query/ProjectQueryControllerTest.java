@@ -1,6 +1,7 @@
 package es.princip.getp.api.controller.project.query;
 
 import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.controller.common.dto.HashtagsResponse;
 import es.princip.getp.api.controller.project.query.description.ProjectCardResponseDescription;
 import es.princip.getp.api.controller.project.query.description.ProjectDetailResponseDescription;
 import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
@@ -8,14 +9,13 @@ import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
-import es.princip.getp.common.domain.Duration;
-import es.princip.getp.common.domain.Hashtag;
-import es.princip.getp.common.dto.HashtagsResponse;
-import es.princip.getp.domain.project.commission.model.AttachmentFile;
+import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
+import es.princip.getp.domain.common.model.AttachmentFile;
+import es.princip.getp.domain.common.model.Duration;
+import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.project.commission.model.MeetingType;
 import es.princip.getp.domain.project.commission.model.ProjectCategory;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
-import es.princip.getp.domain.project.query.dao.ProjectDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProjectQueryControllerTest extends ControllerTest {
 
     @Autowired
-    private ProjectDao projectDao;
+    private GetProjectQuery getProjectQuery;
 
     @DisplayName("프로젝트 목록 조회")
     @Nested
@@ -84,7 +84,7 @@ class ProjectQueryControllerTest extends ControllerTest {
                 )
             );
             final Page<ProjectCardResponse> response = new PageImpl<>(content, pageable, content.size());
-            given(projectDao.findPagedProjectCard(pageable)).willReturn(response);
+            given(getProjectQuery.getPagedCards(pageable)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())
@@ -146,7 +146,7 @@ class ProjectQueryControllerTest extends ControllerTest {
                     address()
                 )
             );
-            given(projectDao.findProjectDetailById(projectId)).willReturn(response);
+            given(getProjectQuery.getDetailById(projectId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

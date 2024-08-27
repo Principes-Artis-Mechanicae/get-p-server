@@ -1,7 +1,8 @@
 package es.princip.getp.domain.member.model;
 
+import es.princip.getp.domain.BaseModel;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -10,13 +11,24 @@ import java.time.LocalDateTime;
 
 @Getter
 @ToString
-@AllArgsConstructor
-@EqualsAndHashCode(exclude = "agreedAt")
-public class ServiceTermAgreement {
+@EqualsAndHashCode(exclude = "agreedAt", callSuper = false)
+public class ServiceTermAgreement extends BaseModel {
 
-    private final ServiceTermTag tag;
-    private final boolean agreed;
-    private final LocalDateTime agreedAt;
+    @NotNull private final ServiceTermTag tag;
+    @NotNull private final boolean agreed;
+    @NotNull private final LocalDateTime agreedAt;
+
+    public ServiceTermAgreement(
+        final ServiceTermTag tag,
+        final boolean agreed,
+        final LocalDateTime agreedAt
+    ) {
+        this.tag = tag;
+        this.agreed = agreed;
+        this.agreedAt = agreedAt;
+
+        validate();
+    }
 
     static ServiceTermAgreement of(final ServiceTermTag tag, final boolean agreed) {
         return new ServiceTermAgreement(tag, agreed, LocalDateTime.now());

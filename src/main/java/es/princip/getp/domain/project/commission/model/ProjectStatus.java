@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.commission.model;
 
-import es.princip.getp.common.domain.Duration;
+import es.princip.getp.domain.common.model.Duration;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -24,5 +24,25 @@ public enum ProjectStatus {
             return APPLYING;
         }
         return PREPARING;
+    }
+
+    public boolean isPreparing() {
+        return this == PREPARING;
+    }
+
+    public boolean isApplying() {
+        return this == APPLYING;
+    }
+
+    public boolean isProgressing() {
+        return this == PROGRESSING;
+    }
+
+    public boolean isCompleted() {
+        return this == COMPLETED;
+    }
+
+    public boolean isCancelled() {
+        return this == CANCELLED;
     }
 }

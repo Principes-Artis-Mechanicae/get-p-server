@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.like.command;
 
-import es.princip.getp.api.controller.ApiResponse;
-import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
+import es.princip.getp.api.controller.common.dto.ApiResponse;
+import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.domain.like.command.application.PeopleLikeService;
 import lombok.RequiredArgsConstructor;

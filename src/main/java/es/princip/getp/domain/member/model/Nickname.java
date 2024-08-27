@@ -1,28 +1,25 @@
 package es.princip.getp.domain.member.model;
 
+import es.princip.getp.domain.BaseModel;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Objects;
-
 @Getter
 @ToString
-@EqualsAndHashCode
-public class Nickname {
+@EqualsAndHashCode(callSuper = false)
+public class Nickname extends BaseModel {
 
-    private final String value;
+    @NotNull private final String value;
 
     public Nickname(final String value) {
         this.value = value;
+
+        validate();
     }
 
     public static Nickname of(final String value) {
-        validate(value);
         return new Nickname(value);
-    }
-
-    private static void validate(final String value) {
-        Objects.requireNonNull(value);
     }
 }

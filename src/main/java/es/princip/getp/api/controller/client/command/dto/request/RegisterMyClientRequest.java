@@ -8,7 +8,7 @@ import es.princip.getp.domain.client.model.BankAccount;
 import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.Nickname;
-import es.princip.getp.domain.member.model.PhoneNumber;
+import es.princip.getp.domain.common.model.PhoneNumber;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

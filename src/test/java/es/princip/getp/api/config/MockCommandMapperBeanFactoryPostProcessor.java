@@ -1,6 +1,6 @@
 package es.princip.getp.api.config;
 
-import es.princip.getp.api.controller.CommandMapper;
+import es.princip.getp.api.controller.common.mapper.CommandMapper;
 import org.jetbrains.annotations.NotNull;
 import org.junit.platform.commons.util.ClassFilter;
 import org.junit.platform.commons.util.ReflectionUtils;

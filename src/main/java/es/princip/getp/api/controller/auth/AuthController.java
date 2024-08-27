@@ -1,9 +1,9 @@
 package es.princip.getp.api.controller.auth;
 
-import es.princip.getp.api.controller.ApiResponse;
-import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.auth.dto.request.LoginRequest;
 import es.princip.getp.api.controller.auth.dto.response.Token;
+import es.princip.getp.api.controller.common.dto.ApiResponse;
+import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

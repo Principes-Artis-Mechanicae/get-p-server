@@ -1,6 +1,6 @@
 package es.princip.getp.fixture.member;
 
-import es.princip.getp.domain.member.model.PhoneNumber;
+import es.princip.getp.domain.common.model.PhoneNumber;
 
 public class PhoneNumberFixture {
     public static final String PHONE_NUMBER = "01012345678";

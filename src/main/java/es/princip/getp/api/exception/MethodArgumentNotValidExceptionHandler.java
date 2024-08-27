@@ -1,6 +1,6 @@
 package es.princip.getp.api.exception;
 
-import es.princip.getp.api.controller.ApiErrorResponse;
+import es.princip.getp.api.controller.common.dto.ApiErrorResponse;
 import es.princip.getp.common.exception.ErrorDescription;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
