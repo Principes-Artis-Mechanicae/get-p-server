@@ -1,11 +1,11 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.ApiResponse;
-import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.controller.PageResponse;
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.controller.common.dto.ApiResponse;
+import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
+import es.princip.getp.api.controller.common.dto.PageResponse;
 import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
-import es.princip.getp.domain.project.query.dao.AppliedProjectDao;
+import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.project.apply.port.in.GetAppliedProjectQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AppliedProjectQueryController {
 
-    private final AppliedProjectDao appliedProjectDao;
+    private final GetAppliedProjectQuery getAppliedProjectQuery;
 
     @GetMapping("/me/projects")
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
@@ -33,7 +33,7 @@ public class AppliedProjectQueryController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final Page<AppliedProjectCardResponse> page = appliedProjectDao.findPagedMyAppliedProjects(pageable, memberId);
+        final Page<AppliedProjectCardResponse> page = getAppliedProjectQuery.getPagedCards(memberId, pageable);
         final PageResponse<AppliedProjectCardResponse> response = PageResponse.from(page);
         return ApiResponse.success(HttpStatus.OK, response);
     }

@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.people.command.dto.request;
 
-import es.princip.getp.common.annotation.URLPattern;
+import es.princip.getp.api.validation.URLPattern;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

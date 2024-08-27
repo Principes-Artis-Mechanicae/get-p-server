@@ -1,98 +1,41 @@
 package es.princip.getp.domain.project.commission.model;
 
-import es.princip.getp.common.domain.BaseTimeEntity;
-import es.princip.getp.common.domain.Duration;
-import es.princip.getp.common.domain.Hashtag;
+import es.princip.getp.domain.BaseEntity;
 import es.princip.getp.domain.client.model.Client;
+import es.princip.getp.domain.common.model.AttachmentFile;
+import es.princip.getp.domain.common.model.Duration;
+import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.like.command.domain.LikeReceivable;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.Clock;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-@Entity
-@AllArgsConstructor
-@Table(name = "project")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Project extends BaseTimeEntity implements LikeReceivable {
+public class Project extends BaseEntity implements LikeReceivable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "project_id")
     private Long projectId;
-
-    // 제목
-    @Column(name = "title")
-    private String title;
-
-    // 금액
-    @Column(name = "payment")
-    private Long payment;
-
-    // 지원자 모집 기간
-    @Embedded
-    @AttributeOverrides(
-        {
-            @AttributeOverride(name = "startDate", column = @Column(name = "application_start_date")),
-            @AttributeOverride(name = "endDate", column = @Column(name = "application_end_date"))
-        }
-    )
-    private Duration applicationDuration;
-
-    // 예상 작업 기간
-    @Embedded
-    @AttributeOverrides(
-        {
-            @AttributeOverride(name = "startDate", column = @Column(name = "estimated_start_date")),
-            @AttributeOverride(name = "endDate", column = @Column(name = "estimated_end_date"))
-        }
-    )
-    private Duration estimatedDuration;
-
-    // 상세 설명
-    @Column(name = "description")
-    private String description;
-
-    // 미팅 유형
-    @Column(name = "meeting_type")
-    @Enumerated(EnumType.STRING)
-    private MeetingType meetingType;
-
-    // 프로젝트 카테고리
-    @Column(name = "category")
-    @Enumerated(EnumType.STRING)
-    private ProjectCategory category;
-
-    // 프로젝트 상태
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private ProjectStatus status;
-
-    // 의뢰자
-    @Column(name = "client_id")
-    private Long clientId;
-
-    // 관심 수
-    //TODO: 관심 수를 계산하는 로직 구현 필요
-    @Transient
-    private int interestsCount;
-
-    // 첨부 파일 목록
-    @ElementCollection
-    @CollectionTable(name = "project_attachment_file", joinColumns = @JoinColumn(name = "project_id"))
-    private List<AttachmentFile> attachmentFiles = new ArrayList<>();
-
-    // 해시태그 목록
-    @ElementCollection
-    @CollectionTable(name = "project_hashtag", joinColumns = @JoinColumn(name = "project_id"))
-    private List<Hashtag> hashtags = new ArrayList<>();
+    @NotBlank private String title; // 제목
+    @NotNull private Long payment; // 금액
+    @NotNull private Duration applicationDuration; // 지원자 모집 기간
+    @NotNull private Duration estimatedDuration; // 예상 작업 기간
+    @NotBlank private String description; // 상세 설명
+    @NotNull private MeetingType meetingType; // 미팅 유형
+    @NotNull private ProjectCategory category; // 프로젝트 카테고리
+    @NotNull private ProjectStatus status; // 프로젝트 상태
+    @NotNull private final Long clientId; // 의뢰자
+    private int interestsCount; // 관심 수
+    private final List<@NotNull AttachmentFile> attachmentFiles; // 첨부 파일 목록
+    private final List<@NotNull Hashtag> hashtags; // 해시태그 목록
 
     @Builder
     public Project(
+        final Long projectId,
         final String title,
         final Long payment,
         final Duration applicationDuration,
@@ -102,9 +45,15 @@ public class Project extends BaseTimeEntity implements LikeReceivable {
         final ProjectCategory category,
         final ProjectStatus status,
         final Long clientId,
+        final int interestsCount,
         final List<AttachmentFile> attachmentFiles,
-        final List<Hashtag> hashtags
+        final List<Hashtag> hashtags,
+        final LocalDateTime createdAt,
+        final LocalDateTime updatedAt
     ) {
+        super(createdAt, updatedAt);
+
+        this.projectId = projectId;
         this.title = title;
         this.payment = payment;
         this.applicationDuration = applicationDuration;
@@ -114,8 +63,11 @@ public class Project extends BaseTimeEntity implements LikeReceivable {
         this.category = category;
         this.status = status;
         this.clientId = clientId;
+        this.interestsCount = interestsCount;
         this.attachmentFiles = attachmentFiles;
         this.hashtags = hashtags;
+
+        validate();
     }
 
     public List<AttachmentFile> getAttachmentFiles() {
@@ -127,7 +79,7 @@ public class Project extends BaseTimeEntity implements LikeReceivable {
     }
 
     public boolean isApplicationClosed(final Clock clock) {
-        return applicationDuration.isEnded(clock) || status != ProjectStatus.APPLYING;
+        return applicationDuration.isEnded(clock) || !status.isApplying();
     }
 
     public boolean isClient(final Client client) {

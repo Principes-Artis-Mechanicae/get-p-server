@@ -1,11 +1,11 @@
 package es.princip.getp.api.controller.people.command.dto.request;
 
-import es.princip.getp.common.annotation.Enum;
 import es.princip.getp.api.validation.EmailPattern;
+import es.princip.getp.api.validation.Enum;
 import es.princip.getp.api.validation.PhoneNumberPattern;
 import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.member.model.Nickname;
-import es.princip.getp.domain.member.model.PhoneNumber;
+import es.princip.getp.domain.common.model.PhoneNumber;
 import es.princip.getp.domain.people.command.application.command.UpdatePeopleCommand;
 import es.princip.getp.domain.people.command.domain.PeopleType;
 import jakarta.validation.constraints.NotBlank;

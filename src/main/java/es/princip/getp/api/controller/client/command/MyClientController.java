@@ -1,10 +1,10 @@
 package es.princip.getp.api.controller.client.command;
 
-import es.princip.getp.api.controller.ApiResponse;
-import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.client.command.dto.request.EditMyClientRequest;
 import es.princip.getp.api.controller.client.command.dto.request.RegisterMyClientRequest;
 import es.princip.getp.api.controller.client.command.dto.response.RegisterMyClientResponse;
+import es.princip.getp.api.controller.common.dto.ApiResponse;
+import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.application.client.command.EditClientCommand;
 import es.princip.getp.application.client.command.RegisterClientCommand;

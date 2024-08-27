@@ -1,32 +1,34 @@
 package es.princip.getp.domain.member.model;
 
+import es.princip.getp.domain.BaseModel;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Getter
 @ToString
-@EqualsAndHashCode
-public class Password {
+@EqualsAndHashCode(callSuper = false)
+public class Password extends BaseModel {
 
     public static final String PASSWORD_REGEX
         = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*_+=/])[A-Za-z\\d!@#$%^&*_+=/]{8,20}$";
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
-    private final String value;
+    @NotNull private final String value;
     private final boolean encoded;
 
     public Password(final String value, final boolean encoded) {
         this.value = value;
         this.encoded = encoded;
+
+        validate();
     }
 
     public static Password of(final String value) {
-        validate(value);
         return new Password(value, false);
     }
 
@@ -34,9 +36,10 @@ public class Password {
         return new Password(encoder.encode(value), true);
     }
 
-    private static void validate(final String value) {
-        Objects.requireNonNull(value);
-        if (!PASSWORD_PATTERN.matcher(value).matches()) {
+    @Override
+    public void validate() {
+        super.validate();
+        if (!encoded && !PASSWORD_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException("비밀번호 형식이 올바르지 않습니다.");
         }
     }

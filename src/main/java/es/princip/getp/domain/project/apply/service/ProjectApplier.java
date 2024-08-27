@@ -1,7 +1,8 @@
 package es.princip.getp.domain.project.apply.service;
 
 import es.princip.getp.common.domain.ClockHolder;
-import es.princip.getp.common.domain.Duration;
+import es.princip.getp.domain.common.model.AttachmentFile;
+import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.domain.project.apply.ProjectApplicationRepository;
@@ -9,7 +10,6 @@ import es.princip.getp.domain.project.apply.exception.AlreadyAppliedProjectExcep
 import es.princip.getp.domain.project.apply.exception.ClosedProjectApplicationException;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;
-import es.princip.getp.domain.project.commission.model.AttachmentFile;
 import es.princip.getp.domain.project.commission.model.Project;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

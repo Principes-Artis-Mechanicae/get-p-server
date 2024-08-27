@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.command.application.command;
 
-import es.princip.getp.common.domain.Hashtag;
-import es.princip.getp.common.domain.TechStack;
+import es.princip.getp.domain.common.model.Hashtag;
+import es.princip.getp.domain.common.model.TechStack;
 import es.princip.getp.domain.people.command.domain.Education;
 import es.princip.getp.domain.people.command.domain.Portfolio;
 

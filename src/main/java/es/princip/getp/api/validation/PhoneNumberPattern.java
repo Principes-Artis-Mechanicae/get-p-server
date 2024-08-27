@@ -1,6 +1,6 @@
 package es.princip.getp.api.validation;
 
-import es.princip.getp.domain.member.model.PhoneNumber;
+import es.princip.getp.domain.common.model.PhoneNumber;
 import jakarta.validation.Constraint;
 import jakarta.validation.constraints.Pattern;
 

@@ -1,8 +1,8 @@
 package es.princip.getp.api.controller.auth;
 
-import es.princip.getp.api.controller.CommandMapper;
 import es.princip.getp.api.controller.auth.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;
+import es.princip.getp.api.controller.common.mapper.CommandMapper;
 import es.princip.getp.application.auth.command.SignUpCommand;
 import es.princip.getp.domain.member.model.ServiceTermAgreementData;
 import org.mapstruct.Mapper;
