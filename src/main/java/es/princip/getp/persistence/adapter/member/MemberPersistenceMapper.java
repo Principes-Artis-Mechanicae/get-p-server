@@ -1,12 +1,14 @@
 package es.princip.getp.persistence.adapter.member;
 
-import es.princip.getp.domain.common.model.PhoneNumber;
-import es.princip.getp.domain.member.model.*;
+import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.Nickname;
+import es.princip.getp.domain.member.model.ProfileImage;
+import es.princip.getp.domain.member.model.ServiceTermAgreement;
+import es.princip.getp.persistence.adapter.common.mapper.PhoneNumberPersistenceMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.NullValueCheckStrategy;
 
-@Mapper(componentModel = "spring", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+@Mapper(componentModel = "spring", uses = {PhoneNumberPersistenceMapper.class})
 public interface MemberPersistenceMapper {
 
     @Mapping(source = "email", target = "email.value")
@@ -25,9 +27,6 @@ public interface MemberPersistenceMapper {
 
     @Mapping(target = "tag", source = "tag.value")
     ServiceTermAgreementJpaVO mapToJpa(ServiceTermAgreement serviceTermAgreement);
-
-    @Mapping(source = "value", target = "value")
-    PhoneNumber mapToPhoneNumber(String value);
 
     @Mapping(source = "value", target = "value")
     Nickname mapToNickname(String value);
