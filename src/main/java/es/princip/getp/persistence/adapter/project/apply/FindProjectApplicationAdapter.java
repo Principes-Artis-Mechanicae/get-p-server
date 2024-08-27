@@ -8,11 +8,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static es.princip.getp.domain.project.apply.model.QProjectApplication.projectApplication;
-
 @Repository
 @RequiredArgsConstructor
 public class FindProjectApplicationAdapter extends QueryDslSupport {
+
+    private static final QProjectApplicationJpaEntity projectApplication
+        = QProjectApplicationJpaEntity.projectApplicationJpaEntity;
 
     public Map<Long, Long> countByProjectIds(final Long... projectId) {
         return queryFactory.select(projectApplication.projectId, projectApplication.count())
