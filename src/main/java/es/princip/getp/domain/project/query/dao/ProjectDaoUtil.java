@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.query.dao;
 
-import es.princip.getp.domain.project.command.domain.Project;
+import es.princip.getp.domain.project.commission.model.Project;
 
 import java.util.List;
 

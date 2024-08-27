@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static es.princip.getp.domain.project.command.domain.QProjectApplication.projectApplication;
+import static es.princip.getp.domain.project.apply.model.QProjectApplication.projectApplication;
 
 @Repository
 @RequiredArgsConstructor

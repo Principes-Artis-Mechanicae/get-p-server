@@ -7,7 +7,7 @@ import es.princip.getp.application.client.port.out.ClientQuery;
 import es.princip.getp.common.dto.HashtagsResponse;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.ProjectLikeDao;
-import es.princip.getp.domain.project.command.domain.Project;
+import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static es.princip.getp.domain.project.command.domain.QProject.project;
+import static es.princip.getp.domain.project.commission.model.QProject.project;
 import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectIds;
 
 @Repository

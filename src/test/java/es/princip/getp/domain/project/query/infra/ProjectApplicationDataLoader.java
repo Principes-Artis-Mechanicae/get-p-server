@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.query.infra;
 
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.project.command.domain.ProjectApplication;
+import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
