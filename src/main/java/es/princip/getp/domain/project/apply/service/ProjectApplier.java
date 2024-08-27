@@ -5,8 +5,6 @@ import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
-import es.princip.getp.domain.project.apply.ProjectApplicationRepository;
-import es.princip.getp.domain.project.apply.exception.AlreadyAppliedProjectException;
 import es.princip.getp.domain.project.apply.exception.ClosedProjectApplicationException;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;
@@ -21,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProjectApplier {
 
-    private final ProjectApplicationRepository projectApplicationRepository;
     private final ClockHolder clockHolder;
 
     /**
@@ -41,11 +38,6 @@ public class ProjectApplier {
         final String description,
         final List<AttachmentFile> attachmentFiles
     ) {
-        final Long peopleId = people.getPeopleId();
-        final Long projectId = project.getProjectId();
-        if (projectApplicationRepository.existsByApplicantIdAndProjectId(peopleId, projectId)) {
-            throw new AlreadyAppliedProjectException();
-        }
         final Clock clock = clockHolder.getClock();
         if (project.isApplicationClosed(clock)) {
             throw new ClosedProjectApplicationException();
@@ -53,7 +45,7 @@ public class ProjectApplier {
         if (!people.isProfileRegistered()) {
             throw new NotRegisteredPeopleProfileException();
         }
-        final ProjectApplication application = ProjectApplication.builder()
+        return ProjectApplication.builder()
             .applicantId(people.getPeopleId())
             .projectId(project.getProjectId())
             .expectedDuration(expectedDuration)
@@ -61,7 +53,5 @@ public class ProjectApplier {
             .attachmentFiles(attachmentFiles)
             .applicationStatus(ProjectApplicationStatus.APPLICATION_COMPLETED)
             .build();
-        projectApplicationRepository.save(application);
-        return application;
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class GetProjectApplicantService implements GetProjectApplicantQuery {
+class GetProjectApplicantService implements GetProjectApplicantQuery {
 
     private final FindProjectApplicantPort findProjectApplicantPort;
     private final LoadClientPort loadClientPort;
