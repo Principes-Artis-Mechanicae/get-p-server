@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller;
+package es.princip.getp.api.controller.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

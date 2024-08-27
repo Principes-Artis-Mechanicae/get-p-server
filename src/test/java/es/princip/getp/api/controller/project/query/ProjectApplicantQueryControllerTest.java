@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.project.query;
 
 import es.princip.getp.api.controller.ControllerTest;
-import es.princip.getp.api.controller.PageResponse;
+import es.princip.getp.api.controller.common.dto.PageResponse;
 import es.princip.getp.api.controller.people.query.description.PagedDetailPeopleResponseDescription;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;

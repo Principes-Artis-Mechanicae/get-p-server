@@ -1,8 +1,8 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.ApiResponse;
-import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.controller.PageResponse;
+import es.princip.getp.api.controller.common.dto.ApiResponse;
+import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
+import es.princip.getp.api.controller.common.dto.PageResponse;
 import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.domain.project.query.dao.AppliedProjectDao;

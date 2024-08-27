@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.project.command;
 
-import es.princip.getp.api.controller.CommandMapper;
+import es.princip.getp.api.controller.common.mapper.CommandMapper;
 import es.princip.getp.api.controller.common.mapper.HashtagMapper;
 import es.princip.getp.api.controller.common.mapper.PhoneNumberMapper;
 import es.princip.getp.api.controller.common.mapper.URLMapper;

@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller;
+package es.princip.getp.api.controller.common.dto;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.query.application;
 
-import es.princip.getp.api.controller.PageResponse;
+import es.princip.getp.api.controller.common.dto.PageResponse;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.application.client.port.out.LoadClientPort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;

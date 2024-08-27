@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller;
+package es.princip.getp.api.controller.common.mapper;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

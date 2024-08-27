@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.controller.CommandMapper;
+import es.princip.getp.api.controller.common.mapper.CommandMapper;
 import es.princip.getp.api.controller.common.mapper.HashtagMapper;
 import es.princip.getp.api.controller.common.mapper.TechStackMapper;
 import es.princip.getp.api.controller.common.mapper.URLMapper;
