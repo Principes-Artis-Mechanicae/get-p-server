@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.storage;
 
-import es.princip.getp.api.controller.ApiResponse;
+import es.princip.getp.api.controller.common.dto.ApiResponse;
 import es.princip.getp.api.controller.storage.dto.FileUploadResponse;
 import es.princip.getp.storage.application.FileUploadService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 
-import static es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
+import static es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 
 @RestController
 @RequiredArgsConstructor

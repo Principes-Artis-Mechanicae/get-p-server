@@ -2,13 +2,13 @@ package es.princip.getp.persistence.adapter.project.meeting;
 
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.persistence.adapter.client.QClientJpaEntity;
-
-import static es.princip.getp.domain.project.commission.model.QProject.project;
+import es.princip.getp.persistence.adapter.project.commission.QProjectJpaEntity;
 
 class ProjectMeetingQueryDslRepositoryImpl
     extends QueryDslSupport
     implements ProjectMeetingQueryDslRepository {
 
+    private static final QProjectJpaEntity project = QProjectJpaEntity.projectJpaEntity;
     private static final QClientJpaEntity client = QClientJpaEntity.clientJpaEntity;
 
     @Override

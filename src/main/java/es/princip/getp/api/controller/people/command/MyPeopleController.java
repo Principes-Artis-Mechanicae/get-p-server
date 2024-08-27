@@ -1,11 +1,11 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.controller.ApiResponse;
-import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.controller.common.dto.ApiResponse;
+import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.people.command.dto.request.CreatePeopleRequest;
 import es.princip.getp.api.controller.people.command.dto.request.UpdatePeopleRequest;
 import es.princip.getp.api.controller.people.command.dto.response.CreatePeopleResponse;
+import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.domain.people.command.application.PeopleService;
 import es.princip.getp.domain.people.command.application.command.CreatePeopleCommand;
 import es.princip.getp.domain.people.command.application.command.UpdatePeopleCommand;

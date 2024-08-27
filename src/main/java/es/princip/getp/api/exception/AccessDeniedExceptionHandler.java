@@ -1,7 +1,7 @@
 package es.princip.getp.api.exception;
 
-import es.princip.getp.api.controller.ApiErrorResponse;
-import es.princip.getp.api.controller.ApiErrorResponse.ApiErrorResult;
+import es.princip.getp.api.controller.common.dto.ApiErrorResponse;
+import es.princip.getp.api.controller.common.dto.ApiErrorResponse.ApiErrorResult;
 import es.princip.getp.common.exception.DefaultErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;

@@ -1,8 +1,8 @@
 package es.princip.getp.domain.project.apply.model;
 
 import es.princip.getp.common.domain.BaseTimeEntity;
-import es.princip.getp.common.domain.Duration;
-import es.princip.getp.domain.project.commission.model.AttachmentFile;
+import es.princip.getp.domain.common.model.AttachmentFile;
+import es.princip.getp.domain.common.model.Duration;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
