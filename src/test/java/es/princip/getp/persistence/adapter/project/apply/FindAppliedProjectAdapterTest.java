@@ -27,7 +27,8 @@ public class FindAppliedProjectAdapterTest extends PersistenceAdapterTest {
 
     @PersistenceContext private EntityManager entityManager;
     @Autowired private FindAppliedProjectAdapter adapter;
-    @Autowired private ProjectPersistenceMapper mapper;
+    @Autowired private ProjectApplicationPersistenceMapper applicationMapper;
+    @Autowired private ProjectPersistenceMapper projectMapper;
 
     private List<DataLoader> dataLoaders;
 
@@ -35,8 +36,8 @@ public class FindAppliedProjectAdapterTest extends PersistenceAdapterTest {
     void setUp() {
         dataLoaders = List.of(
             new PeopleDataLoader(entityManager),
-            new ProjectDataLoader(mapper, entityManager),
-            new ProjectApplicationDataLoader(entityManager)
+            new ProjectDataLoader(projectMapper, entityManager),
+            new ProjectApplicationDataLoader(applicationMapper, entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
     }
@@ -53,9 +54,9 @@ public class FindAppliedProjectAdapterTest extends PersistenceAdapterTest {
     void 지원한_프로젝트_목록을_조회한다() {
         final Page<AppliedProjectCardResponse> response = adapter.findBy(1L, pageable);
 
-        assertThat(response.getContent()).allSatisfy(content -> {
-            assertThat(content).usingRecursiveComparison().isNotNull();
-        });
+        assertThat(response.getContent()).allSatisfy(content ->
+            assertThat(content).usingRecursiveComparison().isNotNull()
+        );
         assertThat(response.getNumberOfElements()).isGreaterThan(0);
     }
 }

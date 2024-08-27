@@ -1,21 +1,22 @@
 package es.princip.getp.domain.common.model;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
-import lombok.*;
+import es.princip.getp.domain.BaseModel;
+import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @ToString
-@Embeddable
-@EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AttachmentFile {
+@EqualsAndHashCode(callSuper = false)
+public class AttachmentFile extends BaseModel {
 
-    @Embedded
-    private URL url;
+    @NotNull private final URL url;
 
     public AttachmentFile(final URL url) {
         this.url = url;
+
+        validate();
     }
 
     public static AttachmentFile from(final String url) {

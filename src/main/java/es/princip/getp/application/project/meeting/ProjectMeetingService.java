@@ -1,5 +1,6 @@
 package es.princip.getp.application.project.meeting;
 
+import es.princip.getp.application.project.apply.port.out.CheckProjectApplicationPort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
 import es.princip.getp.application.project.meeting.exception.NotApplicantException;
@@ -9,7 +10,6 @@ import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPo
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleRepository;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
-import es.princip.getp.domain.project.apply.ProjectApplicationRepository;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +24,7 @@ public class ProjectMeetingService {
     private final PeopleRepository peopleRepository;
     private final LoadProjectPort loadProjectPort;
 
-    private final ProjectApplicationRepository applicationRepository;
-
+    private final CheckProjectApplicationPort checkProjectApplicationPort;
     private final SaveProjectMeetingPort saveProjectMeetingPort;
     private final CheckProjectMeetingPort checkProjectMeetingPort;
 
@@ -68,7 +67,7 @@ public class ProjectMeetingService {
     }
 
     private void checkPeopleIsApplicant(final Long applicantId, final Long projectId) {
-        if (!applicationRepository.existsByApplicantIdAndProjectId(applicantId, projectId)) {
+        if (!checkProjectApplicationPort.existsByApplicantIdAndProjectId(applicantId, projectId)) {
             throw new NotApplicantException();
         }
     }

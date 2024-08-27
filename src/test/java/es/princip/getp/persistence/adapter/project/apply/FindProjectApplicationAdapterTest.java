@@ -20,6 +20,7 @@ class FindProjectApplicationAdapterTest extends PersistenceAdapterTest {
     private static final int TEST_SIZE = 10;
 
     @PersistenceContext private EntityManager entityManager;
+    @Autowired private ProjectApplicationPersistenceMapper applicationMapper;
     @Autowired private FindProjectApplicationAdapter adapter;
 
     private List<DataLoader> dataLoaders;
@@ -27,7 +28,7 @@ class FindProjectApplicationAdapterTest extends PersistenceAdapterTest {
     @BeforeEach
     void setUp() {
         dataLoaders = List.of(
-            new ProjectApplicationDataLoader(entityManager)
+            new ProjectApplicationDataLoader(applicationMapper, entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
     }

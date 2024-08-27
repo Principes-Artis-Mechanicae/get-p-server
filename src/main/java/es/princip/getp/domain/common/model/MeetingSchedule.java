@@ -39,7 +39,7 @@ public class MeetingSchedule extends BaseModel {
     }
 
     @Override
-    public void validate() {
+    protected void validate() {
         super.validate();
         if (startTime.isAfter(endTime)) {
             throw new StartTimeIsAfterEndTimeException();

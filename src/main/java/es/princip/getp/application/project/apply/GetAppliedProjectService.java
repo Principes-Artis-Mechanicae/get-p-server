@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class GetAppliedProjectService implements GetAppliedProjectQuery {
+class GetAppliedProjectService implements GetAppliedProjectQuery {
 
     private final FindAppliedProjectPort findAppliedProjectPort;
 

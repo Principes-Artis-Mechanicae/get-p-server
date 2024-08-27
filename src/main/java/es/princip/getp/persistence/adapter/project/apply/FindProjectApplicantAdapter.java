@@ -20,7 +20,6 @@ import java.util.function.Function;
 import static es.princip.getp.domain.people.command.domain.QPeople.people;
 import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.orderSpecifiersFromSort;
 import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.toPeopleIds;
-import static es.princip.getp.domain.project.apply.model.QProjectApplication.projectApplication;
 import static java.util.stream.Collectors.toMap;
 
 @Repository
@@ -28,6 +27,8 @@ import static java.util.stream.Collectors.toMap;
 // TODO: 조회 성능 개선 필요
 class FindProjectApplicantAdapter extends QueryDslSupport implements FindProjectApplicantPort {
 
+    private static final QProjectApplicationJpaEntity projectApplication
+        = QProjectApplicationJpaEntity.projectApplicationJpaEntity;
     private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
     private final PeopleLikeDao peopleLikeDao;
