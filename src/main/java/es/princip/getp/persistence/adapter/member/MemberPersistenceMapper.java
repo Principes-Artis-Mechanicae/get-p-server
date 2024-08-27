@@ -13,6 +13,7 @@ public interface MemberPersistenceMapper {
 
     @Mapping(source = "email", target = "email.value")
     @Mapping(source = "password", target = "password.value")
+    @Mapping(constant = "true", target = "password.encoded")
     Member mapToDomain(MemberJpaEntity memberJpaEntity);
 
     @Mapping(target = "email", source = "email.value")
