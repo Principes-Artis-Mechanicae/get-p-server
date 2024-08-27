@@ -1,4 +1,4 @@
-package es.princip.getp.common.domain;
+package es.princip.getp.domain.common.model;
 
 import es.princip.getp.common.exception.StartTimeIsAfterEndTimeException;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package es.princip.getp.domain.member.model;
+package es.princip.getp.domain.common.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

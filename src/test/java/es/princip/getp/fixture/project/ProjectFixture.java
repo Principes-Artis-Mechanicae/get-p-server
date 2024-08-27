@@ -1,8 +1,12 @@
 package es.princip.getp.fixture.project;
 
-import es.princip.getp.common.domain.Duration;
-import es.princip.getp.common.domain.Hashtag;
-import es.princip.getp.domain.project.commission.model.*;
+import es.princip.getp.domain.common.model.AttachmentFile;
+import es.princip.getp.domain.common.model.Duration;
+import es.princip.getp.domain.common.model.Hashtag;
+import es.princip.getp.domain.project.commission.model.MeetingType;
+import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectCategory;
+import es.princip.getp.domain.project.commission.model.ProjectStatus;
 
 import java.time.LocalDate;
 import java.util.List;

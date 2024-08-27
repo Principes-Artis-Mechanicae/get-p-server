@@ -6,7 +6,7 @@ import es.princip.getp.api.controller.project.query.description.ProjectCardRespo
 import es.princip.getp.api.controller.project.query.dto.MyCommissionedProjectCardResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.common.domain.Duration;
+import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.domain.project.query.dao.MyCommissionedProjectDao;

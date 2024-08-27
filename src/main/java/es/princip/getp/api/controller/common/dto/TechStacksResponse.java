@@ -1,10 +1,10 @@
-package es.princip.getp.common.dto;
+package es.princip.getp.api.controller.common.dto;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import es.princip.getp.common.domain.TechStack;
+import es.princip.getp.domain.common.model.TechStack;
 import lombok.ToString;
 
 import java.io.IOException;

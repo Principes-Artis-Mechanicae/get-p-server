@@ -1,6 +1,6 @@
-package es.princip.getp.common.infra;
+package es.princip.getp.api.controller.common.mapper;
 
-import es.princip.getp.domain.member.model.PhoneNumber;
+import es.princip.getp.domain.common.model.PhoneNumber;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

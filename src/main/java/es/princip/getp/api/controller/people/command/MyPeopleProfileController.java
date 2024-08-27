@@ -2,9 +2,9 @@ package es.princip.getp.api.controller.people.command;
 
 import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleProfileRequest;
+import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.domain.people.command.application.PeopleProfileService;
 import es.princip.getp.domain.people.command.application.command.EditPeopleProfileCommand;
 import es.princip.getp.domain.people.command.application.command.RegisterPeopleProfileCommand;

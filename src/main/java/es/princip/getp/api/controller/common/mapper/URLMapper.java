@@ -1,6 +1,6 @@
-package es.princip.getp.common.infra;
+package es.princip.getp.api.controller.common.mapper;
 
-import es.princip.getp.common.domain.URL;
+import es.princip.getp.domain.common.model.URL;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

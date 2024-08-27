@@ -1,14 +1,13 @@
-package es.princip.getp.domain.project.commission.model;
+package es.princip.getp.domain.common.model;
 
-import es.princip.getp.common.domain.URL;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import lombok.*;
 
-@Embeddable
-@EqualsAndHashCode
 @Getter
 @ToString
+@Embeddable
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AttachmentFile {
 

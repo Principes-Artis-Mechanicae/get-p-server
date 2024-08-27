@@ -3,11 +3,10 @@ package es.princip.getp.domain.project.query.application;
 import es.princip.getp.api.controller.PageResponse;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.application.client.port.out.LoadClientPort;
+import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.project.commission.model.Project;
-import es.princip.getp.domain.project.commission.ProjectRepository;
-import es.princip.getp.domain.project.exception.NotFoundProjectException;
 import es.princip.getp.domain.project.exception.NotMyProjectException;
 import es.princip.getp.domain.project.query.dao.ProjectApplicantDao;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ public class ProjectApplicantService {
 
     private final ProjectApplicantDao projectApplicantDao;
     private final LoadClientPort loadClientPort;
-    private final ProjectRepository projectRepository;
+    private final LoadProjectPort loadProjectPort;
 
     public PageResponse<DetailPeopleResponse> getApplicants(
         final Long projectId,
@@ -29,7 +28,7 @@ public class ProjectApplicantService {
     ) {
         final Long memberId = member.getMemberId();
         final Client client = loadClientPort.loadBy(memberId);
-        final Project project = projectRepository.findById(projectId).orElseThrow(NotFoundProjectException::new);
+        final Project project = loadProjectPort.loadBy(projectId);
         if (!project.isClient(client)) {
             throw new NotMyProjectException();
         }

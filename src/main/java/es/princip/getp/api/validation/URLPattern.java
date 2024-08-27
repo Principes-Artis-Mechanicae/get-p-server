@@ -1,6 +1,6 @@
-package es.princip.getp.common.annotation;
+package es.princip.getp.api.validation;
 
-import es.princip.getp.common.domain.URL;
+import es.princip.getp.domain.common.model.URL;
 import jakarta.validation.Constraint;
 import jakarta.validation.constraints.Pattern;
 

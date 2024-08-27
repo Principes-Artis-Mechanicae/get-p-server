@@ -2,8 +2,8 @@ package es.princip.getp.api.controller.people.query;
 
 import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.controller.PageResponse;
 import es.princip.getp.api.controller.ControllerSupport;
+import es.princip.getp.api.controller.PageResponse;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;

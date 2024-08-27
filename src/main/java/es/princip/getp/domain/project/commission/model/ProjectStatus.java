@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.commission.model;
 
-import es.princip.getp.common.domain.Duration;
+import es.princip.getp.domain.common.model.Duration;
 
 import java.time.Clock;
 import java.time.LocalDate;

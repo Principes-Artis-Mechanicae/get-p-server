@@ -1,18 +1,16 @@
-package es.princip.getp.common.domain;
+package es.princip.getp.domain.common.model;
 
-import es.princip.getp.common.annotation.URLPattern;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-@Embeddable
 @Getter
-@EqualsAndHashCode
 @ToString
+@Embeddable
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class URL {
 
@@ -20,8 +18,6 @@ public class URL {
     private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
 
     @Column(name = "url")
-    @URLPattern
-    @NotNull
     private String value;
 
     public URL(final String url) {

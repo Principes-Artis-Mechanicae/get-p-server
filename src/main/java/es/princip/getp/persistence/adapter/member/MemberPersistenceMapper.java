@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.member;
 
+import es.princip.getp.domain.common.model.PhoneNumber;
 import es.princip.getp.domain.member.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
