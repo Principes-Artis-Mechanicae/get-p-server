@@ -1,12 +1,11 @@
 package es.princip.getp.api.controller.auth;
 
-import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;
-import es.princip.getp.api.controller.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
-import es.princip.getp.domain.auth.application.SignUpService;
-import es.princip.getp.domain.auth.application.command.SignUpCommand;
-import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.api.controller.auth.dto.request.EmailVerificationCodeRequest;
+import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;
+import es.princip.getp.application.auth.service.SignUpService;
+import es.princip.getp.domain.member.model.Email;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SignUpController {
 
+    private final SignUpCommandMapper mapper;
     private final SignUpService signUpService;
 
     /**
@@ -32,8 +32,7 @@ public class SignUpController {
     public ResponseEntity<ApiSuccessResult<?>> signUp(
         @RequestBody @Valid final SignUpRequest request
     ) {
-        final SignUpCommand command = request.toCommand();
-        signUpService.signUp(command);
+        signUpService.signUp(mapper.mapToCommand(request));
         return ApiResponse.success(HttpStatus.CREATED);
     }
 

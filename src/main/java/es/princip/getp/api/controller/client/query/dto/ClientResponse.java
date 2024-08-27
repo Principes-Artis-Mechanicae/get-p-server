@@ -1,9 +1,7 @@
 package es.princip.getp.api.controller.client.query.dto;
 
-import es.princip.getp.domain.client.command.domain.Address;
-import es.princip.getp.domain.client.command.domain.BankAccount;
-import es.princip.getp.domain.client.command.domain.Client;
-import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.domain.client.model.Address;
+import es.princip.getp.domain.client.model.BankAccount;
 
 import java.time.LocalDateTime;
 
@@ -18,18 +16,4 @@ public record ClientResponse(
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {
-
-    public static ClientResponse of(final Client client, final Member member) {
-        return new ClientResponse(
-            client.getClientId(),
-            member.getNickname().getValue(),
-            client.getEmail().getValue(),
-            member.getPhoneNumber().getValue(),
-            member.getProfileImage().getUri(),
-            client.getAddress(),
-            client.getBankAccount(),
-            client.getCreatedAt(),
-            client.getUpdatedAt()
-        );
-    }
 }

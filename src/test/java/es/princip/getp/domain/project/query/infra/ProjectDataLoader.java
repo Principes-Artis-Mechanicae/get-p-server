@@ -1,8 +1,8 @@
 package es.princip.getp.domain.project.query.infra;
 
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.project.command.domain.Project;
-import es.princip.getp.domain.project.command.domain.ProjectStatus;
+import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.LongStream;
 
-import static es.princip.getp.domain.project.fixture.ProjectFixture.project;
+import static es.princip.getp.fixture.project.ProjectFixture.project;
 
 @RequiredArgsConstructor
 public class ProjectDataLoader implements DataLoader {

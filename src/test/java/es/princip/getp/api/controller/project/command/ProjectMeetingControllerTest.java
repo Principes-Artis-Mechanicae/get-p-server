@@ -6,10 +6,9 @@ import es.princip.getp.api.controller.project.command.description.ScheduleMeetin
 import es.princip.getp.api.controller.project.command.dto.request.ScheduleMeetingRequest;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.application.projectMeeting.ProjectMeetingService;
-import es.princip.getp.application.projectMeeting.command.ScheduleMeetingCommand;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
-
+import es.princip.getp.application.project.meeting.ProjectMeetingService;
+import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
+import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,8 +17,8 @@ import org.springframework.restdocs.payload.PayloadDocumentation;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.PHONE_NUMBER;
-import static es.princip.getp.domain.project.fixture.ProjectMeetingFixture.*;
+import static es.princip.getp.fixture.member.PhoneNumberFixture.PHONE_NUMBER;
+import static es.princip.getp.fixture.project.ProjectMeetingFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;

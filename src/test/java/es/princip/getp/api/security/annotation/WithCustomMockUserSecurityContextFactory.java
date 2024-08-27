@@ -1,7 +1,7 @@
 package es.princip.getp.api.security.annotation;
 
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.member.command.domain.model.*;
+import es.princip.getp.domain.member.model.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +12,7 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
+import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.spy;
 

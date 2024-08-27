@@ -5,8 +5,8 @@ import es.princip.getp.api.controller.client.query.description.ClientResponseDes
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.domain.client.query.dao.ClientDao;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.application.client.port.out.ClientQuery;
+import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,12 +16,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.domain.client.fixture.AddressFixture.address;
-import static es.princip.getp.domain.client.fixture.BankAccountFixture.bankAccount;
-import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
-import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
-import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.PHONE_NUMBER;
-import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
+import static es.princip.getp.fixture.client.AddressFixture.address;
+import static es.princip.getp.fixture.client.BankAccountFixture.bankAccount;
+import static es.princip.getp.fixture.member.EmailFixture.EMAIL;
+import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
+import static es.princip.getp.fixture.member.PhoneNumberFixture.PHONE_NUMBER;
+import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MyClientQueryControllerTest extends ControllerTest {
 
     @Autowired
-    private ClientDao clientDao;
+    private ClientQuery clientQuery;
 
     @Nested
     @DisplayName("내 의뢰자 정보 조회")
@@ -43,7 +43,7 @@ class MyClientQueryControllerTest extends ControllerTest {
             NICKNAME,
             PHONE_NUMBER,
             EMAIL,
-            profileImage(memberId).getUri(),
+            profileImage(memberId).getUrl(),
             address(),
             bankAccount(),
             now,
@@ -59,7 +59,7 @@ class MyClientQueryControllerTest extends ControllerTest {
         @DisplayName("의뢰자는 자신의 의뢰자 정보를 조회할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void getMyClient() throws Exception {
-            given(clientDao.findByMemberId(memberId)).willReturn(response);
+            given(clientQuery.findClientByMemberId(memberId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

@@ -3,7 +3,7 @@ package es.princip.getp.api.controller.auth;
 import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.api.controller.auth.dto.request.LoginRequest;
 import es.princip.getp.api.controller.auth.dto.response.Token;
-import es.princip.getp.domain.auth.application.AuthService;
+import es.princip.getp.application.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.refreshTokenHeaderDescriptor;
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
-import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
-import static es.princip.getp.domain.member.fixture.PasswordFixture.PASSWORD;
+import static es.princip.getp.fixture.member.EmailFixture.EMAIL;
+import static es.princip.getp.fixture.member.PasswordFixture.PASSWORD;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -28,13 +28,12 @@ class AuthControllerTest extends ControllerTest {
     @Autowired
     private AuthService authService;
 
-    @DisplayName("사용자는")
     @Nested
     class Login {
 
         final LoginRequest request = new LoginRequest(EMAIL, PASSWORD);
 
-        @DisplayName("로그인을 할 수 있다.")
+        @DisplayName("사용자는 로그인을 할 수 있다.")
         @Test
         void login() throws Exception {
             final Token token = new Token("Bearer", "${ACCESS_TOKEN}", "${REFRESH_TOKEN}");
@@ -61,11 +60,10 @@ class AuthControllerTest extends ControllerTest {
         }
     }
 
-    @DisplayName("사용자는")
     @Nested
     class ReissueAccessToken {
 
-        @DisplayName("로그인 유지를 할 수 있다.")
+        @DisplayName("사용자는 로그인 유지를 할 수 있다.")
         @Test
         void reissueAccessToken() throws Exception {
             final Token token = new Token("Bearer", "${ACCESS_TOKEN}", "${REFRESH_TOKEN}");

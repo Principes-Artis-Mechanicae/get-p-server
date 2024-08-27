@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.command.application;
 
-import es.princip.getp.domain.member.command.application.MemberService;
-import es.princip.getp.domain.member.command.application.command.UpdateMemberCommand;
+import es.princip.getp.application.member.command.EditMemberCommand;
+import es.princip.getp.application.member.port.in.EditMemberUseCase;
 import es.princip.getp.domain.people.command.application.command.CreatePeopleCommand;
 import es.princip.getp.domain.people.command.application.command.UpdatePeopleCommand;
 import es.princip.getp.domain.people.command.domain.People;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PeopleService {
 
     private final PeopleMapper peopleMapper;
 
-    private final MemberService memberService;
+    private final EditMemberUseCase editMemberUseCase;
     private final PeopleRepository peopleRepository;
 
     /**
@@ -34,7 +34,7 @@ public class PeopleService {
         if (peopleRepository.existsByMemberId(command.memberId())) {
             throw new AlreadyExistsPeopleException();
         }
-        memberService.update(UpdateMemberCommand.from(command));
+        editMemberUseCase.editMember(EditMemberCommand.from(command));
         final People people = peopleMapper.mapToPeople(command.memberId(), command.email(), command.peopleType());
         return peopleRepository.save(people).getPeopleId();
     }
@@ -47,7 +47,7 @@ public class PeopleService {
      */
     @Transactional
     public void update(final UpdatePeopleCommand command) {
-        memberService.update(UpdateMemberCommand.from(command));
+        editMemberUseCase.editMember(EditMemberCommand.from(command));
         final People people = peopleRepository.findByMemberId(command.memberId())
             .orElseThrow(NotFoundPeopleException::new);
         people.editInfo(command.email(), command.peopleType());

@@ -1,14 +1,16 @@
 package es.princip.getp.api.controller.client.command;
 
+import es.princip.getp.api.controller.ApiResponse;
+import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.client.command.dto.request.EditMyClientRequest;
 import es.princip.getp.api.controller.client.command.dto.request.RegisterMyClientRequest;
 import es.princip.getp.api.controller.client.command.dto.response.RegisterMyClientResponse;
-import es.princip.getp.api.controller.ApiResponse;
-import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.client.command.application.ClientService;
-import es.princip.getp.domain.client.command.application.command.EditClientCommand;
-import es.princip.getp.domain.client.command.application.command.RegisterClientCommand;
+import es.princip.getp.application.client.command.EditClientCommand;
+import es.princip.getp.application.client.command.RegisterClientCommand;
+import es.princip.getp.application.client.port.in.EditClientUseCase;
+import es.princip.getp.application.client.port.in.RegisterClientUseCase;
+import es.princip.getp.domain.member.model.Member;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MyClientController {
 
-    private final ClientService clientService;
+    private final RegisterClientUseCase registerClientUseCase;
+    private final EditClientUseCase editClientUseCase;
 
     /**
      * 내 의뢰자 정보 등록
@@ -35,9 +38,9 @@ public class MyClientController {
         @RequestBody @Valid final RegisterMyClientRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
-        final RegisterClientCommand command = request.toCommand(memberId);
-        final Long clientId = clientService.registerClient(command);
+        final Member member = principalDetails.getMember();
+        final RegisterClientCommand command = request.toCommand(member);
+        final Long clientId = registerClientUseCase.register(command);
         final RegisterMyClientResponse response = new RegisterMyClientResponse(clientId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }
@@ -55,7 +58,7 @@ public class MyClientController {
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final EditClientCommand command = request.toCommand(memberId);
-        clientService.editClient(command);
+        editClientUseCase.edit(command);
         return ApiResponse.success(HttpStatus.OK);
     }
 }

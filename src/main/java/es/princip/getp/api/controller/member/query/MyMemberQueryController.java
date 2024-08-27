@@ -3,7 +3,7 @@ package es.princip.getp.api.controller.member.query;
 import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.controller.member.query.dto.response.MemberResponse;
-import es.princip.getp.domain.member.command.domain.model.Member;
+import es.princip.getp.domain.member.model.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

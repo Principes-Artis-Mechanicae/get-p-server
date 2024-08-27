@@ -2,11 +2,11 @@ package es.princip.getp.api.controller.project.command;
 
 import es.princip.getp.api.controller.ApiResponse;
 import es.princip.getp.api.controller.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.application.projectMeeting.ProjectApplicationService;
-import es.princip.getp.application.projectMeeting.command.ApplyProjectCommand;
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
 import es.princip.getp.api.controller.project.command.dto.response.ApplyProjectResponse;
+import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.project.apply.ProjectApplicationService;
+import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

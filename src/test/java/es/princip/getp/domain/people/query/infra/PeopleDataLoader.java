@@ -1,17 +1,18 @@
 package es.princip.getp.domain.people.query.infra;
 
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.member.command.domain.model.Member;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.persistence.adapter.member.MemberJpaEntity;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.stream.LongStream;
 
-import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
-import static es.princip.getp.domain.member.fixture.MemberFixture.memberList;
-import static es.princip.getp.domain.people.fixture.PeopleFixture.peopleList;
+import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.fixture.member.PasswordFixture.PASSWORD;
+import static es.princip.getp.fixture.people.PeopleFixture.peopleList;
 
 @RequiredArgsConstructor
 public class PeopleDataLoader implements DataLoader {
@@ -20,12 +21,18 @@ public class PeopleDataLoader implements DataLoader {
 
     @Override
     public void load(final int size) {
-        final List<Member> memberList = memberList(size, 1, ROLE_PEOPLE);
+        final List<MemberJpaEntity> memberList = LongStream.range(1, 1 + size)
+            .mapToObj(i -> MemberJpaEntity.builder()
+                .email("test" + i + "@example.com")
+                .password(PASSWORD)
+                .memberType(ROLE_PEOPLE)
+                .build())
+            .toList();
         memberList.forEach(entityManager::persist);
 
         final Long memberIdBias = memberList.stream()
             .findFirst()
-            .map(Member::getMemberId)
+            .map(MemberJpaEntity::getMemberId)
             .orElse(1L);
         final int individualSize = size / 2;
         final int teamSize = (size % 2) == 0 ? size / 2 : (size / 2) + 1;
@@ -39,7 +46,7 @@ public class PeopleDataLoader implements DataLoader {
     @Override
     public void teardown() {
         entityManager.createQuery("DELETE FROM People").executeUpdate();
-        entityManager.createQuery("DELETE FROM Member").executeUpdate();
+        entityManager.createQuery("DELETE FROM MemberJpaEntity").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE member AUTO_INCREMENT = 1").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE people AUTO_INCREMENT = 1").executeUpdate();
     }

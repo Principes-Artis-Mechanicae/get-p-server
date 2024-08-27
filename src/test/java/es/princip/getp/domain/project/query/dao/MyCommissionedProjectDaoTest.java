@@ -1,11 +1,11 @@
 package es.princip.getp.domain.project.query.dao;
 
+import es.princip.getp.api.controller.project.query.dto.MyCommissionedProjectCardResponse;
 import es.princip.getp.common.util.DaoTest;
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.client.query.infra.ClientDataLoader;
-import es.princip.getp.domain.project.command.domain.ProjectStatus;
-import es.princip.getp.api.controller.project.query.dto.MyCommissionedProjectCardResponse;
+import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.domain.project.query.infra.ProjectDataLoader;
+import es.princip.getp.persistence.adapter.client.ClientDataLoader;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterEach;

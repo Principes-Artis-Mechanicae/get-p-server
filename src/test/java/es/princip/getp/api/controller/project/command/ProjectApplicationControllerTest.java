@@ -6,10 +6,9 @@ import es.princip.getp.api.controller.project.command.description.ApplyProjectRe
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.application.projectMeeting.ProjectApplicationService;
-import es.princip.getp.application.projectMeeting.command.ApplyProjectCommand;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
-
+import es.princip.getp.application.project.apply.ProjectApplicationService;
+import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
+import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -17,8 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.payload.PayloadDocumentation;
 
+import static es.princip.getp.api.controller.project.command.ApplyProjectRequestFixture.applyProjectRequest;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.domain.project.fixture.ApplyProjectRequestFixture.applyProjectRequest;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;

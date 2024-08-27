@@ -17,12 +17,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_CLIENT;
-import static es.princip.getp.domain.member.command.domain.model.MemberType.ROLE_PEOPLE;
-import static es.princip.getp.domain.member.fixture.EmailFixture.EMAIL;
-import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
-import static es.princip.getp.domain.member.fixture.PhoneNumberFixture.PHONE_NUMBER;
-import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
+import static es.princip.getp.domain.member.model.MemberType.ROLE_CLIENT;
+import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.fixture.member.EmailFixture.EMAIL;
+import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
+import static es.princip.getp.fixture.member.PhoneNumberFixture.PHONE_NUMBER;
+import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -52,7 +52,7 @@ class MyPeopleQueryControllerTest extends ControllerTest {
                 EMAIL,
                 NICKNAME,
                 PHONE_NUMBER,
-                profileImage(1L).getUri(),
+                profileImage(1L).getUrl(),
                 PeopleType.INDIVIDUAL,
                 0,
                 0,

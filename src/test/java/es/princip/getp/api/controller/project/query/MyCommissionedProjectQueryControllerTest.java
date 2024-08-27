@@ -7,8 +7,8 @@ import es.princip.getp.api.controller.project.query.dto.MyCommissionedProjectCar
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.common.domain.Duration;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
-import es.princip.getp.domain.project.command.domain.ProjectStatus;
+import es.princip.getp.domain.member.model.MemberType;
+import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.domain.project.query.dao.MyCommissionedProjectDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -23,7 +23,7 @@ import java.util.List;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
-import static es.princip.getp.common.fixture.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.data.domain.Sort.Order.desc;

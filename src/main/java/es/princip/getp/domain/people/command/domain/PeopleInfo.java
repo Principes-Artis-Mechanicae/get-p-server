@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.command.domain;
 
-import es.princip.getp.domain.member.command.domain.model.Email;
+import es.princip.getp.domain.member.model.Email;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;

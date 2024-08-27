@@ -2,10 +2,11 @@ package es.princip.getp.domain.project.query.dao;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import es.princip.getp.common.util.QueryDslSupport;
-import es.princip.getp.domain.project.command.domain.Project;
-import es.princip.getp.domain.project.command.domain.ProjectStatus;
 import es.princip.getp.api.controller.project.query.dto.MyCommissionedProjectCardResponse;
+import es.princip.getp.common.util.QueryDslSupport;
+import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectStatus;
+import es.princip.getp.persistence.adapter.client.QClientJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,14 +15,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
-import static es.princip.getp.domain.client.command.domain.QClient.client;
-import static es.princip.getp.domain.project.command.domain.QProject.project;
+import static es.princip.getp.domain.project.commission.model.QProject.project;
 import static es.princip.getp.domain.project.query.dao.MyProjectDaoUtil.orderSpecifiersFromSort;
 import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectIds;
 
 @Repository
 @RequiredArgsConstructor
 public class MyCommissionedProjectQueryDslDao extends QueryDslSupport implements MyCommissionedProjectDao {
+
+    private static final QClientJpaEntity client = QClientJpaEntity.clientJpaEntity;
 
     private final ProjectApplicationDao projectApplicationDao;
 

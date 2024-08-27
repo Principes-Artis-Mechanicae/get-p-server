@@ -8,8 +8,8 @@ import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopl
 import es.princip.getp.api.controller.project.query.description.GetApplicantsByProjectIdQueryParameterDescription;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.member.command.domain.model.Member;
-import es.princip.getp.domain.member.command.domain.model.MemberType;
+import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.people.command.domain.PeopleType;
 import es.princip.getp.domain.project.query.application.ProjectApplicantService;
 import org.junit.jupiter.api.DisplayName;
@@ -28,14 +28,14 @@ import java.util.List;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
-import static es.princip.getp.common.fixture.HashtagFixture.hashtagsResponse;
-import static es.princip.getp.common.fixture.TechStackFixture.techStacksResponse;
-import static es.princip.getp.domain.member.fixture.NicknameFixture.NICKNAME;
-import static es.princip.getp.domain.member.fixture.ProfileImageFixture.profileImage;
-import static es.princip.getp.domain.people.fixture.ActivityAreaFixture.activityArea;
-import static es.princip.getp.domain.people.fixture.EducationFixture.education;
-import static es.princip.getp.domain.people.fixture.IntroductionFixture.introduction;
-import static es.princip.getp.domain.people.fixture.PortfolioFixture.portfoliosResponse;
+import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.fixture.common.TechStackFixture.techStacksResponse;
+import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
+import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
+import static es.princip.getp.fixture.people.ActivityAreaFixture.activityArea;
+import static es.princip.getp.fixture.people.EducationFixture.education;
+import static es.princip.getp.fixture.people.IntroductionFixture.introduction;
+import static es.princip.getp.fixture.people.PortfolioFixture.portfoliosResponse;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.data.domain.Sort.Order.desc;
@@ -77,7 +77,7 @@ class ProjectApplicantQueryControllerTest extends ControllerTest {
                 new DetailPeopleResponse(
                     1L,
                     NICKNAME,
-                    profileImage(1L).getUri(),
+                    profileImage(1L).getUrl(),
                     PeopleType.INDIVIDUAL,
                     0,
                     0,
