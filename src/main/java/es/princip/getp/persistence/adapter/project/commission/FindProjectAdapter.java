@@ -1,14 +1,16 @@
-package es.princip.getp.domain.project.query.dao;
+package es.princip.getp.persistence.adapter.project.commission;
 
+import es.princip.getp.api.controller.common.dto.HashtagsResponse;
 import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
-import es.princip.getp.common.dto.HashtagsResponse;
+import es.princip.getp.application.project.commission.port.out.FindProjectPort;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.ProjectLikeDao;
 import es.princip.getp.domain.project.commission.model.Project;
-import es.princip.getp.domain.project.exception.NotFoundProjectException;
+import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
+import es.princip.getp.persistence.adapter.project.apply.FindProjectApplicationAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,22 +20,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static es.princip.getp.domain.project.commission.model.QProject.project;
-import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectIds;
+import static es.princip.getp.persistence.adapter.project.ProjectPersistenceUtil.toProjectIds;
 
 @Repository
 @RequiredArgsConstructor
-public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
+class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
+
+    private static final QProjectJpaEntity project = QProjectJpaEntity.projectJpaEntity;
 
     private final ClientQuery clientQuery;
     private final ProjectLikeDao projectLikeDao;
-    private final ProjectApplicationDao projectApplicationDao;
+    private final FindProjectApplicationAdapter projectApplicationDao;
+    private final ProjectPersistenceMapper mapper;
 
     private List<Project> getProjects(Pageable pageable) {
         return queryFactory.selectFrom(project)
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
-            .fetch();
+            .fetch()
+            .stream()
+            .map(mapper::mapToDomain)
+            .toList();
     }
 
     private List<ProjectCardResponse> assembleProjectCardResponse(
@@ -49,7 +56,7 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
     }
 
     @Override
-    public Page<ProjectCardResponse> findPagedProjectCard(Pageable pageable) {
+    public Page<ProjectCardResponse> findBy(Pageable pageable) {
         final List<Project> projects = getProjects(pageable);
         final Long[] projectIds = toProjectIds(projects);
         final Map<Long, Long> projectApplicationCounts = projectApplicationDao.countByProjectIds(projectIds);
@@ -62,13 +69,13 @@ public class ProjectQueryDslDao extends QueryDslSupport implements ProjectDao {
     }
 
     @Override
-    public ProjectDetailResponse findProjectDetailById(final Long projectId) {
-        final Project result = Optional.ofNullable(
+    public ProjectDetailResponse findBy(final Long projectId) {
+        final Project result = mapper.mapToDomain(Optional.ofNullable(
             queryFactory.selectFrom(project)
                 .where(project.projectId.eq(projectId))
                 .fetchOne()
             )
-            .orElseThrow(NotFoundProjectException::new);
+            .orElseThrow(NotFoundProjectException::new));
         final Long likesCount = projectLikeDao.countByLikedId(projectId);
 
         return new ProjectDetailResponse(

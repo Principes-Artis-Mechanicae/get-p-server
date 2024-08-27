@@ -1,4 +1,4 @@
-package es.princip.getp.domain.project.exception;
+package es.princip.getp.application.project.apply.exception;
 
 import es.princip.getp.common.exception.ErrorDescription;
 import es.princip.getp.common.exception.ForbiddenException;

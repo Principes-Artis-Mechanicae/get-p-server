@@ -1,16 +1,15 @@
-package es.princip.getp.domain.project.query.dao;
+package es.princip.getp.persistence.adapter.project.apply;
 
-import es.princip.getp.common.util.DaoTest;
+import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.domain.people.query.infra.PeopleDataLoader;
-import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
-import es.princip.getp.domain.project.query.infra.ProjectApplicationDataLoader;
-import es.princip.getp.domain.project.query.infra.ProjectDataLoader;
+import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
+import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
+import es.princip.getp.persistence.adapter.project.commission.ProjectDataLoader;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,16 +20,14 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AppliedProjectDaoTest extends DaoTest {
+public class FindProjectApplicantAdapterTest extends PersistenceAdapterTest {
 
     private static final int TEST_SIZE = 20;
     private static final int PAGE_SIZE = 10;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Autowired
-    private AppliedProjectDao appliedProjectDao;
+    @PersistenceContext private EntityManager entityManager;
+    @Autowired private FindProjectApplicantAdapter adapter;
+    @Autowired private ProjectPersistenceMapper mapper;
 
     private List<DataLoader> dataLoaders;
 
@@ -38,7 +35,7 @@ public class AppliedProjectDaoTest extends DaoTest {
     void setUp() {
         dataLoaders = List.of(
             new PeopleDataLoader(entityManager),
-            new ProjectDataLoader(entityManager),
+            new ProjectDataLoader(mapper, entityManager),
             new ProjectApplicationDataLoader(entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
@@ -49,22 +46,13 @@ public class AppliedProjectDaoTest extends DaoTest {
         dataLoaders.forEach(DataLoader::teardown);
     }
 
-    @Nested
-    class 지원한_프로젝트_목록_조회 {
-
+    @Test
+    void 프로젝트_지원자_목록_페이지를_조회한다() {
         final Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        final Page<DetailPeopleResponse> response
+            = adapter.findBy(1L, pageable);
 
-        @Test
-        void 프로젝트_목록_조회() {
-            final Page<AppliedProjectCardResponse> response = appliedProjectDao.findPagedMyAppliedProjects(
-                pageable,
-                1L
-            );
-
-            assertThat(response.getContent()).allSatisfy(content -> {
-                assertThat(content).usingRecursiveComparison().isNotNull();
-            });
-            assertThat(response.getNumberOfElements()).isGreaterThan(0);
-        }
+        assertThat(response.getNumberOfElements()).isEqualTo(PAGE_SIZE);
+        assertThat(response.getTotalElements()).isEqualTo(TEST_SIZE);
     }
 }

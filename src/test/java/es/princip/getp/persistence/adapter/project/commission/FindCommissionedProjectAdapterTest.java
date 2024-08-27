@@ -1,11 +1,11 @@
-package es.princip.getp.domain.project.query.dao;
+package es.princip.getp.persistence.adapter.project.commission;
 
-import es.princip.getp.api.controller.project.query.dto.MyCommissionedProjectCardResponse;
-import es.princip.getp.common.util.DaoTest;
+import es.princip.getp.api.controller.project.query.dto.CommissionedProjectCardResponse;
 import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
-import es.princip.getp.domain.project.query.infra.ProjectDataLoader;
+import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
 import es.princip.getp.persistence.adapter.client.ClientDataLoader;
+import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterEach;
@@ -21,16 +21,14 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MyCommissionedProjectDaoTest extends DaoTest {
+class FindCommissionedProjectAdapterTest extends PersistenceAdapterTest {
 
     private static final int PAGE_SIZE = 10;
     private static final int TEST_SIZE = 20;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Autowired
-    private MyCommissionedProjectDao myCommissionedProjectDao;
+    @PersistenceContext private EntityManager entityManager;
+    @Autowired private FindCommissionedProjectAdapter adapter;
+    @Autowired private ProjectPersistenceMapper mapper;
 
     private List<DataLoader> dataLoaders;
 
@@ -38,7 +36,7 @@ class MyCommissionedProjectDaoTest extends DaoTest {
     void setUp() {
         dataLoaders = List.of(
             new ClientDataLoader(entityManager),
-            new ProjectDataLoader(entityManager)
+            new ProjectDataLoader(mapper, entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
     }
@@ -55,10 +53,10 @@ class MyCommissionedProjectDaoTest extends DaoTest {
 
         @Test
         void 만료된_프로젝트도_보는_경우() {
-            final Page<MyCommissionedProjectCardResponse> response = myCommissionedProjectDao.findPagedMyCommissionedProjectCard(
-                pageable,
+            final Page<CommissionedProjectCardResponse> response = adapter.findBy(
                 1L,
-                true
+                true,
+                pageable
             );
 
             assertThat(response.getContent()).allSatisfy(content -> {
@@ -68,10 +66,10 @@ class MyCommissionedProjectDaoTest extends DaoTest {
 
         @Test
         void 만료된_프로젝트는_보지_않는_경우() {
-            final Page<MyCommissionedProjectCardResponse> response = myCommissionedProjectDao.findPagedMyCommissionedProjectCard(
-                pageable,
+            final Page<CommissionedProjectCardResponse> response = adapter.findBy(
                 1L,
-                false
+                false,
+                pageable
             );
 
             assertThat(response.getContent()).allSatisfy(content -> {

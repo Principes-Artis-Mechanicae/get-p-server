@@ -1,8 +1,7 @@
-package es.princip.getp.domain.project.query.dao;
+package es.princip.getp.persistence.adapter.project.apply;
 
-import es.princip.getp.common.util.DaoTest;
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.project.query.infra.ProjectApplicationDataLoader;
+import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterEach;
@@ -16,15 +15,12 @@ import java.util.stream.LongStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ProjectApplicationDaoTest extends DaoTest {
+class FindProjectApplicationAdapterTest extends PersistenceAdapterTest {
 
     private static final int TEST_SIZE = 10;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Autowired
-    private ProjectApplicationDao projectApplicationDao;
+    @PersistenceContext private EntityManager entityManager;
+    @Autowired private FindProjectApplicationAdapter adapter;
 
     private List<DataLoader> dataLoaders;
 
@@ -42,11 +38,11 @@ class ProjectApplicationDaoTest extends DaoTest {
     }
 
     @Test
-    void countByProjectIds() {
+    void 각_프로젝트마다_지원자_수를_구한다() {
         final Long[] projectIds = LongStream.rangeClosed(1, TEST_SIZE)
             .boxed()
             .toArray(Long[]::new);
-        final Map<Long, Long> result = projectApplicationDao.countByProjectIds(projectIds);
+        final Map<Long, Long> result = adapter.countByProjectIds(projectIds);
 
         assertThat(result).hasSize(TEST_SIZE);
         assertThat(result.values()).allMatch(value -> value == TEST_SIZE);

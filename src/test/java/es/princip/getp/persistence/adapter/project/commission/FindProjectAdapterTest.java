@@ -1,11 +1,11 @@
-package es.princip.getp.domain.project.query.dao;
+package es.princip.getp.persistence.adapter.project.commission;
 
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.common.util.DaoTest;
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.project.query.infra.ProjectDataLoader;
+import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
 import es.princip.getp.persistence.adapter.client.ClientDataLoader;
+import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
@@ -22,15 +22,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
-class ProjectDaoTest extends DaoTest {
+class FindProjectAdapterTest extends PersistenceAdapterTest {
 
     private static final int TEST_SIZE = 20;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Autowired
-    private ProjectDao projectDao;
+    @PersistenceContext private EntityManager entityManager;
+    @Autowired private FindProjectAdapter adapter;
+    @Autowired private ProjectPersistenceMapper mapper;
 
     private List<DataLoader> dataLoaders;
 
@@ -38,7 +36,7 @@ class ProjectDaoTest extends DaoTest {
     void setUp() {
         dataLoaders = List.of(
             new ClientDataLoader(entityManager),
-            new ProjectDataLoader(entityManager)
+            new ProjectDataLoader(mapper, entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
     }
@@ -49,10 +47,10 @@ class ProjectDaoTest extends DaoTest {
     }
 
     @Test
-    void findPagedProjectCard() {
+    void 프로젝트_목록을_조회한다() {
         final int pageSize = 10;
         final Pageable pageable = PageRequest.of(0, pageSize);
-        final Page<ProjectCardResponse> response = projectDao.findPagedProjectCard(pageable);
+        final Page<ProjectCardResponse> response = adapter.findBy(pageable);
 
         assertThat(response.getContent()).isNotEmpty();
         assertThat(response.getTotalElements()).isGreaterThan(pageSize);
@@ -60,8 +58,8 @@ class ProjectDaoTest extends DaoTest {
     }
 
     @Test
-    void findProjectDetailById() {
-        final ProjectDetailResponse response = projectDao.findProjectDetailById(1L);
+    void 프로젝트_상세_정보를_조회한다() {
+        final ProjectDetailResponse response = adapter.findBy(1L);
 
         assertThat(response).isNotNull();
     }

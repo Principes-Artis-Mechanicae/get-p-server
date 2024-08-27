@@ -1,4 +1,4 @@
-package es.princip.getp.domain.project.query.dao;
+package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.common.util.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +12,8 @@ import static es.princip.getp.domain.project.apply.model.QProjectApplication.pro
 
 @Repository
 @RequiredArgsConstructor
-public class ProjectApplicationQueryDslDao extends QueryDslSupport implements ProjectApplicationDao {
+public class FindProjectApplicationAdapter extends QueryDslSupport {
 
-    @Override
     public Map<Long, Long> countByProjectIds(final Long... projectId) {
         return queryFactory.select(projectApplication.projectId, projectApplication.count())
             .from(projectApplication)

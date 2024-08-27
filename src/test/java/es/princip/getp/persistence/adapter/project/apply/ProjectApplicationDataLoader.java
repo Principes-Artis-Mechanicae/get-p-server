@@ -1,4 +1,4 @@
-package es.princip.getp.domain.project.query.infra;
+package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;

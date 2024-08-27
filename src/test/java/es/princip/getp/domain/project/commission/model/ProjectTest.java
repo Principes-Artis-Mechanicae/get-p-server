@@ -14,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.Clock;
 import java.time.LocalDate;
 
+import static es.princip.getp.domain.project.commission.model.ProjectStatus.APPLYING;
+import static es.princip.getp.fixture.project.ProjectFixture.project;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -25,30 +27,33 @@ class ProjectTest {
     @Nested
     class 지원이_가능한지_확인한다 {
 
-        final LocalDate now = LocalDate.of(2024, 7, 1);
-        final Clock clock = new StubClockHolder(now).getClock();
+        private final LocalDate now = LocalDate.of(2024, 7, 1);
+        private final Clock clock = new StubClockHolder(now).getClock();
 
         @Test
         void 지원자_모집_기간이_아직_남았으면_지원이_가능하다() {
-            final Project project = Project.builder()
-                .applicationDuration(Duration.of(
+            final Project project = project(
+                1L,
+                APPLYING,
+                Duration.of(
                     LocalDate.of(2024, 7, 1),
                     LocalDate.of(2024, 7, 31)
-                ))
-                .status(ProjectStatus.APPLYING)
-                .build();
+                )
+            );
 
             assertThat(project.isApplicationClosed(clock)).isFalse();
         }
 
         @Test
         void 지원자_모집_기간이_끝나면_지원은_할_수_없다() {
-            final Project project = Project.builder()
-                .applicationDuration(Duration.of(
+            final Project project = project(
+                1L,
+                APPLYING,
+                Duration.of(
                     LocalDate.of(2024, 6, 1),
                     LocalDate.of(2024, 6, 30)
-                ))
-                .build();
+                )
+            );
 
             assertThat(project.isApplicationClosed(clock)).isTrue();
         }
@@ -56,13 +61,14 @@ class ProjectTest {
         @ParameterizedTest
         @EnumSource(value = ProjectStatus.class, names = {"PREPARING", "PROGRESSING", "COMPLETED", "CANCELLED"})
         void 프로젝트_상태가_모집_중이_아니면_지원은_할_수_없다(final ProjectStatus status) {
-            final Project project = Project.builder()
-                .applicationDuration(Duration.of(
+            final Project project = project(
+                1L,
+                status,
+                Duration.of(
                     LocalDate.of(2024, 7, 1),
                     LocalDate.of(2024, 7, 31)
-                ))
-                .status(status)
-                .build();
+                )
+            );
 
             assertThat(project.isApplicationClosed(clock)).isTrue();
         }
@@ -71,14 +77,13 @@ class ProjectTest {
     @Nested
     class 주어진_의뢰자가_프로젝트의_의뢰자인지_확인한다 {
 
-        final Project project = Project.builder()
-            .clientId(1L)
-            .build();
-        final Client client = mock(Client.class);
+        private final Project project = project(1L, APPLYING);
+        private final Client client = mock(Client.class);
 
         @Test
         void 주어진_의뢰자와_의뢰자_ID가_같으면_프로젝트의_의뢰자다() {
             given(client.getClientId()).willReturn(1L);
+
             assertThat(project.isClient(client)).isTrue();
         }
 

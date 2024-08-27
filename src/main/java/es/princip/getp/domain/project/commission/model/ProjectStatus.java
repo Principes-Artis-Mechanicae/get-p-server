@@ -25,4 +25,24 @@ public enum ProjectStatus {
         }
         return PREPARING;
     }
+
+    public boolean isPreparing() {
+        return this == PREPARING;
+    }
+
+    public boolean isApplying() {
+        return this == APPLYING;
+    }
+
+    public boolean isProgressing() {
+        return this == PROGRESSING;
+    }
+
+    public boolean isCompleted() {
+        return this == COMPLETED;
+    }
+
+    public boolean isCancelled() {
+        return this == CANCELLED;
+    }
 }

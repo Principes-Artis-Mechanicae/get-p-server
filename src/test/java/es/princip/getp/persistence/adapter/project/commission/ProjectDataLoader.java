@@ -1,8 +1,8 @@
-package es.princip.getp.domain.project.query.infra;
+package es.princip.getp.persistence.adapter.project.commission;
 
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
+import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
@@ -15,14 +15,15 @@ import static es.princip.getp.fixture.project.ProjectFixture.project;
 @RequiredArgsConstructor
 public class ProjectDataLoader implements DataLoader {
 
+    private final ProjectPersistenceMapper mapper;
     private final EntityManager entityManager;
 
     @Override
     public void load(final int size) {
-        final List<Project> projectList = LongStream.rangeClosed(1, size)
+        final List<ProjectJpaEntity> projectList = LongStream.rangeClosed(1, size)
             .boxed()
             .flatMap(clientId -> Arrays.stream(ProjectStatus.values())
-                .map(status -> project(clientId, status))
+                .map(status -> mapper.mapToJpa(project(clientId, status)))
             )
             .toList();
         projectList.forEach(entityManager::persist);
@@ -30,7 +31,7 @@ public class ProjectDataLoader implements DataLoader {
 
     @Override
     public void teardown() {
-        entityManager.createQuery("DELETE FROM Project").executeUpdate();
+        entityManager.createQuery("DELETE FROM ProjectJpaEntity").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE project AUTO_INCREMENT = 1")
             .executeUpdate();
     }
