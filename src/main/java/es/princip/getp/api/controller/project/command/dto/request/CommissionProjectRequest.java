@@ -2,8 +2,8 @@ package es.princip.getp.api.controller.project.command.dto.request;
 
 import es.princip.getp.common.annotation.Enum;
 import es.princip.getp.common.domain.Duration;
-import es.princip.getp.domain.project.command.domain.MeetingType;
-import es.princip.getp.domain.project.command.domain.ProjectCategory;
+import es.princip.getp.domain.project.commission.model.MeetingType;
+import es.princip.getp.domain.project.commission.model.ProjectCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

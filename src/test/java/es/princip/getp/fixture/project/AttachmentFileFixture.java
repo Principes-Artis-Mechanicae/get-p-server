@@ -1,6 +1,6 @@
 package es.princip.getp.fixture.project;
 
-import es.princip.getp.domain.project.command.domain.AttachmentFile;
+import es.princip.getp.domain.project.commission.model.AttachmentFile;
 
 import java.util.List;
 

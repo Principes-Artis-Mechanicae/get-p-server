@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 
 import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
-import static es.princip.getp.domain.project.command.domain.QProject.project;
+import static es.princip.getp.domain.project.commission.model.QProject.project;
 
 class MyProjectDaoUtil {
 

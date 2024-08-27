@@ -3,7 +3,7 @@ package es.princip.getp.domain.project.query.dao;
 import com.querydsl.jpa.impl.JPAQuery;
 import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.common.util.QueryDslSupport;
-import es.princip.getp.domain.project.command.domain.Project;
+import es.princip.getp.domain.project.commission.model.Project;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import static es.princip.getp.domain.people.command.domain.QPeople.people;
-import static es.princip.getp.domain.project.command.domain.QProject.project;
-import static es.princip.getp.domain.project.command.domain.QProjectApplication.projectApplication;
+import static es.princip.getp.domain.project.apply.model.QProjectApplication.projectApplication;
+import static es.princip.getp.domain.project.commission.model.QProject.project;
 import static es.princip.getp.domain.project.query.dao.ProjectDaoUtil.toProjectIds;
 
 @Repository

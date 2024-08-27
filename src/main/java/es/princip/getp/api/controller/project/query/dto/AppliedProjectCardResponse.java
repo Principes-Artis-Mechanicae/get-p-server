@@ -2,8 +2,8 @@ package es.princip.getp.api.controller.project.query.dto;
 
 import es.princip.getp.common.domain.Duration;
 import es.princip.getp.common.dto.HashtagsResponse;
-import es.princip.getp.domain.project.command.domain.Project;
-import es.princip.getp.domain.project.command.domain.ProjectStatus;
+import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectStatus;
 
 public record AppliedProjectCardResponse(
     Long projectId,

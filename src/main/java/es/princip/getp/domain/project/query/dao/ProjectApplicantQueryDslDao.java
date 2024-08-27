@@ -20,7 +20,7 @@ import java.util.function.Function;
 import static es.princip.getp.domain.people.command.domain.QPeople.people;
 import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.orderSpecifiersFromSort;
 import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.toPeopleIds;
-import static es.princip.getp.domain.project.command.domain.QProjectApplication.projectApplication;
+import static es.princip.getp.domain.project.apply.model.QProjectApplication.projectApplication;
 import static java.util.stream.Collectors.toMap;
 
 @Repository

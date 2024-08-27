@@ -2,9 +2,9 @@ package es.princip.getp.api.controller.project.query.dto;
 
 import es.princip.getp.common.domain.Duration;
 import es.princip.getp.common.dto.HashtagsResponse;
-import es.princip.getp.domain.project.command.domain.MeetingType;
-import es.princip.getp.domain.project.command.domain.ProjectCategory;
-import es.princip.getp.domain.project.command.domain.ProjectStatus;
+import es.princip.getp.domain.project.commission.model.MeetingType;
+import es.princip.getp.domain.project.commission.model.ProjectCategory;
+import es.princip.getp.domain.project.commission.model.ProjectStatus;
 
 public record ProjectDetailResponse(
     Long projectId,

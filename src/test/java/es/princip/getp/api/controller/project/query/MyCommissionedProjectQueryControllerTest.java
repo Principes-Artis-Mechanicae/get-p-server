@@ -8,7 +8,7 @@ import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.common.domain.Duration;
 import es.princip.getp.domain.member.model.MemberType;
-import es.princip.getp.domain.project.command.domain.ProjectStatus;
+import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.domain.project.query.dao.MyCommissionedProjectDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
