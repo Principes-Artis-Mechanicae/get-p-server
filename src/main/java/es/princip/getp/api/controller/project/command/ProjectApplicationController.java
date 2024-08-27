@@ -5,8 +5,8 @@ import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
 import es.princip.getp.api.controller.project.command.dto.response.ApplyProjectResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.application.project.apply.ProjectApplicationService;
 import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
+import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProjectApplicationController {
 
-    private final ProjectApplicationService projectApplicationService;
+    private final ApplyProjectUseCase applyProjectUseCase;
     private final ProjectCommandMapper projectCommandMapper;
 
     /**
@@ -39,7 +39,7 @@ public class ProjectApplicationController {
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final ApplyProjectCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
-        final Long applicationId = projectApplicationService.applyForProject(command);
+        final Long applicationId = applyProjectUseCase.apply(command);
         final ApplyProjectResponse response = new ApplyProjectResponse(applicationId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }

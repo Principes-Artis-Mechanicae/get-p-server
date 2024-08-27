@@ -1,9 +1,11 @@
 package es.princip.getp.domain.common.model;
 
+import es.princip.getp.domain.BaseModel;
 import es.princip.getp.domain.common.exception.StartDateIsAfterEndDateException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -11,24 +13,22 @@ import java.time.temporal.ChronoUnit;
 
 @Getter
 @ToString
-@Embeddable
-@EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Duration {
+@EqualsAndHashCode(callSuper = false)
+public class Duration extends BaseModel {
 
-    @Column(name = "application_start_date")
-    private LocalDate startDate;
-
-    @Column(name = "application_end_date")
-    private LocalDate endDate;
+    @NotNull private final LocalDate startDate;
+    @NotNull private final LocalDate endDate;
 
     public Duration(final LocalDate startDate, final LocalDate endDate) {
-        validate(startDate, endDate);
         this.startDate = startDate;
         this.endDate = endDate;
+
+        validate();
     }
 
-    private void validate(final LocalDate startDate, final LocalDate endDate) {
+    @Override
+    protected void validate() {
+        super.validate();
         if (startDate.isAfter(endDate)) {
             throw new StartDateIsAfterEndDateException();
         }
