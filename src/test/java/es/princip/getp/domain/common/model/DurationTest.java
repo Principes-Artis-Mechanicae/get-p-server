@@ -1,8 +1,7 @@
-package es.princip.getp.common.domain;
+package es.princip.getp.domain.common.model;
 
-import es.princip.getp.common.exception.StartDateIsAfterEndDateException;
 import es.princip.getp.common.infra.StubClockHolder;
-import es.princip.getp.domain.common.model.Duration;
+import es.princip.getp.domain.common.exception.StartDateIsAfterEndDateException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

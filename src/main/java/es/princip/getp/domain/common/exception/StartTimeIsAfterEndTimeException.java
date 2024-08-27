@@ -1,4 +1,7 @@
-package es.princip.getp.common.exception;
+package es.princip.getp.domain.common.exception;
+
+import es.princip.getp.common.exception.BusinessLogicException;
+import es.princip.getp.common.exception.ErrorDescription;
 
 public class StartTimeIsAfterEndTimeException extends BusinessLogicException {
 

@@ -1,6 +1,7 @@
 package es.princip.getp.domain.common.model;
 
-import es.princip.getp.common.exception.StartTimeIsAfterEndTimeException;
+import es.princip.getp.domain.BaseModel;
+import es.princip.getp.domain.common.exception.StartTimeIsAfterEndTimeException;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,27 +11,23 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Getter
-@EqualsAndHashCode
-public class MeetingSchedule {
+@EqualsAndHashCode(callSuper = false)
+public class MeetingSchedule extends BaseModel {
 
-    @NotNull
-    private LocalDate date;
-    
-    @NotNull
-    private LocalTime startTime;
-
-    @NotNull
-    private LocalTime endTime;
+    @NotNull private final LocalDate date;
+    @NotNull private final LocalTime startTime;
+    @NotNull private final LocalTime endTime;
 
     public MeetingSchedule(
         final LocalDate date,
         final LocalTime startTime,
         final LocalTime endTime
     ) {
-        validate(startTime, endTime);
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
+
+        validate();
     }
 
     public static MeetingSchedule of(
@@ -41,7 +38,9 @@ public class MeetingSchedule {
         return new MeetingSchedule(date, startTime, endTime);
     }
 
-    private void validate(final LocalTime startTime, final LocalTime endTime) {
+    @Override
+    public void validate() {
+        super.validate();
         if (startTime.isAfter(endTime)) {
             throw new StartTimeIsAfterEndTimeException();
         }

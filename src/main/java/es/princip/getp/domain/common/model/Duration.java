@@ -1,6 +1,6 @@
 package es.princip.getp.domain.common.model;
 
-import es.princip.getp.common.exception.StartDateIsAfterEndDateException;
+import es.princip.getp.domain.common.exception.StartDateIsAfterEndDateException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;

@@ -20,17 +20,17 @@ public class URL {
     @Column(name = "url")
     private String value;
 
-    public URL(final String url) {
-        validate(url);
-        this.value = url;
+    public URL(final String value) {
+        validate(value);
+        this.value = value;
     }
 
-    private static void validate(final String url) {
-        Objects.requireNonNull(url);
-        if (!URL_PATTERN.matcher(url).matches()) {
+    private static void validate(final String value) {
+        Objects.requireNonNull(value);
+        if (!URL_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException(String.format(
                 "%s는 유효하지 않은 URL입니다. URL은 https|ftp|mailto|tel://로 시작해야 합니다.",
-                url
+                value
             ));
         }
     }
