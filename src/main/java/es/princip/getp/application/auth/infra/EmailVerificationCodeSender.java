@@ -2,9 +2,9 @@ package es.princip.getp.application.auth.infra;
 
 import es.princip.getp.application.auth.exception.FailedVerificationCodeSendingException;
 import es.princip.getp.application.auth.service.VerificationCodeSender;
+import es.princip.getp.application.mail.command.SendMailCommand;
+import es.princip.getp.application.mail.port.in.SendMailUseCase;
 import es.princip.getp.domain.member.model.Email;
-import es.princip.getp.mail.EmailSender;
-import es.princip.getp.mail.command.SendMailCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailVerificationCodeSender implements VerificationCodeSender {
 
-    private final EmailSender emailSender;
+    private final SendMailUseCase sendMailUseCase;
 
     private static String title() {
         return "[GET-P] 회원가입 인증 코드";
@@ -38,7 +38,7 @@ public class EmailVerificationCodeSender implements VerificationCodeSender {
             text(verificationCode)
         );
         try {
-            emailSender.send(command);
+            sendMailUseCase.send(command);
         } catch (MailException exception) {
             throw new FailedVerificationCodeSendingException();
         }

@@ -14,7 +14,7 @@ import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
-import static es.princip.getp.fixture.storage.ImageStorageFixture.imageMultiPartFile;
+import static es.princip.getp.fixture.storage.MultipartFileFixture.imageMultiPartFile;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
