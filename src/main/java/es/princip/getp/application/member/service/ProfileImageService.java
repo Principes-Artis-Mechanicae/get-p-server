@@ -5,17 +5,16 @@ import es.princip.getp.application.member.exception.FailedToSaveProfileImageExce
 import es.princip.getp.application.member.port.in.ProfileImageUseCase;
 import es.princip.getp.application.member.port.out.LoadMemberPort;
 import es.princip.getp.application.member.port.out.UpdateMemberPort;
+import es.princip.getp.application.storage.port.out.DeleteFilePort;
+import es.princip.getp.application.storage.port.out.StoreFilePort;
 import es.princip.getp.common.util.ImageUtil;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.ProfileImage;
-import es.princip.getp.storage.application.ImageStorage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,7 +30,8 @@ class ProfileImageService implements ProfileImageUseCase {
     private final LoadMemberPort loadMemberPort;
     private final UpdateMemberPort updateMemberPort;
 
-    private final ImageStorage imageStorage;
+    private final StoreFilePort storeFilePort;
+    private final DeleteFilePort deleteFilePort;
 
     private static final List<String> whiteImageExtensionList = Arrays.asList(
         "image/jpeg",
@@ -61,12 +61,8 @@ class ProfileImageService implements ProfileImageUseCase {
             throw new FailedToSaveProfileImageException();
         }
         final Path destination = getPathToSaveProfileImage(member, image);
-        try (InputStream in = image.getInputStream()) {
-            final URI uri = imageStorage.storeImage(destination, in);
-            return ProfileImage.of(uri.toString());
-        } catch (IOException exception) {
-            throw new FailedToSaveProfileImageException();
-        }
+        final URI uri = storeFilePort.store(image, destination);
+        return ProfileImage.of(uri.toString());
     }
 
     private Path getPathToSaveProfileImage(final Member member, final MultipartFile image) {
@@ -76,6 +72,6 @@ class ProfileImageService implements ProfileImageUseCase {
     }
 
     private void deleteProfileImage(final ProfileImage profileImage) {
-        imageStorage.deleteImage(URI.create(profileImage.getUrl()));
+        deleteFilePort.delete(URI.create(profileImage.getUrl()));
     }
 }
