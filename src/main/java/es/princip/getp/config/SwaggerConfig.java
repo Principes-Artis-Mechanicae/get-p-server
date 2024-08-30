@@ -1,4 +1,4 @@
-package es.princip.getp.infra.config;
+package es.princip.getp.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

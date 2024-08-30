@@ -1,6 +1,5 @@
-package es.princip.getp.infra.config;
+package es.princip.getp.config;
 
-import es.princip.getp.infra.aop.TimeTraceAop;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

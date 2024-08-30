@@ -1,4 +1,4 @@
-package es.princip.getp.infra.aop;
+package es.princip.getp.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
