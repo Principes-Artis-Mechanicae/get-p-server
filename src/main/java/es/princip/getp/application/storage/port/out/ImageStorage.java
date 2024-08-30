@@ -1,4 +1,4 @@
-package es.princip.getp.storage.application;
+package es.princip.getp.application.storage.port.out;
 
 import java.io.IOException;
 import java.io.InputStream;

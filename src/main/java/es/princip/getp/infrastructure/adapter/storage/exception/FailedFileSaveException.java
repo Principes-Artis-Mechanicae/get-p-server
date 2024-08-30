@@ -1,4 +1,4 @@
-package es.princip.getp.storage.exception;
+package es.princip.getp.infrastructure.adapter.storage.exception;
 
 import es.princip.getp.common.exception.ErrorDescription;
 import es.princip.getp.common.exception.ExternalApiErrorException;

@@ -2,12 +2,19 @@ package es.princip.getp.fixture.storage;
 
 import org.springframework.mock.web.MockMultipartFile;
 
-public class ImageStorageFixture {
+public class MultipartFileFixture {
 
     public static MockMultipartFile imageMultiPartFile() {
         return new MockMultipartFile(
             "image",
             new byte[] {0x00, 0x01, 0x02, 0x03}
+        );
+    }
+
+    public static MockMultipartFile fileMultiPartFile() {
+        return new MockMultipartFile(
+            "file",
+            "dummy".getBytes()
         );
     }
 }
