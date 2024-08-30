@@ -1,17 +1,16 @@
-package es.princip.getp.mail;
+package es.princip.getp.application.mail;
 
-import es.princip.getp.mail.command.SendMailCommand;
+import es.princip.getp.application.mail.command.SendMailCommand;
+import es.princip.getp.application.mail.port.in.SendMailUseCase;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
-public class EmailSender {
+class SendMailService implements SendMailUseCase {
 
     private final MailSender mailSender;
 
