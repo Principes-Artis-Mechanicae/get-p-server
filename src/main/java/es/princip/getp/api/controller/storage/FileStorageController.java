@@ -2,11 +2,14 @@ package es.princip.getp.api.controller.storage;
 
 import es.princip.getp.api.controller.common.dto.ApiResponse;
 import es.princip.getp.api.controller.storage.dto.FileUploadResponse;
-import es.princip.getp.storage.application.FileUploadService;
+import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.storage.command.UploadFileCommand;
+import es.princip.getp.application.storage.port.in.UploadFileUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -22,15 +25,18 @@ import static es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessRe
 @RequestMapping("storage")
 public class FileStorageController {
 
-    private final FileUploadService fileUploadService;
+    private final UploadFileUseCase uploadFileUseCase;
 
     @PostMapping("/files")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<FileUploadResponse>> uploadFile(
+        @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @RequestPart final MultipartFile file
     ) {
-        final URI fileUri = fileUploadService.uploadFile(file);
-        final FileUploadResponse response = new FileUploadResponse(fileUri);
+        final Long memberId = principalDetails.getMember().getMemberId();
+        final UploadFileCommand command = new UploadFileCommand(memberId, file);
+        final URI uri = uploadFileUseCase.upload(command);
+        final FileUploadResponse response = new FileUploadResponse(uri);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }
 }

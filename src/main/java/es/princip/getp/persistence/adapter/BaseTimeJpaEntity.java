@@ -24,8 +24,6 @@ public abstract class BaseTimeJpaEntity {
     protected LocalDateTime updatedAt;
 
     protected BaseTimeJpaEntity() {
-        this.createdAt = null;
-        this.updatedAt = null;
     }
 
     protected BaseTimeJpaEntity(final LocalDateTime createdAt, final LocalDateTime updatedAt) {
