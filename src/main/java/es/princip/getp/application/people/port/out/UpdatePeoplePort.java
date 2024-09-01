@@ -2,7 +2,7 @@ package es.princip.getp.application.people.port.out;
 
 import es.princip.getp.domain.people.model.People;
 
-public interface SavePeoplePort {
+public interface UpdatePeoplePort {
 
-    Long save(People people);
+    void update(People people);
 }

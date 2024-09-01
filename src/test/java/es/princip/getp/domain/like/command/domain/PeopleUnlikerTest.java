@@ -4,7 +4,7 @@ import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.like.command.domain.people.PeopleLikeRepository;
 import es.princip.getp.domain.like.command.domain.people.PeopleUnliker;
 import es.princip.getp.domain.like.exception.NeverLikedException;
-import es.princip.getp.domain.people.command.domain.People;
+import es.princip.getp.domain.people.model.People;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

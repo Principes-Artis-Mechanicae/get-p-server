@@ -1,9 +1,9 @@
 package es.princip.getp.application.people;
 
 import es.princip.getp.domain.member.model.Email;
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleInfo;
-import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleInfo;
+import es.princip.getp.domain.people.model.PeopleType;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

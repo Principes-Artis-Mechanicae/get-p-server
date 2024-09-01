@@ -1,47 +1,25 @@
-package es.princip.getp.domain.people.command.domain;
+package es.princip.getp.domain.people.model;
 
+import es.princip.getp.domain.BaseModel;
 import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.common.model.TechStack;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Getter
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PeopleProfile {
+public class PeopleProfile extends BaseModel {
 
-    @Column(name = "introduction")
-    @NotBlank
-    private String introduction;
-
-    @Column(name = "activity_area")
-    @NotBlank
-    private String activityArea;
-
-    @Embedded
-    @NotNull
-    private Education education;
-
-    @ElementCollection
-    @CollectionTable(name = "people_profile_hashtag", joinColumns = @JoinColumn(name = "people_id"))
-    private List<Hashtag> hashtags = new ArrayList<>();
-
-    @ElementCollection
-    @CollectionTable(name = "people_profile_tech_stack", joinColumns = @JoinColumn(name = "people_id"))
-    private List<TechStack> techStacks = new ArrayList<>();
-
-    @ElementCollection
-    @CollectionTable(name = "people_profile_portfolio", joinColumns = @JoinColumn(name = "people_id"))
-    private List<Portfolio> portfolios = new ArrayList<>();
+    @NotBlank private final String introduction;
+    @NotBlank private final String activityArea;
+    @NotNull private final Education education;
+    private final List<@NotNull Hashtag> hashtags;
+    private final List<@NotNull TechStack> techStacks;
+    private final List<@NotNull Portfolio> portfolios;
 
     @Builder
     public PeopleProfile(
@@ -58,6 +36,8 @@ public class PeopleProfile {
         this.hashtags = hashtags;
         this.techStacks = techStacks;
         this.portfolios = portfolios;
+
+        validate();
     }
 
     public List<Hashtag> getHashtags() {

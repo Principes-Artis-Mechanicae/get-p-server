@@ -2,8 +2,8 @@ package es.princip.getp.api.controller.people.query.dto.peopleProfile;
 
 import es.princip.getp.api.controller.common.dto.HashtagsResponse;
 import es.princip.getp.api.controller.common.dto.TechStacksResponse;
-import es.princip.getp.domain.people.command.domain.Education;
-import es.princip.getp.domain.people.command.domain.PeopleProfile;
+import es.princip.getp.domain.people.model.Education;
+import es.princip.getp.domain.people.model.PeopleProfile;
 
 public record DetailPeopleProfileResponse(
     String introduction,

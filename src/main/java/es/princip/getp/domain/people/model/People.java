@@ -1,41 +1,47 @@
-package es.princip.getp.domain.people.command.domain;
+package es.princip.getp.domain.people.model;
 
-import es.princip.getp.common.domain.BaseTimeEntity;
+import es.princip.getp.domain.BaseEntity;
 import es.princip.getp.domain.like.command.domain.LikeReceivable;
 import es.princip.getp.domain.like.command.domain.Likeable;
 import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.people.exception.AlreadyRegisteredPeopleProfileException;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
-@Entity
-@Table(name = "people")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class People extends BaseTimeEntity implements Likeable, LikeReceivable {
+public class People extends BaseEntity implements Likeable, LikeReceivable {
 
-    @Id
-    @Column(name = "people_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long peopleId;
-
-    @NotNull
-    @Column(name = "member_id")
-    private Long memberId;
-
-    @Embedded
+    @NotNull private Long memberId;
     private PeopleInfo info;
-
-    @Embedded
     private PeopleProfile profile;
+
+    public People(
+        final Long peopleId,
+        final Long memberId,
+        final PeopleInfo info,
+        final PeopleProfile profile,
+        final LocalDateTime createdAt,
+        final LocalDateTime updatedAt
+    ) {
+        super(createdAt, updatedAt);
+
+        this.peopleId = peopleId;
+        this.memberId = memberId;
+        this.info = info;
+        this.profile = profile;
+
+        validate();
+    }
 
     public People(final Long memberId, final PeopleInfo info) {
         this.memberId = memberId;
         this.info = info;
+
+        validate();
     }
 
     public void editInfo(final Email email, final PeopleType peopleType) {

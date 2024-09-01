@@ -9,7 +9,7 @@ import es.princip.getp.api.controller.people.command.dto.request.PortfolioReques
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.application.people.command.EditPeopleProfileCommand;
 import es.princip.getp.application.people.command.RegisterPeopleProfileCommand;
-import es.princip.getp.domain.people.command.domain.Portfolio;
+import es.princip.getp.domain.people.model.Portfolio;
 import org.mapstruct.Mapper;
 
 @CommandMapper

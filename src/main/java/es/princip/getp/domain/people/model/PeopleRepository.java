@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.command.domain;
+package es.princip.getp.domain.people.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

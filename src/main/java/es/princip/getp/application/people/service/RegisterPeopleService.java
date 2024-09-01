@@ -8,7 +8,7 @@ import es.princip.getp.application.people.mapper.PeopleMapper;
 import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
 import es.princip.getp.application.people.port.out.CheckPeoplePort;
 import es.princip.getp.application.people.port.out.SavePeoplePort;
-import es.princip.getp.domain.people.command.domain.People;
+import es.princip.getp.domain.people.model.People;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

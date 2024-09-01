@@ -11,7 +11,7 @@ import es.princip.getp.application.people.command.EditPeopleCommand;
 import es.princip.getp.application.people.command.RegisterPeopleCommand;
 import es.princip.getp.application.people.port.in.EditPeopleUseCase;
 import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
-import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

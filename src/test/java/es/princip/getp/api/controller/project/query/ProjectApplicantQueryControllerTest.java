@@ -10,7 +10,7 @@ import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.application.project.apply.port.in.GetProjectApplicantQuery;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberType;
-import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

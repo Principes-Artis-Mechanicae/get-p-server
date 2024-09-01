@@ -2,8 +2,8 @@ package es.princip.getp.application.people.command;
 
 import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.common.model.TechStack;
-import es.princip.getp.domain.people.command.domain.Education;
-import es.princip.getp.domain.people.command.domain.Portfolio;
+import es.princip.getp.domain.people.model.Education;
+import es.princip.getp.domain.people.model.Portfolio;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package es.princip.getp.fixture.people;
 
-import es.princip.getp.domain.people.command.domain.Education;
+import es.princip.getp.domain.people.model.Education;
 
 public class EducationFixture {
 

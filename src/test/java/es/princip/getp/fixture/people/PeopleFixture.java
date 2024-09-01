@@ -1,9 +1,9 @@
 package es.princip.getp.fixture.people;
 
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleInfo;
-import es.princip.getp.domain.people.command.domain.PeopleProfileData;
-import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleInfo;
+import es.princip.getp.domain.people.model.PeopleProfileData;
+import es.princip.getp.domain.people.model.PeopleType;
 
 import java.util.List;
 import java.util.stream.LongStream;

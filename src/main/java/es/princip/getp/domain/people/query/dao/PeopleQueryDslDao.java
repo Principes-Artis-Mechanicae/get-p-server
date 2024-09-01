@@ -12,11 +12,11 @@ import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopl
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.PeopleLikeDao;
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleProfile;
-import es.princip.getp.domain.people.command.domain.QPeople;
+import es.princip.getp.domain.people.command.model.QPeople;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
+import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleProfile;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static es.princip.getp.domain.people.command.domain.QPeople.people;
+import static es.princip.getp.domain.people.command.model.QPeople.people;
 import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.orderSpecifiersFromSort;
 import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.toPeopleIds;
 import static java.util.stream.Collectors.toMap;

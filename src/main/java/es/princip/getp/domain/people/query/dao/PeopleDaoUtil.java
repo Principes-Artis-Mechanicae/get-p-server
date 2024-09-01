@@ -2,15 +2,15 @@ package es.princip.getp.domain.people.query.dao;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleOrder;
+import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleOrder;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
 import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
-import static es.princip.getp.domain.people.command.domain.QPeople.people;
+import static es.princip.getp.domain.people.command.model.QPeople.people;
 
 public class PeopleDaoUtil {
 

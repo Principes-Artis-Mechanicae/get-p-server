@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.command.domain;
+package es.princip.getp.domain.people.model;
 
 import es.princip.getp.domain.common.model.URL;
 import jakarta.persistence.Column;

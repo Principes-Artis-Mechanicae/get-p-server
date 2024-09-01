@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
-import static es.princip.getp.domain.people.command.domain.QPeople.people;
+import static es.princip.getp.domain.people.command.model.QPeople.people;
 import static es.princip.getp.persistence.adapter.project.ProjectPersistenceUtil.toProjectIds;
 
 @Repository

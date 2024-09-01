@@ -1,8 +1,8 @@
 package es.princip.getp.domain.people.query.infra;
 
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.persistence.adapter.member.MemberJpaEntity;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +45,7 @@ public class PeopleDataLoader implements DataLoader {
 
     @Override
     public void teardown() {
-        entityManager.createQuery("DELETE FROM People").executeUpdate();
+        entityManager.createQuery("DELETE FROM PeopleJpaEntity").executeUpdate();
         entityManager.createQuery("DELETE FROM MemberJpaEntity").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE member AUTO_INCREMENT = 1").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE people AUTO_INCREMENT = 1").executeUpdate();
