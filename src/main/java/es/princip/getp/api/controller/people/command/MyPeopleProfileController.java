@@ -5,9 +5,10 @@ import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.people.command.application.PeopleProfileService;
-import es.princip.getp.domain.people.command.application.command.EditPeopleProfileCommand;
-import es.princip.getp.domain.people.command.application.command.RegisterPeopleProfileCommand;
+import es.princip.getp.application.people.command.EditPeopleProfileCommand;
+import es.princip.getp.application.people.command.RegisterPeopleProfileCommand;
+import es.princip.getp.application.people.port.in.EditPeopleProfileUseCase;
+import es.princip.getp.application.people.port.in.RegisterPeopleProfileUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,8 @@ public class MyPeopleProfileController {
 
     private final PeopleCommandMapper peopleCommandMapper;
 
-    private final PeopleProfileService peopleProfileService;
+    private final RegisterPeopleProfileUseCase registerPeopleProfileUseCase;
+    private final EditPeopleProfileUseCase editPeopleProfileUseCase;
 
     /**
      * 내 피플 프로필 등록
@@ -39,7 +41,7 @@ public class MyPeopleProfileController {
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final RegisterPeopleProfileCommand command = peopleCommandMapper.mapToCommand(memberId, request);
-        peopleProfileService.registerProfile(command);
+        registerPeopleProfileUseCase.register(command);
         return ApiResponse.success(HttpStatus.CREATED);
     }
 
@@ -57,7 +59,7 @@ public class MyPeopleProfileController {
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
         final EditPeopleProfileCommand command = peopleCommandMapper.mapToCommand(memberId, request);
-        peopleProfileService.editProfile(command);
+        editPeopleProfileUseCase.edit(command);
         return ApiResponse.success(HttpStatus.OK);
     }
 }

@@ -6,8 +6,8 @@ import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.people.command.domain.PeopleType;
-import es.princip.getp.domain.people.query.dao.PeopleDao;
+import es.princip.getp.application.people.port.in.GetMyPeopleQuery;
+import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MyPeopleQueryControllerTest extends ControllerTest {
 
     @Autowired
-    private PeopleDao peopleDao;
+    private GetMyPeopleQuery getMyPeopleQuery;
 
     @Nested
     @DisplayName("내 피플 정보 조회")
@@ -59,7 +59,7 @@ class MyPeopleQueryControllerTest extends ControllerTest {
                 LocalDateTime.now(),
                 LocalDateTime.now()
             );
-            given(peopleDao.findByMemberId(memberId)).willReturn(response);
+            given(getMyPeopleQuery.getByMemberId(memberId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())
