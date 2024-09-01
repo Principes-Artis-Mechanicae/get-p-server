@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.project.meeting.entity;
+package es.princip.getp.persistence.adapter.project.meeting.model;
 
 import es.princip.getp.persistence.adapter.BaseTimeJpaEntity;
 import jakarta.persistence.*;

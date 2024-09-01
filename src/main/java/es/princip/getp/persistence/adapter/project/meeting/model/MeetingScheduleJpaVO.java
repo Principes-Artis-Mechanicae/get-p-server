@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.project.meeting.entity;
+package es.princip.getp.persistence.adapter.project.meeting.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
