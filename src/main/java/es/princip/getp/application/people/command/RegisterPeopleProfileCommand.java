@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.command.application.command;
+package es.princip.getp.application.people.command;
 
 import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.common.model.TechStack;

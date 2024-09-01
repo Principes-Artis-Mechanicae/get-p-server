@@ -1,14 +1,13 @@
 package es.princip.getp.application.project.apply;
 
+import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
 import es.princip.getp.application.project.apply.exception.AlreadyAppliedProjectException;
 import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
 import es.princip.getp.application.project.apply.port.out.CheckProjectApplicationPort;
 import es.princip.getp.application.project.apply.port.out.SaveProjectApplicationPort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleRepository;
-import es.princip.getp.domain.people.exception.NotFoundPeopleException;
+import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import es.princip.getp.domain.project.apply.service.ProjectApplier;
 import es.princip.getp.domain.project.commission.model.Project;
@@ -24,7 +23,7 @@ class ProjectApplicationService implements ApplyProjectUseCase {
     private final LoadProjectPort loadProjectPort;
     private final CheckProjectApplicationPort checkProjectApplicationPort;
     private final SaveProjectApplicationPort saveProjectApplicationPort;
-    private final PeopleRepository peopleRepository;
+    private final LoadPeoplePort loadPeoplePort;
 
     private final ProjectApplier projectApplier;
 
@@ -37,12 +36,11 @@ class ProjectApplicationService implements ApplyProjectUseCase {
     @Override
     @Transactional
     public Long apply(final ApplyProjectCommand command) {
-        final People applicant = peopleRepository.findByMemberId(command.memberId())
-            .orElseThrow(NotFoundPeopleException::new);
-        final Long applicantId = applicant.getPeopleId();
+        final People applicant = loadPeoplePort.loadBy(command.memberId());
+        final Long applicantId = applicant.getId();
         final Long projectId = command.projectId();
         final Project project = loadProjectPort.loadBy(command.projectId());
-        if (checkProjectApplicationPort.existsByApplicantIdAndProjectId(applicantId, projectId)) {
+        if (checkProjectApplicationPort.existsBy(applicantId, projectId)) {
             throw new AlreadyAppliedProjectException();
         }
         final ProjectApplication application = projectApplier.applyForProject(

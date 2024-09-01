@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.command.application;
+package es.princip.getp.application.people;
 
 import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.people.command.domain.People;
