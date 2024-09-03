@@ -1,6 +1,6 @@
 package es.princip.getp.application.auth.service;
 
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 
 public interface VerificationCodeSender {
 

@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
-import static es.princip.getp.fixture.member.EmailFixture.email;
+import static es.princip.getp.fixture.common.EmailFixture.email;
 import static es.princip.getp.fixture.member.PasswordFixture.password;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

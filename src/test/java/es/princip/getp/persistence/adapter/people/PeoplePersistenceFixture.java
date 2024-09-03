@@ -9,9 +9,9 @@ import es.princip.getp.persistence.adapter.people.model.PortfolioJpaVO;
 
 import java.util.List;
 
+import static es.princip.getp.fixture.common.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtags;
 import static es.princip.getp.fixture.common.TechStackFixture.techStacks;
-import static es.princip.getp.fixture.member.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.people.ActivityAreaFixture.ACTIVITY_AREA;
 import static es.princip.getp.fixture.people.EducationFixture.MAJOR;
 import static es.princip.getp.fixture.people.EducationFixture.SCHOOL;

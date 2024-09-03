@@ -1,6 +1,6 @@
 package es.princip.getp.application.mail.command;
 
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 
 public record SendMailCommand(
     Email email,

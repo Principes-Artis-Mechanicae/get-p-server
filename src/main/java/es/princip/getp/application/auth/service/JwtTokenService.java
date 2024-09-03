@@ -4,7 +4,7 @@ import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.security.exception.ExpiredTokenException;
 import es.princip.getp.api.security.exception.InvalidTokenException;
 import es.princip.getp.application.member.port.out.LoadMemberPort;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.member.model.Member;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

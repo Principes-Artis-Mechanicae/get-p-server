@@ -6,7 +6,7 @@ import es.princip.getp.application.member.port.out.CheckMemberPort;
 import es.princip.getp.application.member.port.out.SaveMemberPort;
 import es.princip.getp.application.serviceTerm.port.out.CheckServiceTermPort;
 import es.princip.getp.application.serviceTerm.port.out.LoadServiceTermPort;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.ServiceTermAgreementData;
 import es.princip.getp.domain.serviceTerm.model.ServiceTerm;

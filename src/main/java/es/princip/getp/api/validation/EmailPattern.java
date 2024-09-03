@@ -1,6 +1,6 @@
 package es.princip.getp.api.validation;
 
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import jakarta.validation.Constraint;
 import jakarta.validation.constraints.Pattern;
 

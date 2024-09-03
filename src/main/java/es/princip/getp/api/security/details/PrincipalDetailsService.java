@@ -1,7 +1,7 @@
 package es.princip.getp.api.security.details;
 
 import es.princip.getp.application.member.port.out.LoadMemberPort;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

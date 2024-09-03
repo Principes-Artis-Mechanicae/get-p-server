@@ -1,6 +1,6 @@
-package es.princip.getp.fixture.member;
+package es.princip.getp.fixture.common;
 
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 
 public class EmailFixture {
     public static final String EMAIL = "test@example.com";

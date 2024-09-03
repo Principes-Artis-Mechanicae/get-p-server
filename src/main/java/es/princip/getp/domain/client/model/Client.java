@@ -1,8 +1,8 @@
 package es.princip.getp.domain.client.model;
 
 import es.princip.getp.domain.common.model.BaseEntity;
+import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.like.command.domain.Likeable;
-import es.princip.getp.domain.member.model.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;

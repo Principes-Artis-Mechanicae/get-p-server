@@ -1,9 +1,9 @@
 package es.princip.getp.domain.people.model;
 
 import es.princip.getp.domain.common.model.BaseEntity;
+import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.like.command.domain.LikeReceivable;
 import es.princip.getp.domain.like.command.domain.Likeable;
-import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.people.exception.AlreadyRegisteredPeopleProfileException;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import jakarta.validation.constraints.NotNull;

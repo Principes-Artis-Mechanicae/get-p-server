@@ -1,13 +1,13 @@
 package es.princip.getp.api.controller.client.command.dto.request;
 
+import es.princip.getp.api.validation.EmailPattern;
+import es.princip.getp.api.validation.PhoneNumberPattern;
 import es.princip.getp.application.client.command.EditClientCommand;
 import es.princip.getp.domain.client.model.Address;
 import es.princip.getp.domain.client.model.BankAccount;
-import es.princip.getp.api.validation.EmailPattern;
-import es.princip.getp.api.validation.PhoneNumberPattern;
-import es.princip.getp.domain.member.model.Email;
-import es.princip.getp.domain.member.model.Nickname;
+import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.common.model.PhoneNumber;
+import es.princip.getp.domain.member.model.Nickname;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

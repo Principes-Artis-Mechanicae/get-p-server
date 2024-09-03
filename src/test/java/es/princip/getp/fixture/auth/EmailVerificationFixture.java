@@ -1,7 +1,7 @@
 package es.princip.getp.fixture.auth;
 
 import es.princip.getp.application.auth.service.EmailVerification;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 
 public class EmailVerificationFixture {
 

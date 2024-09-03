@@ -8,9 +8,9 @@ import es.princip.getp.domain.people.model.PeopleType;
 import java.util.List;
 import java.util.stream.LongStream;
 
+import static es.princip.getp.fixture.common.EmailFixture.email;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtags;
 import static es.princip.getp.fixture.common.TechStackFixture.techStacks;
-import static es.princip.getp.fixture.member.EmailFixture.email;
 import static es.princip.getp.fixture.people.ActivityAreaFixture.activityArea;
 import static es.princip.getp.fixture.people.EducationFixture.education;
 import static es.princip.getp.fixture.people.IntroductionFixture.introduction;

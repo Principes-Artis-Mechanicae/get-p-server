@@ -1,6 +1,6 @@
 package es.princip.getp.application.people.mapper;
 
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleInfo;
 import es.princip.getp.domain.people.model.PeopleType;
