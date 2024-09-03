@@ -62,7 +62,7 @@ class ProfileImageService implements ProfileImageUseCase {
         }
         final Path destination = getPathToSaveProfileImage(member, image);
         final URI uri = storeFilePort.store(image, destination);
-        return ProfileImage.of(uri.toString());
+        return ProfileImage.from(uri.toString());
     }
 
     private Path getPathToSaveProfileImage(final Member member, final MultipartFile image) {

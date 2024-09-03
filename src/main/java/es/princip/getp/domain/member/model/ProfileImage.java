@@ -19,7 +19,7 @@ public class ProfileImage extends BaseModel {
         validate();
     }
 
-    public static ProfileImage of(final String url) {
+    public static ProfileImage from(final String url) {
         return new ProfileImage(url);
     }
 }

@@ -1,6 +1,5 @@
-package es.princip.getp.api.validation;
+package es.princip.getp.domain.common.model;
 
-import es.princip.getp.domain.common.model.PhoneNumber;
 import jakarta.validation.Constraint;
 import jakarta.validation.constraints.Pattern;
 
@@ -10,15 +9,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Pattern(
-    regexp = PhoneNumber.PHONE_REGEX,
-    message = "{validation.constraints.PhoneNumber.message}"
+    regexp = Email.EMAIL_REGEX,
+    message = "{validation.constraints.Email.message}"
 )
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
-public @interface PhoneNumberPattern {
+public @interface EmailPattern {
 
-    String message() default "{validation.constraints.PhoneNumber.message}"; // Spring Rest Docs에서 사용
+    String message() default "{validation.constraints.Email.message}"; // Spring Rest Docs에서 사용
 
     Class<?>[] groups() default {};
 

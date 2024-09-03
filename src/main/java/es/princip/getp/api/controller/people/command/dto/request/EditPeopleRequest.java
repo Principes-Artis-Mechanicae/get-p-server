@@ -1,11 +1,11 @@
 package es.princip.getp.api.controller.people.command.dto.request;
 
-import es.princip.getp.api.validation.EmailPattern;
 import es.princip.getp.api.validation.Enum;
-import es.princip.getp.api.validation.PhoneNumberPattern;
 import es.princip.getp.application.people.command.EditPeopleCommand;
 import es.princip.getp.domain.common.model.Email;
+import es.princip.getp.domain.common.model.EmailPattern;
 import es.princip.getp.domain.common.model.PhoneNumber;
+import es.princip.getp.domain.common.model.PhoneNumberPattern;
 import es.princip.getp.domain.member.model.Nickname;
 import es.princip.getp.domain.people.model.PeopleType;
 import jakarta.validation.constraints.NotBlank;
@@ -21,9 +21,9 @@ public record EditPeopleRequest(
     public EditPeopleCommand toCommand(Long memberId) {
         return new EditPeopleCommand(
             memberId,
-            Nickname.of(nickname),
-            Email.of(email),
-            PhoneNumber.of(phoneNumber),
+            Nickname.from(nickname),
+            Email.from(email),
+            PhoneNumber.from(phoneNumber),
             peopleType
         );
     }

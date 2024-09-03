@@ -100,8 +100,8 @@ class MemberTest {
     void 회원은_자신의_회원_정보를_수정할_수_있다() {
         final Member member = Member.of(email(), password(), MemberType.ROLE_PEOPLE);
 
-        final Nickname newNickname = Nickname.of("new nickname");
-        final PhoneNumber newPhoneNumber = PhoneNumber.of("01087654321");
+        final Nickname newNickname = Nickname.from("new nickname");
+        final PhoneNumber newPhoneNumber = PhoneNumber.from("01087654321");
         member.edit(newNickname, newPhoneNumber);
 
         assertThat(member.getNickname()).isEqualTo(newNickname);

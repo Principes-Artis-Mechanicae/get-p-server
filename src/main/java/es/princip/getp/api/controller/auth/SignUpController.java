@@ -45,7 +45,7 @@ public class SignUpController {
     public ResponseEntity<ApiSuccessResult<?>> sendEmailVerificationCodeForSignUp(
         @RequestBody @Valid final EmailVerificationCodeRequest request
     ) {
-        final Email email = Email.of(request.email());
+        final Email email = Email.from(request.email());
         signUpService.sendEmailVerificationCodeForSignUp(email);
         return ApiResponse.success(HttpStatus.OK);
     }

@@ -16,6 +16,6 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        return new PrincipalDetails(loadMemberPort.loadBy(Email.of(username)));
+        return new PrincipalDetails(loadMemberPort.loadBy(Email.from(username)));
     }
 }

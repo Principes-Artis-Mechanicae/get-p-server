@@ -1,12 +1,12 @@
 package es.princip.getp.api.controller.client.command.dto.request;
 
-import es.princip.getp.api.validation.EmailPattern;
-import es.princip.getp.api.validation.PhoneNumberPattern;
 import es.princip.getp.application.client.command.EditClientCommand;
 import es.princip.getp.domain.client.model.Address;
 import es.princip.getp.domain.client.model.BankAccount;
 import es.princip.getp.domain.common.model.Email;
+import es.princip.getp.domain.common.model.EmailPattern;
 import es.princip.getp.domain.common.model.PhoneNumber;
+import es.princip.getp.domain.common.model.PhoneNumberPattern;
 import es.princip.getp.domain.member.model.Nickname;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -24,9 +24,9 @@ public record EditMyClientRequest(
     public EditClientCommand toCommand(final Long memberId) {
         return new EditClientCommand(
             memberId,
-            Nickname.of(nickname()),
-            Email.of(email()),
-            PhoneNumber.of(phoneNumber()),
+            Nickname.from(nickname()),
+            Email.from(email()),
+            PhoneNumber.from(phoneNumber()),
             address,
             bankAccount
         );

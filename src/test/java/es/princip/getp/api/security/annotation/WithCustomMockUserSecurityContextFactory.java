@@ -22,10 +22,10 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
 
     @Override
     public SecurityContext createSecurityContext(final WithCustomMockUser annotation) {
-        final Email email = Email.of(annotation.email());
-        final Password password = Password.of(annotation.password());
-        final Nickname nickname = Nickname.of(annotation.nickname());
-        final PhoneNumber phoneNumber = PhoneNumber.of(annotation.phoneNumber());
+        final Email email = Email.from(annotation.email());
+        final Password password = Password.from(annotation.password());
+        final Nickname nickname = Nickname.from(annotation.nickname());
+        final PhoneNumber phoneNumber = PhoneNumber.from(annotation.phoneNumber());
         final ProfileImage profileImage = profileImage(annotation.memberId());
         final MemberType memberType = annotation.memberType();
         final LocalDateTime now = LocalDateTime.now();

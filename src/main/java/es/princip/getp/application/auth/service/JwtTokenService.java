@@ -69,7 +69,7 @@ public abstract class JwtTokenService {
      */
     public Authentication getAuthentication(final String token) {
         final Claims claims = validateAndParseToken(token);
-        final Email email = Email.of(claims.getSubject());
+        final Email email = Email.from(claims.getSubject());
         final Member member = loadMemberPort.loadBy(email);
         final PrincipalDetails principalDetails = new PrincipalDetails(member);
 

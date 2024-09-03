@@ -19,7 +19,7 @@ public class Nickname extends BaseModel {
         validate();
     }
 
-    public static Nickname of(final String value) {
+    public static Nickname from(final String value) {
         return new Nickname(value);
     }
 }

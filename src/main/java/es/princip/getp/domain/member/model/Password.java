@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.regex.Pattern;
-
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = false)
@@ -16,9 +14,8 @@ public class Password extends BaseModel {
 
     public static final String PASSWORD_REGEX
         = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*_+=/])[A-Za-z\\d!@#$%^&*_+=/]{8,20}$";
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
-    @NotNull private final String value;
+    @NotNull @PasswordPattern private final String value;
     private final boolean encoded;
 
     public Password(final String value, final boolean encoded) {
@@ -28,7 +25,7 @@ public class Password extends BaseModel {
         validate();
     }
 
-    public static Password of(final String value) {
+    public static Password from(final String value) {
         return new Password(value, false);
     }
 
@@ -37,10 +34,9 @@ public class Password extends BaseModel {
     }
 
     @Override
-    public void validate() {
-        super.validate();
-        if (!encoded && !PASSWORD_PATTERN.matcher(value).matches()) {
-            throw new IllegalArgumentException("비밀번호 형식이 올바르지 않습니다.");
+    protected void validate() {
+        if (!encoded) {
+            super.validate();
         }
     }
 

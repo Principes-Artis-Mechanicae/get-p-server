@@ -1,7 +1,6 @@
 package es.princip.getp.domain.common.model;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,7 +13,7 @@ public class URL extends BaseModel {
     public static final String URL_REGEX = "^(https|ftp|mailto|tel)://.*";
 
     @NotNull
-    @Pattern(regexp = URL_REGEX)
+    @URLPattern
     private final String value;
 
     public URL(final String value) {

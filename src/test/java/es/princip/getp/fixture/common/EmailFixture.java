@@ -6,6 +6,6 @@ public class EmailFixture {
     public static final String EMAIL = "test@example.com";
 
     public static Email email() {
-        return Email.of(EMAIL);
+        return Email.from(EMAIL);
     }
 }

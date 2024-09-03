@@ -12,14 +12,16 @@ public class Email extends BaseModel {
 
     public static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
-    @NotNull private final String value;
+    @NotNull
+    @EmailPattern
+    private final String value;
 
     public Email(final String value) {
         this.value = value;
         validate();
     }
 
-    public static Email of(final String value) {
+    public static Email from(final String value) {
         return new Email(value);
     }
 

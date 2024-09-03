@@ -6,6 +6,6 @@ public class NicknameFixture {
     public static final String NICKNAME = "닉네임";
 
     public static Nickname nickname() {
-        return Nickname.of(NICKNAME);
+        return Nickname.from(NICKNAME);
     }
 }
