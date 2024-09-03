@@ -6,9 +6,10 @@ import es.princip.getp.api.controller.people.command.description.request.WritePe
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.domain.people.command.application.PeopleProfileService;
-import es.princip.getp.domain.people.command.application.command.EditPeopleProfileCommand;
-import es.princip.getp.domain.people.command.application.command.RegisterPeopleProfileCommand;
+import es.princip.getp.application.people.command.EditPeopleProfileCommand;
+import es.princip.getp.application.people.command.RegisterPeopleProfileCommand;
+import es.princip.getp.application.people.port.in.EditPeopleProfileUseCase;
+import es.princip.getp.application.people.port.in.RegisterPeopleProfileUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,10 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.fixture.common.HashtagFixture.hashtagsRequest;
-import static es.princip.getp.fixture.common.TechStackFixture.techStacksRequest;
 import static es.princip.getp.domain.member.model.MemberType.ROLE_CLIENT;
 import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.fixture.common.HashtagFixture.hashtagsRequest;
+import static es.princip.getp.fixture.common.TechStackFixture.techStacksRequest;
 import static es.princip.getp.fixture.people.ActivityAreaFixture.activityArea;
 import static es.princip.getp.fixture.people.EducationFixture.education;
 import static es.princip.getp.fixture.people.IntroductionFixture.introduction;
@@ -33,8 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class MyPeopleProfileControllerTest extends ControllerTest {
 
-    @Autowired
-    private PeopleProfileService peopleProfileService;
+    @Autowired private RegisterPeopleProfileUseCase registerPeopleProfileUseCase;
+    @Autowired private EditPeopleProfileUseCase editPeopleProfileUseCase;
 
     private static final String MY_PEOPLE_PROFILE_URI = "/people/me/profile";
 
@@ -60,8 +61,8 @@ class MyPeopleProfileControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
         void writeMyPeopleProfile() throws Exception {
-            willDoNothing().given(peopleProfileService)
-                .registerProfile(any(RegisterPeopleProfileCommand.class));
+            willDoNothing().given(registerPeopleProfileUseCase)
+                .register(any(RegisterPeopleProfileCommand.class));
 
             perform()
                 .andExpect(status().isCreated())
@@ -101,8 +102,8 @@ class MyPeopleProfileControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
         void editMyPeopleProfile() throws Exception {
-            willDoNothing().given(peopleProfileService)
-                .editProfile(any(EditPeopleProfileCommand.class));
+            willDoNothing().given(editPeopleProfileUseCase)
+                .edit(any(EditPeopleProfileCommand.class));
 
             perform()
                 .andExpect(status().isOk())

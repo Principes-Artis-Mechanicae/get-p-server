@@ -3,7 +3,7 @@ package es.princip.getp.domain.like.command.domain;
 import es.princip.getp.domain.like.command.domain.project.ProjectLikeRepository;
 import es.princip.getp.domain.like.command.domain.project.ProjectUnliker;
 import es.princip.getp.domain.like.exception.NeverLikedException;
-import es.princip.getp.domain.people.command.domain.People;
+import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.commission.model.Project;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

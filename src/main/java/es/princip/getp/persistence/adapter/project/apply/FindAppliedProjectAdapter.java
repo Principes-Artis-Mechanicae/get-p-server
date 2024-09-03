@@ -5,6 +5,7 @@ import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardRespon
 import es.princip.getp.application.project.apply.port.out.FindAppliedProjectPort;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.persistence.adapter.people.model.QPeopleJpaEntity;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
 import es.princip.getp.persistence.adapter.project.commission.QProjectJpaEntity;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
-import static es.princip.getp.domain.people.command.domain.QPeople.people;
 import static es.princip.getp.persistence.adapter.project.ProjectPersistenceUtil.toProjectIds;
 
 @Repository
 @RequiredArgsConstructor
 class FindAppliedProjectAdapter extends QueryDslSupport implements FindAppliedProjectPort {
 
+    private static final QPeopleJpaEntity people = QPeopleJpaEntity.peopleJpaEntity;
     private static final QProjectApplicationJpaEntity projectApplication
         = QProjectApplicationJpaEntity.projectApplicationJpaEntity;
     private static final QProjectJpaEntity project = QProjectJpaEntity.projectJpaEntity;
@@ -46,7 +47,7 @@ class FindAppliedProjectAdapter extends QueryDslSupport implements FindAppliedPr
     private JPAQuery<?> buildQuery(final Long memberId) {
         return queryFactory.from(project)
             .join(projectApplication).on(projectApplication.projectId.eq(project.projectId))
-            .join(people).on(people.peopleId.eq(projectApplication.applicantId))
+            .join(people).on(people.id.eq(projectApplication.applicantId))
             .where(people.memberId.eq(memberId));
     }
 

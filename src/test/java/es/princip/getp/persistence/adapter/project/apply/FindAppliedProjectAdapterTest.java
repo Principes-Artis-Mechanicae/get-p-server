@@ -2,8 +2,9 @@ package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.people.query.infra.PeopleDataLoader;
 import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
+import es.princip.getp.persistence.adapter.people.PeopleDataLoader;
+import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
 import es.princip.getp.persistence.adapter.project.commission.ProjectDataLoader;
 import jakarta.persistence.EntityManager;
@@ -28,6 +29,7 @@ public class FindAppliedProjectAdapterTest extends PersistenceAdapterTest {
     @PersistenceContext private EntityManager entityManager;
     @Autowired private FindAppliedProjectAdapter adapter;
     @Autowired private ProjectApplicationPersistenceMapper applicationMapper;
+    @Autowired private PeoplePersistenceMapper peopleMapper;
     @Autowired private ProjectPersistenceMapper projectMapper;
 
     private List<DataLoader> dataLoaders;
@@ -35,7 +37,7 @@ public class FindAppliedProjectAdapterTest extends PersistenceAdapterTest {
     @BeforeEach
     void setUp() {
         dataLoaders = List.of(
-            new PeopleDataLoader(entityManager),
+            new PeopleDataLoader(peopleMapper, entityManager),
             new ProjectDataLoader(projectMapper, entityManager),
             new ProjectApplicationDataLoader(applicationMapper, entityManager)
         );

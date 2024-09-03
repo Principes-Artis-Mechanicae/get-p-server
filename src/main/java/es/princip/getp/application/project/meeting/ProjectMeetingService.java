@@ -1,5 +1,6 @@
 package es.princip.getp.application.project.meeting;
 
+import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.apply.port.out.CheckProjectApplicationPort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
@@ -7,9 +8,7 @@ import es.princip.getp.application.project.meeting.exception.NotApplicantExcepti
 import es.princip.getp.application.project.meeting.exception.NotClientOfProjectException;
 import es.princip.getp.application.project.meeting.port.out.CheckProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleRepository;
-import es.princip.getp.domain.people.exception.NotFoundPeopleException;
+import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ProjectMeetingService {
 
-    private final PeopleRepository peopleRepository;
+    private final LoadPeoplePort loadPeoplePort;
     private final LoadProjectPort loadProjectPort;
 
     private final CheckProjectApplicationPort checkProjectApplicationPort;
@@ -38,8 +37,7 @@ public class ProjectMeetingService {
      */
     @Transactional
     public Long scheduleMeeting(final ScheduleMeetingCommand command) {
-        final People people = peopleRepository.findByMemberId(command.applicantId())
-            .orElseThrow(NotFoundPeopleException::new);
+        final People people = loadPeoplePort.loadBy(command.applicantId());
         final Project project = loadProjectPort.loadBy(command.projectId());
 
         checkMemberIsClientOfProject(command.memberId(), command.projectId());
@@ -67,7 +65,7 @@ public class ProjectMeetingService {
     }
 
     private void checkPeopleIsApplicant(final Long applicantId, final Long projectId) {
-        if (!checkProjectApplicationPort.existsByApplicantIdAndProjectId(applicantId, projectId)) {
+        if (!checkProjectApplicationPort.existsBy(applicantId, projectId)) {
             throw new NotApplicantException();
         }
     }

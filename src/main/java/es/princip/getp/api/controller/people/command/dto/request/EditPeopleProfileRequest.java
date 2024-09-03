@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.people.command.dto.request;
 
-import es.princip.getp.domain.people.command.domain.Education;
+import es.princip.getp.domain.people.model.Education;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

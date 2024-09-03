@@ -7,7 +7,7 @@ import es.princip.getp.api.controller.common.dto.PageResponse;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
-import es.princip.getp.domain.people.query.dao.PeopleDao;
+import es.princip.getp.application.people.port.in.GetPeopleQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PeopleQueryController extends ControllerSupport {
 
-    private final PeopleDao peopleDao;
+    private final GetPeopleQuery getPeopleQuery;
 
     /**
      * 피플 상세 조회
@@ -35,10 +35,10 @@ public class PeopleQueryController extends ControllerSupport {
     @GetMapping("/{peopleId}")
     public ResponseEntity<? extends ApiSuccessResult<?>> getPeople(@PathVariable final Long peopleId) {
         if (isAuthenticated()) {
-            final DetailPeopleResponse response = peopleDao.findDetailPeopleById(peopleId);
+            final DetailPeopleResponse response = getPeopleQuery.getDetailById(peopleId);
             return ApiResponse.success(HttpStatus.OK, response);
         }
-        final PublicDetailPeopleResponse response = peopleDao.findPublicDetailPeopleById(peopleId);
+        final PublicDetailPeopleResponse response = getPeopleQuery.getPublicDetailById(peopleId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 
@@ -51,7 +51,7 @@ public class PeopleQueryController extends ControllerSupport {
     @GetMapping
     public ResponseEntity<ApiSuccessResult<PageResponse<CardPeopleResponse>>> getCardPeoplePage(
         @PageableDefault(sort = "peopleId", direction = Sort.Direction.DESC) final Pageable pageable) {
-        final PageResponse<CardPeopleResponse> response = PageResponse.from(peopleDao.findCardPeoplePage(pageable));
+        final PageResponse<CardPeopleResponse> response = PageResponse.from(getPeopleQuery.getPagedCards(pageable));
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

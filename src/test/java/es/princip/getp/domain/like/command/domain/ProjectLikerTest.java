@@ -4,7 +4,7 @@ import es.princip.getp.domain.like.command.domain.project.ProjectLike;
 import es.princip.getp.domain.like.command.domain.project.ProjectLikeRepository;
 import es.princip.getp.domain.like.command.domain.project.ProjectLiker;
 import es.princip.getp.domain.like.exception.AlreadyLikedException;
-import es.princip.getp.domain.people.command.domain.People;
+import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.commission.model.Project;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

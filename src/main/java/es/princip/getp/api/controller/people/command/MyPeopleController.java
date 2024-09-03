@@ -2,13 +2,14 @@ package es.princip.getp.api.controller.people.command;
 
 import es.princip.getp.api.controller.common.dto.ApiResponse;
 import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.controller.people.command.dto.request.CreatePeopleRequest;
-import es.princip.getp.api.controller.people.command.dto.request.UpdatePeopleRequest;
-import es.princip.getp.api.controller.people.command.dto.response.CreatePeopleResponse;
+import es.princip.getp.api.controller.people.command.dto.request.EditPeopleRequest;
+import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleRequest;
+import es.princip.getp.api.controller.people.command.dto.response.RegisterPeopleResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.people.command.application.PeopleService;
-import es.princip.getp.domain.people.command.application.command.CreatePeopleCommand;
-import es.princip.getp.domain.people.command.application.command.UpdatePeopleCommand;
+import es.princip.getp.application.people.command.EditPeopleCommand;
+import es.princip.getp.application.people.command.RegisterPeopleCommand;
+import es.princip.getp.application.people.port.in.EditPeopleUseCase;
+import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MyPeopleController {
 
-    private final PeopleService peopleService;
+    private final RegisterPeopleUseCase registerPeopleUseCase;
+    private final EditPeopleUseCase editPeopleUseCase;
 
     /**
      * 내 피플 정보 등록
@@ -31,13 +33,13 @@ public class MyPeopleController {
      */
     @PostMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<CreatePeopleResponse>> createMyPeople(
-        @RequestBody @Valid final CreatePeopleRequest request,
+    public ResponseEntity<ApiSuccessResult<RegisterPeopleResponse>> createMyPeople(
+        @RequestBody @Valid final RegisterPeopleRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final CreatePeopleCommand command = request.toCommand(memberId);
-        final Long peopleId = peopleService.create(command);
-        final CreatePeopleResponse response = new CreatePeopleResponse(peopleId);
+        final RegisterPeopleCommand command = request.toCommand(memberId);
+        final Long peopleId = registerPeopleUseCase.register(command);
+        final RegisterPeopleResponse response = new RegisterPeopleResponse(peopleId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }
 
@@ -49,11 +51,11 @@ public class MyPeopleController {
     @PutMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<?>> updateMyPeople(
-            @RequestBody @Valid final UpdatePeopleRequest request,
+            @RequestBody @Valid final EditPeopleRequest request,
             @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final UpdatePeopleCommand command = request.toCommand(memberId);
-        peopleService.update(command);
+        final EditPeopleCommand command = request.toCommand(memberId);
+        editPeopleUseCase.edit(command);
         return ApiResponse.success(HttpStatus.CREATED);
     }
 }

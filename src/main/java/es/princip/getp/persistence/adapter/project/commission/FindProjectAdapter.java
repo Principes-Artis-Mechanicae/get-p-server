@@ -50,7 +50,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
         return projects.stream()
             .map(project -> ProjectCardResponse.of(
                 project,
-                projectApplicationCounts.get(project.getProjectId())
+                projectApplicationCounts.getOrDefault(project.getProjectId(), 0L)
             ))
             .toList();
     }

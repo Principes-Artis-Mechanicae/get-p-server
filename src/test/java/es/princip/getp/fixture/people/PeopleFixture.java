@@ -1,9 +1,9 @@
 package es.princip.getp.fixture.people;
 
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleInfo;
-import es.princip.getp.domain.people.command.domain.PeopleProfileData;
-import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleInfo;
+import es.princip.getp.domain.people.model.PeopleProfileData;
+import es.princip.getp.domain.people.model.PeopleType;
 
 import java.util.List;
 import java.util.stream.LongStream;
@@ -11,22 +11,33 @@ import java.util.stream.LongStream;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtags;
 import static es.princip.getp.fixture.common.TechStackFixture.techStacks;
 import static es.princip.getp.fixture.member.EmailFixture.email;
+import static es.princip.getp.fixture.people.ActivityAreaFixture.activityArea;
+import static es.princip.getp.fixture.people.EducationFixture.education;
+import static es.princip.getp.fixture.people.IntroductionFixture.introduction;
+import static es.princip.getp.fixture.people.PortfolioFixture.portfolios;
 
 public class PeopleFixture {
 
+    private static PeopleInfo peopleInfo(final PeopleType peopleType) {
+        return new PeopleInfo(email(), peopleType);
+    }
+
     public static People people(Long memberId, PeopleType peopleType) {
-        final PeopleInfo peopleInfo = new PeopleInfo(email(), peopleType);
-        final People people = new People(memberId, peopleInfo);
+        final People people = People.of(memberId, peopleInfo(peopleType));
         final PeopleProfileData data = new PeopleProfileData(
-            IntroductionFixture.introduction(),
-            ActivityAreaFixture.activityArea(),
-            EducationFixture.education(),
+            introduction(),
+            activityArea(),
+            education(),
             hashtags(),
             techStacks(),
-            PortfolioFixture.portfolios()
+            portfolios()
         );
         people.registerProfile(data);
         return people;
+    }
+
+    public static People peopleWithoutProfile(Long memberId, PeopleType peopleType) {
+        return People.of(memberId, peopleInfo(peopleType));
     }
 
     public static List<People> peopleList(int size, Long memberIdBias, PeopleType peopleType) {

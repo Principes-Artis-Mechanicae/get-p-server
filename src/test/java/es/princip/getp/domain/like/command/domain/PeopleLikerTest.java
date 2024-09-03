@@ -5,7 +5,7 @@ import es.princip.getp.domain.like.command.domain.people.PeopleLike;
 import es.princip.getp.domain.like.command.domain.people.PeopleLikeRepository;
 import es.princip.getp.domain.like.command.domain.people.PeopleLiker;
 import es.princip.getp.domain.like.exception.AlreadyLikedException;
-import es.princip.getp.domain.people.command.domain.People;
+import es.princip.getp.domain.people.model.People;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
