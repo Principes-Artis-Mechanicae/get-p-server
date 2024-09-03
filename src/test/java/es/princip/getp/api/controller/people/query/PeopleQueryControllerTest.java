@@ -9,11 +9,11 @@ import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeople
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
+import es.princip.getp.api.docs.PaginationDescription;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.api.docs.PaginationDescription;
-import es.princip.getp.domain.people.command.domain.PeopleType;
-import es.princip.getp.domain.people.query.dao.PeopleDao;
+import es.princip.getp.application.people.port.in.GetPeopleQuery;
+import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,9 +27,9 @@ import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.fixture.common.TechStackFixture.techStacksResponse;
-import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
 import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
 import static es.princip.getp.fixture.people.ActivityAreaFixture.activityArea;
@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PeopleQueryControllerTest extends ControllerTest {
 
     @Autowired
-    private PeopleDao peopleDao;
+    private GetPeopleQuery getPeopleQuery;
 
     @DisplayName("사용자는 피플 목록을 조회할 수 있다.")
     @Nested
@@ -83,7 +83,7 @@ class PeopleQueryControllerTest extends ControllerTest {
                 )
             );
             final Page<CardPeopleResponse> page = new PageImpl<>(content, pageable, content.size());
-            given(peopleDao.findCardPeoplePage(any(Pageable.class))).willReturn(page);
+            given(getPeopleQuery.getPagedCards(any(Pageable.class))).willReturn(page);
 
             perform()
                 .andExpect(status().isOk())
@@ -136,7 +136,7 @@ class PeopleQueryControllerTest extends ControllerTest {
                     hashtagsResponse()
                 )
             );
-            given(peopleDao.findPublicDetailPeopleById(peopleId)).willReturn(response);
+            given(getPeopleQuery.getPublicDetailById(peopleId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())
@@ -167,7 +167,7 @@ class PeopleQueryControllerTest extends ControllerTest {
                     portfoliosResponse()
                 )
             );
-            given(peopleDao.findDetailPeopleById(peopleId)).willReturn(response);
+            given(getPeopleQuery.getDetailById(peopleId)).willReturn(response);
 
             performWithAccessToken()
                 .andExpect(status().isOk())

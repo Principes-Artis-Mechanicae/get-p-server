@@ -4,6 +4,7 @@ import es.princip.getp.api.controller.common.mapper.CommandMapper;
 import es.princip.getp.api.controller.common.mapper.HashtagMapper;
 import es.princip.getp.api.controller.common.mapper.PhoneNumberMapper;
 import es.princip.getp.api.controller.common.mapper.URLMapper;
+import es.princip.getp.api.controller.people.command.PeopleCommandMapper;
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;
 import es.princip.getp.api.controller.project.command.dto.request.ScheduleMeetingRequest;
@@ -15,7 +16,10 @@ import es.princip.getp.domain.common.model.URL;
 import org.mapstruct.Mapper;
 
 @CommandMapper
-@Mapper(componentModel = "spring", uses = {URLMapper.class, HashtagMapper.class, PhoneNumberMapper.class})
+@Mapper(
+    componentModel = "spring",
+    uses = {URLMapper.class, HashtagMapper.class, PhoneNumberMapper.class, PeopleCommandMapper.class}
+)
 interface ProjectCommandMapper {
 
     ApplyProjectCommand mapToCommand(Long memberId, Long projectId, ApplyProjectRequest request);
