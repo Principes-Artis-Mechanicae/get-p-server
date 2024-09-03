@@ -1,12 +1,11 @@
-package es.princip.getp.common.infra;
+package es.princip.getp.domain.common;
 
-import es.princip.getp.common.domain.ClockHolder;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 
 @Component
-public class SystemClockHolder implements ClockHolder {
+class SystemClockHolder implements ClockHolder {
 
     @Override
     public Clock getClock() {

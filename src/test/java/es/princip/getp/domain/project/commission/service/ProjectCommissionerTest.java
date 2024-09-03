@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.commission.service;
 
-import es.princip.getp.common.domain.ClockHolder;
-import es.princip.getp.common.infra.StubClockHolder;
+import es.princip.getp.domain.common.ClockHolder;
+import es.princip.getp.domain.common.StubClockHolder;
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.project.commission.exception.ApplicationDurationNotBeforeEstimatedDurationException;
 import es.princip.getp.domain.project.commission.exception.EndedApplicationDurationException;
