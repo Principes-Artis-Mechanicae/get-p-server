@@ -1,4 +1,4 @@
-package es.princip.getp.config;
+package es.princip.getp.application.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

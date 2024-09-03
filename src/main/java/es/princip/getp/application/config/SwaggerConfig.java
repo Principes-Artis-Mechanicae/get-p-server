@@ -1,4 +1,4 @@
-package es.princip.getp.config;
+package es.princip.getp.application.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -27,6 +27,7 @@ public class SwaggerConfig {
             .addSecurityItem(securityRequirement)
             .components(components);
     }
+
     private Info apiInfo() {
         return new Info()
             .title("GET-P API")

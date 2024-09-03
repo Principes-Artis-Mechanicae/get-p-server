@@ -1,10 +1,10 @@
-package es.princip.getp.config;
+package es.princip.getp.persistence.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@EnableJpaAuditing
 @Configuration
+@EnableJpaAuditing
 class JpaAuditingConfig {
 
 }
