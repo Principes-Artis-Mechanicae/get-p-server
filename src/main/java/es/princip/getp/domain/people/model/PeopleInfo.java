@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.model;
 
-import es.princip.getp.domain.BaseModel;
+import es.princip.getp.domain.common.model.BaseModel;
 import es.princip.getp.domain.member.model.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

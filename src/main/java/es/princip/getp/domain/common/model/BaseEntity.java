@@ -1,4 +1,4 @@
-package es.princip.getp.domain;
+package es.princip.getp.domain.common.model;
 
 import lombok.Getter;
 

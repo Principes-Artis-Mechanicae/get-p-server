@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.model;
 
-import es.princip.getp.domain.BaseModel;
+import es.princip.getp.domain.common.model.BaseModel;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;

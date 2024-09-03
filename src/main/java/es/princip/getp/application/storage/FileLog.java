@@ -1,6 +1,6 @@
 package es.princip.getp.application.storage;
 
-import es.princip.getp.domain.BaseModel;
+import es.princip.getp.domain.common.model.BaseModel;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

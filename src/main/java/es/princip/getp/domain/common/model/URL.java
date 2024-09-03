@@ -1,6 +1,5 @@
 package es.princip.getp.domain.common.model;
 
-import es.princip.getp.domain.BaseModel;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.EqualsAndHashCode;

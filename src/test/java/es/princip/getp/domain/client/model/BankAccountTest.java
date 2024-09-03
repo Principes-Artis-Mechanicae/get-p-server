@@ -1,6 +1,6 @@
 package es.princip.getp.domain.client.model;
 
-import es.princip.getp.domain.NotValidDomainModelException;
+import es.princip.getp.domain.common.exception.NotValidDomainModelException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

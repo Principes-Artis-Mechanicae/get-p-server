@@ -1,6 +1,5 @@
 package es.princip.getp.domain.common.model;
 
-import es.princip.getp.domain.BaseModel;
 import es.princip.getp.domain.common.exception.StartTimeIsAfterEndTimeException;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;

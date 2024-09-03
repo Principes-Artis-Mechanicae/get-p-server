@@ -1,5 +1,6 @@
-package es.princip.getp.domain;
+package es.princip.getp.domain.common.model;
 
+import es.princip.getp.domain.common.exception.NotValidDomainModelException;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
