@@ -1,4 +1,4 @@
-package es.princip.getp.application.people;
+package es.princip.getp.application.people.mapper;
 
 import es.princip.getp.domain.member.model.Email;
 import es.princip.getp.domain.people.model.People;
@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 public interface PeopleMapper {
 
     default People mapToPeople(Long memberId, Email email, PeopleType peopleType) {
-        return new People(memberId, mapToInfo(email, peopleType));
+        return People.of(memberId, mapToInfo(email, peopleType));
     }
 
     PeopleInfo mapToInfo(Email email, PeopleType peopleType);

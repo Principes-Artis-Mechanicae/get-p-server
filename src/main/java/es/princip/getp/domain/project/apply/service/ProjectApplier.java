@@ -46,7 +46,7 @@ public class ProjectApplier {
             throw new NotRegisteredPeopleProfileException();
         }
         return ProjectApplication.builder()
-            .applicantId(people.getPeopleId())
+            .applicantId(people.getId())
             .projectId(project.getProjectId())
             .expectedDuration(expectedDuration)
             .description(description)

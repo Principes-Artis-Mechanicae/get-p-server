@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 @Getter
 public class People extends BaseEntity implements Likeable, LikeReceivable {
 
-    private Long peopleId;
+    private Long id;
     @NotNull private Long memberId;
     private PeopleInfo info;
     private PeopleProfile profile;
 
     public People(
-        final Long peopleId,
+        final Long id,
         final Long memberId,
         final PeopleInfo info,
         final PeopleProfile profile,
@@ -29,7 +29,7 @@ public class People extends BaseEntity implements Likeable, LikeReceivable {
     ) {
         super(createdAt, updatedAt);
 
-        this.peopleId = peopleId;
+        this.id = id;
         this.memberId = memberId;
         this.info = info;
         this.profile = profile;
@@ -37,11 +37,8 @@ public class People extends BaseEntity implements Likeable, LikeReceivable {
         validate();
     }
 
-    public People(final Long memberId, final PeopleInfo info) {
-        this.memberId = memberId;
-        this.info = info;
-
-        validate();
+    public static People of(final Long memberId, final PeopleInfo info) {
+        return new People(null, memberId, info, null, null, null);
     }
 
     public void editInfo(final Email email, final PeopleType peopleType) {
@@ -75,10 +72,5 @@ public class People extends BaseEntity implements Likeable, LikeReceivable {
             throw new NotRegisteredPeopleProfileException();
         }
         this.profile = buildProfile(data);
-    }
-
-    @Override
-    public Long getId() {
-        return this.peopleId;
     }
 }

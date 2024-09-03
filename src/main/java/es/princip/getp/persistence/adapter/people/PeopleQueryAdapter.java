@@ -1,4 +1,4 @@
-package es.princip.getp.domain.people.query.dao;
+package es.princip.getp.persistence.adapter.people;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
@@ -7,17 +7,17 @@ import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
+import es.princip.getp.application.people.port.out.FindMyPeoplePort;
+import es.princip.getp.application.people.port.out.FindPeoplePort;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.like.query.dao.PeopleLikeDao;
-import es.princip.getp.domain.people.command.model.QPeople;
-import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
-import es.princip.getp.domain.people.model.People;
-import es.princip.getp.domain.people.model.PeopleProfile;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
+import es.princip.getp.persistence.adapter.people.mapper.PeopleQueryMapper;
+import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
+import es.princip.getp.persistence.adapter.people.model.PeopleProfileJpaVO;
+import es.princip.getp.persistence.adapter.people.model.QPeopleJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,32 +28,34 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static es.princip.getp.domain.people.command.model.QPeople.people;
-import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.orderSpecifiersFromSort;
-import static es.princip.getp.domain.people.query.dao.PeopleDaoUtil.toPeopleIds;
+import static es.princip.getp.persistence.adapter.people.PeopleQueryUtil.orderSpecifiersFromSort;
+import static es.princip.getp.persistence.adapter.people.PeopleQueryUtil.toPeopleIds;
 import static java.util.stream.Collectors.toMap;
 
 @Repository
 @RequiredArgsConstructor
 // TODO: 조회 성능 개선 필요
-public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
+public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, FindMyPeoplePort {
 
+    private static final QPeopleJpaEntity people = QPeopleJpaEntity.peopleJpaEntity;
     private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
     private final PeopleLikeDao peopleLikeDao;
+
+    private final PeopleQueryMapper mapper;
 
     private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
         return queryFactory.select(
             member.nickname,
             member.profileImage,
-            people.peopleId,
-            people.info.peopleType
+            people.id,
+            people.peopleType
         )
         .from(people)
         .join(member)
         .on(people.memberId.eq(member.memberId))
-        .where(people.peopleId.in(peopleId)).fetch().stream()
-        .collect(toMap(tuple -> tuple.get(people.peopleId), Function.identity()));
+        .where(people.id.in(peopleId)).fetch().stream()
+        .collect(toMap(tuple -> tuple.get(people.id), Function.identity()));
     }
 
     private Optional<Tuple> findMemberAndPeopleByPeopleId(final Long peopleId) {
@@ -61,18 +63,18 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
             queryFactory.select(
                 member.nickname,
                 member.profileImage,
-                people.peopleId,
-                people.info.peopleType
+                people.id,
+                people.peopleType
             )
             .from(people)
             .join(member).on(people.memberId.eq(member.memberId))
-            .where(people.peopleId.eq(peopleId))
+            .where(people.id.eq(peopleId))
             .fetchOne()
         );
     }
 
     private List<CardPeopleResponse> getCardPeopleContent(final Pageable pageable) {
-        final List<People> result = queryFactory.selectFrom(people)
+        final List<PeopleJpaEntity> result = queryFactory.selectFrom(people)
             .where(people.profile.isNotNull())
             .orderBy(orderSpecifiersFromSort(pageable.getSort()))
             .offset(pageable.getOffset())
@@ -85,22 +87,21 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
         final Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);
 
         return result.stream().map(people -> {
-            final QPeople qPeople = QPeople.people;
-            final Long peopleId = people.getPeopleId();
+            final Long peopleId = people.getId();
             return new CardPeopleResponse(
                 peopleId,
                 memberAndPeople.get(peopleId).get(member.nickname),
                 memberAndPeople.get(peopleId).get(member.profileImage),
-                memberAndPeople.get(peopleId).get(qPeople.info.peopleType),
+                memberAndPeople.get(peopleId).get(QPeopleJpaEntity.peopleJpaEntity.peopleType),
                 0,
                 likesCounts.get(peopleId),
-                CardPeopleProfileResponse.from(people.getProfile())
+                mapper.mapToCardPeopleProfileResponse(people.getProfile())
             );
         }).toList();
     }
 
     @Override
-    public Page<CardPeopleResponse> findCardPeoplePage(final Pageable pageable) {
+    public Page<CardPeopleResponse> findCardBy(final Pageable pageable) {
         return applyPagination(
             pageable,
             getCardPeopleContent(pageable),
@@ -109,11 +110,11 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
     }
 
     @Override
-    public DetailPeopleResponse findDetailPeopleById(final Long peopleId) {
-        final PeopleProfile profile = Optional.ofNullable(
+    public DetailPeopleResponse findDetailBy(final Long peopleId) {
+        final PeopleProfileJpaVO profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
-                    .where(people.peopleId.eq(peopleId)
+                    .where(people.id.eq(peopleId)
                         .and(people.profile.isNotNull()))
                     .fetchOne()
             )
@@ -127,19 +128,19 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
             peopleId,
             memberAndPeople.get(member.nickname),
             memberAndPeople.get(member.profileImage),
-            memberAndPeople.get(people.info.peopleType),
+            memberAndPeople.get(people.peopleType),
             0,
             peopleLikeDao.countByLikedId(peopleId),
-            DetailPeopleProfileResponse.from(profile)
+            mapper.mapToDetailPeopleProfileResponse(profile)
         );
     }
 
     @Override
-    public PublicDetailPeopleResponse findPublicDetailPeopleById(final Long peopleId) {
-        final PeopleProfile profile = Optional.ofNullable(
+    public PublicDetailPeopleResponse findPublicDetailBy(final Long peopleId) {
+        final PeopleProfileJpaVO profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
-                    .where(people.peopleId.eq(peopleId)
+                    .where(people.id.eq(peopleId)
                         .and(people.profile.isNotNull()))
                     .fetchOne()
             )
@@ -153,25 +154,25 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
             peopleId,
             memberAndPeople.get(member.nickname),
             memberAndPeople.get(member.profileImage),
-            memberAndPeople.get(people.info.peopleType),
+            memberAndPeople.get(people.peopleType),
             0,
             peopleLikeDao.countByLikedId(peopleId),
-            PublicDetailPeopleProfileResponse.from(profile)
+            mapper.mapToPublicPeopleProfileResponse(profile)
         );
     }
 
     @Override
-    public MyPeopleResponse findByMemberId(final Long memberId) {
+    public MyPeopleResponse findBy(final Long memberId) {
         return Optional.ofNullable(
             queryFactory.select(
                 Projections.constructor(
                     MyPeopleResponse.class,
-                    people.peopleId,
-                    people.info.email.value,
+                    people.id,
+                    people.email,
                     member.nickname,
                     member.phoneNumber,
                     member.profileImage,
-                    people.info.peopleType,
+                    people.peopleType,
                     Expressions.asNumber(0).as("completedProjectsCount"),
                     Expressions.asNumber(0).as("likesCount"),
                     people.createdAt,
@@ -186,9 +187,8 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
     }
 
     @Override
-    public DetailPeopleProfileResponse findDetailPeopleProfileByMemberId(final Long memberId) {
-        return DetailPeopleProfileResponse.from(
-            Optional.ofNullable(
+    public DetailPeopleProfileResponse findDetailProfileBy(final Long memberId) {
+        final PeopleProfileJpaVO profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
                     .where(people.memberId.eq(memberId)
@@ -196,7 +196,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
                     .fetchOne()
             )
             .orElseThrow(NotRegisteredPeopleProfileException::new)
-            .getProfile()
-        );
+            .getProfile();
+        return mapper.mapToDetailPeopleProfileResponse(profile);
     }
 }

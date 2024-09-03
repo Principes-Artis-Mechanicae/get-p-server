@@ -15,10 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 @Execution(ExecutionMode.SAME_THREAD)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ComponentScan(basePackages = {
-    "es.princip.getp.domain.client.query.dao",
     "es.princip.getp.domain.like.query.dao",
-    "es.princip.getp.domain.people.query.dao",
-    "es.princip.getp.domain.project.query.dao",
     "es.princip.getp.persistence.adapter"
 }) // TODO: DAO를 persistence adapter로 변경할 것. 애플리케이션 컨텍스트 캐싱을 위해 임시로 추가
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

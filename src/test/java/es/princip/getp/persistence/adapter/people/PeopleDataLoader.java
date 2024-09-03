@@ -1,9 +1,10 @@
-package es.princip.getp.domain.people.query.infra;
+package es.princip.getp.persistence.adapter.people;
 
 import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.persistence.adapter.member.MemberJpaEntity;
+import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
+import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +18,7 @@ import static es.princip.getp.fixture.people.PeopleFixture.peopleList;
 @RequiredArgsConstructor
 public class PeopleDataLoader implements DataLoader {
 
+    private final PeoplePersistenceMapper mapper;
     private final EntityManager entityManager;
 
     @Override
@@ -37,8 +39,15 @@ public class PeopleDataLoader implements DataLoader {
         final int individualSize = size / 2;
         final int teamSize = (size % 2) == 0 ? size / 2 : (size / 2) + 1;
 
-        final List<People> individualList = peopleList(individualSize, memberIdBias, PeopleType.INDIVIDUAL);
-        final List<People> teamList = peopleList(teamSize, size + memberIdBias, PeopleType.TEAM);
+        final List<PeopleJpaEntity> individualList = peopleList(individualSize, memberIdBias, PeopleType.INDIVIDUAL)
+            .stream()
+            .map(mapper::mapToJpa)
+            .toList();
+        final List<PeopleJpaEntity> teamList = peopleList(teamSize, size + memberIdBias, PeopleType.TEAM)
+            .stream()
+            .map(mapper::mapToJpa)
+            .toList();
+
         individualList.forEach(entityManager::persist);
         teamList.forEach(entityManager::persist);
     }

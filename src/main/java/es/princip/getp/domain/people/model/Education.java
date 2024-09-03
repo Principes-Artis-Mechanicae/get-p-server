@@ -14,7 +14,7 @@ public class Education extends BaseModel {
     private final String school;
     @NotBlank private final String major;
 
-    private Education(final String school, final String major) {
+    public Education(final String school, final String major) {
         this.school = school;
         this.major = major;
 

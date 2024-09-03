@@ -22,7 +22,7 @@ class ProjectApplicationPersistenceAdapter implements
     }
 
     @Override
-    public boolean existsByApplicantIdAndProjectId(final Long applicantId, final Long projectId) {
+    public boolean existsBy(final Long applicantId, final Long projectId) {
         return repository.existsByApplicantIdAndProjectId(applicantId, projectId);
     }
 }

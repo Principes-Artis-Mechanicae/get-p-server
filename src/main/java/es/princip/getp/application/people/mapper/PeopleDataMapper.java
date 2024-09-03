@@ -1,4 +1,4 @@
-package es.princip.getp.application.people;
+package es.princip.getp.application.people.mapper;
 
 import es.princip.getp.application.people.command.EditPeopleProfileCommand;
 import es.princip.getp.application.people.command.RegisterPeopleProfileCommand;
