@@ -4,7 +4,7 @@ import es.princip.getp.api.controller.common.dto.ApiResponse;
 import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.people.query.dao.PeopleDao;
+import es.princip.getp.application.people.port.in.GetMyPeopleQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MyPeopleQueryController {
 
-    private final PeopleDao peopleDao;
+    private final GetMyPeopleQuery getMyPeopleQuery;
 
     /**
      * 내 피플 정보 조회
@@ -31,7 +31,7 @@ public class MyPeopleQueryController {
     public ResponseEntity<ApiSuccessResult<MyPeopleResponse>> getMyPeople(
         @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        final MyPeopleResponse response = peopleDao.findByMemberId(memberId);
+        final MyPeopleResponse response = getMyPeopleQuery.getByMemberId(memberId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

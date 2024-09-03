@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.people.query.dto.people;
 
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
-import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.domain.people.model.PeopleType;
 
 public record PublicDetailPeopleResponse(
     Long peopleId,

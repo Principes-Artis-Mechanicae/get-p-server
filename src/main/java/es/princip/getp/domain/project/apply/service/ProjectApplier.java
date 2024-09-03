@@ -3,8 +3,8 @@ package es.princip.getp.domain.project.apply.service;
 import es.princip.getp.common.domain.ClockHolder;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
-import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
+import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.apply.exception.ClosedProjectApplicationException;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;
@@ -46,7 +46,7 @@ public class ProjectApplier {
             throw new NotRegisteredPeopleProfileException();
         }
         return ProjectApplication.builder()
-            .applicantId(people.getPeopleId())
+            .applicantId(people.getId())
             .projectId(project.getProjectId())
             .expectedDuration(expectedDuration)
             .description(description)
