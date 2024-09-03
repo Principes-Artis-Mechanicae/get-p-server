@@ -7,9 +7,9 @@ import es.princip.getp.application.member.port.out.LoadMemberPort;
 import es.princip.getp.application.member.port.out.UpdateMemberPort;
 import es.princip.getp.application.storage.port.out.DeleteFilePort;
 import es.princip.getp.application.storage.port.out.StoreFilePort;
-import es.princip.getp.common.util.ImageUtil;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.ProfileImage;
+import es.princip.getp.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +67,7 @@ class ProfileImageService implements ProfileImageUseCase {
 
     private Path getPathToSaveProfileImage(final Member member, final MultipartFile image) {
         final String memberId = String.valueOf(member.getMemberId());
-        final String fileName = ImageUtil.generateRandomFilename(image.getOriginalFilename());
+        final String fileName = StringUtil.generateRandomFilename(image.getOriginalFilename());
         return Paths.get(memberId).resolve(PROFILE_IMAGE_PREFIX).resolve(fileName);
     }
 
