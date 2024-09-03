@@ -50,7 +50,6 @@ class ProjectApplicationService implements ApplyProjectUseCase {
             command.description(),
             command.attachmentFiles()
         );
-        saveProjectApplicationPort.save(application);
-        return application.getApplicationId();
+        return saveProjectApplicationPort.save(application);
     }
 }
