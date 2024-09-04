@@ -3,9 +3,9 @@ package es.princip.getp.persistence.adapter.project.apply;
 import com.querydsl.core.Tuple;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.application.like.port.out.people.CountPeopleLikePort;
 import es.princip.getp.application.project.apply.port.out.FindProjectApplicantPort;
 import es.princip.getp.common.util.QueryDslSupport;
-import es.princip.getp.domain.like.query.dao.PeopleLikeDao;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ class FindProjectApplicantAdapter extends QueryDslSupport implements FindProject
         = QProjectApplicationJpaEntity.projectApplicationJpaEntity;
     private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
-    private final PeopleLikeDao peopleLikeDao;
+    private final CountPeopleLikePort peopleLikeDao;
 
     private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
         return queryFactory.select(
@@ -90,7 +90,7 @@ class FindProjectApplicantAdapter extends QueryDslSupport implements FindProject
         final List<Long> applicantIds = findApplicantIdByProjectId(projectId);
         final List<People> applicants = findPagedApplicantByApplicantId(applicantIds, pageable);
         final Long[] peopleIds = toPeopleIds(applicants);
-        final Map<Long, Long> likesCounts = peopleLikeDao.countByLikedIds(peopleIds);
+        final Map<Long, Long> likesCounts = peopleLikeDao.countByPeopleIds(peopleIds);
         final Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);
         return applyPagination(
             pageable,

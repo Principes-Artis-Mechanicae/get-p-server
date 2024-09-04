@@ -10,8 +10,8 @@ import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeople
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
+import es.princip.getp.application.like.port.out.people.CountPeopleLikePort;
 import es.princip.getp.common.util.QueryDslSupport;
-import es.princip.getp.domain.like.query.dao.PeopleLikeDao;
 import es.princip.getp.domain.people.command.domain.People;
 import es.princip.getp.domain.people.command.domain.PeopleProfile;
 import es.princip.getp.domain.people.command.domain.QPeople;
@@ -40,7 +40,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
 
     private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
-    private final PeopleLikeDao peopleLikeDao;
+    private final CountPeopleLikePort countPeopleLikePort;
 
     private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
         return queryFactory.select(
@@ -81,7 +81,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
 
         final Long[] peopleIds = toPeopleIds(result);
 
-        final Map<Long, Long> likesCounts = peopleLikeDao.countByLikedIds(peopleIds);
+        final Map<Long, Long> likesCounts = countPeopleLikePort.countByPeopleIds(peopleIds);
         final Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);
 
         return result.stream().map(people -> {
@@ -129,7 +129,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
             memberAndPeople.get(member.profileImage),
             memberAndPeople.get(people.info.peopleType),
             0,
-            peopleLikeDao.countByLikedId(peopleId),
+            countPeopleLikePort.countByPeopleId(peopleId),
             DetailPeopleProfileResponse.from(profile)
         );
     }
@@ -155,7 +155,7 @@ public class PeopleQueryDslDao extends QueryDslSupport implements PeopleDao {
             memberAndPeople.get(member.profileImage),
             memberAndPeople.get(people.info.peopleType),
             0,
-            peopleLikeDao.countByLikedId(peopleId),
+            countPeopleLikePort.countByPeopleId(peopleId),
             PublicDetailPeopleProfileResponse.from(profile)
         );
     }

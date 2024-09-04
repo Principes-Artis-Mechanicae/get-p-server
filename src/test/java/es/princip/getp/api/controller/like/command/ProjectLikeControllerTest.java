@@ -2,7 +2,7 @@ package es.princip.getp.api.controller.like.command;
 
 import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.domain.like.command.application.ProjectLikeService;
+import es.princip.getp.application.like.ProjectLikeService;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

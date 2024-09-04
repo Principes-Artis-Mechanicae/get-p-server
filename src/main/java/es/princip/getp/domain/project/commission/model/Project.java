@@ -5,7 +5,6 @@ import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.common.model.Hashtag;
-import es.princip.getp.domain.like.command.domain.LikeReceivable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -17,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class Project extends BaseEntity implements LikeReceivable {
+public class Project extends BaseEntity {
 
     private Long projectId;
     @NotBlank private String title; // 제목
@@ -84,10 +83,5 @@ public class Project extends BaseEntity implements LikeReceivable {
 
     public boolean isClient(final Client client) {
         return clientId.equals(client.getClientId());
-    }
-
-    @Override
-    public Long getId() {
-        return projectId;
     }
 }

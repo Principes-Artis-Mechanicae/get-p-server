@@ -1,11 +1,12 @@
 package es.princip.getp.api.controller.like.command;
 
 import es.princip.getp.api.controller.ControllerTest;
-import es.princip.getp.domain.like.command.application.PeopleLikeService;
-import es.princip.getp.domain.like.exception.AlreadyLikedException;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.people.exception.NotFoundPeopleException;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.application.like.PeopleLikeService;
+import es.princip.getp.application.like.exception.AlreadyLikedException;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
