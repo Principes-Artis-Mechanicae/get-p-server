@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.storage;
 
-import es.princip.getp.api.controller.common.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.controller.storage.dto.FileUploadResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.application.storage.command.UploadFileCommand;
@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 
-import static es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
+import static es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 
 @RestController
 @RequiredArgsConstructor

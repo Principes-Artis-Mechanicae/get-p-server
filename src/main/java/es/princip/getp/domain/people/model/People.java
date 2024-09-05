@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.model;
 
-import es.princip.getp.domain.BaseEntity;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.support.BaseEntity;
+import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.people.exception.AlreadyRegisteredPeopleProfileException;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.meeting.model;
 
-import es.princip.getp.domain.BaseEntity;
+import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.common.model.MeetingSchedule;
 import es.princip.getp.domain.common.model.PhoneNumber;
 import jakarta.validation.constraints.NotBlank;

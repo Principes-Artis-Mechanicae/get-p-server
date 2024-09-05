@@ -1,7 +1,7 @@
 package es.princip.getp.application.project.apply.exception;
 
-import es.princip.getp.common.exception.ErrorDescription;
-import es.princip.getp.common.exception.ForbiddenException;
+import es.princip.getp.application.support.ForbiddenException;
+import es.princip.getp.domain.support.ErrorDescription;
 
 public class NotMyProjectException extends ForbiddenException {
 

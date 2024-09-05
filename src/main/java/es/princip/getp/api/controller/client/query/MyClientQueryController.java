@@ -1,8 +1,8 @@
 package es.princip.getp.api.controller.client.query;
 
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
-import es.princip.getp.api.controller.common.dto.ApiResponse;
-import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.application.client.port.out.ClientQuery;
 import lombok.RequiredArgsConstructor;

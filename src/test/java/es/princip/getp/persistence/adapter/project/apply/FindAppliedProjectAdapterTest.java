@@ -1,8 +1,8 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
-import es.princip.getp.persistence.adapter.DataLoader;
-import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
+import es.princip.getp.persistence.support.DataLoader;
+import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import es.princip.getp.persistence.adapter.people.PeopleDataLoader;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;

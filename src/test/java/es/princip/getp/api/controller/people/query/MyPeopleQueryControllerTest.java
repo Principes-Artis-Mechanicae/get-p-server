@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.people.query.description.MyPeopleResponseDescription;
 import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.domain.member.model.MemberType.ROLE_CLIENT;
 import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
-import static es.princip.getp.fixture.member.EmailFixture.EMAIL;
+import static es.princip.getp.fixture.common.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
 import static es.princip.getp.fixture.member.PhoneNumberFixture.PHONE_NUMBER;
 import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;

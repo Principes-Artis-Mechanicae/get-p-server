@@ -6,6 +6,6 @@ public class PhoneNumberFixture {
     public static final String PHONE_NUMBER = "01012345678";
 
     public static PhoneNumber phoneNumber() {
-        return PhoneNumber.of(PHONE_NUMBER);
+        return PhoneNumber.from(PHONE_NUMBER);
     }
 }

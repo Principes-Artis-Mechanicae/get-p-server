@@ -8,7 +8,7 @@ import es.princip.getp.application.client.port.out.SaveClientPort;
 import es.princip.getp.application.member.command.EditMemberCommand;
 import es.princip.getp.application.member.port.in.EditMemberUseCase;
 import es.princip.getp.domain.client.model.Client;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.member.model.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

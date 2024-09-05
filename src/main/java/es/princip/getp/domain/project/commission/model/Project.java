@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.commission.model;
 
-import es.princip.getp.domain.BaseEntity;
+import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;

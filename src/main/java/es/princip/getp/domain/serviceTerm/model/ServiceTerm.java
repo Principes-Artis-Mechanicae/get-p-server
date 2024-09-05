@@ -1,6 +1,6 @@
 package es.princip.getp.domain.serviceTerm.model;
 
-import es.princip.getp.domain.BaseEntity;
+import es.princip.getp.domain.support.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

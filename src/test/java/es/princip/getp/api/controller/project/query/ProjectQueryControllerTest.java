@@ -1,6 +1,5 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.api.controller.common.dto.HashtagsResponse;
 import es.princip.getp.api.controller.project.query.description.ProjectCardResponseDescription;
 import es.princip.getp.api.controller.project.query.description.ProjectDetailResponseDescription;
@@ -9,6 +8,7 @@ import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
