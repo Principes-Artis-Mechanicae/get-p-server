@@ -1,12 +1,11 @@
 package es.princip.getp.api.controller.like.command;
 
 import es.princip.getp.api.controller.ControllerTest;
-
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.application.like.PeopleLikeService;
 import es.princip.getp.application.like.exception.AlreadyLikedException;
+import es.princip.getp.application.like.people.port.in.LikePeopleUseCase;
+import es.princip.getp.application.like.people.port.in.UnlikePeopleUseCase;
 import es.princip.getp.domain.member.model.MemberType;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,8 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class PeopleLikeControllerTest extends ControllerTest {
 
-    @Autowired
-    private PeopleLikeService peopleLikeService;
+    @Autowired private LikePeopleUseCase likePeopleUseCase;
+    @Autowired private UnlikePeopleUseCase unlikePeopleUseCase;
 
     @DisplayName("의뢰자는 피플에게 좋아요를 누를 수 있다.")
     @Nested
@@ -32,7 +31,7 @@ class PeopleLikeControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
         void like() throws Exception {
-            willDoNothing().given(peopleLikeService).like(any(), eq(peopleId));
+            willDoNothing().given(likePeopleUseCase).like(any(), eq(peopleId));
 
             mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
                 .andExpect(status().isCreated());
@@ -42,7 +41,7 @@ class PeopleLikeControllerTest extends ControllerTest {
         @Test
         void like_WhenPeopleIsAlreadyLiked_ShouldBeFailed() throws Exception {
             willThrow(new AlreadyLikedException())
-                .given(peopleLikeService).like(any(), eq(peopleId));
+                .given(likePeopleUseCase).like(any(), eq(peopleId));
 
             mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
                 .andExpect(status().isConflict());
@@ -65,7 +64,7 @@ class PeopleLikeControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
         void unlike() throws Exception {
-            willDoNothing().given(peopleLikeService).unlike(any(), eq(peopleId));
+            willDoNothing().given(unlikePeopleUseCase).unlike(any(), eq(peopleId));
 
             mockMvc.perform(delete("/people/{peopleId}/likes", peopleId))
                 .andExpect(status().isNoContent());

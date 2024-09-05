@@ -3,7 +3,8 @@ package es.princip.getp.api.controller.like.command;
 import es.princip.getp.api.controller.common.dto.ApiResponse;
 import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.application.like.PeopleLikeService;
+import es.princip.getp.application.like.people.port.in.LikePeopleUseCase;
+import es.princip.getp.application.like.people.port.in.UnlikePeopleUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PeopleLikeController {
     
-    private final PeopleLikeService peopleLikeService;
+    private final LikePeopleUseCase likePeopleUseCase;
+    private final UnlikePeopleUseCase unlikePeopleUseCase;
 
     /**
      * 피플 좋아요
@@ -31,7 +33,7 @@ public class PeopleLikeController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        peopleLikeService.like(memberId, peopleId);
+        likePeopleUseCase.like(memberId, peopleId);
         return ApiResponse.success(HttpStatus.CREATED);
     }
 
@@ -48,7 +50,7 @@ public class PeopleLikeController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        peopleLikeService.unlike(memberId, peopleId);
+        unlikePeopleUseCase.unlike(memberId, peopleId);
         return ApiResponse.success(HttpStatus.NO_CONTENT);
     }
 }
