@@ -5,6 +5,7 @@ import es.princip.getp.application.like.people.port.out.DeletePeopleLikePort;
 import es.princip.getp.application.like.people.port.out.LoadPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.SavePeopleLikePort;
 import es.princip.getp.domain.like.people.model.PeopleLike;
+import es.princip.getp.persistence.adapter.like.exception.NotFoundLikeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -31,14 +32,15 @@ class PeopleLikePersistenceAdapter implements
     }
 
     @Override
-    public void save(PeopleLike like) {
+    public void save(final PeopleLike like) {
         final PeopleLikeJpaEntity entity = mapper.mapToJpa(like);
         repository.save(entity);
     }
 
     @Override
     public PeopleLike loadBy(final Long clientId, final Long peopleId) {
-        final PeopleLikeJpaEntity entity = repository.findByClientIdAndPeopleId(clientId, peopleId);
+        final PeopleLikeJpaEntity entity = repository.findByClientIdAndPeopleId(clientId, peopleId)
+            .orElseThrow(NotFoundLikeException::new);
         return mapper.mapToDomain(entity);
     }
 }
