@@ -7,7 +7,7 @@ import es.princip.getp.application.like.people.port.out.DeletePeopleLikePort;
 import es.princip.getp.application.like.people.port.out.LoadPeopleLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.client.model.Client;
-import es.princip.getp.domain.like.model.people.PeopleLike;
+import es.princip.getp.domain.like.people.model.PeopleLike;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.fixture.client.ClientFixture;

@@ -6,7 +6,7 @@ import es.princip.getp.application.like.project.port.out.DeleteProjectLikePort;
 import es.princip.getp.application.like.project.port.out.LoadProjectLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
-import es.princip.getp.domain.like.model.project.ProjectLike;
+import es.princip.getp.domain.like.project.model.ProjectLike;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.domain.project.commission.model.Project;

@@ -1,23 +1,18 @@
-package es.princip.getp.domain.like.model.project;
-
-import java.time.LocalDateTime;
+package es.princip.getp.domain.like.project.model;
 
 import es.princip.getp.domain.BaseEntity;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectLike extends BaseEntity {
 
-    private Long id;
-
-    @NotNull private Long peopleId;
-
-    @NotNull private Long projectId;
+    private final Long id;
+    @NotNull private final Long peopleId;
+    @NotNull private final Long projectId;
 
     @Builder
     public ProjectLike(
@@ -32,6 +27,7 @@ public class ProjectLike extends BaseEntity {
         this.id = id;
         this.peopleId = peopleId;
         this.projectId = projectId;
+
         validate();
     }
 }

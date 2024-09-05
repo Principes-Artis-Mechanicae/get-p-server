@@ -1,23 +1,18 @@
-package es.princip.getp.domain.like.model.people;
-
-import java.time.LocalDateTime;
+package es.princip.getp.domain.like.people.model;
 
 import es.princip.getp.domain.BaseEntity;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PeopleLike extends BaseEntity {
 
-    private Long id;
-
-    @NotNull private Long clientId;
-
-    @NotNull private Long peopleId;
+    private final Long id;
+    @NotNull private final Long clientId;
+    @NotNull private final Long peopleId;
 
     @Builder
     public PeopleLike(
@@ -32,6 +27,7 @@ public class PeopleLike extends BaseEntity {
         this.id = id;
         this.clientId = clientId;
         this.peopleId = peopleId;
+
         validate();
     }
 }

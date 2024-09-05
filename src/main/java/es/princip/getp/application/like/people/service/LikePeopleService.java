@@ -6,7 +6,7 @@ import es.princip.getp.application.like.people.port.out.CheckPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.SavePeopleLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.client.model.Client;
-import es.princip.getp.domain.like.model.people.PeopleLike;
+import es.princip.getp.domain.like.people.model.PeopleLike;
 import es.princip.getp.domain.people.model.People;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

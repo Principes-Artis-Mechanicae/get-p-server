@@ -1,6 +1,6 @@
 package es.princip.getp.fixture.like;
 
-import es.princip.getp.domain.like.model.people.PeopleLike;
+import es.princip.getp.domain.like.people.model.PeopleLike;
 
 public class PeopleLikeFixture {
     public static PeopleLike peopleLike(Long clientId, Long peopleId) {
