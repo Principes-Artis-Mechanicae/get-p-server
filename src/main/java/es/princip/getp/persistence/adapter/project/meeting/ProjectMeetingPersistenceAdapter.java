@@ -5,7 +5,7 @@ import es.princip.getp.application.project.meeting.port.out.LoadProjectMeetingPo
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.UpdateProjectMeetingPort;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
-import es.princip.getp.persistence.adapter.project.meeting.entity.ProjectMeetingJpaEntity;
+import es.princip.getp.persistence.adapter.project.meeting.model.ProjectMeetingJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

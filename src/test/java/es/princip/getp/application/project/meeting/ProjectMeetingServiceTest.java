@@ -1,5 +1,6 @@
 package es.princip.getp.application.project.meeting;
 
+import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.apply.port.out.CheckProjectApplicationPort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
@@ -7,9 +8,8 @@ import es.princip.getp.application.project.meeting.exception.NotApplicantExcepti
 import es.princip.getp.application.project.meeting.exception.NotClientOfProjectException;
 import es.princip.getp.application.project.meeting.port.out.CheckProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleRepository;
-import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
@@ -21,8 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
 
 import static es.princip.getp.application.project.meeting.ScheduleMeetingCommandFixture.scheduleMeetingCommand;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +35,7 @@ import static org.mockito.Mockito.verify;
 class ProjectMeetingServiceTest {
 
     @Mock private CheckProjectApplicationPort checkProjectApplicationPort;
-    @Mock private PeopleRepository peopleRepository;
+    @Mock private LoadPeoplePort loadPeoplePort;
     
     @Mock private LoadProjectPort loadProjectPort;
     @Mock private SaveProjectMeetingPort saveProjectMeetingPort;
@@ -56,8 +54,7 @@ class ProjectMeetingServiceTest {
 
     @BeforeEach
     void setUp() {
-        given(peopleRepository.findByMemberId(memberId))
-            .willReturn(Optional.of(people));
+        given(loadPeoplePort.loadBy(memberId)).willReturn(people);
         given(loadProjectPort.loadBy(projectId)).willReturn(project);
     }
 
@@ -65,7 +62,7 @@ class ProjectMeetingServiceTest {
     void 의뢰자는_프로젝트_지원자에게_미팅을_신청할_수_있다() {
         given(checkProjectMeetingPort.existsApplicantByProjectIdAndMemberId(projectId, memberId))
             .willReturn(true);
-        given(checkProjectApplicationPort.existsByApplicantIdAndProjectId(applicantId, projectId))
+        given(checkProjectApplicationPort.existsBy(applicantId, projectId))
             .willReturn(true);
         given(saveProjectMeetingPort.save(any(ProjectMeeting.class)))
             .willReturn(meetingId);
@@ -95,7 +92,7 @@ class ProjectMeetingServiceTest {
     void 의뢰자는_프로젝트_지원자가_아닌_피플에게_미팅을_신청할_수_없다() {
         given(checkProjectMeetingPort.existsApplicantByProjectIdAndMemberId(projectId, memberId))
             .willReturn(true);
-        given(checkProjectApplicationPort.existsByApplicantIdAndProjectId(applicantId, projectId))
+        given(checkProjectApplicationPort.existsBy(applicantId, projectId))
             .willReturn(false);
         
         final ScheduleMeetingCommand command = scheduleMeetingCommand(memberId, projectId, applicantId);

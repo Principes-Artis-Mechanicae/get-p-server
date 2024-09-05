@@ -26,7 +26,6 @@ public class ProjectCommissionService implements CommissionProjectUseCase {
         final Long clientId = loadClientPort.loadBy(command.memberId()).getClientId();
         final ProjectData data = projectDataMapper.mapToData(clientId, command);
         final Project project = projectCommissioner.commissionProject(data);
-        saveProjectPort.save(project);
-        return project.getProjectId();
+        return saveProjectPort.save(project);
     }
 }

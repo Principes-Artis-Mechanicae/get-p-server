@@ -6,7 +6,7 @@ import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopl
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.people.query.dao.PeopleDao;
+import es.princip.getp.application.people.port.in.GetMyPeopleQuery;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
-import static es.princip.getp.fixture.common.TechStackFixture.techStacksResponse;
 import static es.princip.getp.domain.member.model.MemberType.ROLE_CLIENT;
 import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.fixture.common.TechStackFixture.techStacksResponse;
 import static es.princip.getp.fixture.people.ActivityAreaFixture.activityArea;
 import static es.princip.getp.fixture.people.EducationFixture.education;
 import static es.princip.getp.fixture.people.IntroductionFixture.introduction;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MyPeopleProfileQueryControllerTest extends ControllerTest {
 
     @Autowired
-    private PeopleDao peopleDao;
+    private GetMyPeopleQuery getMyPeopleQuery;
 
     private static final String MY_PEOPLE_PROFILE_URI = "/people/me/profile";
 
@@ -55,7 +55,7 @@ class MyPeopleProfileQueryControllerTest extends ControllerTest {
                 hashtagsResponse(),
                 portfoliosResponse()
             );
-            given(peopleDao.findDetailPeopleProfileByMemberId(memberId)).willReturn(response);
+            given(getMyPeopleQuery.getDetailProfileByMemberId(memberId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

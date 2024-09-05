@@ -1,6 +1,6 @@
 package es.princip.getp.fixture.people;
 
-import es.princip.getp.domain.people.command.domain.PeopleProfile;
+import es.princip.getp.domain.people.model.PeopleProfile;
 
 import static es.princip.getp.fixture.common.HashtagFixture.hashtags;
 import static es.princip.getp.fixture.common.TechStackFixture.techStacks;

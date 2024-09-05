@@ -8,8 +8,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,11 +22,11 @@ import es.princip.getp.application.like.port.out.people.CheckPeopleLikePort;
 import es.princip.getp.application.like.port.out.people.LoadPeopleLikePort;
 import es.princip.getp.application.like.port.out.people.PeopleLikePort;
 import es.princip.getp.application.like.port.out.people.PeopleUnlikePort;
+import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.like.model.people.PeopleLike;
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleRepository;
-import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.fixture.client.ClientFixture;
 import es.princip.getp.fixture.like.PeopleLikeFixture;
 import es.princip.getp.fixture.people.PeopleFixture;
@@ -44,7 +42,7 @@ class PeopleLikeServiceTest {
 
     @Mock private CheckPeopleLikePort checkPeopleLikePort;
 
-    @Mock private PeopleRepository peopleRepository;
+    @Mock private LoadPeoplePort loadPeoplePort;
 
     @Mock private LoadClientPort loadClientPort;
 
@@ -59,7 +57,7 @@ class PeopleLikeServiceTest {
 
     @BeforeEach
     void setUp() {
-        given(peopleRepository.findById(peopleId)).willReturn(Optional.of(people));
+        given(loadPeoplePort.loadByPeopleId(peopleId)).willReturn(people);
         Client client = spy(ClientFixture.client(clientId));
         doReturn(clientId).when(client).getClientId();
         given(loadClientPort.loadBy(memberId)).willReturn(client);

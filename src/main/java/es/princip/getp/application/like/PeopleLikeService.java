@@ -7,11 +7,10 @@ import es.princip.getp.application.like.port.out.people.CheckPeopleLikePort;
 import es.princip.getp.application.like.port.out.people.LoadPeopleLikePort;
 import es.princip.getp.application.like.port.out.people.PeopleLikePort;
 import es.princip.getp.application.like.port.out.people.PeopleUnlikePort;
+import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.like.model.people.PeopleLike;
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleRepository;
-import es.princip.getp.domain.people.exception.NotFoundPeopleException;
+import es.princip.getp.domain.people.model.People;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +30,7 @@ public class PeopleLikeService {
 
     private final LoadClientPort loadClientPort;
 
-    private final PeopleRepository peopleRepository;
+    private final LoadPeoplePort loadPeoplePort;
 
     /**
      * 피플에게 좋아요를 누른다.
@@ -43,8 +42,8 @@ public class PeopleLikeService {
     @Transactional
     public void like(final Long memberId, final Long peopleId) {
         final Client client = loadClientPort.loadBy(memberId);
-        final People people = peopleRepository.findById(peopleId)
-            .orElseThrow(NotFoundPeopleException::new);
+        // TODO: 조회 성능 개선 필요
+        final People people = loadPeoplePort.loadByPeopleId(peopleId);
 
         checkAlreadyLiked(client.getClientId(), peopleId);
         PeopleLike peopleLike = buildPeopleLike(client.getClientId(), peopleId);
@@ -62,10 +61,9 @@ public class PeopleLikeService {
     @Transactional
     public void unlike(final Long memberId, final Long peopleId) {
         final Client client = loadClientPort.loadBy(memberId);
-        final People people = peopleRepository.findById(peopleId)
-            .orElseThrow(NotFoundPeopleException::new);
+        // TODO: 조회 성능 개선 필요
+        final People people = loadPeoplePort.loadByPeopleId(peopleId);
 
-        
         PeopleLike peopleLike = loadPeopleLikePort.findByClientIdAndPeopleId(client.getClientId(), peopleId);
         checkNeverLiked(client.getClientId(), peopleId);
         

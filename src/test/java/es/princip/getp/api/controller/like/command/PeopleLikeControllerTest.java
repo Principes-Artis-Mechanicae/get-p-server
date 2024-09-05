@@ -1,11 +1,11 @@
 package es.princip.getp.api.controller.like.command;
 
 import es.princip.getp.api.controller.ControllerTest;
-import es.princip.getp.domain.member.model.MemberType;
-import es.princip.getp.domain.people.exception.NotFoundPeopleException;
+
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.application.like.PeopleLikeService;
 import es.princip.getp.application.like.exception.AlreadyLikedException;
+import es.princip.getp.domain.member.model.MemberType;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -53,16 +53,6 @@ class PeopleLikeControllerTest extends ControllerTest {
         void like_WhenMemberTypeIsPeople_ShouldBeFailed() throws Exception {
             mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
                 .andExpect(status().isForbidden());
-        }
-
-        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
-        @Test
-        void like_WhenPeopleIsNotFound_ShouldBeFailed() throws Exception {
-            willThrow(new NotFoundPeopleException())
-                .given(peopleLikeService).like(any(), eq(peopleId));
-
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
-                .andExpect(status().isNotFound());
         }
     }
 

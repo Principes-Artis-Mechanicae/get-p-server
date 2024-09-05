@@ -4,13 +4,14 @@ import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.api.controller.people.command.description.request.CreatePeopleRequestDescription;
 import es.princip.getp.api.controller.people.command.description.request.UpdatePeopleRequestDescription;
 import es.princip.getp.api.controller.people.command.description.response.CreatePeopleResponseDescription;
-import es.princip.getp.api.controller.people.command.dto.request.CreatePeopleRequest;
-import es.princip.getp.api.controller.people.command.dto.request.UpdatePeopleRequest;
+import es.princip.getp.api.controller.people.command.dto.request.EditPeopleRequest;
+import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.domain.people.command.application.PeopleService;
-import es.princip.getp.domain.people.command.application.command.CreatePeopleCommand;
-import es.princip.getp.domain.people.command.application.command.UpdatePeopleCommand;
-import es.princip.getp.domain.people.command.domain.PeopleType;
+import es.princip.getp.application.people.command.EditPeopleCommand;
+import es.princip.getp.application.people.command.RegisterPeopleCommand;
+import es.princip.getp.application.people.port.in.EditPeopleUseCase;
+import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
+import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,14 +35,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class MyPeopleControllerTest extends ControllerTest {
 
-    @Autowired
-    private PeopleService peopleService;
+    @Autowired private RegisterPeopleUseCase registerPeopleUseCase;
+    @Autowired private EditPeopleUseCase editPeopleUseCase;
 
     @DisplayName("피플은 자신의 정보를 등록할 수 있다.")
     @Nested
     class CreateMyPeople {
 
-        private final CreatePeopleRequest request = new CreatePeopleRequest(
+        private final RegisterPeopleRequest request = new RegisterPeopleRequest(
             NICKNAME,
             EMAIL,
             PHONE_NUMBER,
@@ -58,7 +59,7 @@ class MyPeopleControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
         public void createMyPeople() throws Exception {
-            given(peopleService.create(any(CreatePeopleCommand.class))).willReturn(peopleId);
+            given(registerPeopleUseCase.register(any(RegisterPeopleCommand.class))).willReturn(peopleId);
 
             perform()
                 .andExpect(status().isCreated())
@@ -81,7 +82,7 @@ class MyPeopleControllerTest extends ControllerTest {
     @Nested
     class UpdateMyPeople {
 
-        private final UpdatePeopleRequest request = new UpdatePeopleRequest(
+        private final EditPeopleRequest request = new EditPeopleRequest(
             NICKNAME,
             EMAIL,
             PHONE_NUMBER,
@@ -97,7 +98,7 @@ class MyPeopleControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
         public void updateMyPeople() throws Exception {
-            willDoNothing().given(peopleService).update(any(UpdatePeopleCommand.class));
+            willDoNothing().given(editPeopleUseCase).edit(any(EditPeopleCommand.class));
 
             perform()
                 .andExpect(status().isCreated())

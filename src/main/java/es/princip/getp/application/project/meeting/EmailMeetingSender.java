@@ -1,11 +1,11 @@
 package es.princip.getp.application.project.meeting;
 
+import es.princip.getp.application.mail.command.SendMailCommand;
+import es.princip.getp.application.mail.port.in.SendMailUseCase;
 import es.princip.getp.application.project.meeting.exception.FailedMeetingSendingException;
-import es.princip.getp.domain.people.command.domain.People;
+import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
-import es.princip.getp.mail.EmailSender;
-import es.princip.getp.mail.command.SendMailCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailMeetingSender implements MeetingSender {
 
-    private final EmailSender emailSender;
+    private final SendMailUseCase sendMailUseCase;
 
     private String title(final Project project) {
         return String.format("[GET-P] %s 미팅 신청", project.getTitle());
@@ -51,7 +51,7 @@ public class EmailMeetingSender implements MeetingSender {
             text(project, meeting)
         );
         try {
-            emailSender.send(message);
+            sendMailUseCase.send(message);
         } catch (MailException exception) {
             throw new FailedMeetingSendingException();
         }

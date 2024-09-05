@@ -2,21 +2,20 @@ package es.princip.getp.api.controller.storage;
 
 import es.princip.getp.api.controller.ControllerTest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.storage.application.FileUploadService;
+import es.princip.getp.application.storage.command.UploadFileCommand;
+import es.princip.getp.application.storage.port.in.UploadFileUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
-import static es.princip.getp.fixture.storage.FileStorageFixture.DUMMY_TEXT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -28,13 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class FileStorageControllerTest extends ControllerTest {
 
     @Autowired
-    private FileUploadService fileUploadService;
+    private UploadFileUseCase uploadFileUseCase;
 
     @Nested
     @DisplayName("파일 업로드")
     class UploadFile {
 
-        final MockMultipartFile file = new MockMultipartFile("file", DUMMY_TEXT.getBytes());
+        final MockMultipartFile file = new MockMultipartFile("file", "dummy".getBytes());
 
         private ResultActions perform() throws Exception {
             return mockMvc.perform(multipart("/storage/files")
@@ -46,8 +45,8 @@ class FileStorageControllerTest extends ControllerTest {
         @WithCustomMockUser
         @DisplayName("사용자는 파일을 업로드할 수 있다.")
         void uploadFile() throws Exception {
-            given(fileUploadService.uploadFile(any(MultipartFile.class)))
-                .willReturn(URI.create("https://storage.princip.es/files/1/test.pdf"));
+            given(uploadFileUseCase.upload(any(UploadFileCommand.class)))
+                .willReturn(URI.create("https://storage.principes.xyz/1/files/1/test.pdf"));
 
             perform()
                 .andExpect(status().isCreated())

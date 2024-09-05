@@ -7,4 +7,11 @@ import org.mapstruct.Mapper;
 public interface TechStackPersistenceMapper {
 
     TechStack mapToTechStack(String value);
+
+    default String mapToString(TechStack techStack) {
+        if (techStack == null) {
+            return null;
+        }
+        return techStack.getValue();
+    }
 }

@@ -6,11 +6,10 @@ import es.princip.getp.application.like.port.out.project.CheckProjectLikePort;
 import es.princip.getp.application.like.port.out.project.LoadProjectLikePort;
 import es.princip.getp.application.like.port.out.project.ProjectLikePort;
 import es.princip.getp.application.like.port.out.project.ProjectUnlikePort;
+import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.like.model.project.ProjectLike;
-import es.princip.getp.domain.people.command.domain.People;
-import es.princip.getp.domain.people.command.domain.PeopleRepository;
-import es.princip.getp.domain.people.exception.NotFoundPeopleException;
+import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.commission.model.Project;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,13 +24,13 @@ public class ProjectLikeService {
 
     private final LoadProjectPort loadProjectPort;
     
-    private final PeopleRepository peopleRepository;
-
     private final ProjectLikePort projectLikePort;
 
     private final ProjectUnlikePort projectUnlikePort;
     
     private final CheckProjectLikePort checkProjectLikePort;
+
+    private final LoadPeoplePort loadPeoplePort;
 
     /**
      * 프로젝트 좋아요
@@ -41,12 +40,12 @@ public class ProjectLikeService {
      */
     @Transactional
     public void like(final Long memberId, final Long projectId) {
-        final People people = peopleRepository.findById(memberId)
-            .orElseThrow(NotFoundPeopleException::new);
+        final People people = loadPeoplePort.loadBy(memberId);
+        // TODO: 조회 성능 개선 필요
         final Project project = loadProjectPort.loadBy(projectId);
 
-        checkAlreadyLiked(people.getPeopleId(), projectId);
-        ProjectLike projectLike = buildProjectLike(people.getPeopleId(), projectId);
+        checkAlreadyLiked(people.getId(), projectId);
+        ProjectLike projectLike = buildProjectLike(people.getId(), projectId);
         
         projectLikePort.like(projectLike);
     }
@@ -59,12 +58,12 @@ public class ProjectLikeService {
      */
     @Transactional
     public void unlike(final Long memberId, final Long projectId) {
-        final People people = peopleRepository.findById(memberId)
-            .orElseThrow(NotFoundPeopleException::new);
+        final People people = loadPeoplePort.loadBy(memberId);
+        // TODO: 조회 성능 개선 필요
         final Project project = loadProjectPort.loadBy(projectId);
 
-        checkNeverLiked(people.getPeopleId(), projectId);
-        ProjectLike projectLike = loadProjectLikePort.findByPeopleIdAndProjectId(people.getPeopleId(), projectId);
+        checkNeverLiked(people.getId(), projectId);
+        ProjectLike projectLike = loadProjectLikePort.findByPeopleIdAndProjectId(people.getId(), projectId);
 
         projectUnlikePort.unlike(projectLike);
     }
