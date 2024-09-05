@@ -1,6 +1,6 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
-import es.princip.getp.common.util.DataLoader;
+import es.princip.getp.persistence.adapter.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 

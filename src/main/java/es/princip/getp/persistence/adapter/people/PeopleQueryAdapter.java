@@ -8,10 +8,10 @@ import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleRespon
 import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
 import es.princip.getp.application.people.port.out.FindMyPeoplePort;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
 import es.princip.getp.common.util.QueryDslSupport;
-import es.princip.getp.domain.like.query.dao.PeopleLikeDao;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.mapper.PeopleQueryMapper;
@@ -40,7 +40,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
     private static final QPeopleJpaEntity people = QPeopleJpaEntity.peopleJpaEntity;
     private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
-    private final PeopleLikeDao peopleLikeDao;
+    private final CountPeopleLikePort countPeopleLikePort;
 
     private final PeopleQueryMapper mapper;
 
@@ -83,7 +83,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
 
         final Long[] peopleIds = toPeopleIds(result);
 
-        final Map<Long, Long> likesCounts = peopleLikeDao.countByLikedIds(peopleIds);
+        final Map<Long, Long> likesCounts = countPeopleLikePort.countBy(peopleIds);
         final Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);
 
         return result.stream().map(people -> {
@@ -130,7 +130,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
             memberAndPeople.get(member.profileImage),
             memberAndPeople.get(people.peopleType),
             0,
-            peopleLikeDao.countByLikedId(peopleId),
+            countPeopleLikePort.countBy(peopleId),
             mapper.mapToDetailPeopleProfileResponse(profile)
         );
     }
@@ -156,7 +156,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
             memberAndPeople.get(member.profileImage),
             memberAndPeople.get(people.peopleType),
             0,
-            peopleLikeDao.countByLikedId(peopleId),
+            countPeopleLikePort.countBy(peopleId),
             mapper.mapToPublicPeopleProfileResponse(profile)
         );
     }

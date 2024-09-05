@@ -5,9 +5,9 @@ import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
+import es.princip.getp.application.like.project.port.out.CountProjectLikePort;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
 import es.princip.getp.common.util.QueryDslSupport;
-import es.princip.getp.domain.like.query.dao.ProjectLikeDao;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
 import es.princip.getp.persistence.adapter.project.apply.FindProjectApplicationAdapter;
@@ -29,7 +29,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
     private static final QProjectJpaEntity project = QProjectJpaEntity.projectJpaEntity;
 
     private final ClientQuery clientQuery;
-    private final ProjectLikeDao projectLikeDao;
+    private final CountProjectLikePort projectLikeDao;
     private final FindProjectApplicationAdapter projectApplicationDao;
     private final ProjectPersistenceMapper mapper;
 
@@ -76,7 +76,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
                 .fetchOne()
             )
             .orElseThrow(NotFoundProjectException::new));
-        final Long likesCount = projectLikeDao.countByLikedId(projectId);
+        final Long likesCount = projectLikeDao.countBy(projectId);
 
         return new ProjectDetailResponse(
             result.getProjectId(),

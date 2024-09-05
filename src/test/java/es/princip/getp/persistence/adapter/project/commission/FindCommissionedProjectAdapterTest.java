@@ -1,8 +1,8 @@
 package es.princip.getp.persistence.adapter.project.commission;
 
 import es.princip.getp.api.controller.project.query.dto.CommissionedProjectCardResponse;
-import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
+import es.princip.getp.persistence.adapter.DataLoader;
 import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
 import es.princip.getp.persistence.adapter.client.ClientDataLoader;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
