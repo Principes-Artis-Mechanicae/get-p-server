@@ -5,7 +5,7 @@ import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleRespon
 import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
-import es.princip.getp.common.util.DataLoader;
+import es.princip.getp.persistence.adapter.DataLoader;
 import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import jakarta.persistence.EntityManager;
