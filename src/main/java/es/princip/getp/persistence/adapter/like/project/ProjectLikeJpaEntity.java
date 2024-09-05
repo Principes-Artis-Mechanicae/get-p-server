@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.like.command.project;
+package es.princip.getp.persistence.adapter.like.project;
 
 import es.princip.getp.persistence.adapter.BaseTimeJpaEntity;
 import jakarta.persistence.*;
@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -24,7 +26,16 @@ public class ProjectLikeJpaEntity extends BaseTimeJpaEntity {
     private Long projectId;
 
     @Builder
-    public ProjectLikeJpaEntity(final Long peopleId, final Long projectId) {
+    public ProjectLikeJpaEntity(
+        final Long id,
+        final Long peopleId,
+        final Long projectId,
+        final LocalDateTime createdAt,
+        final LocalDateTime updatedAt
+    ) {
+        super(createdAt, updatedAt);
+
+        this.id = id;
         this.peopleId = peopleId;
         this.projectId = projectId;
     }

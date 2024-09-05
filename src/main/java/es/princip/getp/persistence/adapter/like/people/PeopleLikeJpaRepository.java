@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.like.command.people;
+package es.princip.getp.persistence.adapter.like.people;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

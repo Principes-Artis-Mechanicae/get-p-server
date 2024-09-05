@@ -8,11 +8,10 @@ import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleRespon
 import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
-import es.princip.getp.application.like.port.out.people.CountPeopleLikePort;
+import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
 import es.princip.getp.application.people.port.out.FindMyPeoplePort;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
 import es.princip.getp.common.util.QueryDslSupport;
-
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.mapper.PeopleQueryMapper;
@@ -84,7 +83,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
 
         final Long[] peopleIds = toPeopleIds(result);
 
-        final Map<Long, Long> likesCounts = countPeopleLikePort.countByPeopleIds(peopleIds);
+        final Map<Long, Long> likesCounts = countPeopleLikePort.countBy(peopleIds);
         final Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);
 
         return result.stream().map(people -> {
@@ -131,7 +130,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
             memberAndPeople.get(member.profileImage),
             memberAndPeople.get(people.peopleType),
             0,
-            countPeopleLikePort.countByPeopleId(peopleId),
+            countPeopleLikePort.countBy(peopleId),
             mapper.mapToDetailPeopleProfileResponse(profile)
         );
     }
@@ -157,7 +156,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
             memberAndPeople.get(member.profileImage),
             memberAndPeople.get(people.peopleType),
             0,
-            countPeopleLikePort.countByPeopleId(peopleId),
+            countPeopleLikePort.countBy(peopleId),
             mapper.mapToPublicPeopleProfileResponse(profile)
         );
     }

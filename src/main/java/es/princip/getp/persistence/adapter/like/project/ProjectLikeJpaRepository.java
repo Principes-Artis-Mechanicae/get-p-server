@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.like.command.project;
+package es.princip.getp.persistence.adapter.like.project;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

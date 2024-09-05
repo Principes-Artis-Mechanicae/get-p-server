@@ -1,9 +1,8 @@
 package es.princip.getp.persistence.adapter.like.people;
 
-import es.princip.getp.application.like.port.out.people.CountPeopleLikePort;
-import es.princip.getp.common.util.DaoTest;
-import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.persistence.adapter.like.command.PeopleLikePersistenceMapper;
+import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
+import es.princip.getp.persistence.adapter.DataLoader;
+import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
@@ -19,19 +18,13 @@ import java.util.stream.LongStream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
-public class CountPeopleLikeAdapterTest extends DaoTest {
+public class CountPeopleLikeAdapterTest extends PersistenceAdapterTest {
+
+    @PersistenceContext private EntityManager entityManager;
+    @Autowired private CountPeopleLikePort countPeopleLikePort;
+    @Autowired private PeopleLikePersistenceMapper peopleLikeMapper;
 
     private static final int TEST_SIZE = 5;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Autowired
-    private CountPeopleLikePort countPeopleLikePort;
-
-    @Autowired
-    private PeopleLikePersistenceMapper peopleLikeMapper;
-
     private List<DataLoader> dataLoaders;
 
     @BeforeEach
@@ -49,7 +42,7 @@ public class CountPeopleLikeAdapterTest extends DaoTest {
 
     @Test
     void 피플이_받은_좋아요_수를_조회한다() {
-        assertThat(countPeopleLikePort.countByPeopleId(1L)).isEqualTo(TEST_SIZE);
+        assertThat(countPeopleLikePort.countBy(1L)).isEqualTo(TEST_SIZE);
     }
 
     @Test
@@ -57,7 +50,7 @@ public class CountPeopleLikeAdapterTest extends DaoTest {
         final Long[] peopleIds = LongStream.rangeClosed(1, TEST_SIZE)
             .boxed()
             .toArray(Long[]::new);
-        final Map<Long, Long> likesCounts = countPeopleLikePort.countByPeopleIds(peopleIds);
+        final Map<Long, Long> likesCounts = countPeopleLikePort.countBy(peopleIds);
 
         assertThat(likesCounts).hasSize(peopleIds.length)
             .containsOnlyKeys(peopleIds)

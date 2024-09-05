@@ -1,9 +1,7 @@
 package es.princip.getp.persistence.adapter.like.people;
 
-import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.fixture.like.PeopleLikeFixture;
-import es.princip.getp.persistence.adapter.like.command.PeopleLikePersistenceMapper;
-import es.princip.getp.persistence.adapter.like.command.people.PeopleLikeJpaEntity;
+import es.princip.getp.persistence.adapter.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 

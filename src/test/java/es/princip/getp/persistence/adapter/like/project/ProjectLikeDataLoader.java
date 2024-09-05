@@ -1,9 +1,7 @@
 package es.princip.getp.persistence.adapter.like.project;
 
-import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.fixture.like.ProjectLikeFixture;
-import es.princip.getp.persistence.adapter.like.command.ProjectLikePersistenceMapper;
-import es.princip.getp.persistence.adapter.like.command.project.ProjectLikeJpaEntity;
+import es.princip.getp.persistence.adapter.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;

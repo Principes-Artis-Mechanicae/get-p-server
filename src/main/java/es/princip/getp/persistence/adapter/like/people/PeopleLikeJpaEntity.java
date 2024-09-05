@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.like.command.people;
+package es.princip.getp.persistence.adapter.like.people;
 
 import es.princip.getp.persistence.adapter.BaseTimeJpaEntity;
 import jakarta.persistence.*;
@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -24,7 +26,16 @@ public class PeopleLikeJpaEntity extends BaseTimeJpaEntity {
     private Long peopleId;
 
     @Builder
-    public PeopleLikeJpaEntity(final Long clientId, final Long peopleId) {
+    public PeopleLikeJpaEntity(
+        final Long id,
+        final Long clientId,
+        final Long peopleId,
+        final LocalDateTime createdAt,
+        final LocalDateTime updatedAt
+    ) {
+        super(createdAt, updatedAt);
+
+        this.id = id;
         this.clientId = clientId;
         this.peopleId = peopleId;
     }

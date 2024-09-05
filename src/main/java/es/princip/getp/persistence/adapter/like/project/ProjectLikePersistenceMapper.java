@@ -1,9 +1,7 @@
-package es.princip.getp.persistence.adapter.like.command;
+package es.princip.getp.persistence.adapter.like.project;
 
+import es.princip.getp.domain.like.project.model.ProjectLike;
 import org.mapstruct.Mapper;
-
-import es.princip.getp.domain.like.model.project.ProjectLike;
-import es.princip.getp.persistence.adapter.like.command.project.ProjectLikeJpaEntity;
 
 @Mapper(componentModel = "spring")
 public interface ProjectLikePersistenceMapper {
