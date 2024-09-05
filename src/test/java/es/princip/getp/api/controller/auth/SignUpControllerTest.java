@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.auth;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.api.controller.auth.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;

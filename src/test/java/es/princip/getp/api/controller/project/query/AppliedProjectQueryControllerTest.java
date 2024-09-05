@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.project.query.description.AppliedProjectCardResponseDescription;
 import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.api.docs.PaginationDescription;

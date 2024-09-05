@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.project.command;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.project.command.description.RegisterProjectRequestDescription;
 import es.princip.getp.api.controller.project.command.description.RegisterProjectResponseDescription;
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;

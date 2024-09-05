@@ -1,6 +1,6 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
-import es.princip.getp.common.util.QueryDslSupport;
+import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

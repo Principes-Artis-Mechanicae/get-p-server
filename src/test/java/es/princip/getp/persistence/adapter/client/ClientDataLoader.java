@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.client;
 
-import es.princip.getp.common.util.DataLoader;
 import es.princip.getp.domain.member.model.MemberType;
+import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.adapter.member.MemberJpaEntity;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

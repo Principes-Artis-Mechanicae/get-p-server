@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.client.query;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.client.query.description.ClientResponseDescription;
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;

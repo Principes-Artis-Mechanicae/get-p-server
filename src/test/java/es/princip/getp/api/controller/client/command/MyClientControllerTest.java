@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.client.command;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.client.command.description.EditMyClientRequestDescription;
 import es.princip.getp.api.controller.client.command.description.RegisterMyClientRequestDescription;
 import es.princip.getp.api.controller.client.command.dto.request.EditMyClientRequest;

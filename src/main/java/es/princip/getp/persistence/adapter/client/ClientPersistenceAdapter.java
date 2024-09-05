@@ -24,7 +24,7 @@ class ClientPersistenceAdapter implements SaveClientPort,
 
     @Override
     public void delete(final Client client) {
-        clientJpaRepository.deleteById(client.getId());
+        clientJpaRepository.deleteById(client.getClientId());
     }
 
     @Override
@@ -41,7 +41,7 @@ class ClientPersistenceAdapter implements SaveClientPort,
 
     @Override
     public void update(final Client client) {
-        if (!clientJpaRepository.existsById(client.getId())) {
+        if (!clientJpaRepository.existsById(client.getClientId())) {
             throw new NotFoundClientException();
         }
         save(client);

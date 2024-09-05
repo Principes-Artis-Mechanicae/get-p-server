@@ -4,8 +4,8 @@ import com.querydsl.core.Tuple;
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
-import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
+import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

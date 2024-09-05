@@ -1,6 +1,7 @@
 package es.princip.getp.domain.common.model;
 
 import es.princip.getp.domain.common.exception.StartDateIsAfterEndDateException;
+import es.princip.getp.domain.support.BaseModel;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

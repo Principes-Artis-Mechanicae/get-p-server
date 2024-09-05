@@ -1,8 +1,9 @@
 package es.princip.getp.api.controller.like.command;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.domain.like.command.application.ProjectLikeService;
+import es.princip.getp.application.like.project.port.in.LikeProjectUseCase;
+import es.princip.getp.application.like.project.port.in.UnlikeProjectUseCase;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,8 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ProjectLikeControllerTest extends ControllerTest {
 
-    @Autowired
-    private ProjectLikeService projectLikeService;
+    @Autowired private LikeProjectUseCase likeProjectUseCase;
+    @Autowired private UnlikeProjectUseCase unlikeProjectUseCase;
 
     @Nested
     @DisplayName("프로젝트 좋아요")
@@ -37,7 +38,7 @@ class ProjectLikeControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
         void likeProject() throws Exception {
-            willDoNothing().given(projectLikeService).like(anyLong(), anyLong());
+            willDoNothing().given(likeProjectUseCase).like(anyLong(), anyLong());
 
             perform()
                 .andExpect(status().isCreated())
@@ -63,7 +64,7 @@ class ProjectLikeControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
         void unlikeProject() throws Exception {
-            willDoNothing().given(projectLikeService).unlike(anyLong(), anyLong());
+            willDoNothing().given(unlikeProjectUseCase).unlike(anyLong(), anyLong());
 
             perform()
                 .andExpect(status().isNoContent())

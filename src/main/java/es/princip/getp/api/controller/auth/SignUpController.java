@@ -2,8 +2,8 @@ package es.princip.getp.api.controller.auth;
 
 import es.princip.getp.api.controller.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;
-import es.princip.getp.api.controller.common.dto.ApiResponse;
-import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.auth.service.SignUpService;
 import es.princip.getp.domain.common.model.Email;
 import jakarta.validation.Valid;

@@ -1,7 +1,7 @@
 package es.princip.getp.domain.project.commission.model;
 
 import es.princip.getp.domain.client.model.Client;
-import es.princip.getp.domain.common.StubClockHolder;
+import es.princip.getp.domain.common.infrastructure.StubClockHolder;
 import es.princip.getp.domain.common.model.Duration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

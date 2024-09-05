@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.people.command.description.request.EditPeopleProfileRequestDescription;
 import es.princip.getp.api.controller.people.command.description.request.WritePeopleProfileRequestDescription;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleProfileRequest;

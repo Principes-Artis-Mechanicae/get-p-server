@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.people.query.description.DetailPeopleProfileResponseDescription;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;

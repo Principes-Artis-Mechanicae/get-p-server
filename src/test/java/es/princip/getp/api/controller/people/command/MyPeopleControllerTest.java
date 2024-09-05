@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.people.command.description.request.CreatePeopleRequestDescription;
 import es.princip.getp.api.controller.people.command.description.request.UpdatePeopleRequestDescription;
 import es.princip.getp.api.controller.people.command.description.response.CreatePeopleResponseDescription;

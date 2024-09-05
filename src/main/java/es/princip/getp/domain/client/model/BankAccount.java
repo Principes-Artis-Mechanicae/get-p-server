@@ -1,6 +1,6 @@
 package es.princip.getp.domain.client.model;
 
-import es.princip.getp.domain.common.model.BaseModel;
+import es.princip.getp.domain.support.BaseModel;
 import jakarta.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

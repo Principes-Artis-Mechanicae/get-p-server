@@ -1,6 +1,6 @@
 package es.princip.getp.domain.project.apply.model;
 
-import es.princip.getp.domain.common.model.BaseEntity;
+import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
 import jakarta.validation.constraints.NotBlank;

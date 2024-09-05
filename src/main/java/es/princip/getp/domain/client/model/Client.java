@@ -1,8 +1,7 @@
 package es.princip.getp.domain.client.model;
 
-import es.princip.getp.domain.common.model.BaseEntity;
+import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.common.model.Email;
-import es.princip.getp.domain.like.command.domain.Likeable;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +9,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class Client extends BaseEntity implements Likeable {
+public class Client extends BaseEntity {
 
     private Long clientId;
     @NotNull private Email email;
@@ -64,10 +63,5 @@ public class Client extends BaseEntity implements Likeable {
         setEmail(email);
         setAddress(address);
         setBankAccount(bankAccount);
-    }
-
-    @Override
-    public Long getId() {
-        return this.clientId;
     }
 }

@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
-import es.princip.getp.common.util.DataLoader;
-import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
+import es.princip.getp.persistence.support.DataLoader;
+import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterEach;

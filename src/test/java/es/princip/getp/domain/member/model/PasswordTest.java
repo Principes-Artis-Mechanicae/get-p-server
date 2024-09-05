@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.model;
 
-import es.princip.getp.domain.common.exception.NotValidDomainModelException;
+import es.princip.getp.domain.support.NotValidDomainModelException;
 import es.princip.getp.domain.member.infra.SimplePasswordEncoder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
