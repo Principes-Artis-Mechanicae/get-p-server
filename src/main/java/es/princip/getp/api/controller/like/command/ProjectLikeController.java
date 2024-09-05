@@ -3,7 +3,8 @@ package es.princip.getp.api.controller.like.command;
 import es.princip.getp.api.controller.common.dto.ApiResponse;
 import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.security.details.PrincipalDetails;
-import es.princip.getp.domain.like.command.application.ProjectLikeService;
+import es.princip.getp.application.like.project.port.in.LikeProjectUseCase;
+import es.princip.getp.application.like.project.port.in.UnlikeProjectUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProjectLikeController {
 
-    private final ProjectLikeService projectLikeService;
+    private final LikeProjectUseCase likeProjectUseCase;
+    private final UnlikeProjectUseCase unlikeProjectUseCase;
 
     /**
      * 프로젝트 좋아요
@@ -31,7 +33,7 @@ public class ProjectLikeController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        projectLikeService.like(projectId, memberId);
+        likeProjectUseCase.like(projectId, memberId);
         return ApiResponse.success(HttpStatus.CREATED);
     }
 
@@ -48,7 +50,7 @@ public class ProjectLikeController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final Long memberId = principalDetails.getMember().getMemberId();
-        projectLikeService.unlike(projectId, memberId);
+        unlikeProjectUseCase.unlike(projectId, memberId);
         return ApiResponse.success(HttpStatus.NO_CONTENT);
     }
 }
