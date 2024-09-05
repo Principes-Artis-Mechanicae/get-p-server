@@ -1,7 +1,7 @@
 package es.princip.getp.application.member.service;
 
 import es.princip.getp.application.member.command.RegisterProfileImageCommand;
-import es.princip.getp.application.member.exception.FailedToSaveProfileImageException;
+import es.princip.getp.application.member.exception.NotSupportedProfileImageExtensionException;
 import es.princip.getp.application.member.port.in.ProfileImageUseCase;
 import es.princip.getp.application.member.port.out.LoadMemberPort;
 import es.princip.getp.application.member.port.out.UpdateMemberPort;
@@ -58,7 +58,7 @@ class ProfileImageService implements ProfileImageUseCase {
 
     private ProfileImage saveProfileImage(final Member member, final MultipartFile image) {
         if (!whiteImageExtensionList.contains(image.getContentType())) {
-            throw new FailedToSaveProfileImageException();
+            throw new NotSupportedProfileImageExtensionException();
         }
         final Path destination = getPathToSaveProfileImage(member, image);
         final URI uri = storeFilePort.store(image, destination);
