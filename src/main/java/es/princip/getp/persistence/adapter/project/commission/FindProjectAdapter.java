@@ -5,7 +5,7 @@ import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
-import es.princip.getp.application.like.port.out.project.CountProjectLikePort;
+import es.princip.getp.application.like.project.port.out.CountProjectLikePort;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
 import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.project.commission.model.Project;
@@ -76,7 +76,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
                 .fetchOne()
             )
             .orElseThrow(NotFoundProjectException::new));
-        final Long likesCount = projectLikeDao.countByprojectId(projectId);
+        final Long likesCount = projectLikeDao.countBy(projectId);
 
         return new ProjectDetailResponse(
             result.getProjectId(),
