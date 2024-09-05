@@ -11,13 +11,13 @@ import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopl
 import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
 import es.princip.getp.application.people.port.out.FindMyPeoplePort;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
-import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.mapper.PeopleQueryMapper;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
 import es.princip.getp.persistence.adapter.people.model.PeopleProfileJpaVO;
 import es.princip.getp.persistence.adapter.people.model.QPeopleJpaEntity;
+import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

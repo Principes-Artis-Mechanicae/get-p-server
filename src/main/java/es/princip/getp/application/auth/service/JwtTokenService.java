@@ -4,7 +4,7 @@ import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.security.exception.ExpiredTokenException;
 import es.princip.getp.api.security.exception.InvalidTokenException;
 import es.princip.getp.application.member.port.out.LoadMemberPort;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.member.model.Member;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -69,7 +69,7 @@ public abstract class JwtTokenService {
      */
     public Authentication getAuthentication(final String token) {
         final Claims claims = validateAndParseToken(token);
-        final Email email = Email.of(claims.getSubject());
+        final Email email = Email.from(claims.getSubject());
         final Member member = loadMemberPort.loadBy(email);
         final PrincipalDetails principalDetails = new PrincipalDetails(member);
 

@@ -1,8 +1,8 @@
 package es.princip.getp.persistence.adapter.like.people;
 
 import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
-import es.princip.getp.persistence.adapter.DataLoader;
-import es.princip.getp.persistence.adapter.PersistenceAdapterTest;
+import es.princip.getp.persistence.support.DataLoader;
+import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;

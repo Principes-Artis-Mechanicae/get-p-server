@@ -1,7 +1,7 @@
 package es.princip.getp.domain.people.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import es.princip.getp.common.util.StringUtil;
+import es.princip.getp.util.StringUtil;
 
 import java.util.stream.Stream;
 

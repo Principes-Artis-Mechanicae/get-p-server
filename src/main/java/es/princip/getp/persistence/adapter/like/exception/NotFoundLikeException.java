@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.like.exception;
 
-import es.princip.getp.common.exception.ErrorDescription;
-import es.princip.getp.common.exception.NotFoundException;
+import es.princip.getp.domain.support.ErrorDescription;
+import es.princip.getp.persistence.support.NotFoundException;
 
 public class NotFoundLikeException extends NotFoundException {
 

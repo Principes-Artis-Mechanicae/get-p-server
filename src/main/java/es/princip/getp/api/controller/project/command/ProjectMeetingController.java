@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.project.command;
 
-import es.princip.getp.api.controller.common.dto.ApiResponse;
-import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.project.command.dto.request.ScheduleMeetingRequest;
 import es.princip.getp.api.controller.project.command.dto.response.ScheduleMeetingResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;

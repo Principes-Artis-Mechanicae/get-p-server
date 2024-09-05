@@ -2,7 +2,7 @@ package es.princip.getp.persistence.adapter.people.mapper;
 
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleType;
-import es.princip.getp.persistence.adapter.PersistenceMapperTest;
+import es.princip.getp.persistence.support.PersistenceMapperTest;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

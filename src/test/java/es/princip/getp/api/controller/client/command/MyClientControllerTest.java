@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.client.command;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.client.command.description.EditMyClientRequestDescription;
 import es.princip.getp.api.controller.client.command.description.RegisterMyClientRequestDescription;
 import es.princip.getp.api.controller.client.command.dto.request.EditMyClientRequest;
@@ -23,7 +23,7 @@ import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeade
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static es.princip.getp.fixture.client.AddressFixture.address;
 import static es.princip.getp.fixture.client.BankAccountFixture.bankAccount;
-import static es.princip.getp.fixture.member.EmailFixture.EMAIL;
+import static es.princip.getp.fixture.common.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
 import static es.princip.getp.fixture.member.PhoneNumberFixture.PHONE_NUMBER;
 import static org.mockito.ArgumentMatchers.eq;

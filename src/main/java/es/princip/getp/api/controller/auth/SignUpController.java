@@ -2,10 +2,10 @@ package es.princip.getp.api.controller.auth;
 
 import es.princip.getp.api.controller.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;
-import es.princip.getp.api.controller.common.dto.ApiResponse;
-import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.auth.service.SignUpService;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -45,7 +45,7 @@ public class SignUpController {
     public ResponseEntity<ApiSuccessResult<?>> sendEmailVerificationCodeForSignUp(
         @RequestBody @Valid final EmailVerificationCodeRequest request
     ) {
-        final Email email = Email.of(request.email());
+        final Email email = Email.from(request.email());
         signUpService.sendEmailVerificationCodeForSignUp(email);
         return ApiResponse.success(HttpStatus.OK);
     }

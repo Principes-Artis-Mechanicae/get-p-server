@@ -1,9 +1,9 @@
 package es.princip.getp.application.serviceTerm.exception;
 
-import es.princip.getp.common.exception.BusinessLogicException;
-import es.princip.getp.common.exception.ErrorDescription;
+import es.princip.getp.application.support.ApplicationLogicException;
+import es.princip.getp.domain.support.ErrorDescription;
 
-public class DuplicatedTagException extends BusinessLogicException {
+public class DuplicatedTagException extends ApplicationLogicException {
 
     private static final String code = "DUPLICATED_TAG";
     private static final String message = "중복된 태그입니다.";

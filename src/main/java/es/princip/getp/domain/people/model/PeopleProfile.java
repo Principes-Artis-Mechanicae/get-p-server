@@ -1,6 +1,6 @@
 package es.princip.getp.domain.people.model;
 
-import es.princip.getp.domain.BaseModel;
+import es.princip.getp.domain.support.BaseModel;
 import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.common.model.TechStack;
 import jakarta.validation.constraints.NotBlank;

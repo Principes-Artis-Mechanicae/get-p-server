@@ -1,8 +1,8 @@
 package es.princip.getp.persistence.adapter.project.meeting;
 
-import es.princip.getp.common.util.QueryDslSupport;
 import es.princip.getp.persistence.adapter.client.QClientJpaEntity;
 import es.princip.getp.persistence.adapter.project.commission.QProjectJpaEntity;
+import es.princip.getp.persistence.support.QueryDslSupport;
 
 class ProjectMeetingQueryDslRepositoryImpl
     extends QueryDslSupport

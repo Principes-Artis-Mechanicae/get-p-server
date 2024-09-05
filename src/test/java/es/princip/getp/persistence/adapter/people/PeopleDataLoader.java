@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.people;
 
 import es.princip.getp.domain.people.model.PeopleType;
-import es.princip.getp.persistence.adapter.DataLoader;
+import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.adapter.member.MemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;

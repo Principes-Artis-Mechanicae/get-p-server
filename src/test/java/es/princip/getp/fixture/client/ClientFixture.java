@@ -5,7 +5,7 @@ import es.princip.getp.domain.client.model.Client;
 import java.util.List;
 import java.util.stream.LongStream;
 
-import static es.princip.getp.fixture.member.EmailFixture.email;
+import static es.princip.getp.fixture.common.EmailFixture.email;
 
 public class ClientFixture {
 

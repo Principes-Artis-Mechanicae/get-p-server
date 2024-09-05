@@ -1,8 +1,8 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.common.dto.ApiResponse;
-import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.controller.common.dto.PageResponse;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
+import es.princip.getp.api.support.dto.PageResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;

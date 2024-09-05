@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.like.command;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.application.like.project.port.in.LikeProjectUseCase;
 import es.princip.getp.application.like.project.port.in.UnlikeProjectUseCase;

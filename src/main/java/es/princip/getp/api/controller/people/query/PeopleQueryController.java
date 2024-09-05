@@ -1,9 +1,9 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.controller.common.ControllerSupport;
-import es.princip.getp.api.controller.common.dto.ApiResponse;
-import es.princip.getp.api.controller.common.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.controller.common.dto.PageResponse;
+import es.princip.getp.api.support.ControllerSupport;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
+import es.princip.getp.api.support.dto.PageResponse;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;

@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.model;
 
-import es.princip.getp.domain.BaseModel;
+import es.princip.getp.domain.support.BaseModel;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class Nickname extends BaseModel {
         validate();
     }
 
-    public static Nickname of(final String value) {
+    public static Nickname from(final String value) {
         return new Nickname(value);
     }
 }

@@ -1,6 +1,6 @@
 package es.princip.getp.api.security.exception;
 
-import es.princip.getp.common.exception.ErrorDescription;
+import es.princip.getp.domain.support.ErrorDescription;
 
 public class ExpiredTokenException extends JwtTokenException {
 
