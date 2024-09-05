@@ -1,10 +1,10 @@
 package es.princip.getp.api.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import es.princip.getp.api.controller.common.dto.ApiErrorResponse;
-import es.princip.getp.api.controller.common.dto.ApiErrorResponse.ApiErrorResult;
 import es.princip.getp.api.security.exception.JwtTokenException;
-import es.princip.getp.common.exception.ErrorDescription;
+import es.princip.getp.api.support.dto.ApiErrorResponse;
+import es.princip.getp.api.support.dto.ApiErrorResponse.ApiErrorResult;
+import es.princip.getp.domain.support.ErrorDescription;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,7 +38,7 @@ public class AccessTokenExceptionFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (JwtTokenException exception) {
             final ErrorDescription description = exception.getDescription();
-            final ApiErrorResult result = ApiErrorResponse.body(HttpStatus.UNAUTHORIZED, description);
+            final ApiErrorResult result = ApiErrorResponse.error(HttpStatus.UNAUTHORIZED, description).getBody();
             final String body = mapper.writeValueAsString(result);
 
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);

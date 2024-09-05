@@ -1,6 +1,6 @@
 package es.princip.getp.application.auth.command;
 
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.member.model.Password;
 import es.princip.getp.domain.member.model.ServiceTermAgreementData;

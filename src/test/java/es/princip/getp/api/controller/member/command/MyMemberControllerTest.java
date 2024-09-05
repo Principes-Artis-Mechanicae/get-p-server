@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.member.command;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.application.member.command.RegisterProfileImageCommand;
 import es.princip.getp.application.member.port.in.ProfileImageUseCase;

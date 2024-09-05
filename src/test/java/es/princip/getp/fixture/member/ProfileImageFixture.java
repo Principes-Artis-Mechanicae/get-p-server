@@ -13,6 +13,6 @@ public class ProfileImageFixture {
     public static ProfileImage profileImage(final Long memberId) {
         final String profileImageUri = String.format("/images/%d/profile/%s", memberId, FILE_NAME);
         final URI uri = URI.create(BASE_URI).resolve(profileImageUri);
-        return ProfileImage.of(uri.toString());
+        return ProfileImage.from(uri.toString());
     }
 }

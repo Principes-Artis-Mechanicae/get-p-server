@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.like.project;
 
 import es.princip.getp.application.like.project.port.out.CountProjectLikePort;
-import es.princip.getp.common.util.QueryDslSupport;
+import es.princip.getp.persistence.support.QueryDslSupport;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;

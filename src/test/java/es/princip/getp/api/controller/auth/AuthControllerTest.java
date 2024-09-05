@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.auth;
 
-import es.princip.getp.api.controller.ControllerTest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.auth.dto.request.LoginRequest;
 import es.princip.getp.api.controller.auth.dto.response.Token;
 import es.princip.getp.application.auth.service.AuthService;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.refreshTokenHeaderDescriptor;
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
-import static es.princip.getp.fixture.member.EmailFixture.EMAIL;
+import static es.princip.getp.fixture.common.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.member.PasswordFixture.PASSWORD;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;

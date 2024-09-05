@@ -1,7 +1,7 @@
 package es.princip.getp.api.security.details;
 
 import es.princip.getp.application.member.port.out.LoadMemberPort;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +16,6 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        return new PrincipalDetails(loadMemberPort.loadBy(Email.of(username)));
+        return new PrincipalDetails(loadMemberPort.loadBy(Email.from(username)));
     }
 }

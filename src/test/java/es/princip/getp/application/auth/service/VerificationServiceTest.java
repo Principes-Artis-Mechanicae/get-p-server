@@ -2,7 +2,7 @@ package es.princip.getp.application.auth.service;
 
 import es.princip.getp.application.auth.exception.IncorrectVerificationCodeException;
 import es.princip.getp.application.auth.exception.NotFoundVerificationException;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static es.princip.getp.fixture.auth.EmailVerificationFixture.emailVerification;
-import static es.princip.getp.fixture.member.EmailFixture.email;
+import static es.princip.getp.fixture.common.EmailFixture.email;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

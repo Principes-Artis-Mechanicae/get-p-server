@@ -4,7 +4,7 @@ import es.princip.getp.application.auth.exception.FailedVerificationCodeSendingE
 import es.princip.getp.application.auth.service.VerificationCodeSender;
 import es.princip.getp.application.mail.command.SendMailCommand;
 import es.princip.getp.application.mail.port.in.SendMailUseCase;
-import es.princip.getp.domain.member.model.Email;
+import es.princip.getp.domain.common.model.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;

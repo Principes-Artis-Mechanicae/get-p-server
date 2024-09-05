@@ -1,6 +1,6 @@
 package es.princip.getp.domain.like.people.model;
 
-import es.princip.getp.domain.BaseEntity;
+import es.princip.getp.domain.support.BaseEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;

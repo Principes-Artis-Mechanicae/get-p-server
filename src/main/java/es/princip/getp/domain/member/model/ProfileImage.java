@@ -1,6 +1,6 @@
 package es.princip.getp.domain.member.model;
 
-import es.princip.getp.domain.BaseModel;
+import es.princip.getp.domain.support.BaseModel;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class ProfileImage extends BaseModel {
         validate();
     }
 
-    public static ProfileImage of(final String url) {
+    public static ProfileImage from(final String url) {
         return new ProfileImage(url);
     }
 }
