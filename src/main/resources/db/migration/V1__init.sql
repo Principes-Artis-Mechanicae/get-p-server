@@ -23,7 +23,7 @@ create table file_log
     primary key (file_log_id)
 );
 
-create table if not exists member
+create table member
 (
     member_id         bigint auto_increment,
     email             varchar(255)                                                      null,
