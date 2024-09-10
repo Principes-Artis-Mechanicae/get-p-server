@@ -19,10 +19,9 @@ public class ProjectLike extends BaseEntity {
         final Long id,
         final Long peopleId,
         final Long projectId,
-        final LocalDateTime createdAt,
-        final LocalDateTime updatedAt
+        final LocalDateTime createdAt
     ) {
-        super(createdAt, updatedAt);
+        super(createdAt, null);
 
         this.id = id;
         this.peopleId = peopleId;
