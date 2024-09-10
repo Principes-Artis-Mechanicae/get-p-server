@@ -46,6 +46,8 @@ dependencies {
 
     // Database
     runtimeOnly 'com.mysql:mysql-connector-j:9.0.0'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-mysql'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
