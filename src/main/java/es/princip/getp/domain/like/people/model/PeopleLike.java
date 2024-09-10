@@ -19,10 +19,9 @@ public class PeopleLike extends BaseEntity {
         final Long id,
         final Long clientId,
         final Long peopleId,
-        final LocalDateTime createdAt,
-        final LocalDateTime updatedAt
+        final LocalDateTime createdAt
     ) {
-        super(createdAt, updatedAt);
+        super(createdAt, null);
 
         this.id = id;
         this.clientId = clientId;
