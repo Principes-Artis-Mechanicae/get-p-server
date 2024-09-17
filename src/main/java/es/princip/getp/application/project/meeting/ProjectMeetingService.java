@@ -8,6 +8,7 @@ import es.princip.getp.application.project.meeting.exception.NotApplicantExcepti
 import es.princip.getp.application.project.meeting.exception.NotClientOfProjectException;
 import es.princip.getp.application.project.meeting.port.out.CheckProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
@@ -37,7 +38,7 @@ public class ProjectMeetingService {
      */
     @Transactional
     public Long scheduleMeeting(final ScheduleMeetingCommand command) {
-        final People people = loadPeoplePort.loadBy(command.applicantId());
+        final People people = loadPeoplePort.loadByPeopleId(command.applicantId());
         final Project project = loadProjectPort.loadBy(command.projectId());
 
         checkMemberIsClientOfProject(command.memberId(), command.projectId());
@@ -58,8 +59,8 @@ public class ProjectMeetingService {
         return meetingId;
     }
 
-    private void checkMemberIsClientOfProject(final Long memberId, final Long projectId) {
-        if (!checkProjectMeetingPort.existsApplicantByProjectIdAndMemberId(projectId, memberId)) {
+    private void checkMemberIsClientOfProject(final MemberId memberId, final Long projectId) {
+        if (!checkProjectMeetingPort.existsApplicantBy(memberId, projectId)) {
             throw new NotClientOfProjectException();
         }
     }

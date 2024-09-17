@@ -5,6 +5,7 @@ import es.princip.getp.application.people.mapper.PeopleDataMapper;
 import es.princip.getp.application.people.port.in.RegisterPeopleProfileUseCase;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.people.port.out.UpdatePeoplePort;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleProfileData;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class RegisterPeopleProfileService implements RegisterPeopleProfileUseCas
 
     @Transactional
     public void register(final RegisterPeopleProfileCommand command) {
-        final Long memberId = command.memberId();
+        final MemberId memberId = command.memberId();
         final People people = loadPeoplePort.loadBy(memberId);
         final PeopleProfileData data = peopleDataMapper.mapToData(command);
         people.registerProfile(data);

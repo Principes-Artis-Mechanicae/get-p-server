@@ -5,6 +5,7 @@ import es.princip.getp.application.storage.exception.NotSupportedExtensionExcept
 import es.princip.getp.application.storage.port.in.UploadFileUseCase;
 import es.princip.getp.application.storage.port.out.LogFilePort;
 import es.princip.getp.application.storage.port.out.StoreFilePort;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.infrastructure.adapter.storage.exception.FailedFileSaveException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ class UploadFileService implements UploadFileUseCase {
     @Override
     @Transactional
     public URI upload(final UploadFileCommand command) {
-        final Long memberId = command.memberId();
+        final MemberId memberId = command.memberId();
         final MultipartFile file = command.file();
         validateFile(file);
         final FileLog fileLog = logFilePort.log(FileLog.of(memberId, file));

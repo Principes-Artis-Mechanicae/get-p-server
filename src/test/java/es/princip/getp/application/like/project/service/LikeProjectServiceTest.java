@@ -5,6 +5,7 @@ import es.princip.getp.application.like.project.port.out.CheckProjectLikePort;
 import es.princip.getp.application.like.project.port.out.SaveProjectLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.domain.project.commission.model.Project;
@@ -32,7 +33,7 @@ public class LikeProjectServiceTest {
     @Mock private SaveProjectLikePort saveProjectLikePort;
     @InjectMocks private LikeProjectService likeProjectService;
 
-    private final Long memberId = 1L;
+    private final MemberId memberId = new MemberId(1L);
     private final Long peopleId = 1L;
     private final Long clientId = 1L;
     private final Long projectId = 1L;

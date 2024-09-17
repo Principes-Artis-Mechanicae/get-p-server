@@ -7,6 +7,7 @@ import es.princip.getp.application.like.project.port.out.SaveProjectLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.like.project.model.ProjectLike;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.commission.model.Project;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ class LikeProjectService implements LikeProjectUseCase {
      * @param projectId 좋아요를 누를 프로젝트 ID
      */
     @Transactional
-    public void like(final Long memberId, final Long projectId) {
+    public void like(final MemberId memberId, final Long projectId) {
         final People people = loadPeoplePort.loadBy(memberId);
         // TODO: 조회 성능 개선 필요
         final Project project = loadProjectPort.loadBy(projectId);

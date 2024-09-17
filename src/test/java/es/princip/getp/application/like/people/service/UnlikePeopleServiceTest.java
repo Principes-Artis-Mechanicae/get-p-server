@@ -8,6 +8,7 @@ import es.princip.getp.application.like.people.port.out.LoadPeopleLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.like.people.model.PeopleLike;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.fixture.client.ClientFixture;
@@ -35,7 +36,7 @@ class UnlikePeopleServiceTest {
     @InjectMocks private UnlikePeopleService likePeopleService;
 
     private final Long clientId = 1L;
-    private final Long memberId = 1L;
+    private final MemberId memberId = new MemberId(1L);
     private final Long peopleId = 1L;
     
     private final People people = PeopleFixture.people(memberId, PeopleType.INDIVIDUAL);    
@@ -44,7 +45,7 @@ class UnlikePeopleServiceTest {
     @BeforeEach
     void setUp() {
         given(loadPeoplePort.loadByPeopleId(peopleId)).willReturn(people);
-        Client client = spy(ClientFixture.client(clientId));
+        Client client = spy(ClientFixture.client(memberId));
         doReturn(clientId).when(client).getClientId();
         given(loadClientPort.loadBy(memberId)).willReturn(client);
     }

@@ -5,10 +5,11 @@ import es.princip.getp.application.client.command.RegisterClientCommand;
 import es.princip.getp.application.people.command.EditPeopleCommand;
 import es.princip.getp.application.people.command.RegisterPeopleCommand;
 import es.princip.getp.domain.common.model.PhoneNumber;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.Nickname;
 
 public record EditMemberCommand(
-    Long memberId,
+    MemberId memberId,
     Nickname nickname,
     PhoneNumber phoneNumber
 ) {
