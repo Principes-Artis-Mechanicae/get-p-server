@@ -1,12 +1,13 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
-import es.princip.getp.persistence.support.DataLoader;
-import es.princip.getp.persistence.support.PersistenceAdapterTest;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.persistence.adapter.people.PeopleDataLoader;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
 import es.princip.getp.persistence.adapter.project.commission.ProjectDataLoader;
+import es.princip.getp.persistence.support.DataLoader;
+import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterEach;
@@ -49,12 +50,11 @@ public class FindAppliedProjectAdapterTest extends PersistenceAdapterTest {
         dataLoaders.forEach(DataLoader::teardown);
     }
 
-
-    final Pageable pageable = PageRequest.of(0, PAGE_SIZE);
-
     @Test
     void 지원한_프로젝트_목록을_조회한다() {
-        final Page<AppliedProjectCardResponse> response = adapter.findBy(1L, pageable);
+        final MemberId memberId = new MemberId(1L);
+        final Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        final Page<AppliedProjectCardResponse> response = adapter.findBy(memberId, pageable);
 
         assertThat(response.getContent()).allSatisfy(content ->
             assertThat(content).usingRecursiveComparison().isNotNull()

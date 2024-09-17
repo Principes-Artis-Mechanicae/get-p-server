@@ -1,10 +1,11 @@
 package es.princip.getp.persistence.adapter.people;
 
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleType;
-import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.adapter.member.MemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
+import es.princip.getp.persistence.support.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +14,7 @@ import java.util.stream.LongStream;
 
 import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.fixture.member.PasswordFixture.PASSWORD;
-import static es.princip.getp.fixture.people.PeopleFixture.peopleList;
+import static es.princip.getp.fixture.people.PeopleFixture.people;
 
 @RequiredArgsConstructor
 public class PeopleDataLoader implements DataLoader {
@@ -32,18 +33,22 @@ public class PeopleDataLoader implements DataLoader {
             .toList();
         memberList.forEach(entityManager::persist);
 
-        final Long memberIdBias = memberList.stream()
+        final long memberIdBias = memberList.stream()
             .findFirst()
             .map(MemberJpaEntity::getMemberId)
             .orElse(1L);
         final int individualSize = size / 2;
         final int teamSize = (size % 2) == 0 ? size / 2 : (size / 2) + 1;
 
-        final List<PeopleJpaEntity> individualList = peopleList(individualSize, memberIdBias, PeopleType.INDIVIDUAL)
+        final List<PeopleJpaEntity> individualList = LongStream.range(0, individualSize)
+            .mapToObj(i -> people(new MemberId(memberIdBias + i), PeopleType.INDIVIDUAL))
+            .toList()
             .stream()
             .map(mapper::mapToJpa)
             .toList();
-        final List<PeopleJpaEntity> teamList = peopleList(teamSize, size + memberIdBias, PeopleType.TEAM)
+        final List<PeopleJpaEntity> teamList = LongStream.range(0, teamSize)
+            .mapToObj(i -> people(new MemberId(size + memberIdBias + i), PeopleType.TEAM))
+            .toList()
             .stream()
             .map(mapper::mapToJpa)
             .toList();

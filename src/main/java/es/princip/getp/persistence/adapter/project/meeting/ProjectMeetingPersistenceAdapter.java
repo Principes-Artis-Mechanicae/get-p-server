@@ -4,6 +4,7 @@ import es.princip.getp.application.project.meeting.port.out.CheckProjectMeetingP
 import es.princip.getp.application.project.meeting.port.out.LoadProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.UpdateProjectMeetingPort;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
 import es.princip.getp.persistence.adapter.project.meeting.model.ProjectMeetingJpaEntity;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ class ProjectMeetingPersistenceAdapter implements
     }
 
     @Override
-    public boolean existsApplicantByProjectIdAndMemberId(final Long memberId, final Long projectId) {
-        return repository.existsApplicantByProjectIdAndMemberId(projectId, memberId);
+    public boolean existsApplicantBy(final MemberId memberId, final Long projectId) {
+        return repository.existsApplicantBy(projectId, memberId);
     }
 }

@@ -9,9 +9,11 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 interface ClientPersistenceMapper {
 
+    @Mapping(source = "memberId", target = "memberId.value")
     @Mapping(source = "email", target = "email.value")
     Client mapToDomain(ClientJpaEntity clientJpaEntity);
 
+    @Mapping(target = "memberId", source = "memberId.value")
     @Mapping(target = "email", source = "email.value")
     ClientJpaEntity mapToJpa(Client client);
 

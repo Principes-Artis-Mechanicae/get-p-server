@@ -11,6 +11,7 @@ import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopl
 import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
 import es.princip.getp.application.people.port.out.FindMyPeoplePort;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.mapper.PeopleQueryMapper;
@@ -162,7 +163,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
     }
 
     @Override
-    public MyPeopleResponse findBy(final Long memberId) {
+    public MyPeopleResponse findBy(final MemberId memberId) {
         return Optional.ofNullable(
             queryFactory.select(
                 Projections.constructor(
@@ -181,17 +182,17 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
             )
             .from(people)
             .join(member).on(people.memberId.eq(member.memberId))
-            .where(people.memberId.eq(memberId))
+            .where(people.memberId.eq(memberId.getValue()))
             .fetchOne()
         ).orElseThrow(NotFoundPeopleException::new);
     }
 
     @Override
-    public DetailPeopleProfileResponse findDetailProfileBy(final Long memberId) {
+    public DetailPeopleProfileResponse findDetailProfileBy(final MemberId memberId) {
         final PeopleProfileJpaVO profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
-                    .where(people.memberId.eq(memberId)
+                    .where(people.memberId.eq(memberId.getValue())
                         .and(people.profile.isNotNull()))
                     .fetchOne()
             )

@@ -1,6 +1,7 @@
 package es.princip.getp.persistence.adapter.people;
 
 import es.princip.getp.application.people.port.out.*;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
@@ -21,13 +22,13 @@ class PeoplePersistenceAdapter implements
     private final PeopleJpaRepository peopleJpaRepository;
 
     @Override
-    public boolean existsBy(final Long memberId) {
-        return peopleJpaRepository.existsByMemberId(memberId);
+    public boolean existsBy(final MemberId memberId) {
+        return peopleJpaRepository.existsByMemberId(memberId.getValue());
     }
 
     @Override
-    public People loadBy(final Long memberId) {
-        final PeopleJpaEntity peopleJpaEntity = peopleJpaRepository.findByMemberId(memberId)
+    public People loadBy(final MemberId memberId) {
+        final PeopleJpaEntity peopleJpaEntity = peopleJpaRepository.findByMemberId(memberId.getValue())
             .orElseThrow(NotFoundPeopleException::new);
         return mapper.mapToDomain(peopleJpaEntity);
     }

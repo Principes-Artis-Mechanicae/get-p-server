@@ -4,6 +4,7 @@ import com.querydsl.core.Tuple;
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +61,7 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
     }
 
     @Override
-    public ClientResponse findClientByMemberId(final Long memberId) {
+    public ClientResponse findClientBy(final MemberId memberId) {
         final Tuple result = queryFactory.select(
                 client.clientId,
                 member.nickname,
@@ -74,7 +75,7 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
             )
             .from(client)
             .join(member).on(client.memberId.eq(member.memberId))
-            .where(client.memberId.eq(memberId))
+            .where(client.memberId.eq(memberId.getValue()))
             .fetchOne();
         validateTuple(result);
         return mapToClientResponse(result);

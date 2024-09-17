@@ -1,11 +1,12 @@
 package es.princip.getp.persistence.adapter.project.commission;
 
 import es.princip.getp.api.controller.project.query.dto.CommissionedProjectCardResponse;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
-import es.princip.getp.persistence.support.DataLoader;
-import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import es.princip.getp.persistence.adapter.client.ClientDataLoader;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
+import es.princip.getp.persistence.support.DataLoader;
+import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterEach;
@@ -49,12 +50,13 @@ class FindCommissionedProjectAdapterTest extends PersistenceAdapterTest {
     @Nested
     class 의뢰한_프로젝트_목록_페이지를_조회한다 {
 
-        final Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        private final MemberId memberId = new MemberId(1L);
+        private final Pageable pageable = PageRequest.of(0, PAGE_SIZE);
 
         @Test
         void 만료된_프로젝트도_보는_경우() {
             final Page<CommissionedProjectCardResponse> response = adapter.findBy(
-                1L,
+                memberId,
                 true,
                 pageable
             );
@@ -67,7 +69,7 @@ class FindCommissionedProjectAdapterTest extends PersistenceAdapterTest {
         @Test
         void 만료된_프로젝트는_보지_않는_경우() {
             final Page<CommissionedProjectCardResponse> response = adapter.findBy(
-                1L,
+                memberId,
                 false,
                 pageable
             );
