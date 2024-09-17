@@ -1,9 +1,10 @@
 package es.princip.getp.domain.people.model;
 
-import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.common.model.Email;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.exception.AlreadyRegisteredPeopleProfileException;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
+import es.princip.getp.domain.support.BaseEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
@@ -13,13 +14,13 @@ import java.time.LocalDateTime;
 public class People extends BaseEntity {
 
     private Long id;
-    @NotNull private Long memberId;
+    @NotNull private MemberId memberId;
     private PeopleInfo info;
     private PeopleProfile profile;
 
     public People(
         final Long id,
-        final Long memberId,
+        final MemberId memberId,
         final PeopleInfo info,
         final PeopleProfile profile,
         final LocalDateTime createdAt,
@@ -35,7 +36,7 @@ public class People extends BaseEntity {
         validate();
     }
 
-    public static People of(final Long memberId, final PeopleInfo info) {
+    public static People of(final MemberId memberId, final PeopleInfo info) {
         return new People(null, memberId, info, null, null, null);
     }
 

@@ -1,10 +1,10 @@
 package es.princip.getp.domain.member.model;
 
-import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.common.model.PhoneNumber;
 import es.princip.getp.domain.member.exception.NotAgreedAllRequiredServiceTermException;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
+import es.princip.getp.domain.support.BaseEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Getter
 public class Member extends BaseEntity {
 
-    private Long memberId;
+    private MemberId memberId;
     @NotNull private Email email;
     @NotNull private Password password;
     @NotNull private MemberType memberType;
@@ -31,7 +31,7 @@ public class Member extends BaseEntity {
 
     @Builder
     public Member(
-        final Long memberId,
+        final MemberId memberId,
         final Email email,
         final Password password,
         final MemberType memberType,
