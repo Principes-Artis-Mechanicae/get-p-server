@@ -1,6 +1,5 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.people.query.description.DetailPeopleResponseDescription;
 import es.princip.getp.api.controller.people.query.description.PublicDetailPeopleResponseDescription;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
@@ -12,7 +11,9 @@ import es.princip.getp.api.controller.people.query.dto.peopleProfile.PublicDetai
 import es.princip.getp.api.docs.PaginationDescription;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -46,12 +47,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class PeopleQueryControllerTest extends ControllerTest {
 
-    @Autowired
-    private GetPeopleQuery getPeopleQuery;
+    @Autowired private GetPeopleQuery getPeopleQuery;
 
     @DisplayName("사용자는 피플 목록을 조회할 수 있다.")
     @Nested
     class GetCardPeoplePage {
+
+        private final MemberId memberId = new MemberId(1L);
 
         private final int page = 0;
         private final int size = 3;
@@ -71,7 +73,7 @@ class PeopleQueryControllerTest extends ControllerTest {
                 new CardPeopleResponse(
                     1L,
                     NICKNAME,
-                    profileImage(1L).getUrl(),
+                    profileImage(memberId).getUrl(),
                     PeopleType.INDIVIDUAL,
                     0,
                     0,
@@ -112,6 +114,7 @@ class PeopleQueryControllerTest extends ControllerTest {
     @Nested
     class GetPeople {
 
+        private final MemberId memberId = new MemberId(1L);
         private final Long peopleId = 1L;
 
         private ResultActions perform() throws Exception {
@@ -128,7 +131,7 @@ class PeopleQueryControllerTest extends ControllerTest {
             PublicDetailPeopleResponse response = new PublicDetailPeopleResponse(
                 peopleId,
                 NICKNAME,
-                profileImage(1L).getUrl(),
+                profileImage(memberId).getUrl(),
                 PeopleType.INDIVIDUAL,
                 0,
                 0,
@@ -154,7 +157,7 @@ class PeopleQueryControllerTest extends ControllerTest {
             DetailPeopleResponse response = new DetailPeopleResponse(
                 1L,
                 NICKNAME,
-                profileImage(1L).getUrl(),
+                profileImage(memberId).getUrl(),
                 PeopleType.INDIVIDUAL,
                 0,
                 0,

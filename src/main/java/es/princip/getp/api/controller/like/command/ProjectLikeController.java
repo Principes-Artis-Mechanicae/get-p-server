@@ -1,10 +1,11 @@
 package es.princip.getp.api.controller.like.command;
 
+import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.application.like.project.port.in.LikeProjectUseCase;
 import es.princip.getp.application.like.project.port.in.UnlikeProjectUseCase;
+import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +33,8 @@ public class ProjectLikeController {
         @PathVariable final Long projectId,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
-        likeProjectUseCase.like(projectId, memberId);
+        final MemberId memberId = principalDetails.getMember().getMemberId();
+        likeProjectUseCase.like(memberId, projectId);
         return ApiResponse.success(HttpStatus.CREATED);
     }
 
@@ -49,8 +50,8 @@ public class ProjectLikeController {
         @PathVariable final Long projectId,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
-        unlikeProjectUseCase.unlike(projectId, memberId);
+        final MemberId memberId = principalDetails.getMember().getMemberId();
+        unlikeProjectUseCase.unlike(memberId, projectId);
         return ApiResponse.success(HttpStatus.NO_CONTENT);
     }
 }

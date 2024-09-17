@@ -4,6 +4,7 @@ import es.princip.getp.application.client.port.in.RemoveClientUseCase;
 import es.princip.getp.application.client.port.out.DeleteClientPort;
 import es.princip.getp.application.client.port.out.LoadClientPort;
 import es.princip.getp.domain.client.model.Client;
+import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ public class RemoveRegisterClientService implements RemoveClientUseCase {
 
     @Override
     @Transactional
-    public void remove(Long memberId) {
+    public void remove(MemberId memberId) {
         final Client client = loadClientPort.loadBy(memberId);
         deleteClientPort.delete(client);
     }

@@ -1,12 +1,13 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.people.query.description.DetailPeopleProfileResponseDescription;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.port.in.GetMyPeopleQuery;
+import es.princip.getp.domain.member.model.MemberId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -29,8 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class MyPeopleProfileQueryControllerTest extends ControllerTest {
 
-    @Autowired
-    private GetMyPeopleQuery getMyPeopleQuery;
+    @Autowired private GetMyPeopleQuery getMyPeopleQuery;
 
     private static final String MY_PEOPLE_PROFILE_URI = "/people/me/profile";
 
@@ -46,8 +46,8 @@ class MyPeopleProfileQueryControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
         public void getMyPeopleProfile(PrincipalDetails principalDetails) throws Exception {
-            Long memberId = principalDetails.getMember().getMemberId();
-            DetailPeopleProfileResponse response = new DetailPeopleProfileResponse(
+            final MemberId memberId = principalDetails.getMember().getMemberId();
+            final DetailPeopleProfileResponse response = new DetailPeopleProfileResponse(
                 introduction(),
                 activityArea(),
                 education(),
@@ -55,7 +55,7 @@ class MyPeopleProfileQueryControllerTest extends ControllerTest {
                 hashtagsResponse(),
                 portfoliosResponse()
             );
-            given(getMyPeopleQuery.getDetailProfileByMemberId(memberId)).willReturn(response);
+            given(getMyPeopleQuery.getDetailProfileBy(memberId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

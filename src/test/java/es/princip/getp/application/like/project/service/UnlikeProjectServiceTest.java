@@ -7,6 +7,7 @@ import es.princip.getp.application.like.project.port.out.LoadProjectLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.like.project.model.ProjectLike;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.domain.project.commission.model.Project;
@@ -35,7 +36,7 @@ public class UnlikeProjectServiceTest {
     @Mock private DeleteProjectLikePort deleteProjectLikePort;
     @InjectMocks private UnlikeProjectService unlikeProjectService;
 
-    private final Long memberId = 1L;
+    private final MemberId memberId = new MemberId(1L);
     private final Long peopleId = 1L;
     private final Long clientId = 1L;
     private final Long projectId = 1L;

@@ -3,6 +3,7 @@ package es.princip.getp.persistence.adapter.project.apply;
 import com.querydsl.jpa.impl.JPAQuery;
 import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.application.project.apply.port.out.FindAppliedProjectPort;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.persistence.adapter.people.model.QPeopleJpaEntity;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
@@ -31,7 +32,7 @@ class FindAppliedProjectAdapter extends QueryDslSupport implements FindAppliedPr
     private final ProjectPersistenceMapper mapper;
 
     @Override
-    public Page<AppliedProjectCardResponse> findBy(final Long memberId, final Pageable pageable) {
+    public Page<AppliedProjectCardResponse> findBy(final MemberId memberId, final Pageable pageable) {
         final List<Project> projects = getContent(pageable, memberId);
         final Long[] projectIds = toProjectIds(projects);
         final Map<Long, Long> projectApplicationCounts
@@ -44,14 +45,14 @@ class FindAppliedProjectAdapter extends QueryDslSupport implements FindAppliedPr
         );
     }
 
-    private JPAQuery<?> buildQuery(final Long memberId) {
+    private JPAQuery<?> buildQuery(final MemberId memberId) {
         return queryFactory.from(project)
             .join(projectApplication).on(projectApplication.projectId.eq(project.projectId))
             .join(people).on(people.id.eq(projectApplication.applicantId))
-            .where(people.memberId.eq(memberId));
+            .where(people.memberId.eq(memberId.getValue()));
     }
 
-    private List<Project> getContent(final Pageable pageable, final Long memberId) {
+    private List<Project> getContent(final Pageable pageable, final MemberId memberId) {
         return buildQuery(memberId).select(project)
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
@@ -61,7 +62,7 @@ class FindAppliedProjectAdapter extends QueryDslSupport implements FindAppliedPr
             .toList();
     }
 
-    private JPAQuery<Long> buildCountQuery(final Long memberId) {
+    private JPAQuery<Long> buildCountQuery(final MemberId memberId) {
         return buildQuery(memberId).select(project.count());
     }
 

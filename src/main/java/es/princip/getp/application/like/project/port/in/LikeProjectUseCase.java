@@ -1,6 +1,8 @@
 package es.princip.getp.application.like.project.port.in;
 
+import es.princip.getp.domain.member.model.MemberId;
+
 public interface LikeProjectUseCase {
 
-    void like(Long memberId, Long peopleId);
+    void like(MemberId memberId, Long peopleId);
 }

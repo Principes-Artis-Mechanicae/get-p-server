@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import es.princip.getp.api.controller.project.query.dto.CommissionedProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.MyProjectSearchOrder;
 import es.princip.getp.application.project.commission.port.out.FindCommissionedProjectPort;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.persistence.adapter.client.QClientJpaEntity;
@@ -37,7 +38,7 @@ class FindCommissionedProjectAdapter extends QueryDslSupport implements FindComm
 
     @Override
     public Page<CommissionedProjectCardResponse> findBy(
-        final Long memberId,
+        final MemberId memberId,
         final Boolean cancelled,
         final Pageable pageable
     ) {
@@ -65,17 +66,17 @@ class FindCommissionedProjectAdapter extends QueryDslSupport implements FindComm
             .toList();
     }
 
-    private JPAQuery<Long> getMyProjectsCountQuery(final Long memberId, final Boolean cancelled) {
+    private JPAQuery<Long> getMyProjectsCountQuery(final MemberId memberId, final Boolean cancelled) {
         return queryFactory.select(project.count())
             .from(project)
             .join(client).on(project.clientId.eq(client.clientId))
-            .where(client.memberId.eq(memberId), cancelledFilter(cancelled));
+            .where(client.memberId.eq(memberId.getValue()), cancelledFilter(cancelled));
     }
 
-    private List<Project> getMyProjects(final Pageable pageable, final Long memberId, final Boolean cancelled) {
+    private List<Project> getMyProjects(final Pageable pageable, final MemberId memberId, final Boolean cancelled) {
         return queryFactory.selectFrom(project)
             .join(client).on(project.clientId.eq(client.clientId))
-            .where(client.memberId.eq(memberId), cancelledFilter(cancelled))
+            .where(client.memberId.eq(memberId.getValue()), cancelledFilter(cancelled))
             .orderBy(orderSpecifiersFromSort(pageable.getSort()))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())

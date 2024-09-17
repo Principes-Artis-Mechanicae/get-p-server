@@ -1,7 +1,8 @@
 package es.princip.getp.domain.client.model;
 
-import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.common.model.Email;
+import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.support.BaseEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ public class Client extends BaseEntity {
     @NotNull private Email email;
     private Address address; //TODO: 주소기반산업지원서비스 API로 확장 예정
     private BankAccount bankAccount;
-    @NotNull private Long memberId;
+    @NotNull private MemberId memberId;
 
     @Builder
     public Client(
@@ -23,7 +24,7 @@ public class Client extends BaseEntity {
         final Email email,
         final Address address,
         final BankAccount bankAccount,
-        final Long memberId,
+        final MemberId memberId,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt
     ) {

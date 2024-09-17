@@ -1,13 +1,14 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.project.query.description.AppliedProjectCardResponseDescription;
 import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
 import es.princip.getp.api.docs.PaginationDescription;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.apply.port.in.GetAppliedProjectQuery;
 import es.princip.getp.domain.common.model.Duration;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +25,6 @@ import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeade
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
@@ -73,7 +73,7 @@ public class AppliedProjectQueryControllerTest extends ControllerTest {
                 )
             );
             final Page<AppliedProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
-            given(getAppliedProjectQuery.getPagedCards(anyLong(), any(Pageable.class)))
+            given(getAppliedProjectQuery.getPagedCards(any(MemberId.class), any(Pageable.class)))
                 .willReturn(page);
 
             perform()

@@ -1,6 +1,8 @@
 package es.princip.getp.application.project.meeting.port.out;
 
+import es.princip.getp.domain.member.model.MemberId;
+
 public interface CheckProjectMeetingPort {
 
-    boolean existsApplicantByProjectIdAndMemberId(Long memberId, Long projectId);
+    boolean existsApplicantBy(MemberId memberId, Long projectId);
 }

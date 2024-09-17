@@ -1,11 +1,12 @@
 package es.princip.getp.api.controller.project.query;
 
+import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
+import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.support.dto.PageResponse;
-import es.princip.getp.api.controller.project.query.dto.AppliedProjectCardResponse;
-import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.application.project.apply.port.in.GetAppliedProjectQuery;
+import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +33,7 @@ public class AppliedProjectQueryController {
         @PageableDefault(sort = "projectId", direction = Sort.Direction.DESC) final Pageable pageable,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         final Page<AppliedProjectCardResponse> page = getAppliedProjectQuery.getPagedCards(memberId, pageable);
         final PageResponse<AppliedProjectCardResponse> response = PageResponse.from(page);
         return ApiResponse.success(HttpStatus.OK, response);

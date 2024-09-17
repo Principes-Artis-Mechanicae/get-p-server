@@ -1,13 +1,14 @@
 package es.princip.getp.api.controller.project.command;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.project.command.description.ScheduleMeetingRequestDescription;
 import es.princip.getp.api.controller.project.command.description.ScheduleMeetingResponseDescription;
 import es.princip.getp.api.controller.project.command.dto.request.ScheduleMeetingRequest;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.meeting.ProjectMeetingService;
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -28,18 +29,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ProjectMeetingControllerTest extends ControllerTest {
 
-    @Autowired
-    private ProjectCommandMapper projectCommandMapper;
-
-    @Autowired
-    private ProjectMeetingService projectMeetingService;
+    @Autowired private ProjectCommandMapper projectCommandMapper;
+    @Autowired private ProjectMeetingService projectMeetingService;
     
     @Nested
     @DisplayName("프로젝트 미팅 신청")
     class ScheduleMeeting {
 
         private final Long projectId = 1L;
-        private final Long memberId = 1L;
+        private final MemberId memberId = new MemberId(1L);
         private final Long meetingId = 1L;
         private final Long applicantId = 1L;
 

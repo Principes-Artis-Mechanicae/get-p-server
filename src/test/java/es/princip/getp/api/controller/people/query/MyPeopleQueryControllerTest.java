@@ -1,12 +1,13 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.people.query.description.MyPeopleResponseDescription;
 import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.port.in.GetMyPeopleQuery;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -30,8 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class MyPeopleQueryControllerTest extends ControllerTest {
 
-    @Autowired
-    private GetMyPeopleQuery getMyPeopleQuery;
+    @Autowired private GetMyPeopleQuery getMyPeopleQuery;
 
     @Nested
     @DisplayName("내 피플 정보 조회")
@@ -46,20 +46,20 @@ class MyPeopleQueryControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @DisplayName("피플은 자신의 정보를 조회할 수 있다.")
         public void getMyPeople(PrincipalDetails principalDetails) throws Exception {
-            Long memberId = principalDetails.getMember().getMemberId();
+            final MemberId memberId = principalDetails.getMember().getMemberId();
             MyPeopleResponse response = new MyPeopleResponse(
                 1L,
                 EMAIL,
                 NICKNAME,
                 PHONE_NUMBER,
-                profileImage(1L).getUrl(),
+                profileImage(memberId).getUrl(),
                 PeopleType.INDIVIDUAL,
                 0,
                 0,
                 LocalDateTime.now(),
                 LocalDateTime.now()
             );
-            given(getMyPeopleQuery.getByMemberId(memberId)).willReturn(response);
+            given(getMyPeopleQuery.getBy(memberId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

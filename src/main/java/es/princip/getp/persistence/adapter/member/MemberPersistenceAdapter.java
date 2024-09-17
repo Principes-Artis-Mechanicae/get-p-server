@@ -6,6 +6,7 @@ import es.princip.getp.application.member.port.out.SaveMemberPort;
 import es.princip.getp.application.member.port.out.UpdateMemberPort;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +26,8 @@ public class MemberPersistenceAdapter implements SaveMemberPort, LoadMemberPort,
     }
 
     @Override
-    public Member loadBy(final Long memberId) {
-        final MemberJpaEntity memberJpaEntity = memberJpaRepository.findById(memberId)
+    public Member loadBy(final MemberId memberId) {
+        final MemberJpaEntity memberJpaEntity = memberJpaRepository.findById(memberId.getValue())
             .orElseThrow(NotFoundMemberException::new);
         return mapper.mapToDomain(memberJpaEntity);
     }
@@ -39,7 +40,7 @@ public class MemberPersistenceAdapter implements SaveMemberPort, LoadMemberPort,
 
     @Override
     public void update(final Member member) {
-        if (!memberJpaRepository.existsById(member.getMemberId())) {
+        if (!memberJpaRepository.existsById(member.getMemberId().getValue())) {
             throw new NotFoundMemberException();
         }
         save(member);

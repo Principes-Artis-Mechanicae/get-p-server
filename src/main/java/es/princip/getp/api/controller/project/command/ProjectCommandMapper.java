@@ -13,6 +13,7 @@ import es.princip.getp.application.project.commission.command.CommissionProjectC
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.URL;
+import es.princip.getp.domain.member.model.MemberId;
 import org.mapstruct.Mapper;
 
 @CommandMapper
@@ -22,11 +23,11 @@ import org.mapstruct.Mapper;
 )
 interface ProjectCommandMapper {
 
-    ApplyProjectCommand mapToCommand(Long memberId, Long projectId, ApplyProjectRequest request);
+    ApplyProjectCommand mapToCommand(MemberId memberId, Long projectId, ApplyProjectRequest request);
 
     AttachmentFile mapToAttachmentFile(URL url);
 
-    CommissionProjectCommand mapToCommand(Long memberId, CommissionProjectRequest request);
+    CommissionProjectCommand mapToCommand(MemberId memberId, CommissionProjectRequest request);
 
-    ScheduleMeetingCommand mapToCommand(Long memberId, Long projectId, ScheduleMeetingRequest request);
+    ScheduleMeetingCommand mapToCommand(MemberId memberId, Long projectId, ScheduleMeetingRequest request);
 }

@@ -8,6 +8,7 @@ import es.princip.getp.application.member.port.out.UpdateMemberPort;
 import es.princip.getp.application.storage.port.out.DeleteFilePort;
 import es.princip.getp.application.storage.port.out.StoreFilePort;
 import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.ProfileImage;
 import es.princip.getp.util.StringUtil;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ class ProfileImageService implements ProfileImageUseCase {
     @Override
     @Transactional
     public String registerProfileImage(final RegisterProfileImageCommand command) {
-        final Long memberId = command.memberId();
+        final MemberId memberId = command.memberId();
         final Member member = loadMemberPort.loadBy(memberId);
         if (member.hasProfileImage()) {
             deleteProfileImage(member.getProfileImage());

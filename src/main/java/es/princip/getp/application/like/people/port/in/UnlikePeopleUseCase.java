@@ -1,6 +1,8 @@
 package es.princip.getp.application.like.people.port.in;
 
+import es.princip.getp.domain.member.model.MemberId;
+
 public interface UnlikePeopleUseCase {
 
-    void unlike(Long memberId, Long peopleId);
+    void unlike(MemberId memberId, Long peopleId);
 }

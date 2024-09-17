@@ -4,6 +4,7 @@ import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.application.people.port.in.GetMyPeopleQuery;
 import es.princip.getp.application.people.port.out.FindMyPeoplePort;
+import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +17,12 @@ public class GetMyPeopleService implements GetMyPeopleQuery {
     private final FindMyPeoplePort findMyPeoplePort;
 
     @Override
-    public MyPeopleResponse getByMemberId(final Long memberId) {
+    public MyPeopleResponse getBy(final MemberId memberId) {
         return findMyPeoplePort.findBy(memberId);
     }
 
     @Override
-    public DetailPeopleProfileResponse getDetailProfileByMemberId(final Long memberId) {
+    public DetailPeopleProfileResponse getDetailProfileBy(final MemberId memberId) {
         return findMyPeoplePort.findDetailProfileBy(memberId);
     }
 }

@@ -8,6 +8,7 @@ import es.princip.getp.application.project.meeting.exception.NotApplicantExcepti
 import es.princip.getp.application.project.meeting.exception.NotClientOfProjectException;
 import es.princip.getp.application.project.meeting.port.out.CheckProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.domain.project.commission.model.Project;
@@ -45,7 +46,7 @@ class ProjectMeetingServiceTest {
 
     @InjectMocks private ProjectMeetingService projectMeetingService;
 
-    private final Long memberId = 1L;
+    private final MemberId memberId = new MemberId(1L);
     private final Long projectId = 1L;
     private final Long applicantId = 1L;
     private final Long meetingId = 1L;
@@ -54,13 +55,13 @@ class ProjectMeetingServiceTest {
 
     @BeforeEach
     void setUp() {
-        given(loadPeoplePort.loadBy(memberId)).willReturn(people);
+        given(loadPeoplePort.loadByPeopleId(applicantId)).willReturn(people);
         given(loadProjectPort.loadBy(projectId)).willReturn(project);
     }
 
     @Test
     void 의뢰자는_프로젝트_지원자에게_미팅을_신청할_수_있다() {
-        given(checkProjectMeetingPort.existsApplicantByProjectIdAndMemberId(projectId, memberId))
+        given(checkProjectMeetingPort.existsApplicantBy(memberId, projectId))
             .willReturn(true);
         given(checkProjectApplicationPort.existsBy(applicantId, projectId))
             .willReturn(true);
@@ -79,7 +80,7 @@ class ProjectMeetingServiceTest {
 
     @Test
     void 의뢰자는_자신이_의뢰한_프로젝트가_아니면_미팅을_신청할_수_없다() {
-        given(checkProjectMeetingPort.existsApplicantByProjectIdAndMemberId(projectId, memberId))
+        given(checkProjectMeetingPort.existsApplicantBy(memberId, projectId))
             .willReturn(false);
         
         final ScheduleMeetingCommand command = scheduleMeetingCommand(memberId, projectId, applicantId);
@@ -90,7 +91,7 @@ class ProjectMeetingServiceTest {
 
     @Test
     void 의뢰자는_프로젝트_지원자가_아닌_피플에게_미팅을_신청할_수_없다() {
-        given(checkProjectMeetingPort.existsApplicantByProjectIdAndMemberId(projectId, memberId))
+        given(checkProjectMeetingPort.existsApplicantBy(memberId, projectId))
             .willReturn(true);
         given(checkProjectApplicationPort.existsBy(applicantId, projectId))
             .willReturn(false);

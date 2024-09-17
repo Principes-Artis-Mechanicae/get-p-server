@@ -1,14 +1,15 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.support.dto.ApiResponse;
-import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.people.command.EditPeopleProfileCommand;
 import es.princip.getp.application.people.command.RegisterPeopleProfileCommand;
 import es.princip.getp.application.people.port.in.EditPeopleProfileUseCase;
 import es.princip.getp.application.people.port.in.RegisterPeopleProfileUseCase;
+import es.princip.getp.domain.member.model.MemberId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class MyPeopleProfileController {
         @RequestBody @Valid final RegisterPeopleProfileRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         final RegisterPeopleProfileCommand command = peopleCommandMapper.mapToCommand(memberId, request);
         registerPeopleProfileUseCase.register(command);
         return ApiResponse.success(HttpStatus.CREATED);
@@ -57,7 +58,7 @@ public class MyPeopleProfileController {
         @RequestBody @Valid final EditPeopleProfileRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         final EditPeopleProfileCommand command = peopleCommandMapper.mapToCommand(memberId, request);
         editPeopleProfileUseCase.edit(command);
         return ApiResponse.success(HttpStatus.OK);

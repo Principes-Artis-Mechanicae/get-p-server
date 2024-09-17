@@ -1,12 +1,10 @@
 package es.princip.getp.fixture.people;
 
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleInfo;
 import es.princip.getp.domain.people.model.PeopleProfileData;
 import es.princip.getp.domain.people.model.PeopleType;
-
-import java.util.List;
-import java.util.stream.LongStream;
 
 import static es.princip.getp.fixture.common.EmailFixture.email;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtags;
@@ -22,7 +20,7 @@ public class PeopleFixture {
         return new PeopleInfo(email(), peopleType);
     }
 
-    public static People people(Long memberId, PeopleType peopleType) {
+    public static People people(final MemberId memberId, final PeopleType peopleType) {
         final People people = People.of(memberId, peopleInfo(peopleType));
         final PeopleProfileData data = new PeopleProfileData(
             introduction(),
@@ -36,13 +34,7 @@ public class PeopleFixture {
         return people;
     }
 
-    public static People peopleWithoutProfile(Long memberId, PeopleType peopleType) {
+    public static People peopleWithoutProfile(final MemberId memberId, final PeopleType peopleType) {
         return People.of(memberId, peopleInfo(peopleType));
-    }
-
-    public static List<People> peopleList(int size, Long memberIdBias, PeopleType peopleType) {
-        return LongStream.range(0, size)
-            .mapToObj(i -> people(memberIdBias + i, peopleType))
-            .toList();
     }
 }

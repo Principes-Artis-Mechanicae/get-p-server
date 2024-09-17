@@ -1,10 +1,11 @@
 package es.princip.getp.api.controller.like.command;
 
+import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.application.like.people.port.in.LikePeopleUseCase;
 import es.princip.getp.application.like.people.port.in.UnlikePeopleUseCase;
+import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class PeopleLikeController {
         @PathVariable final Long peopleId,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         likePeopleUseCase.like(memberId, peopleId);
         return ApiResponse.success(HttpStatus.CREATED);
     }
@@ -49,7 +50,7 @@ public class PeopleLikeController {
         @PathVariable final Long peopleId,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         unlikePeopleUseCase.unlike(memberId, peopleId);
         return ApiResponse.success(HttpStatus.NO_CONTENT);
     }

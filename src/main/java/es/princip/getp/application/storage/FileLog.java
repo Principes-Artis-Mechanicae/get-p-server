@@ -1,5 +1,6 @@
 package es.princip.getp.application.storage;
 
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.support.BaseModel;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,13 +17,13 @@ public class FileLog extends BaseModel {
     private static final String FILE_PREFIX = "files";
 
     private final Long id;
-    @NotNull private final Long memberId;
+    @NotNull private final MemberId memberId;
     @NotBlank private final String filename;
     private final LocalDateTime uploadedAt;
 
     public FileLog(
         final Long id,
-        final Long memberId,
+        final MemberId memberId,
         final String filename,
         final LocalDateTime uploadedAt
     ) {
@@ -38,7 +39,7 @@ public class FileLog extends BaseModel {
         return original.replace(" ", "_");
     }
 
-    public static FileLog of(final Long memberId, final MultipartFile file) {
+    public static FileLog of(final MemberId memberId, final MultipartFile file) {
         final String filename = file.getOriginalFilename();
         assert filename != null;
         return new FileLog(null, memberId, convertFilename(filename), null);

@@ -18,6 +18,7 @@ import org.mapstruct.Mapping;
 )
 public abstract class PeoplePersistenceMapper {
 
+    @Mapping(source = "memberId", target = "memberId.value")
     @Mapping(source = "email", target = "info.email.value")
     @Mapping(source = "peopleType", target = "info.peopleType")
     public abstract People mapToDomain(PeopleJpaEntity people);

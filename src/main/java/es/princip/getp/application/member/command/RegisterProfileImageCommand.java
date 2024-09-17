@@ -1,9 +1,10 @@
 package es.princip.getp.application.member.command;
 
+import es.princip.getp.domain.member.model.MemberId;
 import org.springframework.web.multipart.MultipartFile;
 
 public record RegisterProfileImageCommand(
-    Long memberId,
+    MemberId memberId,
     MultipartFile image
 ) {
 }

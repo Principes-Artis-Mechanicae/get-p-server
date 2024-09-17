@@ -1,5 +1,6 @@
 package es.princip.getp.application.auth.service;
 
+import es.princip.getp.domain.member.model.MemberId;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -21,8 +22,8 @@ public class RefreshToken {
     @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private Long expiration;
 
-    public RefreshToken(final Long memberId, final String refreshToken, final Long expiration) {
-        this.memberId = memberId;
+    public RefreshToken(final MemberId memberId, final String refreshToken, final Long expiration) {
+        this.memberId = memberId.getValue();
         this.refreshToken = refreshToken;
         this.expiration = expiration;
     }

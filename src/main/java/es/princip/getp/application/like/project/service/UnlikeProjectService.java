@@ -8,6 +8,7 @@ import es.princip.getp.application.like.project.port.out.LoadProjectLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.like.project.model.ProjectLike;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.commission.model.Project;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ class UnlikeProjectService implements UnlikeProjectUseCase {
     private final DeleteProjectLikePort deleteProjectLikePort;
 
     @Transactional
-    public void unlike(final Long memberId, final Long projectId) {
+    public void unlike(final MemberId memberId, final Long projectId) {
         final People people = loadPeoplePort.loadBy(memberId);
         // TODO: 조회 성능 개선 필요
         final Project project = loadProjectPort.loadBy(projectId);
