@@ -1,12 +1,13 @@
 package es.princip.getp.api.controller.project.command;
 
-import es.princip.getp.api.support.dto.ApiResponse;
-import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.project.command.dto.request.ScheduleMeetingRequest;
 import es.princip.getp.api.controller.project.command.dto.response.ScheduleMeetingResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.project.meeting.ProjectMeetingService;
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
+import es.princip.getp.domain.member.model.MemberId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class ProjectMeetingController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable Long projectId
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         final ScheduleMeetingCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
         final Long meetingId = projectMeetingService.scheduleMeeting(command);
         final ScheduleMeetingResponse response = new ScheduleMeetingResponse(meetingId);

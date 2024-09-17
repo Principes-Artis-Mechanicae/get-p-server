@@ -9,6 +9,7 @@ import es.princip.getp.api.controller.people.command.dto.request.PortfolioReques
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.application.people.command.EditPeopleProfileCommand;
 import es.princip.getp.application.people.command.RegisterPeopleProfileCommand;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.Portfolio;
 import org.mapstruct.Mapper;
 
@@ -16,9 +17,9 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring", uses = {HashtagMapper.class, TechStackMapper.class, URLMapper.class})
 public interface PeopleCommandMapper {
 
-    RegisterPeopleProfileCommand mapToCommand(Long memberId, RegisterPeopleProfileRequest request);
+    RegisterPeopleProfileCommand mapToCommand(MemberId memberId, RegisterPeopleProfileRequest request);
 
-    EditPeopleProfileCommand mapToCommand(Long memberId, EditPeopleProfileRequest request);
+    EditPeopleProfileCommand mapToCommand(MemberId memberId, EditPeopleProfileRequest request);
 
     Portfolio mapToPortfolio(PortfolioRequest request);
 }

@@ -1,13 +1,14 @@
 package es.princip.getp.api.controller.project.command;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.project.command.description.ApplyProjectRequestDescription;
 import es.princip.getp.api.controller.project.command.description.ApplyProjectResponseDescription;
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
 import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,15 +31,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ProjectApplicationControllerTest extends ControllerTest {
 
-    @Autowired
-    private ProjectCommandMapper projectCommandMapper;
-
-    @Autowired
-    private ApplyProjectUseCase applyProjectUseCase;
+    @Autowired private ProjectCommandMapper projectCommandMapper;
+    @Autowired private ApplyProjectUseCase applyProjectUseCase;
 
     @BeforeEach
     void setUp() {
-        given(projectCommandMapper.mapToCommand(anyLong(), anyLong(), any(ApplyProjectRequest.class)))
+        given(projectCommandMapper.mapToCommand(any(MemberId.class), anyLong(), any(ApplyProjectRequest.class)))
             .willReturn(mock(ApplyProjectCommand.class));
     }
 

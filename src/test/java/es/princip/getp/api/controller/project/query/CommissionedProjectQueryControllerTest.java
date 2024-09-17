@@ -1,13 +1,14 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.project.query.description.GetMyCommissionedProjectQueryParameterDescription;
 import es.princip.getp.api.controller.project.query.description.ProjectCardResponseDescription;
 import es.princip.getp.api.controller.project.query.dto.CommissionedProjectCardResponse;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.commission.port.in.GetCommissionedProjectQuery;
 import es.princip.getp.domain.common.model.Duration;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +25,8 @@ import java.util.List;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.data.domain.Sort.Order.desc;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -74,7 +76,7 @@ class CommissionedProjectQueryControllerTest extends ControllerTest {
                 )
             );
             final Page<CommissionedProjectCardResponse> page = new PageImpl<>(content, pageable, content.size());
-            given(getCommissionedProjectQuery.getPagedCards(anyLong(), anyBoolean(), any(Pageable.class)))
+            given(getCommissionedProjectQuery.getPagedCards(any(MemberId.class), anyBoolean(), any(Pageable.class)))
                 .willReturn(page);
 
             perform()

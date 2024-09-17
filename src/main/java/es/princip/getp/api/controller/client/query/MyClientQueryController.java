@@ -1,10 +1,11 @@
 package es.princip.getp.api.controller.client.query;
 
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
+import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.application.client.port.out.ClientQuery;
+import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class MyClientQueryController {
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getMyClient(
             @AuthenticationPrincipal final PrincipalDetails principalDetails) {
-        final Long memberId = principalDetails.getMember().getMemberId();
-        final ClientResponse response = clientQuery.findClientByMemberId(memberId);
+        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final ClientResponse response = clientQuery.findClientBy(memberId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

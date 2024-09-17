@@ -1,15 +1,16 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.support.dto.ApiResponse;
-import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleRequest;
 import es.princip.getp.api.controller.people.command.dto.response.RegisterPeopleResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.people.command.EditPeopleCommand;
 import es.princip.getp.application.people.command.RegisterPeopleCommand;
 import es.princip.getp.application.people.port.in.EditPeopleUseCase;
 import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
+import es.princip.getp.domain.member.model.MemberId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class MyPeopleController {
     public ResponseEntity<ApiSuccessResult<RegisterPeopleResponse>> createMyPeople(
         @RequestBody @Valid final RegisterPeopleRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         final RegisterPeopleCommand command = request.toCommand(memberId);
         final Long peopleId = registerPeopleUseCase.register(command);
         final RegisterPeopleResponse response = new RegisterPeopleResponse(peopleId);
@@ -53,7 +54,7 @@ public class MyPeopleController {
     public ResponseEntity<ApiSuccessResult<?>> updateMyPeople(
             @RequestBody @Valid final EditPeopleRequest request,
             @AuthenticationPrincipal final PrincipalDetails principalDetails) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         final EditPeopleCommand command = request.toCommand(memberId);
         editPeopleUseCase.edit(command);
         return ApiResponse.success(HttpStatus.CREATED);

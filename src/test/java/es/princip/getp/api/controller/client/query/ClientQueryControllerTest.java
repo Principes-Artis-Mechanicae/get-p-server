@@ -4,6 +4,7 @@ import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.client.port.out.ClientQuery;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +39,8 @@ class ClientQueryControllerTest extends ControllerTest {
     @DisplayName("의뢰자 정보 조회")
     class GetMyClient {
 
-        final Long clientId = 1L;
+        private final MemberId memberId = new MemberId(1L);
+        private final Long clientId = 1L;
 
         @Test
         @DisplayName("관리자는 의뢰자 정보를 조회할 수 있다.")
@@ -50,7 +52,7 @@ class ClientQueryControllerTest extends ControllerTest {
                 NICKNAME,
                 PHONE_NUMBER,
                 EMAIL,
-                profileImage(1L).getUrl(),
+                profileImage(memberId).getUrl(),
                 address(),
                 bankAccount(),
                 now,
@@ -73,7 +75,7 @@ class ClientQueryControllerTest extends ControllerTest {
                 NICKNAME,
                 PHONE_NUMBER,
                 EMAIL,
-                profileImage(1L).getUrl(),
+                profileImage(memberId).getUrl(),
                 address(),
                 bankAccount(),
                 now,

@@ -1,10 +1,11 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.support.dto.ApiResponse;
-import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.people.port.in.GetMyPeopleQuery;
+import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class MyPeopleProfileQueryController {
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<DetailPeopleProfileResponse>> getMyPeopleProfile(
             @AuthenticationPrincipal final PrincipalDetails principalDetails) {
-        final Long memberId = principalDetails.getMember().getMemberId();
-        final DetailPeopleProfileResponse response = getMyPeopleQuery.getDetailProfileByMemberId(memberId);
+        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final DetailPeopleProfileResponse response = getMyPeopleQuery.getDetailProfileBy(memberId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

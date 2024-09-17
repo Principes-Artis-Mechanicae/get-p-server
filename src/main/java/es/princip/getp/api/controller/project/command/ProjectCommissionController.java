@@ -1,12 +1,13 @@
 package es.princip.getp.api.controller.project.command;
 
-import es.princip.getp.api.support.dto.ApiResponse;
-import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;
 import es.princip.getp.api.controller.project.command.dto.response.CommissionProjectResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.support.dto.ApiResponse;
+import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.project.commission.command.CommissionProjectCommand;
 import es.princip.getp.application.project.commission.port.in.CommissionProjectUseCase;
+import es.princip.getp.domain.member.model.MemberId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class ProjectCommissionController {
         @RequestBody @Valid final CommissionProjectRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         final CommissionProjectCommand command = projectCommandMapper.mapToCommand(memberId, request);
         final Long projectId = commissionProjectUseCase.commission(command);
         final CommissionProjectResponse response = new CommissionProjectResponse(projectId);

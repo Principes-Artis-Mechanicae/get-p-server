@@ -1,9 +1,10 @@
 package es.princip.getp.api.controller.member.command;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.member.command.RegisterProfileImageCommand;
 import es.princip.getp.application.member.port.in.ProfileImageUseCase;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -32,7 +33,7 @@ class MyMemberControllerTest extends ControllerTest {
     @DisplayName("프로필 업로드")
     class UploadProfileImage {
 
-        private final Long memberId = 1L;
+        private final MemberId memberId = new MemberId(1L);
 
         @DisplayName("사용자는 프로필 사진을 올릴 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)

@@ -1,10 +1,11 @@
 package es.princip.getp.api.controller.storage;
 
-import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.controller.storage.dto.FileUploadResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.application.storage.command.UploadFileCommand;
 import es.princip.getp.application.storage.port.in.UploadFileUseCase;
+import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class FileStorageController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @RequestPart final MultipartFile file
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         final UploadFileCommand command = new UploadFileCommand(memberId, file);
         final URI uri = uploadFileUseCase.upload(command);
         final FileUploadResponse response = new FileUploadResponse(uri);

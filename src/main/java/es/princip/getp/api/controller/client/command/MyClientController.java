@@ -3,14 +3,15 @@ package es.princip.getp.api.controller.client.command;
 import es.princip.getp.api.controller.client.command.dto.request.EditMyClientRequest;
 import es.princip.getp.api.controller.client.command.dto.request.RegisterMyClientRequest;
 import es.princip.getp.api.controller.client.command.dto.response.RegisterMyClientResponse;
+import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.application.client.command.EditClientCommand;
 import es.princip.getp.application.client.command.RegisterClientCommand;
 import es.princip.getp.application.client.port.in.EditClientUseCase;
 import es.princip.getp.application.client.port.in.RegisterClientUseCase;
 import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.MemberId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -56,7 +57,7 @@ public class MyClientController {
         @RequestBody @Valid final EditMyClientRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final Long memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getMemberId();
         final EditClientCommand command = request.toCommand(memberId);
         editClientUseCase.edit(command);
         return ApiResponse.success(HttpStatus.OK);

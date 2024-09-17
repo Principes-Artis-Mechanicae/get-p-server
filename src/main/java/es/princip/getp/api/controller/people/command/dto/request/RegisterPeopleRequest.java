@@ -6,6 +6,7 @@ import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.common.model.EmailPattern;
 import es.princip.getp.domain.common.model.PhoneNumber;
 import es.princip.getp.domain.common.model.PhoneNumberPattern;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.Nickname;
 import es.princip.getp.domain.people.model.PeopleType;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +19,7 @@ public record RegisterPeopleRequest(
     @Enum PeopleType peopleType
 ) {
 
-    public RegisterPeopleCommand toCommand(final Long memberId) {
+    public RegisterPeopleCommand toCommand(final MemberId memberId) {
         return new RegisterPeopleCommand(
             memberId,
             Nickname.from(nickname),

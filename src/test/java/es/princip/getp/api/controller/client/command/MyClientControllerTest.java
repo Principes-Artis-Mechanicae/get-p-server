@@ -1,15 +1,16 @@
 package es.princip.getp.api.controller.client.command;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.client.command.description.EditMyClientRequestDescription;
 import es.princip.getp.api.controller.client.command.description.RegisterMyClientRequestDescription;
 import es.princip.getp.api.controller.client.command.dto.request.EditMyClientRequest;
 import es.princip.getp.api.controller.client.command.dto.request.RegisterMyClientRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.client.port.in.EditClientUseCase;
 import es.princip.getp.application.client.port.in.RegisterClientUseCase;
 import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -55,7 +56,6 @@ class MyClientControllerTest extends ControllerTest {
             bankAccount()
         );
         final Long clientId = 1L;
-        final Long memberId = 1L;
 
         private ResultActions perform() throws Exception {
             return mockMvc.perform(post(REQUEST_URI)
@@ -108,7 +108,7 @@ class MyClientControllerTest extends ControllerTest {
         @DisplayName("의뢰자는 자신의 의뢰자 정보를 수정할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void editMyClient(final PrincipalDetails principalDetails) throws Exception {
-            final Long memberId = principalDetails.getMember().getMemberId();
+            final MemberId memberId = principalDetails.getMember().getMemberId();
             willDoNothing().given(editClientUseCase).edit(eq(request.toCommand(memberId)));
 
             perform()
