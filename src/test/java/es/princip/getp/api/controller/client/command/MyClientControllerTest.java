@@ -9,6 +9,7 @@ import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.client.port.in.EditClientUseCase;
 import es.princip.getp.application.client.port.in.RegisterClientUseCase;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
@@ -55,7 +56,7 @@ class MyClientControllerTest extends ControllerTest {
             address(),
             bankAccount()
         );
-        final Long clientId = 1L;
+        final ClientId clientId = new ClientId(1L);
 
         private ResultActions perform() throws Exception {
             return mockMvc.perform(post(REQUEST_URI)

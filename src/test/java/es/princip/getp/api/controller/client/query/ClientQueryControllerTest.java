@@ -4,6 +4,7 @@ import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.client.port.out.ClientQuery;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.AfterEach;
@@ -40,7 +41,7 @@ class ClientQueryControllerTest extends ControllerTest {
     class GetMyClient {
 
         private final MemberId memberId = new MemberId(1L);
-        private final Long clientId = 1L;
+        private final ClientId clientId = new ClientId(1L);
 
         @Test
         @DisplayName("관리자는 의뢰자 정보를 조회할 수 있다.")
@@ -48,7 +49,7 @@ class ClientQueryControllerTest extends ControllerTest {
         void getClient_WhenMemberTypeIsAdmin() throws Exception {
             final LocalDateTime now = LocalDateTime.now();
             final ClientResponse response = new ClientResponse(
-                clientId,
+                clientId.getValue(),
                 NICKNAME,
                 PHONE_NUMBER,
                 EMAIL,
@@ -58,9 +59,9 @@ class ClientQueryControllerTest extends ControllerTest {
                 now,
                 now
             );
-            given(clientQuery.findClientById(clientId)).willReturn(response);
+            given(clientQuery.findClientBy(clientId)).willReturn(response);
 
-            mockMvc.perform(get("/client/{clientId}", clientId))
+            mockMvc.perform(get("/client/{clientId}", clientId.getValue()))
                 .andExpect(status().isOk())
                 .andDo(print());
         }
@@ -71,7 +72,7 @@ class ClientQueryControllerTest extends ControllerTest {
         void getClient_WhenMemberTypeIsManager() throws Exception {
             final LocalDateTime now = LocalDateTime.now();
             final ClientResponse response = new ClientResponse(
-                clientId,
+                clientId.getValue(),
                 NICKNAME,
                 PHONE_NUMBER,
                 EMAIL,
@@ -81,9 +82,9 @@ class ClientQueryControllerTest extends ControllerTest {
                 now,
                 now
             );
-            given(clientQuery.findClientById(clientId)).willReturn(response);
+            given(clientQuery.findClientBy(clientId)).willReturn(response);
 
-            mockMvc.perform(get("/client/{clientId}", clientId))
+            mockMvc.perform(get("/client/{clientId}", clientId.getValue()))
                 .andExpect(status().isOk())
                 .andDo(print());
         }
@@ -92,7 +93,7 @@ class ClientQueryControllerTest extends ControllerTest {
         @DisplayName("관리자나 매니저가 아니면 의뢰자 정보를 조회할 수 없다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void getClient_WhenMemberTypeIsNotAdminOrManager_Fail() throws Exception {
-            mockMvc.perform(get("/client/{clientId}", clientId))
+            mockMvc.perform(get("/client/{clientId}", clientId.getValue()))
                 .andExpect(status().isForbidden())
                 .andDo(print());
         }
