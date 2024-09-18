@@ -1,8 +1,9 @@
 package es.princip.getp.persistence.adapter.project.commission;
 
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
-import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
+import es.princip.getp.persistence.support.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,7 @@ public class ProjectDataLoader implements DataLoader {
     public void load(final int size) {
         final List<ProjectJpaEntity> projectList = LongStream.rangeClosed(1, size)
             .boxed()
+            .map(ClientId::new)
             .flatMap(clientId -> Arrays.stream(ProjectStatus.values())
                 .map(status -> mapper.mapToJpa(project(clientId, status)))
             )

@@ -18,7 +18,7 @@ class ProjectMeetingQueryDslRepositoryImpl
             .from(project)
             .join(client)
             .on(
-                project.clientId.eq(client.clientId)
+                project.clientId.eq(client.id)
                 .and(project.projectId.eq(projectId))
                 .and(client.memberId.eq(memberId.getValue()))
             )

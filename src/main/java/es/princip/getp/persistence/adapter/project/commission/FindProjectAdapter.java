@@ -91,7 +91,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
             AttachmentFilesResponse.from(result.getAttachmentFiles()),
             HashtagsResponse.from(result.getHashtags()),
             likesCount,
-            clientQuery.findProjectClientById(result.getClientId())
+            clientQuery.findProjectClientBy(result.getClientId())
         );
     }
 }
