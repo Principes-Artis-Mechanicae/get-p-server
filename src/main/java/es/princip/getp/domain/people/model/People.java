@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 @Getter
 public class People extends BaseEntity {
 
-    private Long id;
+    private PeopleId id;
     @NotNull private MemberId memberId;
     private PeopleInfo info;
     private PeopleProfile profile;
 
     public People(
-        final Long id,
+        final PeopleId id,
         final MemberId memberId,
         final PeopleInfo info,
         final PeopleProfile profile,
