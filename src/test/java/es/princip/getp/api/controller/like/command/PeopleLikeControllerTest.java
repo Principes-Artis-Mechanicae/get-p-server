@@ -1,11 +1,12 @@
 package es.princip.getp.api.controller.like.command;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.like.exception.AlreadyLikedException;
 import es.princip.getp.application.like.people.port.in.LikePeopleUseCase;
 import es.princip.getp.application.like.people.port.in.UnlikePeopleUseCase;
 import es.princip.getp.domain.member.model.MemberType;
+import es.princip.getp.domain.people.model.PeopleId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,14 +27,14 @@ class PeopleLikeControllerTest extends ControllerTest {
     @Nested
     class Like {
 
-        private final Long peopleId = 1L;
+        private final PeopleId peopleId = new PeopleId(1L);
 
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
         void like() throws Exception {
             willDoNothing().given(likePeopleUseCase).like(any(), eq(peopleId));
 
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
+            mockMvc.perform(post("/people/{peopleId}/likes", peopleId.getValue()))
                 .andExpect(status().isCreated());
         }
 
@@ -43,14 +44,14 @@ class PeopleLikeControllerTest extends ControllerTest {
             willThrow(new AlreadyLikedException())
                 .given(likePeopleUseCase).like(any(), eq(peopleId));
 
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
+            mockMvc.perform(post("/people/{peopleId}/likes", peopleId.getValue()))
                 .andExpect(status().isConflict());
         }
 
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
         void like_WhenMemberTypeIsPeople_ShouldBeFailed() throws Exception {
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId))
+            mockMvc.perform(post("/people/{peopleId}/likes", peopleId.getValue()))
                 .andExpect(status().isForbidden());
         }
     }
@@ -59,21 +60,21 @@ class PeopleLikeControllerTest extends ControllerTest {
     @Nested
     class Unlike {
 
-        private final Long peopleId = 1L;
+        private final PeopleId peopleId = new PeopleId(1L);
 
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
         void unlike() throws Exception {
             willDoNothing().given(unlikePeopleUseCase).unlike(any(), eq(peopleId));
 
-            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId))
+            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId.getValue()))
                 .andExpect(status().isNoContent());
         }
 
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         @Test
         void unlike_WhenMemberTypeIsPeople_ShouldBeFailed() throws Exception {
-            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId))
+            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId.getValue()))
                 .andExpect(status().isForbidden());
         }
     }

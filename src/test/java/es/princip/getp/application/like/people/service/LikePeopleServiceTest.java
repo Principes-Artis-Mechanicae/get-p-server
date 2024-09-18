@@ -8,6 +8,7 @@ import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.fixture.client.ClientFixture;
 import es.princip.getp.fixture.people.PeopleFixture;
@@ -34,13 +35,13 @@ class LikePeopleServiceTest {
 
     private final Long clientId = 1L;
     private final MemberId memberId = new MemberId(1L);
-    private final Long peopleId = 1L;
+    private final PeopleId peopleId = new PeopleId(1L);
     
     private final People people = PeopleFixture.people(memberId, PeopleType.INDIVIDUAL);
 
     @BeforeEach
     void setUp() {
-        given(loadPeoplePort.loadByPeopleId(peopleId)).willReturn(people);
+        given(loadPeoplePort.loadBy(peopleId)).willReturn(people);
         Client client = spy(ClientFixture.client(memberId));
         doReturn(clientId).when(client).getClientId();
         given(loadClientPort.loadBy(memberId)).willReturn(client);

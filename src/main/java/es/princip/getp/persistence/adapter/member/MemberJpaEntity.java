@@ -26,7 +26,7 @@ public class MemberJpaEntity extends BaseTimeJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private Long memberId;
+    private Long id;
 
     @Column(name = "email")
     private String email;
@@ -56,7 +56,7 @@ public class MemberJpaEntity extends BaseTimeJpaEntity {
 
     @Builder
     public MemberJpaEntity(
-        final Long memberId,
+        final Long id,
         final String email,
         final String password,
         final MemberType memberType,
@@ -69,7 +69,7 @@ public class MemberJpaEntity extends BaseTimeJpaEntity {
     ) {
         super(createdAt, updatedAt);
 
-        this.memberId = memberId;
+        this.id = id;
         this.email = email;
         this.password = password;
         this.memberType = memberType;

@@ -67,7 +67,7 @@ class ProfileImageService implements ProfileImageUseCase {
     }
 
     private Path getPathToSaveProfileImage(final Member member, final MultipartFile image) {
-        final String memberId = String.valueOf(member.getMemberId());
+        final String memberId = String.valueOf(member.getId());
         final String fileName = StringUtil.generateRandomFilename(image.getOriginalFilename());
         return Paths.get(memberId).resolve(PROFILE_IMAGE_PREFIX).resolve(fileName);
     }

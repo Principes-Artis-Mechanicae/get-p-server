@@ -13,6 +13,7 @@ import es.princip.getp.application.people.port.out.FindMyPeoplePort;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.mapper.PeopleQueryMapper;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,7 +47,10 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
 
     private final PeopleQueryMapper mapper;
 
-    private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final Long... peopleId) {
+    private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final PeopleId... peopleIds) {
+        final Long[] ids = Arrays.stream(peopleIds)
+            .map(PeopleId::getValue)
+            .toArray(Long[]::new);
         return queryFactory.select(
             member.nickname,
             member.profileImage,
@@ -54,12 +59,12 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
         )
         .from(people)
         .join(member)
-        .on(people.memberId.eq(member.memberId))
-        .where(people.id.in(peopleId)).fetch().stream()
+        .on(people.memberId.eq(member.id))
+        .where(people.id.in(ids)).fetch().stream()
         .collect(toMap(tuple -> tuple.get(people.id), Function.identity()));
     }
 
-    private Optional<Tuple> findMemberAndPeopleByPeopleId(final Long peopleId) {
+    private Optional<Tuple> findMemberAndPeopleByPeopleId(final PeopleId peopleId) {
         return Optional.ofNullable(
             queryFactory.select(
                 member.nickname,
@@ -68,8 +73,8 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
                 people.peopleType
             )
             .from(people)
-            .join(member).on(people.memberId.eq(member.memberId))
-            .where(people.id.eq(peopleId))
+            .join(member).on(people.memberId.eq(member.id))
+            .where(people.id.eq(peopleId.getValue()))
             .fetchOne()
         );
     }
@@ -82,9 +87,9 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
             .limit(pageable.getPageSize())
             .fetch();
 
-        final Long[] peopleIds = toPeopleIds(result);
+        final PeopleId[] peopleIds = toPeopleIds(result);
 
-        final Map<Long, Long> likesCounts = countPeopleLikePort.countBy(peopleIds);
+        final Map<PeopleId, Long> likesCounts = countPeopleLikePort.countBy(peopleIds);
         final Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);
 
         return result.stream().map(people -> {
@@ -95,7 +100,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
                 memberAndPeople.get(peopleId).get(member.profileImage),
                 memberAndPeople.get(peopleId).get(QPeopleJpaEntity.peopleJpaEntity.peopleType),
                 0,
-                likesCounts.get(peopleId),
+                likesCounts.get(new PeopleId(peopleId)),
                 mapper.mapToCardPeopleProfileResponse(people.getProfile())
             );
         }).toList();
@@ -111,11 +116,11 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
     }
 
     @Override
-    public DetailPeopleResponse findDetailBy(final Long peopleId) {
+    public DetailPeopleResponse findDetailBy(final PeopleId peopleId) {
         final PeopleProfileJpaVO profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
-                    .where(people.id.eq(peopleId)
+                    .where(people.id.eq(peopleId.getValue())
                         .and(people.profile.isNotNull()))
                     .fetchOne()
             )
@@ -126,7 +131,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
             .orElseThrow(NotFoundPeopleException::new);
 
         return new DetailPeopleResponse(
-            peopleId,
+            peopleId.getValue(),
             memberAndPeople.get(member.nickname),
             memberAndPeople.get(member.profileImage),
             memberAndPeople.get(people.peopleType),
@@ -137,11 +142,11 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
     }
 
     @Override
-    public PublicDetailPeopleResponse findPublicDetailBy(final Long peopleId) {
+    public PublicDetailPeopleResponse findPublicDetailBy(final PeopleId peopleId) {
         final PeopleProfileJpaVO profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
-                    .where(people.id.eq(peopleId)
+                    .where(people.id.eq(peopleId.getValue())
                         .and(people.profile.isNotNull()))
                     .fetchOne()
             )
@@ -152,7 +157,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
             .orElseThrow(NotFoundPeopleException::new);
 
         return new PublicDetailPeopleResponse(
-            peopleId,
+            peopleId.getValue(),
             memberAndPeople.get(member.nickname),
             memberAndPeople.get(member.profileImage),
             memberAndPeople.get(people.peopleType),
@@ -181,7 +186,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
                 )
             )
             .from(people)
-            .join(member).on(people.memberId.eq(member.memberId))
+            .join(member).on(people.memberId.eq(member.id))
             .where(people.memberId.eq(memberId.getValue()))
             .fetchOne()
         ).orElseThrow(NotFoundPeopleException::new);

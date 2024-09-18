@@ -1,6 +1,7 @@
 package es.princip.getp.persistence.adapter.like.people;
 
 import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
@@ -42,15 +43,17 @@ public class CountPeopleLikeAdapterTest extends PersistenceAdapterTest {
 
     @Test
     void 피플이_받은_좋아요_수를_조회한다() {
-        assertThat(countPeopleLikePort.countBy(1L)).isEqualTo(TEST_SIZE);
+        final PeopleId peopleId = new PeopleId(1L);
+        assertThat(countPeopleLikePort.countBy(peopleId)).isEqualTo(TEST_SIZE);
     }
 
     @Test
     void 여러명의_피플이_받은_좋아요_수를_조회한다() {
-        final Long[] peopleIds = LongStream.rangeClosed(1, TEST_SIZE)
+        final PeopleId[] peopleIds = LongStream.rangeClosed(1, TEST_SIZE)
             .boxed()
-            .toArray(Long[]::new);
-        final Map<Long, Long> likesCounts = countPeopleLikePort.countBy(peopleIds);
+            .map(PeopleId::new)
+            .toArray(PeopleId[]::new);
+        final Map<PeopleId, Long> likesCounts = countPeopleLikePort.countBy(peopleIds);
 
         assertThat(likesCounts).hasSize(peopleIds.length)
             .containsOnlyKeys(peopleIds)

@@ -1,16 +1,17 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.people.command.description.request.CreatePeopleRequestDescription;
 import es.princip.getp.api.controller.people.command.description.request.UpdatePeopleRequestDescription;
 import es.princip.getp.api.controller.people.command.description.response.CreatePeopleResponseDescription;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.command.EditPeopleCommand;
 import es.princip.getp.application.people.command.RegisterPeopleCommand;
 import es.princip.getp.application.people.port.in.EditPeopleUseCase;
 import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -48,7 +49,7 @@ class MyPeopleControllerTest extends ControllerTest {
             PHONE_NUMBER,
             PeopleType.INDIVIDUAL
         );
-        private final Long peopleId = 1L;
+        private final PeopleId peopleId = new PeopleId(1L);
 
         private ResultActions perform() throws Exception {
             return mockMvc.perform(post("/people/me")

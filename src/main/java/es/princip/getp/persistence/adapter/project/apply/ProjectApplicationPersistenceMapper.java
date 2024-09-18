@@ -2,15 +2,16 @@ package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import es.princip.getp.persistence.adapter.common.mapper.AttachmentFilePersistenceMapper;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = {AttachmentFilePersistenceMapper.class})
 interface ProjectApplicationPersistenceMapper {
 
-    @Mapping(source = "applicantId", target = "applicantId")
+    @Mapping(source = "applicantId", target = "applicantId.value")
     ProjectApplication mapToDomain(ProjectApplicationJpaEntity applicationJpaEntity);
 
-    @Mapping(target = "applicantId", source = "applicantId")
+    @InheritInverseConfiguration
     ProjectApplicationJpaEntity mapToJpa(ProjectApplication application);
 }

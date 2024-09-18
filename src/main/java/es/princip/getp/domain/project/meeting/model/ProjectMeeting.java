@@ -1,5 +1,6 @@
 package es.princip.getp.domain.project.meeting.model;
 
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.common.model.MeetingSchedule;
 import es.princip.getp.domain.common.model.PhoneNumber;
@@ -15,7 +16,7 @@ public class ProjectMeeting extends BaseEntity {
 
     private Long meetingId;
     @NotNull private Long projectId;
-    @NotNull private Long applicantId;
+    @NotNull private PeopleId applicantId;
     @NotBlank private String location;
     @NotNull private MeetingSchedule schedule;
     @NotNull private PhoneNumber phoneNumber;
@@ -25,7 +26,7 @@ public class ProjectMeeting extends BaseEntity {
     public ProjectMeeting(
         final Long meetingId,
         final Long projectId,
-        final Long applicantId,
+        final PeopleId applicantId,
         final String location,
         final MeetingSchedule schedule,
         final PhoneNumber phoneNumber,

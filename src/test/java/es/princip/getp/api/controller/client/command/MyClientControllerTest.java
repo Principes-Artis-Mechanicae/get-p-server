@@ -108,7 +108,7 @@ class MyClientControllerTest extends ControllerTest {
         @DisplayName("의뢰자는 자신의 의뢰자 정보를 수정할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void editMyClient(final PrincipalDetails principalDetails) throws Exception {
-            final MemberId memberId = principalDetails.getMember().getMemberId();
+            final MemberId memberId = principalDetails.getMember().getId();
             willDoNothing().given(editClientUseCase).edit(eq(request.toCommand(memberId)));
 
             perform()

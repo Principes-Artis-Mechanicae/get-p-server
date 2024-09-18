@@ -15,6 +15,7 @@ import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.URL;
 import es.princip.getp.domain.member.model.MemberId;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @CommandMapper
 @Mapper(
@@ -29,5 +30,6 @@ interface ProjectCommandMapper {
 
     CommissionProjectCommand mapToCommand(MemberId memberId, CommissionProjectRequest request);
 
+    @Mapping(source = "request.applicantId", target = "applicantId.value")
     ScheduleMeetingCommand mapToCommand(MemberId memberId, Long projectId, ScheduleMeetingRequest request);
 }

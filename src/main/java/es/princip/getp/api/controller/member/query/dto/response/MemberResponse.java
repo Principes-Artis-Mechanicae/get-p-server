@@ -19,7 +19,7 @@ public record MemberResponse(
 ) {
     public static MemberResponse from(final Member member) {
         return new MemberResponse(
-            member.getMemberId().getValue(),
+            member.getId().getValue(),
             member.getEmail().getValue(),
             Optional.ofNullable(member.getNickname())
                 .map(Nickname::getValue)

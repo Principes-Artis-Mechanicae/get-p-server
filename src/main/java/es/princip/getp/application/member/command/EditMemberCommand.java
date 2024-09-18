@@ -31,7 +31,7 @@ public record EditMemberCommand(
 
     public static EditMemberCommand from(final RegisterClientCommand command) {
         return new EditMemberCommand(
-            command.member().getMemberId(),
+            command.member().getId(),
             command.nickname(),
             command.phoneNumber()
         );

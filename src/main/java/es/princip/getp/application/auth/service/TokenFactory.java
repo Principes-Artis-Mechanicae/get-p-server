@@ -16,7 +16,7 @@ public class TokenFactory {
         final String accessToken = accessTokenService.generateJwtToken(member);
         final String refreshToken = refreshTokenService.generateJwtToken(member);
 
-        refreshTokenService.cacheRefreshToken(member.getMemberId(), refreshToken);
+        refreshTokenService.cacheRefreshToken(member.getId(), refreshToken);
 
         return new Token(JwtTokenService.BEARER_TYPE, accessToken, refreshToken);
     }

@@ -1,5 +1,6 @@
 package es.princip.getp.domain.project.apply.model;
 
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
@@ -15,7 +16,7 @@ import java.util.List;
 public class ProjectApplication extends BaseEntity {
 
     private Long applicationId;
-    @NotNull private final Long applicantId;
+    @NotNull private final PeopleId applicantId;
     @NotNull private final Long projectId;
     @NotNull private Duration expectedDuration;
     @NotNull private ProjectApplicationStatus applicationStatus;
@@ -25,7 +26,7 @@ public class ProjectApplication extends BaseEntity {
     @Builder
     public ProjectApplication(
         final Long applicationId,
-        final Long applicantId,
+        final PeopleId applicantId,
         final Long projectId,
         final Duration expectedDuration,
         final ProjectApplicationStatus applicationStatus,

@@ -32,7 +32,7 @@ public class WithCustomMockUserSecurityContextFactory implements WithSecurityCon
         final LocalDateTime now = LocalDateTime.now();
 
         final Member member = spy(Member.of(email, password, memberType));
-        given(member.getMemberId()).willReturn(memberId);
+        given(member.getId()).willReturn(memberId);
         given(member.getNickname()).willReturn(nickname);
         given(member.getPhoneNumber()).willReturn(phoneNumber);
         given(member.getProfileImage()).willReturn(profileImage);

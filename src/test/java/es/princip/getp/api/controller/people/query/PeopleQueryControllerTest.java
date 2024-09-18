@@ -14,6 +14,7 @@ import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -115,21 +116,21 @@ class PeopleQueryControllerTest extends ControllerTest {
     class GetPeople {
 
         private final MemberId memberId = new MemberId(1L);
-        private final Long peopleId = 1L;
+        private final PeopleId peopleId = new PeopleId(1L);
 
         private ResultActions perform() throws Exception {
-            return mockMvc.perform(get("/people/{peopleId}", peopleId));
+            return mockMvc.perform(get("/people/{peopleId}", peopleId.getValue()));
         }
 
         private ResultActions performWithAccessToken() throws Exception {
-            return mockMvc.perform(get("/people/{peopleId}", peopleId)
+            return mockMvc.perform(get("/people/{peopleId}", peopleId.getValue())
                 .header("Authorization", "Bearer ${ACCESS_TOKEN}"));
         }
 
         @Test
         public void getPeople_WhenUserNotLogined() throws Exception {
             PublicDetailPeopleResponse response = new PublicDetailPeopleResponse(
-                peopleId,
+                peopleId.getValue(),
                 NICKNAME,
                 profileImage(memberId).getUrl(),
                 PeopleType.INDIVIDUAL,
@@ -139,7 +140,7 @@ class PeopleQueryControllerTest extends ControllerTest {
                     hashtagsResponse()
                 )
             );
-            given(getPeopleQuery.getPublicDetailById(peopleId)).willReturn(response);
+            given(getPeopleQuery.getPublicDetailBy(peopleId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())
@@ -170,7 +171,7 @@ class PeopleQueryControllerTest extends ControllerTest {
                     portfoliosResponse()
                 )
             );
-            given(getPeopleQuery.getDetailById(peopleId)).willReturn(response);
+            given(getPeopleQuery.getDetailBy(peopleId)).willReturn(response);
 
             performWithAccessToken()
                 .andExpect(status().isOk())

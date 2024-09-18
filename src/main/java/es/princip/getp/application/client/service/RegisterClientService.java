@@ -28,7 +28,7 @@ public class RegisterClientService implements RegisterClientUseCase {
     @Transactional
     public Long register(RegisterClientCommand command) {
         final Member member = command.member();
-        if (checkClientPort.existsBy(member.getMemberId())) {
+        if (checkClientPort.existsBy(member.getId())) {
             throw new AlreadyExistsClientException();
         }
         editMemberUseCase.editMember(EditMemberCommand.from(command));
@@ -38,7 +38,7 @@ public class RegisterClientService implements RegisterClientUseCase {
             .email(email)
             .bankAccount(command.bankAccount())
             .address(command.address())
-            .memberId(member.getMemberId())
+            .memberId(member.getId())
             .build();
         return saveClientPort.save(client);
     }

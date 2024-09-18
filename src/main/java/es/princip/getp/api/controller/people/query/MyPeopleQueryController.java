@@ -31,7 +31,7 @@ public class MyPeopleQueryController {
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<MyPeopleResponse>> getMyPeople(
         @AuthenticationPrincipal final PrincipalDetails principalDetails) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final MyPeopleResponse response = getMyPeopleQuery.getBy(memberId);
         return ApiResponse.success(HttpStatus.OK, response);
     }

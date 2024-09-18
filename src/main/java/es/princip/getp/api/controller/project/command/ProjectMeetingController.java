@@ -39,7 +39,7 @@ public class ProjectMeetingController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable Long projectId
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final ScheduleMeetingCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
         final Long meetingId = projectMeetingService.scheduleMeeting(command);
         final ScheduleMeetingResponse response = new ScheduleMeetingResponse(meetingId);

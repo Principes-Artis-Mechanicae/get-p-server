@@ -33,7 +33,7 @@ public class AppliedProjectQueryController {
         @PageableDefault(sort = "projectId", direction = Sort.Direction.DESC) final Pageable pageable,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final Page<AppliedProjectCardResponse> page = getAppliedProjectQuery.getPagedCards(memberId, pageable);
         final PageResponse<AppliedProjectCardResponse> response = PageResponse.from(page);
         return ApiResponse.success(HttpStatus.OK, response);

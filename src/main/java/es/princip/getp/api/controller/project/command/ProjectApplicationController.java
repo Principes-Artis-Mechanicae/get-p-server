@@ -38,7 +38,7 @@ public class ProjectApplicationController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable Long projectId
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final ApplyProjectCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
         final Long applicationId = applyProjectUseCase.apply(command);
         final ApplyProjectResponse response = new ApplyProjectResponse(applicationId);

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Getter
 public class Member extends BaseEntity {
 
-    private MemberId memberId;
+    private MemberId id;
     @NotNull private Email email;
     @NotNull private Password password;
     @NotNull private MemberType memberType;
@@ -31,7 +31,7 @@ public class Member extends BaseEntity {
 
     @Builder
     public Member(
-        final MemberId memberId,
+        final MemberId id,
         final Email email,
         final Password password,
         final MemberType memberType,
@@ -44,7 +44,7 @@ public class Member extends BaseEntity {
     ) {
         super(createdAt, updatedAt);
 
-        this.memberId = memberId;
+        this.id = id;
         this.email = email;
         this.password = password;
         this.memberType = memberType;

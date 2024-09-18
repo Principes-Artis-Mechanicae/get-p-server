@@ -9,6 +9,7 @@ import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
 import es.princip.getp.application.people.port.out.CheckPeoplePort;
 import es.princip.getp.application.people.port.out.SavePeoplePort;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,7 @@ public class RegisterPeopleService implements RegisterPeopleUseCase {
      * @throws AlreadyExistsPeopleException 이미 등록된 피플 정보가 존재하는 경우
      */
     @Transactional
-    public Long register(final RegisterPeopleCommand command) {
+    public PeopleId register(final RegisterPeopleCommand command) {
         if (checkPeoplePort.existsBy(command.memberId())) {
             throw new AlreadyExistsPeopleException();
         }

@@ -37,9 +37,9 @@ public class MyPeopleController {
     public ResponseEntity<ApiSuccessResult<RegisterPeopleResponse>> createMyPeople(
         @RequestBody @Valid final RegisterPeopleRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final RegisterPeopleCommand command = request.toCommand(memberId);
-        final Long peopleId = registerPeopleUseCase.register(command);
+        final Long peopleId = registerPeopleUseCase.register(command).getValue();
         final RegisterPeopleResponse response = new RegisterPeopleResponse(peopleId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }
@@ -54,7 +54,7 @@ public class MyPeopleController {
     public ResponseEntity<ApiSuccessResult<?>> updateMyPeople(
             @RequestBody @Valid final EditPeopleRequest request,
             @AuthenticationPrincipal final PrincipalDetails principalDetails) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final EditPeopleCommand command = request.toCommand(memberId);
         editPeopleUseCase.edit(command);
         return ApiResponse.success(HttpStatus.CREATED);

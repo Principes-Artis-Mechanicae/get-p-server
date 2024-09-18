@@ -4,5 +4,5 @@ import es.princip.getp.domain.member.model.MemberId;
 
 public interface LikeProjectUseCase {
 
-    void like(MemberId memberId, Long peopleId);
+    void like(MemberId memberId, Long projectId);
 }

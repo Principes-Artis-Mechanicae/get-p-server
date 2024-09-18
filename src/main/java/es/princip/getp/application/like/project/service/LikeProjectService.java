@@ -9,6 +9,7 @@ import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.like.project.model.ProjectLike;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.commission.model.Project;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,13 +41,13 @@ class LikeProjectService implements LikeProjectUseCase {
         saveProjectLikePort.save(projectLike);
     }
 
-    private void checkAlreadyLiked(final Long peopleId, final Long projectId) {
+    private void checkAlreadyLiked(final PeopleId peopleId, final Long projectId) {
         if (checkProjectLikePort.existsBy(peopleId, projectId)) {
             throw new AlreadyLikedException();
         }
     }
 
-    private ProjectLike buildProjectLike(final Long peopleId, final Long projectId) {
+    private ProjectLike buildProjectLike(final PeopleId peopleId, final Long projectId) {
         return ProjectLike.builder()
             .peopleId(peopleId)
             .projectId(projectId)

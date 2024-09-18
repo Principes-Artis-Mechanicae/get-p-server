@@ -6,6 +6,7 @@ import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.support.PersistenceAdapterTest;
@@ -58,14 +59,16 @@ public class PeopleQueryAdapterTest extends PersistenceAdapterTest {
 
     @Test
     void 피플_ID로_피플_상세_정보를_조회한다() {
-        final DetailPeopleResponse response = adapter.findDetailBy(1L);
+        final PeopleId peopleId = new PeopleId(1L);
+        final DetailPeopleResponse response = adapter.findDetailBy(peopleId);
 
         assertThat(response).isNotNull();
     }
 
     @Test
     void 피플_ID로_피플_공개_상세_정보를_조회한다() {
-        final PublicDetailPeopleResponse response = adapter.findPublicDetailBy(1L);
+        final PeopleId peopleId = new PeopleId(1L);
+        final PublicDetailPeopleResponse response = adapter.findPublicDetailBy(peopleId);
 
         assertThat(response).isNotNull();
     }

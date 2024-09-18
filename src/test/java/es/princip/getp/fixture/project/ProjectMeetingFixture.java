@@ -1,6 +1,7 @@
 package es.princip.getp.fixture.project;
 
 import es.princip.getp.domain.common.model.MeetingSchedule;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
 
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ public class ProjectMeetingFixture {
     );
     public final static String DESCRIPTION = "미팅 요구사항";
     
-    public static ProjectMeeting projectMeeting(final Long projectId, final Long applicantId) {
+    public static ProjectMeeting projectMeeting(final Long projectId, final PeopleId applicantId) {
         return ProjectMeeting.builder()
             .projectId(projectId)
             .applicantId(applicantId)

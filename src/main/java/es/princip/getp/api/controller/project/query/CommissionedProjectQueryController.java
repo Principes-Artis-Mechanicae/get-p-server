@@ -42,7 +42,7 @@ public class CommissionedProjectQueryController {
         @RequestParam(defaultValue = "false") final Boolean cancelled, // 만료된 프로젝트 보기 여부
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final Page<CommissionedProjectCardResponse> page
             = getCommissionedProjectQuery.getPagedCards(memberId, cancelled, pageable);
         final PageResponse<CommissionedProjectCardResponse> response = PageResponse.from(page);

@@ -1,5 +1,6 @@
 package es.princip.getp.domain.like.people.model;
 
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.support.BaseEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -12,13 +13,13 @@ public class PeopleLike extends BaseEntity {
 
     private final Long id;
     @NotNull private final Long clientId;
-    @NotNull private final Long peopleId;
+    @NotNull private final PeopleId peopleId;
 
     @Builder
     public PeopleLike(
         final Long id,
         final Long clientId,
-        final Long peopleId,
+        final PeopleId peopleId,
         final LocalDateTime createdAt
     ) {
         super(createdAt, null);

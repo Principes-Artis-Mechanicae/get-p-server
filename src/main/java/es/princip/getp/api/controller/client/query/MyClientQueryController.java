@@ -31,7 +31,7 @@ public class MyClientQueryController {
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getMyClient(
             @AuthenticationPrincipal final PrincipalDetails principalDetails) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final ClientResponse response = clientQuery.findClientBy(memberId);
         return ApiResponse.success(HttpStatus.OK, response);
     }

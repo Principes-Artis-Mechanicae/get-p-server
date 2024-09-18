@@ -57,7 +57,7 @@ public class MyClientController {
         @RequestBody @Valid final EditMyClientRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final EditClientCommand command = request.toCommand(memberId);
         editClientUseCase.edit(command);
         return ApiResponse.success(HttpStatus.OK);
