@@ -15,39 +15,39 @@ import org.springframework.stereotype.Repository;
 public class MemberPersistenceAdapter implements SaveMemberPort, LoadMemberPort, CheckMemberPort, UpdateMemberPort {
 
     private final MemberPersistenceMapper mapper;
-
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberJpaRepository repository;
 
     @Override
     public Member loadBy(final Email email) {
-        final MemberJpaEntity memberJpaEntity = memberJpaRepository.findByEmail(email.getValue())
+        final MemberJpaEntity memberJpaEntity = repository.findByEmail(email.getValue())
             .orElseThrow(NotFoundMemberException::new);
         return mapper.mapToDomain(memberJpaEntity);
     }
 
     @Override
     public Member loadBy(final MemberId memberId) {
-        final MemberJpaEntity memberJpaEntity = memberJpaRepository.findById(memberId.getValue())
+        final MemberJpaEntity memberJpaEntity = repository.findById(memberId.getValue())
             .orElseThrow(NotFoundMemberException::new);
         return mapper.mapToDomain(memberJpaEntity);
     }
 
     @Override
-    public Long save(final Member member) {
+    public MemberId save(final Member member) {
         final MemberJpaEntity memberJpaEntity = mapper.mapToJpa(member);
-        return memberJpaRepository.save(memberJpaEntity).getMemberId();
+        final Long id = repository.save(memberJpaEntity).getId();
+        return new MemberId(id);
     }
 
     @Override
     public void update(final Member member) {
-        if (!memberJpaRepository.existsById(member.getMemberId().getValue())) {
+        if (!repository.existsById(member.getId().getValue())) {
             throw new NotFoundMemberException();
         }
         save(member);
     }
 
     @Override
-    public boolean existsByEmail(final Email email) {
-        return memberJpaRepository.existsByEmail(email.getValue());
+    public boolean existsBy(final Email email) {
+        return repository.existsByEmail(email.getValue());
     }
 }

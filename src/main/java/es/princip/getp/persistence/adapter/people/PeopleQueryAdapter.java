@@ -54,7 +54,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
         )
         .from(people)
         .join(member)
-        .on(people.memberId.eq(member.memberId))
+        .on(people.memberId.eq(member.id))
         .where(people.id.in(peopleId)).fetch().stream()
         .collect(toMap(tuple -> tuple.get(people.id), Function.identity()));
     }
@@ -68,7 +68,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
                 people.peopleType
             )
             .from(people)
-            .join(member).on(people.memberId.eq(member.memberId))
+            .join(member).on(people.memberId.eq(member.id))
             .where(people.id.eq(peopleId))
             .fetchOne()
         );
@@ -181,7 +181,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
                 )
             )
             .from(people)
-            .join(member).on(people.memberId.eq(member.memberId))
+            .join(member).on(people.memberId.eq(member.id))
             .where(people.memberId.eq(memberId.getValue()))
             .fetchOne()
         ).orElseThrow(NotFoundPeopleException::new);

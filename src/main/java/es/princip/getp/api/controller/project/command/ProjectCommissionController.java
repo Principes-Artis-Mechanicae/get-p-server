@@ -39,7 +39,7 @@ public class ProjectCommissionController {
         @RequestBody @Valid final CommissionProjectRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final CommissionProjectCommand command = projectCommandMapper.mapToCommand(memberId, request);
         final Long projectId = commissionProjectUseCase.commission(command);
         final CommissionProjectResponse response = new CommissionProjectResponse(projectId);

@@ -38,7 +38,7 @@ public class MyMemberController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @RequestPart final MultipartFile image
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final RegisterProfileImageCommand command = new RegisterProfileImageCommand(memberId, image);
         final String profileImageUri = profileImageUseCase.registerProfileImage(command);
         final ProfileImageResponse response = new ProfileImageResponse(profileImageUri);

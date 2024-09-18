@@ -53,7 +53,7 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
                 client.updatedAt
             )
             .from(client)
-            .join(member).on(client.memberId.eq(member.memberId))
+            .join(member).on(client.memberId.eq(member.id))
             .where(client.clientId.eq(clientId))
             .fetchOne();
         validateTuple(result);
@@ -74,7 +74,7 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
                 client.updatedAt
             )
             .from(client)
-            .join(member).on(client.memberId.eq(member.memberId))
+            .join(member).on(client.memberId.eq(member.id))
             .where(client.memberId.eq(memberId.getValue()))
             .fetchOne();
         validateTuple(result);
@@ -89,7 +89,7 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
                 client.address
             )
             .from(client)
-            .join(member).on(client.memberId.eq(member.memberId))
+            .join(member).on(client.memberId.eq(member.id))
             .where(client.clientId.eq(clientId))
             .fetchOne();
         validateTuple(result);

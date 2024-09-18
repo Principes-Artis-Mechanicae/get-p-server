@@ -33,7 +33,7 @@ public class PeopleLikeController {
         @PathVariable final Long peopleId,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         likePeopleUseCase.like(memberId, peopleId);
         return ApiResponse.success(HttpStatus.CREATED);
     }
@@ -50,7 +50,7 @@ public class PeopleLikeController {
         @PathVariable final Long peopleId,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         unlikePeopleUseCase.unlike(memberId, peopleId);
         return ApiResponse.success(HttpStatus.NO_CONTENT);
     }

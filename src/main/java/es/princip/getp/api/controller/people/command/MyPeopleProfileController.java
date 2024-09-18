@@ -40,7 +40,7 @@ public class MyPeopleProfileController {
         @RequestBody @Valid final RegisterPeopleProfileRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final RegisterPeopleProfileCommand command = peopleCommandMapper.mapToCommand(memberId, request);
         registerPeopleProfileUseCase.register(command);
         return ApiResponse.success(HttpStatus.CREATED);
@@ -58,7 +58,7 @@ public class MyPeopleProfileController {
         @RequestBody @Valid final EditPeopleProfileRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final EditPeopleProfileCommand command = peopleCommandMapper.mapToCommand(memberId, request);
         editPeopleProfileUseCase.edit(command);
         return ApiResponse.success(HttpStatus.OK);

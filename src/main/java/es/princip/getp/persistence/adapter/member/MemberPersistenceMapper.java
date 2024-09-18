@@ -11,13 +11,13 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {PhoneNumberPersistenceMapper.class})
 public interface MemberPersistenceMapper {
 
-    @Mapping(source = "memberId", target = "memberId.value")
+    @Mapping(source = "id", target = "id.value")
     @Mapping(source = "email", target = "email.value")
     @Mapping(source = "password", target = "password.value")
     @Mapping(constant = "true", target = "password.encoded")
     Member mapToDomain(MemberJpaEntity memberJpaEntity);
 
-    @Mapping(target = "memberId", source = "memberId.value")
+    @Mapping(target = "id", source = "id.value")
     @Mapping(target = "email", source = "email.value")
     @Mapping(target = "password", source = "password.value")
     @Mapping(target = "nickname", source = "nickname.value")

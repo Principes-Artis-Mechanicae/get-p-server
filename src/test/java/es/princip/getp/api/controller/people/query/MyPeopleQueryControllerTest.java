@@ -46,7 +46,7 @@ class MyPeopleQueryControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @DisplayName("피플은 자신의 정보를 조회할 수 있다.")
         public void getMyPeople(PrincipalDetails principalDetails) throws Exception {
-            final MemberId memberId = principalDetails.getMember().getMemberId();
+            final MemberId memberId = principalDetails.getMember().getId();
             MyPeopleResponse response = new MyPeopleResponse(
                 1L,
                 EMAIL,

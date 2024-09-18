@@ -35,7 +35,7 @@ public class PeopleDataLoader implements DataLoader {
 
         final long memberIdBias = memberList.stream()
             .findFirst()
-            .map(MemberJpaEntity::getMemberId)
+            .map(MemberJpaEntity::getId)
             .orElse(1L);
         final int individualSize = size / 2;
         final int teamSize = (size % 2) == 0 ? size / 2 : (size / 2) + 1;

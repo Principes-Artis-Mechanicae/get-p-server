@@ -46,7 +46,7 @@ class MyPeopleProfileQueryControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
         public void getMyPeopleProfile(PrincipalDetails principalDetails) throws Exception {
-            final MemberId memberId = principalDetails.getMember().getMemberId();
+            final MemberId memberId = principalDetails.getMember().getId();
             final DetailPeopleProfileResponse response = new DetailPeopleProfileResponse(
                 introduction(),
                 activityArea(),

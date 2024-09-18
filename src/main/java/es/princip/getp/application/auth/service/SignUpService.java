@@ -35,7 +35,7 @@ public class SignUpService {
 
     @Transactional
     public void sendEmailVerificationCodeForSignUp(final Email email) {
-        if (checkMemberPort.existsByEmail(email)) {
+        if (checkMemberPort.existsBy(email)) {
             throw new DuplicatedEmailException();
         }
         verificationService.sendVerificationCode(email);
@@ -44,7 +44,7 @@ public class SignUpService {
     @Transactional
     public void signUp(final SignUpCommand command) {
         verificationService.verifyEmail(command.email(), command.verificationCode());
-        if (checkMemberPort.existsByEmail(command.email())) {
+        if (checkMemberPort.existsBy(command.email())) {
             throw new DuplicatedEmailException();
         }
         final Member member = Member.of(command.email(), command.password(), command.memberType());

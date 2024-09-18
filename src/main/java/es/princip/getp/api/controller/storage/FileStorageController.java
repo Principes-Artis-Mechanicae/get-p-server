@@ -34,7 +34,7 @@ public class FileStorageController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @RequestPart final MultipartFile file
     ) {
-        final MemberId memberId = principalDetails.getMember().getMemberId();
+        final MemberId memberId = principalDetails.getMember().getId();
         final UploadFileCommand command = new UploadFileCommand(memberId, file);
         final URI uri = uploadFileUseCase.upload(command);
         final FileUploadResponse response = new FileUploadResponse(uri);
