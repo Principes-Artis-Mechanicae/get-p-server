@@ -1,10 +1,11 @@
 package es.princip.getp.domain.project.commission.model;
 
-import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.client.model.Client;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.common.model.Hashtag;
+import es.princip.getp.domain.support.BaseEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -27,7 +28,7 @@ public class Project extends BaseEntity {
     @NotNull private MeetingType meetingType; // 미팅 유형
     @NotNull private ProjectCategory category; // 프로젝트 카테고리
     @NotNull private ProjectStatus status; // 프로젝트 상태
-    @NotNull private final Long clientId; // 의뢰자
+    @NotNull private final ClientId clientId; // 의뢰자
     private int interestsCount; // 관심 수
     private final List<@NotNull AttachmentFile> attachmentFiles; // 첨부 파일 목록
     private final List<@NotNull Hashtag> hashtags; // 해시태그 목록
@@ -43,7 +44,7 @@ public class Project extends BaseEntity {
         final MeetingType meetingType,
         final ProjectCategory category,
         final ProjectStatus status,
-        final Long clientId,
+        final ClientId clientId,
         final int interestsCount,
         final List<AttachmentFile> attachmentFiles,
         final List<Hashtag> hashtags,
@@ -82,6 +83,6 @@ public class Project extends BaseEntity {
     }
 
     public boolean isClient(final Client client) {
-        return clientId.equals(client.getClientId());
+        return clientId.equals(client.getId());
     }
 }

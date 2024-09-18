@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 public class Client extends BaseEntity {
 
-    private Long clientId;
+    private ClientId id;
     @NotNull private Email email;
     private Address address; //TODO: 주소기반산업지원서비스 API로 확장 예정
     private BankAccount bankAccount;
@@ -20,7 +20,7 @@ public class Client extends BaseEntity {
 
     @Builder
     public Client(
-        final Long clientId,
+        final ClientId id,
         final Email email,
         final Address address,
         final BankAccount bankAccount,
@@ -30,7 +30,7 @@ public class Client extends BaseEntity {
     ) {
         super(createdAt, updatedAt);
 
-        this.clientId = clientId;
+        this.id = id;
         this.email = email;
         this.address = address;
         this.bankAccount = bankAccount;
