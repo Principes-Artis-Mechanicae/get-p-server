@@ -10,6 +10,7 @@ import es.princip.getp.application.project.meeting.port.out.CheckProjectMeetingP
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
@@ -48,14 +49,14 @@ class ProjectMeetingServiceTest {
 
     private final MemberId memberId = new MemberId(1L);
     private final Long projectId = 1L;
-    private final Long applicantId = 1L;
+    private final PeopleId applicantId = new PeopleId(1L);
     private final Long meetingId = 1L;
-    private final Project project = ProjectFixture.project(applicantId, ProjectStatus.APPLYING);
+    private final Project project = ProjectFixture.project(1L, ProjectStatus.APPLYING);
     private final People people = PeopleFixture.people(memberId, PeopleType.INDIVIDUAL);
 
     @BeforeEach
     void setUp() {
-        given(loadPeoplePort.loadByPeopleId(applicantId)).willReturn(people);
+        given(loadPeoplePort.loadBy(applicantId)).willReturn(people);
         given(loadProjectPort.loadBy(projectId)).willReturn(project);
     }
 

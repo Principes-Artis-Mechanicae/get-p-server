@@ -5,6 +5,7 @@ import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleRespon
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
+import es.princip.getp.domain.people.model.PeopleId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,12 +25,12 @@ public class GetPeopleService implements GetPeopleQuery {
     }
 
     @Override
-    public DetailPeopleResponse getDetailById(final Long peopleId) {
+    public DetailPeopleResponse getDetailBy(final PeopleId peopleId) {
         return findPeoplePort.findDetailBy(peopleId);
     }
 
     @Override
-    public PublicDetailPeopleResponse getPublicDetailById(final Long peopleId) {
+    public PublicDetailPeopleResponse getPublicDetailBy(final PeopleId peopleId) {
         return findPeoplePort.findPublicDetailBy(peopleId);
     }
 }

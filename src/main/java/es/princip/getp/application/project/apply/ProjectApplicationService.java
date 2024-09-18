@@ -8,6 +8,7 @@ import es.princip.getp.application.project.apply.port.out.CheckProjectApplicatio
 import es.princip.getp.application.project.apply.port.out.SaveProjectApplicationPort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import es.princip.getp.domain.project.apply.service.ProjectApplier;
 import es.princip.getp.domain.project.commission.model.Project;
@@ -37,7 +38,7 @@ class ProjectApplicationService implements ApplyProjectUseCase {
     @Transactional
     public Long apply(final ApplyProjectCommand command) {
         final People applicant = loadPeoplePort.loadBy(command.memberId());
-        final Long applicantId = applicant.getId();
+        final PeopleId applicantId = applicant.getId();
         final Long projectId = command.projectId();
         final Project project = loadProjectPort.loadBy(command.projectId());
         if (checkProjectApplicationPort.existsBy(applicantId, projectId)) {

@@ -10,6 +10,7 @@ import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.like.project.model.ProjectLike;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.commission.model.Project;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ class UnlikeProjectService implements UnlikeProjectUseCase {
         deleteProjectLikePort.delete(projectLike);
     }
 
-    private void checkNeverLiked(final Long peopleId, final Long projectId) {
+    private void checkNeverLiked(final PeopleId peopleId, final Long projectId) {
         if (!checkProjectLikePort.existsBy(peopleId, projectId)) {
             throw new NeverLikedException();
         }

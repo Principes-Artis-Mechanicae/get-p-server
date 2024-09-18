@@ -1,10 +1,12 @@
 package es.princip.getp.application.like.people.port.out;
 
+import es.princip.getp.domain.people.model.PeopleId;
+
 import java.util.Map;
 
 public interface CountPeopleLikePort {
 
-    Long countBy(Long peopleId);
+    Long countBy(PeopleId peopleId);
 
-    Map<Long, Long> countBy(Long... peopleIds);
+    Map<PeopleId, Long> countBy(PeopleId... peopleIds);
 }

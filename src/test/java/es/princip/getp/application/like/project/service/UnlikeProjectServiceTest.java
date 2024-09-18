@@ -9,6 +9,7 @@ import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.like.project.model.ProjectLike;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
@@ -37,7 +38,7 @@ public class UnlikeProjectServiceTest {
     @InjectMocks private UnlikeProjectService unlikeProjectService;
 
     private final MemberId memberId = new MemberId(1L);
-    private final Long peopleId = 1L;
+    private final PeopleId peopleId = new PeopleId(1L);
     private final Long clientId = 1L;
     private final Long projectId = 1L;
     private final Project project = ProjectFixture.project(clientId, ProjectStatus.APPLYING);

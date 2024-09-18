@@ -11,6 +11,7 @@ import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.like.people.model.PeopleLike;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,16 +28,16 @@ class UnlikePeopleService implements UnlikePeopleUseCase {
     private final DeletePeopleLikePort deletePeopleLikePort;
 
     @Transactional
-    public void unlike(final MemberId memberId, final Long peopleId) {
+    public void unlike(final MemberId memberId, final PeopleId peopleId) {
         final Client client = loadClientPort.loadBy(memberId);
         // TODO: 조회 성능 개선 필요
-        final People people = loadPeoplePort.loadByPeopleId(peopleId);
+        final People people = loadPeoplePort.loadBy(peopleId);
         final PeopleLike peopleLike = loadPeopleLikePort.loadBy(client.getClientId(), peopleId);
         checkNeverLiked(client.getClientId(), peopleId);
         deletePeopleLikePort.delete(peopleLike);
     }
 
-    private void checkNeverLiked(final Long clientId, final Long peopleId) {
+    private void checkNeverLiked(final Long clientId, final PeopleId peopleId) {
         if (!checkPeopleLikePort.existsBy(clientId, peopleId)) {
             throw new NeverLikedException();
         } 

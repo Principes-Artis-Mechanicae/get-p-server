@@ -10,6 +10,7 @@ import es.princip.getp.application.project.meeting.port.out.CheckProjectMeetingP
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class ProjectMeetingService {
      */
     @Transactional
     public Long scheduleMeeting(final ScheduleMeetingCommand command) {
-        final People people = loadPeoplePort.loadByPeopleId(command.applicantId());
+        final People people = loadPeoplePort.loadBy(command.applicantId());
         final Project project = loadProjectPort.loadBy(command.projectId());
 
         checkMemberIsClientOfProject(command.memberId(), command.projectId());
@@ -65,7 +66,7 @@ public class ProjectMeetingService {
         }
     }
 
-    private void checkPeopleIsApplicant(final Long applicantId, final Long projectId) {
+    private void checkPeopleIsApplicant(final PeopleId applicantId, final Long projectId) {
         if (!checkProjectApplicationPort.existsBy(applicantId, projectId)) {
             throw new NotApplicantException();
         }
