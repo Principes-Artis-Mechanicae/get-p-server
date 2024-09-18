@@ -6,6 +6,7 @@ import es.princip.getp.application.like.project.port.out.DeleteProjectLikePort;
 import es.princip.getp.application.like.project.port.out.LoadProjectLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.like.project.model.ProjectLike;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
@@ -39,7 +40,7 @@ public class UnlikeProjectServiceTest {
 
     private final MemberId memberId = new MemberId(1L);
     private final PeopleId peopleId = new PeopleId(1L);
-    private final Long clientId = 1L;
+    private final ClientId clientId = new ClientId(1L);
     private final Long projectId = 1L;
     private final Project project = ProjectFixture.project(clientId, ProjectStatus.APPLYING);
     private final ProjectLike like = ProjectLikeFixture.projectLike(peopleId, projectId);

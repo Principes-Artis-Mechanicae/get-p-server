@@ -41,7 +41,7 @@ public class MyClientController {
     ) {
         final Member member = principalDetails.getMember();
         final RegisterClientCommand command = request.toCommand(member);
-        final Long clientId = registerClientUseCase.register(command);
+        final Long clientId = registerClientUseCase.register(command).getValue();
         final RegisterMyClientResponse response = new RegisterMyClientResponse(clientId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }

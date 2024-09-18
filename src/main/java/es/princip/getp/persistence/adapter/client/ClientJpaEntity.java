@@ -18,7 +18,7 @@ class ClientJpaEntity extends BaseTimeJpaEntity {
     @Id
     @Column(name = "client_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long clientId;
+    private Long id;
 
     @Column(name = "email")
     private String email;
@@ -34,7 +34,7 @@ class ClientJpaEntity extends BaseTimeJpaEntity {
 
     @Builder
     public ClientJpaEntity(
-        final Long clientId,
+        final Long id,
         final String email,
         final AddressJpaVO address,
         final BankAccountJpaVO bankAccount,
@@ -44,7 +44,7 @@ class ClientJpaEntity extends BaseTimeJpaEntity {
     ) {
         super(createdAt, updatedAt);
 
-        this.clientId = clientId;
+        this.id = id;
         this.email = email;
         this.address = address;
         this.bankAccount = bankAccount;

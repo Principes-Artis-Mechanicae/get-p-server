@@ -1,5 +1,6 @@
 package es.princip.getp.fixture.project;
 
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.project.commission.model.MeetingType;
 import es.princip.getp.domain.project.commission.model.Project;
@@ -30,7 +31,7 @@ public class ProjectFixture {
         ))
         .hashtags(hashtags());
 
-    public static Project project(final Long clientId, final ProjectStatus status) {
+    public static Project project(final ClientId clientId, final ProjectStatus status) {
         return builder.clientId(clientId)
             .status(status)
             .applicationDuration(Duration.of(
@@ -40,7 +41,7 @@ public class ProjectFixture {
             .build();
     }
 
-    public static Project project(final Long clientId, final ProjectStatus status, final Duration applicationDuration) {
+    public static Project project(final ClientId clientId, final ProjectStatus status, final Duration applicationDuration) {
         return builder.clientId(clientId)
             .status(status)
             .applicationDuration(applicationDuration)

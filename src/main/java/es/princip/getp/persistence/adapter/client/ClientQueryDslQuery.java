@@ -4,6 +4,7 @@ import com.querydsl.core.Tuple;
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.support.QueryDslSupport;
@@ -27,7 +28,7 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
 
     private ClientResponse mapToClientResponse(final Tuple result) {
         return new ClientResponse(
-            result.get(client.clientId),
+            result.get(client.id),
             result.get(member.nickname),
             result.get(member.phoneNumber),
             result.get(client.email),
@@ -40,9 +41,9 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
     }
 
     @Override
-    public ClientResponse findClientById(final Long clientId) {
+    public ClientResponse findClientBy(final ClientId clientId) {
         final Tuple result = queryFactory.select(
-                client.clientId,
+                client.id,
                 member.nickname,
                 member.phoneNumber,
                 client.email,
@@ -54,7 +55,7 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
             )
             .from(client)
             .join(member).on(client.memberId.eq(member.id))
-            .where(client.clientId.eq(clientId))
+            .where(client.id.eq(clientId.getValue()))
             .fetchOne();
         validateTuple(result);
         return mapToClientResponse(result);
@@ -63,7 +64,7 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
     @Override
     public ClientResponse findClientBy(final MemberId memberId) {
         final Tuple result = queryFactory.select(
-                client.clientId,
+                client.id,
                 member.nickname,
                 member.phoneNumber,
                 client.email,
@@ -82,19 +83,19 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
     }
 
     @Override
-    public ProjectClientResponse findProjectClientById(final Long clientId) {
+    public ProjectClientResponse findProjectClientBy(final ClientId clientId) {
         final Tuple result = queryFactory.select(
-                client.clientId,
+                client.id,
                 member.nickname,
                 client.address
             )
             .from(client)
             .join(member).on(client.memberId.eq(member.id))
-            .where(client.clientId.eq(clientId))
+            .where(client.id.eq(clientId.getValue()))
             .fetchOne();
         validateTuple(result);
         return new ProjectClientResponse(
-            result.get(client.clientId),
+            result.get(client.id),
             result.get(member.nickname),
             mapper.mapToDomain(result.get(client.address))
         );

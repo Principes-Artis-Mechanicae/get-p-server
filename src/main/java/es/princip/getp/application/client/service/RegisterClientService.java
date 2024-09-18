@@ -8,6 +8,7 @@ import es.princip.getp.application.client.port.out.SaveClientPort;
 import es.princip.getp.application.member.command.EditMemberCommand;
 import es.princip.getp.application.member.port.in.EditMemberUseCase;
 import es.princip.getp.domain.client.model.Client;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.member.model.Member;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class RegisterClientService implements RegisterClientUseCase {
 
     @Override
     @Transactional
-    public Long register(RegisterClientCommand command) {
+    public ClientId register(RegisterClientCommand command) {
         final Member member = command.member();
         if (checkClientPort.existsBy(member.getId())) {
             throw new AlreadyExistsClientException();

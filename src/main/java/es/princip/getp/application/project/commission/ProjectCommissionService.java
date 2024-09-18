@@ -4,6 +4,7 @@ import es.princip.getp.application.client.port.out.LoadClientPort;
 import es.princip.getp.application.project.commission.command.CommissionProjectCommand;
 import es.princip.getp.application.project.commission.port.in.CommissionProjectUseCase;
 import es.princip.getp.application.project.commission.port.out.SaveProjectPort;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectData;
 import es.princip.getp.domain.project.commission.service.ProjectCommissioner;
@@ -23,7 +24,7 @@ public class ProjectCommissionService implements CommissionProjectUseCase {
 
     @Transactional
     public Long commission(final CommissionProjectCommand command) {
-        final Long clientId = loadClientPort.loadBy(command.memberId()).getClientId();
+        final ClientId clientId = loadClientPort.loadBy(command.memberId()).getId();
         final ProjectData data = projectDataMapper.mapToData(clientId, command);
         final Project project = projectCommissioner.commissionProject(data);
         return saveProjectPort.save(project);

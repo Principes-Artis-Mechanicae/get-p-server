@@ -1,8 +1,9 @@
 package es.princip.getp.application.client.port.in;
 
 import es.princip.getp.application.client.command.RegisterClientCommand;
+import es.princip.getp.domain.client.model.ClientId;
 
 public interface RegisterClientUseCase {
 
-    Long register(RegisterClientCommand command);
+    ClientId register(RegisterClientCommand command);
 }

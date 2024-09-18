@@ -1,5 +1,6 @@
 package es.princip.getp.domain.like.people.model;
 
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.support.BaseEntity;
 import jakarta.validation.constraints.NotNull;
@@ -12,13 +13,13 @@ import java.time.LocalDateTime;
 public class PeopleLike extends BaseEntity {
 
     private final Long id;
-    @NotNull private final Long clientId;
+    @NotNull private final ClientId clientId;
     @NotNull private final PeopleId peopleId;
 
     @Builder
     public PeopleLike(
         final Long id,
-        final Long clientId,
+        final ClientId clientId,
         final PeopleId peopleId,
         final LocalDateTime createdAt
     ) {

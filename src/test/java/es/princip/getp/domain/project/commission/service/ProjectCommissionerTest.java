@@ -1,5 +1,6 @@
 package es.princip.getp.domain.project.commission.service;
 
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.common.infrastructure.StubClockHolder;
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.common.service.ClockHolder;
@@ -25,7 +26,7 @@ class ProjectCommissionerTest {
 
     @Test
     void 지원자_모집_기간이_오늘보다_이전일_수_없다() {
-        final Long clientId = 1L;
+        final ClientId clientId = new ClientId(1L);
         final ProjectData data = new ProjectData(
             "프로젝트 제목",
             1_000_000L,
@@ -51,7 +52,7 @@ class ProjectCommissionerTest {
 
     @Test
     void 지원자_모집_기간이_오늘일_수_있다() {
-        final Long clientId = 1L;
+        final ClientId clientId = new ClientId(1L);
         final ProjectData data = new ProjectData(
             "프로젝트 제목",
             1_000_000L,
@@ -78,7 +79,7 @@ class ProjectCommissionerTest {
 
     @Test
     void 지원자_모집_기간은_예상_작업_기간보다_빠를_수_없다() {
-        final Long clientId = 1L;
+        final ClientId clientId = new ClientId(1L);
         final ProjectData data = new ProjectData(
             "프로젝트 제목",
             1_000_000L,

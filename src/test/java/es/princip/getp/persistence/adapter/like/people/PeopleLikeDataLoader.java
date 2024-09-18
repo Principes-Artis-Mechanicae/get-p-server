@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.like.people;
 
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.fixture.like.PeopleLikeFixture;
 import es.princip.getp.persistence.support.DataLoader;
@@ -23,7 +24,10 @@ public class PeopleLikeDataLoader implements DataLoader {
             LongStream.rangeClosed(1, size).forEach(peopleId ->
                 likeList.add(
                     mapper.mapToJpa(
-                        PeopleLikeFixture.peopleLike(1L, new PeopleId(peopleId))
+                        PeopleLikeFixture.peopleLike(
+                            new ClientId(1L),
+                            new PeopleId(peopleId)
+                        )
                     )
                 )
             )

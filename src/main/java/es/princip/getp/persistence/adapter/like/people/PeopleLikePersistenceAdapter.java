@@ -4,6 +4,7 @@ import es.princip.getp.application.like.people.port.out.CheckPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.DeletePeopleLikePort;
 import es.princip.getp.application.like.people.port.out.LoadPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.SavePeopleLikePort;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.like.people.model.PeopleLike;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.adapter.like.exception.NotFoundLikeException;
@@ -28,8 +29,11 @@ class PeopleLikePersistenceAdapter implements
     }
 
     @Override
-    public boolean existsBy(final Long clientId, final PeopleId peopleId) {
-        return repository.existsByClientIdAndPeopleId(clientId, peopleId.getValue());
+    public boolean existsBy(final ClientId clientId, final PeopleId peopleId) {
+        return repository.existsByClientIdAndPeopleId(
+            clientId.getValue(),
+            peopleId.getValue()
+        );
     }
 
     @Override
@@ -39,8 +43,11 @@ class PeopleLikePersistenceAdapter implements
     }
 
     @Override
-    public PeopleLike loadBy(final Long clientId, final PeopleId peopleId) {
-        final PeopleLikeJpaEntity entity = repository.findByClientIdAndPeopleId(clientId, peopleId.getValue())
+    public PeopleLike loadBy(final ClientId clientId, final PeopleId peopleId) {
+        final PeopleLikeJpaEntity entity = repository.findByClientIdAndPeopleId(
+                clientId.getValue(),
+                peopleId.getValue()
+            )
             .orElseThrow(NotFoundLikeException::new);
         return mapper.mapToDomain(entity);
     }

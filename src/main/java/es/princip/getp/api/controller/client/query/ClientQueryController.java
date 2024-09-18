@@ -4,6 +4,7 @@ import es.princip.getp.api.controller.client.query.dto.ClientResponse;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.client.port.out.ClientQuery;
+import es.princip.getp.domain.client.model.ClientId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,8 @@ public class ClientQueryController {
     @GetMapping("/{clientId}")
     @PreAuthorize("(hasRole('ADMIN') or hasRole('MANAGER')) and isAuthenticated()")
     public ResponseEntity<ApiSuccessResult<ClientResponse>> getClient(@PathVariable final Long clientId) {
-        final ClientResponse response = clientQuery.findClientById(clientId);
+        final ClientId id = new ClientId(clientId);
+        final ClientResponse response = clientQuery.findClientBy(id);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

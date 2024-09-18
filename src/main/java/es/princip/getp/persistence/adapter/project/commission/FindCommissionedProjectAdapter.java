@@ -69,13 +69,13 @@ class FindCommissionedProjectAdapter extends QueryDslSupport implements FindComm
     private JPAQuery<Long> getMyProjectsCountQuery(final MemberId memberId, final Boolean cancelled) {
         return queryFactory.select(project.count())
             .from(project)
-            .join(client).on(project.clientId.eq(client.clientId))
+            .join(client).on(project.clientId.eq(client.id))
             .where(client.memberId.eq(memberId.getValue()), cancelledFilter(cancelled));
     }
 
     private List<Project> getMyProjects(final Pageable pageable, final MemberId memberId, final Boolean cancelled) {
         return queryFactory.selectFrom(project)
-            .join(client).on(project.clientId.eq(client.clientId))
+            .join(client).on(project.clientId.eq(client.id))
             .where(client.memberId.eq(memberId.getValue()), cancelledFilter(cancelled))
             .orderBy(orderSpecifiersFromSort(pageable.getSort()))
             .offset(pageable.getOffset())
