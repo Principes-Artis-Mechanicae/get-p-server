@@ -6,6 +6,7 @@ import es.princip.getp.application.like.people.port.out.CheckPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.SavePeopleLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.client.model.Client;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleId;
@@ -33,7 +34,7 @@ class LikePeopleServiceTest {
     @Mock private CheckPeopleLikePort checkPeopleLikePort;
     @InjectMocks private LikePeopleService likePeopleService;
 
-    private final Long clientId = 1L;
+    private final ClientId clientId = new ClientId(1L);
     private final MemberId memberId = new MemberId(1L);
     private final PeopleId peopleId = new PeopleId(1L);
     
@@ -43,7 +44,7 @@ class LikePeopleServiceTest {
     void setUp() {
         given(loadPeoplePort.loadBy(peopleId)).willReturn(people);
         Client client = spy(ClientFixture.client(memberId));
-        doReturn(clientId).when(client).getClientId();
+        doReturn(clientId).when(client).getId();
         given(loadClientPort.loadBy(memberId)).willReturn(client);
     }
 

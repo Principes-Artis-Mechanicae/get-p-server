@@ -8,6 +8,7 @@ import es.princip.getp.application.project.meeting.exception.NotApplicantExcepti
 import es.princip.getp.application.project.meeting.exception.NotClientOfProjectException;
 import es.princip.getp.application.project.meeting.port.out.CheckProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleId;
@@ -38,7 +39,7 @@ class ProjectMeetingServiceTest {
 
     @Mock private CheckProjectApplicationPort checkProjectApplicationPort;
     @Mock private LoadPeoplePort loadPeoplePort;
-    
+
     @Mock private LoadProjectPort loadProjectPort;
     @Mock private SaveProjectMeetingPort saveProjectMeetingPort;
     @Mock private CheckProjectMeetingPort checkProjectMeetingPort;
@@ -47,12 +48,17 @@ class ProjectMeetingServiceTest {
 
     @InjectMocks private ProjectMeetingService projectMeetingService;
 
-    private final MemberId memberId = new MemberId(1L);
-    private final Long projectId = 1L;
-    private final PeopleId applicantId = new PeopleId(1L);
-    private final Long meetingId = 1L;
-    private final Project project = ProjectFixture.project(1L, ProjectStatus.APPLYING);
-    private final People people = PeopleFixture.people(memberId, PeopleType.INDIVIDUAL);
+    private final MemberId pmemberId = new MemberId(1L); // 지원자의 회원 ID
+    private final PeopleId applicantId = new PeopleId(1L); // 지원자의 피플 ID
+
+    private final MemberId cmemberId = new MemberId(2L); // 의뢰자의 회원 ID
+    private final ClientId clientId = new ClientId(1L); // 지원자가 지원한 프로젝트의 의뢰자의 의뢰자 ID
+    private final Long projectId = 1L; // 지원자가 지원한 프로젝트의 프로젝트 ID
+
+    private final Long meetingId = 1L; // 신청된 미팅의 미팅 ID
+
+    private final Project project = ProjectFixture.project(clientId, ProjectStatus.APPLYING);
+    private final People people = PeopleFixture.people(pmemberId, PeopleType.INDIVIDUAL);
 
     @BeforeEach
     void setUp() {
@@ -62,14 +68,14 @@ class ProjectMeetingServiceTest {
 
     @Test
     void 의뢰자는_프로젝트_지원자에게_미팅을_신청할_수_있다() {
-        given(checkProjectMeetingPort.existsApplicantBy(memberId, projectId))
+        given(checkProjectMeetingPort.existsApplicantBy(cmemberId, projectId))
             .willReturn(true);
         given(checkProjectApplicationPort.existsBy(applicantId, projectId))
             .willReturn(true);
         given(saveProjectMeetingPort.save(any(ProjectMeeting.class)))
             .willReturn(meetingId);
         
-        final ScheduleMeetingCommand command = scheduleMeetingCommand(memberId, projectId, applicantId);
+        final ScheduleMeetingCommand command = scheduleMeetingCommand(cmemberId, projectId, applicantId);
 
         final Long meetingId = projectMeetingService.scheduleMeeting(command);
 
@@ -81,10 +87,10 @@ class ProjectMeetingServiceTest {
 
     @Test
     void 의뢰자는_자신이_의뢰한_프로젝트가_아니면_미팅을_신청할_수_없다() {
-        given(checkProjectMeetingPort.existsApplicantBy(memberId, projectId))
+        given(checkProjectMeetingPort.existsApplicantBy(cmemberId, projectId))
             .willReturn(false);
         
-        final ScheduleMeetingCommand command = scheduleMeetingCommand(memberId, projectId, applicantId);
+        final ScheduleMeetingCommand command = scheduleMeetingCommand(cmemberId, projectId, applicantId);
 
         assertThatThrownBy(() -> projectMeetingService.scheduleMeeting(command))
             .isInstanceOf(NotClientOfProjectException.class);
@@ -92,12 +98,12 @@ class ProjectMeetingServiceTest {
 
     @Test
     void 의뢰자는_프로젝트_지원자가_아닌_피플에게_미팅을_신청할_수_없다() {
-        given(checkProjectMeetingPort.existsApplicantBy(memberId, projectId))
+        given(checkProjectMeetingPort.existsApplicantBy(cmemberId, projectId))
             .willReturn(true);
         given(checkProjectApplicationPort.existsBy(applicantId, projectId))
             .willReturn(false);
         
-        final ScheduleMeetingCommand command = scheduleMeetingCommand(memberId, projectId, applicantId);
+        final ScheduleMeetingCommand command = scheduleMeetingCommand(cmemberId, projectId, applicantId);
         
         assertThatThrownBy(() -> projectMeetingService.scheduleMeeting(command))
             .isInstanceOf(NotApplicantException.class);

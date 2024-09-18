@@ -7,6 +7,7 @@ import es.princip.getp.application.like.people.port.out.CheckPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.SavePeopleLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.client.model.Client;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.like.people.model.PeopleLike;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
@@ -30,18 +31,18 @@ class LikePeopleService implements LikePeopleUseCase {
         final Client client = loadClientPort.loadBy(memberId);
         // TODO: 조회 성능 개선 필요
         final People people = loadPeoplePort.loadBy(peopleId);
-        checkAlreadyLiked(client.getClientId(), peopleId);
-        final PeopleLike peopleLike = buildPeopleLike(client.getClientId(), peopleId);
+        checkAlreadyLiked(client.getId(), peopleId);
+        final PeopleLike peopleLike = buildPeopleLike(client.getId(), peopleId);
         savePeopleLikePort.save(peopleLike);
     }
 
-    private void checkAlreadyLiked(final Long clientId, final PeopleId peopleId) {
+    private void checkAlreadyLiked(final ClientId clientId, final PeopleId peopleId) {
         if (checkPeopleLikePort.existsBy(clientId, peopleId)) {
             throw new AlreadyLikedException();
         }
     }
 
-    private PeopleLike buildPeopleLike(final Long clientId, final PeopleId peopleId) {
+    private PeopleLike buildPeopleLike(final ClientId clientId, final PeopleId peopleId) {
         return PeopleLike.builder()
             .clientId(clientId)
             .peopleId(peopleId)

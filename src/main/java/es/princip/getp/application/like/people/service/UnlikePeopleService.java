@@ -8,6 +8,7 @@ import es.princip.getp.application.like.people.port.out.DeletePeopleLikePort;
 import es.princip.getp.application.like.people.port.out.LoadPeopleLikePort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.client.model.Client;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.like.people.model.PeopleLike;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
@@ -32,12 +33,12 @@ class UnlikePeopleService implements UnlikePeopleUseCase {
         final Client client = loadClientPort.loadBy(memberId);
         // TODO: 조회 성능 개선 필요
         final People people = loadPeoplePort.loadBy(peopleId);
-        final PeopleLike peopleLike = loadPeopleLikePort.loadBy(client.getClientId(), peopleId);
-        checkNeverLiked(client.getClientId(), peopleId);
+        final PeopleLike peopleLike = loadPeopleLikePort.loadBy(client.getId(), peopleId);
+        checkNeverLiked(client.getId(), peopleId);
         deletePeopleLikePort.delete(peopleLike);
     }
 
-    private void checkNeverLiked(final Long clientId, final PeopleId peopleId) {
+    private void checkNeverLiked(final ClientId clientId, final PeopleId peopleId) {
         if (!checkPeopleLikePort.existsBy(clientId, peopleId)) {
             throw new NeverLikedException();
         } 
