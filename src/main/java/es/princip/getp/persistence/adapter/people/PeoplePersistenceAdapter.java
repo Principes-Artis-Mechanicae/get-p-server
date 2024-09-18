@@ -3,6 +3,7 @@ package es.princip.getp.persistence.adapter.people;
 import es.princip.getp.application.people.port.out.*;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
 import lombok.RequiredArgsConstructor;
@@ -18,46 +19,49 @@ class PeoplePersistenceAdapter implements
         DeletePeoplePort {
 
     private final PeoplePersistenceMapper mapper;
-
-    private final PeopleJpaRepository peopleJpaRepository;
+    private final PeopleJpaRepository repository;
 
     @Override
     public boolean existsBy(final MemberId memberId) {
-        return peopleJpaRepository.existsByMemberId(memberId.getValue());
+        return repository.existsByMemberId(memberId.getValue());
     }
 
     @Override
     public People loadBy(final MemberId memberId) {
-        final PeopleJpaEntity peopleJpaEntity = peopleJpaRepository.findByMemberId(memberId.getValue())
+        final PeopleJpaEntity peopleJpaEntity = repository.findByMemberId(memberId.getValue())
             .orElseThrow(NotFoundPeopleException::new);
         return mapper.mapToDomain(peopleJpaEntity);
     }
 
     @Override
-    public People loadByPeopleId(final Long peopleId) {
-        final PeopleJpaEntity peopleJpaEntity = peopleJpaRepository.findById(peopleId)
+    public People loadBy(final PeopleId peopleId) {
+        final PeopleJpaEntity peopleJpaEntity = repository.findById(peopleId.getValue())
             .orElseThrow(NotFoundPeopleException::new);
         return mapper.mapToDomain(peopleJpaEntity);
     }
 
     @Override
-    public Long save(final People people) {
-        return peopleJpaRepository.save(mapper.mapToJpa(people)).getId();
+    public PeopleId save(final People people) {
+        final PeopleJpaEntity peopleJpaEntity = mapper.mapToJpa(people);
+        final Long id = repository.save(peopleJpaEntity).getId();
+        return new PeopleId(id);
     }
 
     @Override
     public void update(final People people) {
-        if (!peopleJpaRepository.existsById(people.getId())) {
+        final Long id = people.getId().getValue();
+        if (!repository.existsById(id)) {
             throw new NotFoundPeopleException();
         }
-        peopleJpaRepository.save(mapper.mapToJpa(people));
+        repository.save(mapper.mapToJpa(people));
     }
 
     @Override
-    public void delete(final Long peopleId) {
-        if (!peopleJpaRepository.existsById(peopleId)) {
+    public void delete(final PeopleId peopleId) {
+        final Long id = peopleId.getValue();
+        if (!repository.existsById(id)) {
             throw new NotFoundPeopleException();
         }
-        peopleJpaRepository.deleteById(peopleId);
+        repository.deleteById(id);
     }
 }

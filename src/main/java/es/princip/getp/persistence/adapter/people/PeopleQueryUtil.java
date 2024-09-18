@@ -2,6 +2,7 @@ package es.princip.getp.persistence.adapter.people;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.people.model.PeopleOrder;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
 import es.princip.getp.persistence.adapter.people.model.QPeopleJpaEntity;
@@ -35,9 +36,10 @@ class PeopleQueryUtil {
             .toArray(OrderSpecifier[]::new);
     }
 
-    static Long[] toPeopleIds(final List<PeopleJpaEntity> peoples) {
+    static PeopleId[] toPeopleIds(final List<PeopleJpaEntity> peoples) {
         return peoples.stream()
             .map(PeopleJpaEntity::getId)
-            .toArray(Long[]::new);
+            .map(PeopleId::new)
+            .toArray(PeopleId[]::new);
     }
 }

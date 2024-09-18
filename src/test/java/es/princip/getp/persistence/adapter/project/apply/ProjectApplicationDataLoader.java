@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.support.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,11 @@ public class ProjectApplicationDataLoader implements DataLoader {
         final List<ProjectApplicationJpaEntity> projectApplicationList = new ArrayList<>();
         LongStream.rangeClosed(1, size).forEach(projectId ->
             LongStream.rangeClosed(1, size).forEach(peopleId ->
-                projectApplicationList.add(mapper.mapToJpa(projectApplication(peopleId, projectId)))
+                projectApplicationList.add(
+                    mapper.mapToJpa(
+                        projectApplication(new PeopleId(peopleId), projectId)
+                    )
+                )
             )
         );
         projectApplicationList.forEach(entityManager::persist);
