@@ -8,6 +8,7 @@ import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
+import es.princip.getp.domain.people.model.PeopleId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,11 +35,12 @@ public class PeopleQueryController extends ControllerSupport {
      */
     @GetMapping("/{peopleId}")
     public ResponseEntity<? extends ApiSuccessResult<?>> getPeople(@PathVariable final Long peopleId) {
+        final PeopleId id = new PeopleId(peopleId);
         if (isAuthenticated()) {
-            final DetailPeopleResponse response = getPeopleQuery.getDetailById(peopleId);
+            final DetailPeopleResponse response = getPeopleQuery.getDetailBy(id);
             return ApiResponse.success(HttpStatus.OK, response);
         }
-        final PublicDetailPeopleResponse response = getPeopleQuery.getPublicDetailById(peopleId);
+        final PublicDetailPeopleResponse response = getPeopleQuery.getPublicDetailBy(id);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 

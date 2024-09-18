@@ -6,6 +6,7 @@ import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.like.people.port.in.LikePeopleUseCase;
 import es.princip.getp.application.like.people.port.in.UnlikePeopleUseCase;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.people.model.PeopleId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,8 @@ public class PeopleLikeController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final MemberId memberId = principalDetails.getMember().getId();
-        likePeopleUseCase.like(memberId, peopleId);
+        final PeopleId pid = new PeopleId(peopleId);
+        likePeopleUseCase.like(memberId, pid);
         return ApiResponse.success(HttpStatus.CREATED);
     }
 
@@ -51,7 +53,8 @@ public class PeopleLikeController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final MemberId memberId = principalDetails.getMember().getId();
-        unlikePeopleUseCase.unlike(memberId, peopleId);
+        final PeopleId pid = new PeopleId(peopleId);
+        unlikePeopleUseCase.unlike(memberId, pid);
         return ApiResponse.success(HttpStatus.NO_CONTENT);
     }
 }

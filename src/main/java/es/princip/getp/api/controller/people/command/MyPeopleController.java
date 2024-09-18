@@ -39,7 +39,7 @@ public class MyPeopleController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final MemberId memberId = principalDetails.getMember().getId();
         final RegisterPeopleCommand command = request.toCommand(memberId);
-        final Long peopleId = registerPeopleUseCase.register(command);
+        final Long peopleId = registerPeopleUseCase.register(command).getValue();
         final RegisterPeopleResponse response = new RegisterPeopleResponse(peopleId);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }
