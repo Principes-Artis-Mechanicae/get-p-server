@@ -10,6 +10,7 @@ import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
+import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import es.princip.getp.domain.project.apply.service.ProjectApplier;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectId;
@@ -37,7 +38,7 @@ class ProjectApplicationService implements ApplyProjectUseCase {
      */
     @Override
     @Transactional
-    public Long apply(final ApplyProjectCommand command) {
+    public ProjectApplicationId apply(final ApplyProjectCommand command) {
         final People applicant = loadPeoplePort.loadBy(command.memberId());
         final PeopleId applicantId = applicant.getId();
         final ProjectId projectId = command.projectId();
