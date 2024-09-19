@@ -8,6 +8,7 @@ import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.project.commission.command.CommissionProjectCommand;
 import es.princip.getp.application.project.commission.port.in.CommissionProjectUseCase;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,8 +42,8 @@ public class ProjectCommissionController {
     ) {
         final MemberId memberId = principalDetails.getMember().getId();
         final CommissionProjectCommand command = projectCommandMapper.mapToCommand(memberId, request);
-        final Long projectId = commissionProjectUseCase.commission(command);
-        final CommissionProjectResponse response = new CommissionProjectResponse(projectId);
+        final ProjectId projectId = commissionProjectUseCase.commission(command);
+        final CommissionProjectResponse response = new CommissionProjectResponse(projectId.getValue());
         return ApiResponse.success(HttpStatus.CREATED, response);
     }
 }

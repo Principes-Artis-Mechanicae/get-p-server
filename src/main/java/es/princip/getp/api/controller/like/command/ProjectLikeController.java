@@ -6,6 +6,7 @@ import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.like.project.port.in.LikeProjectUseCase;
 import es.princip.getp.application.like.project.port.in.UnlikeProjectUseCase;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,8 @@ public class ProjectLikeController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final MemberId memberId = principalDetails.getMember().getId();
-        likeProjectUseCase.like(memberId, projectId);
+        final ProjectId pid = new ProjectId(projectId);
+        likeProjectUseCase.like(memberId, pid);
         return ApiResponse.success(HttpStatus.CREATED);
     }
 
@@ -51,7 +53,8 @@ public class ProjectLikeController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
         final MemberId memberId = principalDetails.getMember().getId();
-        unlikeProjectUseCase.unlike(memberId, projectId);
+        final ProjectId pid = new ProjectId(projectId);
+        unlikeProjectUseCase.unlike(memberId, pid);
         return ApiResponse.success(HttpStatus.NO_CONTENT);
     }
 }

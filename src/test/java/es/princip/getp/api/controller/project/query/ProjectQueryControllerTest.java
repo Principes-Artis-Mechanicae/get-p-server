@@ -15,6 +15,7 @@ import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.project.commission.model.MeetingType;
 import es.princip.getp.domain.project.commission.model.ProjectCategory;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -101,10 +102,10 @@ class ProjectQueryControllerTest extends ControllerTest {
     @Nested
     class GetProjectByProjectId {
 
-        private final Long projectId = 1L;
+        private final ProjectId projectId = new ProjectId(1L);
 
         private ResultActions perform() throws Exception {
-            return mockMvc.perform(get("/projects/{projectId}", projectId)
+            return mockMvc.perform(get("/projects/{projectId}", projectId.getValue())
                 .header("Authorization", "Bearer ${ACCESS_TOKEN}"));
         }
 
@@ -112,7 +113,7 @@ class ProjectQueryControllerTest extends ControllerTest {
         @DisplayName("사용자는 프로젝트의 상세 정보를 조회할 수 있다.")
         void getProjectByProjectId() throws Exception {
             ProjectDetailResponse response = new ProjectDetailResponse(
-                projectId,
+                projectId.getValue(),
                 "프로젝트 제목",
                 1_000_000L,
                 Duration.of(
@@ -146,7 +147,7 @@ class ProjectQueryControllerTest extends ControllerTest {
                     address()
                 )
             );
-            given(getProjectQuery.getDetailById(projectId)).willReturn(response);
+            given(getProjectQuery.getDetailBy(projectId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

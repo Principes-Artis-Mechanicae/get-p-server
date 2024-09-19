@@ -19,7 +19,7 @@ public record ProjectCardResponse(
 
     public static ProjectCardResponse of(final Project project, final Long applicantsCount) {
         return new ProjectCardResponse(
-            project.getProjectId(),
+            project.getId().getValue(),
             project.getTitle(),
             project.getPayment(),
             applicantsCount,

@@ -6,6 +6,7 @@ import es.princip.getp.application.like.project.port.in.LikeProjectUseCase;
 import es.princip.getp.application.like.project.port.in.UnlikeProjectUseCase;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,10 +29,10 @@ class ProjectLikeControllerTest extends ControllerTest {
     class LikeProject {
 
         private final MemberId memberId = new MemberId(1L);
-        private final Long projectId = 1L;
+        private final ProjectId projectId = new ProjectId(1L);
 
         private ResultActions perform() throws Exception {
-            return mockMvc.perform(post("/projects/{projectId}/likes", projectId)
+            return mockMvc.perform(post("/projects/{projectId}/likes", projectId.getValue())
                 .header("Authorization", "Bearer ${ACCESS_TOKEN}"));
         }
 
@@ -55,10 +56,10 @@ class ProjectLikeControllerTest extends ControllerTest {
     class UnlikeProject {
 
         private final MemberId memberId = new MemberId(1L);
-        private final Long projectId = 1L;
+        private final ProjectId projectId = new ProjectId(1L);
 
         private ResultActions perform() throws Exception {
-            return mockMvc.perform(delete("/projects/{projectId}/likes", projectId)
+            return mockMvc.perform(delete("/projects/{projectId}/likes", projectId.getValue())
                 .header("Authorization", "Bearer ${ACCESS_TOKEN}"));
         }
 

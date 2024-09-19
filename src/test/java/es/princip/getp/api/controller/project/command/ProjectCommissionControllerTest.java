@@ -10,6 +10,7 @@ import es.princip.getp.application.project.commission.ProjectCommissionService;
 import es.princip.getp.application.project.commission.command.CommissionProjectCommand;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ class ProjectCommissionControllerTest extends ControllerTest {
             given(projectCommandMapper.mapToCommand(any(MemberId.class), any(CommissionProjectRequest.class)))
                 .willReturn(mock(CommissionProjectCommand.class));
             given(projectCommissionService.commission(any(CommissionProjectCommand.class)))
-                .willReturn(1L);
+                .willReturn(new ProjectId(1L));
 
             perform()
                 .andExpect(status().isCreated())
