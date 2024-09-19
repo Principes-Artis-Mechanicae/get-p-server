@@ -4,6 +4,7 @@ import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,7 @@ public class GetProjectService implements GetProjectQuery {
     }
 
     @Override
-    public ProjectDetailResponse getDetailById(final Long projectId) {
+    public ProjectDetailResponse getDetailBy(final ProjectId projectId) {
         return findProjectPort.findBy(projectId);
     }
 }

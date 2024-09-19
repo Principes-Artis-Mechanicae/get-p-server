@@ -1,8 +1,9 @@
 package es.princip.getp.application.project.commission.port.in;
 
 import es.princip.getp.application.project.commission.command.CommissionProjectCommand;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 
 public interface CommissionProjectUseCase {
 
-    Long commission(CommissionProjectCommand command);
+    ProjectId commission(CommissionProjectCommand command);
 }

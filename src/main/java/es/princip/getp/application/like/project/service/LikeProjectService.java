@@ -11,6 +11,7 @@ import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,7 @@ class LikeProjectService implements LikeProjectUseCase {
      * @param projectId 좋아요를 누를 프로젝트 ID
      */
     @Transactional
-    public void like(final MemberId memberId, final Long projectId) {
+    public void like(final MemberId memberId, final ProjectId projectId) {
         final People people = loadPeoplePort.loadBy(memberId);
         // TODO: 조회 성능 개선 필요
         final Project project = loadProjectPort.loadBy(projectId);
@@ -41,13 +42,13 @@ class LikeProjectService implements LikeProjectUseCase {
         saveProjectLikePort.save(projectLike);
     }
 
-    private void checkAlreadyLiked(final PeopleId peopleId, final Long projectId) {
+    private void checkAlreadyLiked(final PeopleId peopleId, final ProjectId projectId) {
         if (checkProjectLikePort.existsBy(peopleId, projectId)) {
             throw new AlreadyLikedException();
         }
     }
 
-    private ProjectLike buildProjectLike(final PeopleId peopleId, final Long projectId) {
+    private ProjectLike buildProjectLike(final PeopleId peopleId, final ProjectId projectId) {
         return ProjectLike.builder()
             .peopleId(peopleId)
             .projectId(projectId)

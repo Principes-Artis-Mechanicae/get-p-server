@@ -12,6 +12,7 @@ import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,13 +61,13 @@ public class ProjectMeetingService {
         return meetingId;
     }
 
-    private void checkMemberIsClientOfProject(final MemberId memberId, final Long projectId) {
+    private void checkMemberIsClientOfProject(final MemberId memberId, final ProjectId projectId) {
         if (!checkProjectMeetingPort.existsApplicantBy(memberId, projectId)) {
             throw new NotClientOfProjectException();
         }
     }
 
-    private void checkPeopleIsApplicant(final PeopleId applicantId, final Long projectId) {
+    private void checkPeopleIsApplicant(final PeopleId applicantId, final ProjectId projectId) {
         if (!checkProjectApplicationPort.existsBy(applicantId, projectId)) {
             throw new NotApplicantException();
         }
