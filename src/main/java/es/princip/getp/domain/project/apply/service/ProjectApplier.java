@@ -47,7 +47,7 @@ public class ProjectApplier {
         }
         return ProjectApplication.builder()
             .applicantId(people.getId())
-            .projectId(project.getProjectId())
+            .projectId(project.getId())
             .expectedDuration(expectedDuration)
             .description(description)
             .attachmentFiles(attachmentFiles)

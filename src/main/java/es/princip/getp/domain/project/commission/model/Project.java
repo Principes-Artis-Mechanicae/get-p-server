@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 public class Project extends BaseEntity {
 
-    private Long projectId;
+    private ProjectId id;
     @NotBlank private String title; // 제목
     @NotNull private Long payment; // 금액
     @NotNull private Duration applicationDuration; // 지원자 모집 기간
@@ -35,7 +35,7 @@ public class Project extends BaseEntity {
 
     @Builder
     public Project(
-        final Long projectId,
+        final ProjectId id,
         final String title,
         final Long payment,
         final Duration applicationDuration,
@@ -53,7 +53,7 @@ public class Project extends BaseEntity {
     ) {
         super(createdAt, updatedAt);
 
-        this.projectId = projectId;
+        this.id = id;
         this.title = title;
         this.payment = payment;
         this.applicationDuration = applicationDuration;

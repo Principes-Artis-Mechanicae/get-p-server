@@ -1,9 +1,10 @@
 package es.princip.getp.domain.project.apply.model;
 
-import es.princip.getp.domain.people.model.PeopleId;
-import es.princip.getp.domain.support.BaseEntity;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
+import es.princip.getp.domain.people.model.PeopleId;
+import es.princip.getp.domain.project.commission.model.ProjectId;
+import es.princip.getp.domain.support.BaseEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -17,7 +18,7 @@ public class ProjectApplication extends BaseEntity {
 
     private Long applicationId;
     @NotNull private final PeopleId applicantId;
-    @NotNull private final Long projectId;
+    @NotNull private final ProjectId projectId;
     @NotNull private Duration expectedDuration;
     @NotNull private ProjectApplicationStatus applicationStatus;
     @NotBlank private String description;
@@ -27,7 +28,7 @@ public class ProjectApplication extends BaseEntity {
     public ProjectApplication(
         final Long applicationId,
         final PeopleId applicantId,
-        final Long projectId,
+        final ProjectId projectId,
         final Duration expectedDuration,
         final ProjectApplicationStatus applicationStatus,
         final String description,
