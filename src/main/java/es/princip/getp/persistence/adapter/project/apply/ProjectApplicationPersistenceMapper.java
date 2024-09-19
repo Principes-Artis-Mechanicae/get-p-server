@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {AttachmentFilePersistenceMapper.class})
 interface ProjectApplicationPersistenceMapper {
 
+    @Mapping(source = "id", target = "id.value")
     @Mapping(source = "applicantId", target = "applicantId.value")
     @Mapping(source = "projectId", target = "projectId.value")
     ProjectApplication mapToDomain(ProjectApplicationJpaEntity applicationJpaEntity);

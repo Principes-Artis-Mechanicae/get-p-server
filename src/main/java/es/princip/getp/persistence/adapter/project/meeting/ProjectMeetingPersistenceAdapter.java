@@ -1,11 +1,8 @@
 package es.princip.getp.persistence.adapter.project.meeting;
 
-import es.princip.getp.application.project.meeting.port.out.CheckProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.LoadProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.UpdateProjectMeetingPort;
-import es.princip.getp.domain.member.model.MemberId;
-import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
 import es.princip.getp.persistence.adapter.project.meeting.model.ProjectMeetingJpaEntity;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +11,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 class ProjectMeetingPersistenceAdapter implements
-        SaveProjectMeetingPort,
-        LoadProjectMeetingPort,
-        UpdateProjectMeetingPort,
-        CheckProjectMeetingPort {
+    SaveProjectMeetingPort,
+    LoadProjectMeetingPort,
+    UpdateProjectMeetingPort {
 
     private final ProjectMeetingPersistenceMapper mapper;
-    private final ProjectMeetingRepository repository;
+    private final ProjectMeetingJpaRepository repository;
 
     @Override
     public Long save(final ProjectMeeting projectMeeting) {
@@ -43,10 +39,5 @@ class ProjectMeetingPersistenceAdapter implements
         }
         final ProjectMeetingJpaEntity jpaEntity = mapper.mapToJpa(projectMeeting);
         repository.save(jpaEntity);
-    }
-
-    @Override
-    public boolean existsApplicantBy(final MemberId memberId, final ProjectId projectId) {
-        return repository.existsApplicantBy(projectId, memberId);
     }
 }

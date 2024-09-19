@@ -4,6 +4,7 @@ import es.princip.getp.application.project.apply.port.out.CheckProjectApplicatio
 import es.princip.getp.application.project.apply.port.out.SaveProjectApplicationPort;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
+import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,9 +19,9 @@ class ProjectApplicationPersistenceAdapter implements
     private final ProjectApplicationJpaRepository repository;
 
     @Override
-    public Long save(final ProjectApplication application) {
+    public ProjectApplicationId save(final ProjectApplication application) {
         final ProjectApplicationJpaEntity jpaEntity = mapper.mapToJpa(application);
-        return repository.save(jpaEntity).getApplicationId();
+        return new ProjectApplicationId(repository.save(jpaEntity).getId());
     }
 
     @Override
