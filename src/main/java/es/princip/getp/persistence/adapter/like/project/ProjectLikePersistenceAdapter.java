@@ -6,6 +6,7 @@ import es.princip.getp.application.like.project.port.out.LoadProjectLikePort;
 import es.princip.getp.application.like.project.port.out.SaveProjectLikePort;
 import es.princip.getp.domain.like.project.model.ProjectLike;
 import es.princip.getp.domain.people.model.PeopleId;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.persistence.adapter.like.exception.NotFoundLikeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -28,8 +29,11 @@ class ProjectLikePersistenceAdapter implements
     }
 
     @Override
-    public boolean existsBy(final PeopleId peopleId, Long projectId) {
-        return repository.existsByPeopleIdAndProjectId(peopleId.getValue(), projectId);
+    public boolean existsBy(final PeopleId peopleId, ProjectId projectId) {
+        return repository.existsByPeopleIdAndProjectId(
+            peopleId.getValue(),
+            projectId.getValue()
+        );
     }
 
     @Override
@@ -39,8 +43,11 @@ class ProjectLikePersistenceAdapter implements
     }
 
     @Override
-    public ProjectLike loadBy(final PeopleId peopleId, final Long projectId) {
-        final ProjectLikeJpaEntity jpaEntity = repository.findByPeopleIdAndProjectId(peopleId.getValue(), projectId)
+    public ProjectLike loadBy(final PeopleId peopleId, final ProjectId projectId) {
+        final ProjectLikeJpaEntity jpaEntity = repository.findByPeopleIdAndProjectId(
+                peopleId.getValue(),
+                projectId.getValue()
+            )
             .orElseThrow(NotFoundLikeException::new);
         return mapper.mapToDomain(jpaEntity);
     }

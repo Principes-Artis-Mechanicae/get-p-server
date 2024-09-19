@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 interface ProjectApplicationPersistenceMapper {
 
     @Mapping(source = "applicantId", target = "applicantId.value")
+    @Mapping(source = "projectId", target = "projectId.value")
     ProjectApplication mapToDomain(ProjectApplicationJpaEntity applicationJpaEntity);
 
     @InheritInverseConfiguration

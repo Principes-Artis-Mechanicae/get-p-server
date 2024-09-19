@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ProjectLikePersistenceMapper {
 
+    @Mapping(source = "projectId", target = "projectId.value")
     @Mapping(source = "peopleId", target = "peopleId.value")
     ProjectLike mapToDomain(ProjectLikeJpaEntity projectLikeJpaEntity);
 

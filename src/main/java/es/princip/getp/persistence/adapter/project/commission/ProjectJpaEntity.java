@@ -22,7 +22,7 @@ public class ProjectJpaEntity extends BaseTimeJpaEntity {
     @Id
     @Column(name = "project_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long projectId;
+    private Long id;
 
     @Column(name = "title")
     private String title;

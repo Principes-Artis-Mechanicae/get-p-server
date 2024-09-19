@@ -1,6 +1,7 @@
 package es.princip.getp.persistence.adapter.like.project;
 
 import es.princip.getp.application.like.project.port.out.CountProjectLikePort;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
@@ -40,7 +41,7 @@ public class CountProjectLikeAdapterTest extends PersistenceAdapterTest {
 
     @Test
     void 프로젝트가_받은_좋아요_수를_조회한다() {
-        final Long likesCount = countProjectLikePort.countBy(1L);
+        final Long likesCount = countProjectLikePort.countBy(new ProjectId(1L));
 
         assertThat(likesCount).isEqualTo(TEST_SIZE);
     }

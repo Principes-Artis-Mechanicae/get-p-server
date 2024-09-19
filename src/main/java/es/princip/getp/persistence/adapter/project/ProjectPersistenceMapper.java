@@ -11,6 +11,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {AttachmentFilePersistenceMapper.class, HashtagPersistenceMapper.class})
 public interface ProjectPersistenceMapper {
 
+    @Mapping(source = "id", target = "id.value")
     @Mapping(source = "clientId", target = "clientId.value")
     Project mapToDomain(ProjectJpaEntity projectJpaEntity);
 

@@ -22,7 +22,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FindAppliedProjectAdapterTest extends PersistenceAdapterTest {
+class FindAppliedProjectAdapterTest extends PersistenceAdapterTest {
 
     private static final int TEST_SIZE = 20;
     private static final int PAGE_SIZE = 10;

@@ -4,6 +4,7 @@ import es.princip.getp.application.project.apply.port.out.CheckProjectApplicatio
 import es.princip.getp.application.project.apply.port.out.SaveProjectApplicationPort;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +24,7 @@ class ProjectApplicationPersistenceAdapter implements
     }
 
     @Override
-    public boolean existsBy(final PeopleId applicantId, final Long projectId) {
-        return repository.existsByApplicantIdAndProjectId(applicantId.getValue(), projectId);
+    public boolean existsBy(final PeopleId applicantId, final ProjectId projectId) {
+        return repository.existsByApplicantIdAndProjectId(applicantId.getValue(), projectId.getValue());
     }
 }

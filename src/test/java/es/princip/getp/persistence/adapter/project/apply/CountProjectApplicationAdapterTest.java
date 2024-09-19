@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
@@ -15,13 +16,13 @@ import java.util.stream.LongStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class FindProjectApplicationAdapterTest extends PersistenceAdapterTest {
+class CountProjectApplicationAdapterTest extends PersistenceAdapterTest {
 
     private static final int TEST_SIZE = 10;
 
     @PersistenceContext private EntityManager entityManager;
     @Autowired private ProjectApplicationPersistenceMapper applicationMapper;
-    @Autowired private FindProjectApplicationAdapter adapter;
+    @Autowired private CountProjectApplicationAdapter adapter;
 
     private List<DataLoader> dataLoaders;
 
@@ -40,10 +41,11 @@ class FindProjectApplicationAdapterTest extends PersistenceAdapterTest {
 
     @Test
     void 각_프로젝트마다_지원자_수를_구한다() {
-        final Long[] projectIds = LongStream.rangeClosed(1, TEST_SIZE)
+        final ProjectId[] projectIds = LongStream.rangeClosed(1, TEST_SIZE)
             .boxed()
-            .toArray(Long[]::new);
-        final Map<Long, Long> result = adapter.countByProjectIds(projectIds);
+            .map(ProjectId::new)
+            .toArray(ProjectId[]::new);
+        final Map<ProjectId, Long> result = adapter.countBy(projectIds);
 
         assertThat(result).hasSize(TEST_SIZE);
         assertThat(result.values()).allMatch(value -> value == TEST_SIZE);
