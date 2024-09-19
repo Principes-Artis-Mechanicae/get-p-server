@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface ProjectLikeJpaRepository extends JpaRepository<ProjectLikeJpaEntity, Long> {
 
-    boolean existsByPeopleIdAndProjectId(Long peopleId, Long projectId);
+    boolean existsByMemberIdAndProjectId(Long memberId, Long projectId);
 
-    Optional<ProjectLikeJpaEntity> findByPeopleIdAndProjectId(Long peopleId, Long projectId);
+    Optional<ProjectLikeJpaEntity> findByMemberIdAndProjectId(Long memberId, Long projectId);
 }

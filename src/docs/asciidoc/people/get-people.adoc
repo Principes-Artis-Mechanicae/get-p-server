@@ -14,4 +14,4 @@ include::{snippets}/get-people/get-people_-when-user-logined/http-response.adoc[
 include::{snippets}/get-people/get-people_-when-user-not-logined/http-response.adoc[]
 
 ==== Response fields
-include::{snippets}/get-people/get-people_-when-user-not-logined/response-fields-data.adoc[]
+include::{snippets}/get-people/get-people_-when-user-logined/response-fields-data.adoc[]

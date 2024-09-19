@@ -1,13 +1,15 @@
 package es.princip.getp.api.controller.people.query;
 
+import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
+import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.ControllerSupport;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.support.dto.PageResponse;
-import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,10 +37,14 @@ public class PeopleQueryController extends ControllerSupport {
      * @return 피플 ID에 해당되는 피플 상세 정보
      */
     @GetMapping("/{peopleId}")
-    public ResponseEntity<? extends ApiSuccessResult<?>> getPeople(@PathVariable final Long peopleId) {
+    public ResponseEntity<? extends ApiSuccessResult<?>> getPeople(
+        @AuthenticationPrincipal final PrincipalDetails principalDetails,
+        @PathVariable final Long peopleId
+    ) {
         final PeopleId id = new PeopleId(peopleId);
-        if (isAuthenticated()) {
-            final DetailPeopleResponse response = getPeopleQuery.getDetailBy(id);
+        if (isAuthenticated(principalDetails)) {
+            final MemberId memberId = principalDetails.getMember().getId();
+            final DetailPeopleResponse response = getPeopleQuery.getDetailBy(memberId, id);
             return ApiResponse.success(HttpStatus.OK, response);
         }
         final PublicDetailPeopleResponse response = getPeopleQuery.getPublicDetailBy(id);

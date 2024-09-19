@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 public interface ProjectLikePersistenceMapper {
 
     @Mapping(source = "projectId", target = "projectId.value")
-    @Mapping(source = "peopleId", target = "peopleId.value")
+    @Mapping(source = "memberId", target = "memberId.value")
     ProjectLike mapToDomain(ProjectLikeJpaEntity projectLikeJpaEntity);
 
     @InheritInverseConfiguration

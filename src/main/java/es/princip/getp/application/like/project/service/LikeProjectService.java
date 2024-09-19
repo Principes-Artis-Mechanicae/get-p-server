@@ -4,12 +4,9 @@ import es.princip.getp.application.like.exception.AlreadyLikedException;
 import es.princip.getp.application.like.project.port.in.LikeProjectUseCase;
 import es.princip.getp.application.like.project.port.out.CheckProjectLikePort;
 import es.princip.getp.application.like.project.port.out.SaveProjectLikePort;
-import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.domain.like.project.model.ProjectLike;
 import es.princip.getp.domain.member.model.MemberId;
-import es.princip.getp.domain.people.model.People;
-import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 class LikeProjectService implements LikeProjectUseCase {
 
     private final LoadProjectPort loadProjectPort;
-    private final LoadPeoplePort loadPeoplePort;
     private final CheckProjectLikePort checkProjectLikePort;
     private final SaveProjectLikePort saveProjectLikePort;
 
@@ -34,23 +30,22 @@ class LikeProjectService implements LikeProjectUseCase {
      */
     @Transactional
     public void like(final MemberId memberId, final ProjectId projectId) {
-        final People people = loadPeoplePort.loadBy(memberId);
         // TODO: 조회 성능 개선 필요
         final Project project = loadProjectPort.loadBy(projectId);
-        checkAlreadyLiked(people.getId(), projectId);
-        final ProjectLike projectLike = buildProjectLike(people.getId(), projectId);
+        checkAlreadyLiked(memberId, projectId);
+        final ProjectLike projectLike = buildProjectLike(memberId, projectId);
         saveProjectLikePort.save(projectLike);
     }
 
-    private void checkAlreadyLiked(final PeopleId peopleId, final ProjectId projectId) {
-        if (checkProjectLikePort.existsBy(peopleId, projectId)) {
+    private void checkAlreadyLiked(final MemberId memberId, final ProjectId projectId) {
+        if (checkProjectLikePort.existsBy(memberId, projectId)) {
             throw new AlreadyLikedException();
         }
     }
 
-    private ProjectLike buildProjectLike(final PeopleId peopleId, final ProjectId projectId) {
+    private ProjectLike buildProjectLike(final MemberId memberId, final ProjectId projectId) {
         return ProjectLike.builder()
-            .peopleId(peopleId)
+            .memberId(memberId)
             .projectId(projectId)
             .build();
     }

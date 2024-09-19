@@ -7,6 +7,8 @@ import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeople
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
+import es.princip.getp.persistence.adapter.like.people.PeopleLikeDataLoader;
+import es.princip.getp.persistence.adapter.like.people.PeopleLikePersistenceMapper;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.support.PersistenceAdapterTest;
@@ -30,7 +32,8 @@ public class PeopleQueryAdapterTest extends PersistenceAdapterTest {
     private static final int PAGE_SIZE = 10;
 
     @PersistenceContext private EntityManager entityManager;
-    @Autowired private PeoplePersistenceMapper mapper;
+    @Autowired private PeopleLikePersistenceMapper peopleLikePersistenceMapper;
+    @Autowired private PeoplePersistenceMapper peoplePersistenceMapper;
     @Autowired private PeopleQueryAdapter adapter;
 
     private List<DataLoader> dataLoaders;
@@ -38,7 +41,8 @@ public class PeopleQueryAdapterTest extends PersistenceAdapterTest {
     @BeforeEach
     void setUp() {
         dataLoaders = List.of(
-            new PeopleDataLoader(mapper, entityManager)
+            new PeopleLikeDataLoader(peopleLikePersistenceMapper, entityManager),
+            new PeopleDataLoader(peoplePersistenceMapper, entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
     }
@@ -59,10 +63,12 @@ public class PeopleQueryAdapterTest extends PersistenceAdapterTest {
 
     @Test
     void 피플_ID로_피플_상세_정보를_조회한다() {
+        final MemberId memberId = new MemberId(1L);
         final PeopleId peopleId = new PeopleId(1L);
-        final DetailPeopleResponse response = adapter.findDetailBy(peopleId);
+        final DetailPeopleResponse response = adapter.findDetailBy(memberId, peopleId);
 
         assertThat(response).isNotNull();
+        assertThat(response.liked()).isTrue();
     }
 
     @Test

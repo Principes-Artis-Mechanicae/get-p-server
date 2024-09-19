@@ -22,8 +22,8 @@ public class PeopleLikeJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "client_id")
-    private Long clientId;
+    @Column(name = "member_id")
+    private Long memberId;
 
     @Column(name = "people_id")
     private Long peopleId;
@@ -35,12 +35,12 @@ public class PeopleLikeJpaEntity {
     @Builder
     public PeopleLikeJpaEntity(
         final Long id,
-        final Long clientId,
+        final Long memberId,
         final Long peopleId,
         final LocalDateTime createdAt
     ) {
         this.id = id;
-        this.clientId = clientId;
+        this.memberId = memberId;
         this.peopleId = peopleId;
         this.createdAt = createdAt;
     }
