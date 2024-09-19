@@ -14,6 +14,7 @@ import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
 import es.princip.getp.fixture.people.PeopleFixture;
@@ -53,7 +54,7 @@ class ProjectMeetingServiceTest {
 
     private final MemberId cmemberId = new MemberId(2L); // 의뢰자의 회원 ID
     private final ClientId clientId = new ClientId(1L); // 지원자가 지원한 프로젝트의 의뢰자의 의뢰자 ID
-    private final Long projectId = 1L; // 지원자가 지원한 프로젝트의 프로젝트 ID
+    private final ProjectId projectId = new ProjectId(1L);// 지원자가 지원한 프로젝트의 프로젝트 ID
 
     private final Long meetingId = 1L; // 신청된 미팅의 미팅 ID
 

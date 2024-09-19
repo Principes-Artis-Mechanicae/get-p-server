@@ -7,6 +7,7 @@ import es.princip.getp.application.project.commission.port.out.SaveProjectPort;
 import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectData;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.domain.project.commission.service.ProjectCommissioner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class ProjectCommissionService implements CommissionProjectUseCase {
     private final ProjectCommissioner projectCommissioner;
 
     @Transactional
-    public Long commission(final CommissionProjectCommand command) {
+    public ProjectId commission(final CommissionProjectCommand command) {
         final ClientId clientId = loadClientPort.loadBy(command.memberId()).getId();
         final ProjectData data = projectDataMapper.mapToData(clientId, command);
         final Project project = projectCommissioner.commissionProject(data);

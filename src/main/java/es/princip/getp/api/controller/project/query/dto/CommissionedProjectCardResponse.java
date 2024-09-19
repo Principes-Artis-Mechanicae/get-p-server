@@ -19,7 +19,7 @@ public record CommissionedProjectCardResponse(
 
     public static CommissionedProjectCardResponse of(final Project project, final Long applicantsCount) {
         return new CommissionedProjectCardResponse(
-            project.getProjectId(),
+            project.getId().getValue(),
             project.getTitle(),
             project.getPayment(),
             applicantsCount,

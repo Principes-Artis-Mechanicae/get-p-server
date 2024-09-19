@@ -2,10 +2,11 @@ package es.princip.getp.persistence.adapter.project.commission;
 
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.persistence.support.DataLoader;
-import es.princip.getp.persistence.support.PersistenceAdapterTest;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.persistence.adapter.client.ClientDataLoader;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
+import es.princip.getp.persistence.support.DataLoader;
+import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +60,7 @@ class FindProjectAdapterTest extends PersistenceAdapterTest {
 
     @Test
     void 프로젝트_상세_정보를_조회한다() {
-        final ProjectDetailResponse response = adapter.findBy(1L);
+        final ProjectDetailResponse response = adapter.findBy(new ProjectId(1L));
 
         assertThat(response).isNotNull();
     }

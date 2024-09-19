@@ -9,9 +9,11 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {PhoneNumberPersistenceMapper.class})
 public interface ProjectMeetingPersistenceMapper {
 
+    @Mapping(source = "projectId", target = "projectId.value")
     @Mapping(source = "peopleId", target = "applicantId.value")
     ProjectMeeting mapToDomain(ProjectMeetingJpaEntity projectMeetingJpaEntity);
 
+    @Mapping(target = "projectId", source = "projectId.value")
     @Mapping(target = "peopleId", source = "applicantId.value")
     @Mapping(target = "phoneNumber", source = "phoneNumber.value")
     ProjectMeetingJpaEntity mapToJpa(ProjectMeeting projectMeeting);

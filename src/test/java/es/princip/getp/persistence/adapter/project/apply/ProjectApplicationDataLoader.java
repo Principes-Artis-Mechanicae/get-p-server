@@ -1,6 +1,7 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.domain.people.model.PeopleId;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.persistence.support.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,10 @@ public class ProjectApplicationDataLoader implements DataLoader {
             LongStream.rangeClosed(1, size).forEach(peopleId ->
                 projectApplicationList.add(
                     mapper.mapToJpa(
-                        projectApplication(new PeopleId(peopleId), projectId)
+                        projectApplication(
+                            new PeopleId(peopleId),
+                            new ProjectId(projectId)
+                        )
                     )
                 )
             )

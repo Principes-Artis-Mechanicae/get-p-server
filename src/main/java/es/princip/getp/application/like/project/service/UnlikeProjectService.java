@@ -12,6 +12,7 @@ import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ class UnlikeProjectService implements UnlikeProjectUseCase {
     private final DeleteProjectLikePort deleteProjectLikePort;
 
     @Transactional
-    public void unlike(final MemberId memberId, final Long projectId) {
+    public void unlike(final MemberId memberId, final ProjectId projectId) {
         final People people = loadPeoplePort.loadBy(memberId);
         // TODO: 조회 성능 개선 필요
         final Project project = loadProjectPort.loadBy(projectId);
@@ -37,7 +38,7 @@ class UnlikeProjectService implements UnlikeProjectUseCase {
         deleteProjectLikePort.delete(projectLike);
     }
 
-    private void checkNeverLiked(final PeopleId peopleId, final Long projectId) {
+    private void checkNeverLiked(final PeopleId peopleId, final ProjectId projectId) {
         if (!checkProjectLikePort.existsBy(peopleId, projectId)) {
             throw new NeverLikedException();
         }

@@ -8,6 +8,7 @@ import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
 import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,8 @@ public class ProjectApplicationController {
         @PathVariable Long projectId
     ) {
         final MemberId memberId = principalDetails.getMember().getId();
-        final ApplyProjectCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
+        final ProjectId pid = new ProjectId(projectId);
+        final ApplyProjectCommand command = projectCommandMapper.mapToCommand(memberId, pid, request);
         final Long applicationId = applyProjectUseCase.apply(command);
         final ApplyProjectResponse response = new ApplyProjectResponse(applicationId);
         return ApiResponse.success(HttpStatus.CREATED, response);

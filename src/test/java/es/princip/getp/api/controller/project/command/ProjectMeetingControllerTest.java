@@ -10,6 +10,7 @@ import es.princip.getp.application.project.meeting.ProjectMeetingService;
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ public class ProjectMeetingControllerTest extends ControllerTest {
     @DisplayName("프로젝트 미팅 신청")
     class ScheduleMeeting {
 
-        private final Long projectId = 1L;
+        private final ProjectId projectId = new ProjectId(1L);
         private final MemberId memberId = new MemberId(1L);
         private final Long meetingId = 1L;
         private final Long applicantId = 1L;
@@ -50,7 +51,7 @@ public class ProjectMeetingControllerTest extends ControllerTest {
         );
 
         private ResultActions perform() throws Exception {
-            return mockMvc.perform(post("/projects/{projectId}/meetings", projectId)
+            return mockMvc.perform(post("/projects/{projectId}/meetings", projectId.getValue())
                 .header("Authorization", "Bearer ${ACCESS_TOKEN}")
                 .content(objectMapper.writeValueAsString(request)));
         }

@@ -6,13 +6,14 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import es.princip.getp.api.controller.project.query.dto.CommissionedProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.MyProjectSearchOrder;
+import es.princip.getp.application.project.apply.port.out.CountProjectApplicationPort;
 import es.princip.getp.application.project.commission.port.out.FindCommissionedProjectPort;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.persistence.adapter.client.QClientJpaEntity;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
-import es.princip.getp.persistence.adapter.project.apply.FindProjectApplicationAdapter;
 import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,7 @@ class FindCommissionedProjectAdapter extends QueryDslSupport implements FindComm
 
     private static final QProjectJpaEntity project = QProjectJpaEntity.projectJpaEntity;
     private static final QClientJpaEntity client = QClientJpaEntity.clientJpaEntity;
-    private final FindProjectApplicationAdapter projectApplicationQuery;
+    private final CountProjectApplicationPort countProjectApplicationPort;
     private final ProjectPersistenceMapper mapper;
 
     @Override
@@ -43,9 +44,9 @@ class FindCommissionedProjectAdapter extends QueryDslSupport implements FindComm
         final Pageable pageable
     ) {
         final List<Project> projects = getMyProjects(pageable, memberId, cancelled);
-        final Long[] projectIds = toProjectIds(projects);
-        final Map<Long, Long> projectApplicationCounts = projectApplicationQuery.countByProjectIds(projectIds);
-        final List<CommissionedProjectCardResponse> content = assembleProjectCardResponse(projects, projectApplicationCounts);
+        final ProjectId[] projectIds = toProjectIds(projects);
+        final Map<ProjectId, Long> projectApplicationCounts = countProjectApplicationPort.countBy(projectIds);
+        final List<CommissionedProjectCardResponse> content = assemble(projects, projectApplicationCounts);
 
         return applyPagination(
             pageable,
@@ -54,14 +55,14 @@ class FindCommissionedProjectAdapter extends QueryDslSupport implements FindComm
         );
     }
 
-    private List<CommissionedProjectCardResponse> assembleProjectCardResponse(
+    private List<CommissionedProjectCardResponse> assemble(
         final List<Project> projects,
-        final Map<Long, Long> projectApplicationCounts
+        final Map<ProjectId, Long> projectApplicationCounts
     ) {
         return projects.stream()
             .map(project -> CommissionedProjectCardResponse.of(
                 project,
-                projectApplicationCounts.get(project.getProjectId())
+                projectApplicationCounts.get(project.getId())
             ))
             .toList();
     }
@@ -100,7 +101,7 @@ class FindCommissionedProjectAdapter extends QueryDslSupport implements FindComm
             case CREATED_AT -> new OrderSpecifier<>(converted, project.createdAt);
             case PAYMENT -> new OrderSpecifier<>(converted, project.payment);
             case APPLICATION_DURATION -> new OrderSpecifier<>(converted, project.applicationDuration.endDate);
-            case PROJECT_ID -> new OrderSpecifier<>(converted, project.projectId);
+            case PROJECT_ID -> new OrderSpecifier<>(converted, project.id);
         };
     }
 

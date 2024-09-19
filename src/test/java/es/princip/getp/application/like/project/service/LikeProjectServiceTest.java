@@ -11,6 +11,7 @@ import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.fixture.people.PeopleFixture;
 import es.princip.getp.fixture.project.ProjectFixture;
@@ -38,7 +39,7 @@ public class LikeProjectServiceTest {
     private final MemberId memberId = new MemberId(1L);
     private final PeopleId peopleId = new PeopleId(1L);
     private final ClientId clientId = new ClientId(1L);
-    private final Long projectId = 1L;
+    private final ProjectId projectId = new ProjectId(1L);
     private final Project project = ProjectFixture.project(clientId, ProjectStatus.APPLYING);
 
     @BeforeEach

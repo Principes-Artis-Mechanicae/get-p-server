@@ -12,6 +12,7 @@ import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import es.princip.getp.domain.project.apply.service.ProjectApplier;
 import es.princip.getp.domain.project.commission.model.Project;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +40,7 @@ class ProjectApplicationService implements ApplyProjectUseCase {
     public Long apply(final ApplyProjectCommand command) {
         final People applicant = loadPeoplePort.loadBy(command.memberId());
         final PeopleId applicantId = applicant.getId();
-        final Long projectId = command.projectId();
+        final ProjectId projectId = command.projectId();
         final Project project = loadProjectPort.loadBy(command.projectId());
         if (checkProjectApplicationPort.existsBy(applicantId, projectId)) {
             throw new AlreadyAppliedProjectException();

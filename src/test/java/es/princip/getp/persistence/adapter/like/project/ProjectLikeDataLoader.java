@@ -1,6 +1,7 @@
 package es.princip.getp.persistence.adapter.like.project;
 
 import es.princip.getp.domain.people.model.PeopleId;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.fixture.like.ProjectLikeFixture;
 import es.princip.getp.persistence.support.DataLoader;
 import jakarta.persistence.EntityManager;
@@ -25,7 +26,7 @@ public class ProjectLikeDataLoader implements DataLoader {
             LongStream.rangeClosed(1, size).forEach(projectId ->
                 projectLikeList.add(
                     mapper.mapToJpa(
-                        ProjectLikeFixture.projectLike(new PeopleId(peopleId), projectId)
+                        ProjectLikeFixture.projectLike(new PeopleId(peopleId), new ProjectId(projectId))
                     )
                 )
             )

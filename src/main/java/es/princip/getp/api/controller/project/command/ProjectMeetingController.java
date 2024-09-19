@@ -8,6 +8,7 @@ import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.project.meeting.ProjectMeetingService;
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,8 @@ public class ProjectMeetingController {
         @PathVariable Long projectId
     ) {
         final MemberId memberId = principalDetails.getMember().getId();
-        final ScheduleMeetingCommand command = projectCommandMapper.mapToCommand(memberId, projectId, request);
+        final ProjectId pid = new ProjectId(projectId);
+        final ScheduleMeetingCommand command = projectCommandMapper.mapToCommand(memberId, pid, request);
         final Long meetingId = projectMeetingService.scheduleMeeting(command);
         final ScheduleMeetingResponse response = new ScheduleMeetingResponse(meetingId);
         return ApiResponse.success(HttpStatus.CREATED, response);
