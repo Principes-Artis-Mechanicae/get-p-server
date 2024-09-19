@@ -10,6 +10,7 @@ import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
 import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
+import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +50,7 @@ class ProjectApplicationControllerTest extends ControllerTest {
     class ApplyForProject {
 
         private final ProjectId projectId = new ProjectId(1L);
-        private final Long applicationId = 1L;
+        private final ProjectApplicationId applicationId = new ProjectApplicationId(1L);
         private final ApplyProjectRequest request = applyProjectRequest();
 
         @Test

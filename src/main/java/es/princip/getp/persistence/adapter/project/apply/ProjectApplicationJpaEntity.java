@@ -20,7 +20,7 @@ class ProjectApplicationJpaEntity extends BaseTimeJpaEntity {
     @Id
     @Column(name = "project_application_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long applicationId;
+    private Long id;
 
     @Column(name = "people_id")
     private Long applicantId;

@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 public class ProjectApplication extends BaseEntity {
 
-    private Long applicationId;
+    private ProjectApplicationId id;
     @NotNull private final PeopleId applicantId;
     @NotNull private final ProjectId projectId;
     @NotNull private Duration expectedDuration;
@@ -26,7 +26,7 @@ public class ProjectApplication extends BaseEntity {
 
     @Builder
     public ProjectApplication(
-        final Long applicationId,
+        final ProjectApplicationId id,
         final PeopleId applicantId,
         final ProjectId projectId,
         final Duration expectedDuration,
@@ -38,7 +38,7 @@ public class ProjectApplication extends BaseEntity {
     ) {
         super(createdAt, updatedAt);
 
-        this.applicationId = applicationId;
+        this.id = id;
         this.applicantId = applicantId;
         this.projectId = projectId;
         this.expectedDuration = expectedDuration;

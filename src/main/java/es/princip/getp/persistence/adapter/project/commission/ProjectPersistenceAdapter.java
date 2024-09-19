@@ -11,10 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-class ProjectPersistenceAdapter implements
-        SaveProjectPort,
-        LoadProjectPort,
-        UpdateProjectPort {
+class ProjectPersistenceAdapter implements SaveProjectPort, LoadProjectPort, UpdateProjectPort {
 
     private final ProjectPersistenceMapper mapper;
     private final ProjectJpaRepository repository;
