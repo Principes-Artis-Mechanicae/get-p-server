@@ -22,8 +22,8 @@ public class ProjectLikeJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "people_id")
-    private Long peopleId;
+    @Column(name = "member_id")
+    private Long memberId;
 
     @Column(name = "project_id")
     private Long projectId;
@@ -35,12 +35,12 @@ public class ProjectLikeJpaEntity {
     @Builder
     public ProjectLikeJpaEntity(
         final Long id,
-        final Long peopleId,
+        final Long memberId,
         final Long projectId,
         final LocalDateTime createdAt
     ) {
         this.id = id;
-        this.peopleId = peopleId;
+        this.memberId = memberId;
         this.projectId = projectId;
         this.createdAt = createdAt;
     }

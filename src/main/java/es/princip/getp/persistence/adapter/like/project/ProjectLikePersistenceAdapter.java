@@ -5,7 +5,7 @@ import es.princip.getp.application.like.project.port.out.DeleteProjectLikePort;
 import es.princip.getp.application.like.project.port.out.LoadProjectLikePort;
 import es.princip.getp.application.like.project.port.out.SaveProjectLikePort;
 import es.princip.getp.domain.like.project.model.ProjectLike;
-import es.princip.getp.domain.people.model.PeopleId;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.persistence.adapter.like.exception.NotFoundLikeException;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +29,9 @@ class ProjectLikePersistenceAdapter implements
     }
 
     @Override
-    public boolean existsBy(final PeopleId peopleId, ProjectId projectId) {
-        return repository.existsByPeopleIdAndProjectId(
-            peopleId.getValue(),
+    public boolean existsBy(final MemberId memberId, ProjectId projectId) {
+        return repository.existsByMemberIdAndProjectId(
+            memberId.getValue(),
             projectId.getValue()
         );
     }
@@ -43,9 +43,9 @@ class ProjectLikePersistenceAdapter implements
     }
 
     @Override
-    public ProjectLike loadBy(final PeopleId peopleId, final ProjectId projectId) {
-        final ProjectLikeJpaEntity jpaEntity = repository.findByPeopleIdAndProjectId(
-                peopleId.getValue(),
+    public ProjectLike loadBy(final MemberId memberId, final ProjectId projectId) {
+        final ProjectLikeJpaEntity jpaEntity = repository.findByMemberIdAndProjectId(
+                memberId.getValue(),
                 projectId.getValue()
             )
             .orElseThrow(NotFoundLikeException::new);

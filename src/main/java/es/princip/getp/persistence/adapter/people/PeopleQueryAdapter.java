@@ -8,6 +8,7 @@ import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleRespon
 import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.application.like.people.port.out.CheckPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
 import es.princip.getp.application.people.port.out.FindMyPeoplePort;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
@@ -38,11 +39,12 @@ import static java.util.stream.Collectors.toMap;
 @Repository
 @RequiredArgsConstructor
 // TODO: 조회 성능 개선 필요
-public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, FindMyPeoplePort {
+class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, FindMyPeoplePort {
 
     private static final QPeopleJpaEntity people = QPeopleJpaEntity.peopleJpaEntity;
     private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
 
+    private final CheckPeopleLikePort checkPeopleLikePort;
     private final CountPeopleLikePort countPeopleLikePort;
 
     private final PeopleQueryMapper mapper;
@@ -116,7 +118,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
     }
 
     @Override
-    public DetailPeopleResponse findDetailBy(final PeopleId peopleId) {
+    public DetailPeopleResponse findDetailBy(final MemberId memberId, final PeopleId peopleId) {
         final PeopleProfileJpaVO profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
@@ -137,6 +139,7 @@ public class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePor
             memberAndPeople.get(people.peopleType),
             0,
             countPeopleLikePort.countBy(peopleId),
+            checkPeopleLikePort.existsBy(memberId, peopleId),
             mapper.mapToDetailPeopleProfileResponse(profile)
         );
     }

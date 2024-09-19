@@ -17,6 +17,7 @@ public class DetailPeopleResponseDescription {
                 .attributes(key("format").value("TEAM, INDIVIDUAL")),
             getDescriptor("completedProjectsCount", "완수한 프로젝트 수"),
             getDescriptor("likesCount", "받은 좋아요 수"),
+            getDescriptor("liked", "좋아요 여부"),
             getDescriptor("profile.introduction", "소개"),
             getDescriptor("profile.activityArea", "활동 지역"),
             getDescriptor("profile.techStacks[]", "기술 스택"),

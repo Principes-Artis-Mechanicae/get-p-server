@@ -31,7 +31,7 @@ public class CountPeopleLikeAdapterTest extends PersistenceAdapterTest {
     @BeforeEach
     void setUp() {
         dataLoaders = List.of(
-            new PeopleLikeDataLoader(entityManager, peopleLikeMapper)
+            new PeopleLikeDataLoader(peopleLikeMapper, entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
     }
