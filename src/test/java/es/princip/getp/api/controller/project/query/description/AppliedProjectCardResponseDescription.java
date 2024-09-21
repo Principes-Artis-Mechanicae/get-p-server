@@ -10,7 +10,8 @@ public class AppliedProjectCardResponseDescription {
         return new FieldDescriptor[] {
             getDescriptor("content[].projectId", "프로젝트 ID"),
             getDescriptor("content[].title", "제목"),
-            getDescriptor("content[].payment", "금액"),
+            getDescriptor("content[].payment", "성공 보수"),
+            getDescriptor("content[].recruitmentCount", "모집 인원"),
             getDescriptor("content[].applicantsCount", "지원자 수"),
             getDescriptor("content[].estimatedDays", "예상 작업 일수"),
             getDescriptor("content[].applicationDuration.startDate", "지원자 모집 시작 기간"),

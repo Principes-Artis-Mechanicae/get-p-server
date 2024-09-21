@@ -9,13 +9,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsRequest;
+import static es.princip.getp.fixture.project.ProjectFixture.*;
 
 class CommissionProjectRequestFixture {
 
     static CommissionProjectRequest registerProjectRequest() {
         return new CommissionProjectRequest(
-            "프로젝트 제목",
-            1_000_000L,
+            TITLE,
+            PAYMENT,
+            RECRUITMENT_COUNT,
             Duration.of(
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 7, 31)
@@ -24,7 +26,7 @@ class CommissionProjectRequestFixture {
                 LocalDate.of(2024, 8, 1),
                 LocalDate.of(2024, 8, 31)
             ),
-            "프로젝트 설명",
+            DESCRIPTION,
             MeetingType.IN_PERSON,
             ProjectCategory.BACKEND,
             List.of(

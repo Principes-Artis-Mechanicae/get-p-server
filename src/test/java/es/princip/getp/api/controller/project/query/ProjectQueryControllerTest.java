@@ -1,18 +1,15 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.common.dto.HashtagsResponse;
 import es.princip.getp.api.controller.project.query.description.ProjectCardResponseDescription;
 import es.princip.getp.api.controller.project.query.description.ProjectDetailResponseDescription;
 import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
-import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.project.commission.model.MeetingType;
 import es.princip.getp.domain.project.commission.model.ProjectCategory;
 import es.princip.getp.domain.project.commission.model.ProjectId;
@@ -29,8 +26,11 @@ import java.util.List;
 
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
+import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static es.princip.getp.fixture.client.AddressFixture.address;
+import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
+import static es.princip.getp.fixture.project.ProjectFixture.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -66,21 +66,17 @@ class ProjectQueryControllerTest extends ControllerTest {
             final List<ProjectCardResponse> content = List.of(
                 new ProjectCardResponse(
                     1L,
-                    "프로젝트 제목",
-                    1_000_000L,
+                    TITLE,
+                    PAYMENT,
+                    RECRUITMENT_COUNT,
                     5L,
                     10L,
                     Duration.of(
                         LocalDate.of(2024, 7, 1),
                         LocalDate.of(2024, 7, 7)
                     ),
-                    HashtagsResponse.from(
-                        List.of(
-                            Hashtag.from("#해시태그1"),
-                            Hashtag.from("#해시태그2")
-                        )
-                    ),
-                    "프로젝트 설명",
+                    hashtagsResponse(),
+                    DESCRIPTION,
                     ProjectStatus.APPLYING
                 )
             );
@@ -91,7 +87,7 @@ class ProjectQueryControllerTest extends ControllerTest {
                 .andExpect(status().isOk())
                 .andDo(restDocs.document(
                     requestHeaders(authorizationHeaderDescriptor()),
-                    PayloadDocumentationHelper.responseFields(ProjectCardResponseDescription.description())
+                    responseFields(ProjectCardResponseDescription.description())
                         .and(pageResponseFieldDescriptors())
                 ))
                 .andDo(print());
@@ -112,10 +108,11 @@ class ProjectQueryControllerTest extends ControllerTest {
         @Test
         @DisplayName("사용자는 프로젝트의 상세 정보를 조회할 수 있다.")
         void getProjectByProjectId() throws Exception {
-            ProjectDetailResponse response = new ProjectDetailResponse(
+            final ProjectDetailResponse response = new ProjectDetailResponse(
                 projectId.getValue(),
-                "프로젝트 제목",
-                1_000_000L,
+                TITLE,
+                PAYMENT,
+                RECRUITMENT_COUNT,
                 Duration.of(
                     LocalDate.of(2024, 7, 1),
                     LocalDate.of(2024, 7, 7)
@@ -124,7 +121,7 @@ class ProjectQueryControllerTest extends ControllerTest {
                     LocalDate.of(2024, 7, 14),
                     LocalDate.of(2024, 7, 21)
                 ),
-                "프로젝트 설명",
+                DESCRIPTION,
                 MeetingType.IN_PERSON,
                 ProjectCategory.BACKEND,
                 ProjectStatus.APPLYING,
@@ -134,12 +131,7 @@ class ProjectQueryControllerTest extends ControllerTest {
                         AttachmentFile.from("https://example.com/attachment2")
                     )
                 ),
-                HashtagsResponse.from(
-                    List.of(
-                        Hashtag.from("#해시태그1"),
-                        Hashtag.from("#해시태그2")
-                    )
-                ),
+                hashtagsResponse(),
                 5L,
                 new ProjectClientResponse(
                     1L,
@@ -154,7 +146,7 @@ class ProjectQueryControllerTest extends ControllerTest {
                 .andDo(restDocs.document(
                     requestHeaders(authorizationHeaderDescriptor()),
                     pathParameters(parameterWithName("projectId").description("프로젝트 ID")),
-                    PayloadDocumentationHelper.responseFields(ProjectDetailResponseDescription.description())
+                    responseFields(ProjectDetailResponseDescription.description())
                 ))
                 .andDo(print());
         }

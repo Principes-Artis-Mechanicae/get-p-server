@@ -39,6 +39,7 @@ public class ProjectCommissioner {
         return Project.builder()
             .title(data.title())
             .payment(data.payment())
+            .recruitmentCount(data.recruitmentCount())
             .applicationDuration(data.applicationDuration())
             .estimatedDuration(data.estimatedDuration())
             .description(data.description())

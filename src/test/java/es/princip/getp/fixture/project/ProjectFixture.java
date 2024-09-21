@@ -15,6 +15,7 @@ import static es.princip.getp.fixture.project.AttachmentFileFixture.attachmentFi
 public class ProjectFixture {
 
     public static final Long PAYMENT = 1_000_000L;
+    public static final Long RECRUITMENT_COUNT = 1L;
     public static final String TITLE = "프로젝트 제목";
     public static final String DESCRIPTION = "프로젝트 설명";
 
@@ -22,6 +23,7 @@ public class ProjectFixture {
         .category(ProjectCategory.BACKEND)
         .attachmentFiles(attachmentFiles())
         .payment(PAYMENT)
+        .recruitmentCount(RECRUITMENT_COUNT)
         .title(TITLE)
         .description(DESCRIPTION)
         .meetingType(MeetingType.IN_PERSON)
@@ -41,7 +43,11 @@ public class ProjectFixture {
             .build();
     }
 
-    public static Project project(final ClientId clientId, final ProjectStatus status, final Duration applicationDuration) {
+    public static Project project(
+        final ClientId clientId,
+        final ProjectStatus status,
+        final Duration applicationDuration
+    ) {
         return builder.clientId(clientId)
             .status(status)
             .applicationDuration(applicationDuration)

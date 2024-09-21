@@ -24,6 +24,7 @@ import java.util.List;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.fixture.project.ProjectFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -59,8 +60,9 @@ public class AppliedProjectQueryControllerTest extends ControllerTest {
             final List<AppliedProjectCardResponse> content = List.of(
                 new AppliedProjectCardResponse(
                     1L,
-                    "프로젝트 제목",
-                    1_000_000L,
+                    TITLE,
+                    PAYMENT,
+                    RECRUITMENT_COUNT,
                     5L,
                     30L,
                     Duration.of(
@@ -68,7 +70,7 @@ public class AppliedProjectQueryControllerTest extends ControllerTest {
                         LocalDate.of(2024, 7, 31)
                     ),
                     hashtagsResponse(),
-                    "프로젝트 설명",
+                    DESCRIPTION,
                     ProjectStatus.APPLYING
                 )
             );

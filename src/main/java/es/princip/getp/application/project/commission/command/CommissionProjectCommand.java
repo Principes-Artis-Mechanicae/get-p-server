@@ -13,6 +13,7 @@ public record CommissionProjectCommand(
     MemberId memberId,
     String title,
     Long payment,
+    Long recruitmentCount,
     Duration applicationDuration,
     Duration estimatedDuration,
     String description,

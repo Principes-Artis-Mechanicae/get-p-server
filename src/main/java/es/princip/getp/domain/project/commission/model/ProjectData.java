@@ -10,6 +10,7 @@ import java.util.List;
 public record ProjectData(
     String title,
     Long payment,
+    Long recruitmentCount,
     Duration applicationDuration,
     Duration estimatedDuration,
     String description,

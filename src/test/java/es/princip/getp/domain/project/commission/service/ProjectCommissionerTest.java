@@ -16,6 +16,7 @@ import java.time.LocalDate;
 
 import static es.princip.getp.fixture.common.HashtagFixture.hashtags;
 import static es.princip.getp.fixture.project.AttachmentFileFixture.attachmentFiles;
+import static es.princip.getp.fixture.project.ProjectFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -26,10 +27,7 @@ class ProjectCommissionerTest {
 
     @Test
     void 지원자_모집_기간이_오늘보다_이전일_수_없다() {
-        final ClientId clientId = new ClientId(1L);
-        final ProjectData data = new ProjectData(
-            "프로젝트 제목",
-            1_000_000L,
+        final ProjectData data = projectData(
             Duration.of(
                 LocalDate.of(2024, 6, 1),
                 LocalDate.of(2024, 6, 30)
@@ -37,13 +35,7 @@ class ProjectCommissionerTest {
             Duration.of(
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 7, 31)
-            ),
-            "프로젝트 설명",
-            MeetingType.IN_PERSON,
-            ProjectCategory.BACKEND,
-            clientId,
-            attachmentFiles(),
-            hashtags()
+            )
         );
 
         assertThatThrownBy(() -> projectCommissioner.commissionProject(data))
@@ -52,10 +44,7 @@ class ProjectCommissionerTest {
 
     @Test
     void 지원자_모집_기간이_오늘일_수_있다() {
-        final ClientId clientId = new ClientId(1L);
-        final ProjectData data = new ProjectData(
-            "프로젝트 제목",
-            1_000_000L,
+        final ProjectData data = projectData(
             Duration.of(
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 7, 31)
@@ -63,13 +52,7 @@ class ProjectCommissionerTest {
             Duration.of(
                 LocalDate.of(2024, 8, 1),
                 LocalDate.of(2024, 8, 31)
-            ),
-            "프로젝트 설명",
-            MeetingType.IN_PERSON,
-            ProjectCategory.BACKEND,
-            clientId,
-            attachmentFiles(),
-            hashtags()
+            )
         );
 
         final Project project = projectCommissioner.commissionProject(data);
@@ -79,10 +62,7 @@ class ProjectCommissionerTest {
 
     @Test
     void 지원자_모집_기간은_예상_작업_기간보다_빠를_수_없다() {
-        final ClientId clientId = new ClientId(1L);
-        final ProjectData data = new ProjectData(
-            "프로젝트 제목",
-            1_000_000L,
+        final ProjectData data = projectData(
             Duration.of(
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 7, 31)
@@ -90,16 +70,26 @@ class ProjectCommissionerTest {
             Duration.of(
                 LocalDate.of(2024, 6, 1),
                 LocalDate.of(2024, 6, 30)
-            ),
-            "프로젝트 설명",
-            MeetingType.IN_PERSON,
-            ProjectCategory.BACKEND,
-            clientId,
-            attachmentFiles(),
-            hashtags()
+            )
         );
 
         assertThatThrownBy(() -> projectCommissioner.commissionProject(data))
             .isInstanceOf(ApplicationDurationNotBeforeEstimatedDurationException.class);
+    }
+
+    private ProjectData projectData(final Duration applicationDuration, final Duration estimatedDuration) {
+        return new ProjectData(
+            TITLE,
+            PAYMENT,
+            RECRUITMENT_COUNT,
+            applicationDuration,
+            estimatedDuration,
+            DESCRIPTION,
+            MeetingType.IN_PERSON,
+            ProjectCategory.BACKEND,
+            new ClientId(1L),
+            attachmentFiles(),
+            hashtags()
+        );
     }
 }

@@ -30,6 +30,9 @@ public class ProjectJpaEntity extends BaseTimeJpaEntity {
     @Column(name = "payment")
     private Long payment;
 
+    @Column(name = "recruitment_count")
+    private Long recruitmentCount;
+
     @Embedded
     @AttributeOverrides(
         {

@@ -83,6 +83,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
             result.getId().getValue(),
             result.getTitle(),
             result.getPayment(),
+            result.getRecruitmentCount(),
             result.getApplicationDuration(),
             result.getEstimatedDuration(),
             result.getDescription(),
