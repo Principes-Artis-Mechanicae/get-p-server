@@ -113,6 +113,7 @@ class ProjectQueryControllerTest extends ControllerTest {
                 TITLE,
                 PAYMENT,
                 RECRUITMENT_COUNT,
+                5L,
                 Duration.of(
                     LocalDate.of(2024, 7, 1),
                     LocalDate.of(2024, 7, 7)

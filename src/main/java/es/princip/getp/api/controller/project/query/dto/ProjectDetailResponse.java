@@ -11,6 +11,7 @@ public record ProjectDetailResponse(
     String title,
     Long payment,
     Long recruitmentCount,
+    Long applicantsCount,
     Duration applicationDuration,
     Duration estimatedDuration,
     String description,
