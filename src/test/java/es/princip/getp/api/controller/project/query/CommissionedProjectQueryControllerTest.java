@@ -25,6 +25,7 @@ import java.util.List;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
+import static es.princip.getp.fixture.project.ProjectFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
@@ -62,8 +63,9 @@ class CommissionedProjectQueryControllerTest extends ControllerTest {
             final List<CommissionedProjectCardResponse> content = List.of(
                 new CommissionedProjectCardResponse(
                     1L,
-                    "프로젝트 제목",
-                    1_000_000L,
+                    TITLE,
+                    PAYMENT,
+                    RECRUITMENT_COUNT,
                     5L,
                     30L,
                     Duration.of(
@@ -71,7 +73,7 @@ class CommissionedProjectQueryControllerTest extends ControllerTest {
                         LocalDate.of(2024, 7, 31)
                     ),
                     hashtagsResponse(),
-                    "프로젝트 설명",
+                    DESCRIPTION,
                     ProjectStatus.APPLYING
                 )
             );

@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.project.command;
 
-import es.princip.getp.api.controller.project.command.description.RegisterProjectRequestDescription;
-import es.princip.getp.api.controller.project.command.description.RegisterProjectResponseDescription;
+import es.princip.getp.api.controller.project.command.description.CommissionProjectRequestDescription;
+import es.princip.getp.api.controller.project.command.description.CommissionProjectResponseDescription;
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;
 import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
@@ -57,8 +57,8 @@ class ProjectCommissionControllerTest extends ControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(restDocs.document(
                     requestHeaders(authorizationHeaderDescriptor()),
-                    PayloadDocumentation.requestFields(RegisterProjectRequestDescription.description()),
-                    PayloadDocumentationHelper.responseFields(RegisterProjectResponseDescription.description())
+                    PayloadDocumentation.requestFields(CommissionProjectRequestDescription.description()),
+                    PayloadDocumentationHelper.responseFields(CommissionProjectResponseDescription.description())
                 ))
                 .andDo(print());
         }

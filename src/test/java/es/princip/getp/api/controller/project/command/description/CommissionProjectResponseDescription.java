@@ -4,7 +4,7 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 
-public class RegisterProjectResponseDescription {
+public class CommissionProjectResponseDescription {
 
     public static FieldDescriptor[] description() {
         return new FieldDescriptor[] {

@@ -12,6 +12,7 @@ import java.util.List;
 public record CommissionProjectRequest(
     @NotBlank String title,
     @NotNull Long payment,
+    @NotNull Long recruitmentCount,
     @NotNull Duration applicationDuration,
     @NotNull Duration estimatedDuration,
     @NotBlank String description,
