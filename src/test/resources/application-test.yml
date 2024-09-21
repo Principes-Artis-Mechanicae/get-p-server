@@ -12,9 +12,13 @@ spring:
     url: ${DB_TEST_URL}
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
 
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql: true

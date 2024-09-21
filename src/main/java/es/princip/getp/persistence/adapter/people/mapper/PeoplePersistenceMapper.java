@@ -1,6 +1,7 @@
 package es.princip.getp.persistence.adapter.people.mapper;
 
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.people.model.PeopleProfile;
 import es.princip.getp.domain.people.model.Portfolio;
 import es.princip.getp.persistence.adapter.common.mapper.HashtagPersistenceMapper;
@@ -18,7 +19,6 @@ import org.mapstruct.Mapping;
 )
 public abstract class PeoplePersistenceMapper {
 
-    @Mapping(source = "id", target = "id.value")
     @Mapping(source = "memberId", target = "memberId.value")
     @Mapping(source = "email", target = "info.email.value")
     public abstract People mapToDomain(PeopleJpaEntity people);
@@ -38,4 +38,12 @@ public abstract class PeoplePersistenceMapper {
 
     @InheritInverseConfiguration
     protected abstract PortfolioJpaVO mapToJpa(Portfolio portfolio);
+
+    public PeopleId mapToDomain(final Long id) {
+        return new PeopleId(id);
+    }
+
+    public Long mapToJpa(final PeopleId id) {
+        return id == null ? null : id.getValue();
+    }
 }
