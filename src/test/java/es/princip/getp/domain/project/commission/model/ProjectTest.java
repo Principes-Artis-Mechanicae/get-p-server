@@ -2,7 +2,6 @@ package es.princip.getp.domain.project.commission.model;
 
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.client.model.ClientId;
-import es.princip.getp.domain.common.infrastructure.StubClockHolder;
 import es.princip.getp.domain.common.model.Duration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -12,7 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Clock;
 import java.time.LocalDate;
 
 import static es.princip.getp.domain.project.commission.model.ProjectStatus.APPLYING;
@@ -29,36 +27,7 @@ class ProjectTest {
     class 지원이_가능한지_확인한다 {
 
         private final LocalDate now = LocalDate.of(2024, 7, 1);
-        private final Clock clock = new StubClockHolder(now).getClock();
         private final ClientId clientId = new ClientId(1L);
-
-        @Test
-        void 지원자_모집_기간이_아직_남았으면_지원이_가능하다() {
-            final Project project = project(
-                clientId,
-                APPLYING,
-                Duration.of(
-                    LocalDate.of(2024, 7, 1),
-                    LocalDate.of(2024, 7, 31)
-                )
-            );
-
-            assertThat(project.isApplicationClosed(clock)).isFalse();
-        }
-
-        @Test
-        void 지원자_모집_기간이_끝나면_지원은_할_수_없다() {
-            final Project project = project(
-                clientId,
-                APPLYING,
-                Duration.of(
-                    LocalDate.of(2024, 6, 1),
-                    LocalDate.of(2024, 6, 30)
-                )
-            );
-
-            assertThat(project.isApplicationClosed(clock)).isTrue();
-        }
 
         @ParameterizedTest
         @EnumSource(value = ProjectStatus.class, names = {"PREPARING", "PROGRESSING", "COMPLETED", "CANCELLED"})
@@ -72,7 +41,7 @@ class ProjectTest {
                 )
             );
 
-            assertThat(project.isApplicationClosed(clock)).isTrue();
+            assertThat(project.isApplicationClosed()).isTrue();
         }
     }
 
