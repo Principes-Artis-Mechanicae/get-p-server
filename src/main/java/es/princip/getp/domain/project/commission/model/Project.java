@@ -21,7 +21,8 @@ public class Project extends BaseEntity {
 
     private ProjectId id;
     @NotBlank private String title; // 제목
-    @NotNull private Long payment; // 금액
+    @NotNull private Long payment; // 성공 보수
+    @NotNull private Long recruitmentCount; // 모집 인원
     @NotNull private Duration applicationDuration; // 지원자 모집 기간
     @NotNull private Duration estimatedDuration; // 예상 작업 기간
     @NotBlank private String description; // 상세 설명
@@ -29,7 +30,6 @@ public class Project extends BaseEntity {
     @NotNull private ProjectCategory category; // 프로젝트 카테고리
     @NotNull private ProjectStatus status; // 프로젝트 상태
     @NotNull private final ClientId clientId; // 의뢰자
-    private int interestsCount; // 관심 수
     private final List<@NotNull AttachmentFile> attachmentFiles; // 첨부 파일 목록
     private final List<@NotNull Hashtag> hashtags; // 해시태그 목록
 
@@ -38,6 +38,7 @@ public class Project extends BaseEntity {
         final ProjectId id,
         final String title,
         final Long payment,
+        final Long recruitmentCount,
         final Duration applicationDuration,
         final Duration estimatedDuration,
         final String description,
@@ -45,7 +46,6 @@ public class Project extends BaseEntity {
         final ProjectCategory category,
         final ProjectStatus status,
         final ClientId clientId,
-        final int interestsCount,
         final List<AttachmentFile> attachmentFiles,
         final List<Hashtag> hashtags,
         final LocalDateTime createdAt,
@@ -56,6 +56,7 @@ public class Project extends BaseEntity {
         this.id = id;
         this.title = title;
         this.payment = payment;
+        this.recruitmentCount = recruitmentCount;
         this.applicationDuration = applicationDuration;
         this.estimatedDuration = estimatedDuration;
         this.description = description;
@@ -63,7 +64,6 @@ public class Project extends BaseEntity {
         this.category = category;
         this.status = status;
         this.clientId = clientId;
-        this.interestsCount = interestsCount;
         this.attachmentFiles = attachmentFiles;
         this.hashtags = hashtags;
 
