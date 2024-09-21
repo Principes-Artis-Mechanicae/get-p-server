@@ -33,13 +33,13 @@ class ProjectApplicationService implements ApplyProjectUseCase {
     @Override
     @Transactional
     public ProjectApplicationId apply(final ApplyProjectCommand command) {
-        final People applicant = loadPeoplePort.loadBy(command.memberId());
-        final Project project = loadProjectPort.loadBy(command.projectId());
+        final People applicant = loadPeoplePort.loadBy(command.getMemberId());
+        final Project project = loadProjectPort.loadBy(command.getProjectId());
         isApplicantAlreadyApplied(applicant, project);
-        final ProjectApplication application = projectApplier.applyFor(
+        final ProjectApplication application = projectApplier.apply(
             applicant,
             project,
-            command.data()
+            command.getData()
         );
         return saveProjectApplicationPort.save(application);
     }
