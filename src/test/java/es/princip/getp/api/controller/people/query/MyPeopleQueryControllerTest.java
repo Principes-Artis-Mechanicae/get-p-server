@@ -8,7 +8,6 @@ import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.port.in.GetMyPeopleQuery;
 import es.princip.getp.domain.member.model.MemberId;
-import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -53,7 +52,6 @@ class MyPeopleQueryControllerTest extends ControllerTest {
                 NICKNAME,
                 PHONE_NUMBER,
                 profileImage(memberId).getUrl(),
-                PeopleType.INDIVIDUAL,
                 0,
                 0,
                 LocalDateTime.now(),

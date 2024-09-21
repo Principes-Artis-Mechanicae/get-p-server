@@ -2,7 +2,6 @@ package es.princip.getp.persistence.adapter.people.mapper;
 
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
-import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
 import es.princip.getp.persistence.support.PersistenceMapperTest;
 import org.junit.jupiter.api.Test;
@@ -22,8 +21,8 @@ class PeoplePersistenceMapperTest extends PersistenceMapperTest {
 
     @Test
     void 도메인_모델로_매핑한다() {
-        final PeopleJpaEntity peopleJpaEntity = peopleJpaEntity(memberId.getValue(), PeopleType.INDIVIDUAL);
-        final People expected = people(memberId, PeopleType.INDIVIDUAL);
+        final PeopleJpaEntity peopleJpaEntity = peopleJpaEntity(memberId.getValue());
+        final People expected = people(memberId);
 
         final People people = mapper.mapToDomain(peopleJpaEntity);
 
@@ -34,8 +33,8 @@ class PeoplePersistenceMapperTest extends PersistenceMapperTest {
 
     @Test
     void 도메인_모델로_매핑_시_피플_프로필을_등록하지_않으면_NULL로_매핑한다() {
-        final PeopleJpaEntity peopleJpaEntity = peopleJpaEntityWithoutProfile(memberId.getValue(), PeopleType.INDIVIDUAL);
-        final People expected = peopleWithoutProfile(memberId, PeopleType.INDIVIDUAL);
+        final PeopleJpaEntity peopleJpaEntity = peopleJpaEntityWithoutProfile(memberId.getValue());
+        final People expected = peopleWithoutProfile(memberId);
 
         final People people = mapper.mapToDomain(peopleJpaEntity);
 
@@ -47,8 +46,8 @@ class PeoplePersistenceMapperTest extends PersistenceMapperTest {
 
     @Test
     void JPA_모델로_매핑한다() {
-        final People people = people(memberId, PeopleType.INDIVIDUAL);
-        final PeopleJpaEntity expected = peopleJpaEntity(memberId.getValue(), PeopleType.INDIVIDUAL);
+        final People people = people(memberId);
+        final PeopleJpaEntity expected = peopleJpaEntity(memberId.getValue());
 
         final PeopleJpaEntity peopleJpaEntity = mapper.mapToJpa(people);
 

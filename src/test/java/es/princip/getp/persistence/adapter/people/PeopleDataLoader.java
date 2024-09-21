@@ -1,7 +1,6 @@
 package es.princip.getp.persistence.adapter.people;
 
 import es.princip.getp.domain.member.model.MemberId;
-import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.persistence.adapter.member.MemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
@@ -41,13 +40,13 @@ public class PeopleDataLoader implements DataLoader {
         final int teamSize = (size % 2) == 0 ? size / 2 : (size / 2) + 1;
 
         final List<PeopleJpaEntity> individualList = LongStream.range(0, individualSize)
-            .mapToObj(i -> people(new MemberId(memberIdBias + i), PeopleType.INDIVIDUAL))
+            .mapToObj(i -> people(new MemberId(memberIdBias + i)))
             .toList()
             .stream()
             .map(mapper::mapToJpa)
             .toList();
         final List<PeopleJpaEntity> teamList = LongStream.range(0, teamSize)
-            .mapToObj(i -> people(new MemberId(size + memberIdBias + i), PeopleType.TEAM))
+            .mapToObj(i -> people(new MemberId(size + memberIdBias + i)))
             .toList()
             .stream()
             .map(mapper::mapToJpa)

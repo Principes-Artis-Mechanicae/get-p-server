@@ -3,16 +3,16 @@ package es.princip.getp.application.people.mapper;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
-import es.princip.getp.domain.people.model.PeopleInfo;
-import es.princip.getp.domain.people.model.PeopleType;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface PeopleMapper {
 
-    default People mapToPeople(MemberId memberId, Email email, PeopleType peopleType) {
-        return People.of(memberId, mapToInfo(email, peopleType));
-    }
-
-    PeopleInfo mapToInfo(Email email, PeopleType peopleType);
+    @Mapping(source = "email", target = "info.email")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "profile", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    People mapToPeople(MemberId memberId, Email email);
 }

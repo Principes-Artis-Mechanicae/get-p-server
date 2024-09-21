@@ -2,7 +2,6 @@ package es.princip.getp.persistence.adapter.people;
 
 import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.common.model.TechStack;
-import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
 import es.princip.getp.persistence.adapter.people.model.PeopleProfileJpaVO;
 import es.princip.getp.persistence.adapter.people.model.PortfolioJpaVO;
@@ -53,21 +52,19 @@ public class PeoplePersistenceFixture {
             .build();
     }
 
-    public static PeopleJpaEntity peopleJpaEntity(Long memberId, PeopleType peopleType) {
+    public static PeopleJpaEntity peopleJpaEntity(Long memberId) {
         return PeopleJpaEntity.builder()
             .id(memberId)
             .email(EMAIL)
-            .peopleType(peopleType)
             .memberId(memberId)
             .profile(peopleProfileJpaVO())
             .build();
     }
 
-    public static PeopleJpaEntity peopleJpaEntityWithoutProfile(Long memberId, PeopleType peopleType) {
+    public static PeopleJpaEntity peopleJpaEntityWithoutProfile(Long memberId) {
         return PeopleJpaEntity.builder()
             .id(memberId)
             .email(EMAIL)
-            .peopleType(peopleType)
             .memberId(memberId)
             .build();
     }

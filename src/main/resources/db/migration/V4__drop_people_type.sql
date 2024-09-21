@@ -1,0 +1,1 @@
+alter table people drop column people_type;

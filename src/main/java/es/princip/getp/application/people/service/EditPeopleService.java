@@ -25,7 +25,7 @@ public class EditPeopleService implements EditPeopleUseCase {
     public void edit(final EditPeopleCommand command) {
         editMemberUseCase.editMember(EditMemberCommand.from(command));
         final People people = loadPeoplePort.loadBy(command.memberId());
-        people.editInfo(command.email(), command.peopleType());
+        people.editInfo(command.email());
         updatePeoplePort.update(people);
     }
 }

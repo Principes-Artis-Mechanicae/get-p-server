@@ -1,6 +1,5 @@
 package es.princip.getp.persistence.adapter.people.model;
 
-import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.persistence.adapter.BaseTimeJpaEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -27,10 +26,6 @@ public class PeopleJpaEntity extends BaseTimeJpaEntity {
     @Column(name = "email")
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "people_type")
-    private PeopleType peopleType;
-
     @Embedded
     private PeopleProfileJpaVO profile;
 
@@ -46,7 +41,6 @@ public class PeopleJpaEntity extends BaseTimeJpaEntity {
         final Long id,
         final Long memberId,
         final String email,
-        final PeopleType peopleType,
         final PeopleProfileJpaVO profile,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt
@@ -56,7 +50,6 @@ public class PeopleJpaEntity extends BaseTimeJpaEntity {
         this.id = id;
         this.memberId = memberId;
         this.email = email;
-        this.peopleType = peopleType;
         this.profile = profile;
     }
 }

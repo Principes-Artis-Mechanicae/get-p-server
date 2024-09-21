@@ -15,7 +15,6 @@ import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
-import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -73,7 +72,6 @@ class PeopleQueryControllerTest extends ControllerTest {
                     1L,
                     NICKNAME,
                     profileImage(memberId).getUrl(),
-                    PeopleType.INDIVIDUAL,
                     0,
                     0,
                     new CardPeopleProfileResponse(
@@ -121,7 +119,6 @@ class PeopleQueryControllerTest extends ControllerTest {
                 peopleId.getValue(),
                 NICKNAME,
                 profileImage(memberId).getUrl(),
-                PeopleType.INDIVIDUAL,
                 0,
                 0,
                 new PublicDetailPeopleProfileResponse(
@@ -147,7 +144,6 @@ class PeopleQueryControllerTest extends ControllerTest {
                 1L,
                 NICKNAME,
                 profileImage(memberId).getUrl(),
-                PeopleType.INDIVIDUAL,
                 0,
                 0,
                 true,

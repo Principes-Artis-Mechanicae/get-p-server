@@ -39,7 +39,7 @@ public class RegisterPeopleService implements RegisterPeopleUseCase {
             throw new AlreadyExistsPeopleException();
         }
         editMemberUseCase.editMember(EditMemberCommand.from(command));
-        final People people = peopleMapper.mapToPeople(command.memberId(), command.email(), command.peopleType());
+        final People people = peopleMapper.mapToPeople(command.memberId(), command.email());
         return savePeoplePort.save(people);
     }
 }

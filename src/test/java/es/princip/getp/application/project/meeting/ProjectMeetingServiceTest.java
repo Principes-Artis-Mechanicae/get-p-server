@@ -13,7 +13,6 @@ import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleId;
-import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
@@ -58,7 +57,7 @@ class ProjectMeetingServiceTest {
     private final Long meetingId = 1L; // 신청된 미팅의 미팅 ID
 
     private final Project project = ProjectFixture.project(clientId, ProjectStatus.APPLYING);
-    private final People people = PeopleFixture.people(pmemberId, PeopleType.INDIVIDUAL);
+    private final People people = PeopleFixture.people(pmemberId);
 
     private final ScheduleMeetingCommand command = scheduleMeetingCommand(cmemberId, projectId, applicantId);
 

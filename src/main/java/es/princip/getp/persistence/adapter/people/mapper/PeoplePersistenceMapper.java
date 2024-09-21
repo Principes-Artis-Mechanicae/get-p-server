@@ -21,7 +21,6 @@ public abstract class PeoplePersistenceMapper {
     @Mapping(source = "id", target = "id.value")
     @Mapping(source = "memberId", target = "memberId.value")
     @Mapping(source = "email", target = "info.email.value")
-    @Mapping(source = "peopleType", target = "info.peopleType")
     public abstract People mapToDomain(PeopleJpaEntity people);
 
     @Mapping(source = "school", target = "education.school")

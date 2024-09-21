@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.controller.people.command.description.request.CreatePeopleRequestDescription;
-import es.princip.getp.api.controller.people.command.description.request.UpdatePeopleRequestDescription;
+import es.princip.getp.api.controller.people.command.description.request.EditPeopleRequestDescription;
+import es.princip.getp.api.controller.people.command.description.request.RegisterPeopleRequestDescription;
 import es.princip.getp.api.controller.people.command.description.response.CreatePeopleResponseDescription;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleRequest;
@@ -12,7 +12,6 @@ import es.princip.getp.application.people.command.RegisterPeopleCommand;
 import es.princip.getp.application.people.port.in.EditPeopleUseCase;
 import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
 import es.princip.getp.domain.people.model.PeopleId;
-import es.princip.getp.domain.people.model.PeopleType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -46,8 +45,7 @@ class MyPeopleControllerTest extends ControllerTest {
         private final RegisterPeopleRequest request = new RegisterPeopleRequest(
             NICKNAME,
             EMAIL,
-            PHONE_NUMBER,
-            PeopleType.INDIVIDUAL
+            PHONE_NUMBER
         );
         private final PeopleId peopleId = new PeopleId(1L);
 
@@ -66,7 +64,7 @@ class MyPeopleControllerTest extends ControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(restDocs.document(
                     requestHeaders(authorizationHeaderDescriptor()),
-                    requestFields(CreatePeopleRequestDescription.description()),
+                    requestFields(RegisterPeopleRequestDescription.description()),
                     responseFields(CreatePeopleResponseDescription.description())
                 ))
                 .andDo(print());
@@ -86,8 +84,7 @@ class MyPeopleControllerTest extends ControllerTest {
         private final EditPeopleRequest request = new EditPeopleRequest(
             NICKNAME,
             EMAIL,
-            PHONE_NUMBER,
-            PeopleType.INDIVIDUAL
+            PHONE_NUMBER
         );
 
         private ResultActions perform() throws Exception {
@@ -105,7 +102,7 @@ class MyPeopleControllerTest extends ControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(restDocs.document(
                     requestHeaders(authorizationHeaderDescriptor()),
-                    requestFields(UpdatePeopleRequestDescription.description())
+                    requestFields(EditPeopleRequestDescription.description())
                 ))
                 .andDo(print());
         }
