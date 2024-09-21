@@ -34,4 +34,12 @@ class CountProjectApplicationAdapter extends QueryDslSupport implements CountPro
                     .orElse(0L)
             ));
     }
+
+    @Override
+    public Long countBy(final ProjectId projectId) {
+        return queryFactory.select(projectApplication.count())
+            .from(projectApplication)
+            .where(projectApplication.projectId.eq(projectId.getValue()))
+            .fetchOne();
+    }
 }

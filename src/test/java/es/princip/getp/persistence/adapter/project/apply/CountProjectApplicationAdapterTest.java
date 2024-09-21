@@ -50,4 +50,12 @@ class CountProjectApplicationAdapterTest extends PersistenceAdapterTest {
         assertThat(result).hasSize(TEST_SIZE);
         assertThat(result.values()).allMatch(value -> value == TEST_SIZE);
     }
+
+    @Test
+    void 프로젝트의_지원자_수를_구한다() {
+        final ProjectId projectId = new ProjectId(1L);
+        final Long result = adapter.countBy(projectId);
+
+        assertThat(result).isEqualTo(TEST_SIZE);
+    }
 }

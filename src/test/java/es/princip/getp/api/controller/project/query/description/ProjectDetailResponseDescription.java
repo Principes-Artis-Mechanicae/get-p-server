@@ -12,6 +12,7 @@ public class ProjectDetailResponseDescription {
             getDescriptor("title", "제목"),
             getDescriptor("payment", "성공 보수"),
             getDescriptor("recruitmentCount", "모집 인원"),
+            getDescriptor("applicantsCount", "지원자 수"),
             getDescriptor("applicationDuration.startDate", "지원자 모집 시작 날짜"),
             getDescriptor("applicationDuration.endDate", "지원자 모집 종료 날짜"),
             getDescriptor("estimatedDuration.startDate", "예상 작업 시작 날짜"),

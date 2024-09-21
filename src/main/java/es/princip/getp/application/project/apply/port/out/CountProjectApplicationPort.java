@@ -7,4 +7,5 @@ import java.util.Map;
 public interface CountProjectApplicationPort {
 
     Map<ProjectId, Long> countBy(final ProjectId... projectId);
+    Long countBy(final ProjectId projectId);
 }
