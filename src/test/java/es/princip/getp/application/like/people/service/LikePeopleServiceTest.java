@@ -7,7 +7,6 @@ import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleId;
-import es.princip.getp.domain.people.model.PeopleType;
 import es.princip.getp.fixture.people.PeopleFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ class LikePeopleServiceTest {
     private final MemberId memberId = new MemberId(1L);
     private final PeopleId peopleId = new PeopleId(1L);
     
-    private final People people = PeopleFixture.people(memberId, PeopleType.INDIVIDUAL);
+    private final People people = PeopleFixture.people(memberId);
 
     @BeforeEach
     void setUp() {

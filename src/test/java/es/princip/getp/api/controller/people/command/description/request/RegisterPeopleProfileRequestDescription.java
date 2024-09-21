@@ -5,7 +5,7 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 
-public class WritePeopleProfileRequestDescription {
+public class RegisterPeopleProfileRequestDescription {
 
     public static FieldDescriptor[] description() {
         final Class<?> clazz = RegisterPeopleProfileRequest.class;

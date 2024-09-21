@@ -30,29 +30,25 @@ class ProjectApplicationService implements ApplyProjectUseCase {
 
     private final ProjectApplier projectApplier;
 
-    /**
-     * 프로젝트 지원
-     * 
-     * @param command 프로젝트 지원 명령
-     * @return 프로젝트 지원 ID
-     */
     @Override
     @Transactional
     public ProjectApplicationId apply(final ApplyProjectCommand command) {
-        final People applicant = loadPeoplePort.loadBy(command.memberId());
+        final People applicant = loadPeoplePort.loadBy(command.getMemberId());
+        final Project project = loadProjectPort.loadBy(command.getProjectId());
+        isApplicantAlreadyApplied(applicant, project);
+        final ProjectApplication application = projectApplier.apply(
+            applicant,
+            project,
+            command.getData()
+        );
+        return saveProjectApplicationPort.save(application);
+    }
+
+    private void isApplicantAlreadyApplied(final People applicant, final Project project) {
         final PeopleId applicantId = applicant.getId();
-        final ProjectId projectId = command.projectId();
-        final Project project = loadProjectPort.loadBy(command.projectId());
+        final ProjectId projectId = project.getId();
         if (checkProjectApplicationPort.existsBy(applicantId, projectId)) {
             throw new AlreadyAppliedProjectException();
         }
-        final ProjectApplication application = projectApplier.applyForProject(
-            applicant,
-            project,
-            command.expectedDuration(),
-            command.description(),
-            command.attachmentFiles()
-        );
-        return saveProjectApplicationPort.save(application);
     }
 }

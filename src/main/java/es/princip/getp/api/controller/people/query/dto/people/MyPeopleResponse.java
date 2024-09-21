@@ -1,7 +1,5 @@
 package es.princip.getp.api.controller.people.query.dto.people;
 
-import es.princip.getp.domain.people.model.PeopleType;
-
 import java.time.LocalDateTime;
 
 public record MyPeopleResponse(
@@ -10,7 +8,6 @@ public record MyPeopleResponse(
     String nickname,
     String phoneNumber,
     String profileImageUri,
-    PeopleType peopleType,
     Integer completedProjectsCount,
     Integer likesCount,
     LocalDateTime createdAt,

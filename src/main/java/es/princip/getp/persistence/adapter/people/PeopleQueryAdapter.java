@@ -56,8 +56,7 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
         return queryFactory.select(
             member.nickname,
             member.profileImage,
-            people.id,
-            people.peopleType
+            people.id
         )
         .from(people)
         .join(member)
@@ -71,8 +70,7 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
             queryFactory.select(
                 member.nickname,
                 member.profileImage,
-                people.id,
-                people.peopleType
+                people.id
             )
             .from(people)
             .join(member).on(people.memberId.eq(member.id))
@@ -100,7 +98,6 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
                 peopleId,
                 memberAndPeople.get(peopleId).get(member.nickname),
                 memberAndPeople.get(peopleId).get(member.profileImage),
-                memberAndPeople.get(peopleId).get(QPeopleJpaEntity.peopleJpaEntity.peopleType),
                 0,
                 likesCounts.get(new PeopleId(peopleId)),
                 mapper.mapToCardPeopleProfileResponse(people.getProfile())
@@ -136,7 +133,6 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
             peopleId.getValue(),
             memberAndPeople.get(member.nickname),
             memberAndPeople.get(member.profileImage),
-            memberAndPeople.get(people.peopleType),
             0,
             countPeopleLikePort.countBy(peopleId),
             checkPeopleLikePort.existsBy(memberId, peopleId),
@@ -163,7 +159,6 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
             peopleId.getValue(),
             memberAndPeople.get(member.nickname),
             memberAndPeople.get(member.profileImage),
-            memberAndPeople.get(people.peopleType),
             0,
             countPeopleLikePort.countBy(peopleId),
             mapper.mapToPublicPeopleProfileResponse(profile)
@@ -181,7 +176,6 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
                     member.nickname,
                     member.phoneNumber,
                     member.profileImage,
-                    people.peopleType,
                     Expressions.asNumber(0).as("completedProjectsCount"),
                     Expressions.asNumber(0).as("likesCount"),
                     people.createdAt,

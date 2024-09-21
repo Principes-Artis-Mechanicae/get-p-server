@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.LongStream;
 
-import static es.princip.getp.fixture.project.ProjectApplicationFixture.projectApplication;
+import static es.princip.getp.fixture.project.ProjectApplicationFixture.individualProjectApplication;
+import static es.princip.getp.fixture.project.ProjectApplicationFixture.teamProjectApplication;
 
 @RequiredArgsConstructor
 public class ProjectApplicationDataLoader implements DataLoader {
@@ -21,11 +22,23 @@ public class ProjectApplicationDataLoader implements DataLoader {
     @Override
     public void load(final int size) {
         final List<ProjectApplicationJpaEntity> projectApplicationList = new ArrayList<>();
-        LongStream.rangeClosed(1, size).forEach(projectId ->
+        LongStream.rangeClosed(1, size / 2).forEach(projectId ->
             LongStream.rangeClosed(1, size).forEach(peopleId ->
                 projectApplicationList.add(
                     mapper.mapToJpa(
-                        projectApplication(
+                        individualProjectApplication(
+                            new PeopleId(peopleId),
+                            new ProjectId(projectId)
+                        )
+                    )
+                )
+            )
+        );
+        LongStream.rangeClosed(size / 2 + 1, size).forEach(projectId ->
+            LongStream.rangeClosed(1, size).forEach(peopleId ->
+                projectApplicationList.add(
+                    mapper.mapToJpa(
+                        teamProjectApplication(
                             new PeopleId(peopleId),
                             new ProjectId(projectId)
                         )
@@ -39,7 +52,9 @@ public class ProjectApplicationDataLoader implements DataLoader {
     @Override
     public void teardown() {
         entityManager.createQuery("DELETE FROM ProjectApplicationJpaEntity").executeUpdate();
-        entityManager.createNativeQuery("ALTER TABLE project_application AUTO_INCREMENT = 1")
+        entityManager.createNativeQuery("ALTER TABLE individual_project_application AUTO_INCREMENT = 1")
+            .executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE team_project_application AUTO_INCREMENT = 1")
             .executeUpdate();
     }
 }

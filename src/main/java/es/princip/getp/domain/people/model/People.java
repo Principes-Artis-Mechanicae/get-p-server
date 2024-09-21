@@ -40,8 +40,8 @@ public class People extends BaseEntity {
         return new People(null, memberId, info, null, null, null);
     }
 
-    public void editInfo(final Email email, final PeopleType peopleType) {
-        this.info = new PeopleInfo(email, peopleType);
+    public void editInfo(final Email email) {
+        this.info = new PeopleInfo(email);
     }
 
     private PeopleProfile buildProfile(final PeopleProfileData data) {

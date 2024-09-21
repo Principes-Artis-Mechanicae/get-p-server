@@ -26,16 +26,9 @@ public class ProjectApplicationController {
     private final ApplyProjectUseCase applyProjectUseCase;
     private final ProjectCommandMapper projectCommandMapper;
 
-    /**
-     * 프로젝트 지원
-     *
-     * @param request          프로젝트 지원 요청
-     * @param principalDetails 로그인한 사용자 정보
-     * @param projectId        프로젝트 ID
-     */
     @PostMapping("/{projectId}/applications")
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<ApplyProjectResponse>> applyForProject(
+    public ResponseEntity<ApiSuccessResult<ApplyProjectResponse>> applyProject(
         @RequestBody @Valid final ApplyProjectRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable Long projectId

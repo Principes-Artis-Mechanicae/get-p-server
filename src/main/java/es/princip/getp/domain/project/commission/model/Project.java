@@ -11,7 +11,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -78,8 +77,8 @@ public class Project extends BaseEntity {
         return Collections.unmodifiableList(hashtags);
     }
 
-    public boolean isApplicationClosed(final Clock clock) {
-        return applicationDuration.isEnded(clock) || !status.isApplying();
+    public boolean isApplicationClosed() {
+        return !status.isApplying();
     }
 
     public boolean isClient(final Client client) {

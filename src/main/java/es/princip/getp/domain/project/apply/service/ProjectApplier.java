@@ -1,57 +1,65 @@
 package es.princip.getp.domain.project.apply.service;
 
-import es.princip.getp.domain.common.model.AttachmentFile;
-import es.princip.getp.domain.common.model.Duration;
-import es.princip.getp.domain.common.service.ClockHolder;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.apply.exception.ClosedProjectApplicationException;
-import es.princip.getp.domain.project.apply.model.ProjectApplication;
-import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;
+import es.princip.getp.domain.project.apply.model.*;
 import es.princip.getp.domain.project.commission.model.Project;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.time.Clock;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class ProjectApplier {
 
-    private final ClockHolder clockHolder;
-
-    /**
-     * 프로젝트 지원
-     *
-     * @param people 지원하는 피플
-     * @param project 지원할 프로젝트
-     * @param expectedDuration 예상 기간
-     * @param description 설명
-     * @param attachmentFiles 첨부 파일
-     * @return 프로젝트 지원
-     */
-    public ProjectApplication applyForProject(
-        final People people,
+    public ProjectApplication apply(
+        final People applicant,
         final Project project,
-        final Duration expectedDuration,
-        final String description,
-        final List<AttachmentFile> attachmentFiles
+        final ProjectApplicationData data
     ) {
-        final Clock clock = clockHolder.getClock();
-        if (project.isApplicationClosed(clock)) {
+        if (project.isApplicationClosed()) {
             throw new ClosedProjectApplicationException();
         }
-        if (!people.isProfileRegistered()) {
+        if (!applicant.isProfileRegistered()) {
             throw new NotRegisteredPeopleProfileException();
         }
-        return ProjectApplication.builder()
-            .applicantId(people.getId())
+        if (data instanceof TeamProjectApplicationData teamData) {
+            return buildTeamProjectApplication(applicant, project, teamData);
+        }
+        if (data instanceof IndividualProjectApplicationData individualData) {
+            return buildIndividualProjectApplication(applicant, project, individualData);
+        }
+        throw new IllegalArgumentException("올바르지 않은 프로젝트 지원 유형: " + data.getClass());
+    }
+
+    private ProjectApplication buildTeamProjectApplication(
+        final People applicant,
+        final Project project,
+        final TeamProjectApplicationData data
+    ) {
+        return TeamProjectApplication.builder()
+            .applicantId(applicant.getId())
             .projectId(project.getId())
-            .expectedDuration(expectedDuration)
-            .description(description)
-            .attachmentFiles(attachmentFiles)
-            .applicationStatus(ProjectApplicationStatus.APPLICATION_COMPLETED)
+            .expectedDuration(data.getExpectedDuration())
+            .description(data.getDescription())
+            .attachmentFiles(data.getAttachmentFiles())
+            .teams(data.getTeams())
+            .status(ProjectApplicationStatus.PENDING_TEAM_APPROVAL)
+            .build();
+    }
+
+    private ProjectApplication buildIndividualProjectApplication(
+        final People applicant,
+        final Project project,
+        final IndividualProjectApplicationData data
+    ) {
+        return IndividualProjectApplication.builder()
+            .applicantId(applicant.getId())
+            .projectId(project.getId())
+            .expectedDuration(data.getExpectedDuration())
+            .description(data.getDescription())
+            .attachmentFiles(data.getAttachmentFiles())
+            .status(ProjectApplicationStatus.COMPLETED)
             .build();
     }
 }

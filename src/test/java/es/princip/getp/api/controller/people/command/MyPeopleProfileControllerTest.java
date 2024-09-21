@@ -1,11 +1,11 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.people.command.description.request.EditPeopleProfileRequestDescription;
-import es.princip.getp.api.controller.people.command.description.request.WritePeopleProfileRequestDescription;
+import es.princip.getp.api.controller.people.command.description.request.RegisterPeopleProfileRequestDescription;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.command.EditPeopleProfileCommand;
 import es.princip.getp.application.people.command.RegisterPeopleProfileCommand;
 import es.princip.getp.application.people.port.in.EditPeopleProfileUseCase;
@@ -68,7 +68,7 @@ class MyPeopleProfileControllerTest extends ControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(restDocs.document(
                     requestHeaders(authorizationHeaderDescriptor()),
-                    requestFields(WritePeopleProfileRequestDescription.description())
+                    requestFields(RegisterPeopleProfileRequestDescription.description())
                 ))
                 .andDo(print());
         }

@@ -1,0 +1,1 @@
+operation::/apply-project/apply-project-as-individual[snippets="http-request,request-headers,path-parameters,request-fields,http-response,response-fields-data"]

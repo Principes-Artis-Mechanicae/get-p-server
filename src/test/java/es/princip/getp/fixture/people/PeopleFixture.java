@@ -4,7 +4,6 @@ import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.people.model.PeopleInfo;
 import es.princip.getp.domain.people.model.PeopleProfileData;
-import es.princip.getp.domain.people.model.PeopleType;
 
 import static es.princip.getp.fixture.common.EmailFixture.email;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtags;
@@ -16,12 +15,12 @@ import static es.princip.getp.fixture.people.PortfolioFixture.portfolios;
 
 public class PeopleFixture {
 
-    private static PeopleInfo peopleInfo(final PeopleType peopleType) {
-        return new PeopleInfo(email(), peopleType);
+    private static PeopleInfo peopleInfo() {
+        return new PeopleInfo(email());
     }
 
-    public static People people(final MemberId memberId, final PeopleType peopleType) {
-        final People people = People.of(memberId, peopleInfo(peopleType));
+    public static People people(final MemberId memberId) {
+        final People people = People.of(memberId, peopleInfo());
         final PeopleProfileData data = new PeopleProfileData(
             introduction(),
             activityArea(),
@@ -34,7 +33,7 @@ public class PeopleFixture {
         return people;
     }
 
-    public static People peopleWithoutProfile(final MemberId memberId, final PeopleType peopleType) {
-        return People.of(memberId, peopleInfo(peopleType));
+    public static People peopleWithoutProfile(final MemberId memberId) {
+        return People.of(memberId, peopleInfo());
     }
 }

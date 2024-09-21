@@ -4,18 +4,22 @@ import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;
 import es.princip.getp.persistence.adapter.BaseTimeJpaEntity;
 import es.princip.getp.persistence.adapter.common.DurationJpaVO;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Entity
-@Builder
 @AllArgsConstructor
 @Table(name = "project_application")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-class ProjectApplicationJpaEntity extends BaseTimeJpaEntity {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING)
+abstract class ProjectApplicationJpaEntity extends BaseTimeJpaEntity {
 
     @Id
     @Column(name = "project_application_id")
@@ -37,18 +41,20 @@ class ProjectApplicationJpaEntity extends BaseTimeJpaEntity {
     )
     private DurationJpaVO expectedDuration;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private ProjectApplicationStatus applicationStatus;
+    @Enumerated(EnumType.STRING)
+    private ProjectApplicationStatus status;
 
     @Column(name = "description")
     private String description;
 
-    @Builder.Default
     @ElementCollection
     @CollectionTable(
         name = "project_application_attachment_file",
-        joinColumns = @JoinColumn(name = "project_application_id")
+        joinColumns = @JoinColumn(
+            name = "project_application_id",
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+        )
     )
     private List<String> attachmentFiles = new ArrayList<>();
 }
