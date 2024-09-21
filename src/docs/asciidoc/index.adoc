@@ -151,11 +151,17 @@ include::{docdir}/project/unlike-project.adoc[]
 
 include::{docdir}/project/commission-project.adoc[]
 
-=== [피플] 프로젝트 지원
+=== [피플] 프로젝트 지원(개인)
 
-피플은 프로젝트에 지원할 수 있습니다.
+피플은 프로젝트에 개인으로 지원할 수 있습니다.
 
-include::{docdir}/project/apply-for-project.adoc[]
+include::{docdir}/project/apply-project-as-individual.adoc[]
+
+=== [피플] 프로젝트 지원(팀)
+
+피플은 프로젝트에 팀으로 지원할 수 있습니다.
+
+include::{docdir}/project/apply-project-as-team.adoc[]
 
 == 프로젝트 관리
 

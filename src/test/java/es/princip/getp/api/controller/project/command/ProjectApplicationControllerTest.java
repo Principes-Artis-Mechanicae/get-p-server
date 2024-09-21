@@ -50,7 +50,7 @@ class ProjectApplicationControllerTest extends ControllerTest {
 
     @Nested
     @DisplayName("프로젝트 지원")
-    class ApplyForProject {
+    class ApplyProject {
 
         private final ProjectId projectId = new ProjectId(1L);
         private final ProjectApplicationId applicationId = new ProjectApplicationId(1L);
