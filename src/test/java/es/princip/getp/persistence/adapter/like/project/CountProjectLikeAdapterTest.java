@@ -21,7 +21,6 @@ public class CountProjectLikeAdapterTest extends PersistenceAdapterTest {
 
     @PersistenceContext private EntityManager entityManager;
     @Autowired private CountProjectLikePort countProjectLikePort;
-    @Autowired private ProjectLikePersistenceMapper projectLikeMapper;
 
     private static final int TEST_SIZE = 5;
     private List<DataLoader> dataLoaders;
@@ -29,7 +28,7 @@ public class CountProjectLikeAdapterTest extends PersistenceAdapterTest {
     @BeforeEach
     void setUp() {
         dataLoaders = List.of(
-            new ProjectLikeDataLoader(entityManager, projectLikeMapper)
+            new ProjectLikeDataLoader(entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
     }

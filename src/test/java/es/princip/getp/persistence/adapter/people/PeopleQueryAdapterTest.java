@@ -9,6 +9,7 @@ import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.adapter.like.people.PeopleLikeDataLoader;
 import es.princip.getp.persistence.adapter.like.people.PeopleLikePersistenceMapper;
+import es.princip.getp.persistence.adapter.member.MemberDataLoader;
 import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
 import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.support.PersistenceAdapterTest;
@@ -41,6 +42,7 @@ public class PeopleQueryAdapterTest extends PersistenceAdapterTest {
     @BeforeEach
     void setUp() {
         dataLoaders = List.of(
+            new MemberDataLoader(entityManager),
             new PeopleLikeDataLoader(peopleLikePersistenceMapper, entityManager),
             new PeopleDataLoader(peoplePersistenceMapper, entityManager)
         );

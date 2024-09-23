@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.support;
 
+import com.querydsl.core.types.Order;
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -8,12 +9,16 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.function.Function;
+
+import static com.querydsl.core.types.Order.ASC;
+import static com.querydsl.core.types.Order.DESC;
 
 /**
  * QueryDsl 5.x 버전에 맞춘 QueryDsl 지원 라이브러리
@@ -48,5 +53,9 @@ public abstract class QueryDslSupport {
     ) {
         JPAQuery<Long> countResult = countQuery.apply(queryFactory);
         return PageableExecutionUtils.getPage(content, pageable, countResult::fetchOne);
+    }
+
+    protected static Order convertTo(final Sort.Order order) {
+        return order.isAscending() ? ASC : DESC;
     }
 }

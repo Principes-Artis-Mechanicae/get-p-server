@@ -1,19 +1,19 @@
-package es.princip.getp.persistence.adapter.project.commission;
+package es.princip.getp.persistence.adapter.like.project;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import es.princip.getp.api.controller.project.query.dto.CommissionedProjectCardResponse;
+import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectSearchOrder;
+import es.princip.getp.application.like.project.port.out.FindLikedProjectPort;
 import es.princip.getp.application.project.apply.port.out.CountProjectApplicationPort;
-import es.princip.getp.application.project.commission.port.out.FindCommissionedProjectPort;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectId;
-import es.princip.getp.domain.project.commission.model.ProjectStatus;
-import es.princip.getp.persistence.adapter.client.QClientJpaEntity;
+import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
+import es.princip.getp.persistence.adapter.project.commission.ProjectJpaEntity;
+import es.princip.getp.persistence.adapter.project.commission.QProjectJpaEntity;
 import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,65 +28,67 @@ import static es.princip.getp.persistence.adapter.project.ProjectPersistenceUtil
 
 @Repository
 @RequiredArgsConstructor
-class FindCommissionedProjectAdapter extends QueryDslSupport implements FindCommissionedProjectPort {
+class FindLikedProjectAdapter extends QueryDslSupport implements FindLikedProjectPort {
 
+    private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
     private static final QProjectJpaEntity project = QProjectJpaEntity.projectJpaEntity;
-    private static final QClientJpaEntity client = QClientJpaEntity.clientJpaEntity;
+    private static final QProjectLikeJpaEntity like = QProjectLikeJpaEntity.projectLikeJpaEntity;
     private final CountProjectApplicationPort countProjectApplicationPort;
     private final ProjectPersistenceMapper mapper;
 
     @Override
-    public Page<CommissionedProjectCardResponse> findBy(
+    public Page<ProjectCardResponse> findBy(
         final MemberId memberId,
-        final Boolean cancelled,
         final Pageable pageable
     ) {
-        final List<Project> projects = getMyProjects(pageable, memberId, cancelled);
+        final List<Project> projects = getContent(pageable, memberId);
         final ProjectId[] projectIds = toProjectIds(projects);
         final Map<ProjectId, Long> projectApplicationCounts = countProjectApplicationPort.countBy(projectIds);
-        final List<CommissionedProjectCardResponse> content = assemble(projects, projectApplicationCounts);
+        final List<ProjectCardResponse> content = assemble(projects, projectApplicationCounts);
 
         return applyPagination(
             pageable,
             content,
-            countQuery -> getMyProjectsCountQuery(memberId, cancelled)
+            countQuery -> getCountQuery(memberId)
         );
     }
 
-    private List<CommissionedProjectCardResponse> assemble(
-        final List<Project> projects,
-        final Map<ProjectId, Long> projectApplicationCounts
-    ) {
-        return projects.stream()
-            .map(project -> CommissionedProjectCardResponse.of(
-                project,
-                projectApplicationCounts.get(project.getId())
-            ))
-            .toList();
+    private <T> JPAQuery<T> buildQuery(final JPAQuery<T> selectQuery, final MemberId memberId) {
+        return selectQuery.from(project)
+            .join(like).on(project.id.eq(like.projectId))
+            .join(member).on(like.memberId.eq(member.id))
+            .where(member.id.eq(memberId.getValue()));
     }
 
-    private JPAQuery<Long> getMyProjectsCountQuery(final MemberId memberId, final Boolean cancelled) {
-        return queryFactory.select(project.count())
-            .from(project)
-            .join(client).on(project.clientId.eq(client.id))
-            .where(client.memberId.eq(memberId.getValue()), cancelledFilter(cancelled));
+    private JPAQuery<Long> getCountQuery(final MemberId memberId) {
+        return buildQuery(queryFactory.select(project.count()), memberId);
     }
 
-    private List<Project> getMyProjects(final Pageable pageable, final MemberId memberId, final Boolean cancelled) {
-        return queryFactory.selectFrom(project)
-            .join(client).on(project.clientId.eq(client.id))
-            .where(client.memberId.eq(memberId.getValue()), cancelledFilter(cancelled))
+    private JPAQuery<ProjectJpaEntity> getContentQuery(final Pageable pageable, final MemberId memberId) {
+        return buildQuery(queryFactory.select(project), memberId)
             .orderBy(orderSpecifiersFromSort(pageable.getSort()))
             .offset(pageable.getOffset())
-            .limit(pageable.getPageSize())
+            .limit(pageable.getPageSize());
+    }
+
+    private List<Project> getContent(final Pageable pageable, final MemberId memberId) {
+        return getContentQuery(pageable, memberId)
             .fetch()
             .stream()
             .map(mapper::mapToDomain)
             .toList();
     }
 
-    private BooleanExpression cancelledFilter(final Boolean cancelled) {
-        return cancelled ? null : project.status.ne(ProjectStatus.CANCELLED);
+    private List<ProjectCardResponse> assemble(
+        final List<Project> projects,
+        final Map<ProjectId, Long> projectApplicationCounts
+    ) {
+        return projects.stream()
+            .map(project -> ProjectCardResponse.of(
+                project,
+                projectApplicationCounts.get(project.getId())
+            ))
+            .toList();
     }
 
     private static OrderSpecifier<?> toOrderSpecifier(final Sort.Order order, final ProjectSearchOrder searchOrder) {
