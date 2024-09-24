@@ -53,24 +53,10 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
     private final CountProjectApplicationPort countProjectApplicationPort;
     private final ProjectPersistenceMapper mapper;
 
-    private BooleanExpression peopleMemberIdEq(final MemberId memberId) {
+    private BooleanExpression memberIdEq(final MemberId memberId) {
         return Optional.ofNullable(memberId)
             .map(MemberId::getValue)
-            .map(people.memberId::eq)
-            .orElse(null);
-    }
-
-    private BooleanExpression likeMemberIdEq(final MemberId memberId) {
-        return Optional.ofNullable(memberId)
-            .map(MemberId::getValue)
-            .map(people.memberId::eq)
-            .orElse(null);
-    }
-
-    private BooleanExpression clientMemberIdEq(final MemberId memberId) {
-        return Optional.ofNullable(memberId)
-            .map(MemberId::getValue)
-            .map(client.memberId::eq)
+            .map(member.id::eq)
             .orElse(null);
     }
 
@@ -82,16 +68,18 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
         if (filter.isApplied()) {
             selectFrom.join(application).on(project.id.eq(application.projectId))
                 .join(people).on(application.applicantId.eq(people.id))
-                .where(peopleMemberIdEq(memberId));
+                .join(member).on(people.memberId.eq(member.id))
+                .where(memberIdEq(memberId));
         }
         if (filter.isLiked()) {
             selectFrom.join(like).on(project.id.eq(like.projectId))
-                .join(member).on(likeMemberIdEq(memberId))
-                .where(like.projectId.eq(project.id));
+                .join(member).on(like.memberId.eq(member.id))
+                .where(memberIdEq(memberId));
         }
         if (filter.isCommissioned()) {
             selectFrom.join(client).on(project.clientId.eq(client.id))
-                .where(clientMemberIdEq(memberId));
+                .join(member).on(client.memberId.eq(member.id))
+                .where(memberIdEq(memberId));
         }
         if (filter.isClosed()) {
             selectFrom.where(project.status.eq(ProjectStatus.CANCELLED));
