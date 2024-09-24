@@ -1,7 +1,8 @@
 package es.princip.getp.api.controller.client.command.description;
 
-import es.princip.getp.domain.client.model.BankAccount;
 import org.springframework.restdocs.payload.FieldDescriptor;
+
+import es.princip.getp.domain.common.model.BankAccount;
 
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 

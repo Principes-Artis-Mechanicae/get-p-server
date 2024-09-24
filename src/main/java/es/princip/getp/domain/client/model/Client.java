@@ -1,5 +1,6 @@
 package es.princip.getp.domain.client.model;
 
+import es.princip.getp.domain.common.model.BankAccount;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.support.BaseEntity;

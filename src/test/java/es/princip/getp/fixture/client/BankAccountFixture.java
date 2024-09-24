@@ -1,6 +1,6 @@
 package es.princip.getp.fixture.client;
 
-import es.princip.getp.domain.client.model.BankAccount;
+import es.princip.getp.domain.common.model.BankAccount;
 
 public class BankAccountFixture {
 

@@ -2,7 +2,7 @@ package es.princip.getp.api.controller.client.command.dto.request;
 
 import es.princip.getp.application.client.command.RegisterClientCommand;
 import es.princip.getp.domain.client.model.Address;
-import es.princip.getp.domain.client.model.BankAccount;
+import es.princip.getp.domain.common.model.BankAccount;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.common.model.EmailPattern;
 import es.princip.getp.domain.common.model.PhoneNumber;

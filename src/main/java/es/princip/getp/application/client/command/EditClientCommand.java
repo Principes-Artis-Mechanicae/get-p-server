@@ -1,7 +1,7 @@
 package es.princip.getp.application.client.command;
 
 import es.princip.getp.domain.client.model.Address;
-import es.princip.getp.domain.client.model.BankAccount;
+import es.princip.getp.domain.common.model.BankAccount;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.common.model.PhoneNumber;
 import es.princip.getp.domain.member.model.MemberId;

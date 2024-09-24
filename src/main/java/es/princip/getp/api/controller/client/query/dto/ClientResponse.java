@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.client.query.dto;
 
 import es.princip.getp.domain.client.model.Address;
-import es.princip.getp.domain.client.model.BankAccount;
+import es.princip.getp.domain.common.model.BankAccount;
 
 import java.time.LocalDateTime;
 
