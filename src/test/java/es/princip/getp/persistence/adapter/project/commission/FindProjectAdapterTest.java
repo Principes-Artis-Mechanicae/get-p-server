@@ -58,10 +58,10 @@ class FindProjectAdapterTest extends PersistenceAdapterTest {
         final int pageSize = 10;
         final Pageable pageable = PageRequest.of(0, pageSize);
         final ProjectSearchFilter filter = new ProjectSearchFilter(
-            "false",
-            "false",
-            "false",
-            "false"
+            "null",
+            "null",
+            "null",
+            "null"
         );
         final Page<ProjectCardResponse> response = adapter.findBy(pageable, filter, null);
 
@@ -73,10 +73,10 @@ class FindProjectAdapterTest extends PersistenceAdapterTest {
         final int pageSize = 10;
         final Pageable pageable = PageRequest.of(0, pageSize);
         final ProjectSearchFilter filter = new ProjectSearchFilter(
-            "false",
+            "null",
             "true",
-            "false",
-            "false"
+            "null",
+            "null"
         );
         final MemberId member = new MemberId(1L);
         final Page<ProjectCardResponse> response = adapter.findBy(pageable, filter, member);
@@ -89,10 +89,10 @@ class FindProjectAdapterTest extends PersistenceAdapterTest {
         final int pageSize = 10;
         final Pageable pageable = PageRequest.of(0, pageSize);
         final ProjectSearchFilter filter = new ProjectSearchFilter(
-            "false",
-            "false",
+            "null",
+            "null",
             "true",
-            "false"
+            "null"
         );
         final MemberId member = new MemberId(1L);
         final Page<ProjectCardResponse> response = adapter.findBy(pageable, filter, member);

@@ -1,6 +1,7 @@
 package es.princip.getp.api.controller.people.query;
 
 import es.princip.getp.api.controller.people.query.description.DetailPeopleResponseDescription;
+import es.princip.getp.api.controller.people.query.description.GetCardPeoplePageQueryParametersDescription;
 import es.princip.getp.api.controller.people.query.description.PagedCardPeopleResponseDescription;
 import es.princip.getp.api.controller.people.query.description.PublicDetailPeopleResponseDescription;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
@@ -9,9 +10,9 @@ import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeople
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
-import es.princip.getp.api.docs.PaginationDescription;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
+import es.princip.getp.application.people.command.GetPeopleCommand;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
@@ -34,6 +35,7 @@ import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
 import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
 import static es.princip.getp.fixture.people.ActivityAreaFixture.activityArea;
 import static es.princip.getp.fixture.people.EducationFixture.education;
+import static es.princip.getp.fixture.people.IntroductionFixture.INTRODUCTION;
 import static es.princip.getp.fixture.people.IntroductionFixture.introduction;
 import static es.princip.getp.fixture.people.PortfolioFixture.portfoliosResponse;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,7 +50,7 @@ class PeopleQueryControllerTest extends ControllerTest {
     @Autowired private GetPeopleQuery getPeopleQuery;
 
     @Nested
-    @DisplayName("사용자는 피플 목록을 조회할 수 있다.")
+    @DisplayName("피플 목록 조회")
     class GetCardPeoplePage {
 
         private final MemberId memberId = new MemberId(1L);
@@ -56,39 +58,42 @@ class PeopleQueryControllerTest extends ControllerTest {
         private final int page = 0;
         private final int size = 3;
         private final Sort sort = Sort.by(Sort.Order.desc("peopleId"));
+        private final Pageable pageable = PageRequest.of(page, size, sort);
 
         private ResultActions perform() throws Exception {
             return mockMvc.perform(get("/people")
+                .header("Authorization", "Bearer ${ACCESS_TOKEN}")
                 .queryParam("page", String.valueOf(page))
                 .queryParam("size", String.valueOf(size))
                 .queryParam("sort", "peopleId,desc"));
         }
 
         @Test
+        @DisplayName("사용자는 피플 목록을 조회할 수 있다.")
         public void getCardPeoplePage() throws Exception {
-            final Pageable pageable = PageRequest.of(page, size, sort);
             final List<CardPeopleResponse> content = List.of(
                 new CardPeopleResponse(
                     1L,
                     NICKNAME,
                     profileImage(memberId).getUrl(),
-                    0,
-                    0,
+                    3,
+                    5,
                     new CardPeopleProfileResponse(
-                        "소개",
+                        INTRODUCTION,
                         activityArea(),
                         hashtagsResponse()
                     )
                 )
             );
-            final Page<CardPeopleResponse> page = new PageImpl<>(content, pageable, content.size());
-            given(getPeopleQuery.getPagedCards(any(Pageable.class))).willReturn(page);
+            final Page<CardPeopleResponse> response = new PageImpl<>(content, pageable, content.size());
+            given(getPeopleQuery.getPagedCards(any(GetPeopleCommand.class))).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())
                 .andDo(
                     restDocs.document(
-                        queryParameters(PaginationDescription.description(this.page, size, "peopleId,desc")),
+                        requestHeaders(authorizationHeaderDescriptor()),
+                        queryParameters(GetCardPeoplePageQueryParametersDescription.description(page, size)),
                         responseFields(PagedCardPeopleResponseDescription.description())
                             .and(pageResponseFieldDescriptors())
                     )
