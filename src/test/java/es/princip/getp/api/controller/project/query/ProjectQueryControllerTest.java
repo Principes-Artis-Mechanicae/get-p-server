@@ -1,5 +1,6 @@
 package es.princip.getp.api.controller.project.query;
 
+import es.princip.getp.api.controller.project.query.description.GetProjectsQueryParametersDescription;
 import es.princip.getp.api.controller.project.query.description.ProjectCardResponseDescription;
 import es.princip.getp.api.controller.project.query.description.ProjectDetailResponseDescription;
 import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
@@ -7,6 +8,7 @@ import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.api.support.ControllerTest;
+import es.princip.getp.application.project.commission.command.GetProjectCommand;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
@@ -31,10 +33,10 @@ import static es.princip.getp.fixture.client.AddressFixture.address;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
 import static es.princip.getp.fixture.project.ProjectFixture.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -81,12 +83,14 @@ class ProjectQueryControllerTest extends ControllerTest {
                 )
             );
             final Page<ProjectCardResponse> response = new PageImpl<>(content, pageable, content.size());
-            given(getProjectQuery.getPagedCards(pageable)).willReturn(response);
+            given(getProjectQuery.getPagedCards(any(GetProjectCommand.class)))
+                .willReturn(response);
 
             perform()
                 .andExpect(status().isOk())
                 .andDo(restDocs.document(
                     requestHeaders(authorizationHeaderDescriptor()),
+                    queryParameters(GetProjectsQueryParametersDescription.description(page, pageSize)),
                     responseFields(ProjectCardResponseDescription.description())
                         .and(pageResponseFieldDescriptors())
                 ))

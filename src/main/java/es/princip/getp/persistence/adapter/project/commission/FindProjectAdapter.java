@@ -1,5 +1,9 @@
 package es.princip.getp.persistence.adapter.project.commission;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import es.princip.getp.api.controller.common.dto.HashtagsResponse;
 import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
@@ -7,14 +11,24 @@ import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
 import es.princip.getp.application.like.project.port.out.CountProjectLikePort;
 import es.princip.getp.application.project.apply.port.out.CountProjectApplicationPort;
+import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
+import es.princip.getp.application.project.commission.command.ProjectSearchOrder;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectId;
+import es.princip.getp.domain.project.commission.model.ProjectStatus;
+import es.princip.getp.persistence.adapter.client.QClientJpaEntity;
+import es.princip.getp.persistence.adapter.like.project.QProjectLikeJpaEntity;
+import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
+import es.princip.getp.persistence.adapter.people.model.QPeopleJpaEntity;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
+import es.princip.getp.persistence.adapter.project.apply.QProjectApplicationJpaEntity;
 import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,6 +41,11 @@ import static es.princip.getp.persistence.adapter.project.ProjectPersistenceUtil
 @RequiredArgsConstructor
 class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
 
+    private static final QProjectApplicationJpaEntity application = QProjectApplicationJpaEntity.projectApplicationJpaEntity;
+    private static final QProjectLikeJpaEntity like = QProjectLikeJpaEntity.projectLikeJpaEntity;
+    private static final QClientJpaEntity client = QClientJpaEntity.clientJpaEntity;
+    private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
+    private static final QPeopleJpaEntity people = QPeopleJpaEntity.peopleJpaEntity;
     private static final QProjectJpaEntity project = QProjectJpaEntity.projectJpaEntity;
 
     private final ClientQuery clientQuery;
@@ -34,14 +53,50 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
     private final CountProjectApplicationPort countProjectApplicationPort;
     private final ProjectPersistenceMapper mapper;
 
-    private List<Project> getProjects(Pageable pageable) {
-        return queryFactory.selectFrom(project)
-            .offset(pageable.getOffset())
-            .limit(pageable.getPageSize())
-            .fetch()
-            .stream()
-            .map(mapper::mapToDomain)
-            .toList();
+    private BooleanExpression peopleMemberIdEq(final MemberId memberId) {
+        return Optional.ofNullable(memberId)
+            .map(MemberId::getValue)
+            .map(people.memberId::eq)
+            .orElse(null);
+    }
+
+    private BooleanExpression likeMemberIdEq(final MemberId memberId) {
+        return Optional.ofNullable(memberId)
+            .map(MemberId::getValue)
+            .map(people.memberId::eq)
+            .orElse(null);
+    }
+
+    private BooleanExpression clientMemberIdEq(final MemberId memberId) {
+        return Optional.ofNullable(memberId)
+            .map(MemberId::getValue)
+            .map(client.memberId::eq)
+            .orElse(null);
+    }
+
+    private <T> JPAQuery<T> buildQuery(
+        final JPAQuery<T> selectFrom,
+        final ProjectSearchFilter filter,
+        final MemberId memberId
+    ) {
+        if (filter.isApplied()) {
+            selectFrom.join(application).on(project.id.eq(application.projectId))
+                .join(people).on(application.applicantId.eq(people.id))
+                .where(peopleMemberIdEq(memberId));
+        }
+        if (filter.isLiked()) {
+            selectFrom.join(like).on(project.id.eq(like.projectId))
+                .join(member).on(likeMemberIdEq(memberId))
+                .where(like.projectId.eq(project.id));
+        }
+        if (filter.isCommissioned()) {
+            selectFrom.join(client).on(project.clientId.eq(client.id))
+                .where(clientMemberIdEq(memberId));
+        }
+        if (filter.isClosed()) {
+            selectFrom.where(project.status.eq(ProjectStatus.CANCELLED));
+        }
+        return selectFrom;
     }
 
     private List<ProjectCardResponse> assemble(
@@ -56,16 +111,48 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
             .toList();
     }
 
+    private static OrderSpecifier<?> getOrderSpecifier(final Sort.Order order, final ProjectSearchOrder searchOrder) {
+        final Order converted = convertTo(order);
+        return switch (searchOrder) {
+            case CREATED_AT -> new OrderSpecifier<>(converted, project.createdAt);
+            case PAYMENT -> new OrderSpecifier<>(converted, project.payment);
+            case APPLICATION_DURATION -> new OrderSpecifier<>(converted, project.applicationDuration.endDate);
+            case PROJECT_ID -> new OrderSpecifier<>(converted, project.id);
+        };
+    }
+
+    private static OrderSpecifier<?>[] getOrderSpecifiers(final Sort sort) {
+        return sort.stream()
+            .map(order -> getOrderSpecifier(order, ProjectSearchOrder.get(order.getProperty())))
+            .toArray(OrderSpecifier[]::new);
+    }
+
     @Override
-    public Page<ProjectCardResponse> findBy(Pageable pageable) {
-        final List<Project> projects = getProjects(pageable);
+    public Page<ProjectCardResponse> findBy(
+        final Pageable pageable,
+        final ProjectSearchFilter filter,
+        final MemberId memberId
+    ) {
+        final JPAQuery<ProjectJpaEntity> contentQuery = buildQuery(
+            queryFactory.selectFrom(project),
+            filter,
+            memberId
+        );
+        contentQuery.orderBy(getOrderSpecifiers(pageable.getSort()));
+        final List<Project> projects = contentQuery
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch()
+            .stream()
+            .map(mapper::mapToDomain)
+            .toList();
         final ProjectId[] projectIds = toProjectIds(projects);
         final Map<ProjectId, Long> projectApplicationCounts = countProjectApplicationPort.countBy(projectIds);
         final List<ProjectCardResponse> content = assemble(projects, projectApplicationCounts);
         return applyPagination(
             pageable,
             content,
-            countQuery -> countQuery.select(project.count()).from(project)
+            countQuery -> buildQuery(countQuery.select(project.count()).from(project), filter, memberId)
         );
     }
 

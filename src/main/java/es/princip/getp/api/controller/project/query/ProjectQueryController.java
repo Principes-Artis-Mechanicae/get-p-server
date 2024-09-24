@@ -2,10 +2,14 @@ package es.princip.getp.api.controller.project.query;
 
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.support.dto.PageResponse;
+import es.princip.getp.application.project.commission.command.GetProjectCommand;
+import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -13,10 +17,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/projects")
@@ -32,9 +36,15 @@ public class ProjectQueryController {
      */
     @GetMapping
     public ResponseEntity<ApiSuccessResult<PageResponse<ProjectCardResponse>>> getProjects(
-        @PageableDefault(sort = "projectId", direction = Sort.Direction.DESC) final Pageable pageable
+        @PageableDefault(sort = "projectId", direction = Sort.Direction.DESC) final Pageable pageable,
+        @ModelAttribute final ProjectSearchFilter filter,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
-        final PageResponse<ProjectCardResponse> response = PageResponse.from(getProjectQuery.getPagedCards(pageable));
+        final Member member = Optional.ofNullable(principalDetails)
+            .map(PrincipalDetails::getMember)
+            .orElse(null);
+        final GetProjectCommand command = new GetProjectCommand(pageable, filter, member);
+        final PageResponse<ProjectCardResponse> response = PageResponse.from(getProjectQuery.getPagedCards(command));
         return ApiResponse.success(HttpStatus.OK, response);
     }
 

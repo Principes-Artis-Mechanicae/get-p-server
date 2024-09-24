@@ -164,4 +164,12 @@ public class Member extends BaseEntity {
     public Set<ServiceTermAgreement> getServiceTermAgreements() {
         return Collections.unmodifiableSet(serviceTermAgreements);
     }
+
+    public boolean isPeople() {
+        return memberType.isPeople();
+    }
+
+    public boolean isClient() {
+        return memberType.isClient();
+    }
 }

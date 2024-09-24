@@ -21,7 +21,6 @@ class CountProjectApplicationAdapterTest extends PersistenceAdapterTest {
     private static final int TEST_SIZE = 10;
 
     @PersistenceContext private EntityManager entityManager;
-    @Autowired private ProjectApplicationPersistenceMapper applicationMapper;
     @Autowired private CountProjectApplicationAdapter adapter;
 
     private List<DataLoader> dataLoaders;
@@ -29,7 +28,7 @@ class CountProjectApplicationAdapterTest extends PersistenceAdapterTest {
     @BeforeEach
     void setUp() {
         dataLoaders = List.of(
-            new ProjectApplicationDataLoader(applicationMapper, entityManager)
+            new ProjectApplicationDataLoader(entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
     }
@@ -48,7 +47,7 @@ class CountProjectApplicationAdapterTest extends PersistenceAdapterTest {
         final Map<ProjectId, Long> result = adapter.countBy(projectIds);
 
         assertThat(result).hasSize(TEST_SIZE);
-        assertThat(result.values()).allMatch(value -> value == TEST_SIZE);
+        assertThat(result.values()).allMatch(value -> value == 1L);
     }
 
     @Test
@@ -56,6 +55,6 @@ class CountProjectApplicationAdapterTest extends PersistenceAdapterTest {
         final ProjectId projectId = new ProjectId(1L);
         final Long result = adapter.countBy(projectId);
 
-        assertThat(result).isEqualTo(TEST_SIZE);
+        assertThat(result).isEqualTo(1L);
     }
 }

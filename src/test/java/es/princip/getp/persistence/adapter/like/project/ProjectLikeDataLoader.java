@@ -11,13 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.LongStream;
 
-import static es.princip.getp.fixture.like.ProjectLikeFixture.projectLike;
-
 @RequiredArgsConstructor
 public class ProjectLikeDataLoader implements DataLoader {
 
     private final EntityManager entityManager;
-    private final ProjectLikePersistenceMapper mapper;
 
     @Override
     @Transactional
@@ -26,11 +23,9 @@ public class ProjectLikeDataLoader implements DataLoader {
         LongStream.rangeClosed(1, size).forEach(memberId ->
             LongStream.rangeClosed(1, size).forEach(projectId ->
                 projectLikeList.add(
-                    mapper.mapToJpa(
-                        projectLike(
-                            new MemberId(memberId),
-                            new ProjectId(projectId)
-                        )
+                    projectLike(
+                        new MemberId(memberId),
+                        new ProjectId(projectId)
                     )
                 )
             )
@@ -43,5 +38,12 @@ public class ProjectLikeDataLoader implements DataLoader {
         entityManager.createQuery("DELETE FROM ProjectLikeJpaEntity").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE project_like AUTO_INCREMENT = 1")
             .executeUpdate();
+    }
+
+    private ProjectLikeJpaEntity projectLike(final MemberId memberId, final ProjectId projectId) {
+        return ProjectLikeJpaEntity.builder()
+            .memberId(memberId.getValue())
+            .projectId(projectId.getValue())
+            .build();
     }
 }

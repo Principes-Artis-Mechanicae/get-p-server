@@ -7,16 +7,18 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "individual_project_application")
-@DiscriminatorValue(IndividualProjectApplication.TYPE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DiscriminatorValue(IndividualProjectApplication.TYPE)
 class IndividualProjectApplicationJpaEntity extends ProjectApplicationJpaEntity {
 
+    @Builder
     public IndividualProjectApplicationJpaEntity(
         final Long id,
         final Long applicantId,

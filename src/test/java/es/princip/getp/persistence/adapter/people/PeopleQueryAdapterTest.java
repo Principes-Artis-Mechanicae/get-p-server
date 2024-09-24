@@ -8,8 +8,7 @@ import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopl
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.adapter.like.people.PeopleLikeDataLoader;
-import es.princip.getp.persistence.adapter.like.people.PeopleLikePersistenceMapper;
-import es.princip.getp.persistence.adapter.people.mapper.PeoplePersistenceMapper;
+import es.princip.getp.persistence.adapter.member.MemberDataLoader;
 import es.princip.getp.persistence.support.DataLoader;
 import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;
@@ -32,8 +31,6 @@ public class PeopleQueryAdapterTest extends PersistenceAdapterTest {
     private static final int PAGE_SIZE = 10;
 
     @PersistenceContext private EntityManager entityManager;
-    @Autowired private PeopleLikePersistenceMapper peopleLikePersistenceMapper;
-    @Autowired private PeoplePersistenceMapper peoplePersistenceMapper;
     @Autowired private PeopleQueryAdapter adapter;
 
     private List<DataLoader> dataLoaders;
@@ -41,8 +38,9 @@ public class PeopleQueryAdapterTest extends PersistenceAdapterTest {
     @BeforeEach
     void setUp() {
         dataLoaders = List.of(
-            new PeopleLikeDataLoader(peopleLikePersistenceMapper, entityManager),
-            new PeopleDataLoader(peoplePersistenceMapper, entityManager)
+            new MemberDataLoader(entityManager),
+            new PeopleLikeDataLoader(entityManager),
+            new PeopleDataLoader(entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
     }
