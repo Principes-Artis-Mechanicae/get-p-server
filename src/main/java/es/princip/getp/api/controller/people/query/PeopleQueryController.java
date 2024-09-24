@@ -8,7 +8,10 @@ import es.princip.getp.api.support.ControllerSupport;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.support.dto.PageResponse;
+import es.princip.getp.application.people.command.GetPeopleCommand;
+import es.princip.getp.application.people.command.PeopleSearchFilter;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +21,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/people")
@@ -59,8 +61,15 @@ public class PeopleQueryController extends ControllerSupport {
      */
     @GetMapping
     public ResponseEntity<ApiSuccessResult<PageResponse<CardPeopleResponse>>> getCardPeoplePage(
-        @PageableDefault(sort = "peopleId", direction = Sort.Direction.DESC) final Pageable pageable) {
-        final PageResponse<CardPeopleResponse> response = PageResponse.from(getPeopleQuery.getPagedCards(pageable));
+        @PageableDefault(sort = "peopleId", direction = Sort.Direction.DESC) final Pageable pageable,
+        @ModelAttribute final PeopleSearchFilter filter,
+        @AuthenticationPrincipal final PrincipalDetails principalDetails
+    ) {
+        final Member member = Optional.ofNullable(principalDetails)
+            .map(PrincipalDetails::getMember)
+            .orElse(null);
+        final GetPeopleCommand command = new GetPeopleCommand(pageable, filter, member);
+        final PageResponse<CardPeopleResponse> response = PageResponse.from(getPeopleQuery.getPagedCards(command));
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

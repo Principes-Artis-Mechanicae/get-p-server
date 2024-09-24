@@ -19,21 +19,21 @@ public class GetProjectsQueryParametersDescription {
             parameterWithName("sort").description("정렬 조건")
                 .optional()
                 .attributes(key("default").value("projectId,desc")),
-            parameterWithName("liked").description("좋아요한 프로젝트만 보기 여부")
+            parameterWithName("liked").description("좋아요한 프로젝트만 보기 여부. 필터 설정 시 true로 설정")
                 .optional()
-                .attributes(key("default").value("false"))
+                .attributes(key("default").value("null"))
                 .attributes(key("permission").value(MemberType.ROLE_PEOPLE)),
-            parameterWithName("commissioned").description("의뢰한 프로젝트만 보기 여부")
+            parameterWithName("commissioned").description("의뢰한 프로젝트만 보기 여부. 필터 설정 시 true로 설정")
                 .optional()
-                .attributes(key("default").value("false"))
+                .attributes(key("default").value("null"))
                 .attributes(key("permission").value(MemberType.ROLE_CLIENT)),
-            parameterWithName("applied").description("지원한 프로젝트만 보기 여부")
+            parameterWithName("applied").description("지원한 프로젝트만 보기 여부. 필터 설정 시 true로 설정")
                 .optional()
-                .attributes(key("default").value("false"))
+                .attributes(key("default").value("null"))
                 .attributes(key("permission").value(MemberType.ROLE_PEOPLE)),
-            parameterWithName("closed").description("모집 마감된 프로젝트만 보기 여부")
+            parameterWithName("closed").description("모집 마감된 프로젝트만 보기 여부. 필터 설정 시 true로 설정")
                 .optional()
-                .attributes(key("default").value("false"))
+                .attributes(key("default").value("null"))
         };
     }
 }

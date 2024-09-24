@@ -17,16 +17,12 @@ include::../common/sort-parameters-description.adoc[]
 
 [cols=2*]
 |===
-|정렬 조건|사용법
+|정렬 조건|필드명
 
-|최신순 정렬
-|`sort=createdAt,desc`
-
-|높은 가격 순 정렬
-|`sort=payment,desc`
-
-|마감 임박 순 정렬
-|`sort=applicationDuration,desc`
+|프로젝트 |`projectId`
+|등록 날짜|`createdAt`
+|성공 보수|`payment`
+|지원자 모집 기간|`applicationDuration`
 |===
 
 ==== HTTP response

@@ -1,20 +1,21 @@
 package es.princip.getp.persistence.adapter.people;
 
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.application.like.people.port.out.CheckPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
-import es.princip.getp.application.people.port.out.FindMyPeoplePort;
+import es.princip.getp.application.people.command.PeopleSearchFilter;
+import es.princip.getp.application.people.command.PeopleSearchOrder;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
 import es.princip.getp.domain.member.model.MemberId;
-import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.domain.people.model.PeopleId;
+import es.princip.getp.persistence.adapter.like.people.QPeopleLikeJpaEntity;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.mapper.PeopleQueryMapper;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
@@ -24,6 +25,7 @@ import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
@@ -32,24 +34,23 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static es.princip.getp.persistence.adapter.people.PeopleQueryUtil.orderSpecifiersFromSort;
-import static es.princip.getp.persistence.adapter.people.PeopleQueryUtil.toPeopleIds;
 import static java.util.stream.Collectors.toMap;
 
 @Repository
 @RequiredArgsConstructor
 // TODO: 조회 성능 개선 필요
-class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, FindMyPeoplePort {
+class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
 
     private static final QPeopleJpaEntity people = QPeopleJpaEntity.peopleJpaEntity;
     private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
+    private static final QPeopleLikeJpaEntity like = QPeopleLikeJpaEntity.peopleLikeJpaEntity;
 
     private final CheckPeopleLikePort checkPeopleLikePort;
     private final CountPeopleLikePort countPeopleLikePort;
 
     private final PeopleQueryMapper mapper;
 
-    private Map<Long, Tuple> findMemberAndPeopleByPeopleId(final PeopleId... peopleIds) {
+    private Map<Long, Tuple> findMemberAndPeopleBy(final PeopleId... peopleIds) {
         final Long[] ids = Arrays.stream(peopleIds)
             .map(PeopleId::getValue)
             .toArray(Long[]::new);
@@ -65,7 +66,7 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
         .collect(toMap(tuple -> tuple.get(people.id), Function.identity()));
     }
 
-    private Optional<Tuple> findMemberAndPeopleByPeopleId(final PeopleId peopleId) {
+    private Optional<Tuple> findMemberAndPeopleBy(final PeopleId peopleId) {
         return Optional.ofNullable(
             queryFactory.select(
                 member.nickname,
@@ -79,20 +80,44 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
         );
     }
 
-    private List<CardPeopleResponse> getCardPeopleContent(final Pageable pageable) {
-        final List<PeopleJpaEntity> result = queryFactory.selectFrom(people)
-            .where(people.profile.isNotNull())
-            .orderBy(orderSpecifiersFromSort(pageable.getSort()))
+    private BooleanExpression memberIdEq(final MemberId memberId) {
+        return Optional.ofNullable(memberId)
+            .map(MemberId::getValue)
+            .map(member.id::eq)
+            .orElse(null);
+    }
+
+    private <T> JPAQuery<T> buildQuery(
+        final JPAQuery<T> selectFrom,
+        final PeopleSearchFilter filter,
+        final MemberId memberId
+    ) {
+        if (filter.isLiked()) {
+            selectFrom.join(like).on(people.id.eq(like.peopleId))
+                .join(member).on(like.memberId.eq(member.id))
+                .where(memberIdEq(memberId));
+        }
+        selectFrom.where(people.profile.isNotNull());
+        return selectFrom;
+    }
+
+    private List<CardPeopleResponse> getCardPeopleContent(
+        final Pageable pageable,
+        final PeopleSearchFilter filter,
+        final MemberId memberId
+    ) {
+        final List<PeopleJpaEntity> content = buildQuery(queryFactory.selectFrom(people), filter, memberId)
+            .orderBy(getOrderSpecifiers(pageable.getSort()))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
 
-        final PeopleId[] peopleIds = toPeopleIds(result);
+        final PeopleId[] peopleIds = getPeopleIds(content);
 
         final Map<PeopleId, Long> likesCounts = countPeopleLikePort.countBy(peopleIds);
-        final Map<Long, Tuple> memberAndPeople = findMemberAndPeopleByPeopleId(peopleIds);
+        final Map<Long, Tuple> memberAndPeople = findMemberAndPeopleBy(peopleIds);
 
-        return result.stream().map(people -> {
+        return content.stream().map(people -> {
             final Long peopleId = people.getId();
             return new CardPeopleResponse(
                 peopleId,
@@ -105,12 +130,38 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
         }).toList();
     }
 
+    private static OrderSpecifier<?> getOrderSpecifier(final Sort.Order order, final PeopleSearchOrder peopleOrder) {
+        final Order converted = convertTo(order);
+        return switch (peopleOrder) {
+            // TODO: case LIKES_COUNT
+            case CREATED_AT -> new OrderSpecifier<>(converted, people.createdAt);
+            default -> new OrderSpecifier<>(converted, people.id);
+        };
+    }
+
+    private static OrderSpecifier<?>[] getOrderSpecifiers(final Sort sort) {
+        return sort.stream()
+            .map(order -> getOrderSpecifier(order, PeopleSearchOrder.get(order.getProperty())))
+            .toArray(OrderSpecifier[]::new);
+    }
+
+    private static PeopleId[] getPeopleIds(final List<PeopleJpaEntity> peopleList) {
+        return peopleList.stream()
+            .map(PeopleJpaEntity::getId)
+            .map(PeopleId::new)
+            .toArray(PeopleId[]::new);
+    }
+
     @Override
-    public Page<CardPeopleResponse> findCardBy(final Pageable pageable) {
+    public Page<CardPeopleResponse> findCardBy(
+        final Pageable pageable,
+        final PeopleSearchFilter filter,
+        final MemberId memberId
+    ) {
         return applyPagination(
             pageable,
-            getCardPeopleContent(pageable),
-            queryFactory -> queryFactory.select(people.count()).from(people)
+            getCardPeopleContent(pageable, filter, memberId),
+            countQuery -> buildQuery(countQuery.select(people.count()).from(people), filter, memberId)
         );
     }
 
@@ -126,7 +177,7 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
             .orElseThrow(NotFoundPeopleException::new)
             .getProfile();
 
-        final Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId)
+        final Tuple memberAndPeople = findMemberAndPeopleBy(peopleId)
             .orElseThrow(NotFoundPeopleException::new);
 
         return new DetailPeopleResponse(
@@ -152,7 +203,7 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
             .orElseThrow(NotFoundPeopleException::new)
             .getProfile();
 
-        final Tuple memberAndPeople = findMemberAndPeopleByPeopleId(peopleId)
+        final Tuple memberAndPeople = findMemberAndPeopleBy(peopleId)
             .orElseThrow(NotFoundPeopleException::new);
 
         return new PublicDetailPeopleResponse(
@@ -163,43 +214,5 @@ class PeopleQueryAdapter extends QueryDslSupport implements FindPeoplePort, Find
             countPeopleLikePort.countBy(peopleId),
             mapper.mapToPublicPeopleProfileResponse(profile)
         );
-    }
-
-    @Override
-    public MyPeopleResponse findBy(final MemberId memberId) {
-        return Optional.ofNullable(
-            queryFactory.select(
-                Projections.constructor(
-                    MyPeopleResponse.class,
-                    people.id,
-                    people.email,
-                    member.nickname,
-                    member.phoneNumber,
-                    member.profileImage,
-                    Expressions.asNumber(0).as("completedProjectsCount"),
-                    Expressions.asNumber(0).as("likesCount"),
-                    people.createdAt,
-                    people.updatedAt
-                )
-            )
-            .from(people)
-            .join(member).on(people.memberId.eq(member.id))
-            .where(people.memberId.eq(memberId.getValue()))
-            .fetchOne()
-        ).orElseThrow(NotFoundPeopleException::new);
-    }
-
-    @Override
-    public DetailPeopleProfileResponse findDetailProfileBy(final MemberId memberId) {
-        final PeopleProfileJpaVO profile = Optional.ofNullable(
-                queryFactory.select(people)
-                    .from(people)
-                    .where(people.memberId.eq(memberId.getValue())
-                        .and(people.profile.isNotNull()))
-                    .fetchOne()
-            )
-            .orElseThrow(NotRegisteredPeopleProfileException::new)
-            .getProfile();
-        return mapper.mapToDetailPeopleProfileResponse(profile);
     }
 }

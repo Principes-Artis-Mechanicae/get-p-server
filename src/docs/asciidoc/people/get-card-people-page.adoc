@@ -1,1 +1,30 @@
-operation::/get-card-people-page/get-card-people-page[snippets="http-request,query-parameters,http-response,response-fields-data"]
+플랫폼에 등록된 피플의 목록을 페이지 별로 조회할 수 있는 기능이에요.
+
+==== HTTP request
+include::{snippets}/get-card-people-page/get-card-people-page/http-request.adoc[]
+
+==== Request headers
+include::{snippets}/get-card-people-page/get-card-people-page/request-headers.adoc[]
+
+==== Query parameters
+
+include::../common/query-parameters-description.adoc[]
+include::{snippets}/get-card-people-page/get-card-people-page/query-parameters.adoc[]
+
+==== Sort parameters
+
+include::../common/sort-parameters-description.adoc[]
+
+[cols=2*]
+|===
+|정렬 조건|필드명
+
+|피플 ID|`peopleId`
+|좋아요 개수|`likesCount`
+|===
+
+==== HTTP response
+include::{snippets}/get-card-people-page/get-card-people-page/http-response.adoc[]
+
+==== Response fields
+include::{snippets}/get-card-people-page/get-card-people-page/response-fields-data.adoc[]
