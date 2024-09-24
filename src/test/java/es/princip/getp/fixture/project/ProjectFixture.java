@@ -18,6 +18,10 @@ public class ProjectFixture {
     public static final Long RECRUITMENT_COUNT = 1L;
     public static final String TITLE = "프로젝트 제목";
     public static final String DESCRIPTION = "프로젝트 설명";
+    public static final LocalDate APPLICATION_START_DATE = LocalDate.of(2024, 7, 1);
+    public static final LocalDate APPLICATION_END_DATE = LocalDate.of(2024, 7, 31);
+    public static final LocalDate ESTIMATED_START_DATE = LocalDate.of(2024, 8, 1);
+    public static final LocalDate ESTIMATED_END_DATE = LocalDate.of(2024, 8, 31);
 
     private static final Project.ProjectBuilder builder = Project.builder()
         .category(ProjectCategory.BACKEND)
@@ -28,8 +32,8 @@ public class ProjectFixture {
         .description(DESCRIPTION)
         .meetingType(MeetingType.IN_PERSON)
         .estimatedDuration(Duration.of(
-            LocalDate.of(2024, 8, 1),
-            LocalDate.of(2024, 8, 31)
+            ESTIMATED_START_DATE,
+            ESTIMATED_END_DATE
         ))
         .hashtags(hashtags());
 
@@ -37,8 +41,8 @@ public class ProjectFixture {
         return builder.clientId(clientId)
             .status(status)
             .applicationDuration(Duration.of(
-                LocalDate.of(2024, 7, 1),
-                LocalDate.of(2024, 7, 31)
+                APPLICATION_START_DATE,
+                APPLICATION_END_DATE
             ))
             .build();
     }

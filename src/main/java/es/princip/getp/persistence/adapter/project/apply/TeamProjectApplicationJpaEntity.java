@@ -5,6 +5,7 @@ import es.princip.getp.domain.project.apply.model.TeamProjectApplication;
 import es.princip.getp.persistence.adapter.common.DurationJpaVO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,6 +29,7 @@ class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity {
     )
     private List<Long> teams = new ArrayList<>();
 
+    @Builder
     public TeamProjectApplicationJpaEntity(
         final Long id,
         final Long applicantId,

@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.project.query.dto;
+package es.princip.getp.application.project.commission.command;
 
 import es.princip.getp.util.StringUtil;
 

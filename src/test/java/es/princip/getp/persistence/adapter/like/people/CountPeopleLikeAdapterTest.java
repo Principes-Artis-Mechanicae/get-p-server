@@ -23,7 +23,6 @@ public class CountPeopleLikeAdapterTest extends PersistenceAdapterTest {
 
     @PersistenceContext private EntityManager entityManager;
     @Autowired private CountPeopleLikePort countPeopleLikePort;
-    @Autowired private PeopleLikePersistenceMapper peopleLikeMapper;
 
     private static final int TEST_SIZE = 5;
     private List<DataLoader> dataLoaders;
@@ -31,7 +30,7 @@ public class CountPeopleLikeAdapterTest extends PersistenceAdapterTest {
     @BeforeEach
     void setUp() {
         dataLoaders = List.of(
-            new PeopleLikeDataLoader(peopleLikeMapper, entityManager)
+            new PeopleLikeDataLoader(entityManager)
         );
         dataLoaders.forEach(dataLoader -> dataLoader.load(TEST_SIZE));
     }
