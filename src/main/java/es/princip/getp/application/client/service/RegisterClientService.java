@@ -37,7 +37,6 @@ public class RegisterClientService implements RegisterClientUseCase {
         final Email email = command.email() == null ? member.getEmail() : command.email();
         final Client client = Client.builder()
             .email(email)
-            .bankAccount(command.bankAccount())
             .address(command.address())
             .memberId(member.getId())
             .build();

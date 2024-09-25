@@ -18,7 +18,6 @@ public class RegisterMyClientRequestDescription {
             getDescriptor("phoneNumber", "전화번호", clazz)
         ));
         descriptions.addAll(List.of(AddressDescription.description()));
-        descriptions.addAll(List.of(BankAccountDescription.description()));
         return descriptions.toArray(new FieldDescriptor[0]);
     }
 }

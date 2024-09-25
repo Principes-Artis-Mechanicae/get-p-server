@@ -24,7 +24,6 @@ import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static es.princip.getp.fixture.client.AddressFixture.address;
-import static es.princip.getp.fixture.client.BankAccountFixture.bankAccount;
 import static es.princip.getp.fixture.common.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
 import static es.princip.getp.fixture.member.PhoneNumberFixture.PHONE_NUMBER;
@@ -53,8 +52,7 @@ class MyClientControllerTest extends ControllerTest {
             NICKNAME,
             EMAIL,
             PHONE_NUMBER,
-            address(),
-            bankAccount()
+            address()
         );
         final ClientId clientId = new ClientId(1L);
 
@@ -95,8 +93,7 @@ class MyClientControllerTest extends ControllerTest {
             NICKNAME,
             EMAIL,
             PHONE_NUMBER,
-            address(),
-            bankAccount()
+            address()
         );
 
         private ResultActions perform() throws Exception {

@@ -2,7 +2,6 @@ package es.princip.getp.api.controller.client.command.dto.request;
 
 import es.princip.getp.application.client.command.EditClientCommand;
 import es.princip.getp.domain.client.model.Address;
-import es.princip.getp.domain.client.model.BankAccount;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.common.model.EmailPattern;
 import es.princip.getp.domain.common.model.PhoneNumber;
@@ -18,8 +17,7 @@ public record EditMyClientRequest(
     @NotBlank String nickname,
     @NotNull @EmailPattern String email,
     @NotNull @PhoneNumberPattern String phoneNumber,
-    @NotNull @Valid Address address,
-    @NotNull @Valid BankAccount bankAccount
+    @NotNull @Valid Address address
 ) {
 
     public EditClientCommand toCommand(final MemberId memberId) {
@@ -28,8 +26,7 @@ public record EditMyClientRequest(
             Nickname.from(nickname()),
             Email.from(email()),
             PhoneNumber.from(phoneNumber()),
-            address,
-            bankAccount
+            address
         );
     }
 }

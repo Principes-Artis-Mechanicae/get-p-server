@@ -1,5 +1,6 @@
 package es.princip.getp.domain.client.model;
 
+import es.princip.getp.domain.common.model.BankAccount;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.support.BaseEntity;
@@ -23,7 +24,6 @@ public class Client extends BaseEntity {
         final ClientId id,
         final Email email,
         final Address address,
-        final BankAccount bankAccount,
         final MemberId memberId,
         final LocalDateTime createdAt,
         final LocalDateTime updatedAt
@@ -33,7 +33,6 @@ public class Client extends BaseEntity {
         this.id = id;
         this.email = email;
         this.address = address;
-        this.bankAccount = bankAccount;
         this.memberId = memberId;
 
         validate();
@@ -53,16 +52,8 @@ public class Client extends BaseEntity {
         this.address = address;
     }
 
-    private void setBankAccount(final BankAccount bankAccount) {
-        if (bankAccount == null) {
-            throw new IllegalArgumentException();
-        }
-        this.bankAccount = bankAccount;
-    }
-
-    public void edit(final Email email, final Address address, final BankAccount bankAccount) {
+    public void edit(final Email email, final Address address) {
         setEmail(email);
         setAddress(address);
-        setBankAccount(bankAccount);
     }
 }

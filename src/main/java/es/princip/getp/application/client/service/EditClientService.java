@@ -26,7 +26,7 @@ public class EditClientService implements EditClientUseCase {
     public void edit(EditClientCommand command) {
         editMemberUseCase.editMember(EditMemberCommand.from(command));
         final Client client = loadClientPort.loadBy(command.memberId());
-        client.edit(command.email(), command.address(), command.bankAccount());
+        client.edit(command.email(), command.address());
         updateClientPort.update(client);
     }
 }

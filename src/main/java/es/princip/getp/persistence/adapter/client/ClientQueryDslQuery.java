@@ -34,7 +34,6 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
             result.get(client.email),
             result.get(member.profileImage),
             mapper.mapToDomain(result.get(client.address)),
-            mapper.mapToDomain(result.get(client.bankAccount)),
             result.get(client.createdAt),
             result.get(client.updatedAt)
         );
@@ -49,7 +48,6 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
                 client.email,
                 member.profileImage,
                 client.address,
-                client.bankAccount,
                 client.createdAt,
                 client.updatedAt
             )
@@ -70,7 +68,6 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
                 client.email,
                 member.profileImage,
                 client.address,
-                client.bankAccount,
                 client.createdAt,
                 client.updatedAt
             )

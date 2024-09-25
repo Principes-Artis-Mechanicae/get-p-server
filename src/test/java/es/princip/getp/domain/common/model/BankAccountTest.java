@@ -1,4 +1,4 @@
-package es.princip.getp.domain.client.model;
+package es.princip.getp.domain.common.model;
 
 import es.princip.getp.domain.support.NotValidDomainModelException;
 import org.junit.jupiter.api.DisplayName;
