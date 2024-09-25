@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 
 import static es.princip.getp.fixture.client.AddressFixture.address;
-import static es.princip.getp.fixture.client.BankAccountFixture.bankAccount;
 import static es.princip.getp.fixture.common.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
 import static es.princip.getp.fixture.member.PhoneNumberFixture.PHONE_NUMBER;
@@ -55,7 +54,6 @@ class ClientQueryControllerTest extends ControllerTest {
                 EMAIL,
                 profileImage(memberId).getUrl(),
                 address(),
-                bankAccount(),
                 now,
                 now
             );
@@ -78,7 +76,6 @@ class ClientQueryControllerTest extends ControllerTest {
                 EMAIL,
                 profileImage(memberId).getUrl(),
                 address(),
-                bankAccount(),
                 now,
                 now
             );

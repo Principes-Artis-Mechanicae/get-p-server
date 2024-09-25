@@ -4,7 +4,6 @@ import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.member.model.MemberId;
 
 import static es.princip.getp.fixture.client.AddressFixture.address;
-import static es.princip.getp.fixture.client.BankAccountFixture.bankAccount;
 import static es.princip.getp.fixture.common.EmailFixture.email;
 
 public class ClientFixture {
@@ -14,7 +13,6 @@ public class ClientFixture {
             .memberId(memberId)
             .email(email())
             .address(address())
-            .bankAccount(bankAccount())
             .build();
     }
 }

@@ -2,7 +2,6 @@ package es.princip.getp.api.controller.client.command.dto.request;
 
 import es.princip.getp.application.client.command.RegisterClientCommand;
 import es.princip.getp.domain.client.model.Address;
-import es.princip.getp.domain.common.model.BankAccount;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.common.model.EmailPattern;
 import es.princip.getp.domain.common.model.PhoneNumber;
@@ -17,8 +16,7 @@ public record RegisterMyClientRequest(
     @NotBlank String nickname, // 필수
     @EmailPattern String email, // 선택, 미입력 시 회원 가입 시 작성한 이메일 주소가 기본값
     @NotNull @PhoneNumberPattern String phoneNumber, // 필수
-    @Valid Address address, // 선택
-    @Valid BankAccount bankAccount // 선택
+    @Valid Address address // 선택
 ) {
 
     public RegisterClientCommand toCommand(final Member member) {
@@ -27,8 +25,7 @@ public record RegisterMyClientRequest(
             Nickname.from(nickname()),
             email() == null ? null : Email.from(email()),
             PhoneNumber.from(phoneNumber()),
-            address,
-            bankAccount
+            address
         );
     }
 }
