@@ -1,7 +1,6 @@
 package es.princip.getp.api.controller.client.query.description;
 
 import es.princip.getp.api.controller.client.command.description.AddressDescription;
-import es.princip.getp.api.controller.client.command.description.BankAccountDescription;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ public class ClientResponseDescription {
             getDescriptor("updatedAt", "최근 의뢰자 정보 수정 일시")
         ));
         descriptions.addAll(List.of(AddressDescription.description()));
-        descriptions.addAll(List.of(BankAccountDescription.description()));
         return descriptions.toArray(new FieldDescriptor[0]);
     }
 }
