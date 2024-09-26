@@ -1,4 +1,4 @@
-package es.princip.getp.api.config;
+package es.princip.getp.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

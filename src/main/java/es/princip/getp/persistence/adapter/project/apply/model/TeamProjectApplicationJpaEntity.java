@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.project.apply;
+package es.princip.getp.persistence.adapter.project.apply.model;
 
 import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;
 import es.princip.getp.domain.project.apply.model.TeamProjectApplication;
@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "team_project_application")
 @DiscriminatorValue(TeamProjectApplication.TYPE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity {
+public class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity {
 
     @ElementCollection
     @CollectionTable(

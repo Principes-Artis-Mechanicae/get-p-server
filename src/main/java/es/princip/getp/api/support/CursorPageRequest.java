@@ -1,23 +1,18 @@
 package es.princip.getp.api.support;
 
-import org.springframework.data.domain.PageRequest;
+import es.princip.getp.application.support.Cursor;
+import es.princip.getp.application.support.CursorPageable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.util.Map;
-
-public class CursorPageRequest implements CursorPageable {
+public class CursorPageRequest<T extends Cursor> implements CursorPageable<T> {
 
     private final Pageable pageable;
-    private final Map<String, String> cursors;
+    private final T cursor;
 
-    public CursorPageRequest(final Pageable pageable, final Map<String, String> cursors) {
+    public CursorPageRequest(final Pageable pageable, final T cursor) {
         this.pageable = pageable;
-        this.cursors = cursors;
-    }
-
-    public static CursorPageable of(final int size, final Map<String, String> cursor) {
-        return new CursorPageRequest(PageRequest.ofSize(size), cursor);
+        this.cursor = cursor;
     }
 
     @Override
@@ -26,17 +21,17 @@ public class CursorPageRequest implements CursorPageable {
     }
 
     @Override
-    public Sort.Order getOrder() {
-        return pageable.getSort().stream().findFirst().orElse(null);
-    }
-
-    @Override
-    public String getCursor(final String property) {
-        return cursors.get(property);
+    public T getCursor() {
+        return cursor;
     }
 
     @Override
     public boolean hasCursor() {
-        return !cursors.isEmpty();
+        return cursor != null;
+    }
+
+    @Override
+    public Sort getSort() {
+        return pageable.getSort();
     }
 }

@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
+import es.princip.getp.persistence.adapter.project.apply.model.ProjectApplicationJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,9 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.persistence.adapter.common.DurationJpaVO;
+import es.princip.getp.persistence.adapter.project.apply.model.IndividualProjectApplicationJpaEntity;
+import es.princip.getp.persistence.adapter.project.apply.model.ProjectApplicationJpaEntity;
+import es.princip.getp.persistence.adapter.project.apply.model.TeamProjectApplicationJpaEntity;
 import es.princip.getp.persistence.support.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
