@@ -10,6 +10,7 @@ import es.princip.getp.application.project.commission.command.GetProjectCommand;
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -57,10 +58,12 @@ public class ProjectQueryController {
     //TODO: 비로그인 사용자의 경우 특정 필드 내용에 대한 필터 처리가 필요함
     @GetMapping("/{projectId}")
     public ResponseEntity<ApiSuccessResult<ProjectDetailResponse>> getProjectByProjectId(
+        @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable final Long projectId
     ) {
+        final MemberId memberId = principalDetails.getMember().getId();
         final ProjectId pid = new ProjectId(projectId);
-        final ProjectDetailResponse response = getProjectQuery.getDetailBy(pid);
+        final ProjectDetailResponse response = getProjectQuery.getDetailBy(memberId, pid);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

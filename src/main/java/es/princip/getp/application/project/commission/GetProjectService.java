@@ -64,7 +64,7 @@ public class GetProjectService implements GetProjectQuery {
     }
 
     @Override
-    public ProjectDetailResponse getDetailBy(final ProjectId projectId) {
-        return findProjectPort.findBy(projectId);
+    public ProjectDetailResponse getDetailBy(final MemberId memberId, final ProjectId projectId) {
+        return findProjectPort.findBy(memberId, projectId);
     }
 }

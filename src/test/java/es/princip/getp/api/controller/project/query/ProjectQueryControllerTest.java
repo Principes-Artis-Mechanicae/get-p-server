@@ -7,11 +7,13 @@ import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.commission.command.GetProjectCommand;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.MeetingType;
 import es.princip.getp.domain.project.commission.model.ProjectCategory;
 import es.princip.getp.domain.project.commission.model.ProjectId;
@@ -29,6 +31,7 @@ import java.util.List;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.fixture.client.AddressFixture.address;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
@@ -102,6 +105,7 @@ class ProjectQueryControllerTest extends ControllerTest {
     @Nested
     class GetProjectByProjectId {
 
+        private final MemberId memberId = new MemberId(1L);
         private final ProjectId projectId = new ProjectId(1L);
 
         private ResultActions perform() throws Exception {
@@ -110,8 +114,9 @@ class ProjectQueryControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("사용자는 프로젝트의 상세 정보를 조회할 수 있다.")
-        void getProjectByProjectId() throws Exception {
+        @WithCustomMockUser(memberType = ROLE_PEOPLE)
+        @DisplayName("피플은 프로젝트의 상세 정보를 조회할 수 있다.")
+        void getProject_WhenUserPeople() throws Exception {
             final ProjectDetailResponse response = new ProjectDetailResponse(
                 projectId.getValue(),
                 TITLE,
@@ -138,13 +143,14 @@ class ProjectQueryControllerTest extends ControllerTest {
                 ),
                 hashtagsResponse(),
                 5L,
+                true,
                 new ProjectClientResponse(
                     1L,
                     NICKNAME,
                     address()
                 )
             );
-            given(getProjectQuery.getDetailBy(projectId)).willReturn(response);
+            given(getProjectQuery.getDetailBy(memberId, projectId)).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

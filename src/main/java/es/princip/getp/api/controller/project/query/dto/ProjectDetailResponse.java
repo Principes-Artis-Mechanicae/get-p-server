@@ -21,6 +21,7 @@ public record ProjectDetailResponse(
     AttachmentFilesResponse attachmentFiles,
     HashtagsResponse hashtags,
     Long likesCount,
+    Boolean liked,
     ProjectClientResponse client
 ) {
 }

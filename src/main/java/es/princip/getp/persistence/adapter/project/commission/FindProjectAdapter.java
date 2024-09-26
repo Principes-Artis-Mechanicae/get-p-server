@@ -9,6 +9,7 @@ import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
+import es.princip.getp.application.like.project.port.out.CheckProjectLikePort;
 import es.princip.getp.application.like.project.port.out.CountProjectLikePort;
 import es.princip.getp.application.project.apply.port.out.CountProjectApplicationPort;
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
@@ -51,6 +52,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
     private final ClientQuery clientQuery;
     private final CountProjectLikePort countProjectLikePort;
     private final CountProjectApplicationPort countProjectApplicationPort;
+    private final CheckProjectLikePort checkProjectLikePort;
     private final ProjectPersistenceMapper mapper;
 
     private BooleanExpression memberIdEq(final MemberId memberId) {
@@ -145,7 +147,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
     }
 
     @Override
-    public ProjectDetailResponse findBy(final ProjectId projectId) {
+    public ProjectDetailResponse findBy(final MemberId memberId, final ProjectId projectId) {
         final Project result = mapper.mapToDomain(Optional.ofNullable(
             queryFactory.selectFrom(project)
                 .where(project.id.eq(projectId.getValue()))
@@ -169,6 +171,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
             AttachmentFilesResponse.from(result.getAttachmentFiles()),
             HashtagsResponse.from(result.getHashtags()),
             likesCount,
+            checkProjectLikePort.existsBy(memberId, projectId),
             clientQuery.findProjectClientBy(result.getClientId())
         );
     }

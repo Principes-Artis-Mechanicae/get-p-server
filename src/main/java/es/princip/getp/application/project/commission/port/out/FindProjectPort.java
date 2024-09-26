@@ -12,5 +12,5 @@ public interface FindProjectPort {
 
     Page<ProjectCardResponse> findBy(Pageable pageable, ProjectSearchFilter filter, MemberId memberId);
 
-    ProjectDetailResponse findBy(ProjectId projectId);
+    ProjectDetailResponse findBy(MemberId memberId, ProjectId projectId);
 }

@@ -4,6 +4,7 @@ import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.persistence.adapter.client.ClientDataLoader;
 import es.princip.getp.persistence.adapter.member.MemberDataLoader;
@@ -102,7 +103,9 @@ class FindProjectAdapterTest extends PersistenceAdapterTest {
 
     @Test
     void 프로젝트_상세_정보를_조회한다() {
-        final ProjectDetailResponse response = adapter.findBy(new ProjectId(1L));
+        final MemberId memberId = new MemberId(1L);
+        final ProjectId projectId = new ProjectId(1L);
+        final ProjectDetailResponse response = adapter.findBy(memberId, projectId);
 
         assertThat(response).isNotNull();
     }
