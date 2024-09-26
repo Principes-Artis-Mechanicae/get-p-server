@@ -23,6 +23,7 @@ import es.princip.getp.persistence.adapter.people.model.PeopleProfileJpaVO;
 import es.princip.getp.persistence.adapter.people.model.QPeopleJpaEntity;
 import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -96,6 +97,10 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
             selectFrom.join(like).on(people.id.eq(like.peopleId))
                 .join(member).on(like.memberId.eq(member.id))
                 .where(memberIdEq(memberId));
+        }
+        if (!StringUtils.isAllBlank(filter.getKeyword())) {
+            selectFrom.join(member).on(people.memberId.eq(member.id))
+                .where(member.nickname.startsWith(filter.getKeyword()));
         }
         selectFrom.where(people.profile.isNotNull());
         return selectFrom;
