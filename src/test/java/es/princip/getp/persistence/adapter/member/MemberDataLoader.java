@@ -19,6 +19,7 @@ public class MemberDataLoader implements DataLoader {
         final List<MemberJpaEntity> memberList = LongStream.range(1, 1 + size)
             .mapToObj(i -> MemberJpaEntity.builder()
                 .email("test" + i + "@example.com")
+                .nickname("test" + i)
                 .password(PASSWORD)
                 .build())
             .toList();
