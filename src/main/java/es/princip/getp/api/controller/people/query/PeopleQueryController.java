@@ -45,7 +45,7 @@ public class PeopleQueryController extends ControllerSupport {
     ) {
         final PeopleId id = new PeopleId(peopleId);
         if (isAuthenticated(principalDetails)) {
-            final MemberId memberId = principalDetails.getMember().getId();
+            final MemberId memberId = Optional.ofNullable(principalDetails).map(pd -> pd.getMember().getId()).orElse(null);
             final DetailPeopleResponse response = getPeopleQuery.getDetailBy(memberId, id);
             return ApiResponse.success(HttpStatus.OK, response);
         }

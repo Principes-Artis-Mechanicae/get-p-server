@@ -61,7 +61,7 @@ public class ProjectQueryController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable final Long projectId
     ) {
-        final MemberId memberId = principalDetails.getMember().getId();
+        final MemberId memberId = Optional.ofNullable(principalDetails).map(pd -> pd.getMember().getId()).orElse(null);
         final ProjectId pid = new ProjectId(projectId);
         final ProjectDetailResponse response = getProjectQuery.getDetailBy(memberId, pid);
         return ApiResponse.success(HttpStatus.OK, response);
