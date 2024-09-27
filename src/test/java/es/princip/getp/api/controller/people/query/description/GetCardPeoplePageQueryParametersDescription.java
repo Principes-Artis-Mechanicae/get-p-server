@@ -23,6 +23,9 @@ public class GetCardPeoplePageQueryParametersDescription {
                 .optional()
                 .attributes(key("default").value("null"))
                 .attributes(key("permission").value(MemberType.ROLE_CLIENT)),
+            parameterWithName("keyword").description("피플 닉네임으로 검색하기. 닉네임이 해당 키워드로 시작하는 피플을 검색해요.")
+                .optional()
+                .attributes(key("default").value("null"))
         };
     }
 }

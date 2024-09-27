@@ -50,9 +50,9 @@ class FindPeopleAdapterTest extends PersistenceAdapterTest {
     }
 
     @Test
-    void 피플_카드_목록_페이지를_조회한다() {
+    void 피플_목록을_조회한다() {
         final Pageable pageable = PageRequest.of(0, PAGE_SIZE);
-        final PeopleSearchFilter filter = new PeopleSearchFilter("null");
+        final PeopleSearchFilter filter = new PeopleSearchFilter(null, null);
         final MemberId memberId = new MemberId(1L);
         final Page<CardPeopleResponse> response = adapter.findCardBy(pageable, filter, memberId);
 
@@ -61,15 +61,27 @@ class FindPeopleAdapterTest extends PersistenceAdapterTest {
     }
 
     @Test
-    void 좋아요한_피플_카드_목록_페이지를_조회한다() {
+    void 좋아요한_피플_목록을_조회한다() {
         final Pageable pageable = PageRequest.of(0, PAGE_SIZE);
-        final PeopleSearchFilter filter = new PeopleSearchFilter("true");
+        final PeopleSearchFilter filter = new PeopleSearchFilter(null, "true");
         final MemberId memberId = new MemberId(1L);
         final Page<CardPeopleResponse> response = adapter.findCardBy(pageable, filter, memberId);
 
         assertThat(response.getContent()).isNotEmpty();
         assertThat(response.getNumberOfElements()).isEqualTo(PAGE_SIZE);
         assertThat(response.getTotalElements()).isEqualTo(TEST_SIZE);
+    }
+
+    @Test
+    void 닉네임으로_피플을_검색한다() {
+        final Pageable pageable = PageRequest.of(0, PAGE_SIZE);
+        final PeopleSearchFilter filter = new PeopleSearchFilter("test1", null);
+        final MemberId memberId = new MemberId(1L);
+        final Page<CardPeopleResponse> response = adapter.findCardBy(pageable, filter, memberId);
+
+        assertThat(response.getContent()).isNotEmpty();
+        assertThat(response.getNumberOfElements()).isEqualTo(PAGE_SIZE);
+        assertThat(response.getTotalElements()).isEqualTo(11L);
     }
 
     @Test
