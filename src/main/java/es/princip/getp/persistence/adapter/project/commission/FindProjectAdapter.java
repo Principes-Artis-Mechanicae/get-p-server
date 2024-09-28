@@ -4,10 +4,10 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import es.princip.getp.api.controller.common.dto.HashtagsResponse;
-import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
+
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.api.controller.project.query.dto.PublicProjectDetailResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
 import es.princip.getp.application.like.project.port.out.CheckProjectLikePort;
 import es.princip.getp.application.like.project.port.out.CountProjectLikePort;
@@ -146,33 +146,56 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
         );
     }
 
-    @Override
-    public ProjectDetailResponse findBy(final MemberId memberId, final ProjectId projectId) {
-        final Project result = mapper.mapToDomain(Optional.ofNullable(
+    private Project fetchProject(final ProjectId projectId) {
+        return mapper.mapToDomain(Optional.ofNullable(
             queryFactory.selectFrom(project)
                 .where(project.id.eq(projectId.getValue()))
                 .fetchOne()
             )
             .orElseThrow(NotFoundProjectException::new));
-        final Long likesCount = countProjectLikePort.countBy(projectId);
+    }
 
-        return new ProjectDetailResponse(
-            result.getId().getValue(),
-            result.getTitle(),
-            result.getPayment(),
-            result.getRecruitmentCount(),
-            countProjectApplicationPort.countBy(projectId),
-            result.getApplicationDuration(),
-            result.getEstimatedDuration(),
-            result.getDescription(),
-            result.getMeetingType(),
-            result.getCategory(),
-            result.getStatus(),
-            AttachmentFilesResponse.from(result.getAttachmentFiles()),
-            HashtagsResponse.from(result.getHashtags()),
+    @Override
+    public ProjectDetailResponse findBy(final MemberId memberId, final ProjectId projectId) {
+        final Project result = fetchProject(projectId);
+        final Long applicantsCount = countProjectApplicationPort.countBy(projectId);
+        final Long likesCount = countProjectLikePort.countBy(projectId);
+        final boolean liked = checkProjectLikePort.existsBy(memberId, projectId);
+        
+        return ProjectDetailResponse.of(
+            result,
+            applicantsCount,
             likesCount,
-            checkProjectLikePort.existsBy(memberId, projectId),
+            liked,
             clientQuery.findProjectClientBy(result.getClientId())
+        );
+    }
+
+    @Override
+    public ProjectDetailResponse findBy(ProjectId projectId) {
+        final Project result = fetchProject(projectId);
+        final Long applicantsCount = countProjectApplicationPort.countBy(projectId);
+        final Long likesCount = countProjectLikePort.countBy(projectId);
+        
+        return ProjectDetailResponse.of(
+            result,
+            applicantsCount,
+            likesCount,
+            null,
+            clientQuery.findProjectClientBy(result.getClientId())
+        );
+    }
+
+    @Override
+    public PublicProjectDetailResponse findPublicDetailBy(ProjectId projectId) {
+        final Project result = fetchProject(projectId);
+        final Long applicantsCount = countProjectApplicationPort.countBy(projectId);
+        final Long likesCount = countProjectLikePort.countBy(projectId);
+        
+        return PublicProjectDetailResponse.of(
+            result,
+            applicantsCount,
+            likesCount
         );
     }
 }

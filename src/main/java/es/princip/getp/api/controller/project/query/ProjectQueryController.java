@@ -2,7 +2,9 @@ package es.princip.getp.api.controller.project.query;
 
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.api.controller.project.query.dto.PublicProjectDetailResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.api.support.ControllerSupport;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.api.support.dto.PageResponse;
@@ -26,7 +28,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/projects")
 @RequiredArgsConstructor
-public class ProjectQueryController {
+public class ProjectQueryController extends ControllerSupport{
 
     private final GetProjectQuery getProjectQuery;
 
@@ -57,13 +59,20 @@ public class ProjectQueryController {
      */
     //TODO: 비로그인 사용자의 경우 특정 필드 내용에 대한 필터 처리가 필요함
     @GetMapping("/{projectId}")
-    public ResponseEntity<ApiSuccessResult<ProjectDetailResponse>> getProjectByProjectId(
+    public ResponseEntity<? extends ApiSuccessResult<?>> getProjectByProjectId(
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable final Long projectId
     ) {
-        final MemberId memberId = Optional.ofNullable(principalDetails).map(pd -> pd.getMember().getId()).orElse(null);
         final ProjectId pid = new ProjectId(projectId);
-        final ProjectDetailResponse response = getProjectQuery.getDetailBy(memberId, pid);
+        if (isAuthenticated(principalDetails)) {
+            final Member member = Optional.ofNullable(principalDetails)
+                .map(PrincipalDetails::getMember)
+                .orElse(null);
+            final MemberId memberId = Optional.ofNullable(principalDetails).map(pd -> pd.getMember().getId()).orElse(null);
+            final ProjectDetailResponse response = getProjectQuery.getDetailBy(memberId, pid, member.getMemberType()); 
+            return ApiResponse.success(HttpStatus.OK, response);
+        }
+        final PublicProjectDetailResponse response = getProjectQuery.getPublicDetailBy(pid);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

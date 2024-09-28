@@ -2,12 +2,14 @@ package es.princip.getp.application.project.commission;
 
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.api.controller.project.query.dto.PublicProjectDetailResponse;
 import es.princip.getp.application.project.commission.command.GetProjectCommand;
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -64,7 +66,18 @@ public class GetProjectService implements GetProjectQuery {
     }
 
     @Override
-    public ProjectDetailResponse getDetailBy(final MemberId memberId, final ProjectId projectId) {
-        return findProjectPort.findBy(memberId, projectId);
+    public ProjectDetailResponse getDetailBy(final MemberId memberId, final ProjectId projectId, final MemberType memberType) {
+        if (memberType.isPeople()) {
+            return findProjectPort.findBy(memberId, projectId);    
+        }
+        if (memberType.isClient()) {
+            return findProjectPort.findBy(projectId);
+        }
+        return null;
+    }
+
+    @Override
+    public PublicProjectDetailResponse getPublicDetailBy(final ProjectId projectId) {
+        return findProjectPort.findPublicDetailBy(projectId);
     }
 }
