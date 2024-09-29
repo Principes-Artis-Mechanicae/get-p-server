@@ -15,7 +15,7 @@ public class SearchTeammateQueryParametersDescription {
             parameterWithName("nickname").description("주어진 닉네임으로 시작하는 피플을 검색해요.")
                 .optional()
                 .attributes(key("default").value("null")),
-            parameterWithName("cursor").description("페이지에 대한 커서. 첫 페이지 조회를 조회할 땐 생략할 수 있어요.")
+            parameterWithName("cursor").description("페이지에 대한 커서. 첫 페이지를 조회할 땐 생략할 수 있어요.")
                 .optional()
                 .attributes(key("default").value("null"))
         };
