@@ -8,11 +8,9 @@ import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
 import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
-import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,7 +23,6 @@ import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeade
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -35,18 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ProjectApplicationControllerTest extends ControllerTest {
 
-    @Autowired private ProjectCommandMapper projectCommandMapper;
     @Autowired private ApplyProjectUseCase applyProjectUseCase;
-
-    @BeforeEach
-    void setUp() {
-        given(projectCommandMapper.mapToCommand(
-            any(Member.class),
-            any(ProjectId.class),
-            any(ApplyProjectRequest.class)
-        ))
-        .willReturn(mock(ApplyProjectCommand.class));
-    }
 
     @Nested
     @DisplayName("프로젝트 지원")

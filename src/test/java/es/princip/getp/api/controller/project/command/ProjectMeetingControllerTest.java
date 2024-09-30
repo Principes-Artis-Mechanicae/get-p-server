@@ -8,7 +8,6 @@ import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.meeting.ProjectMeetingService;
 import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
-import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import org.junit.jupiter.api.DisplayName;
@@ -23,14 +22,12 @@ import static es.princip.getp.fixture.member.PhoneNumberFixture.PHONE_NUMBER;
 import static es.princip.getp.fixture.project.ProjectMeetingFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ProjectMeetingControllerTest extends ControllerTest {
 
-    @Autowired private ProjectCommandMapper projectCommandMapper;
     @Autowired private ProjectMeetingService projectMeetingService;
     
     @Nested
@@ -38,7 +35,6 @@ public class ProjectMeetingControllerTest extends ControllerTest {
     class ScheduleMeeting {
 
         private final ProjectId projectId = new ProjectId(1L);
-        private final MemberId memberId = new MemberId(1L);
         private final Long meetingId = 1L;
         private final Long applicantId = 1L;
 
@@ -60,8 +56,6 @@ public class ProjectMeetingControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @DisplayName("의뢰자는 프로젝트 지원자에게 미팅 신청을 할 수 있다.")
         void scheduleMeeting() throws Exception {
-            given(projectCommandMapper.mapToCommand(memberId, projectId, request))
-                .willReturn(mock(ScheduleMeetingCommand.class));
             given(projectMeetingService.scheduleMeeting(any(ScheduleMeetingCommand.class)))
                 .willReturn(meetingId);
 

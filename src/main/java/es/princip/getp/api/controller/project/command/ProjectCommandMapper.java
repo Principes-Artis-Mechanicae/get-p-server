@@ -1,6 +1,5 @@
 package es.princip.getp.api.controller.project.command;
 
-import es.princip.getp.api.controller.common.mapper.CommandMapper;
 import es.princip.getp.api.controller.common.mapper.HashtagMapper;
 import es.princip.getp.api.controller.common.mapper.PhoneNumberMapper;
 import es.princip.getp.api.controller.common.mapper.URLMapper;
@@ -19,7 +18,6 @@ import es.princip.getp.domain.project.commission.model.ProjectId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@CommandMapper
 @Mapper(
     componentModel = "spring",
     uses = {URLMapper.class, HashtagMapper.class, PhoneNumberMapper.class, PeopleCommandMapper.class}

@@ -8,7 +8,6 @@ import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.commission.ProjectCommissionService;
 import es.princip.getp.application.project.commission.command.CommissionProjectCommand;
-import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +21,6 @@ import static es.princip.getp.api.controller.project.command.fixture.CommissionP
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProjectCommissionControllerTest extends ControllerTest {
 
     @Autowired private ProjectCommissionService projectCommissionService;
-    @Autowired private ProjectCommandMapper projectCommandMapper;
 
     @DisplayName("프로젝트 의뢰")
     @Nested
@@ -48,8 +45,6 @@ class ProjectCommissionControllerTest extends ControllerTest {
         @DisplayName("의뢰자는 프로젝트를 의뢰할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         void commissionProject() throws Exception {
-            given(projectCommandMapper.mapToCommand(any(MemberId.class), any(CommissionProjectRequest.class)))
-                .willReturn(mock(CommissionProjectCommand.class));
             given(projectCommissionService.commission(any(CommissionProjectCommand.class)))
                 .willReturn(new ProjectId(1L));
 
