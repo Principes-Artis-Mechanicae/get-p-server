@@ -147,6 +147,10 @@ include::{docdir}/like/unlike-project.adoc[]
 
 include::{docdir}/project/commission-project.adoc[]
 
+=== [피플] 프로젝트 팀원 검색
+
+include::{docdir}/project/search-teammates.adoc[]
+
 === [피플] 프로젝트 지원(개인)
 
 피플은 프로젝트에 개인으로 지원할 수 있습니다.

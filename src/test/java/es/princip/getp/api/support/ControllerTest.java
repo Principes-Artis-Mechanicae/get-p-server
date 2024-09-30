@@ -44,7 +44,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     SpringRestDocsConfig.class,
     MockDaoBeanFactoryPostProcessor.class,
     MockCommandMapperBeanFactoryPostProcessor.class,
-    MockServiceBeanFactoryPostProcessor.class
+    MockServiceBeanFactoryPostProcessor.class,
+    CursorParser.class
 })
 @ExtendWith({RestDocumentationExtension.class, PrincipalDetailsParameterResolver.class})
 public abstract class ControllerTest {
