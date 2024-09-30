@@ -4,10 +4,8 @@ import es.princip.getp.domain.support.BaseModel;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
-@ToString
 @EqualsAndHashCode(callSuper = false)
 public class Nickname extends BaseModel {
 
@@ -21,5 +19,10 @@ public class Nickname extends BaseModel {
 
     public static Nickname from(final String value) {
         return new Nickname(value);
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }
