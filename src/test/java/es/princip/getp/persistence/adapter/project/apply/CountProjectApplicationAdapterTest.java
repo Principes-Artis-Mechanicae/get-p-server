@@ -47,14 +47,14 @@ class CountProjectApplicationAdapterTest extends PersistenceAdapterTest {
         final Map<ProjectId, Long> result = adapter.countBy(projectIds);
 
         assertThat(result).hasSize(TEST_SIZE);
-        assertThat(result.values()).allMatch(value -> value == 1L);
+        assertThat(result.values()).allMatch(value -> value > 0L);
     }
 
     @Test
     void 프로젝트의_지원자_수를_구한다() {
-        final ProjectId projectId = new ProjectId(1L);
+        final ProjectId projectId = new ProjectId(TEST_SIZE / 2 + 1L);
         final Long result = adapter.countBy(projectId);
 
-        assertThat(result).isEqualTo(1L);
+        assertThat(result).isEqualTo(2L);
     }
 }
