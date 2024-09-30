@@ -51,10 +51,10 @@ abstract class ProjectApplicationPersistenceMapper {
             return mapToJpa(individual);
         } else if (application instanceof TeamProjectApplication team) {
             final TeamProjectApplicationJpaEntity entity = mapToJpa(team);
-            entity.getTeammates().addAll(team.getTeammates().stream()
+            team.getTeammates().stream()
                 .map(teammate -> mapToJpa(teammate, entity))
-                .toList());
-            return mapToJpa(team);
+                .forEach(entity::addTeammate);
+            return entity;
         }
         throw new IllegalArgumentException("올바르지 않은 프로젝트 지원 유형: " + application.getClass());
     }

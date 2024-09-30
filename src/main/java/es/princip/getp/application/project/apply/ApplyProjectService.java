@@ -59,7 +59,7 @@ class ApplyProjectService implements ApplyProjectUseCase {
             final Member applicantMember = teamCommand.getMember();
             final Set<People> teammates = loadPeoplePort.loadBy(teamCommand.getTeammates());
             teammates.forEach(teammate -> validateApplicantAlreadyApplied(teammate, project));
-            teamApplier.apply(applicantMember, applicant, project, data, teammates);
+            return teamApplier.apply(applicantMember, applicant, project, data, teammates);
         }
         return individualApplier.apply(applicant, project, data);
     }
