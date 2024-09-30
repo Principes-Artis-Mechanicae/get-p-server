@@ -2,6 +2,7 @@ package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.application.project.apply.port.out.CountProjectApplicationPort;
 import es.princip.getp.domain.project.commission.model.ProjectId;
+import es.princip.getp.persistence.adapter.project.apply.model.QProjectApplicationJpaEntity;
 import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

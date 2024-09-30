@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.project.apply;
+package es.princip.getp.persistence.adapter.project.apply.model;
 
 import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;
 import es.princip.getp.domain.project.apply.model.TeamProjectApplication;
@@ -17,17 +17,15 @@ import java.util.List;
 @Table(name = "team_project_application")
 @DiscriminatorValue(TeamProjectApplication.TYPE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity {
+public class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity {
 
-    @ElementCollection
-    @CollectionTable(
-        name = "team_project_application_team",
-        joinColumns = @JoinColumn(
-            name = "project_application_id",
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
-        )
+    @OneToMany(
+        mappedBy = "application",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.EAGER
     )
-    private List<Long> teams = new ArrayList<>();
+    private List<TeammateJpaEntity> teammates = new ArrayList<>();
 
     @Builder
     public TeamProjectApplicationJpaEntity(
@@ -37,8 +35,7 @@ class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity {
         final DurationJpaVO expectedDuration,
         final ProjectApplicationStatus status,
         final String description,
-        final List<String> attachmentFiles,
-        final List<Long> teams
+        final List<String> attachmentFiles
     ) {
         super(
             id,
@@ -49,6 +46,5 @@ class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity {
             description,
             attachmentFiles
         );
-        this.teams.addAll(teams);
     }
 }

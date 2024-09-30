@@ -9,6 +9,10 @@ import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Repository
 @RequiredArgsConstructor
 class PeoplePersistenceAdapter implements
@@ -38,6 +42,24 @@ class PeoplePersistenceAdapter implements
         final PeopleJpaEntity peopleJpaEntity = repository.findById(peopleId.getValue())
             .orElseThrow(NotFoundPeopleException::new);
         return mapper.mapToDomain(peopleJpaEntity);
+    }
+
+    @Override
+    public Set<People> loadBy(final Set<PeopleId> peopleIds) {
+        final Set<Long> ids = peopleIds.stream()
+            .map(PeopleId::getValue)
+            .collect(Collectors.toSet());
+        final Set<PeopleJpaEntity> entities = new HashSet<>(repository.findAllById(ids));
+        final Set<Long> founded = entities.stream()
+            .map(PeopleJpaEntity::getId)
+            .collect(Collectors.toSet());
+        ids.removeAll(founded);
+        if (!ids.isEmpty()) {
+            throw NotFoundPeopleException.from(ids);
+        }
+        return entities.stream()
+            .map(mapper::mapToDomain)
+            .collect(Collectors.toSet());
     }
 
     @Override
