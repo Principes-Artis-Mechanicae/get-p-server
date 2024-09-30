@@ -1,25 +1,29 @@
 package es.princip.getp.application.project.apply.command;
 
-import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.common.model.AttachmentFile;
+import es.princip.getp.domain.common.model.Duration;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.people.model.PeopleId;
-import es.princip.getp.domain.project.apply.model.TeamProjectApplicationData;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class ApplyProjectAsTeamCommand extends ApplyProjectCommand {
 
-    private final List<PeopleId> teams;
+    private final Set<PeopleId> teammates;
 
     public ApplyProjectAsTeamCommand(
-        final MemberId memberId,
+        final Member member,
         final ProjectId projectId,
-        final TeamProjectApplicationData data,
-        final List<PeopleId> teams
+        final Duration expectedDuration,
+        final String description,
+        final List<AttachmentFile> attachmentFiles,
+        final Set<PeopleId> teammates
     ) {
-        super(memberId, projectId, data);
-        this.teams = teams;
+        super(member, projectId, expectedDuration, description, attachmentFiles);
+        this.teammates = teammates;
     }
 }
