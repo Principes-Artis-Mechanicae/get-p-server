@@ -1,5 +1,6 @@
 package es.princip.getp.domain.project.apply.service;
 
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.apply.exception.ClosedProjectApplicationException;
@@ -16,7 +17,10 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class TeamProjectApplier {
 
+    private final TeamApprovalRequestSender teamApprovalRequestSender;
+
     public ProjectApplication apply(
+        final Member applicantMember,
         final People applicant,
         final Project project,
         final ProjectApplicationData data,
@@ -33,6 +37,12 @@ public class TeamProjectApplier {
                 throw new NotRegisteredPeopleProfileException();
             }
         });
+        teammates.forEach(teammate -> teamApprovalRequestSender.send(
+            applicantMember,
+            teammate,
+            project,
+            "승인 링크" // TODO: 승인 링크 생성
+        ));
         return TeamProjectApplication.of(applicant.getId(), project.getId(), data, teammates);
     }
 }

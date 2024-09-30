@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.project.command;
+package es.princip.getp.api.controller.project.command.fixture;
 
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectAsIndividualRequest;
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectAsTeamRequest;
@@ -9,12 +9,13 @@ import es.princip.getp.domain.project.apply.model.TeamProjectApplication;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import static es.princip.getp.fixture.project.ProjectApplicationFixture.DESCRIPTION;
 
-class ApplyProjectRequestFixture {
+public class ApplyProjectRequestFixture {
 
-    static ApplyProjectRequest applyProjectAsIndividualRequest() {
+    public static ApplyProjectRequest applyProjectAsIndividualRequest() {
         return new ApplyProjectAsIndividualRequest(
             IndividualProjectApplication.TYPE,
             Duration.of(
@@ -29,7 +30,7 @@ class ApplyProjectRequestFixture {
         );
     }
 
-    static ApplyProjectRequest applyProjectAsTeamRequest() {
+    public static ApplyProjectRequest applyProjectAsTeamRequest() {
         return new ApplyProjectAsTeamRequest(
             TeamProjectApplication.TYPE,
             Duration.of(
@@ -41,7 +42,7 @@ class ApplyProjectRequestFixture {
                 "https://example.com/attachment1",
                 "https://example.com/attachment2"
             ),
-            List.of(1L, 2L, 3L, 4L)
+            Set.of(1L, 2L, 3L, 4L)
         );
     }
 }

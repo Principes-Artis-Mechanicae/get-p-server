@@ -5,6 +5,7 @@ import es.princip.getp.application.mail.port.in.SendMailUseCase;
 import es.princip.getp.application.project.apply.exception.FailedTeamApprovalRequestSendingException;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.people.model.People;
+import es.princip.getp.domain.project.apply.service.TeamApprovalRequestSender;
 import es.princip.getp.domain.project.commission.model.Project;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;

@@ -27,66 +27,47 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-class ProjectApplicationService implements ApplyProjectUseCase {
+class ApplyProjectService implements ApplyProjectUseCase {
 
     private final LoadPeoplePort loadPeoplePort;
     private final LoadProjectPort loadProjectPort;
-    private final CheckProjectApplicationPort checkProjectApplicationPort;
-    private final SaveProjectApplicationPort saveProjectApplicationPort;
+    private final CheckProjectApplicationPort checkApplicationPort;
+    private final SaveProjectApplicationPort saveApplicationPort;
 
     private final ProjectApplicationDataMapper mapper;
 
-    private final TeamApprovalRequestSender teamApprovalRequestSender;
-    private final TeamProjectApplier teamProjectApplier;
-    private final IndividualProjectApplier individualProjectApplier;
+    private final IndividualProjectApplier individualApplier;
+    private final TeamProjectApplier teamApplier;
 
     @Override
     @Transactional
     public ProjectApplicationId apply(final ApplyProjectCommand command) {
-        final Member member = command.getMember();
         final People applicant = loadPeoplePort.loadBy(command.getMember().getId());
         final Project project = loadProjectPort.loadBy(command.getProjectId());
         validateApplicantAlreadyApplied(applicant, project);
+        final ProjectApplication application = applyInternal(applicant, project, command);
+        return saveApplicationPort.save(application);
+    }
+
+    private ProjectApplication applyInternal(
+        final People applicant,
+        final Project project,
+        final ApplyProjectCommand command
+    ) {
         final ProjectApplicationData data = mapper.mapToData(command);
         if (command instanceof ApplyProjectAsTeamCommand teamCommand) {
-            final Set<PeopleId> teammateIds = teamCommand.getTeammates();
-            return applyAsTeam(member, applicant, project, data, teammateIds);
+            final Member applicantMember = teamCommand.getMember();
+            final Set<People> teammates = loadPeoplePort.loadBy(teamCommand.getTeammates());
+            teammates.forEach(teammate -> validateApplicantAlreadyApplied(teammate, project));
+            teamApplier.apply(applicantMember, applicant, project, data, teammates);
         }
-        return applyAsIndividual(applicant, project, data);
-    }
-
-    private ProjectApplicationId applyAsIndividual(
-        final People applicant,
-        final Project project,
-        final ProjectApplicationData data
-    ) {
-        final ProjectApplication application = individualProjectApplier.apply(applicant, project, data);
-        return saveProjectApplicationPort.save(application);
-    }
-
-    private ProjectApplicationId applyAsTeam(
-        final Member member,
-        final People applicant,
-        final Project project,
-        final ProjectApplicationData data,
-        final Set<PeopleId> teammateIds
-    ) {
-        final Set<People> teammates = loadPeoplePort.loadBy(teammateIds);
-        teammates.forEach(teammate -> validateApplicantAlreadyApplied(teammate, project));
-        teammates.forEach(teammate -> teamApprovalRequestSender.send(
-            member,
-            teammate,
-            project,
-            "승인 링크" // TODO: 승인 링크 생성
-        ));
-        final ProjectApplication application =  teamProjectApplier.apply(applicant, project, data, teammates);
-        return saveProjectApplicationPort.save(application);
+        return individualApplier.apply(applicant, project, data);
     }
 
     private void validateApplicantAlreadyApplied(final People applicant, final Project project) {
         final PeopleId applicantId = applicant.getId();
         final ProjectId projectId = project.getId();
-        if (checkProjectApplicationPort.existsBy(applicantId, projectId)) {
+        if (checkApplicationPort.existsBy(applicantId, projectId)) {
             throw new AlreadyAppliedProjectException();
         }
     }

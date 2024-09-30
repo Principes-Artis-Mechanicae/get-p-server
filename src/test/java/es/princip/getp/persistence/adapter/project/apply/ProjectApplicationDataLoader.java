@@ -1,6 +1,11 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
+import es.princip.getp.domain.project.apply.model.TeammateStatus;
 import es.princip.getp.persistence.adapter.common.DurationJpaVO;
+import es.princip.getp.persistence.adapter.project.apply.model.IndividualProjectApplicationJpaEntity;
+import es.princip.getp.persistence.adapter.project.apply.model.ProjectApplicationJpaEntity;
+import es.princip.getp.persistence.adapter.project.apply.model.TeamProjectApplicationJpaEntity;
+import es.princip.getp.persistence.adapter.project.apply.model.TeammateJpaEntity;
 import es.princip.getp.persistence.support.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +65,7 @@ public class ProjectApplicationDataLoader implements DataLoader {
         final Long applicantId,
         final Long projectId
     ) {
-        return TeamProjectApplicationJpaEntity.builder()
+        final TeamProjectApplicationJpaEntity application = TeamProjectApplicationJpaEntity.builder()
             .applicantId(applicantId)
             .projectId(projectId)
             .expectedDuration(new DurationJpaVO(
@@ -70,7 +75,21 @@ public class ProjectApplicationDataLoader implements DataLoader {
             .status(ACCEPTED)
             .description(DESCRIPTION)
             .attachmentFiles(List.of("https://example.com/attachment1"))
-            .teams(List.of(1L, 2L, 3L, 4L))
+            .build();
+        LongStream.rangeClosed(1, 4).forEach(peopleId ->
+            application.getTeammates().add(teammate(peopleId, application))
+        );
+        return application;
+    }
+
+    private static TeammateJpaEntity teammate(
+        final Long peopleId,
+        final TeamProjectApplicationJpaEntity application
+    ) {
+        return TeammateJpaEntity.builder()
+            .peopleId(peopleId)
+            .status(TeammateStatus.PENDING)
+            .application(application)
             .build();
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.payload.PayloadDocumentation;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.api.controller.project.command.CommissionProjectRequestFixture.registerProjectRequest;
+import static es.princip.getp.api.controller.project.command.fixture.CommissionProjectRequestFixture.commissionProjectRequest;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -36,7 +36,7 @@ class ProjectCommissionControllerTest extends ControllerTest {
     @Nested
     class CommissionProject {
 
-        private final CommissionProjectRequest request = registerProjectRequest();
+        private final CommissionProjectRequest request = commissionProjectRequest();
 
         private ResultActions perform() throws Exception {
             return mockMvc.perform(post("/projects")
