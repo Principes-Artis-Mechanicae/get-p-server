@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,7 +27,9 @@ public class IndividualProjectApplicationJpaEntity extends ProjectApplicationJpa
         final DurationJpaVO expectedDuration,
         final ProjectApplicationStatus status,
         final String description,
-        final List<String> attachmentFiles
+        final List<String> attachmentFiles,
+        final LocalDateTime createdAt,
+        final LocalDateTime updatedAt
     ) {
         super(
             id,
@@ -35,7 +38,9 @@ public class IndividualProjectApplicationJpaEntity extends ProjectApplicationJpa
             expectedDuration,
             status,
             description,
-            attachmentFiles
+            attachmentFiles,
+            createdAt,
+            updatedAt
         );
     }
 }

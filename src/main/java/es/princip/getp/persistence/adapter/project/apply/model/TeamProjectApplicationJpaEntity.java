@@ -6,11 +6,14 @@ import es.princip.getp.persistence.adapter.common.DurationJpaVO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "team_project_application")
 @DiscriminatorValue(TeamProjectApplication.TYPE)
@@ -33,7 +36,9 @@ public class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity
         final DurationJpaVO expectedDuration,
         final ProjectApplicationStatus status,
         final String description,
-        final List<String> attachmentFiles
+        final List<String> attachmentFiles,
+        final LocalDateTime createdAt,
+        final LocalDateTime updatedAt
     ) {
         super(
             id,
@@ -42,7 +47,9 @@ public class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity
             expectedDuration,
             status,
             description,
-            attachmentFiles
+            attachmentFiles,
+            createdAt,
+            updatedAt
         );
     }
 
