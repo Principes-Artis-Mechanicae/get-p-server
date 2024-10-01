@@ -3,7 +3,6 @@ package es.princip.getp.api.controller.project.command;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.apply.port.in.ApproveTeammateUseCase;
-import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,22 +27,22 @@ class ApproveTeammateControllerTest extends ControllerTest {
     private final ProjectApplicationId applicationId = new ProjectApplicationId(1L);
 
     private ResultActions perform() throws Exception {
-        return mockMvc.perform(post("/applications/{applicationId}/approve", applicationId.getValue())
-            .header("Authorization", "Bearer ${ACCESS_TOKEN}"));
+        return mockMvc.perform(get("/teammates/approve", applicationId.getValue())
+            .header("Authorization", "Bearer ${ACCESS_TOKEN}")
+            .queryParam("token", "${TEAMMATE_APPROVAL_TOKEN}"));
     }
 
     @Test
     @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
     void approveTeammate() throws Exception{
-        doNothing().when(approveTeammateUseCase)
-            .approve(any(ProjectApplicationId.class), any(MemberId.class));
+        doNothing().when(approveTeammateUseCase).approve(any(String.class));
 
         perform()
             .andExpect(status().isOk())
             .andDo(
                 restDocs.document(
                     requestHeaders(authorizationHeaderDescriptor()),
-                    pathParameters(parameterWithName("applicationId").description("승인할 프로젝트 지원 ID"))
+                    queryParameters(parameterWithName("token").description("팀원 승인 토큰"))
                 )
             )
             .andDo(print());

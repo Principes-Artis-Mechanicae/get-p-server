@@ -1,4 +1,4 @@
-package es.princip.getp.domain.project.apply.service;
+package es.princip.getp.application.project.apply;
 
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.people.model.People;

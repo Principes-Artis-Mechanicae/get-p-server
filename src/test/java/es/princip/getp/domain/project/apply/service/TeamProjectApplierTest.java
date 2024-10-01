@@ -1,7 +1,6 @@
 package es.princip.getp.domain.project.apply.service;
 
 import es.princip.getp.domain.client.model.ClientId;
-import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
 import es.princip.getp.domain.people.model.People;
@@ -29,20 +28,16 @@ import static es.princip.getp.fixture.project.ProjectFixture.project;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 @ExtendWith(MockitoExtension.class)
 class TeamProjectApplierTest {
 
-    private final TeamApprovalRequestSender sender = (requester, receiver, project, link) -> {};
-    private final TeamProjectApplier applier = new TeamProjectApplier(sender);
+    private final TeamProjectApplier applier = new TeamProjectApplier();
 
     @Test
     void 피플은_팀으로_프로젝트에_지원할_수_있다() {
-        final Member applicantMember = mock(Member.class);
-        given(applicantMember.getId()).willReturn(new MemberId(1L));
-        final People applicant = spy(people(applicantMember.getId()));
+        final People applicant = spy(people(new MemberId(1L)));
         given(applicant.getId()).willReturn(new PeopleId(1L));
         final Project project =  spy(project(new ClientId(1L), APPLYING));
         given(project.getId()).willReturn(new ProjectId(1L));
@@ -66,7 +61,7 @@ class TeamProjectApplierTest {
             teammates
         );
 
-        final ProjectApplication application = applier.apply(applicantMember, applicant, project, data, teammates);
+        final ProjectApplication application = applier.apply(applicant, project, data, teammates);
 
         assertThat(application).isInstanceOf(TeamProjectApplication.class);
         assertThat(application).usingRecursiveComparison().isEqualTo(expected);
@@ -74,9 +69,7 @@ class TeamProjectApplierTest {
 
     @Test
     void 피플은_지원자가_프로필을_등록하지_않으면_지원할_수_없다() {
-        final Member applicantMember = mock(Member.class);
-        given(applicantMember.getId()).willReturn(new MemberId(1L));
-        final People applicant = spy(peopleWithoutProfile(applicantMember.getId()));
+        final People applicant = spy(peopleWithoutProfile(new MemberId(1L)));
         final Project project =  spy(project(new ClientId(1L), APPLYING));
         final ProjectApplicationData data = new ProjectApplicationData(
             expectedDuration(),
@@ -88,15 +81,13 @@ class TeamProjectApplierTest {
             people(new MemberId(3L))
         );
 
-        assertThatThrownBy(() -> applier.apply(applicantMember, applicant, project, data, teammates))
+        assertThatThrownBy(() -> applier.apply(applicant, project, data, teammates))
             .isInstanceOf(NotRegisteredPeopleProfileException.class);
     }
 
     @Test
     void 피플은_팀원이_모두_프로필을_등록하지_않으면_지원할_수_없다() {
-        final Member applicantMember = mock(Member.class);
-        given(applicantMember.getId()).willReturn(new MemberId(1L));
-        final People applicant = spy(people(applicantMember.getId()));
+        final People applicant = spy(people(new MemberId(1L)));
         final Project project =  spy(project(new ClientId(1L), APPLYING));
         final ProjectApplicationData data = new ProjectApplicationData(
             expectedDuration(),
@@ -108,15 +99,13 @@ class TeamProjectApplierTest {
             peopleWithoutProfile(new MemberId(3L))
         );
 
-        assertThatThrownBy(() -> applier.apply(applicantMember, applicant, project, data, teammates))
+        assertThatThrownBy(() -> applier.apply(applicant, project, data, teammates))
             .isInstanceOf(NotRegisteredPeopleProfileException.class);
     }
 
     @Test
     void 프로젝트_지원이_닫힌_경우_지원할_수_없다() {
-        final Member applicantMember = mock(Member.class);
-        given(applicantMember.getId()).willReturn(new MemberId(1L));
-        final People applicant = spy(people(applicantMember.getId()));
+        final People applicant = spy(people(new MemberId(1L)));
         final Project project =  spy(project(new ClientId(1L), PROGRESSING));
         final ProjectApplicationData data = new ProjectApplicationData(
             expectedDuration(),
@@ -128,7 +117,7 @@ class TeamProjectApplierTest {
             people(new MemberId(3L))
         );
 
-        assertThatThrownBy(() -> applier.apply(applicantMember, applicant, project, data, teammates))
+        assertThatThrownBy(() -> applier.apply(applicant, project, data, teammates))
             .isInstanceOf(ClosedProjectApplicationException.class);
     }
 }

@@ -6,6 +6,7 @@ import es.princip.getp.application.project.meeting.exception.FailedMeetingSendin
 import es.princip.getp.domain.people.model.People;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.meeting.model.ProjectMeeting;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,7 @@ public class EmailMeetingSender implements MeetingSender {
         );
         try {
             sendMailUseCase.send(message);
-        } catch (MailException exception) {
+        } catch (MailException | MessagingException exception) {
             throw new FailedMeetingSendingException();
         }
     }
