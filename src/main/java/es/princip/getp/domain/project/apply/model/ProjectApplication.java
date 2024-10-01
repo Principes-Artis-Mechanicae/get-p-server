@@ -15,13 +15,13 @@ import java.util.List;
 @Getter
 public abstract class ProjectApplication extends BaseEntity {
 
-    private ProjectApplicationId id;
-    @NotNull private final PeopleId applicantId;
-    @NotNull private final ProjectId projectId;
-    @NotNull private Duration expectedDuration;
-    @NotNull private ProjectApplicationStatus status;
-    @NotBlank private String description;
-    private final List<@NotNull AttachmentFile> attachmentFiles;
+    protected ProjectApplicationId id;
+    @NotNull protected final PeopleId applicantId;
+    @NotNull protected final ProjectId projectId;
+    @NotNull protected Duration expectedDuration;
+    @NotNull protected ProjectApplicationStatus status;
+    @NotBlank protected String description;
+    protected final List<@NotNull AttachmentFile> attachmentFiles;
 
     public ProjectApplication(
         final ProjectApplicationId id,
