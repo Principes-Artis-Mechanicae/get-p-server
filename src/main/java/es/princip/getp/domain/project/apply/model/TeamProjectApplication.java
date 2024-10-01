@@ -86,14 +86,18 @@ public class TeamProjectApplication extends ProjectApplication {
         }
     }
 
-    private boolean isAllTeammatesApproved() {
-        return teammates.stream().allMatch(it -> it.getStatus() == APPROVED);
-    }
-
     private Teammate getTeammate(final PeopleId peopleId) {
         return teammates.stream()
             .filter(it -> it.getPeopleId().equals(peopleId))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("해당 팀으로부터 승인 신청을 받지 않았습니다."));
+    }
+
+    public boolean isTeammateApproved(final PeopleId peopleId) {
+        return getTeammate(peopleId).isApproved();
+    }
+
+    public boolean isAllTeammatesApproved() {
+        return teammates.stream().allMatch(it -> it.getStatus() == APPROVED);
     }
 }

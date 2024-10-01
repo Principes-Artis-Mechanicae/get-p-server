@@ -46,4 +46,8 @@ public abstract class ProjectApplication extends BaseEntity {
 
         validate();
     }
+
+    public boolean isCompleted() {
+        return this.status == ProjectApplicationStatus.COMPLETED;
+    }
 }
