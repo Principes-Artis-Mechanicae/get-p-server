@@ -3,6 +3,9 @@ package es.princip.getp.persistence.adapter.people;
 import es.princip.getp.domain.support.ErrorDescription;
 import es.princip.getp.persistence.support.NotFoundException;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 class NotFoundPeopleException extends NotFoundException {
 
     private static final String code = "NOT_FOUND_PEOPLE";
@@ -10,5 +13,16 @@ class NotFoundPeopleException extends NotFoundException {
 
     public NotFoundPeopleException() {
         super(ErrorDescription.of(code, message));
+    }
+
+    public NotFoundPeopleException(final String ids) {
+        super(ErrorDescription.of(code, ids + "(은)는" + message));
+    }
+
+    public static NotFoundPeopleException from(final Collection<Long> peopleIds) {
+        final String ids = peopleIds.stream()
+            .map(String::valueOf)
+            .collect(Collectors.joining(", "));
+        return new NotFoundPeopleException(ids);
     }
 }

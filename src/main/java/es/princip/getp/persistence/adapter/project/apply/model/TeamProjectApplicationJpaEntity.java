@@ -6,28 +6,24 @@ import es.princip.getp.persistence.adapter.common.DurationJpaVO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Entity
 @Table(name = "team_project_application")
 @DiscriminatorValue(TeamProjectApplication.TYPE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity {
 
-    @ElementCollection
-    @CollectionTable(
-        name = "team_project_application_team",
-        joinColumns = @JoinColumn(
-            name = "project_application_id",
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
-        )
+    @OneToMany(
+        mappedBy = "application",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.EAGER
     )
-    private List<Long> teams = new ArrayList<>();
+    private List<TeammateJpaEntity> teammates = new ArrayList<>();
 
     @Builder
     public TeamProjectApplicationJpaEntity(
@@ -37,8 +33,7 @@ public class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity
         final DurationJpaVO expectedDuration,
         final ProjectApplicationStatus status,
         final String description,
-        final List<String> attachmentFiles,
-        final List<Long> teams
+        final List<String> attachmentFiles
     ) {
         super(
             id,
@@ -49,6 +44,9 @@ public class TeamProjectApplicationJpaEntity extends ProjectApplicationJpaEntity
             description,
             attachmentFiles
         );
-        this.teams.addAll(teams);
+    }
+
+    public void addTeammate(TeammateJpaEntity teammate) {
+        teammates.add(teammate);
     }
 }

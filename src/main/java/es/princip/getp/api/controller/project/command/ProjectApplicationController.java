@@ -7,7 +7,7 @@ import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
 import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
-import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import jakarta.validation.Valid;
@@ -33,9 +33,9 @@ public class ProjectApplicationController {
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable Long projectId
     ) {
-        final MemberId memberId = principalDetails.getMember().getId();
+        final Member member = principalDetails.getMember();
         final ProjectId pid = new ProjectId(projectId);
-        final ApplyProjectCommand command = projectCommandMapper.mapToCommand(memberId, pid, request);
+        final ApplyProjectCommand command = projectCommandMapper.mapToCommand(member, pid, request);
         final ProjectApplicationId applicationId = applyProjectUseCase.apply(command);
         final ApplyProjectResponse response = new ApplyProjectResponse(applicationId.getValue());
         return ApiResponse.success(HttpStatus.CREATED, response);

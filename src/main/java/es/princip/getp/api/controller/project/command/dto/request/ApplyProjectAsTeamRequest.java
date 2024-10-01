@@ -5,20 +5,21 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class ApplyProjectAsTeamRequest extends ApplyProjectRequest {
 
-    private final @NotNull List<@NotNull Long> teams;
+    private final @NotNull Set<@NotNull Long> teammates;
 
     public ApplyProjectAsTeamRequest(
         final String type,
         final Duration expectedDuration,
         final String description,
         final List<String> attachmentFiles,
-        final List<Long> teams
+        final Set<Long> teammates
     ) {
         super(type, expectedDuration, description, attachmentFiles);
-        this.teams = teams;
+        this.teammates = teammates;
     }
 }

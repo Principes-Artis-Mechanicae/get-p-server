@@ -9,6 +9,7 @@ import es.princip.getp.api.support.dto.SliceResponse;
 import es.princip.getp.application.people.command.SearchTeammateCommand;
 import es.princip.getp.application.project.apply.port.in.SearchTeammateQuery;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.project.commission.model.ProjectId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,11 +36,11 @@ class SearchTeammateControllerTest extends ControllerTest {
 
     @Autowired private SearchTeammateQuery searchTeammateQuery;
 
-    private final int page = 0;
+    private final ProjectId projectId = new ProjectId(1L);
     private final int pageSize = 5;
 
     private ResultActions perform() throws Exception {
-        return mockMvc.perform(get("/projects/teammates")
+        return mockMvc.perform(get("/projects/{projectId}/teammates", projectId.getValue())
             .header("Authorization", "Bearer ${ACCESS_TOKEN}")
             .queryParam("size", String.valueOf(pageSize))
             .queryParam("nickname", NICKNAME)
@@ -58,7 +59,7 @@ class SearchTeammateControllerTest extends ControllerTest {
             ))
             .toList();
         final SliceResponse<SearchTeammateResponse> response = SliceResponse.of(
-            new SliceImpl<>(content, PageRequest.of(page, pageSize), true),
+            new SliceImpl<>(content, PageRequest.of(0, pageSize), true),
             "eyJpZCI6IDIwfQ=="
         );
         given(searchTeammateQuery.search(any(SearchTeammateCommand.class)))
@@ -68,6 +69,7 @@ class SearchTeammateControllerTest extends ControllerTest {
             .andExpect(status().isOk())
             .andDo(restDocs.document(
                 requestHeaders(authorizationHeaderDescriptor()),
+                pathParameters(parameterWithName("projectId").description("프로젝트 ID")),
                 queryParameters(SearchTeammateQueryParametersDescription.description(pageSize)),
                 responseFields(SearchTeammateResponseDescription.description())
                     .and(SliceResponseDescription.description())

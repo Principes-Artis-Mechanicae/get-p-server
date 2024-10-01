@@ -14,24 +14,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/projects")
 @RequiredArgsConstructor
 public class SearchTeammateController extends ControllerSupport {
 
+    private final ProjectQueryCommandMapper mapper;
     private final SearchTeammateQuery searchTeammateQuery;
 
-    @GetMapping("/teammates")
+    @GetMapping("/{projectId}/teammates")
     public ResponseEntity<ApiSuccessResult<SliceResponse<SearchTeammateResponse>>> searchTeammates(
+        @PathVariable final Long projectId,
         @CursorDefault @PageableDefault final CursorPageable<Cursor> pageable,
         @RequestParam(value = "nickname") final String nickname
     ) {
-        final SearchTeammateCommand command = new SearchTeammateCommand(pageable, nickname);
+        final SearchTeammateCommand command = mapper.mapToCommand(projectId, pageable, nickname);
         final SliceResponse<SearchTeammateResponse> response = searchTeammateQuery.search(command);
         return ApiResponse.success(HttpStatus.OK, response);
     }
