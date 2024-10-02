@@ -3,6 +3,7 @@ package es.princip.getp.api.controller.project.query.description;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
 public class ProjectDetailResponseDescription {
 
@@ -18,8 +19,10 @@ public class ProjectDetailResponseDescription {
             getDescriptor("estimatedDuration.startDate", "예상 작업 시작 날짜"),
             getDescriptor("estimatedDuration.endDate", "예상 작업 종료 날짜"),
             getDescriptor("description", "상세 설명"),
-            getDescriptor("meetingType", "미팅 방식"),
-            getDescriptor("category", "카테고리"),
+            getDescriptor("meetingType", "미팅 방식")
+                .attributes(key("format").value("IN_PERSON, REMOTE")),
+            getDescriptor("category", "카테고리")
+                .attributes(key("format").value("BACKEND, FRONTEND, PROGRAM, WEB, ETC")),
             getDescriptor("status", "프로젝트 상태"),
             getDescriptor("attachmentFiles[]", "첨부 파일"),
             getDescriptor("hashtags[]", "해시태그"),
