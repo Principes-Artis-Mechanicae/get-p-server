@@ -6,8 +6,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
+import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.api.controller.project.query.dto.PublicProjectDetailResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
 import es.princip.getp.application.like.project.port.out.CheckProjectLikePort;
 import es.princip.getp.application.like.project.port.out.CountProjectLikePort;
@@ -15,6 +15,7 @@ import es.princip.getp.application.project.apply.port.out.CountProjectApplicatio
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
 import es.princip.getp.application.project.commission.command.ProjectSearchOrder;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectId;
@@ -27,6 +28,7 @@ import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
 import es.princip.getp.persistence.adapter.project.apply.QProjectApplicationJpaEntity;
 import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -156,46 +158,19 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
     }
 
     @Override
-    public ProjectDetailResponse findBy(final MemberId memberId, final ProjectId projectId) {
+    public ProjectDetailResponse findBy(final Member member, final ProjectId projectId) {
         final Project result = fetchProject(projectId);
         final Long applicantsCount = countProjectApplicationPort.countBy(projectId);
         final Long likesCount = countProjectLikePort.countBy(projectId);
-        final boolean liked = checkProjectLikePort.existsBy(memberId, projectId);
+        final ProjectClientResponse projectClientResponse = clientQuery.findProjectClientBy(result.getClientId());
+        final Boolean liked = checkProjectLikePort.existsBy(member, projectId);
         
         return ProjectDetailResponse.of(
             result,
             applicantsCount,
             likesCount,
             liked,
-            clientQuery.findProjectClientBy(result.getClientId())
-        );
-    }
-
-    @Override
-    public ProjectDetailResponse findBy(ProjectId projectId) {
-        final Project result = fetchProject(projectId);
-        final Long applicantsCount = countProjectApplicationPort.countBy(projectId);
-        final Long likesCount = countProjectLikePort.countBy(projectId);
-        
-        return ProjectDetailResponse.of(
-            result,
-            applicantsCount,
-            likesCount,
-            null,
-            clientQuery.findProjectClientBy(result.getClientId())
-        );
-    }
-
-    @Override
-    public PublicProjectDetailResponse findPublicDetailBy(ProjectId projectId) {
-        final Project result = fetchProject(projectId);
-        final Long applicantsCount = countProjectApplicationPort.countBy(projectId);
-        final Long likesCount = countProjectLikePort.countBy(projectId);
-        
-        return PublicProjectDetailResponse.of(
-            result,
-            applicantsCount,
-            likesCount
+            projectClientResponse
         );
     }
 }

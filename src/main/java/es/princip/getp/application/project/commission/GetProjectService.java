@@ -2,16 +2,18 @@ package es.princip.getp.application.project.commission;
 
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.api.controller.project.query.dto.PublicProjectDetailResponse;
 import es.princip.getp.application.project.commission.command.GetProjectCommand;
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
+import es.princip.getp.application.resolver.MosaicResolver;
+import es.princip.getp.application.support.ApplicationSupport;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
-import es.princip.getp.domain.member.model.MemberType;
+
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -24,10 +26,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class GetProjectService implements GetProjectQuery {
+public class GetProjectService extends ApplicationSupport implements GetProjectQuery {
 
     private final FindProjectPort findProjectPort;
 
+    private final MosaicResolver mosaicResolver;
+    
     private boolean doesFilterRequireLogin(final ProjectSearchFilter filter) {
         return (filter.isApplied() || filter.isLiked() || filter.isCommissioned());
     }
@@ -66,18 +70,11 @@ public class GetProjectService implements GetProjectQuery {
     }
 
     @Override
-    public ProjectDetailResponse getDetailBy(final MemberId memberId, final ProjectId projectId, final MemberType memberType) {
-        if (memberType.isPeople()) {
-            return findProjectPort.findBy(memberId, projectId);    
+    public ProjectDetailResponse getDetailBy(final Member member, final ProjectId projectId) {
+        ProjectDetailResponse response = findProjectPort.findBy(member, projectId);
+        if (isNotLogined(member)) {
+            return mosaicResolver.resolve(response);
         }
-        if (memberType.isClient()) {
-            return findProjectPort.findBy(projectId);
-        }
-        return null;
-    }
-
-    @Override
-    public PublicProjectDetailResponse getPublicDetailBy(final ProjectId projectId) {
-        return findProjectPort.findPublicDetailBy(projectId);
+        return response;
     }
 }

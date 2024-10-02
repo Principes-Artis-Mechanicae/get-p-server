@@ -6,13 +6,15 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.URL;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.io.IOException;
 import java.util.List;
 
-@JsonSerialize(using = AttachmentFilesResponse.AttachmentFilesResponseSerializer.class)
+@Getter
 @ToString
+@JsonSerialize(using = AttachmentFilesResponse.AttachmentFilesResponseSerializer.class)
 public class AttachmentFilesResponse {
 
     private final List<AttachmentFile> attachmentFiles;
