@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.project.apply;
+package es.princip.getp.persistence.adapter.project.apply.model;
 
 import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;
 import es.princip.getp.persistence.adapter.BaseTimeJpaEntity;
@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING)
-abstract class ProjectApplicationJpaEntity extends BaseTimeJpaEntity {
+public abstract class ProjectApplicationJpaEntity extends BaseTimeJpaEntity {
 
     @Id
     @Column(name = "project_application_id")

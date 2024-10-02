@@ -1,7 +1,6 @@
 package es.princip.getp.api.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import es.princip.getp.api.config.MockCommandMapperBeanFactoryPostProcessor;
 import es.princip.getp.api.config.MockDaoBeanFactoryPostProcessor;
 import es.princip.getp.api.config.MockServiceBeanFactoryPostProcessor;
 import es.princip.getp.api.docs.SpringRestDocsConfig;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -37,14 +37,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest
 @ActiveProfiles("test")
+@ComponentScan("es.princip.getp.api")
 @Execution(ExecutionMode.SAME_THREAD)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Import({
     SecurityConfig.class,
     SpringRestDocsConfig.class,
     MockDaoBeanFactoryPostProcessor.class,
-    MockCommandMapperBeanFactoryPostProcessor.class,
-    MockServiceBeanFactoryPostProcessor.class
+    MockServiceBeanFactoryPostProcessor.class,
 })
 @ExtendWith({RestDocumentationExtension.class, PrincipalDetailsParameterResolver.class})
 public abstract class ControllerTest {

@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.project.command;
+package es.princip.getp.api.controller.project.command.fixture;
 
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;
 import es.princip.getp.domain.common.model.Duration;
@@ -11,9 +11,9 @@ import java.util.List;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsRequest;
 import static es.princip.getp.fixture.project.ProjectFixture.*;
 
-class CommissionProjectRequestFixture {
+public class CommissionProjectRequestFixture {
 
-    static CommissionProjectRequest registerProjectRequest() {
+    public static CommissionProjectRequest commissionProjectRequest() {
         return new CommissionProjectRequest(
             TITLE,
             PAYMENT,

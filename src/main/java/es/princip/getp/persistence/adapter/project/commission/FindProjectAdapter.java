@@ -25,7 +25,7 @@ import es.princip.getp.persistence.adapter.like.project.QProjectLikeJpaEntity;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.model.QPeopleJpaEntity;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
-import es.princip.getp.persistence.adapter.project.apply.QProjectApplicationJpaEntity;
+import es.princip.getp.persistence.adapter.project.apply.model.QProjectApplicationJpaEntity;
 import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 

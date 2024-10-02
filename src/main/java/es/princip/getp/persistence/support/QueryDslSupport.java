@@ -56,6 +56,6 @@ public abstract class QueryDslSupport {
     }
 
     protected static Order convertTo(final Sort.Order order) {
-        return order.isAscending() ? ASC : DESC;
+        return order == null ? null : order.isAscending() ? ASC : DESC;
     }
 }

@@ -1,9 +1,9 @@
 package es.princip.getp.api.controller.auth;
 
-import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.api.controller.auth.dto.request.EmailVerificationCodeRequest;
 import es.princip.getp.api.controller.auth.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;
+import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.auth.command.SignUpCommand;
 import es.princip.getp.application.auth.service.SignUpService;
 import es.princip.getp.domain.member.model.MemberType;
@@ -21,9 +21,7 @@ import static es.princip.getp.fixture.auth.EmailVerificationFixture.VERIFICATION
 import static es.princip.getp.fixture.common.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.member.PasswordFixture.PASSWORD;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,11 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class SignUpControllerTest extends ControllerTest {
 
-    @Autowired
-    private SignUpCommandMapper mapper;
-
-    @Autowired
-    private SignUpService signUpService;
+    @Autowired private SignUpService signUpService;
 
     @Nested
     class SendEmailVerificationCodeForSignUp {
@@ -76,7 +70,6 @@ class SignUpControllerTest extends ControllerTest {
                 ),
                 memberType
             );
-            given(mapper.mapToCommand(request)).willReturn(mock(SignUpCommand.class));
             willDoNothing().given(signUpService).signUp(any(SignUpCommand.class));
 
             mockMvc.perform(post("/auth/signup")

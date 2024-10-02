@@ -1,9 +1,7 @@
 package es.princip.getp.persistence.adapter.people;
 
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
@@ -11,7 +9,6 @@ import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeople
 import es.princip.getp.application.like.people.port.out.CheckPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
 import es.princip.getp.application.people.command.PeopleSearchFilter;
-import es.princip.getp.application.people.command.PeopleSearchOrder;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
@@ -35,6 +32,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static es.princip.getp.persistence.adapter.member.MemberPersistenceUtil.memberIdEq;
+import static es.princip.getp.persistence.adapter.people.PeoplePersistenceUtil.getPeopleIds;
 import static java.util.stream.Collectors.toMap;
 
 @Repository
@@ -79,13 +78,6 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
             .where(people.id.eq(peopleId.getValue()))
             .fetchOne()
         );
-    }
-
-    private BooleanExpression memberIdEq(final MemberId memberId) {
-        return Optional.ofNullable(memberId)
-            .map(MemberId::getValue)
-            .map(member.id::eq)
-            .orElse(null);
     }
 
     private <T> JPAQuery<T> buildQuery(
@@ -135,26 +127,10 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
         }).toList();
     }
 
-    private static OrderSpecifier<?> getOrderSpecifier(final Sort.Order order, final PeopleSearchOrder peopleOrder) {
-        final Order converted = convertTo(order);
-        return switch (peopleOrder) {
-            // TODO: case LIKES_COUNT
-            case CREATED_AT -> new OrderSpecifier<>(converted, people.createdAt);
-            default -> new OrderSpecifier<>(converted, people.id);
-        };
-    }
-
     private static OrderSpecifier<?>[] getOrderSpecifiers(final Sort sort) {
         return sort.stream()
-            .map(order -> getOrderSpecifier(order, PeopleSearchOrder.get(order.getProperty())))
+            .map(PeoplePersistenceUtil::getOrderSpecifier)
             .toArray(OrderSpecifier[]::new);
-    }
-
-    private static PeopleId[] getPeopleIds(final List<PeopleJpaEntity> peopleList) {
-        return peopleList.stream()
-            .map(PeopleJpaEntity::getId)
-            .map(PeopleId::new)
-            .toArray(PeopleId[]::new);
     }
 
     @Override

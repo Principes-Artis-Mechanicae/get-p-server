@@ -6,6 +6,7 @@ import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
+import es.princip.getp.persistence.adapter.project.apply.model.ProjectApplicationJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

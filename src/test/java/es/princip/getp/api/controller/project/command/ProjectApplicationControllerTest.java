@@ -8,24 +8,21 @@ import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
 import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
-import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.api.controller.project.command.ApplyProjectRequestFixture.applyProjectAsIndividualRequest;
-import static es.princip.getp.api.controller.project.command.ApplyProjectRequestFixture.applyProjectAsTeamRequest;
+import static es.princip.getp.api.controller.project.command.fixture.ApplyProjectRequestFixture.applyProjectAsIndividualRequest;
+import static es.princip.getp.api.controller.project.command.fixture.ApplyProjectRequestFixture.applyProjectAsTeamRequest;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
 import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -35,18 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ProjectApplicationControllerTest extends ControllerTest {
 
-    @Autowired private ProjectCommandMapper projectCommandMapper;
     @Autowired private ApplyProjectUseCase applyProjectUseCase;
-
-    @BeforeEach
-    void setUp() {
-        given(projectCommandMapper.mapToCommand(
-            any(MemberId.class),
-            any(ProjectId.class),
-            any(ApplyProjectRequest.class)
-        ))
-        .willReturn(mock(ApplyProjectCommand.class));
-    }
 
     @Nested
     @DisplayName("프로젝트 지원")

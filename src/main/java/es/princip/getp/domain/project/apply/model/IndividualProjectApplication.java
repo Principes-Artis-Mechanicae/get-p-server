@@ -10,6 +10,8 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static es.princip.getp.domain.project.apply.model.ProjectApplicationStatus.COMPLETED;
+
 @Getter
 public class IndividualProjectApplication extends ProjectApplication {
 
@@ -38,5 +40,20 @@ public class IndividualProjectApplication extends ProjectApplication {
             createdAt,
             updatedAt
         );
+    }
+
+    public static ProjectApplication of(
+        final PeopleId applicantId,
+        final ProjectId projectId,
+        final ProjectApplicationData data
+    ) {
+        return IndividualProjectApplication.builder()
+            .applicantId(applicantId)
+            .projectId(projectId)
+            .expectedDuration(data.getExpectedDuration())
+            .description(data.getDescription())
+            .attachmentFiles(data.getAttachmentFiles())
+            .status(COMPLETED)
+            .build();
     }
 }
