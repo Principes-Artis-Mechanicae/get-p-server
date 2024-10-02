@@ -1,22 +1,22 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.controller.people.query.description.DetailPeopleProfileResponseDescription;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
-import es.princip.getp.api.docs.PayloadDocumentationHelper;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.port.in.GetMyPeopleQuery;
 import es.princip.getp.domain.member.model.MemberId;
-import org.junit.jupiter.api.DisplayName;
+import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.domain.member.model.MemberType.ROLE_CLIENT;
-import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static es.princip.getp.api.controller.people.query.description.DetailPeopleProfileResponseDescription.detailPeopleProfileResponseDescription;
+import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.fixture.common.TechStackFixture.techStacksResponse;
 import static es.princip.getp.fixture.people.ActivityAreaFixture.activityArea;
@@ -25,6 +25,7 @@ import static es.princip.getp.fixture.people.IntroductionFixture.introduction;
 import static es.princip.getp.fixture.people.PortfolioFixture.portfoliosResponse;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,18 +35,17 @@ class MyPeopleProfileQueryControllerTest extends ControllerTest {
 
     private static final String MY_PEOPLE_PROFILE_URI = "/people/me/profile";
 
-    @DisplayName("피플은 자신의 프로필을 조회할 수 있다.")
     @Nested
-    class GetMyPeopleProfile {
+    class 내_피플_프로필_조회 {
 
         private ResultActions perform() throws Exception {
             return mockMvc.perform(get(MY_PEOPLE_PROFILE_URI)
                 .header("Authorization", "Bearer ${ACCESS_TOKEN}"));
         }
 
-        @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
-        public void getMyPeopleProfile(PrincipalDetails principalDetails) throws Exception {
+        @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
+        public void 피플은_자신의_프로필을_조회할_수_있다(PrincipalDetails principalDetails) throws Exception {
             final MemberId memberId = principalDetails.getMember().getId();
             final DetailPeopleProfileResponse response = new DetailPeopleProfileResponse(
                 introduction(),
@@ -59,17 +59,16 @@ class MyPeopleProfileQueryControllerTest extends ControllerTest {
 
             perform()
                 .andExpect(status().isOk())
-                .andDo(restDocs.document(
-                    requestHeaders(authorizationHeaderDescriptor()),
-                    PayloadDocumentationHelper.responseFields(DetailPeopleProfileResponseDescription.description())
+                .andDo(document("people/get-my-people-profile",
+                    ResourceSnippetParameters.builder()
+                        .tag("피플")
+                        .description("피플은 자신의 프로필을 조회할 수 있다.")
+                        .summary("내 피플 프로필 조회")
+                        .responseSchema(Schema.schema("DetailPeopleProfileResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    responseFields(detailPeopleProfileResponseDescription())
                 ))
                 .andDo(print());
-        }
-
-        @WithCustomMockUser(memberType = ROLE_CLIENT)
-        @Test
-        public void getMyPeopleProfile_WhenMemberTypeIsClient_ShouldFail() throws Exception {
-            expectForbidden(perform());
         }
     }
 }

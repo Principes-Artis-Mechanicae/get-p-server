@@ -1,16 +1,16 @@
-package es.princip.getp.api.controller.project.command.description;
+package es.princip.getp.api.controller.people.command.description.response;
 
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 import static es.princip.getp.api.docs.StatusFieldDescriptor.statusField;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
-public class CommissionProjectResponseDescription {
+public class RegisterPeopleResponseDescription {
 
-    public static FieldDescriptor[] commissionProjectResponseDescription() {
+    public static FieldDescriptor[] registerPeopleResponseDescription() {
         return new FieldDescriptor[] {
             statusField(),
-            fieldWithPath("data.projectId").description("프로젝트 ID")
+            fieldWithPath("data.peopleId").description("피플 ID")
         };
     }
 }

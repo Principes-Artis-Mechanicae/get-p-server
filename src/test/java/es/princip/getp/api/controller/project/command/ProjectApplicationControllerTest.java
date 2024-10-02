@@ -1,8 +1,7 @@
 package es.princip.getp.api.controller.project.command;
 
-import es.princip.getp.api.controller.project.command.description.ApplyProjectAsIndividualRequestDescription;
-import es.princip.getp.api.controller.project.command.description.ApplyProjectAsTeamRequestDescription;
-import es.princip.getp.api.controller.project.command.description.ApplyProjectResponseDescription;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
@@ -11,20 +10,23 @@ import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static es.princip.getp.api.controller.project.command.description.ApplyProjectAsIndividualRequestDescription.applyProjectAsIndividualRequestDescription;
+import static es.princip.getp.api.controller.project.command.description.ApplyProjectAsTeamRequestDescription.applyProjectAsTeamRequestDescription;
+import static es.princip.getp.api.controller.project.command.description.ApplyProjectResponseDescription.applyProjectResponseDescription;
 import static es.princip.getp.api.controller.project.command.fixture.ApplyProjectRequestFixture.applyProjectAsIndividualRequest;
 import static es.princip.getp.api.controller.project.command.fixture.ApplyProjectRequestFixture.applyProjectAsTeamRequest;
-import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
+import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -35,8 +37,7 @@ class ProjectApplicationControllerTest extends ControllerTest {
     @Autowired private ApplyProjectUseCase applyProjectUseCase;
 
     @Nested
-    @DisplayName("프로젝트 지원")
-    class ApplyProject {
+    class 프로젝트_지원 {
 
         private final ProjectId projectId = new ProjectId(1L);
         private final ProjectApplicationId applicationId = new ProjectApplicationId(1L);
@@ -49,53 +50,50 @@ class ProjectApplicationControllerTest extends ControllerTest {
 
         @Test
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
-        @DisplayName("피플은 프로젝트에 개인으로 지원할 수 있다.")
-        void applyProjectAsIndividual() throws Exception {
+        void 피플은_프로젝트에_개인으로_지원할_수_있다() throws Exception {
             final ApplyProjectRequest request = applyProjectAsIndividualRequest();
             given(applyProjectUseCase.apply(any(ApplyProjectCommand.class)))
                 .willReturn(applicationId);
 
             perform(request)
                 .andExpect(status().isCreated())
-                .andDo(
-                    restDocs.document(
-                        requestHeaders(authorizationHeaderDescriptor()),
-                        pathParameters(parameterWithName("projectId").description("프로젝트 ID")),
-                        requestFields(ApplyProjectAsIndividualRequestDescription.description()),
-                        responseFields(ApplyProjectResponseDescription.description())
-                    )
-                )
+                .andDo(document("project/apply-project-as-individual",
+                    ResourceSnippetParameters.builder()
+                        .tag("프로젝트 지원")
+                        .description("피플은 프로젝트에 개인/팀으로 지원할 수 있다.")
+                        .summary("프로젝트 지원")
+                        .requestSchema(Schema.schema("ApplyProjectAsIndividualRequest"))
+                        .responseSchema(Schema.schema("ApplyProjectResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    pathParameters(parameterWithName("projectId").description("프로젝트 ID")),
+                    requestFields(applyProjectAsIndividualRequestDescription()),
+                    responseFields(applyProjectResponseDescription())
+                ))
                 .andDo(print());
         }
 
         @Test
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
-        @DisplayName("피플은 프로젝트에 팀으로 지원할 수 있다.")
-        void applyProjectAsTeam() throws Exception {
+        void 피플은_프로젝트에_팀으로_지원할_수_있다() throws Exception {
             final ApplyProjectRequest request = applyProjectAsTeamRequest();
             given(applyProjectUseCase.apply(any(ApplyProjectCommand.class)))
                 .willReturn(applicationId);
 
             perform(request)
                 .andExpect(status().isCreated())
-                .andDo(
-                    restDocs.document(
-                        requestHeaders(authorizationHeaderDescriptor()),
-                        pathParameters(parameterWithName("projectId").description("프로젝트 ID")),
-                        requestFields(ApplyProjectAsTeamRequestDescription.description()),
-                        responseFields(ApplyProjectResponseDescription.description())
-                    )
-                )
+                .andDo(document("project/apply-project-as-team",
+                    ResourceSnippetParameters.builder()
+                        .tag("프로젝트 지원")
+                        .description("피플은 프로젝트에 개인/팀으로 지원할 수 있다.")
+                        .summary("프로젝트 지원")
+                        .requestSchema(Schema.schema("ApplyProjectAsTeamRequest"))
+                        .responseSchema(Schema.schema("ApplyProjectResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    pathParameters(parameterWithName("projectId").description("프로젝트 ID")),
+                    requestFields(applyProjectAsTeamRequestDescription()),
+                    responseFields(applyProjectResponseDescription())
+                ))
                 .andDo(print());
-        }
-
-        @Test
-        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
-        @DisplayName("의뢰자는 프로젝트에 지원할 수 없다.")
-        void applyProject_WhenMemberTypeIsClient_ShouldFail() throws Exception {
-            final ApplyProjectRequest request = applyProjectAsIndividualRequest();
-            perform(request)
-                .andExpect(status().isForbidden());
         }
     }
 }

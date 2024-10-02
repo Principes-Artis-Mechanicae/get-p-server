@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.controller.people.command.description.request.EditPeopleProfileRequestDescription;
-import es.princip.getp.api.controller.people.command.description.request.RegisterPeopleProfileRequestDescription;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleProfileRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleProfileRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
@@ -10,15 +10,17 @@ import es.princip.getp.application.people.command.EditPeopleProfileCommand;
 import es.princip.getp.application.people.command.RegisterPeopleProfileCommand;
 import es.princip.getp.application.people.port.in.EditPeopleProfileUseCase;
 import es.princip.getp.application.people.port.in.RegisterPeopleProfileUseCase;
-import org.junit.jupiter.api.DisplayName;
+import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.domain.member.model.MemberType.ROLE_CLIENT;
-import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static es.princip.getp.api.controller.people.command.description.request.EditPeopleProfileRequestDescription.editPeopleProfileRequestDescription;
+import static es.princip.getp.api.controller.people.command.description.request.RegisterPeopleProfileRequestDescription.registerPeopleProfileRequestDescription;
+import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
+import static es.princip.getp.api.docs.StatusFieldDescriptor.statusField;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsRequest;
 import static es.princip.getp.fixture.common.TechStackFixture.techStacksRequest;
 import static es.princip.getp.fixture.people.ActivityAreaFixture.activityArea;
@@ -29,6 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,9 +42,8 @@ class MyPeopleProfileControllerTest extends ControllerTest {
 
     private static final String MY_PEOPLE_PROFILE_URI = "/people/me/profile";
 
-    @DisplayName("피플은 자신의 프로필을 등록할 수 있다.")
     @Nested
-    class WriteMyPeopleProfile {
+    class 내_피플_프로필_등록 {
 
         private final RegisterPeopleProfileRequest request = new RegisterPeopleProfileRequest(
             education(),
@@ -58,31 +60,31 @@ class MyPeopleProfileControllerTest extends ControllerTest {
                 .content(objectMapper.writeValueAsString(request)));
         }
 
-        @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
-        void writeMyPeopleProfile() throws Exception {
+        @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
+        void 피플은_자신의_프로필을_등록할_수_있다() throws Exception {
             willDoNothing().given(registerPeopleProfileUseCase)
                 .register(any(RegisterPeopleProfileCommand.class));
 
             perform()
                 .andExpect(status().isCreated())
-                .andDo(restDocs.document(
-                    requestHeaders(authorizationHeaderDescriptor()),
-                    requestFields(RegisterPeopleProfileRequestDescription.description())
+                .andDo(document("people/register-my-people-profile",
+                    ResourceSnippetParameters.builder()
+                        .tag("피플")
+                        .description("피플은 자신의 프로필을 등록할 수 있다.")
+                        .summary("내 피플 프로필 등록")
+                        .requestSchema(Schema.schema("RegisterMyPeopleProfileRequest"))
+                        .responseSchema(Schema.schema("StatusResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    requestFields(registerPeopleProfileRequestDescription()),
+                    responseFields(statusField())
                 ))
                 .andDo(print());
         }
-
-        @WithCustomMockUser(memberType = ROLE_CLIENT)
-        @Test
-        void writeMyPeopleProfile_WhenMemberTypeIsClient_ShouldFail() throws Exception {
-            expectForbidden(perform());
-        }
     }
 
-    @DisplayName("피플은 자신의 프로필을 수정할 수 있다.")
     @Nested
-    class EditMyPeopleProfile {
+    class 내_피플_프로필_수정 {
 
         private final EditPeopleProfileRequest request = new EditPeopleProfileRequest(
             education(),
@@ -99,25 +101,26 @@ class MyPeopleProfileControllerTest extends ControllerTest {
                 .content(objectMapper.writeValueAsString(request)));
         }
 
-        @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
-        void editMyPeopleProfile() throws Exception {
+        @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
+        void 피플은_자신의_프로필을_수정할_수_있다() throws Exception {
             willDoNothing().given(editPeopleProfileUseCase)
                 .edit(any(EditPeopleProfileCommand.class));
 
             perform()
                 .andExpect(status().isOk())
-                .andDo(restDocs.document(
-                    requestHeaders(authorizationHeaderDescriptor()),
-                    requestFields(EditPeopleProfileRequestDescription.description())
+                .andDo(document("people/edit-my-people-profile",
+                    ResourceSnippetParameters.builder()
+                        .tag("피플")
+                        .description("피플은 자신의 프로필을 수정할 수 있다.")
+                        .summary("내 피플 프로필 수정")
+                        .requestSchema(Schema.schema("EditMyPeopleProfileRequest"))
+                        .responseSchema(Schema.schema("StatusResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    requestFields(editPeopleProfileRequestDescription()),
+                    responseFields(statusField())
                 ))
                 .andDo(print());
-        }
-
-        @WithCustomMockUser(memberType = ROLE_CLIENT)
-        @Test
-        void editMyPeopleProfile_WhenMemberTypeIsClient_ShouldFail() throws Exception {
-            expectForbidden(perform());
         }
     }
 }

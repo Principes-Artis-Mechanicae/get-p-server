@@ -10,9 +10,9 @@ import java.util.List;
 public record EditPeopleProfileRequest(
     @NotNull @Valid Education education,
     @NotBlank String activityArea,
-    @NotBlank String introduction,
-    @NotNull List<@NotBlank String> techStacks,
-    @NotNull @Valid List<PortfolioRequest> portfolios,
-    @NotNull List<@NotBlank String> hashtags
+    String introduction,
+    List<@NotBlank String> techStacks,
+    List<@Valid PortfolioRequest> portfolios,
+    List<@NotBlank String> hashtags
 ) {
 }

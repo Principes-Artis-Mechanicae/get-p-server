@@ -60,7 +60,7 @@ public class PeopleQueryController extends ControllerSupport {
      * @return 정렬 기준에 해당되는 피플 정보 목록
      */
     @GetMapping
-    public ResponseEntity<ApiSuccessResult<PageResponse<CardPeopleResponse>>> getCardPeoplePage(
+    public ResponseEntity<ApiSuccessResult<PageResponse<CardPeopleResponse>>> getPeopleList(
         @PageableDefault(sort = "peopleId", direction = Sort.Direction.DESC) final Pageable pageable,
         @ModelAttribute final PeopleSearchFilter filter,
         @AuthenticationPrincipal final PrincipalDetails principalDetails

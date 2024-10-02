@@ -23,7 +23,7 @@ public record RegisterMyClientRequest(
         return new RegisterClientCommand(
             member,
             Nickname.from(nickname()),
-            email() == null ? null : Email.from(email()),
+            email() == null ? member.getEmail() : Email.from(email()),
             PhoneNumber.from(phoneNumber()),
             address
         );

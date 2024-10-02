@@ -3,7 +3,6 @@ package es.princip.getp.api.support;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.princip.getp.api.config.MockDaoBeanFactoryPostProcessor;
 import es.princip.getp.api.config.MockServiceBeanFactoryPostProcessor;
-import es.princip.getp.api.docs.SpringRestDocsConfig;
 import es.princip.getp.api.security.PrincipalDetailsParameterResolver;
 import es.princip.getp.api.security.SecurityConfig;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -32,6 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,7 +41,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Import({
     SecurityConfig.class,
-    SpringRestDocsConfig.class,
     MockDaoBeanFactoryPostProcessor.class,
     MockServiceBeanFactoryPostProcessor.class,
 })
@@ -79,9 +77,6 @@ public abstract class ControllerTest {
     }
 
     @Autowired
-    protected RestDocumentationResultHandler restDocs;
-
-    @Autowired
     protected MockMvc mockMvc;
 
     @Autowired
@@ -90,13 +85,17 @@ public abstract class ControllerTest {
     @BeforeEach
     void setUp(final WebApplicationContext context, final RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .apply(documentationConfiguration(restDocumentation).uris()
+                .apply(documentationConfiguration(restDocumentation)
+                    .operationPreprocessors()
+                    .withRequestDefaults(prettyPrint())
+                    .withResponseDefaults(prettyPrint())
+                    .and()
+                    .uris()
                     .withScheme("https")
                     .withHost("api.principes.xyz")
                     .withPort(443)
                 )
                 .alwaysDo(MockMvcResultHandlers.print())
-                .alwaysDo(restDocs)
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .build();
     }

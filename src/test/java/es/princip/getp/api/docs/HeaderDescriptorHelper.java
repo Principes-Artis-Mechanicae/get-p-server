@@ -6,11 +6,11 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 
 public class HeaderDescriptorHelper {
 
-    public static HeaderDescriptor authorizationHeaderDescriptor() {
+    public static HeaderDescriptor authorizationHeaderDescription() {
         return headerWithName("Authorization").description("Bearer ${ACCESS_TOKEN}");
     }
 
-    public static HeaderDescriptor refreshTokenHeaderDescriptor() {
+    public static HeaderDescriptor refreshTokenHeaderDescription() {
         return headerWithName("Refresh-Token").description("Bearer ${REFRESH_TOKEN}");
     }
 }

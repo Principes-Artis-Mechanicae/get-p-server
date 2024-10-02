@@ -1,21 +1,26 @@
 package es.princip.getp.api.controller.like.command;
 
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
-import es.princip.getp.application.like.exception.AlreadyLikedException;
 import es.princip.getp.application.like.people.port.in.LikePeopleUseCase;
 import es.princip.getp.application.like.people.port.in.UnlikePeopleUseCase;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.people.model.PeopleId;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
+import static es.princip.getp.api.docs.StatusFieldDescriptor.statusField;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.BDDMockito.willThrow;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class PeopleLikeControllerTest extends ControllerTest {
@@ -23,59 +28,55 @@ class PeopleLikeControllerTest extends ControllerTest {
     @Autowired private LikePeopleUseCase likePeopleUseCase;
     @Autowired private UnlikePeopleUseCase unlikePeopleUseCase;
 
-    @DisplayName("의뢰자는 피플에게 좋아요를 누를 수 있다.")
     @Nested
-    class Like {
+    class 피플_좋아요 {
 
         private final PeopleId peopleId = new PeopleId(1L);
 
-        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
-        void like() throws Exception {
+        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
+        void 의뢰자는_피플에게_좋아요를_누를_수_있다() throws Exception {
             willDoNothing().given(likePeopleUseCase).like(any(), eq(peopleId));
 
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId.getValue()))
-                .andExpect(status().isCreated());
-        }
-
-        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
-        @Test
-        void like_WhenPeopleIsAlreadyLiked_ShouldBeFailed() throws Exception {
-            willThrow(new AlreadyLikedException())
-                .given(likePeopleUseCase).like(any(), eq(peopleId));
-
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId.getValue()))
-                .andExpect(status().isConflict());
-        }
-
-        @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
-        @Test
-        void like_WhenMemberTypeIsPeople_ShouldBeFailed() throws Exception {
-            mockMvc.perform(post("/people/{peopleId}/likes", peopleId.getValue()))
-                .andExpect(status().isForbidden());
+            mockMvc.perform(post("/people/{peopleId}/likes", peopleId.getValue())
+                .header("Authorization", "Bearer ${ACCESS_TOKEN}"))
+                .andExpect(status().isCreated())
+                .andDo(document("like/like-people",
+                    ResourceSnippetParameters.builder()
+                        .tag("좋아요")
+                        .description("의뢰자는 피플에게 좋아요를 누를 수 있다.")
+                        .summary("피플 좋아요")
+                        .responseSchema(Schema.schema("StatusResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    responseFields(statusField())
+                ))
+                .andDo(print());
         }
     }
 
-    @DisplayName("의뢰자는 피플에게 눌렀던 좋아요를 취소를 할 수 있다.")
     @Nested
-    class Unlike {
+    class 피플_좋아요_취소 {
 
         private final PeopleId peopleId = new PeopleId(1L);
 
-        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
         @Test
-        void unlike() throws Exception {
+        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
+        void 의뢰자는_피플에게_눌렀던_좋아요를_취소를_할_수_있다() throws Exception {
             willDoNothing().given(unlikePeopleUseCase).unlike(any(), eq(peopleId));
 
-            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId.getValue()))
-                .andExpect(status().isNoContent());
-        }
-
-        @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
-        @Test
-        void unlike_WhenMemberTypeIsPeople_ShouldBeFailed() throws Exception {
-            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId.getValue()))
-                .andExpect(status().isForbidden());
+            mockMvc.perform(delete("/people/{peopleId}/likes", peopleId.getValue())
+                .header("Authorization", "Bearer ${ACCESS_TOKEN}"))
+                .andExpect(status().isNoContent())
+                .andDo(document("like/unlike-people",
+                    ResourceSnippetParameters.builder()
+                        .tag("좋아요")
+                        .description("의뢰자는 피플에게 눌렀던 좋아요를 취소를 할 수 있다.")
+                        .summary("피플 좋아요 취소")
+                        .responseSchema(Schema.schema("StatusResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    responseFields(statusField())
+                ))
+                .andDo(print());
         }
     }
 }

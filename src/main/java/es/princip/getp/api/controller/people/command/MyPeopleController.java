@@ -10,6 +10,7 @@ import es.princip.getp.application.people.command.EditPeopleCommand;
 import es.princip.getp.application.people.command.RegisterPeopleCommand;
 import es.princip.getp.application.people.port.in.EditPeopleUseCase;
 import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,11 +35,11 @@ public class MyPeopleController {
      */
     @PostMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<RegisterPeopleResponse>> createMyPeople(
+    public ResponseEntity<ApiSuccessResult<RegisterPeopleResponse>> registerMyPeople(
         @RequestBody @Valid final RegisterPeopleRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails) {
-        final MemberId memberId = principalDetails.getMember().getId();
-        final RegisterPeopleCommand command = request.toCommand(memberId);
+        final Member member = principalDetails.getMember();
+        final RegisterPeopleCommand command = request.toCommand(member);
         final Long peopleId = registerPeopleUseCase.register(command).getValue();
         final RegisterPeopleResponse response = new RegisterPeopleResponse(peopleId);
         return ApiResponse.success(HttpStatus.CREATED, response);
@@ -51,7 +52,7 @@ public class MyPeopleController {
      */
     @PutMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<?>> updateMyPeople(
+    public ResponseEntity<ApiSuccessResult<?>> editMyPeople(
             @RequestBody @Valid final EditPeopleRequest request,
             @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final MemberId memberId = principalDetails.getMember().getId();

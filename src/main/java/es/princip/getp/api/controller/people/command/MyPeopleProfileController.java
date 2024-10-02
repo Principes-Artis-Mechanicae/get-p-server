@@ -36,7 +36,7 @@ public class MyPeopleProfileController {
      */
     @PostMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<?>> createMyPeopleProfile(
+    public ResponseEntity<ApiSuccessResult<?>> registerMyPeopleProfile(
         @RequestBody @Valid final RegisterPeopleProfileRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
@@ -54,7 +54,7 @@ public class MyPeopleProfileController {
      */
     @PutMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<?>> updateMyPeopleProfile(
+    public ResponseEntity<ApiSuccessResult<?>> editMyPeopleProfile(
         @RequestBody @Valid final EditPeopleProfileRequest request,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {

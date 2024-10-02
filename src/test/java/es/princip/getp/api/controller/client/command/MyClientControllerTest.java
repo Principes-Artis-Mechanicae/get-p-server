@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.client.command;
 
-import es.princip.getp.api.controller.client.command.description.EditMyClientRequestDescription;
-import es.princip.getp.api.controller.client.command.description.RegisterMyClientRequestDescription;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.client.command.dto.request.EditMyClientRequest;
 import es.princip.getp.api.controller.client.command.dto.request.RegisterMyClientRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
@@ -13,16 +13,16 @@ import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.restdocs.payload.PayloadDocumentation;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
-import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static es.princip.getp.api.controller.client.command.description.EditMyClientRequestDescription.editMyClientRequestDescription;
+import static es.princip.getp.api.controller.client.command.description.RegisterMyClientRequestDescription.registerMyClientRequestDescription;
+import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
+import static es.princip.getp.api.docs.StatusFieldDescriptor.statusField;
 import static es.princip.getp.fixture.client.AddressFixture.address;
 import static es.princip.getp.fixture.common.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
@@ -31,22 +31,20 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class MyClientControllerTest extends ControllerTest {
 
-    @Autowired
-    private RegisterClientUseCase registerClientUseCase;
+    @Autowired private RegisterClientUseCase registerClientUseCase;
 
-    @Autowired
-    private EditClientUseCase editClientUseCase;
+    @Autowired private EditClientUseCase editClientUseCase;
 
     private static final String REQUEST_URI = "/client/me";
 
     @Nested
-    @DisplayName("내 의뢰자 정보 등록")
-    class RegisterMyClient {
+    class 내_의뢰자_정보_등록 {
 
         final RegisterMyClientRequest request = new RegisterMyClientRequest(
             NICKNAME,
@@ -63,31 +61,34 @@ class MyClientControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("의뢰자는 의뢰자 정보를 등록할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
-        void registerMyClient(PrincipalDetails principalDetails) throws Exception {
+        void 의뢰자는_의뢰자_정보를_등록할_수_있다(PrincipalDetails principalDetails) throws Exception {
             final Member member = principalDetails.getMember();
             given(registerClientUseCase.register(eq(request.toCommand(member))))
                 .willReturn(clientId);
 
             perform()
                 .andExpect(status().isCreated())
-                .andDo(
-                    restDocs.document(
-                        requestHeaders(authorizationHeaderDescriptor()),
-                        PayloadDocumentation.requestFields(RegisterMyClientRequestDescription.description()),
-                        responseFields(
-                           getDescriptor("clientId", "등록된 의뢰자 ID")
-                        )
+                .andDo(document("client/register-my-client",
+                    ResourceSnippetParameters.builder()
+                        .tag("의뢰자")
+                        .description("의뢰자는 의뢰자 정보를 등록할 수 있다.")
+                        .summary("내 의뢰자 정보 등록")
+                        .requestSchema(Schema.schema("RegisterMyClientRequest"))
+                        .responseSchema(Schema.schema("RegisterMyClientResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    requestFields(registerMyClientRequestDescription()),
+                    responseFields(
+                        statusField(),
+                        fieldWithPath("data.clientId").description("등록된 의뢰자 ID")
                     )
-                )
+                ))
                 .andDo(print());
         }
     }
 
     @Nested
-    @DisplayName("내 의뢰자 정보 수정")
-    class EditMyClient {
+    class 내_의뢰자_정보_수정 {
 
         final EditMyClientRequest request = new EditMyClientRequest(
             NICKNAME,
@@ -103,20 +104,24 @@ class MyClientControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("의뢰자는 자신의 의뢰자 정보를 수정할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
-        void editMyClient(final PrincipalDetails principalDetails) throws Exception {
+        void 의뢰자는_자신의_의뢰자_정보를_수정할_수_있다(final PrincipalDetails principalDetails) throws Exception {
             final MemberId memberId = principalDetails.getMember().getId();
             willDoNothing().given(editClientUseCase).edit(eq(request.toCommand(memberId)));
 
             perform()
                 .andExpect(status().isOk())
-                .andDo(
-                    restDocs.document(
-                        requestHeaders(authorizationHeaderDescriptor()),
-                        PayloadDocumentation.requestFields(EditMyClientRequestDescription.description())
-                    )
-                )
+                .andDo(document("client/edit-my-client",
+                    ResourceSnippetParameters.builder()
+                        .tag("의뢰자")
+                        .description("의뢰자는 자신의 의뢰자 정보를 수정할 수 있다.")
+                        .summary("내 의뢰자 정보 수정")
+                        .requestSchema(Schema.schema("EditMyClientRequest"))
+                        .responseSchema(Schema.schema("StatusResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    requestFields(editMyClientRequestDescription()),
+                    responseFields(statusField())
+                ))
                 .andDo(print());
         }
     }

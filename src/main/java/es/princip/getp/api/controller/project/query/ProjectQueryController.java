@@ -56,7 +56,7 @@ public class ProjectQueryController {
      */
     //TODO: 비로그인 사용자의 경우 특정 필드 내용에 대한 필터 처리가 필요함
     @GetMapping("/{projectId}")
-    public ResponseEntity<ApiSuccessResult<ProjectDetailResponse>> getProjectByProjectId(
+    public ResponseEntity<ApiSuccessResult<ProjectDetailResponse>> getProject(
         @PathVariable final Long projectId
     ) {
         final ProjectId pid = new ProjectId(projectId);

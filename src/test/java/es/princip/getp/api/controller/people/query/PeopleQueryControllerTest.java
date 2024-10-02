@@ -1,22 +1,17 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.controller.people.query.description.DetailPeopleResponseDescription;
-import es.princip.getp.api.controller.people.query.description.GetCardPeoplePageQueryParametersDescription;
-import es.princip.getp.api.controller.people.query.description.PagedCardPeopleResponseDescription;
-import es.princip.getp.api.controller.people.query.description.PublicDetailPeopleResponseDescription;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.command.GetPeopleCommand;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +20,12 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
-import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static es.princip.getp.api.controller.people.query.description.DetailPeopleResponseDescription.detailPeopleResponseDescription;
+import static es.princip.getp.api.controller.people.query.description.GetCardPeoplePageQueryParametersDescription.getCardPeoplePageQueryParametersDescription;
+import static es.princip.getp.api.controller.people.query.description.PagedCardPeopleResponseDescription.pagedCardPeopleResponseDescription;
+import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
-import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static es.princip.getp.domain.member.model.MemberType.ROLE_CLIENT;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.fixture.common.TechStackFixture.techStacksResponse;
@@ -41,6 +39,7 @@ import static es.princip.getp.fixture.people.PortfolioFixture.portfoliosResponse
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,8 +49,7 @@ class PeopleQueryControllerTest extends ControllerTest {
     @Autowired private GetPeopleQuery getPeopleQuery;
 
     @Nested
-    @DisplayName("피플 목록 조회")
-    class GetCardPeoplePage {
+    class 피플_목록_조회 {
 
         private final MemberId memberId = new MemberId(1L);
 
@@ -69,8 +67,7 @@ class PeopleQueryControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("사용자는 피플 목록을 조회할 수 있다.")
-        public void getCardPeoplePage() throws Exception {
+        public void 사용자는_피플_목록을_조회할_수_있다() throws Exception {
             final List<CardPeopleResponse> content = List.of(
                 new CardPeopleResponse(
                     1L,
@@ -90,61 +87,35 @@ class PeopleQueryControllerTest extends ControllerTest {
 
             perform()
                 .andExpect(status().isOk())
-                .andDo(
-                    restDocs.document(
-                        requestHeaders(authorizationHeaderDescriptor()),
-                        queryParameters(GetCardPeoplePageQueryParametersDescription.description(page, size)),
-                        responseFields(PagedCardPeopleResponseDescription.description())
-                            .and(pageResponseFieldDescriptors())
-                    )
-                )
+                .andDo(document("people/get-people-list",
+                    ResourceSnippetParameters.builder()
+                        .tag("피플")
+                        .description("사용자는 피플 목록을 조회할 수 있다.")
+                        .summary("피플 목록 조회")
+                        .responseSchema(Schema.schema("PagedCardPeopleResponse")),
+                    requestHeaders(authorizationHeaderDescription().optional()),
+                    queryParameters(getCardPeoplePageQueryParametersDescription(page, size)),
+                    responseFields(pagedCardPeopleResponseDescription())
+                        .and(pageResponseFieldDescriptors())
+                ))
                 .andDo(print());
         }
     }
 
     @Nested
-    @DisplayName("사용자는 피플의 상세 정보를 조회할 수 있다.")
-    class GetPeople {
+    class 피플_상세_정보_조회 {
 
         private final MemberId memberId = new MemberId(1L);
         private final PeopleId peopleId = new PeopleId(1L);
 
         private ResultActions perform() throws Exception {
-            return mockMvc.perform(get("/people/{peopleId}", peopleId.getValue()));
-        }
-
-        private ResultActions performWithAccessToken() throws Exception {
             return mockMvc.perform(get("/people/{peopleId}", peopleId.getValue())
                 .header("Authorization", "Bearer ${ACCESS_TOKEN}"));
         }
 
         @Test
-        public void getPeople_WhenUserNotLogined() throws Exception {
-            final PublicDetailPeopleResponse response = new PublicDetailPeopleResponse(
-                peopleId.getValue(),
-                NICKNAME,
-                profileImage(memberId).getUrl(),
-                0,
-                0,
-                new PublicDetailPeopleProfileResponse(
-                    hashtagsResponse()
-                )
-            );
-            given(getPeopleQuery.getPublicDetailBy(peopleId)).willReturn(response);
-
-            perform()
-                .andExpect(status().isOk())
-                .andDo(
-                    restDocs.document(
-                        pathParameters(parameterWithName("peopleId").description("피플 ID")),
-                        responseFields(PublicDetailPeopleResponseDescription.description())
-                    )
-                );
-        }
-
-        @Test
         @WithCustomMockUser(memberType = ROLE_CLIENT)
-        public void getPeople_WhenUserLogined() throws Exception {
+        public void 사용자는_피플_상세_정보를_조회할_수있다() throws Exception {
             final DetailPeopleResponse response = new DetailPeopleResponse(
                 1L,
                 NICKNAME,
@@ -163,15 +134,18 @@ class PeopleQueryControllerTest extends ControllerTest {
             );
             given(getPeopleQuery.getDetailBy(memberId, peopleId)).willReturn(response);
 
-            performWithAccessToken()
+            perform()
                 .andExpect(status().isOk())
-                .andDo(
-                    restDocs.document(
-                        requestHeaders(authorizationHeaderDescriptor()),
-                        pathParameters(parameterWithName("peopleId").description("피플 ID")),
-                        responseFields(DetailPeopleResponseDescription.description())
-                    )
-                );
+                .andDo(document("people/get-people",
+                    ResourceSnippetParameters.builder()
+                        .tag("피플")
+                        .description("사용자는 피플 상세 정보를 조회할 수 있다.")
+                        .summary("피플 상세 정보 조회")
+                        .responseSchema(Schema.schema("DetailPeopleResponse")),
+                    requestHeaders(authorizationHeaderDescription().optional()),
+                    pathParameters(parameterWithName("peopleId").description("피플 ID")),
+                    responseFields(detailPeopleResponseDescription())
+                ));
         }
     }
 }

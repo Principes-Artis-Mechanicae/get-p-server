@@ -12,12 +12,11 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-// 갱신 명령은 기존 필드를 모두 가지고 있어야 한다.
 public record EditMyClientRequest(
     @NotBlank String nickname,
     @NotNull @EmailPattern String email,
     @NotNull @PhoneNumberPattern String phoneNumber,
-    @NotNull @Valid Address address
+    @Valid Address address
 ) {
 
     public EditClientCommand toCommand(final MemberId memberId) {

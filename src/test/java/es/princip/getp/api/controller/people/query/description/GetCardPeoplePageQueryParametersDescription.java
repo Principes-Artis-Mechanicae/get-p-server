@@ -8,7 +8,7 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 
 public class GetCardPeoplePageQueryParametersDescription {
 
-    public static ParameterDescriptor[] description(int page, int pageSize) {
+    public static ParameterDescriptor[] getCardPeoplePageQueryParametersDescription(int page, int pageSize) {
         return new ParameterDescriptor[] {
             parameterWithName("page").description("페이지 번호")
                 .optional()
