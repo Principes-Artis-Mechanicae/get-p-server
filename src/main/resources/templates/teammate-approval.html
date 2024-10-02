@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .background {
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-size: 16px;
+        }
+        h3 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #495057;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        .invite-button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #ffffff !important;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .invite-button:hover {
+            background-color: #0056b3;
+        }
+        .note {
+            color: #dc3545;
+            margin-top: 20px;
+        }
+        .logo {
+            max-width: 100%; /* 로고가 너무 커지지 않도록 설정 */
+            height: auto;    /* 비율을 유지하면서 크기 조절 */
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="container">
+            <img src="cid:logo" alt="로고" class="logo">
+            <h3 th:text="${requester.getNickname()} + '님이 ' + ${project.getTitle()} + ' 프로젝트를 함께 지원하고 싶어해요.'"></h3>
+            <p>프로젝트 지원에 동의하시면, 아래의 팀원 승인 버튼을 클릭해주세요.</p>
+            <a th:href="${approvalLink}" class="invite-button">팀원 승인</a>
+            <p class="note">본 신청은 5일 뒤에 만료됩니다. 본 메일을 타인에게 전달하거나 공유하지 마세요.</p>
+        </div>
+    </div>
+</body>
+</html>

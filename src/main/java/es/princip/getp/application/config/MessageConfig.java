@@ -1,4 +1,4 @@
-package es.princip.getp.api.config;
+package es.princip.getp.application.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -7,11 +7,12 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 @Configuration
 public class MessageConfig {
+
     @Bean
     public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
         messageSource.setDefaultEncoding("UTF-8");
-        return messageSource();
+        return messageSource;
     }
 }

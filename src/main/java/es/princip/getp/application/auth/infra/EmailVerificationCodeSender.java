@@ -5,6 +5,7 @@ import es.princip.getp.application.auth.service.VerificationCodeSender;
 import es.princip.getp.application.mail.command.SendMailCommand;
 import es.princip.getp.application.mail.port.in.SendMailUseCase;
 import es.princip.getp.domain.common.model.Email;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class EmailVerificationCodeSender implements VerificationCodeSender {
         );
         try {
             sendMailUseCase.send(command);
-        } catch (MailException exception) {
+        } catch (MailException | MessagingException exception) {
             throw new FailedVerificationCodeSendingException();
         }
     }    

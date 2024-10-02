@@ -159,8 +159,6 @@ include::{docdir}/project/apply-project-as-individual.adoc[]
 
 === [피플] 프로젝트 지원(팀)
 
-피플은 프로젝트에 팀으로 지원할 수 있습니다.
-
 include::{docdir}/project/apply-project-as-team.adoc[]
 
 == 프로젝트 관리
@@ -170,6 +168,11 @@ include::{docdir}/project/apply-project-as-team.adoc[]
 의뢰자는 프로젝트 지원자에게 미팅을 신청할 수 있습니다.
 
 include::{docdir}/project/schedule-meeting.adoc[]
+
+
+=== [피플] 프로젝트 팀원 승인
+
+include::{docdir}/project/approve-teammate.adoc[]
 
 == 스토리지
 

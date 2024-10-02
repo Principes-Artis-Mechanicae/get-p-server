@@ -37,4 +37,8 @@ public class Teammate extends BaseEntity {
     public void reject() {
         this.status = TeammateStatus.REJECTED;
     }
+
+    public boolean isApproved() {
+        return this.status == TeammateStatus.APPROVED;
+    }
 }
