@@ -46,6 +46,8 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+    templates:
+      logo: classpath:/static/logo.png
 
   verification-code:
     length: ${VERIFICATION_CODE_LENGTH}
@@ -57,6 +59,8 @@ spring:
       expire-time: ${JWT_ACCESS_TOKEN_EXPIRE_TIME}
     refresh-token:
       expire-time: ${JWT_REFRESH_TOKEN_EXPIRE_TIME}
+    teammate-approval-token:
+      expire-time: ${JWT_TEAMMATE_APPROVAL_TOKEN_EXPIRE_TIME}
 
   messages:
     basename: messages/validation, messages/error

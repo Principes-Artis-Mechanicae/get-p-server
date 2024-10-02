@@ -5,7 +5,7 @@
 |{{#tableCellContent}}`+{{name}}+`{{/tableCellContent}}
 |{{#tableCellContent}}{{description}}{{/tableCellContent}}
 |{{#tableCellContent}}{{#optional}}Yes{{/optional}}{{^optional}}No{{/optional}}{{/tableCellContent}}
-|{{#tableCellContent}}{{default}}{{/tableCellContent}}
+|{{#tableCellContent}}{{#default}}{{default}}{{/default}}{{/tableCellContent}}
 |{{#tableCellContent}}{{#permission}}{{permission}}{{/permission}}{{/tableCellContent}}
 {{/parameters}}
 |===
