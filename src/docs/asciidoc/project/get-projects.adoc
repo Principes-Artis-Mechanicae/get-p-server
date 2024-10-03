@@ -1,15 +1,15 @@
 플랫폼에 등록된 프로젝트의 목록을 페이지 별로 조회할 수 있는 기능이에요.
 
 ==== HTTP request
-include::{snippets}/get-projects/get-projects/http-request.adoc[]
+include::{snippets}/project/get-projects/http-request.adoc[]
 
 ==== Request headers
-include::{snippets}/get-projects/get-projects/request-headers.adoc[]
+include::{snippets}/project/get-projects/request-headers.adoc[]
 
 ==== Query parameters
 
 include::../common/query-parameters-description.adoc[]
-include::{snippets}/get-projects/get-projects/query-parameters.adoc[]
+include::{snippets}/project/get-projects/query-parameters.adoc[]
 
 ==== Sort parameters
 
@@ -26,7 +26,7 @@ include::../common/sort-parameters-description.adoc[]
 |===
 
 ==== HTTP response
-include::{snippets}/get-projects/get-projects/http-response.adoc[]
+include::{snippets}/project/get-projects/http-response.adoc[]
 
 ==== Response fields
-include::{snippets}/get-projects/get-projects/response-fields-data.adoc[]
+include::{snippets}/project/get-projects/response-fields.adoc[]

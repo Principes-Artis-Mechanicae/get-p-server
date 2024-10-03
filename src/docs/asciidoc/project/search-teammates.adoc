@@ -1,18 +1,18 @@
 프로젝트 지원 시 함께 지원할 팀원을 검색하는 기능이에요.
 
 ==== HTTP request
-include::{snippets}/search-teammate-controller-test/search-teammates/http-request.adoc[]
+include::{snippets}/project/search-teammates/http-request.adoc[]
 
 ==== Request headers
-include::{snippets}/search-teammate-controller-test/search-teammates//request-headers.adoc[]
+include::{snippets}/project/search-teammates/request-headers.adoc[]
 
 ==== Query parameters
 
 include::../common/query-parameters-description.adoc[]
-include::{snippets}/search-teammate-controller-test/search-teammates//query-parameters.adoc[]
+include::{snippets}/project/search-teammates/query-parameters.adoc[]
 
 ==== HTTP response
-include::{snippets}/search-teammate-controller-test/search-teammates//http-response.adoc[]
+include::{snippets}/project/search-teammates/http-response.adoc[]
 
 ==== Response fields
-include::{snippets}/search-teammate-controller-test/search-teammates//response-fields-data.adoc[]
+include::{snippets}/project/search-teammates/response-fields.adoc[]

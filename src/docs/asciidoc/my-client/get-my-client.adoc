@@ -1,1 +1,0 @@
-operation::/get-my-client/get-my-client[snippets="http-request,request-headers,http-response,response-fields-data"]

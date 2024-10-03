@@ -1,1 +1,0 @@
-operation::/update-my-people/update-my-people[snippets="http-request,request-headers,request-fields,http-response"]
