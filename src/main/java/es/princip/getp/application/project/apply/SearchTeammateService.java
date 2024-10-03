@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class SearchTeammateService implements SearchTeammateQuery {
+class SearchTeammateService implements SearchTeammateQuery {
 
     private final FindTeammatePort findTeammatePort;
     private final SerializeTeammateCursorPort serializeTeammateCursorPort;

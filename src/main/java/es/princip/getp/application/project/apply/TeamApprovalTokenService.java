@@ -18,7 +18,7 @@ import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
-public class TeamApprovalTokenService {
+class TeamApprovalTokenService {
 
     private static final String TOKEN_TYPE = "팀원 승인";
     private static final String APPLICATION_ID_KEY = "applicationId";

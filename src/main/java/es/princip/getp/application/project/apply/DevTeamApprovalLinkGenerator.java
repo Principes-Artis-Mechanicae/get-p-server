@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile("dev")
-public class DevTeamApprovalLinkGenerator implements TeamApprovalLinkGenerator {
+class DevTeamApprovalLinkGenerator implements TeamApprovalLinkGenerator {
 
     private final String contextPath;
     private final TeamApprovalTokenService tokenService;
