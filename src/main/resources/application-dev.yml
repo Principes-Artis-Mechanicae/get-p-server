@@ -84,8 +84,11 @@ logging:
             BasicBinder: TRACE
 
 springdoc:
+  api-docs:
+    enabled: false
   swagger-ui:
     path: ${SWAGGER_PATH}
+    url: /oas/openapi3.yaml
 
 management:
   endpoints:

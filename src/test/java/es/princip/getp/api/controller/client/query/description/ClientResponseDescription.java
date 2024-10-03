@@ -1,26 +1,25 @@
 package es.princip.getp.api.controller.client.query.description;
 
-import es.princip.getp.api.controller.client.command.description.AddressDescription;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.api.docs.StatusFieldDescriptor.statusField;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 public class ClientResponseDescription {
 
-    public static FieldDescriptor[] description() {
-        final List<FieldDescriptor> descriptions = new ArrayList<>(List.of(
-            getDescriptor("clientId", "의뢰자 ID"),
-            getDescriptor("email", "이메일"),
-            getDescriptor("nickname", "닉네임"),
-            getDescriptor("phoneNumber", "전화번호"),
-            getDescriptor("profileImageUri", "프로필 이미지 URI"),
-            getDescriptor("createdAt", "의뢰자 정보 등록 일시"),
-            getDescriptor("updatedAt", "최근 의뢰자 정보 수정 일시")
-        ));
-        descriptions.addAll(List.of(AddressDescription.description()));
-        return descriptions.toArray(new FieldDescriptor[0]);
+    public static FieldDescriptor[] clientResponseDescription() {
+        return new FieldDescriptor[]{
+            statusField(),
+            fieldWithPath("data.clientId").description("의뢰자 ID"),
+            fieldWithPath("data.email").description("이메일"),
+            fieldWithPath("data.nickname").description("닉네임"),
+            fieldWithPath("data.phoneNumber").description("전화번호"),
+            fieldWithPath("data.profileImageUri").description("프로필 이미지 URI"),
+            fieldWithPath("data.createdAt").description("의뢰자 정보 등록 일시"),
+            fieldWithPath("data.updatedAt").description("최근 의뢰자 정보 수정 일시"),
+            fieldWithPath("data.address.zipcode").description("우편번호"),
+            fieldWithPath("data.address.street").description("도로명 주소"),
+            fieldWithPath("data.address.detail").description("상세 주소")
+        };
     }
 }

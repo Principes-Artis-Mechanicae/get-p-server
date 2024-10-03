@@ -2,21 +2,23 @@ package es.princip.getp.api.controller.people.query.description;
 
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.api.docs.StatusFieldDescriptor.statusField;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 
 public class DetailPeopleProfileResponseDescription {
 
-    public static FieldDescriptor[] description() {
+    public static FieldDescriptor[] detailPeopleProfileResponseDescription() {
         return new FieldDescriptor[] {
-            getDescriptor("education.school", "학력"),
-            getDescriptor("education.major", "전공"),
-            getDescriptor("activityArea", "활동 지역"),
-            getDescriptor("introduction", "소개"),
-            getDescriptor("techStacks[]", "기술 스택"),
-            getDescriptor("portfolios[].description", "포트폴리오 설명"),
-            getDescriptor("portfolios[].url", "포트폴리오 URL"),
-            getDescriptor("hashtags[]", "해시태그")
+            statusField(),
+            fieldWithPath("data.education.school").description("학력"),
+            fieldWithPath("data.education.major").description("전공"),
+            fieldWithPath("data.activityArea").description("활동 지역"),
+            fieldWithPath("data.introduction").description("소개"),
+            fieldWithPath("data.techStacks[]").description("기술 스택"),
+            fieldWithPath("data.portfolios[].description").description("포트폴리오 설명"),
+            fieldWithPath("data.portfolios[].url").description("포트폴리오 URL"),
+            fieldWithPath("data.hashtags[]").description("해시태그")
         };
     }
 }

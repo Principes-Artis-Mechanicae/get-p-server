@@ -1,0 +1,1 @@
+operation::/like/like-people[snippets="http-request,request-headers,http-response"]

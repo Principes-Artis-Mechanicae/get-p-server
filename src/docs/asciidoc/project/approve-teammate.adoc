@@ -1,3 +1,3 @@
 피플이 팀원 신청을 승인하는 기능이에요.
 
-operation::/approve-teammate-controller-test/approve-teammate[snippets="http-request,request-headers,query-parameters,http-response"]
+operation::/project/approve-teammate[snippets="http-request,request-headers,query-parameters,http-response"]

@@ -1,8 +1,7 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.project.query.description.GetProjectsQueryParametersDescription;
-import es.princip.getp.api.controller.project.query.description.ProjectCardResponseDescription;
-import es.princip.getp.api.controller.project.query.description.ProjectDetailResponseDescription;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
@@ -16,7 +15,6 @@ import es.princip.getp.domain.project.commission.model.MeetingType;
 import es.princip.getp.domain.project.commission.model.ProjectCategory;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +24,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDate;
 import java.util.List;
 
-import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static es.princip.getp.api.controller.project.query.description.DetailProjectResponseDescription.detailProjectResponseDescription;
+import static es.princip.getp.api.controller.project.query.description.GetProjectsQueryParametersDescription.getProjectsQueryParametersDescription;
+import static es.princip.getp.api.controller.project.query.description.PagedCardProjectResponseDescription.pagedCardProjectResponseDescription;
+import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
-import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
 import static es.princip.getp.fixture.client.AddressFixture.address;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
@@ -36,6 +37,7 @@ import static es.princip.getp.fixture.project.ProjectFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,9 +47,8 @@ class ProjectQueryControllerTest extends ControllerTest {
     @Autowired
     private GetProjectQuery getProjectQuery;
 
-    @DisplayName("프로젝트 목록 조회")
     @Nested
-    class GetProjects {
+    class 프로젝트_목록_조회 {
 
         final int page = 0;
         final int pageSize = 10;
@@ -63,8 +64,7 @@ class ProjectQueryControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("사용자는 프로젝트 목록을 조회할 수 있다.")
-        void getProjects() throws Exception {
+        void 사용자는_프로젝트_목록을_조회할_수_있다() throws Exception {
             final List<ProjectCardResponse> content = List.of(
                 new ProjectCardResponse(
                     1L,
@@ -88,19 +88,23 @@ class ProjectQueryControllerTest extends ControllerTest {
 
             perform()
                 .andExpect(status().isOk())
-                .andDo(restDocs.document(
-                    requestHeaders(authorizationHeaderDescriptor()),
-                    queryParameters(GetProjectsQueryParametersDescription.description(page, pageSize)),
-                    responseFields(ProjectCardResponseDescription.description())
+                .andDo(document("project/get-projects",
+                    ResourceSnippetParameters.builder()
+                        .tag("프로젝트")
+                        .description("사용자는 프로젝트 목록을 조회할 수 있다.")
+                        .summary("프로젝트 목록 조회")
+                        .responseSchema(Schema.schema("PagedCardProjectResponse")),
+                    requestHeaders(authorizationHeaderDescription().optional()),
+                    queryParameters(getProjectsQueryParametersDescription(page, pageSize)),
+                    responseFields(pagedCardProjectResponseDescription())
                         .and(pageResponseFieldDescriptors())
                 ))
                 .andDo(print());
         }
     }
 
-    @DisplayName("프로젝트 상세 조회")
     @Nested
-    class GetProjectByProjectId {
+    class 프로젝트_상세_조회 {
 
         private final ProjectId projectId = new ProjectId(1L);
 
@@ -110,8 +114,7 @@ class ProjectQueryControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("사용자는 프로젝트의 상세 정보를 조회할 수 있다.")
-        void getProjectByProjectId() throws Exception {
+        void 사용자는_프로젝트의_상세_정보를_조회할_수_있다() throws Exception {
             final ProjectDetailResponse response = new ProjectDetailResponse(
                 projectId.getValue(),
                 TITLE,
@@ -148,10 +151,15 @@ class ProjectQueryControllerTest extends ControllerTest {
 
             perform()
                 .andExpect(status().isOk())
-                .andDo(restDocs.document(
-                    requestHeaders(authorizationHeaderDescriptor()),
+                .andDo(document("project/get-project",
+                    ResourceSnippetParameters.builder()
+                        .tag("프로젝트")
+                        .description("사용자는 프로젝트의 상세 정보를 조회할 수 있다.")
+                        .summary("프로젝트 상세 조회")
+                        .responseSchema(Schema.schema("DetailProjectResponse")),
+                    requestHeaders(authorizationHeaderDescription().optional()),
                     pathParameters(parameterWithName("projectId").description("프로젝트 ID")),
-                    responseFields(ProjectDetailResponseDescription.description())
+                    responseFields(detailProjectResponseDescription())
                 ))
                 .andDo(print());
         }

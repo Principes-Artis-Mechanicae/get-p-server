@@ -3,16 +3,18 @@ package es.princip.getp.api.controller.people.command.description.request;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleRequest;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-import static es.princip.getp.api.docs.FieldDescriptorHelper.getDescriptor;
+import static es.princip.getp.api.docs.ConstraintDescriptor.fieldWithConstraint;
 
 public class RegisterPeopleRequestDescription {
 
-    public static FieldDescriptor[] description() {
+    public static FieldDescriptor[] registerPeopleRequestDescription() {
         final Class<?> clazz = RegisterPeopleRequest.class;
         return new FieldDescriptor[] {
-            getDescriptor("nickname", "닉네임", clazz),
-            getDescriptor("email", "이메일(기본값은 회원 가입 시 기입한 이메일)", clazz),
-            getDescriptor("phoneNumber", "전화번호", clazz),
+            fieldWithConstraint("nickname", clazz).description("닉네임"),
+            fieldWithConstraint("email", clazz)
+                .optional()
+                .description("이메일. 미입력 시 회원 정보의 이메일로 등록됩니다."),
+            fieldWithConstraint("phoneNumber", clazz).description("전화번호")
         };
     }
 }

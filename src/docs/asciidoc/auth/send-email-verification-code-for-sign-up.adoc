@@ -1,1 +1,3 @@
-operation::send-email-verification-code-for-sign-up/send-email-verification-code-for-sign-up[snippets="http-request,http-response"]
+사용자는 회원 가입 시 이메일을 인증해야 합니다.
+
+operation::/auth/send-email-verification-code-for-signup[snippets="http-request,http-response"]

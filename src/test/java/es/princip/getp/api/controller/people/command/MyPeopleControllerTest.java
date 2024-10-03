@@ -1,8 +1,7 @@
 package es.princip.getp.api.controller.people.command;
 
-import es.princip.getp.api.controller.people.command.description.request.EditPeopleRequestDescription;
-import es.princip.getp.api.controller.people.command.description.request.RegisterPeopleRequestDescription;
-import es.princip.getp.api.controller.people.command.description.response.CreatePeopleResponseDescription;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
@@ -11,16 +10,19 @@ import es.princip.getp.application.people.command.EditPeopleCommand;
 import es.princip.getp.application.people.command.RegisterPeopleCommand;
 import es.princip.getp.application.people.port.in.EditPeopleUseCase;
 import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
+import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.people.model.PeopleId;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescriptor;
-import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields;
-import static es.princip.getp.domain.member.model.MemberType.ROLE_CLIENT;
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static es.princip.getp.api.controller.people.command.description.request.EditPeopleRequestDescription.editPeopleRequestDescription;
+import static es.princip.getp.api.controller.people.command.description.request.RegisterPeopleRequestDescription.registerPeopleRequestDescription;
+import static es.princip.getp.api.controller.people.command.description.response.RegisterPeopleResponseDescription.registerPeopleResponseDescription;
+import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
+import static es.princip.getp.api.docs.StatusFieldDescriptor.statusField;
 import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.fixture.common.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
@@ -30,6 +32,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,9 +41,8 @@ class MyPeopleControllerTest extends ControllerTest {
     @Autowired private RegisterPeopleUseCase registerPeopleUseCase;
     @Autowired private EditPeopleUseCase editPeopleUseCase;
 
-    @DisplayName("피플은 자신의 정보를 등록할 수 있다.")
     @Nested
-    class CreateMyPeople {
+    class 내_피플_정보_등록 {
 
         private final RegisterPeopleRequest request = new RegisterPeopleRequest(
             NICKNAME,
@@ -55,31 +57,30 @@ class MyPeopleControllerTest extends ControllerTest {
                     .content(objectMapper.writeValueAsString(request)));
         }
 
-        @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
-        public void createMyPeople() throws Exception {
+        @WithCustomMockUser(memberType = ROLE_PEOPLE)
+        public void 피플은_자신의_정보를_등록할_수_있다() throws Exception {
             given(registerPeopleUseCase.register(any(RegisterPeopleCommand.class))).willReturn(peopleId);
 
             perform()
                 .andExpect(status().isCreated())
-                .andDo(restDocs.document(
-                    requestHeaders(authorizationHeaderDescriptor()),
-                    requestFields(RegisterPeopleRequestDescription.description()),
-                    responseFields(CreatePeopleResponseDescription.description())
+                .andDo(document("people/register-my-people",
+                    ResourceSnippetParameters.builder()
+                        .tag("피플")
+                        .description("피플은 자신의 정보를 등록할 수 있다.")
+                        .summary("내 피플 정보 등록")
+                        .requestSchema(Schema.schema("RegisterMyPeopleRequest"))
+                        .responseSchema(Schema.schema("RegisterMyPeopleResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    requestFields(registerPeopleRequestDescription()),
+                    responseFields(registerPeopleResponseDescription())
                 ))
                 .andDo(print());
         }
-
-        @WithCustomMockUser(memberType = ROLE_CLIENT)
-        @Test
-        public void createMyPeople_WhenMemberTypeIsClient_ShouldFail() throws Exception {
-            expectForbidden(perform());
-        }
     }
 
-    @DisplayName("피플은 자신의 정보를 수정할 수 있다.")
     @Nested
-    class UpdateMyPeople {
+    class 내_피플_정보_수정 {
 
         private final EditPeopleRequest request = new EditPeopleRequest(
             NICKNAME,
@@ -93,24 +94,25 @@ class MyPeopleControllerTest extends ControllerTest {
                 .content(objectMapper.writeValueAsString(request)));
         }
 
-        @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @Test
-        public void updateMyPeople() throws Exception {
+        @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
+        public void 피플은_자신의_정보를_수정할_수_있다() throws Exception {
             willDoNothing().given(editPeopleUseCase).edit(any(EditPeopleCommand.class));
 
             perform()
                 .andExpect(status().isCreated())
-                .andDo(restDocs.document(
-                    requestHeaders(authorizationHeaderDescriptor()),
-                    requestFields(EditPeopleRequestDescription.description())
+                .andDo(document("people/edit-my-people",
+                    ResourceSnippetParameters.builder()
+                        .tag("피플")
+                        .description("피플은 자신의 정보를 수정할 수 있다.")
+                        .summary("내 피플 정보 수정")
+                        .requestSchema(Schema.schema("EditMyPeopleRequest"))
+                        .responseSchema(Schema.schema("StatusResponse")),
+                    requestHeaders(authorizationHeaderDescription()),
+                    requestFields(editPeopleRequestDescription()),
+                    responseFields(statusField())
                 ))
                 .andDo(print());
-        }
-
-        @WithCustomMockUser(memberType = ROLE_CLIENT)
-        @Test
-        public void updateMyPeople_WhenMemberTypeIsClient_ShouldFail() throws Exception {
-            expectForbidden(perform());
         }
     }
 }

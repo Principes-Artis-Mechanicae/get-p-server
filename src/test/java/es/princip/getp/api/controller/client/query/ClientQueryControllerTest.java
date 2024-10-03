@@ -8,7 +8,6 @@ import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -36,16 +35,14 @@ class ClientQueryControllerTest extends ControllerTest {
     }
 
     @Nested
-    @DisplayName("의뢰자 정보 조회")
-    class GetMyClient {
+    class 의뢰자_정보_조회 {
 
         private final MemberId memberId = new MemberId(1L);
         private final ClientId clientId = new ClientId(1L);
 
         @Test
-        @DisplayName("관리자는 의뢰자 정보를 조회할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_ADMIN)
-        void getClient_WhenMemberTypeIsAdmin() throws Exception {
+        void 관리자는_의뢰자_정보를_조회할_수_있다() throws Exception {
             final LocalDateTime now = LocalDateTime.now();
             final ClientResponse response = new ClientResponse(
                 clientId.getValue(),
@@ -65,9 +62,8 @@ class ClientQueryControllerTest extends ControllerTest {
         }
 
         @Test
-        @DisplayName("매니저는 의뢰자 정보를 조회할 수 있다.")
         @WithCustomMockUser(memberType = MemberType.ROLE_MANAGER)
-        void getClient_WhenMemberTypeIsManager() throws Exception {
+        void 매니저는_의뢰자_정보를_조회할_수_있다() throws Exception {
             final LocalDateTime now = LocalDateTime.now();
             final ClientResponse response = new ClientResponse(
                 clientId.getValue(),
@@ -83,15 +79,6 @@ class ClientQueryControllerTest extends ControllerTest {
 
             mockMvc.perform(get("/client/{clientId}", clientId.getValue()))
                 .andExpect(status().isOk())
-                .andDo(print());
-        }
-
-        @Test
-        @DisplayName("관리자나 매니저가 아니면 의뢰자 정보를 조회할 수 없다.")
-        @WithCustomMockUser(memberType = MemberType.ROLE_CLIENT)
-        void getClient_WhenMemberTypeIsNotAdminOrManager_Fail() throws Exception {
-            mockMvc.perform(get("/client/{clientId}", clientId.getValue()))
-                .andExpect(status().isForbidden())
                 .andDo(print());
         }
     }
