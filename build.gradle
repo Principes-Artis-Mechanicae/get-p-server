@@ -1,3 +1,6 @@
+import org.yaml.snakeyaml.DumperOptions
+import org.yaml.snakeyaml.Yaml
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.4'
@@ -145,8 +148,41 @@ openapi3 {
     format = 'yaml'
 }
 
-tasks.register('copyOas', Copy) {
+tasks.register('addSecurityConfig') {
     dependsOn('openapi3')
+    doFirst {
+        def path = "${openapi3.outputDirectory}/openapi3.yaml"
+        def yaml = new Yaml()
+        def file = new File(path)
+        def data = yaml.load(new InputStreamReader(new FileInputStream(new File(path)), 'UTF-8'))
+
+        def components = data?.components ?: [:]
+        def JWT = [
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT'
+        ]
+        def security = [[JWT: []]]
+        def securitySchemas = [JWT: JWT]
+
+        components.securitySchemes = securitySchemas
+        data.security = security
+
+        def options = new DumperOptions().with {
+            defaultFlowStyle = DumperOptions.FlowStyle.BLOCK
+            prettyFlow = true
+            indent = 2
+            it
+        }
+        def converted = new Yaml(options)
+        def writer = new OutputStreamWriter(new FileOutputStream(file), 'UTF-8')
+
+        converted.dump(data, writer)
+    }
+}
+
+tasks.register('copyOas', Copy) {
+    dependsOn('addSecurityConfig')
     doFirst {
         delete file('src/main/resources/static/oas')
     }
