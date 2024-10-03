@@ -39,17 +39,19 @@ class ApplyProjectService implements ApplyProjectUseCase {
     private final IndividualProjectApplier individualApplier;
     private final TeamProjectApplier teamApplier;
 
+    private final TeamApprovalRequestSender teamApprovalRequestSender;
+    private final TeamApprovalLinkGenerator teamApprovalLinkGenerator;
+
     @Override
     @Transactional
     public ProjectApplicationId apply(final ApplyProjectCommand command) {
         final People applicant = loadPeoplePort.loadBy(command.getMember().getId());
         final Project project = loadProjectPort.loadBy(command.getProjectId());
         validateApplicantAlreadyApplied(applicant, project);
-        final ProjectApplication application = applyInternal(applicant, project, command);
-        return saveApplicationPort.save(application);
+        return applyInternal(applicant, project, command);
     }
 
-    private ProjectApplication applyInternal(
+    private ProjectApplicationId applyInternal(
         final People applicant,
         final Project project,
         final ApplyProjectCommand command
@@ -59,9 +61,18 @@ class ApplyProjectService implements ApplyProjectUseCase {
             final Member applicantMember = teamCommand.getMember();
             final Set<People> teammates = loadPeoplePort.loadBy(teamCommand.getTeammates());
             teammates.forEach(teammate -> validateApplicantAlreadyApplied(teammate, project));
-            return teamApplier.apply(applicantMember, applicant, project, data, teammates);
+            final ProjectApplication application = teamApplier.apply(applicant, project, data, teammates);
+            final ProjectApplicationId applicationId = saveApplicationPort.save(application);
+            teammates.forEach(teammate -> teamApprovalRequestSender.send(
+                applicantMember,
+                teammate,
+                project,
+                teamApprovalLinkGenerator.generate(applicationId, teammate.getId())
+            ));
+            return applicationId;
         }
-        return individualApplier.apply(applicant, project, data);
+        final ProjectApplication application = individualApplier.apply(applicant, project, data);
+        return saveApplicationPort.save(application);
     }
 
     private void validateApplicantAlreadyApplied(final People applicant, final Project project) {

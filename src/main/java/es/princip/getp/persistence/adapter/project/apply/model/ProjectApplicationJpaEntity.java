@@ -5,16 +5,15 @@ import es.princip.getp.persistence.adapter.BaseTimeJpaEntity;
 import es.princip.getp.persistence.adapter.common.DurationJpaVO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Entity
-@AllArgsConstructor
 @Table(name = "project_application")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -57,4 +56,26 @@ public abstract class ProjectApplicationJpaEntity extends BaseTimeJpaEntity {
         )
     )
     private List<String> attachmentFiles = new ArrayList<>();
+
+    protected ProjectApplicationJpaEntity(
+        final Long id,
+        final Long applicantId,
+        final Long projectId,
+        final DurationJpaVO expectedDuration,
+        final ProjectApplicationStatus status,
+        final String description,
+        final List<String> attachmentFiles,
+        final LocalDateTime createdAt,
+        final LocalDateTime updatedAt
+    ) {
+        this.id = id;
+        this.applicantId = applicantId;
+        this.projectId = projectId;
+        this.expectedDuration = expectedDuration;
+        this.status = status;
+        this.description = description;
+        this.attachmentFiles = attachmentFiles;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }

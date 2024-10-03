@@ -68,5 +68,7 @@ abstract class ProjectApplicationPersistenceMapper {
     @Mapping(target = "id", source = "teammate.id.value")
     @Mapping(target = "peopleId", source = "teammate.peopleId.value")
     @Mapping(target = "status", source = "teammate.status")
+    @Mapping(target = "createdAt", source = "teammate.createdAt")
+    @Mapping(target = "updatedAt", source = "teammate.updatedAt")
     protected abstract TeammateJpaEntity mapToJpa(Teammate teammate, TeamProjectApplicationJpaEntity application);
 }

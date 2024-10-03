@@ -117,9 +117,13 @@ include::{docdir}/project/get-project.adoc[]
 
 include::{docdir}/project/get-projects.adoc[]
 
+== 프로젝트 의뢰
+
 === [의뢰자] 프로젝트 의뢰
 
 include::{docdir}/project/commission-project.adoc[]
+
+== 프로젝트 지원
 
 === [피플] 프로젝트 팀원 검색
 
@@ -132,6 +136,10 @@ include::{docdir}/project/apply-project-as-individual.adoc[]
 === [피플] 프로젝트 지원(팀)
 
 include::{docdir}/project/apply-project-as-team.adoc[]
+
+=== [피플] 프로젝트 팀원 승인
+
+include::{docdir}/project/approve-teammate.adoc[]
 
 == 프로젝트 관리
 
