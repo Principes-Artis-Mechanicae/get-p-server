@@ -41,7 +41,7 @@ class GetApplicantService implements GetApplicantQuery {
         if (!project.isClient(client)) {
             throw new NotMyProjectException();
         }
-        final Slice<ProjectApplicantResponse> response = findApplicantPort.findBy(pageable, projectId);
+        final Slice<ProjectApplicantResponse> response = findApplicantPort.findApplicantsBy(pageable, projectId);
         final String cursor = serializeApplicantCursorPort.serializeCursor(response);
         return SliceResponse.of(response, cursor);
     }

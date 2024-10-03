@@ -4,16 +4,17 @@ import com.querydsl.core.types.Order;
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import es.princip.getp.application.support.Cursor;
+import es.princip.getp.application.support.CursorPageable;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -46,13 +47,31 @@ public abstract class QueryDslSupport {
         Assert.notNull(queryFactory, "QueryFactory must not be null!");
     }
 
-    protected <T> Page<T> applyPagination(
+    protected <T> Page<T> paginate(
         final Pageable pageable,
         final List<T> content,
         final Function<JPAQueryFactory, JPAQuery<Long>> countQuery
     ) {
-        JPAQuery<Long> countResult = countQuery.apply(queryFactory);
+        final JPAQuery<Long> countResult = countQuery.apply(queryFactory);
         return PageableExecutionUtils.getPage(content, pageable, countResult::fetchOne);
+    }
+
+    protected boolean removeIfContentHasNext(final List<?> content, final int size) {
+        if (content.size() > size) {
+            content.remove(size);
+            return true;
+        }
+        return false;
+    }
+
+    protected <T> Slice<T> paginate(
+        final CursorPageable<? extends Cursor> pageable,
+        final List<T> content
+    ) {
+        final List<T> mutable = new ArrayList<>(content);
+        final int size = pageable.getPageSize();
+        boolean hasNext = removeIfContentHasNext(mutable, size);
+        return new SliceImpl<>(mutable, PageRequest.ofSize(size), hasNext);
     }
 
     protected static Order convertTo(final Sort.Order order) {

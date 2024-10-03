@@ -139,7 +139,7 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
         final PeopleSearchFilter filter,
         final MemberId memberId
     ) {
-        return applyPagination(
+        return paginate(
             pageable,
             getCardPeopleContent(pageable, filter, memberId),
             countQuery -> buildQuery(countQuery.select(people.count()).from(people), filter, memberId)

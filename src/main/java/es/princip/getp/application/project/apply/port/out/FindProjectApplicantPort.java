@@ -8,5 +8,5 @@ import org.springframework.data.domain.Slice;
 
 public interface FindProjectApplicantPort {
 
-    Slice<ProjectApplicantResponse> findBy(CursorPageable<? extends Cursor> pageable, ProjectId projectId);
+    Slice<ProjectApplicantResponse> findApplicantsBy(CursorPageable<? extends Cursor> pageable, ProjectId projectId);
 }
