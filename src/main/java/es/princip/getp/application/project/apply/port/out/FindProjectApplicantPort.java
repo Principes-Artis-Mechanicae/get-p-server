@@ -1,11 +1,12 @@
 package es.princip.getp.application.project.apply.port.out;
 
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.project.query.dto.ProjectApplicantResponse;
+import es.princip.getp.application.support.Cursor;
+import es.princip.getp.application.support.CursorPageable;
 import es.princip.getp.domain.project.commission.model.ProjectId;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 public interface FindProjectApplicantPort {
 
-    Page<DetailPeopleResponse> findBy(ProjectId projectId, Pageable pageable);
+    Slice<ProjectApplicantResponse> findBy(CursorPageable<? extends Cursor> pageable, ProjectId projectId);
 }
