@@ -1,13 +1,14 @@
 package es.princip.getp.application.resolver;
 
-import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
+import es.princip.getp.api.controller.common.dto.AddressResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.domain.client.model.Address;
-import es.princip.getp.domain.common.model.AttachmentFile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+
+import static es.princip.getp.application.resolver.MosaicUtil.convertMosaicMessage;
+import static es.princip.getp.application.resolver.MosaicUtil.getLength;
 
 import java.util.List;
 import java.util.Locale;
@@ -18,34 +19,23 @@ public class MessageSourceMosaicResolver implements MosaicResolver {
 
     private final MessageSource messageSource;
 
-    private String convertMosaicMessage(String message, int length) {
-        return message.repeat(Math.max(0, length));
+    private List<String> mosaicAttachmentFilesResponse(final String message, final List<Integer> lengthList) {
+        return lengthList.stream()
+            .map(length -> message.repeat(Math.max(0, length)))
+            .toList();
     }
 
-    private int getLength(String value) {
-        if (value != null) {
-            return value.length();
-        }
-        return 0;
-    }
-
-    private AttachmentFilesResponse mosaicAttachmentFilesResponse(String message, List<Integer> lengthList) {
-        return AttachmentFilesResponse.from(lengthList.stream()
-            .map(length -> AttachmentFile.from(message.repeat(Math.max(0, length))))
-            .toList());
-    }
-
-    private ProjectClientResponse mosaicClientResponse(ProjectClientResponse client, String message) {
+    private ProjectClientResponse mosaicClientResponse(final ProjectClientResponse client, final String message) {
         String mosaicNickname = convertMosaicMessage(message, getLength(client.nickname()));
-        Address mosaicAddress = mosaicAddress(client.address(), message);
+        AddressResponse mosaicAddress = mosaicAddress(client.address(), message);
         return new ProjectClientResponse(null, mosaicNickname, mosaicAddress);
     }
 
-    private Address mosaicAddress(Address address, String message) {
-        return new Address(
-            convertMosaicMessage(message, getLength(address.getZipcode())),
-            convertMosaicMessage(message, getLength(address.getStreet())),
-            convertMosaicMessage(message, getLength(address.getDetail()))
+    private AddressResponse mosaicAddress(final AddressResponse address, final String message) {
+        return new AddressResponse(
+            convertMosaicMessage(message, getLength(address.zipcode())),
+            convertMosaicMessage(message, getLength(address.street())),
+            convertMosaicMessage(message, getLength(address.detail()))
         );
     }
 
@@ -53,11 +43,11 @@ public class MessageSourceMosaicResolver implements MosaicResolver {
     public ProjectDetailResponse resolve(ProjectDetailResponse response) {
         String message = messageSource.getMessage("restricted.access", null, Locale.getDefault());
         String mosaicDescription = convertMosaicMessage(message, getLength(response.getDescription()));
-        List<Integer> fileLengths = response.getAttachmentFiles().getAttachmentFiles()
+        List<Integer> fileLengths = response.getAttachmentFiles()
             .stream()
-            .map(file -> getLength(file.getUrl().getValue()))
+            .map(file -> getLength(file))
             .toList();
-        AttachmentFilesResponse mosaicAttachmentFilesResponse = mosaicAttachmentFilesResponse(message, fileLengths);
+        List<String> mosaicAttachmentFilesResponse = mosaicAttachmentFilesResponse(message, fileLengths);
         ProjectClientResponse mosaicClientResponse = mosaicClientResponse(response.getClient(), message);
         response.mosaic(mosaicDescription, mosaicAttachmentFilesResponse, mosaicClientResponse);
         return response;
