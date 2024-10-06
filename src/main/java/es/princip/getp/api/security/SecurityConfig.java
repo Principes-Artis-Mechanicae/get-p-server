@@ -67,8 +67,9 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
-            "https://h.princip.es",
-            "https://he.princip.es",
+            "https://api.principes.xyz",
+            "https://h.principes.xyz",
+            "https://he.principes.xyz",
             "http://localhost:5173",
             "https://beta-get-p.netlify.app"
         ));
