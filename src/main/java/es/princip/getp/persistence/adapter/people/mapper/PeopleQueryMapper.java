@@ -4,7 +4,6 @@ import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleP
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PortfolioResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
-import es.princip.getp.persistence.adapter.common.mapper.HashtagPersistenceMapper;
 import es.princip.getp.persistence.adapter.common.mapper.TechStackPersistenceMapper;
 import es.princip.getp.persistence.adapter.people.model.PeopleProfileJpaVO;
 import es.princip.getp.persistence.adapter.people.model.PortfolioJpaVO;
@@ -15,19 +14,19 @@ import org.mapstruct.Mapping;
     componentModel = "spring",
     uses = {
         PeoplePersistenceMapper.class,
-        TechStackPersistenceMapper.class,
-        HashtagPersistenceMapper.class
+        TechStackPersistenceMapper.class
     }
 )
 public abstract class PeopleQueryMapper {
 
     protected abstract PortfolioResponse mapToResponse(PortfolioJpaVO portfolio);
 
-    public abstract CardPeopleProfileResponse mapToCardPeopleProfileResponse(PeopleProfileJpaVO profile);
+    public abstract CardPeopleProfileResponse mapToCardResponse(PeopleProfileJpaVO profile);
 
     @Mapping(source = "school", target = "education.school")
     @Mapping(source = "major", target = "education.major")
-    public abstract DetailPeopleProfileResponse mapToDetailPeopleProfileResponse(PeopleProfileJpaVO profile);
+    public abstract DetailPeopleProfileResponse mapToDetailResponse(PeopleProfileJpaVO profile);
 
-    public abstract PublicDetailPeopleProfileResponse mapToPublicPeopleProfileResponse(PeopleProfileJpaVO profile);
+    @Deprecated
+    public abstract PublicDetailPeopleProfileResponse mapToPublicDetailResponse(PeopleProfileJpaVO profile);
 }

@@ -7,15 +7,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import static es.princip.getp.application.resolver.MosaicUtil.convertMosaicMessage;
-import static es.princip.getp.application.resolver.MosaicUtil.getLength;
-
 import java.util.List;
 import java.util.Locale;
 
+import static es.princip.getp.application.resolver.MosaicUtil.convertMosaicMessage;
+import static es.princip.getp.application.resolver.MosaicUtil.getLength;
+
 @Service
 @RequiredArgsConstructor
-public class MessageSourceMosaicResolver implements MosaicResolver {
+class MessageSourceMosaicResolver implements MosaicResolver {
 
     private final MessageSource messageSource;
 
@@ -26,8 +26,8 @@ public class MessageSourceMosaicResolver implements MosaicResolver {
     }
 
     private ProjectClientResponse mosaicClientResponse(final ProjectClientResponse client, final String message) {
-        String mosaicNickname = convertMosaicMessage(message, getLength(client.nickname()));
-        AddressResponse mosaicAddress = mosaicAddress(client.address(), message);
+        final String mosaicNickname = convertMosaicMessage(message, getLength(client.nickname()));
+        final AddressResponse mosaicAddress = mosaicAddress(client.address(), message);
         return new ProjectClientResponse(null, mosaicNickname, mosaicAddress);
     }
 
@@ -40,15 +40,15 @@ public class MessageSourceMosaicResolver implements MosaicResolver {
     }
 
     @Override
-    public ProjectDetailResponse resolve(ProjectDetailResponse response) {
-        String message = messageSource.getMessage("restricted.access", null, Locale.getDefault());
-        String mosaicDescription = convertMosaicMessage(message, getLength(response.getDescription()));
-        List<Integer> fileLengths = response.getAttachmentFiles()
+    public ProjectDetailResponse resolve(final ProjectDetailResponse response) {
+        final String message = messageSource.getMessage("restricted.access", null, Locale.getDefault());
+        final String mosaicDescription = convertMosaicMessage(message, getLength(response.getDescription()));
+        final List<Integer> fileLengths = response.getAttachmentFiles()
             .stream()
-            .map(file -> getLength(file))
+            .map(MosaicUtil::getLength)
             .toList();
-        List<String> mosaicAttachmentFilesResponse = mosaicAttachmentFilesResponse(message, fileLengths);
-        ProjectClientResponse mosaicClientResponse = mosaicClientResponse(response.getClient(), message);
+        final List<String> mosaicAttachmentFilesResponse = mosaicAttachmentFilesResponse(message, fileLengths);
+        final ProjectClientResponse mosaicClientResponse = mosaicClientResponse(response.getClient(), message);
         response.mosaic(mosaicDescription, mosaicAttachmentFilesResponse, mosaicClientResponse);
         return response;
     }

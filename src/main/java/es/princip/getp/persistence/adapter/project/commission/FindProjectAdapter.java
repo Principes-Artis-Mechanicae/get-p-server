@@ -4,7 +4,6 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
@@ -15,6 +14,7 @@ import es.princip.getp.application.project.apply.port.out.CountProjectApplicatio
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
 import es.princip.getp.application.project.commission.command.ProjectSearchOrder;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
+import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.Project;
@@ -25,10 +25,10 @@ import es.princip.getp.persistence.adapter.like.project.QProjectLikeJpaEntity;
 import es.princip.getp.persistence.adapter.member.QMemberJpaEntity;
 import es.princip.getp.persistence.adapter.people.model.QPeopleJpaEntity;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
+import es.princip.getp.persistence.adapter.project.ProjectQueryMapper;
 import es.princip.getp.persistence.adapter.project.apply.model.QProjectApplicationJpaEntity;
 import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -55,7 +55,8 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
     private final CountProjectLikePort countProjectLikePort;
     private final CountProjectApplicationPort countProjectApplicationPort;
     private final CheckProjectLikePort checkProjectLikePort;
-    private final ProjectPersistenceMapper mapper;
+    private final ProjectPersistenceMapper persistenceMapper;
+    private final ProjectQueryMapper queryMapper;
 
     private BooleanExpression memberIdEq(final MemberId memberId) {
         return Optional.ofNullable(memberId)
@@ -136,7 +137,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
             .limit(pageable.getPageSize())
             .fetch()
             .stream()
-            .map(mapper::mapToDomain)
+            .map(persistenceMapper::mapToDomain)
             .toList();
         final ProjectId[] projectIds = toProjectIds(projects);
         final Map<ProjectId, Long> projectApplicationCounts = countProjectApplicationPort.countBy(projectIds);
@@ -148,29 +149,23 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
         );
     }
 
-    private Project fetchProject(final ProjectId projectId) {
-        return mapper.mapToDomain(Optional.ofNullable(
+    private ProjectJpaEntity fetchProject(final ProjectId projectId) {
+        return Optional.ofNullable(
             queryFactory.selectFrom(project)
                 .where(project.id.eq(projectId.getValue()))
                 .fetchOne()
             )
-            .orElseThrow(NotFoundProjectException::new));
+            .orElseThrow(NotFoundProjectException::new);
     }
 
     @Override
     public ProjectDetailResponse findBy(final Member member, final ProjectId projectId) {
-        final Project result = fetchProject(projectId);
+        final ProjectJpaEntity result = fetchProject(projectId);
         final Long applicantsCount = countProjectApplicationPort.countBy(projectId);
         final Long likesCount = countProjectLikePort.countBy(projectId);
-        final ProjectClientResponse projectClientResponse = clientQuery.findProjectClientBy(result.getClientId());
+        final ProjectClientResponse projectClientResponse = clientQuery.findProjectClientBy(new ClientId(result.getClientId()));
         final Boolean liked = checkProjectLikePort.existsBy(member, projectId);
         
-        return ProjectDetailResponse.of(
-            result,
-            applicantsCount,
-            likesCount,
-            liked,
-            projectClientResponse
-        );
+        return queryMapper.mapToDetailResponse(result, applicantsCount, likesCount, liked, projectClientResponse);
     }
 }

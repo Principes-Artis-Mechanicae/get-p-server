@@ -33,6 +33,7 @@ import static es.princip.getp.api.docs.PayloadDocumentationHelper.responseFields
 import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
 import static es.princip.getp.fixture.project.ProjectFixture.*;
+import static es.princip.getp.fixture.project.ProjectQueryResponseFixture.projectDetailResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -117,7 +118,7 @@ class ProjectQueryControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = ROLE_PEOPLE)
         @DisplayName("사용자는 프로젝트의 상세 정보를 조회할 수 있다.")
         void getProjectByProjectId() throws Exception {
-            final ProjectDetailResponse response = ProjectQueryResponseFixture.projectDetailResponse(projectId);
+            final ProjectDetailResponse response = projectDetailResponse(projectId);
             
             given(member.getId()).willReturn(memberId);
             given(getProjectQuery.getDetailBy(any(Member.class), eq(projectId))).willReturn(response);
