@@ -6,14 +6,12 @@ import es.princip.getp.application.project.commission.command.GetProjectCommand;
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
-import es.princip.getp.application.resolver.MosaicResolver;
 import es.princip.getp.application.support.ApplicationSupport;
+import es.princip.getp.application.support.MosaicFactory;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
-
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -29,8 +27,7 @@ import java.util.Optional;
 public class GetProjectService extends ApplicationSupport implements GetProjectQuery {
 
     private final FindProjectPort findProjectPort;
-
-    private final MosaicResolver mosaicResolver;
+    private final MosaicFactory mosaicFactory;
     
     private boolean doesFilterRequireLogin(final ProjectSearchFilter filter) {
         return (filter.isApplied() || filter.isLiked() || filter.isCommissioned());
@@ -71,9 +68,9 @@ public class GetProjectService extends ApplicationSupport implements GetProjectQ
 
     @Override
     public ProjectDetailResponse getDetailBy(final Member member, final ProjectId projectId) {
-        ProjectDetailResponse response = findProjectPort.findBy(member, projectId);
+        final ProjectDetailResponse response = findProjectPort.findBy(member, projectId);
         if (isNotLogined(member)) {
-            return mosaicResolver.resolve(response);
+            return mosaicFactory.mosaic(response);
         }
         return response;
     }
