@@ -1,15 +1,18 @@
 package es.princip.getp.api.controller.people.query.dto.peopleProfile;
 
-import es.princip.getp.api.controller.common.dto.HashtagsResponse;
+import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.people.model.PeopleProfile;
 
-public record PublicDetailPeopleProfileResponse(
-    HashtagsResponse hashtags
-) {
+import java.util.List;
 
+public record PublicDetailPeopleProfileResponse(
+    List<String> hashtags
+) {
     public static PublicDetailPeopleProfileResponse from(final PeopleProfile profile) {
         return new PublicDetailPeopleProfileResponse(
-            HashtagsResponse.from(profile.getHashtags())
+            profile.getHashtags().stream()
+                .map(Hashtag::getValue)
+                .toList()
         );
     }
 }

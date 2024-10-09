@@ -5,6 +5,7 @@ import es.princip.getp.application.like.project.port.out.DeleteProjectLikePort;
 import es.princip.getp.application.like.project.port.out.LoadProjectLikePort;
 import es.princip.getp.application.like.project.port.out.SaveProjectLikePort;
 import es.princip.getp.domain.like.project.model.ProjectLike;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.persistence.adapter.like.exception.NotFoundLikeException;
@@ -29,9 +30,12 @@ class ProjectLikePersistenceAdapter implements
     }
 
     @Override
-    public boolean existsBy(final MemberId memberId, ProjectId projectId) {
+    public Boolean existsBy(final Member member, ProjectId projectId) {
+        if (member == null || member.isClient()) {
+            return null;
+        }
         return repository.existsByMemberIdAndProjectId(
-            memberId.getValue(),
+            member.getId().getValue(),
             projectId.getValue()
         );
     }
@@ -50,5 +54,13 @@ class ProjectLikePersistenceAdapter implements
             )
             .orElseThrow(NotFoundLikeException::new);
         return mapper.mapToDomain(jpaEntity);
+    }
+
+    @Override
+    public boolean existsBy(MemberId memberId, ProjectId projectId) {
+        return repository.existsByMemberIdAndProjectId(
+            memberId.getValue(),
+            projectId.getValue()
+        );
     }
 }

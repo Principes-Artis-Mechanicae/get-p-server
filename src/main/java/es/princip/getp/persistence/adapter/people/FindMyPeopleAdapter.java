@@ -62,6 +62,6 @@ class FindMyPeopleAdapter extends QueryDslSupport implements FindMyPeoplePort {
             )
             .orElseThrow(NotRegisteredPeopleProfileException::new)
             .getProfile();
-        return mapper.mapToDetailPeopleProfileResponse(profile);
+        return mapper.mapToDetailResponse(profile);
     }
 }

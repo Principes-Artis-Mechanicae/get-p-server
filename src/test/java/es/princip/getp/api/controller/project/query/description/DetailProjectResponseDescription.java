@@ -30,6 +30,7 @@ public class DetailProjectResponseDescription {
             fieldWithPath("data.attachmentFiles[]").description("첨부 파일"),
             fieldWithPath("data.hashtags[]").description("해시태그"),
             fieldWithPath("data.likesCount").description("좋아요 수"),
+            fieldWithPath("data.liked").description("좋아요 여부"),
             fieldWithPath("data.client.clientId").description("의뢰자 ID"),
             fieldWithPath("data.client.nickname").description("의뢰자 닉네임"),
             fieldWithPath("data.client.address.zipcode").description("의뢰자 우편번호"),

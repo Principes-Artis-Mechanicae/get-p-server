@@ -122,7 +122,7 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
                 memberAndPeople.get(peopleId).get(member.profileImage),
                 0,
                 likesCounts.get(new PeopleId(peopleId)),
-                mapper.mapToCardPeopleProfileResponse(people.getProfile())
+                mapper.mapToCardResponse(people.getProfile())
             );
         }).toList();
     }
@@ -168,7 +168,7 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
             0,
             countPeopleLikePort.countBy(peopleId),
             checkPeopleLikePort.existsBy(memberId, peopleId),
-            mapper.mapToDetailPeopleProfileResponse(profile)
+            mapper.mapToDetailResponse(profile)
         );
     }
 
@@ -193,7 +193,7 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
             memberAndPeople.get(member.profileImage),
             0,
             countPeopleLikePort.countBy(peopleId),
-            mapper.mapToPublicPeopleProfileResponse(profile)
+            mapper.mapToPublicDetailResponse(profile)
         );
     }
 }

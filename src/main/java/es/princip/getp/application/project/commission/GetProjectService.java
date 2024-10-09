@@ -6,6 +6,8 @@ import es.princip.getp.application.project.commission.command.GetProjectCommand;
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
+import es.princip.getp.application.support.ApplicationSupport;
+import es.princip.getp.application.support.MosaicFactory;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
@@ -22,10 +24,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class GetProjectService implements GetProjectQuery {
+public class GetProjectService extends ApplicationSupport implements GetProjectQuery {
 
     private final FindProjectPort findProjectPort;
-
+    private final MosaicFactory mosaicFactory;
+    
     private boolean doesFilterRequireLogin(final ProjectSearchFilter filter) {
         return (filter.isApplied() || filter.isLiked() || filter.isCommissioned());
     }
@@ -64,7 +67,11 @@ public class GetProjectService implements GetProjectQuery {
     }
 
     @Override
-    public ProjectDetailResponse getDetailBy(final ProjectId projectId) {
-        return findProjectPort.findBy(projectId);
+    public ProjectDetailResponse getDetailBy(final Member member, final ProjectId projectId) {
+        final ProjectDetailResponse response = findProjectPort.findBy(member, projectId);
+        if (isNotLogined(member)) {
+            return mosaicFactory.mosaic(response);
+        }
+        return response;
     }
 }

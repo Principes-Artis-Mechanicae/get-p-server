@@ -3,8 +3,11 @@ package es.princip.getp.persistence.adapter.project.commission;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectId;
+import es.princip.getp.fixture.member.MemberFixture;
 import es.princip.getp.persistence.adapter.client.ClientDataLoader;
 import es.princip.getp.persistence.adapter.member.MemberDataLoader;
 import es.princip.getp.persistence.adapter.people.PeopleDataLoader;
@@ -25,6 +28,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 @Slf4j
 class FindProjectAdapterTest extends PersistenceAdapterTest {
@@ -102,7 +107,12 @@ class FindProjectAdapterTest extends PersistenceAdapterTest {
 
     @Test
     void 프로젝트_상세_정보를_조회한다() {
-        final ProjectDetailResponse response = adapter.findBy(new ProjectId(1L));
+        final MemberId memberId = new MemberId(1L);
+        final Member member = spy(MemberFixture.member(MemberType.ROLE_PEOPLE));
+        final ProjectId projectId = new ProjectId(1L);
+        
+        when(member.getId()).thenReturn(memberId);
+        final ProjectDetailResponse response = adapter.findBy(member, projectId);
 
         assertThat(response).isNotNull();
     }

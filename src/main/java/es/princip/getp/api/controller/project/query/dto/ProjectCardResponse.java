@@ -1,9 +1,11 @@
 package es.princip.getp.api.controller.project.query.dto;
 
-import es.princip.getp.api.controller.common.dto.HashtagsResponse;
 import es.princip.getp.domain.common.model.Duration;
+import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
+
+import java.util.List;
 
 public record ProjectCardResponse(
     Long projectId,
@@ -13,11 +15,10 @@ public record ProjectCardResponse(
     Long applicantsCount,
     Long estimatedDays,
     Duration applicationDuration,
-    HashtagsResponse hashtags,
+    List<String> hashtags,
     String description,
     ProjectStatus status
 ) {
-
     public static ProjectCardResponse of(final Project project, final Long applicantsCount) {
         return new ProjectCardResponse(
             project.getId().getValue(),
@@ -27,7 +28,9 @@ public record ProjectCardResponse(
             applicantsCount,
             project.getEstimatedDuration().days(),
             project.getApplicationDuration(),
-            HashtagsResponse.from(project.getHashtags()),
+            project.getHashtags().stream()
+                .map(Hashtag::getValue)
+                .toList(),
             project.getDescription(),
             project.getStatus()
         );

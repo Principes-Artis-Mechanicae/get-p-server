@@ -1,10 +1,13 @@
 package es.princip.getp.api.controller.project.query.dto;
 
-import es.princip.getp.domain.client.model.Address;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import es.princip.getp.api.controller.common.dto.AddressResponse;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record ProjectClientResponse(
     Long clientId,
     String nickname,
-    Address address
+    AddressResponse address
 ) {
 }

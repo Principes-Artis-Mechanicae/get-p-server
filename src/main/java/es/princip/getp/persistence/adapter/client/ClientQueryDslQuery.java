@@ -94,7 +94,7 @@ class ClientQueryDslQuery extends QueryDslSupport implements ClientQuery {
         return new ProjectClientResponse(
             result.get(client.id),
             result.get(member.nickname),
-            mapper.mapToDomain(result.get(client.address))
+            mapper.mapToResponse(result.get(client.address))
         );
     }
 }

@@ -26,7 +26,6 @@ class ProjectTest {
     @Nested
     class 지원이_가능한지_확인한다 {
 
-        private final LocalDate now = LocalDate.of(2024, 7, 1);
         private final ClientId clientId = new ClientId(1L);
 
         @ParameterizedTest
