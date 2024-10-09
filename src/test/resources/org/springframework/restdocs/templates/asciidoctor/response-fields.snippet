@@ -1,11 +1,10 @@
 |===
-|Path|Type|Description|Format
+|Path|Type|Enum|Description
 
 {{#fields}}
 |{{#tableCellContent}}`+{{path}}+`{{/tableCellContent}}
 |{{#tableCellContent}}`+{{type}}+`{{/tableCellContent}}
+|{{#tableCellContent}}{{#enumValues}}{{.}} {{/enumValues}}{{/tableCellContent}}
 |{{#tableCellContent}}{{description}}{{/tableCellContent}}
-|{{#tableCellContent}}{{#format}}{{.}}{{/format}}{{/tableCellContent}}
-
 {{/fields}}
 |===

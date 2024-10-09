@@ -1,18 +1,17 @@
 package es.princip.getp.api.controller.project.query.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.project.commission.model.MeetingType;
-
 import es.princip.getp.domain.project.commission.model.ProjectCategory;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import lombok.Getter;
 
 import java.util.List;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+
 @Getter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProjectDetailResponse {
     private final Long projectId;
     private final String title;
@@ -28,7 +27,7 @@ public class ProjectDetailResponse {
     private List<String> attachmentFiles;
     private final List<String> hashtags; 
     private final Long likesCount;
-    private final Boolean liked;
+    @JsonInclude(NON_NULL) private final Boolean liked;
     private ProjectClientResponse client;
 
     public ProjectDetailResponse(

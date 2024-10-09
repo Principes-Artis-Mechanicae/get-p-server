@@ -1,0 +1,1 @@
+operation::/people/register-my-people[snippets="http-request,request-headers,request-fields,http-response"]

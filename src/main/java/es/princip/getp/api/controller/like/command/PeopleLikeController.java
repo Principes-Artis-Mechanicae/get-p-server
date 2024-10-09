@@ -30,7 +30,7 @@ public class PeopleLikeController {
      */
     @PostMapping("/{peopleId}/likes")
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<?>> like(
+    public ResponseEntity<ApiSuccessResult<?>> likePeople(
         @PathVariable final Long peopleId,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {
@@ -48,7 +48,7 @@ public class PeopleLikeController {
      */
     @DeleteMapping("/{peopleId}/likes")
     @PreAuthorize("hasRole('CLIENT') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<?>> unlike(
+    public ResponseEntity<ApiSuccessResult<?>> unlikePeople(
         @PathVariable final Long peopleId,
         @AuthenticationPrincipal final PrincipalDetails principalDetails
     ) {

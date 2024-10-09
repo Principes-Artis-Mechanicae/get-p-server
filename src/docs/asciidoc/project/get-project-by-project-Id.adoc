@@ -1,1 +1,0 @@
-operation::/get-project-by-project-id/get-project_-when-user-people[snippets="http-request,request-headers,path-parameters,http-response,response-fields-data"]

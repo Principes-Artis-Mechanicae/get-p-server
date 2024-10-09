@@ -1,15 +1,15 @@
 플랫폼에 등록된 피플의 목록을 페이지 별로 조회할 수 있는 기능이에요.
 
 ==== HTTP request
-include::{snippets}/get-card-people-page/get-card-people-page/http-request.adoc[]
+include::{snippets}/people/get-people-list/http-request.adoc[]
 
 ==== Request headers
-include::{snippets}/get-card-people-page/get-card-people-page/request-headers.adoc[]
+include::{snippets}/people/get-people-list/request-headers.adoc[]
 
 ==== Query parameters
 
 include::../common/query-parameters-description.adoc[]
-include::{snippets}/get-card-people-page/get-card-people-page/query-parameters.adoc[]
+include::{snippets}/people/get-people-list/query-parameters.adoc[]
 
 ==== Sort parameters
 
@@ -24,7 +24,7 @@ include::../common/sort-parameters-description.adoc[]
 |===
 
 ==== HTTP response
-include::{snippets}/get-card-people-page/get-card-people-page/http-response.adoc[]
+include::{snippets}/people/get-people-list/http-response.adoc[]
 
 ==== Response fields
-include::{snippets}/get-card-people-page/get-card-people-page/response-fields-data.adoc[]
+include::{snippets}/people/get-people-list/response-fields.adoc[]

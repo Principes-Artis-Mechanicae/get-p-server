@@ -7,7 +7,7 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 
 public class SearchTeammateQueryParametersDescription {
 
-    public static ParameterDescriptor[] description(int pageSize) {
+    public static ParameterDescriptor[] searchTeammateQueryParametersDescription(int pageSize) {
         return new ParameterDescriptor[] {
             parameterWithName("size").description("페이지 크기")
                 .optional()
