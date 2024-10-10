@@ -15,7 +15,7 @@ public class PeopleDetailResponse {
     private final long completedProjectsCount;
     private final long likesCount;
     @JsonInclude(NON_NULL) private final Boolean liked;
-    private final PeopleProfileDetailResponse profile;
+    private PeopleProfileDetailResponse profile;
 
     public PeopleDetailResponse(
         final Long peopleId,
@@ -35,7 +35,7 @@ public class PeopleDetailResponse {
         this.profile = profile;
     }
 
-    
-
-    
+    public void mosaic(final PeopleProfileDetailResponse profile) {
+        this.profile = profile;
+    }
 }

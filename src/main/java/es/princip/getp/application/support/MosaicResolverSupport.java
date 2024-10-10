@@ -2,6 +2,7 @@ package es.princip.getp.application.support;
 
 import org.springframework.context.MessageSource;
 
+import java.util.List;
 import java.util.Locale;
 
 public abstract class MosaicResolverSupport {
@@ -32,5 +33,15 @@ public abstract class MosaicResolverSupport {
         }
 
         return sb.toString();
+    }
+
+    protected List<String> mosaicMessage(final List<String> original) {
+        if (original == null) {
+            return null;
+        }
+
+        return original.stream()
+            .map(this::mosaicMessage)
+            .toList();
     }
 }
