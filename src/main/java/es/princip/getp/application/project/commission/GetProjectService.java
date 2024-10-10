@@ -6,7 +6,6 @@ import es.princip.getp.application.project.commission.command.GetProjectCommand;
 import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
-import es.princip.getp.application.support.ApplicationSupport;
 import es.princip.getp.application.support.MosaicFactory;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
@@ -19,12 +18,14 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static es.princip.getp.application.support.ApplicationQueryUtil.isNotLogined;
+
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class GetProjectService extends ApplicationSupport implements GetProjectQuery {
+public class GetProjectService implements GetProjectQuery {
 
     private final FindProjectPort findProjectPort;
     private final MosaicFactory mosaicFactory;

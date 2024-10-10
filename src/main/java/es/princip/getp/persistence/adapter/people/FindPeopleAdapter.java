@@ -5,11 +5,11 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
-import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.application.like.people.port.out.CheckPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
 import es.princip.getp.application.people.command.PeopleSearchFilter;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.adapter.like.people.QPeopleLikeJpaEntity;
@@ -42,7 +42,7 @@ import static java.util.stream.Collectors.toMap;
 class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
 
     private static final QPeopleJpaEntity people = QPeopleJpaEntity.peopleJpaEntity;
-    private static final QMemberJpaEntity member = QMemberJpaEntity.memberJpaEntity;
+    private static final QMemberJpaEntity qMember = QMemberJpaEntity.memberJpaEntity;
     private static final QPeopleLikeJpaEntity like = QPeopleLikeJpaEntity.peopleLikeJpaEntity;
 
     private final CheckPeopleLikePort checkPeopleLikePort;
@@ -55,13 +55,13 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
             .map(PeopleId::getValue)
             .toArray(Long[]::new);
         return queryFactory.select(
-            member.nickname,
-            member.profileImage,
+            qMember.nickname,
+            qMember.profileImage,
             people.id
         )
         .from(people)
-        .join(member)
-        .on(people.memberId.eq(member.id))
+        .join(qMember)
+        .on(people.memberId.eq(qMember.id))
         .where(people.id.in(ids)).fetch().stream()
         .collect(toMap(tuple -> tuple.get(people.id), Function.identity()));
     }
@@ -69,12 +69,12 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
     private Optional<Tuple> findMemberAndPeopleBy(final PeopleId peopleId) {
         return Optional.ofNullable(
             queryFactory.select(
-                member.nickname,
-                member.profileImage,
+                qMember.nickname,
+                qMember.profileImage,
                 people.id
             )
             .from(people)
-            .join(member).on(people.memberId.eq(member.id))
+            .join(qMember).on(people.memberId.eq(qMember.id))
             .where(people.id.eq(peopleId.getValue()))
             .fetchOne()
         );
@@ -87,12 +87,12 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
     ) {
         if (filter.isLiked()) {
             selectFrom.join(like).on(people.id.eq(like.peopleId))
-                .join(member).on(like.memberId.eq(member.id))
+                .join(qMember).on(like.memberId.eq(qMember.id))
                 .where(memberIdEq(memberId));
         }
         if (!StringUtils.isAllBlank(filter.getKeyword())) {
-            selectFrom.join(member).on(people.memberId.eq(member.id))
-                .where(member.nickname.startsWith(filter.getKeyword()));
+            selectFrom.join(qMember).on(people.memberId.eq(qMember.id))
+                .where(qMember.nickname.startsWith(filter.getKeyword()));
         }
         selectFrom.where(people.profile.isNotNull());
         return selectFrom;
@@ -118,8 +118,8 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
             final Long peopleId = people.getId();
             return new CardPeopleResponse(
                 peopleId,
-                memberAndPeople.get(peopleId).get(member.nickname),
-                memberAndPeople.get(peopleId).get(member.profileImage),
+                memberAndPeople.get(peopleId).get(qMember.nickname),
+                memberAndPeople.get(peopleId).get(qMember.profileImage),
                 0,
                 likesCounts.get(new PeopleId(peopleId)),
                 mapper.mapToCardResponse(people.getProfile())
@@ -146,54 +146,35 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
         );
     }
 
-    @Override
-    public PeopleDetailResponse findDetailBy(final MemberId memberId, final PeopleId peopleId) {
-        final PeopleProfileJpaVO profile = Optional.ofNullable(
-                queryFactory.select(people)
-                    .from(people)
-                    .where(people.id.eq(peopleId.getValue())
-                        .and(people.profile.isNotNull()))
-                    .fetchOne()
-            )
-            .orElseThrow(NotFoundPeopleException::new)
-            .getProfile();
-
-        final Tuple memberAndPeople = findMemberAndPeopleBy(peopleId)
-            .orElseThrow(NotFoundPeopleException::new);
-
-        return new PeopleDetailResponse(
-            peopleId.getValue(),
-            memberAndPeople.get(member.nickname),
-            memberAndPeople.get(member.profileImage),
-            0,
-            countPeopleLikePort.countBy(peopleId),
-            checkPeopleLikePort.existsBy(memberId, peopleId),
-            mapper.mapToDetailResponse(profile)
-        );
+    private PeopleProfileJpaVO fetchPeopleProfile(final PeopleId peopleId) {
+        return Optional.ofNullable(
+            queryFactory.select(people)
+                .from(people)
+                .where(people.id.eq(peopleId.getValue())
+                    .and(people.profile.isNotNull()))
+                .fetchOne()
+        )
+        .orElseThrow(NotFoundPeopleException::new)
+        .getProfile();
     }
 
     @Override
-    public PublicDetailPeopleResponse findPublicDetailBy(final PeopleId peopleId) {
-        final PeopleProfileJpaVO profile = Optional.ofNullable(
-                queryFactory.select(people)
-                    .from(people)
-                    .where(people.id.eq(peopleId.getValue())
-                        .and(people.profile.isNotNull()))
-                    .fetchOne()
-            )
-            .orElseThrow(NotFoundPeopleException::new)
-            .getProfile();
-
+    public PeopleDetailResponse findDetailBy(final Member member, final PeopleId peopleId) {
+        final PeopleProfileJpaVO profile = fetchPeopleProfile(peopleId);
         final Tuple memberAndPeople = findMemberAndPeopleBy(peopleId)
             .orElseThrow(NotFoundPeopleException::new);
-
-        return new PublicDetailPeopleResponse(
+        final long completedProjectsCount = 0;
+        final Long likesCount = countPeopleLikePort.countBy(peopleId);
+        final Boolean liked = checkPeopleLikePort.existsBy(member, peopleId);
+        
+        return new PeopleDetailResponse(
             peopleId.getValue(),
-            memberAndPeople.get(member.nickname),
-            memberAndPeople.get(member.profileImage),
-            0,
-            countPeopleLikePort.countBy(peopleId),
-            mapper.mapToPublicDetailResponse(profile)
+            memberAndPeople.get(qMember.nickname),
+            memberAndPeople.get(qMember.profileImage),
+            completedProjectsCount,
+            likesCount,
+            liked,
+            mapper.mapToDetailResponse(profile)
         );
     }
 }
