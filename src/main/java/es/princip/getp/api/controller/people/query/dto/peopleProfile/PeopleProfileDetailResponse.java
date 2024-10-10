@@ -4,7 +4,7 @@ import es.princip.getp.domain.people.model.Education;
 
 import java.util.List;
 
-public record DetailPeopleProfileResponse(
+public record PeopleProfileDetailResponse(
     String introduction,
     String activityArea,
     Education education,

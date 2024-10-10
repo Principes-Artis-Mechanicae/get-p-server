@@ -4,7 +4,7 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.application.like.people.port.out.CheckPeopleLikePort;
 import es.princip.getp.application.like.people.port.out.CountPeopleLikePort;
@@ -147,7 +147,7 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
     }
 
     @Override
-    public DetailPeopleResponse findDetailBy(final MemberId memberId, final PeopleId peopleId) {
+    public PeopleDetailResponse findDetailBy(final MemberId memberId, final PeopleId peopleId) {
         final PeopleProfileJpaVO profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)
@@ -161,7 +161,7 @@ class FindPeopleAdapter extends QueryDslSupport implements FindPeoplePort {
         final Tuple memberAndPeople = findMemberAndPeopleBy(peopleId)
             .orElseThrow(NotFoundPeopleException::new);
 
-        return new DetailPeopleResponse(
+        return new PeopleDetailResponse(
             peopleId.getValue(),
             memberAndPeople.get(member.nickname),
             memberAndPeople.get(member.profileImage),

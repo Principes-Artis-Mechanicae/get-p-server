@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.people;
 
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.application.people.command.PeopleSearchFilter;
 import es.princip.getp.domain.member.model.MemberId;
@@ -88,7 +88,7 @@ class FindPeopleAdapterTest extends PersistenceAdapterTest {
     void 피플_ID로_피플_상세_정보를_조회한다() {
         final MemberId memberId = new MemberId(1L);
         final PeopleId peopleId = new PeopleId(1L);
-        final DetailPeopleResponse response = adapter.findDetailBy(memberId, peopleId);
+        final PeopleDetailResponse response = adapter.findDetailBy(memberId, peopleId);
 
         assertThat(response).isNotNull();
         assertThat(response.liked()).isTrue();

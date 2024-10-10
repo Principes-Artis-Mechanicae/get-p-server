@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.people.mapper;
 
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PortfolioResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PublicDetailPeopleProfileResponse;
 import es.princip.getp.persistence.adapter.common.mapper.TechStackPersistenceMapper;
@@ -25,7 +25,7 @@ public abstract class PeopleQueryMapper {
 
     @Mapping(source = "school", target = "education.school")
     @Mapping(source = "major", target = "education.major")
-    public abstract DetailPeopleProfileResponse mapToDetailResponse(PeopleProfileJpaVO profile);
+    public abstract PeopleProfileDetailResponse mapToDetailResponse(PeopleProfileJpaVO profile);
 
     @Deprecated
     public abstract PublicDetailPeopleProfileResponse mapToPublicDetailResponse(PeopleProfileJpaVO profile);

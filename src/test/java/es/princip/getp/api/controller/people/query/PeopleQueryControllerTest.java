@@ -3,9 +3,9 @@ package es.princip.getp.api.controller.people.query;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.command.GetPeopleCommand;
@@ -116,14 +116,14 @@ class PeopleQueryControllerTest extends ControllerTest {
         @Test
         @WithCustomMockUser(memberType = ROLE_CLIENT)
         public void 사용자는_피플_상세_정보를_조회할_수있다() throws Exception {
-            final DetailPeopleResponse response = new DetailPeopleResponse(
+            final PeopleDetailResponse response = new PeopleDetailResponse(
                 1L,
                 NICKNAME,
                 profileImage(memberId).getUrl(),
                 0,
                 0,
                 true,
-                new DetailPeopleProfileResponse(
+                new PeopleProfileDetailResponse(
                     introduction(),
                     activityArea(),
                     education(),

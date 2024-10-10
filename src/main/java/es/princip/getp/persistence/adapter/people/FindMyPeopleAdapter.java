@@ -3,7 +3,7 @@ package es.princip.getp.persistence.adapter.people;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
 import es.princip.getp.application.people.port.out.FindMyPeoplePort;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.exception.NotRegisteredPeopleProfileException;
@@ -52,7 +52,7 @@ class FindMyPeopleAdapter extends QueryDslSupport implements FindMyPeoplePort {
     }
 
     @Override
-    public DetailPeopleProfileResponse findDetailProfileBy(final MemberId memberId) {
+    public PeopleProfileDetailResponse findDetailProfileBy(final MemberId memberId) {
         final PeopleProfileJpaVO profile = Optional.ofNullable(
                 queryFactory.select(people)
                     .from(people)

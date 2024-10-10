@@ -1,7 +1,7 @@
 package es.princip.getp.application.people.service;
 
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.application.people.command.GetPeopleCommand;
 import es.princip.getp.application.people.command.PeopleSearchFilter;
@@ -63,7 +63,7 @@ public class GetPeopleService implements GetPeopleQuery {
     }
 
     @Override
-    public DetailPeopleResponse getDetailBy(final MemberId memberId, final PeopleId peopleId) {
+    public PeopleDetailResponse getDetailBy(final MemberId memberId, final PeopleId peopleId) {
         return findPeoplePort.findDetailBy(memberId, peopleId);
     }
 

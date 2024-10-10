@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.people.query;
 
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.ControllerSupport;
@@ -46,7 +46,7 @@ public class PeopleQueryController extends ControllerSupport {
         final PeopleId id = new PeopleId(peopleId);
         if (isAuthenticated(principalDetails)) {
             final MemberId memberId = Optional.ofNullable(principalDetails).map(pd -> pd.getMember().getId()).orElse(null);
-            final DetailPeopleResponse response = getPeopleQuery.getDetailBy(memberId, id);
+            final PeopleDetailResponse response = getPeopleQuery.getDetailBy(memberId, id);
             return ApiResponse.success(HttpStatus.OK, response);
         }
         final PublicDetailPeopleResponse response = getPeopleQuery.getPublicDetailBy(id);
