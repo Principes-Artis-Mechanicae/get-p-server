@@ -54,8 +54,8 @@ class PeopleLikePersistenceAdapter implements
     }
 
     @Override
-    public Boolean existsBy(Member member, PeopleId peopleId) {
-        if (member.isPeople()) {
+    public Boolean existsBy(final Member member, final PeopleId peopleId) {
+        if (member == null || member.isPeople()) {
             return null;
         }
         return existsBy(member.getId(), peopleId);

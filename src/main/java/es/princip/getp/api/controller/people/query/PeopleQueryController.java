@@ -37,7 +37,7 @@ public class PeopleQueryController extends ControllerSupport {
      * @return 피플 ID에 해당되는 피플 상세 정보
      */
     @GetMapping("/{peopleId}")
-    public ResponseEntity<? extends ApiSuccessResult<?>> getPeople(
+    public ResponseEntity<ApiSuccessResult<PeopleDetailResponse>> getPeople(
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable final Long peopleId
     ) {
