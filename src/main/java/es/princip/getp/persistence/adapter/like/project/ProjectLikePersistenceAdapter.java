@@ -30,14 +30,11 @@ class ProjectLikePersistenceAdapter implements
     }
 
     @Override
-    public Boolean existsBy(final Member member, ProjectId projectId) {
+    public Boolean existsBy(final Member member, final ProjectId projectId) {
         if (member == null || member.isClient()) {
             return null;
         }
-        return repository.existsByMemberIdAndProjectId(
-            member.getId().getValue(),
-            projectId.getValue()
-        );
+        return existsBy(member.getId(), projectId);
     }
 
     @Override
@@ -57,7 +54,7 @@ class ProjectLikePersistenceAdapter implements
     }
 
     @Override
-    public boolean existsBy(MemberId memberId, ProjectId projectId) {
+    public boolean existsBy(final MemberId memberId, final ProjectId projectId) {
         return repository.existsByMemberIdAndProjectId(
             memberId.getValue(),
             projectId.getValue()
