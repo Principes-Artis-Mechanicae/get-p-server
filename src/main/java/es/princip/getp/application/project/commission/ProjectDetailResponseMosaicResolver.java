@@ -44,7 +44,7 @@ class ProjectDetailResponseMosaicResolver extends MosaicResolverSupport
         final String description = mosaicMessage(response.getDescription());
         final List<String> attachmentFiles= mosaicMessage(response.getAttachmentFiles());
         final ProjectClientResponse client = mosaicClient(response.getClient());
-        response.mosaic(description, attachmentFiles, client);
-        return response;
+        
+        return response.mosaic(description, attachmentFiles, client);
     }
 }

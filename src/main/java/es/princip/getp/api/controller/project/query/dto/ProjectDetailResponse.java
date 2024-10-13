@@ -66,7 +66,7 @@ public class ProjectDetailResponse {
         this.client = client;
     }
 
-    public void mosaic(
+    public ProjectDetailResponse mosaic(
         final String description,
         final List<String> attachmentFiles,
         final ProjectClientResponse client
@@ -74,5 +74,6 @@ public class ProjectDetailResponse {
         this.description = description;
         this.attachmentFiles = attachmentFiles;
         this.client = client;
+        return this;
     }
 }

@@ -35,7 +35,8 @@ public class PeopleDetailResponse {
         this.profile = profile;
     }
 
-    public void mosaic(final PeopleProfileDetailResponse profile) {
+    public PeopleDetailResponse mosaic(final PeopleProfileDetailResponse profile) {
         this.profile = profile;
+        return this;
     }
 }

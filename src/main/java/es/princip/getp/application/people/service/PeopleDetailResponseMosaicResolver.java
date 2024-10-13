@@ -52,7 +52,6 @@ class PeopleDetailResponseMosaicResolver extends MosaicResolverSupport
         final List<PortfolioResponse> portfolios = mosaicPortfolioResponse(mosaicResponse.getPortfolios());
         mosaicResponse.mosaic(introduction, activityArea, education, techStacks, portfolios);
 
-        response.mosaic(mosaicResponse);
-        return response;
+        return response.mosaic(mosaicResponse);
     }    
 }
