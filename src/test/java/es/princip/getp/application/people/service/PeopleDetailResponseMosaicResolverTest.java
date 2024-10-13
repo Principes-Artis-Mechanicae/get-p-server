@@ -3,6 +3,7 @@ package es.princip.getp.application.people.service;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Locale;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,9 @@ import static es.princip.getp.fixture.people.PortfolioFixture.portfoliosResponse
 
 import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.PortfolioResponse;
 import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.people.model.Education;
 
 @ExtendWith(MockitoExtension.class)
 class PeopleDetailResponseMosaicResolverTest {
@@ -59,37 +62,49 @@ class PeopleDetailResponseMosaicResolverTest {
             .willReturn(MESSAGE);
     }
 
+    private void assertEducation(Education actual, Education expected) {
+        assertSoftly(education -> {
+            education.assertThat(actual.getMajor())
+                .hasSameSizeAs(expected.getMajor());
+            education.assertThat(actual.getSchool())
+                .hasSameSizeAs(expected.getSchool());
+        });
+    }
+
+    private void assertPortfolios(List<PortfolioResponse> actual, List<PortfolioResponse> expected) {
+        assertSoftly(portfolios -> {
+            portfolios.assertThat(actual)
+                .extracting(portfolio -> portfolio.description().length())
+                .containsExactlyElementsOf(expected
+                    .stream()
+                    .map(portfolio -> portfolio.description().length())
+                    .toList());
+            portfolios.assertThat(actual)
+                .extracting(portfolio -> portfolio.url().length())
+                .containsExactlyElementsOf(expected
+                    .stream()
+                    .map(portfolio -> portfolio.url().length())
+                    .toList());
+        });
+    }
+
     @Test
     void 피플_상세_정보를_모자이크_한다() {
         final PeopleDetailResponse mosaicResponse = resolver.resolve(response);
 
         assertSoftly(peopleProfile -> {
-            peopleProfile.assertThat(mosaicResponse.getProfile().getIntroduction()).hasSameSizeAs(response.getProfile().getIntroduction());
-            peopleProfile.assertThat(mosaicResponse.getProfile().getActivityArea()).hasSameSizeAs(response.getProfile().getActivityArea());
+            peopleProfile.assertThat(mosaicResponse.getProfile().getIntroduction())
+                .hasSameSizeAs(response.getProfile().getIntroduction());
+            peopleProfile.assertThat(mosaicResponse.getProfile().getActivityArea())
+                .hasSameSizeAs(response.getProfile().getActivityArea());
             peopleProfile.assertThat(mosaicResponse.getProfile().getTechStacks())
-            .extracting(String::length)
-            .containsExactlyElementsOf(response.getProfile().getTechStacks()
-                .stream()
-                .map(String::length)
-                .toList());
-            assertSoftly(education -> {
-                education.assertThat(mosaicResponse.getProfile().getEducation().getMajor()).hasSameSizeAs(response.getProfile().getEducation().getMajor());
-                education.assertThat(mosaicResponse.getProfile().getEducation().getSchool()).hasSameSizeAs(response.getProfile().getEducation().getSchool());
-            });
-            assertSoftly(portfolios -> {
-                portfolios.assertThat(mosaicResponse.getProfile().getPortfolios())
-                .extracting(portfolio -> portfolio.description().length())
-                .containsExactlyElementsOf(response.getProfile().getPortfolios()
+                .extracting(String::length)
+                .containsExactlyElementsOf(response.getProfile().getTechStacks()
                     .stream()
-                    .map(portfolio -> portfolio.description().length())
+                    .map(String::length)
                     .toList());
-                portfolios.assertThat(mosaicResponse.getProfile().getPortfolios())
-                .extracting(portfolio -> portfolio.url().length())
-                .containsExactlyElementsOf(response.getProfile().getPortfolios()
-                    .stream()
-                    .map(portfolio -> portfolio.url().length())
-                    .toList());
-            });
+            assertEducation(mosaicResponse.getProfile().getEducation(), response.getProfile().getEducation());
+            assertPortfolios(mosaicResponse.getProfile().getPortfolios(), response.getProfile().getPortfolios());
         });
     }
 }
