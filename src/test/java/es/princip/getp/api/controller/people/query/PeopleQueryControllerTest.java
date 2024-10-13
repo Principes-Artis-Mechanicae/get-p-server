@@ -3,15 +3,18 @@ package es.princip.getp.api.controller.people.query;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.people.command.GetPeopleCommand;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
+import es.princip.getp.fixture.member.MemberFixture;
+
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,7 @@ import static es.princip.getp.fixture.people.IntroductionFixture.introduction;
 import static es.princip.getp.fixture.people.PortfolioFixture.portfoliosResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.spy;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
@@ -105,6 +109,7 @@ class PeopleQueryControllerTest extends ControllerTest {
     @Nested
     class 피플_상세_정보_조회 {
 
+        private final Member member = spy(MemberFixture.member(ROLE_CLIENT));
         private final MemberId memberId = new MemberId(1L);
         private final PeopleId peopleId = new PeopleId(1L);
 
@@ -116,14 +121,14 @@ class PeopleQueryControllerTest extends ControllerTest {
         @Test
         @WithCustomMockUser(memberType = ROLE_CLIENT)
         public void 사용자는_피플_상세_정보를_조회할_수있다() throws Exception {
-            final DetailPeopleResponse response = new DetailPeopleResponse(
+            final PeopleDetailResponse response = new PeopleDetailResponse(
                 1L,
                 NICKNAME,
                 profileImage(memberId).getUrl(),
                 0,
                 0,
                 true,
-                new DetailPeopleProfileResponse(
+                new PeopleProfileDetailResponse(
                     introduction(),
                     activityArea(),
                     education(),
@@ -132,7 +137,9 @@ class PeopleQueryControllerTest extends ControllerTest {
                     portfoliosResponse()
                 )
             );
-            given(getPeopleQuery.getDetailBy(memberId, peopleId)).willReturn(response);
+
+            given(member.getId()).willReturn(memberId);
+            given(getPeopleQuery.getDetailBy(any(Member.class), any(PeopleId.class))).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

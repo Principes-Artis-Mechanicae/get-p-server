@@ -1,12 +1,12 @@
 package es.princip.getp.application.people.service;
 
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
 import es.princip.getp.application.people.command.GetPeopleCommand;
 import es.princip.getp.application.people.command.PeopleSearchFilter;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
 import es.princip.getp.application.people.port.out.FindPeoplePort;
+import es.princip.getp.application.support.MosaicFactory;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
@@ -18,6 +18,8 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static es.princip.getp.application.support.ApplicationQueryUtil.isNotLogined;
+
 import java.util.Optional;
 
 @Service
@@ -26,6 +28,7 @@ import java.util.Optional;
 public class GetPeopleService implements GetPeopleQuery {
 
     private final FindPeoplePort findPeoplePort;
+    private final MosaicFactory mosaicFactory;
 
     private boolean doesFilterRequireLogin(final PeopleSearchFilter filter) {
         return filter.isLiked();
@@ -63,12 +66,11 @@ public class GetPeopleService implements GetPeopleQuery {
     }
 
     @Override
-    public DetailPeopleResponse getDetailBy(final MemberId memberId, final PeopleId peopleId) {
-        return findPeoplePort.findDetailBy(memberId, peopleId);
-    }
-
-    @Override
-    public PublicDetailPeopleResponse getPublicDetailBy(final PeopleId peopleId) {
-        return findPeoplePort.findPublicDetailBy(peopleId);
+    public PeopleDetailResponse getDetailBy(final Member member, final PeopleId peopleId) {
+        final PeopleDetailResponse response = findPeoplePort.findDetailBy(member, peopleId);
+        if (isNotLogined(member)) {
+            return mosaicFactory.mosaic(response);
+        }
+        return response;
     }
 }

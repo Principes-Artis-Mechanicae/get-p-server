@@ -2,7 +2,6 @@ package es.princip.getp.api.controller.project.query.description;
 
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import org.springframework.restdocs.payload.FieldDescriptor;
-import org.springframework.restdocs.payload.JsonFieldType;
 
 import static es.princip.getp.api.docs.EnumDescriptor.fieldWithEnum;
 import static es.princip.getp.api.docs.StatusFieldDescriptor.statusField;

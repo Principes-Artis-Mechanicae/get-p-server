@@ -1,9 +1,9 @@
 package es.princip.getp.persistence.adapter.people;
 
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.DetailPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.PublicDetailPeopleResponse;
+import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
 import es.princip.getp.application.people.command.PeopleSearchFilter;
+import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.adapter.like.people.PeopleLikeDataLoader;
@@ -22,7 +22,11 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.fixture.member.MemberFixture.member;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.spy;
 
 class FindPeopleAdapterTest extends PersistenceAdapterTest {
 
@@ -87,17 +91,11 @@ class FindPeopleAdapterTest extends PersistenceAdapterTest {
     @Test
     void 피플_ID로_피플_상세_정보를_조회한다() {
         final MemberId memberId = new MemberId(1L);
+        final Member member = spy(member(ROLE_PEOPLE));
         final PeopleId peopleId = new PeopleId(1L);
-        final DetailPeopleResponse response = adapter.findDetailBy(memberId, peopleId);
 
-        assertThat(response).isNotNull();
-        assertThat(response.liked()).isTrue();
-    }
-
-    @Test
-    void 피플_ID로_피플_공개_상세_정보를_조회한다() {
-        final PeopleId peopleId = new PeopleId(1L);
-        final PublicDetailPeopleResponse response = adapter.findPublicDetailBy(peopleId);
+        given(member.getId()).willReturn(memberId);
+        final PeopleDetailResponse response = adapter.findDetailBy(member, peopleId);
 
         assertThat(response).isNotNull();
     }

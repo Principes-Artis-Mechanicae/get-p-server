@@ -1,8 +1,9 @@
 package es.princip.getp.application.project.commission;
 
+import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.domain.project.commission.model.ProjectId;
-import lombok.extern.slf4j.Slf4j;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,11 +14,10 @@ import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static es.princip.getp.fixture.project.ProjectQueryResponseFixture.projectDetailResponse;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@Slf4j
 @ExtendWith(MockitoExtension.class)
 class ProjectDetailResponseMosaicResolverTest {
     
@@ -34,16 +34,31 @@ class ProjectDetailResponseMosaicResolverTest {
             .willReturn(MESSAGE);
     }
 
+    private void assertClientResponse(ProjectClientResponse actual, ProjectClientResponse expected) {
+        assertSoftly(client -> {
+            client.assertThat(actual.clientId()).isEqualTo(null);
+            client.assertThat(actual.nickname()).hasSameSizeAs(expected.nickname());
+            assertSoftly(address -> {
+                address.assertThat(actual.address().zipcode()).hasSameSizeAs(expected.address().zipcode());
+                address.assertThat(actual.address().detail()).hasSameSizeAs(expected.address().detail());
+                address.assertThat(actual.address().street()).hasSameSizeAs(expected.address().street());
+            });
+        });
+    }
+
     @Test
     void 프로젝트_상세_정보를_모자이크_한다() {
         final ProjectDetailResponse mosaicResponse = resolver.resolve(response);
 
-        assertThat(mosaicResponse.getDescription()).hasSameSizeAs(response.getDescription());
-        assertThat(mosaicResponse.getAttachmentFiles())
-            .extracting(String::length)
-            .containsExactlyElementsOf(response.getAttachmentFiles()
-                .stream()
-                .map(String::length)
-                .toList());
+        assertSoftly(projectDetailResponse -> {
+            projectDetailResponse.assertThat(mosaicResponse.getDescription()).hasSameSizeAs(response.getDescription());
+            projectDetailResponse.assertThat(mosaicResponse.getAttachmentFiles())
+                .extracting(String::length)
+                .containsExactlyElementsOf(response.getAttachmentFiles()
+                    .stream()
+                    .map(String::length)
+                    .toList());
+            assertClientResponse(mosaicResponse.getClient(), response.getClient());
+        });
     }
 }

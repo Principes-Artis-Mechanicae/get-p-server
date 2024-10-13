@@ -20,12 +20,6 @@ class ProjectDetailResponseMosaicResolver extends MosaicResolverSupport
         super(messageSource);
     }
 
-    private List<String> mosaicAttachmentFiles(final List<String> attachmentFiles) {
-        return attachmentFiles.stream()
-            .map(this::mosaicMessage)
-            .toList();
-    }
-
     private ProjectClientResponse mosaicClient(final ProjectClientResponse client) {
         final String mosaicNickname = mosaicMessage(client.nickname());
         final AddressResponse mosaicAddress = mosaicAddress(client.address());
@@ -48,9 +42,9 @@ class ProjectDetailResponseMosaicResolver extends MosaicResolverSupport
     @Override
     public ProjectDetailResponse resolve(final ProjectDetailResponse response) {
         final String description = mosaicMessage(response.getDescription());
-        final List<String> attachmentFiles= mosaicAttachmentFiles(response.getAttachmentFiles());
+        final List<String> attachmentFiles= mosaicMessage(response.getAttachmentFiles());
         final ProjectClientResponse client = mosaicClient(response.getClient());
-        response.mosaic(description, attachmentFiles, client);
-        return response;
+        
+        return response.mosaic(description, attachmentFiles, client);
     }
 }
