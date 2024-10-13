@@ -91,7 +91,7 @@ class PeopleDetailResponseMosaicResolverTest {
     @Test
     void 피플_상세_정보를_모자이크_한다() {
         final PeopleDetailResponse mosaicResponse = resolver.resolve(response);
-
+        
         assertSoftly(peopleProfile -> {
             peopleProfile.assertThat(mosaicResponse.getProfile().getIntroduction())
                 .hasSameSizeAs(response.getProfile().getIntroduction());

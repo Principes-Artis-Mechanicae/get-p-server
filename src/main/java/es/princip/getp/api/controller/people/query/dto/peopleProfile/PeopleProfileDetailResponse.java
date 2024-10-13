@@ -30,7 +30,7 @@ public class PeopleProfileDetailResponse {
         this.portfolios = portfolios;
     }
 
-    public void mosaic(
+    public PeopleProfileDetailResponse mosaic(
         final String introduction,
         final String activityArea,
         final Education education,
@@ -42,5 +42,6 @@ public class PeopleProfileDetailResponse {
         this.education = education;
         this.techStacks = techStacks;
         this.portfolios = portfolios;
+        return this;
     }
 }

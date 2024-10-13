@@ -50,8 +50,7 @@ class PeopleDetailResponseMosaicResolver extends MosaicResolverSupport
         final Education education = mosaicEducation(mosaicResponse.getEducation());
         final List<String> techStacks = mosaicMessage(mosaicResponse.getHashtags());
         final List<PortfolioResponse> portfolios = mosaicPortfolioResponse(mosaicResponse.getPortfolios());
-        mosaicResponse.mosaic(introduction, activityArea, education, techStacks, portfolios);
 
-        return response.mosaic(mosaicResponse);
-    }    
+        return response.mosaic(introduction, activityArea, education, techStacks, portfolios);
+    }
 }

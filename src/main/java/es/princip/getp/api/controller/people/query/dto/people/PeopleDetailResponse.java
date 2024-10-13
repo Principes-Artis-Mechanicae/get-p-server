@@ -4,7 +4,10 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.List;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.PortfolioResponse;
+import es.princip.getp.domain.people.model.Education;
 import lombok.Getter;
 
 @Getter
@@ -35,8 +38,16 @@ public class PeopleDetailResponse {
         this.profile = profile;
     }
 
-    public PeopleDetailResponse mosaic(final PeopleProfileDetailResponse profile) {
-        this.profile = profile;
+    public PeopleDetailResponse mosaic(
+        final String introduction,
+        final String activityArea,
+        final Education education,
+        final List<String> techStacks,
+        final List<PortfolioResponse> portfolios
+    ) {
+        if (profile != null) {
+            profile.mosaic(introduction, activityArea, education, techStacks, portfolios);
+        }
         return this;
     }
 }
