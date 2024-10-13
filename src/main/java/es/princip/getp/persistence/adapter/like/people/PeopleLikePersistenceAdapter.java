@@ -58,9 +58,6 @@ class PeopleLikePersistenceAdapter implements
         if (member.isPeople()) {
             return null;
         }
-        return repository.existsByMemberIdAndPeopleId(
-            member.getId().getValue(),
-            peopleId.getValue()
-        );
+        return existsBy(member.getId(), peopleId);
     }
 }
