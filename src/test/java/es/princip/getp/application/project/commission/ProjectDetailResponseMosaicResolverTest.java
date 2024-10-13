@@ -2,7 +2,7 @@ package es.princip.getp.application.project.commission;
 
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.domain.project.commission.model.ProjectId;
-import lombok.extern.slf4j.Slf4j;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,11 +13,10 @@ import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static es.princip.getp.fixture.project.ProjectQueryResponseFixture.projectDetailResponse;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@Slf4j
 @ExtendWith(MockitoExtension.class)
 class ProjectDetailResponseMosaicResolverTest {
     
@@ -38,12 +37,23 @@ class ProjectDetailResponseMosaicResolverTest {
     void 프로젝트_상세_정보를_모자이크_한다() {
         final ProjectDetailResponse mosaicResponse = resolver.resolve(response);
 
-        assertThat(mosaicResponse.getDescription()).hasSameSizeAs(response.getDescription());
-        assertThat(mosaicResponse.getAttachmentFiles())
+        assertSoftly(projectDetailResponse -> {
+            projectDetailResponse.assertThat(mosaicResponse.getDescription()).hasSameSizeAs(response.getDescription());
+            projectDetailResponse.assertThat(mosaicResponse.getAttachmentFiles())
             .extracting(String::length)
             .containsExactlyElementsOf(response.getAttachmentFiles()
                 .stream()
                 .map(String::length)
                 .toList());
+            assertSoftly(client -> {
+                client.assertThat(mosaicResponse.getClient().clientId()).isEqualTo(null);
+                client.assertThat(mosaicResponse.getClient().nickname()).hasSameSizeAs(response.getClient().nickname());
+                assertSoftly(address -> {
+                    address.assertThat(mosaicResponse.getClient().address().zipcode()).hasSameSizeAs(response.getClient().address().zipcode());
+                    address.assertThat(mosaicResponse.getClient().address().detail()).hasSameSizeAs(response.getClient().address().detail());
+                    address.assertThat(mosaicResponse.getClient().address().street()).hasSameSizeAs(response.getClient().address().street());
+                });
+            });
+        });
     }
 }
