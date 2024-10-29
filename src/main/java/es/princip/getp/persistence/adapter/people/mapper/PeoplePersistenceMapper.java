@@ -15,7 +15,10 @@ import org.mapstruct.Mapping;
 
 @Mapper(
     componentModel = "spring",
-    uses = {TechStackPersistenceMapper.class, HashtagPersistenceMapper.class}
+    uses = {
+        TechStackPersistenceMapper.class,
+        HashtagPersistenceMapper.class
+    }
 )
 public abstract class PeoplePersistenceMapper {
 

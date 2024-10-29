@@ -2,7 +2,7 @@ package es.princip.getp.api.controller.people.query;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.ControllerTest;
@@ -47,7 +47,7 @@ class MyPeopleProfileQueryControllerTest extends ControllerTest {
         @WithCustomMockUser(memberType = MemberType.ROLE_PEOPLE)
         public void 피플은_자신의_프로필을_조회할_수_있다(PrincipalDetails principalDetails) throws Exception {
             final MemberId memberId = principalDetails.getMember().getId();
-            final DetailPeopleProfileResponse response = new DetailPeopleProfileResponse(
+            final PeopleProfileDetailResponse response = new PeopleProfileDetailResponse(
                 introduction(),
                 activityArea(),
                 education(),

@@ -70,7 +70,7 @@ spring:
       password: ${REDIS_PASSWORD}
 
   messages:
-    basename: messages/validation, messages/error
+    basename: messages/validation, messages/messages
 
 logging:
   level:

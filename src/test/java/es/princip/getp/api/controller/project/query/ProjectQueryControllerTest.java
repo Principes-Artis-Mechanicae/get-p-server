@@ -1,27 +1,24 @@
 package es.princip.getp.api.controller.project.query;
 
+
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
-import es.princip.getp.api.controller.project.query.dto.AttachmentFilesResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.commission.command.GetProjectCommand;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
-import es.princip.getp.domain.common.model.AttachmentFile;
-import es.princip.getp.domain.common.model.Duration;
-import es.princip.getp.domain.project.commission.model.MeetingType;
-import es.princip.getp.domain.project.commission.model.ProjectCategory;
+import es.princip.getp.domain.member.model.Member;
+import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
-import es.princip.getp.domain.project.commission.model.ProjectStatus;
+import es.princip.getp.fixture.member.MemberFixture;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
@@ -30,12 +27,12 @@ import static es.princip.getp.api.controller.project.query.description.GetProjec
 import static es.princip.getp.api.controller.project.query.description.PagedCardProjectResponseDescription.pagedCardProjectResponseDescription;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
-import static es.princip.getp.fixture.client.AddressFixture.address;
-import static es.princip.getp.fixture.common.HashtagFixture.hashtagsResponse;
-import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
-import static es.princip.getp.fixture.project.ProjectFixture.*;
+import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
+import static es.princip.getp.fixture.project.ProjectQueryResponseFixture.projectCardResponse;
+import static es.princip.getp.fixture.project.ProjectQueryResponseFixture.projectDetailResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.spy;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
@@ -66,21 +63,8 @@ class ProjectQueryControllerTest extends ControllerTest {
         @Test
         void 사용자는_프로젝트_목록을_조회할_수_있다() throws Exception {
             final List<ProjectCardResponse> content = List.of(
-                new ProjectCardResponse(
-                    1L,
-                    TITLE,
-                    PAYMENT,
-                    RECRUITMENT_COUNT,
-                    5L,
-                    10L,
-                    Duration.of(
-                        LocalDate.of(2024, 7, 1),
-                        LocalDate.of(2024, 7, 7)
-                    ),
-                    hashtagsResponse(),
-                    DESCRIPTION,
-                    ProjectStatus.APPLYING
-                )
+                projectCardResponse(new ProjectId(1L)),
+                projectCardResponse(new ProjectId(2L))
             );
             final Page<ProjectCardResponse> response = new PageImpl<>(content, pageable, content.size());
             given(getProjectQuery.getPagedCards(any(GetProjectCommand.class)))
@@ -106,6 +90,8 @@ class ProjectQueryControllerTest extends ControllerTest {
     @Nested
     class 프로젝트_상세_조회 {
 
+        private final Member member = spy(MemberFixture.member(ROLE_PEOPLE));
+        private final MemberId memberId = new MemberId(1L);
         private final ProjectId projectId = new ProjectId(1L);
 
         private ResultActions perform() throws Exception {
@@ -114,40 +100,12 @@ class ProjectQueryControllerTest extends ControllerTest {
         }
 
         @Test
+        @WithCustomMockUser(memberType = ROLE_PEOPLE)
         void 사용자는_프로젝트의_상세_정보를_조회할_수_있다() throws Exception {
-            final ProjectDetailResponse response = new ProjectDetailResponse(
-                projectId.getValue(),
-                TITLE,
-                PAYMENT,
-                RECRUITMENT_COUNT,
-                5L,
-                Duration.of(
-                    LocalDate.of(2024, 7, 1),
-                    LocalDate.of(2024, 7, 7)
-                ),
-                Duration.of(
-                    LocalDate.of(2024, 7, 14),
-                    LocalDate.of(2024, 7, 21)
-                ),
-                DESCRIPTION,
-                MeetingType.IN_PERSON,
-                ProjectCategory.BACKEND,
-                ProjectStatus.APPLYING,
-                AttachmentFilesResponse.from(
-                    List.of(
-                        AttachmentFile.from("https://example.com/attachment1"),
-                        AttachmentFile.from("https://example.com/attachment2")
-                    )
-                ),
-                hashtagsResponse(),
-                5L,
-                new ProjectClientResponse(
-                    1L,
-                    NICKNAME,
-                    address()
-                )
-            );
-            given(getProjectQuery.getDetailBy(projectId)).willReturn(response);
+            final ProjectDetailResponse response = projectDetailResponse(projectId);
+
+            given(member.getId()).willReturn(memberId);
+            given(getProjectQuery.getDetailBy(any(Member.class), any(ProjectId.class))).willReturn(response);
 
             perform()
                 .andExpect(status().isOk())

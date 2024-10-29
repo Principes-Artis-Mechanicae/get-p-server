@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.DetailPeopleProfileResponse;
+import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
@@ -29,10 +29,10 @@ public class MyPeopleProfileQueryController {
      */
     @GetMapping
     @PreAuthorize("hasRole('PEOPLE') and isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<DetailPeopleProfileResponse>> getMyPeopleProfile(
+    public ResponseEntity<ApiSuccessResult<PeopleProfileDetailResponse>> getMyPeopleProfile(
             @AuthenticationPrincipal final PrincipalDetails principalDetails) {
         final MemberId memberId = principalDetails.getMember().getId();
-        final DetailPeopleProfileResponse response = getMyPeopleQuery.getDetailProfileBy(memberId);
+        final PeopleProfileDetailResponse response = getMyPeopleQuery.getDetailProfileBy(memberId);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

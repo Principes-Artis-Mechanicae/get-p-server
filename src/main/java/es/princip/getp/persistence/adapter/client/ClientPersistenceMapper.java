@@ -1,9 +1,9 @@
 package es.princip.getp.persistence.adapter.client;
 
+import es.princip.getp.api.controller.common.dto.AddressResponse;
 import es.princip.getp.domain.client.model.Address;
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.common.model.BankAccount;
-
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,6 +20,8 @@ interface ClientPersistenceMapper {
     ClientJpaEntity mapToJpa(Client client);
 
     Address mapToDomain(AddressJpaVO addressJpaVO);
+
+    AddressResponse mapToResponse(AddressJpaVO addressJpaVO);
 
     BankAccount mapToDomain(BankAccountJpaVO bankAccountJpaVO);
 }

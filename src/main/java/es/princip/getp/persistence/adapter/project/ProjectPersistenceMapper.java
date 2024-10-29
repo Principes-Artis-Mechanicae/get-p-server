@@ -8,7 +8,13 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {AttachmentFilePersistenceMapper.class, HashtagPersistenceMapper.class})
+@Mapper(
+    componentModel = "spring",
+    uses = {
+        AttachmentFilePersistenceMapper.class,
+        HashtagPersistenceMapper.class
+    }
+)
 public interface ProjectPersistenceMapper {
 
     @Mapping(source = "id", target = "id.value")
