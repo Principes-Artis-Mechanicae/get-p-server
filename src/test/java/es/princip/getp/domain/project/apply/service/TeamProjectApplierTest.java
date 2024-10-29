@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Set;
 
-import static es.princip.getp.domain.project.commission.model.ProjectStatus.APPLYING;
+import static es.princip.getp.domain.project.commission.model.ProjectStatus.APPLICATION_OPENED;
 import static es.princip.getp.domain.project.commission.model.ProjectStatus.PROGRESSING;
 import static es.princip.getp.fixture.people.PeopleFixture.people;
 import static es.princip.getp.fixture.people.PeopleFixture.peopleWithoutProfile;
@@ -39,7 +39,7 @@ class TeamProjectApplierTest {
     void 피플은_팀으로_프로젝트에_지원할_수_있다() {
         final People applicant = spy(people(new MemberId(1L)));
         given(applicant.getId()).willReturn(new PeopleId(1L));
-        final Project project =  spy(project(new ClientId(1L), APPLYING));
+        final Project project =  spy(project(new ClientId(1L), APPLICATION_OPENED));
         given(project.getId()).willReturn(new ProjectId(1L));
         final ProjectApplicationData data = new ProjectApplicationData(
             expectedDuration(),
@@ -70,7 +70,7 @@ class TeamProjectApplierTest {
     @Test
     void 피플은_지원자가_프로필을_등록하지_않으면_지원할_수_없다() {
         final People applicant = spy(peopleWithoutProfile(new MemberId(1L)));
-        final Project project =  spy(project(new ClientId(1L), APPLYING));
+        final Project project =  spy(project(new ClientId(1L), APPLICATION_OPENED));
         final ProjectApplicationData data = new ProjectApplicationData(
             expectedDuration(),
             DESCRIPTION,
@@ -88,7 +88,7 @@ class TeamProjectApplierTest {
     @Test
     void 피플은_팀원이_모두_프로필을_등록하지_않으면_지원할_수_없다() {
         final People applicant = spy(people(new MemberId(1L)));
-        final Project project =  spy(project(new ClientId(1L), APPLYING));
+        final Project project =  spy(project(new ClientId(1L), APPLICATION_OPENED));
         final ProjectApplicationData data = new ProjectApplicationData(
             expectedDuration(),
             DESCRIPTION,

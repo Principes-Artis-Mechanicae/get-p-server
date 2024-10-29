@@ -47,6 +47,10 @@ public abstract class ProjectApplication extends BaseEntity {
         validate();
     }
 
+    public boolean isApplicant(final PeopleId peopleId) {
+        return this.applicantId.equals(peopleId);
+    }
+
     public boolean isCompleted() {
         return this.status == ProjectApplicationStatus.COMPLETED;
     }

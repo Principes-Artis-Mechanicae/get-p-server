@@ -59,6 +59,8 @@ include::{docdir}/people/get-people.adoc[]
 
 include::{docdir}/people/get-people-list.adoc[]
 
+== 피플 정보
+
 === [피플] 내 피플 정보 등록
 
 피플은 자신의 피플 정보를 등록할 수 있습니다.
@@ -76,6 +78,8 @@ include::{docdir}/people/get-my-people.adoc[]
 피플은 자신의 피플 정보를 수정할 수 있습니다.
 
 include::{docdir}/people/edit-my-people.adoc[]
+
+== 피플 프로필
 
 === [피플] 내 피플 프로필 등록
 
@@ -140,6 +144,10 @@ include::{docdir}/project/apply-project-as-team.adoc[]
 === [피플] 프로젝트 팀원 승인
 
 include::{docdir}/project/approve-teammate.adoc[]
+
+=== [피플] 프로젝트 지원 내역 조회
+
+include::{docdir}/project/get-application-detail.adoc[]
 
 == 프로젝트 관리
 

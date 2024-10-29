@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
-import static es.princip.getp.domain.project.commission.model.ProjectStatus.APPLYING;
+import static es.princip.getp.domain.project.commission.model.ProjectStatus.APPLICATION_OPENED;
 import static es.princip.getp.fixture.project.ProjectFixture.project;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -48,7 +48,7 @@ class ProjectTest {
     class 주어진_의뢰자가_프로젝트의_의뢰자인지_확인한다 {
 
         private final ClientId clientId = new ClientId(1L);
-        private final Project project = project(clientId, APPLYING);
+        private final Project project = project(clientId, APPLICATION_OPENED);
         private final Client client = mock(Client.class);
 
         @Test

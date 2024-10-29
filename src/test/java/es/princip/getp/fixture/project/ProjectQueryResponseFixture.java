@@ -33,7 +33,7 @@ public class ProjectQueryResponseFixture {
             ),
             hashtagsResponse(),
             DESCRIPTION,
-            ProjectStatus.APPLYING
+            ProjectStatus.APPLICATION_OPENED
         );
     }
 
@@ -55,7 +55,7 @@ public class ProjectQueryResponseFixture {
             DESCRIPTION,
             MeetingType.IN_PERSON,
             ProjectCategory.BACKEND,
-            ProjectStatus.APPLYING,
+            ProjectStatus.APPLICATION_OPENED,
             List.of(
                 "https://example.com/attachment1",
                 "https://example.com/attachment2"

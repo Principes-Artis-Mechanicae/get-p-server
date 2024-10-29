@@ -78,7 +78,7 @@ public class Project extends BaseEntity {
     }
 
     public boolean isApplicationClosed() {
-        return !status.isApplying();
+        return !status.isApplicationOpened();
     }
 
     public boolean isClient(final Client client) {
