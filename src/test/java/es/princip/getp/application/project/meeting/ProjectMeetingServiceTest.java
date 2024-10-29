@@ -56,7 +56,7 @@ class ProjectMeetingServiceTest {
 
     private final Long meetingId = 1L; // 신청된 미팅의 미팅 ID
 
-    private final Project project = ProjectFixture.project(clientId, ProjectStatus.APPLYING);
+    private final Project project = ProjectFixture.project(clientId, ProjectStatus.APPLICATION_OPENED);
     private final People people = PeopleFixture.people(pmemberId);
 
     private final ScheduleMeetingCommand command = scheduleMeetingCommand(cmemberId, projectId, applicantId);

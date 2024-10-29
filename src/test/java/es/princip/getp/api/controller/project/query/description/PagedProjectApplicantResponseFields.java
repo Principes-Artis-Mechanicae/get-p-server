@@ -21,22 +21,7 @@ public class PagedProjectApplicantResponseFields {
             fieldWithPath("data.content[].education.school").description("학교명"),
             fieldWithPath("data.content[].education.major").description("전공명"),
             fieldWithEnum(ProjectApplicationStatus.class).withPath("data.content[].status")
-                .description(
-                """
-                지원 상태
-                PENDING_TEAM_APPROVAL: 팀원 승인 대기
-                
-                COMPLETED: 지원 완료
-                
-                WAITING_MEETING: 미팅 준비
-               
-                MEETING_COMPLETED: 미팅 완료
-                
-                ACCEPTED: 진행 확정
-                
-                CLOSED: 모집 마감
-                """
-            ),
+                .description("프로젝트 지원 상태"),
             subsectionWithPath("data.content[].teammates")
                 .optional()
                 .description("팀원 목록"),

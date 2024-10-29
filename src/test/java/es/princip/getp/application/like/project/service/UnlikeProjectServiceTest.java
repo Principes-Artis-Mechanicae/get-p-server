@@ -40,7 +40,7 @@ class UnlikeProjectServiceTest {
     private final ClientId clientId = new ClientId(1L);
     private final ProjectId projectId = new ProjectId(1L);
 
-    private final Project project = ProjectFixture.project(clientId, ProjectStatus.APPLYING);
+    private final Project project = ProjectFixture.project(clientId, ProjectStatus.APPLICATION_OPENED);
     private final ProjectLike like = ProjectLikeFixture.projectLike(memberId, projectId);
 
     @BeforeEach

@@ -23,7 +23,7 @@ class ProjectStatusTest {
 
         final ProjectStatus status = ProjectStatus.determineStatus(applicationDuration, clock);
 
-        assertThat(status).isEqualTo(ProjectStatus.APPLYING);
+        assertThat(status).isEqualTo(ProjectStatus.APPLICATION_OPENED);
     }
 
     @Test
