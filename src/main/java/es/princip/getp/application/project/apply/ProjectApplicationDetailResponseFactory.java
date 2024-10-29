@@ -1,15 +1,9 @@
 package es.princip.getp.application.project.apply;
 
 import es.princip.getp.api.controller.project.query.dto.ProjectApplicationDetailResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectApplicationDetailTeammateResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.application.member.port.out.LoadMemberPort;
-import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.URL;
-import es.princip.getp.domain.member.model.Member;
-import es.princip.getp.domain.people.model.People;
-import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.apply.model.IndividualProjectApplication;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import es.princip.getp.domain.project.apply.model.TeamProjectApplication;
@@ -25,8 +19,7 @@ import static es.princip.getp.domain.project.apply.model.ProjectApplicationType.
 @RequiredArgsConstructor
 class ProjectApplicationDetailResponseFactory {
 
-    private final LoadPeoplePort loadPeoplePort;
-    private final LoadMemberPort loadMemberPort;
+    private final ProjectApplicationDetailTeammateResponseFactory teammateResponseFactory;
 
     ProjectApplicationDetailResponse mapToResponse(
         final ProjectApplication application,
@@ -48,24 +41,6 @@ class ProjectApplicationDetailResponseFactory {
             .toList();
     }
 
-    private List<ProjectApplicationDetailTeammateResponse> mapToTeammateResponses(
-        final TeamProjectApplication application
-    ) {
-        return application.getTeammates().stream()
-            .map(teammate -> {
-                final PeopleId peopleId = teammate.getPeopleId();
-                final People people = loadPeoplePort.loadBy(peopleId);
-                final Member member = loadMemberPort.loadBy(people.getMemberId());
-                return new ProjectApplicationDetailTeammateResponse(
-                        teammate.getId().getValue(),
-                        member.getNickname().getValue(),
-                        teammate.getStatus(),
-                        member.getProfileImage().getUrl()
-                );
-            })
-            .toList();
-    }
-
     private ProjectApplicationDetailResponse mapToResponse(
         final TeamProjectApplication application,
         final ProjectDetailResponse project
@@ -78,7 +53,7 @@ class ProjectApplicationDetailResponseFactory {
             application.getStatus(),
             application.getDescription(),
             mapToStringList(application.getAttachmentFiles()),
-            mapToTeammateResponses(application)
+            teammateResponseFactory.mapToResponse(application)
         );
     }
 

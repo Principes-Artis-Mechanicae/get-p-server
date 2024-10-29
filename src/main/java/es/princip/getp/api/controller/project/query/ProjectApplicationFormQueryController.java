@@ -1,10 +1,10 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.project.query.dto.ProjectApplicationDetailResponse;
+import es.princip.getp.api.controller.project.query.dto.ProjectApplicationFormResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.application.project.apply.port.in.GetApplicationDetailQuery;
+import es.princip.getp.application.project.apply.port.in.GetApplicationFormQuery;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import lombok.RequiredArgsConstructor;
@@ -19,20 +19,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/applications/me")
-public class ProjectApplicationDetailQueryController {
+@RequestMapping("/applications")
+public class ProjectApplicationFormQueryController {
 
-    private final GetApplicationDetailQuery query;
+    private final GetApplicationFormQuery query;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{applicationId}")
-    public ResponseEntity<ApiSuccessResult<ProjectApplicationDetailResponse>> getApplicationForm(
+    public ResponseEntity<ApiSuccessResult<ProjectApplicationFormResponse>> getApplicationForm(
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @PathVariable final Long applicationId
     ) {
         final Member member = principalDetails.getMember();
         final ProjectApplicationId aid = new ProjectApplicationId(applicationId);
-        final ProjectApplicationDetailResponse response = query.getApplicationDetailBy(member, aid);
+        final ProjectApplicationFormResponse response = query.getApplicationFormBy(member, aid);
         return ApiResponse.success(HttpStatus.OK, response);
     }
 }

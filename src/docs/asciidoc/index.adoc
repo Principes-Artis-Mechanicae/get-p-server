@@ -159,6 +159,10 @@ include::{docdir}/project/schedule-meeting.adoc[]
 
 include::{docdir}/project/get-applicants.adoc[]
 
+=== [의뢰자] 프로젝트 지원서 조회
+
+include::{docdir}/project/get-application-form.adoc[]
+
 == 스토리지
 
 === [회원] 파일 업로드

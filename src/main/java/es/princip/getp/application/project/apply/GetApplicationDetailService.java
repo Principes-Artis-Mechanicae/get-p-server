@@ -28,8 +28,8 @@ class GetApplicationDetailService implements GetApplicationDetailQuery {
 
     @Override
     public ProjectApplicationDetailResponse getApplicationDetailBy(
-        Member member,
-        ProjectApplicationId applicationId
+        final Member member,
+        final ProjectApplicationId applicationId
     ) {
         final People applicant = loadPeoplePort.loadBy(member.getId());
         final ProjectApplication application = loadApplicationPort.loadBy(applicationId);
