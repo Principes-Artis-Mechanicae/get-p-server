@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile("local")
-public class LocalTeamApprovalLinkGenerator implements TeamApprovalLinkGenerator {
+class LocalTeamApprovalLinkGenerator implements TeamApprovalLinkGenerator {
 
     private final String port;
     private final String contextPath;

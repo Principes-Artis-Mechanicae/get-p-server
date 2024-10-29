@@ -448,3 +448,51 @@ VALUES
     (21, 22, NOW()), (21, 23, NOW()),
     (22, 24, NOW()),
     (23, 25, NOW());
+
+INSERT INTO project_application (
+    project_application_id,
+    expected_end_date,
+    expected_start_date,
+    description,
+    status,
+    people_id,
+    project_id,
+    created_at,
+    updated_at,
+    dtype
+)
+VALUES
+    (1, '2024-01-01', '2024-01-05', '개발 지원서 작성', 'COMPLETED', 1, 1, now(), now(), 'INDIVIDUAL'),
+    (2, '2024-02-01', '2024-02-05', '웹사이트 구축', 'COMPLETED', 2, 1, now(), now(), 'INDIVIDUAL'),
+    (3, '2024-03-01', '2024-03-05', '데이터 분석 프로젝트', 'COMPLETED', 3, 1, now(), now(), 'INDIVIDUAL'),
+    (4, '2024-04-01', '2024-04-05', '모바일 앱 개발', 'COMPLETED', 4, 1, now(), now(), 'INDIVIDUAL'),
+    (5, '2024-05-01', '2024-05-05', 'AI 모델 구축', 'COMPLETED', 5, 1, now(), now(), 'INDIVIDUAL'),
+    (6, '2024-06-01', '2024-06-05', '대규모 시스템 개발', 'COMPLETED', 6, 1, now(), now(), 'TEAM'),
+    (7, '2024-07-01', '2024-07-05', '클라우드 인프라 구축', 'COMPLETED', 7, 1, now(), now(), 'TEAM'),
+    (8, '2024-08-01', '2024-08-05', 'AI 프로젝트 공동 진행', 'COMPLETED', 8, 1, now(), now(), 'TEAM'),
+    (9, '2024-09-01', '2024-09-05', 'IoT 플랫폼 개발', 'COMPLETED', 9, 1, now(), now(), 'TEAM'),
+    (10, '2024-10-01', '2024-10-05', '데이터 엔지니어링 프로젝트', 'COMPLETED', 10, 1, now(), now(), 'TEAM');
+
+INSERT INTO individual_project_application (project_application_id) VALUES (1), (2), (3), (4), (5);
+
+INSERT INTO team_project_application (project_application_id) VALUES (6), (7), (8), (9), (10);
+
+INSERT INTO team_project_application_teammate (
+    teammate_id,
+    people_id,
+    status,
+    project_application_id,
+    created_at,
+    updated_at
+)
+VALUES
+    (1, 11, 'APPROVED', 6, now(), now()),
+    (2, 12, 'APPROVED', 6, now(), now()),
+    (3, 13, 'APPROVED', 7, now(), now()),
+    (4, 14, 'APPROVED', 7, now(), now()),
+    (5, 15, 'APPROVED', 8, now(), now()),
+    (6, 16, 'APPROVED', 8, now(), now()),
+    (7, 17, 'APPROVED', 9, now(), now()),
+    (8, 18, 'APPROVED', 9, now(), now()),
+    (9, 19, 'APPROVED', 10, now(), now()),
+    (10, 20, 'APPROVED', 10, now(), now());

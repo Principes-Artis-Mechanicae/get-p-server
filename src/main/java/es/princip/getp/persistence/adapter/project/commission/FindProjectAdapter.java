@@ -142,7 +142,7 @@ class FindProjectAdapter extends QueryDslSupport implements FindProjectPort {
         final ProjectId[] projectIds = toProjectIds(projects);
         final Map<ProjectId, Long> projectApplicationCounts = countProjectApplicationPort.countBy(projectIds);
         final List<ProjectCardResponse> content = assemble(projects, projectApplicationCounts);
-        return applyPagination(
+        return paginate(
             pageable,
             content,
             countQuery -> buildQuery(countQuery.select(project.count()).from(project), filter, memberId)

@@ -16,9 +16,7 @@ import es.princip.getp.persistence.adapter.project.apply.model.QTeammateJpaEntit
 import es.princip.getp.persistence.support.QueryDslSupport;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
@@ -98,12 +96,6 @@ class FindTeammateAdapter extends QueryDslSupport implements FindTeammatePort {
         final String nickname
     ) {
         final List<SearchTeammateResponse> content = fetchContent(projectId, pageable, nickname);
-        final int size = pageable.getPageSize();
-        boolean hasNext = false;
-        if (content.size() > size) {
-            content.remove(size);
-            hasNext = true;
-        }
-        return new SliceImpl<>(content, PageRequest.ofSize(size), hasNext);
+        return paginate(pageable, content);
     }
 }

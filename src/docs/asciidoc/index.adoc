@@ -147,6 +147,10 @@ include::{docdir}/project/approve-teammate.adoc[]
 
 include::{docdir}/project/schedule-meeting.adoc[]
 
+=== [의뢰자] 프로젝트 지원자 목록 조회
+
+include::{docdir}/project/get-applicants.adoc[]
+
 == 스토리지
 
 === [회원] 파일 업로드
