@@ -6,6 +6,6 @@ public record ProjectApplicationDetailTeammateResponse(
     Long peopleId,
     String nickname,
     TeammateStatus status,
-    String profileImageUri
+    String profileImageUrl
 ) {
 }

@@ -12,14 +12,13 @@ import static es.princip.getp.api.docs.EnumDescriptor.fieldWithEnum;
 import static es.princip.getp.api.docs.StatusFieldDescriptor.statusField;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
-public class ProjectApplicationDetailResponseDescription {
+public class ProjectApplicationFormResponseDescription {
 
-    public static FieldDescriptor[] projectApplicationDetailResponseDescription() {
+    public static FieldDescriptor[] projectApplicationFormResponseDescription() {
         return new FieldDescriptor[] {
             statusField(),
             fieldWithPath("data.applicationId").description("프로젝트 지원 ID"),
             fieldWithEnum(ProjectApplicationType.class).withPath("data.type").description("프로젝트 지원 타입"),
-            fieldWithPath("data.project").description("지원한 프로젝트"),
             fieldWithPath("data.project.projectId").description("지원한 프로젝트 ID"),
             fieldWithPath("data.project.title").description("지원한 프로젝트 제목"),
             fieldWithPath("data.project.payment").description("지원한 프로젝트 성공 보수"),
@@ -42,6 +41,14 @@ public class ProjectApplicationDetailResponseDescription {
             fieldWithPath("data.project.client.address.zipcode").description("지원한 프로젝트 의뢰자 우편번호"),
             fieldWithPath("data.project.client.address.street").description("지원한 프로젝트 의뢰자 도로명"),
             fieldWithPath("data.project.client.address.detail").description("지원한 프로젝트 의뢰자 상세 주소"),
+            fieldWithPath("data.nickname").description("지원자 닉네임"),
+            fieldWithPath("data.techStacks[]").description("지원자 기술 스택"),
+            fieldWithPath("data.activityArea").description("지원자 활동 지역"),
+            fieldWithPath("data.education.school").description("지원자 학교"),
+            fieldWithPath("data.education.major").description("지원자 전공"),
+            fieldWithPath("data.introduction").description("지원자 자기 소개"),
+            fieldWithPath("data.portfolios[].description").description("지원자 포트폴리오 설명"),
+            fieldWithPath("data.portfolios[].url").description("지원자 포트폴리오 링크"),
             fieldWithPath("data.expectedDuration.startDate").description("예상 작업 시작 날짜"),
             fieldWithPath("data.expectedDuration.endDate").description("예상 작업 종료 날짜"),
             fieldWithEnum(ProjectApplicationStatus.class).withPath("data.status").description("프로젝트 지원 상태"),
