@@ -451,8 +451,8 @@ VALUES
 
 INSERT INTO project_application (
     project_application_id,
-    expected_end_date,
     expected_start_date,
+    expected_end_date,
     description,
     status,
     people_id,
