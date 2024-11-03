@@ -4,6 +4,10 @@ server:
     context-path: ${BASE_PATH}
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
   storage:
     local:
       path: ${STORAGE_PATH}
