@@ -46,7 +46,7 @@ public class FileLog extends BaseModel {
     }
 
     public Path getPath() {
-        return Paths.get(String.valueOf(memberId))
+        return Paths.get(String.valueOf(memberId.getValue()))
             .resolve(FILE_PREFIX)
             .resolve(String.valueOf(id))
             .resolve(filename);
