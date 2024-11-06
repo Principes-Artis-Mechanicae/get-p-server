@@ -1,7 +1,6 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
 import es.princip.getp.application.project.apply.dto.response.SearchTeammateResponse;
-import es.princip.getp.api.support.CursorPageRequest;
 import es.princip.getp.application.support.Cursor;
 import es.princip.getp.application.support.CursorPageable;
 import es.princip.getp.domain.project.commission.model.ProjectId;

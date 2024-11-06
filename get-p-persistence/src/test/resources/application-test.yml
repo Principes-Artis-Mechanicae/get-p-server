@@ -1,13 +1,4 @@
-server:
-  servlet:
-    context-path: ${BASE_PATH}
-
 spring:
-  storage:
-    local:
-      path: ${STORAGE_PATH}
-    base-uri: ${STORAGE_BASE_URI}
-
   datasource:
     url: ${DB_TEST_URL}
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
@@ -30,40 +21,6 @@ spring:
           batch_size: 100
         default_batch_fetch_size: 20
         dialect: org.hibernate.dialect.MySQLDialect
-
-  mail:
-    host: smtp.gmail.com
-    port: ${GMAIL_PORT}
-    username: ${GMAIL_USERNAME}
-    password: ${GMAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
-    templates:
-      logo: classpath:/static/logo.png
-
-  verification-code:
-    length: ${VERIFICATION_CODE_LENGTH}
-    expire-time: ${VERIFICATION_CODE_EXPIRE_TIME}
-
-  jwt:
-    secret: ${JWT_SECRET}
-    access-token:
-      expire-time: ${JWT_ACCESS_TOKEN_EXPIRE_TIME}
-    refresh-token:
-      expire-time: ${JWT_REFRESH_TOKEN_EXPIRE_TIME}
-    teammate-approval-token:
-      expire-time: ${JWT_TEAMMATE_APPROVAL_TOKEN_EXPIRE_TIME}
-
-  messages:
-    basename: messages/validation, messages/error
 
 logging:
   level:

@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
+import es.princip.getp.application.project.apply.exception.NotFoundProjectApplicationException;
 import es.princip.getp.application.project.apply.port.out.CheckProjectApplicationPort;
 import es.princip.getp.application.project.apply.port.out.LoadProjectApplicantPort;
 import es.princip.getp.application.project.apply.port.out.SaveProjectApplicationPort;

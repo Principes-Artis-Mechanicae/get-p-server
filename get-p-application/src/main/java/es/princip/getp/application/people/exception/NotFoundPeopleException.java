@@ -6,7 +6,7 @@ import es.princip.getp.domain.support.ErrorDescription;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-class NotFoundPeopleException extends NotFoundException {
+public class NotFoundPeopleException extends NotFoundException {
 
     private static final String code = "NOT_FOUND_PEOPLE";
     private static final String message = "존재하지 않는 피플입니다.";

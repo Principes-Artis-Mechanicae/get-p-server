@@ -1,6 +1,6 @@
 package es.princip.getp.persistence.support;
 
-import es.princip.getp.config.ObjectMapperConfig;
+import es.princip.getp.persistence.config.ObjectMapperConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.parallel.Execution;

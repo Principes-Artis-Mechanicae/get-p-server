@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.project.meeting;
 
+import es.princip.getp.application.project.meeting.exception.NotFoundProjectMeetingException;
 import es.princip.getp.application.project.meeting.port.out.LoadProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.SaveProjectMeetingPort;
 import es.princip.getp.application.project.meeting.port.out.UpdateProjectMeetingPort;

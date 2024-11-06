@@ -13,6 +13,7 @@ import es.princip.getp.application.like.project.port.out.CountProjectLikePort;
 import es.princip.getp.application.project.apply.port.out.CountProjectApplicationPort;
 import es.princip.getp.application.project.commission.dto.command.ProjectSearchFilter;
 import es.princip.getp.application.project.commission.dto.command.ProjectSearchOrder;
+import es.princip.getp.application.project.commission.exception.NotFoundProjectException;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
 import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.Member;

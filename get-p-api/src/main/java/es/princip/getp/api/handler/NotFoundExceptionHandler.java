@@ -2,7 +2,7 @@ package es.princip.getp.api.handler;
 
 import es.princip.getp.api.support.dto.ApiErrorResponse;
 import es.princip.getp.api.support.dto.ApiErrorResponse.ApiErrorResult;
-import es.princip.getp.persistence.support.NotFoundException;
+import es.princip.getp.application.support.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

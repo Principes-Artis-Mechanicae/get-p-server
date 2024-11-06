@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.project.commission;
 
+import es.princip.getp.application.project.commission.exception.NotFoundProjectException;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
 import es.princip.getp.application.project.commission.port.out.SaveProjectPort;
 import es.princip.getp.application.project.commission.port.out.UpdateProjectPort;
