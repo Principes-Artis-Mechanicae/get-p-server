@@ -3,7 +3,7 @@ package es.princip.getp.api.controller.auth;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.auth.dto.request.LoginRequest;
-import es.princip.getp.api.controller.auth.dto.response.Token;
+import es.princip.getp.application.auth.dto.response.Token;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;

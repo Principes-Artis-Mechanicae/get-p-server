@@ -1,6 +1,6 @@
 package es.princip.getp.api.security;
 
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.auth.service.PrincipalDetails;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;

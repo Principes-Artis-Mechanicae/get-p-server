@@ -2,7 +2,7 @@ package es.princip.getp.api.controller.people.query;
 
 import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
 import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.ControllerSupport;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;

@@ -1,4 +1,4 @@
-package es.princip.getp.api.security.details;
+package es.princip.getp.application.auth.service;
 
 import es.princip.getp.domain.member.model.Member;
 import org.springframework.security.core.GrantedAuthority;

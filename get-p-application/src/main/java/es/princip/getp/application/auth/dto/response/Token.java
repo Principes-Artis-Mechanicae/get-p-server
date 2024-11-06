@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.auth.dto.response;
+package es.princip.getp.application.auth.dto.response;
 
 public record Token(
     String grantType,

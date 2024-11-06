@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.auth;
 
 import es.princip.getp.api.controller.auth.dto.request.LoginRequest;
-import es.princip.getp.api.controller.auth.dto.response.Token;
+import es.princip.getp.application.auth.dto.response.Token;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.auth.service.AuthService;
@@ -31,7 +31,9 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<ApiSuccessResult<Token>> login(@RequestBody @Valid final LoginRequest request) {
-        final Token token = authService.login(request);
+        final String email = request.email();
+        final String password = request.password();
+        final Token token = authService.login(email, password);
         final String authorization = token.grantType() + " " + token.accessToken();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.AUTHORIZATION, authorization)

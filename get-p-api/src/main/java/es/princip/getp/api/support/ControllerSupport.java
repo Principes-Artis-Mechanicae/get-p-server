@@ -1,6 +1,6 @@
 package es.princip.getp.api.support;
 
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.auth.service.PrincipalDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

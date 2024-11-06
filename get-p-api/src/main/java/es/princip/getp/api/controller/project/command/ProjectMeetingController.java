@@ -2,7 +2,7 @@ package es.princip.getp.api.controller.project.command;
 
 import es.princip.getp.api.controller.project.command.dto.request.ScheduleMeetingRequest;
 import es.princip.getp.application.project.meeting.dto.response.ScheduleMeetingResponse;
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.project.meeting.ProjectMeetingService;

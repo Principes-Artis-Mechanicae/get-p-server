@@ -1,4 +1,4 @@
-package es.princip.getp.fixture.storage;
+package es.princip.getp.api.controller.storage;
 
 import org.springframework.mock.web.MockMultipartFile;
 

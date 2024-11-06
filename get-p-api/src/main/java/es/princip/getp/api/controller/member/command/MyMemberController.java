@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.member.command;
 
 import es.princip.getp.api.controller.member.command.dto.response.ProfileImageResponse;
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.member.command.RegisterProfileImageCommand;

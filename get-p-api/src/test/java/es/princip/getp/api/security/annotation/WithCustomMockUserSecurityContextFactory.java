@@ -1,6 +1,6 @@
 package es.princip.getp.api.security.annotation;
 
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.common.model.PhoneNumber;
 import es.princip.getp.domain.member.model.*;

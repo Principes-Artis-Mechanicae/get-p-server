@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.storage;
 
 import es.princip.getp.api.controller.storage.dto.FileUploadResponse;
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.application.storage.command.UploadFileCommand;
 import es.princip.getp.application.storage.port.in.UploadFileUseCase;

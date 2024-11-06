@@ -1,4 +1,4 @@
-package es.princip.getp.api.security.details;
+package es.princip.getp.application.auth.service;
 
 import es.princip.getp.application.member.port.out.LoadMemberPort;
 import es.princip.getp.domain.common.model.Email;

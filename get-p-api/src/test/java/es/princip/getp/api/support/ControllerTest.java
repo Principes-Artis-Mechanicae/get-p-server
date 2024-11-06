@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import es.princip.getp.api.config.MockDaoBeanFactoryPostProcessor;
 import es.princip.getp.api.config.MockServiceBeanFactoryPostProcessor;
 import es.princip.getp.api.security.PrincipalDetailsParameterResolver;
-import es.princip.getp.api.security.SecurityConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;

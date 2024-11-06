@@ -1,4 +1,4 @@
-package es.princip.getp.api.security.filter;
+package es.princip.getp.api.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.princip.getp.application.auth.exception.JwtTokenException;

@@ -2,7 +2,7 @@ package es.princip.getp.api.controller.project.command;
 
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;
 import es.princip.getp.application.project.commission.dto.response.CommissionProjectResponse;
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.project.commission.dto.command.CommissionProjectCommand;

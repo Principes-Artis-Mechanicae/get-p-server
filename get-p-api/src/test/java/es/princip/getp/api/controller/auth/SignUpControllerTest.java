@@ -6,7 +6,7 @@ import es.princip.getp.api.controller.auth.dto.request.EmailVerificationCodeRequ
 import es.princip.getp.api.controller.auth.dto.request.ServiceTermAgreementRequest;
 import es.princip.getp.api.controller.auth.dto.request.SignUpRequest;
 import es.princip.getp.api.support.ControllerTest;
-import es.princip.getp.application.auth.command.SignUpCommand;
+import es.princip.getp.application.auth.dto.command.SignUpCommand;
 import es.princip.getp.application.auth.service.SignUpService;
 import es.princip.getp.domain.member.model.MemberType;
 import org.junit.jupiter.api.Nested;

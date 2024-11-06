@@ -3,7 +3,7 @@ package es.princip.getp.api.controller.people.command;
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleRequest;
 import es.princip.getp.api.controller.people.command.dto.response.RegisterPeopleResponse;
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.people.command.EditPeopleCommand;

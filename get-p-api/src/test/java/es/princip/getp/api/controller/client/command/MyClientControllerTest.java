@@ -5,7 +5,7 @@ import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.client.command.dto.request.EditMyClientRequest;
 import es.princip.getp.api.controller.client.command.dto.request.RegisterMyClientRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
-import es.princip.getp.api.security.details.PrincipalDetails;
+import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.client.port.in.EditClientUseCase;
 import es.princip.getp.application.client.port.in.RegisterClientUseCase;
