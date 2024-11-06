@@ -104,8 +104,8 @@ local.sh
 .run/
 
 # Static Resources
-**/src/main/resources/static/*
-**/src/test/resources/static/*
+**/src/main/resources/static/docs/*
+**/src/main/resources/static/oas/*
 ./storage
 
 # Yml File
