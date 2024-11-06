@@ -1,7 +1,7 @@
-package es.princip.getp.persistence.adapter.serviceTerm;
+package es.princip.getp.application.serviceTerm.exception;
 
 import es.princip.getp.domain.support.ErrorDescription;
-import es.princip.getp.persistence.support.NotFoundException;
+import es.princip.getp.application.support.NotFoundException;
 
 import java.util.Set;
 

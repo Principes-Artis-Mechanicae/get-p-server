@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.serviceTerm;
 
+import es.princip.getp.application.serviceTerm.exception.NotFoundServiceTermException;
 import es.princip.getp.application.serviceTerm.port.out.CheckServiceTermPort;
 import es.princip.getp.application.serviceTerm.port.out.LoadServiceTermPort;
 import es.princip.getp.application.serviceTerm.port.out.SaveServiceTermPort;

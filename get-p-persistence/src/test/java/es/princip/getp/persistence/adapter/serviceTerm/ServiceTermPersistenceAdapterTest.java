@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.serviceTerm;
 
+import es.princip.getp.application.serviceTerm.exception.NotFoundServiceTermException;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
 import es.princip.getp.persistence.support.PersistenceAdapterTest;
 import jakarta.persistence.EntityManager;

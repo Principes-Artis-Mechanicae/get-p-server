@@ -1,7 +1,8 @@
 package es.princip.getp.api.controller.serviceTerm;
 
 import es.princip.getp.api.controller.serviceTerm.dto.reqeust.ServiceTermRequest;
-import es.princip.getp.api.controller.serviceTerm.dto.response.ServiceTermResponse;
+import es.princip.getp.application.serviceTerm.dto.command.ServiceTermCommand;
+import es.princip.getp.application.serviceTerm.dto.response.ServiceTermResponse;
 import es.princip.getp.application.serviceTerm.port.in.RegisterServiceTermUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,12 @@ public class ServiceTermController {
     
     @PostMapping
     // TODO: 관리자만 접근 가능하도록 권한 제어
-    public ServiceTermResponse registerServiceTerm(@RequestBody @Valid ServiceTermRequest serviceTermRequest) {
-        return ServiceTermResponse.from(registerServiceTermUseCase.register(serviceTermRequest));
+    public ServiceTermResponse registerServiceTerm(@RequestBody @Valid ServiceTermRequest request) {
+        final ServiceTermCommand command = new ServiceTermCommand(
+            request.tag(),
+            request.required(),
+            request.revocable()
+        );
+        return ServiceTermResponse.from(registerServiceTermUseCase.register(command));
     }
 }
