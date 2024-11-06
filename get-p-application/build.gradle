@@ -1,0 +1,30 @@
+dependencies {
+    implementation(project(':get-p-api'))
+    implementation(project(':get-p-persistence'))
+    implementation(project(':get-p-infrastructure'))
+    implementation(project(':get-p-domain'))
+
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.3.5'
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.3.5'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.3.5'
+
+    // Jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // Mail
+    implementation 'com.sun.mail:jakarta.mail:2.0.1'
+    implementation 'org.springframework.boot:spring-boot-starter-mail:3.2.1'
+
+    // AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop:3.3.5'
+
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
+    testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2'
+
+    // Monitoring
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.3.5'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.13.6'
+}

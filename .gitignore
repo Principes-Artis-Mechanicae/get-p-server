@@ -18,13 +18,13 @@ derby.log
 # Gradle artifacts
 .gradle
 .gradletasknamecache
-/build
-buildSrc/build
-/spring-*/build
-/framework-*/build
-/integration-tests/build
-/src/asciidoc/build
-spring-test/test-output/
+**/build
+**/buildSrc/build
+**/spring-*/build
+**/framework-*/build
+**/integration-tests/build
+**/src/asciidoc/build
+**/spring-test/test-output/
 
 # Maven artifacts
 pom.xml
@@ -104,8 +104,8 @@ local.sh
 .run/
 
 # Static Resources
-src/main/resources/static/*
-src/test/resources/static/*
+**/src/main/resources/static/*
+**/src/test/resources/static/*
 ./storage
 
 # Yml File

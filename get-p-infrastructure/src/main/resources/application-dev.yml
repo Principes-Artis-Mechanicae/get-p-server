@@ -1,0 +1,114 @@
+server:
+  port: ${SPRING_PORT}
+  servlet:
+    context-path: ${BASE_PATH}
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
+  storage:
+    local:
+      path: ${STORAGE_PATH}
+    base-uri: ${STORAGE_BASE_URI}
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+        jdbc:
+          time_zone: Asia/Seoul
+        default_batch_fetch_size: 20
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  mail:
+    host: smtp.gmail.com
+    port: ${GMAIL_PORT}
+    username: ${GMAIL_USERNAME}
+    password: ${GMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    templates:
+      logo: classpath:/static/logo.png
+
+  verification-code:
+    length: ${VERIFICATION_CODE_LENGTH}
+    expire-time: ${VERIFICATION_CODE_EXPIRE_TIME}
+  
+  jwt:
+    secret: ${JWT_SECRET}
+    access-token:
+      expire-time: ${JWT_ACCESS_TOKEN_EXPIRE_TIME}
+    refresh-token:
+      expire-time: ${JWT_REFRESH_TOKEN_EXPIRE_TIME}
+    teammate-approval-token:
+      expire-time: ${JWT_TEAMMATE_APPROVAL_TOKEN_EXPIRE_TIME}
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
+  messages:
+    basename: messages/validation, messages/messages
+
+logging:
+  level:
+    es.princip.getp: DEBUG
+    org:
+      springframework:
+        security: DEBUG
+      type:
+        descriptor:
+          sql:
+            BasicBinder: TRACE
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    path: ${SWAGGER_PATH}
+    url: /oas/openapi3.yaml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+      base-path: ${MONITORING_URL}
+    enabled-by-default: false
+    jmx:
+      exposure:
+        exclude: '*'
+        include: info, health
+  endpoint:
+    prometheus:
+      enabled: true
+    info:
+      enabled: true
+    health:
+      enabled: true
