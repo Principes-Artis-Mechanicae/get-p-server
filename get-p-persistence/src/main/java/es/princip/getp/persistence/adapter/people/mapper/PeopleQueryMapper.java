@@ -1,8 +1,8 @@
 package es.princip.getp.persistence.adapter.people.mapper;
 
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.PortfolioResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.CardPeopleProfileResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.PeopleProfileDetailResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.PortfolioResponse;
 import es.princip.getp.persistence.adapter.common.mapper.TechStackPersistenceMapper;
 import es.princip.getp.persistence.adapter.people.model.PeopleProfileJpaVO;
 import es.princip.getp.persistence.adapter.people.model.PortfolioJpaVO;

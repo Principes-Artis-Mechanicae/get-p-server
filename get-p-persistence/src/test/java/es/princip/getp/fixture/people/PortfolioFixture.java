@@ -1,7 +1,7 @@
 package es.princip.getp.fixture.people;
 
 import es.princip.getp.api.controller.people.command.dto.request.PortfolioRequest;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.PortfolioResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.PortfolioResponse;
 import es.princip.getp.domain.people.model.Portfolio;
 
 import java.util.List;

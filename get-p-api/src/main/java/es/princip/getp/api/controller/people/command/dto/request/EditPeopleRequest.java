@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.people.command.dto.request;
 
-import es.princip.getp.application.people.command.EditPeopleCommand;
+import es.princip.getp.application.people.dto.command.EditPeopleCommand;
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.common.model.EmailPattern;
 import es.princip.getp.domain.common.model.PhoneNumber;

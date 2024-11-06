@@ -2,7 +2,7 @@ package es.princip.getp.api.controller.people.query;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
-import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
+import es.princip.getp.application.people.dto.response.people.MyPeopleResponse;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.ControllerTest;

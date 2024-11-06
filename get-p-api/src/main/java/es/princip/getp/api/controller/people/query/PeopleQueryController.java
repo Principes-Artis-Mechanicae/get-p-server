@@ -1,13 +1,13 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
+import es.princip.getp.application.people.dto.response.people.CardPeopleResponse;
+import es.princip.getp.application.people.dto.response.people.PeopleDetailResponse;
 import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.ControllerSupport;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.application.people.command.GetPeopleCommand;
-import es.princip.getp.application.people.command.PeopleSearchFilter;
+import es.princip.getp.application.people.dto.command.GetPeopleCommand;
+import es.princip.getp.application.people.dto.command.PeopleSearchFilter;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.people.model.PeopleId;

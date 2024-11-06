@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.people.query;
 
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.PeopleProfileDetailResponse;
 import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;

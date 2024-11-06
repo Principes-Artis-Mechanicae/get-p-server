@@ -12,18 +12,4 @@ public class HashtagFixture {
             Hashtag.from("#해시태그2")
         );
     }
-
-    public static List<String> hashtagsRequest() {
-        return List.of(
-            "#해시태그1",
-            "#해시태그2"
-        );
-    }
-
-    public static List<String> hashtagsResponse() {
-        return List.of(
-            "#해시태그1",
-            "#해시태그2"
-        );
-    }
 }

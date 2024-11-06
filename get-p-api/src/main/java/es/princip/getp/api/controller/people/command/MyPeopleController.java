@@ -2,12 +2,12 @@ package es.princip.getp.api.controller.people.command;
 
 import es.princip.getp.api.controller.people.command.dto.request.EditPeopleRequest;
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleRequest;
-import es.princip.getp.api.controller.people.command.dto.response.RegisterPeopleResponse;
+import es.princip.getp.application.people.dto.response.people.RegisterPeopleResponse;
 import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.application.people.command.EditPeopleCommand;
-import es.princip.getp.application.people.command.RegisterPeopleCommand;
+import es.princip.getp.application.people.dto.command.EditPeopleCommand;
+import es.princip.getp.application.people.dto.command.RegisterPeopleCommand;
 import es.princip.getp.application.people.port.in.EditPeopleUseCase;
 import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
 import es.princip.getp.domain.member.model.Member;

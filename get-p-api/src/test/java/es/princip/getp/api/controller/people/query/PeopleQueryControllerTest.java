@@ -2,13 +2,13 @@ package es.princip.getp.api.controller.people.query;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
-import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
+import es.princip.getp.application.people.dto.response.people.CardPeopleResponse;
+import es.princip.getp.application.people.dto.response.people.PeopleDetailResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.CardPeopleProfileResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.PeopleProfileDetailResponse;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
-import es.princip.getp.application.people.command.GetPeopleCommand;
+import es.princip.getp.application.people.dto.command.GetPeopleCommand;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;

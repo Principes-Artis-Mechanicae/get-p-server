@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.people.query.dto.people;
+package es.princip.getp.application.people.dto.response.people;
 
 import java.time.LocalDateTime;
 

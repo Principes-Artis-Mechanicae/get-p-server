@@ -1,6 +1,6 @@
-package es.princip.getp.api.controller.people.query.dto.people;
+package es.princip.getp.application.people.dto.response.people;
 
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.CardPeopleProfileResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.CardPeopleProfileResponse;
 
 public record CardPeopleResponse(
     Long peopleId,

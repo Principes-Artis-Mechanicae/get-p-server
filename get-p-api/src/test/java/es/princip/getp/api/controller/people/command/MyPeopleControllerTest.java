@@ -6,8 +6,8 @@ import es.princip.getp.api.controller.people.command.dto.request.EditPeopleReque
 import es.princip.getp.api.controller.people.command.dto.request.RegisterPeopleRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
-import es.princip.getp.application.people.command.EditPeopleCommand;
-import es.princip.getp.application.people.command.RegisterPeopleCommand;
+import es.princip.getp.application.people.dto.command.EditPeopleCommand;
+import es.princip.getp.application.people.dto.command.RegisterPeopleCommand;
 import es.princip.getp.application.people.port.in.EditPeopleUseCase;
 import es.princip.getp.application.people.port.in.RegisterPeopleUseCase;
 import es.princip.getp.domain.member.model.MemberType;

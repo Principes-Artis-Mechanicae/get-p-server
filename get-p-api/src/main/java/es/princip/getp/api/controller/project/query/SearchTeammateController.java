@@ -4,7 +4,7 @@ import es.princip.getp.api.support.ControllerSupport;
 import es.princip.getp.api.support.CursorDefault;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.application.people.command.SearchTeammateCommand;
+import es.princip.getp.application.people.dto.command.SearchTeammateCommand;
 import es.princip.getp.application.project.apply.dto.response.SearchTeammateResponse;
 import es.princip.getp.application.project.apply.port.in.SearchTeammateQuery;
 import es.princip.getp.application.support.Cursor;

@@ -13,12 +13,4 @@ public class TechStackFixture {
             TechStack.from("JPA")
         );
     }
-
-    public static List<String> techStacksRequest() {
-        return List.of("Java", "Spring", "JPA");
-    }
-
-    public static List<String> techStacksResponse() {
-        return List.of("Java", "Spring", "JPA");
-    }
 }

@@ -1,12 +1,12 @@
-package es.princip.getp.api.controller.people.query.dto.people;
+package es.princip.getp.application.people.dto.response.people;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.PortfolioResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.PeopleProfileDetailResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.PortfolioResponse;
 import es.princip.getp.domain.people.model.Education;
 import lombok.Getter;
 

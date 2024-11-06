@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.people.query.dto.peopleProfile;
+package es.princip.getp.application.people.dto.response.peopleProfile;
 
 import java.util.List;
 

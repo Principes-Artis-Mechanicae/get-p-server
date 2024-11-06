@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.people.query.dto.peopleProfile;
+package es.princip.getp.application.people.dto.response.peopleProfile;
 
 import es.princip.getp.domain.common.model.Hashtag;
 import es.princip.getp.domain.people.model.PeopleProfile;

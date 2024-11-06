@@ -1,7 +1,7 @@
-package es.princip.getp.persistence.adapter.people;
+package es.princip.getp.application.people.exception;
 
+import es.princip.getp.application.support.NotFoundException;
 import es.princip.getp.domain.support.ErrorDescription;
-import es.princip.getp.persistence.support.NotFoundException;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

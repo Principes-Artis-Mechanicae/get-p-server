@@ -1,4 +1,4 @@
-package es.princip.getp.application.people.command;
+package es.princip.getp.application.people.dto.command;
 
 import es.princip.getp.domain.member.model.Member;
 import org.springframework.data.domain.Pageable;

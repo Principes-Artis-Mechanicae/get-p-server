@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.people;
 
+import es.princip.getp.application.people.exception.NotFoundPeopleException;
 import es.princip.getp.application.people.port.out.*;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.People;

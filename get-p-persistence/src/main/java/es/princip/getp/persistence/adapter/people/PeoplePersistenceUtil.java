@@ -2,7 +2,7 @@ package es.princip.getp.persistence.adapter.people;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import es.princip.getp.application.people.command.PeopleSearchOrder;
+import es.princip.getp.application.people.dto.command.PeopleSearchOrder;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.persistence.adapter.people.model.PeopleJpaEntity;
 import es.princip.getp.persistence.adapter.people.model.QPeopleJpaEntity;

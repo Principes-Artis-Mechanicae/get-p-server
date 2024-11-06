@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.people;
 
-import es.princip.getp.api.controller.people.query.dto.people.MyPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.peopleProfile.PeopleProfileDetailResponse;
+import es.princip.getp.application.people.dto.response.people.MyPeopleResponse;
+import es.princip.getp.application.people.dto.response.peopleProfile.PeopleProfileDetailResponse;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.persistence.adapter.member.MemberDataLoader;
 import es.princip.getp.persistence.support.DataLoader;

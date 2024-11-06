@@ -1,8 +1,8 @@
 package es.princip.getp.persistence.adapter.people;
 
-import es.princip.getp.api.controller.people.query.dto.people.CardPeopleResponse;
-import es.princip.getp.api.controller.people.query.dto.people.PeopleDetailResponse;
-import es.princip.getp.application.people.command.PeopleSearchFilter;
+import es.princip.getp.application.people.dto.response.people.CardPeopleResponse;
+import es.princip.getp.application.people.dto.response.people.PeopleDetailResponse;
+import es.princip.getp.application.people.dto.command.PeopleSearchFilter;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
