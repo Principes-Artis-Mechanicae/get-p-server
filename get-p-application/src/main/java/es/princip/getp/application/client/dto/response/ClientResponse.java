@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.client.query.dto;
+package es.princip.getp.application.client.dto.response;
 
 import es.princip.getp.domain.client.model.Address;
 

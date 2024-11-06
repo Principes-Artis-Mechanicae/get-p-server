@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.client.query;
 
-import es.princip.getp.api.controller.client.query.dto.ClientResponse;
+import es.princip.getp.application.client.dto.response.ClientResponse;
 import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;

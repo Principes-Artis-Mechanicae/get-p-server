@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.client;
 
+import es.princip.getp.application.client.exception.NotFoundClientException;
 import es.princip.getp.application.client.port.out.*;
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.client.model.ClientId;

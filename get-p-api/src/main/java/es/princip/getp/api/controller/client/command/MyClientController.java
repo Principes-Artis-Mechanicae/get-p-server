@@ -2,12 +2,12 @@ package es.princip.getp.api.controller.client.command;
 
 import es.princip.getp.api.controller.client.command.dto.request.EditMyClientRequest;
 import es.princip.getp.api.controller.client.command.dto.request.RegisterMyClientRequest;
-import es.princip.getp.api.controller.client.command.dto.response.RegisterMyClientResponse;
+import es.princip.getp.application.client.dto.response.RegisterMyClientResponse;
 import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.application.client.command.EditClientCommand;
-import es.princip.getp.application.client.command.RegisterClientCommand;
+import es.princip.getp.application.client.dto.command.EditClientCommand;
+import es.princip.getp.application.client.dto.command.RegisterClientCommand;
 import es.princip.getp.application.client.port.in.EditClientUseCase;
 import es.princip.getp.application.client.port.in.RegisterClientUseCase;
 import es.princip.getp.domain.member.model.Member;

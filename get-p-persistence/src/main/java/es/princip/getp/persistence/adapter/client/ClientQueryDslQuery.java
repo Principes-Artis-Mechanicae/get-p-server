@@ -1,7 +1,8 @@
 package es.princip.getp.persistence.adapter.client;
 
 import com.querydsl.core.Tuple;
-import es.princip.getp.api.controller.client.query.dto.ClientResponse;
+import es.princip.getp.application.client.dto.response.ClientResponse;
+import es.princip.getp.application.client.exception.NotFoundClientException;
 import es.princip.getp.application.project.commission.dto.response.ProjectClientResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
 import es.princip.getp.domain.client.model.ClientId;

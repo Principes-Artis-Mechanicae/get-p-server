@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.client.query;
 
-import es.princip.getp.api.controller.client.query.dto.ClientResponse;
+import es.princip.getp.application.client.dto.response.ClientResponse;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.client.port.out.ClientQuery;

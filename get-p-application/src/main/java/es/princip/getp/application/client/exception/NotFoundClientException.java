@@ -1,7 +1,7 @@
-package es.princip.getp.persistence.adapter.client;
+package es.princip.getp.application.client.exception;
 
 import es.princip.getp.domain.support.ErrorDescription;
-import es.princip.getp.persistence.support.NotFoundException;
+import es.princip.getp.application.support.NotFoundException;
 
 class NotFoundClientException extends NotFoundException {
 
