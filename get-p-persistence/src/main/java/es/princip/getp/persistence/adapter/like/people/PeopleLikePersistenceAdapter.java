@@ -8,7 +8,7 @@ import es.princip.getp.domain.like.people.model.PeopleLike;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.people.model.PeopleId;
-import es.princip.getp.persistence.adapter.like.exception.NotFoundLikeException;
+import es.princip.getp.application.like.exception.NotFoundLikeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
