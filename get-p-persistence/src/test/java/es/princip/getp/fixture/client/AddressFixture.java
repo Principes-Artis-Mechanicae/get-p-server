@@ -1,6 +1,6 @@
 package es.princip.getp.fixture.client;
 
-import es.princip.getp.api.controller.common.dto.AddressResponse;
+import es.princip.getp.application.common.dto.response.AddressResponse;
 import es.princip.getp.domain.client.model.Address;
 
 public class AddressFixture {

@@ -1,6 +1,6 @@
 package es.princip.getp.persistence.adapter.client;
 
-import es.princip.getp.api.controller.common.dto.AddressResponse;
+import es.princip.getp.application.common.dto.response.AddressResponse;
 import es.princip.getp.domain.client.model.Address;
 import es.princip.getp.domain.client.model.Client;
 import es.princip.getp.domain.common.model.BankAccount;

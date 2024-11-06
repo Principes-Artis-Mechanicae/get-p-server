@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.member;
 
+import es.princip.getp.application.member.exception.NotFoundMemberException;
 import es.princip.getp.application.member.port.out.CheckMemberPort;
 import es.princip.getp.application.member.port.out.LoadMemberPort;
 import es.princip.getp.application.member.port.out.SaveMemberPort;

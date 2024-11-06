@@ -1,6 +1,6 @@
 package es.princip.getp.application.member.service;
 
-import es.princip.getp.application.member.command.RegisterProfileImageCommand;
+import es.princip.getp.application.member.dto.command.RegisterProfileImageCommand;
 import es.princip.getp.application.member.exception.NotSupportedProfileImageExtensionException;
 import es.princip.getp.application.member.port.in.ProfileImageUseCase;
 import es.princip.getp.application.member.port.out.LoadMemberPort;

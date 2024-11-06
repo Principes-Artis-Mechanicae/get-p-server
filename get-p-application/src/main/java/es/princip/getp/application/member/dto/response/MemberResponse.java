@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.member.query.dto.response;
+package es.princip.getp.application.member.dto.response;
 
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberType;

@@ -1,6 +1,6 @@
 package es.princip.getp.application.member.service;
 
-import es.princip.getp.application.member.command.EditMemberCommand;
+import es.princip.getp.application.member.dto.command.EditMemberCommand;
 import es.princip.getp.application.member.port.in.EditMemberUseCase;
 import es.princip.getp.application.member.port.out.LoadMemberPort;
 import es.princip.getp.application.member.port.out.UpdateMemberPort;

@@ -1,10 +1,10 @@
 package es.princip.getp.api.controller.member.command;
 
-import es.princip.getp.api.controller.member.command.dto.response.ProfileImageResponse;
+import es.princip.getp.application.member.dto.response.ProfileImageResponse;
 import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.application.member.command.RegisterProfileImageCommand;
+import es.princip.getp.application.member.dto.command.RegisterProfileImageCommand;
 import es.princip.getp.application.member.port.in.ProfileImageUseCase;
 import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;

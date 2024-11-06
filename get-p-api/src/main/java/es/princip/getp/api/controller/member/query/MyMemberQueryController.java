@@ -1,7 +1,7 @@
 package es.princip.getp.api.controller.member.query;
 
 import es.princip.getp.api.support.dto.ApiResponse;
-import es.princip.getp.api.controller.member.query.dto.response.MemberResponse;
+import es.princip.getp.application.member.dto.response.MemberResponse;
 import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.domain.member.model.Member;
 import lombok.RequiredArgsConstructor;

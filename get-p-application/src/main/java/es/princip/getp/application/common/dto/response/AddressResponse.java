@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.common.dto;
+package es.princip.getp.application.common.dto.response;
 
 public record AddressResponse(
     String zipcode,
