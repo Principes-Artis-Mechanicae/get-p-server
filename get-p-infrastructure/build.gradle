@@ -1,6 +1,7 @@
 dependencies {
     implementation(project(':get-p-application'))
     implementation(project(':get-p-domain'))
+    testImplementation(testFixtures(project(':get-p-domain')))
 
     // Jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'

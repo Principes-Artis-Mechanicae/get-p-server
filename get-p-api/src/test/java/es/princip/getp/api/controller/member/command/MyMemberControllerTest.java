@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
+import static es.princip.getp.api.controller.member.fixture.MultipartFileFixture.imageMultiPartFile;
 import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
-import static es.princip.getp.fixture.storage.MultipartFileFixture.imageMultiPartFile;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;

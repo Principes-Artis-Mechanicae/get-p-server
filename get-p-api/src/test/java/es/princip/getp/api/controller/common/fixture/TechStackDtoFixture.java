@@ -1,4 +1,4 @@
-package es.princip.getp.application.people.service;
+package es.princip.getp.api.controller.common.fixture;
 
 import es.princip.getp.domain.common.model.TechStack;
 

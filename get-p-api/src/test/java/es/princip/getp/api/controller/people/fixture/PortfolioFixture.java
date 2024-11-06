@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.people;
+package es.princip.getp.api.controller.people.fixture;
 
 import es.princip.getp.api.controller.people.command.dto.request.PortfolioRequest;
 import es.princip.getp.application.people.dto.response.peopleProfile.PortfolioResponse;

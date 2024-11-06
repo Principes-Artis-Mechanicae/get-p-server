@@ -1,4 +1,4 @@
-package es.princip.getp.application.project.commission;
+package es.princip.getp.application.common.fixture;
 
 import es.princip.getp.application.common.dto.response.AddressResponse;
 import es.princip.getp.domain.client.model.Address;

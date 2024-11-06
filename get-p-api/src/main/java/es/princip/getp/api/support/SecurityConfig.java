@@ -1,6 +1,5 @@
 package es.princip.getp.api.support;
 
-import es.princip.getp.application.auth.security.filter.AccessTokenAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

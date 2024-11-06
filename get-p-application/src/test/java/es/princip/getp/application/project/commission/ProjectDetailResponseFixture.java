@@ -11,8 +11,8 @@ import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import java.time.LocalDate;
 import java.util.List;
 
-import static es.princip.getp.application.people.service.HashtagDtoFixture.hashtagsResponse;
-import static es.princip.getp.application.project.commission.AddressResponseFixture.addressResponse;
+import static es.princip.getp.application.common.fixture.HashtagDtoFixture.hashtagsResponse;
+import static es.princip.getp.application.common.fixture.AddressResponseFixture.addressResponse;
 import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
 import static es.princip.getp.fixture.project.ProjectFixture.*;
 

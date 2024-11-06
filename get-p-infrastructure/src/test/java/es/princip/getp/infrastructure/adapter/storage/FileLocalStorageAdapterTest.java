@@ -9,9 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.net.URI;
 import java.nio.file.Path;
 
-import static es.princip.getp.fixture.storage.MultipartFileFixture.fileMultiPartFile;
 import static es.princip.getp.fixture.storage.StorageFixture.BASE_URI;
 import static es.princip.getp.fixture.storage.StorageFixture.STORAGE_PATH;
+import static es.princip.getp.infrastructure.adapter.storage.fixure.MultipartFileFixture.fileMultiPartFile;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatPath;
 

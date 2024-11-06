@@ -25,11 +25,11 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static es.princip.getp.api.controller.project.query.description.DetailProjectResponseDescription.detailProjectResponseDescription;
 import static es.princip.getp.api.controller.project.query.description.GetProjectsQueryParametersDescription.getProjectsQueryParametersDescription;
 import static es.princip.getp.api.controller.project.query.description.PagedCardProjectResponseDescription.pagedCardProjectResponseDescription;
+import static es.princip.getp.api.controller.project.query.fixture.ProjectCardResponseFixture.projectCardResponse;
+import static es.princip.getp.api.controller.project.query.fixture.ProjectDetailResponseFixture.projectDetailResponse;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
 import static es.princip.getp.api.docs.PageResponseDescriptor.pageResponseFieldDescriptors;
 import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
-import static es.princip.getp.fixture.project.ProjectQueryResponseFixture.projectCardResponse;
-import static es.princip.getp.fixture.project.ProjectQueryResponseFixture.projectDetailResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.spy;

@@ -19,6 +19,7 @@ import java.util.List;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static es.princip.getp.api.controller.project.query.description.ProjectApplicationDetailResponseDescription.projectApplicationDetailResponseDescription;
+import static es.princip.getp.api.controller.project.query.fixture.ProjectDetailResponseFixture.projectDetailResponse;
 import static es.princip.getp.api.docs.HeaderDescriptorHelper.authorizationHeaderDescription;
 import static es.princip.getp.domain.member.model.MemberType.ROLE_PEOPLE;
 import static es.princip.getp.domain.project.apply.model.ProjectApplicationStatus.COMPLETED;
@@ -29,7 +30,6 @@ import static es.princip.getp.fixture.member.NicknameFixture.NICKNAME;
 import static es.princip.getp.fixture.member.ProfileImageFixture.profileImage;
 import static es.princip.getp.fixture.project.ProjectApplicationFixture.DESCRIPTION;
 import static es.princip.getp.fixture.project.ProjectApplicationFixture.expectedDuration;
-import static es.princip.getp.fixture.project.ProjectQueryResponseFixture.projectDetailResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;

@@ -1,4 +1,4 @@
-package es.princip.getp.application.people.service;
+package es.princip.getp.application.people.fixture;
 
 import es.princip.getp.application.people.dto.response.peopleProfile.PortfolioResponse;
 

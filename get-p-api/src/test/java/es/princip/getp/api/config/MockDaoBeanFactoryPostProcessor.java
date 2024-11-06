@@ -1,6 +1,6 @@
 package es.princip.getp.api.config;
 
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.junit.platform.commons.util.ClassFilter;
 import org.junit.platform.commons.util.ReflectionUtils;
 import org.springframework.beans.BeansException;

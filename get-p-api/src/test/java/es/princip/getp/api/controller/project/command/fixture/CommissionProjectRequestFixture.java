@@ -8,7 +8,7 @@ import es.princip.getp.domain.project.commission.model.ProjectCategory;
 import java.time.LocalDate;
 import java.util.List;
 
-import static es.princip.getp.fixture.common.HashtagFixture.hashtagsRequest;
+import static es.princip.getp.api.controller.common.fixture.HashtagDtoFixture.hashtagsRequest;
 import static es.princip.getp.fixture.project.ProjectFixture.*;
 
 public class CommissionProjectRequestFixture {

@@ -18,6 +18,7 @@ import static es.princip.getp.api.docs.StatusFieldDescriptor.statusField;
 import static es.princip.getp.fixture.common.EmailFixture.EMAIL;
 import static es.princip.getp.fixture.member.PasswordFixture.PASSWORD;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -38,7 +39,7 @@ class AuthControllerTest extends ControllerTest {
         @Test
         void 사용자는_로그인을_할_수_있다() throws Exception {
             final Token token = new Token("Bearer", "${ACCESS_TOKEN}", "${REFRESH_TOKEN}");
-            given(authService.login(request)).willReturn(token);
+            given(authService.login(anyString(), anyString())).willReturn(token);
 
             mockMvc.perform(post("/auth/login")
                 .content(objectMapper.writeValueAsString(request)))
