@@ -1,4 +1,4 @@
-package es.princip.getp.api.support.dto;
+package es.princip.getp.application.support.dto;
 
 import lombok.Builder;
 import lombok.Getter;

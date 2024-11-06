@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.project.query.dto;
+package es.princip.getp.application.project.commission.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import es.princip.getp.domain.common.model.Duration;

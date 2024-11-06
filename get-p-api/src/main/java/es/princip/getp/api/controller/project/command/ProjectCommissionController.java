@@ -1,11 +1,11 @@
 package es.princip.getp.api.controller.project.command;
 
 import es.princip.getp.api.controller.project.command.dto.request.CommissionProjectRequest;
-import es.princip.getp.api.controller.project.command.dto.response.CommissionProjectResponse;
+import es.princip.getp.application.project.commission.dto.response.CommissionProjectResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.application.project.commission.command.CommissionProjectCommand;
+import es.princip.getp.application.project.commission.dto.command.CommissionProjectCommand;
 import es.princip.getp.application.project.commission.port.in.CommissionProjectUseCase;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.ProjectId;

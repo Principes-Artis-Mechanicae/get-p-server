@@ -1,14 +1,14 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.project.query.dto.ProjectApplicantResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.CursorDefault;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.support.dto.SliceResponse;
+import es.princip.getp.application.project.apply.dto.response.ProjectApplicantResponse;
 import es.princip.getp.application.project.apply.port.in.GetApplicantQuery;
 import es.princip.getp.application.support.Cursor;
 import es.princip.getp.application.support.CursorPageable;
+import es.princip.getp.application.support.dto.SliceResponse;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;

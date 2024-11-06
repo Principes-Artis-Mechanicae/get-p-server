@@ -1,8 +1,8 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectCardResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectClientResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectDetailResponse;
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.project.commission.model.MeetingType;
 import es.princip.getp.domain.project.commission.model.ProjectCategory;

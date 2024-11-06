@@ -1,8 +1,8 @@
 package es.princip.getp.persistence.adapter.project.commission;
 
-import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
+import es.princip.getp.application.project.commission.dto.response.ProjectCardResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectDetailResponse;
+import es.princip.getp.application.project.commission.dto.command.ProjectSearchFilter;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.member.model.MemberType;

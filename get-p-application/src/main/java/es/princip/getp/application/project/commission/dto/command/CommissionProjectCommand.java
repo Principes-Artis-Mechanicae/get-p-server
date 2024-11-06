@@ -1,4 +1,4 @@
-package es.princip.getp.application.project.commission.command;
+package es.princip.getp.application.project.commission.dto.command;
 
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.Duration;

@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.project.query.dto;
+package es.princip.getp.application.project.commission.dto.response;
 
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.common.model.Hashtag;

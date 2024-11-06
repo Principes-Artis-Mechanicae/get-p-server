@@ -1,6 +1,6 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.project.query.dto.ProjectApplicationDetailResponse;
+import es.princip.getp.application.project.apply.dto.response.ProjectApplicationDetailResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;

@@ -2,11 +2,10 @@ package es.princip.getp.api.controller.project.query;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
-import es.princip.getp.api.controller.project.query.dto.ProjectApplicantResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectApplicantTeammateResponse;
+import es.princip.getp.application.project.apply.dto.response.ProjectApplicantResponse;
+import es.princip.getp.application.project.apply.dto.response.ProjectApplicantTeammateResponse;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
-import es.princip.getp.api.support.dto.SliceResponse;
 import es.princip.getp.application.project.apply.port.in.GetApplicantQuery;
 import es.princip.getp.application.support.CursorPageable;
 import es.princip.getp.domain.member.model.Member;

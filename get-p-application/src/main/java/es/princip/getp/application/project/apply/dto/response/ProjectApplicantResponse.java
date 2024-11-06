@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.project.query.dto;
+package es.princip.getp.application.project.apply.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import es.princip.getp.domain.people.model.Education;

@@ -1,11 +1,11 @@
 package es.princip.getp.api.controller.project.command;
 
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
-import es.princip.getp.api.controller.project.command.dto.response.ApplyProjectResponse;
+import es.princip.getp.application.project.apply.dto.response.ApplyProjectResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
+import es.princip.getp.application.project.apply.dto.command.ApplyProjectCommand;
 import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationId;

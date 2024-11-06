@@ -4,7 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
-import es.princip.getp.api.controller.project.query.dto.SearchTeammateResponse;
+import es.princip.getp.application.project.apply.dto.response.SearchTeammateResponse;
 import es.princip.getp.application.project.apply.port.out.FindTeammatePort;
 import es.princip.getp.application.support.Cursor;
 import es.princip.getp.application.support.CursorPageable;

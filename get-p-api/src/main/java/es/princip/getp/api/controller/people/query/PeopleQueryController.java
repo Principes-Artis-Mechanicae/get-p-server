@@ -6,7 +6,6 @@ import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.ControllerSupport;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.support.dto.PageResponse;
 import es.princip.getp.application.people.command.GetPeopleCommand;
 import es.princip.getp.application.people.command.PeopleSearchFilter;
 import es.princip.getp.application.people.port.in.GetPeopleQuery;

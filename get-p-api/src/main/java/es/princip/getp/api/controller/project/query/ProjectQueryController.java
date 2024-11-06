@@ -1,15 +1,15 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.ControllerSupport;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.support.dto.PageResponse;
-import es.princip.getp.application.project.commission.command.GetProjectCommand;
-import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
+import es.princip.getp.application.project.commission.dto.command.GetProjectCommand;
+import es.princip.getp.application.project.commission.dto.command.ProjectSearchFilter;
+import es.princip.getp.application.project.commission.dto.response.ProjectCardResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectDetailResponse;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
+import es.princip.getp.application.support.dto.PageResponse;
 import es.princip.getp.domain.member.model.Member;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import lombok.RequiredArgsConstructor;

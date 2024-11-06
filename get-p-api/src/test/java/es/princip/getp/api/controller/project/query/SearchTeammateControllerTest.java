@@ -2,9 +2,8 @@ package es.princip.getp.api.controller.project.query;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
-import es.princip.getp.api.controller.project.query.dto.SearchTeammateResponse;
+import es.princip.getp.application.project.apply.dto.response.SearchTeammateResponse;
 import es.princip.getp.api.support.ControllerTest;
-import es.princip.getp.api.support.dto.SliceResponse;
 import es.princip.getp.application.people.command.SearchTeammateCommand;
 import es.princip.getp.application.project.apply.port.in.SearchTeammateQuery;
 import es.princip.getp.domain.member.model.MemberId;

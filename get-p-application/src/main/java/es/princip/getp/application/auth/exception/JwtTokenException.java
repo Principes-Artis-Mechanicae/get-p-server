@@ -1,4 +1,4 @@
-package es.princip.getp.api.security.exception;
+package es.princip.getp.application.auth.exception;
 
 import es.princip.getp.domain.support.DomainLogicException;
 import es.princip.getp.domain.support.ErrorDescription;

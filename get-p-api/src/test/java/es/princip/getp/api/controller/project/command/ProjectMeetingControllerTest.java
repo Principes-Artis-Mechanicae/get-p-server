@@ -6,7 +6,7 @@ import es.princip.getp.api.controller.project.command.dto.request.ScheduleMeetin
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.meeting.ProjectMeetingService;
-import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
+import es.princip.getp.application.project.meeting.dto.command.ScheduleMeetingCommand;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import org.junit.jupiter.api.Nested;

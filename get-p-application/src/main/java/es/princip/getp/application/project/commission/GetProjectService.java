@@ -1,9 +1,9 @@
 package es.princip.getp.application.project.commission;
 
-import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
-import es.princip.getp.application.project.commission.command.GetProjectCommand;
-import es.princip.getp.application.project.commission.command.ProjectSearchFilter;
+import es.princip.getp.application.project.commission.dto.command.GetProjectCommand;
+import es.princip.getp.application.project.commission.dto.command.ProjectSearchFilter;
+import es.princip.getp.application.project.commission.dto.response.ProjectCardResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectDetailResponse;
 import es.princip.getp.application.project.commission.port.in.GetProjectQuery;
 import es.princip.getp.application.project.commission.port.out.FindProjectPort;
 import es.princip.getp.application.support.MosaicFactory;
@@ -18,9 +18,9 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static es.princip.getp.application.support.ApplicationQueryUtil.isNotLogined;
-
 import java.util.Optional;
+
+import static es.princip.getp.application.support.ApplicationQueryUtil.isNotLogined;
 
 @Service
 @RequiredArgsConstructor

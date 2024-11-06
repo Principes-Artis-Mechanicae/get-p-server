@@ -2,7 +2,7 @@ package es.princip.getp.persistence.adapter.project.apply;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import es.princip.getp.api.controller.project.query.dto.ProjectApplicantResponse;
+import es.princip.getp.application.project.apply.dto.response.ProjectApplicantResponse;
 import es.princip.getp.application.project.apply.port.out.SerializeApplicantCursorPort;
 import es.princip.getp.application.support.Cursor;
 import es.princip.getp.persistence.support.SerializeCursorException;

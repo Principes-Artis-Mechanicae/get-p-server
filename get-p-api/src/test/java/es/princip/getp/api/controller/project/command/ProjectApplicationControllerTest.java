@@ -5,7 +5,7 @@ import com.epages.restdocs.apispec.Schema;
 import es.princip.getp.api.controller.project.command.dto.request.ApplyProjectRequest;
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
-import es.princip.getp.application.project.apply.command.ApplyProjectCommand;
+import es.princip.getp.application.project.apply.dto.command.ApplyProjectCommand;
 import es.princip.getp.application.project.apply.port.in.ApplyProjectUseCase;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationId;

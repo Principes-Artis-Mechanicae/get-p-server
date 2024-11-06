@@ -1,8 +1,8 @@
 package es.princip.getp.application.project.apply;
 
-import es.princip.getp.api.security.exception.ExpiredTokenException;
-import es.princip.getp.api.security.exception.InvalidTokenException;
-import es.princip.getp.application.project.apply.command.ApproveTeammateCommand;
+import es.princip.getp.application.auth.exception.ExpiredTokenException;
+import es.princip.getp.application.auth.exception.InvalidTokenException;
+import es.princip.getp.application.project.apply.dto.command.ApproveTeammateCommand;
 import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationId;
 import io.jsonwebtoken.*;

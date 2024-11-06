@@ -1,12 +1,12 @@
 package es.princip.getp.api.controller.project.command;
 
 import es.princip.getp.api.controller.project.command.dto.request.ScheduleMeetingRequest;
-import es.princip.getp.api.controller.project.command.dto.response.ScheduleMeetingResponse;
+import es.princip.getp.application.project.meeting.dto.response.ScheduleMeetingResponse;
 import es.princip.getp.api.security.details.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
 import es.princip.getp.application.project.meeting.ProjectMeetingService;
-import es.princip.getp.application.project.meeting.command.ScheduleMeetingCommand;
+import es.princip.getp.application.project.meeting.dto.command.ScheduleMeetingCommand;
 import es.princip.getp.domain.member.model.MemberId;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import jakarta.validation.Valid;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectMeetingController {
 
     private final ProjectMeetingService projectMeetingService;
-
     private final ProjectCommandMapper projectCommandMapper;
 
     /**

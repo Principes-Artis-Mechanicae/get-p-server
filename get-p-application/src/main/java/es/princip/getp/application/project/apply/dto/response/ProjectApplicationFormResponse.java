@@ -1,7 +1,8 @@
-package es.princip.getp.api.controller.project.query.dto;
+package es.princip.getp.application.project.apply.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import es.princip.getp.api.controller.people.query.dto.peopleProfile.PortfolioResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectDetailResponse;
 import es.princip.getp.domain.common.model.Duration;
 import es.princip.getp.domain.people.model.Education;
 import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;

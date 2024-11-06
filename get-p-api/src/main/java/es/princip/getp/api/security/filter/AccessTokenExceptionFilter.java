@@ -1,7 +1,7 @@
 package es.princip.getp.api.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import es.princip.getp.api.security.exception.JwtTokenException;
+import es.princip.getp.application.auth.exception.JwtTokenException;
 import es.princip.getp.api.support.dto.ApiErrorResponse;
 import es.princip.getp.api.support.dto.ApiErrorResponse.ApiErrorResult;
 import es.princip.getp.domain.support.ErrorDescription;

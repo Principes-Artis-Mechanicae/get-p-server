@@ -2,7 +2,7 @@ package es.princip.getp.persistence.adapter.client;
 
 import com.querydsl.core.Tuple;
 import es.princip.getp.api.controller.client.query.dto.ClientResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectClientResponse;
 import es.princip.getp.application.client.port.out.ClientQuery;
 import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.member.model.MemberId;

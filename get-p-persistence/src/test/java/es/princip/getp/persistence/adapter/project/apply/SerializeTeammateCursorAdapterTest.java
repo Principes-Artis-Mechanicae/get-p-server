@@ -2,7 +2,7 @@ package es.princip.getp.persistence.adapter.project.apply;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import es.princip.getp.api.controller.project.query.dto.SearchTeammateResponse;
+import es.princip.getp.application.project.apply.dto.response.SearchTeammateResponse;
 import es.princip.getp.application.support.Cursor;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;

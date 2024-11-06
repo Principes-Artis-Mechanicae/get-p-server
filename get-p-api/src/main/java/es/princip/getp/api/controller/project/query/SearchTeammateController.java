@@ -1,15 +1,15 @@
 package es.princip.getp.api.controller.project.query;
 
-import es.princip.getp.api.controller.project.query.dto.SearchTeammateResponse;
 import es.princip.getp.api.support.ControllerSupport;
 import es.princip.getp.api.support.CursorDefault;
 import es.princip.getp.api.support.dto.ApiResponse;
 import es.princip.getp.api.support.dto.ApiResponse.ApiSuccessResult;
-import es.princip.getp.api.support.dto.SliceResponse;
 import es.princip.getp.application.people.command.SearchTeammateCommand;
+import es.princip.getp.application.project.apply.dto.response.SearchTeammateResponse;
 import es.princip.getp.application.project.apply.port.in.SearchTeammateQuery;
 import es.princip.getp.application.support.Cursor;
 import es.princip.getp.application.support.CursorPageable;
+import es.princip.getp.application.support.dto.SliceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;

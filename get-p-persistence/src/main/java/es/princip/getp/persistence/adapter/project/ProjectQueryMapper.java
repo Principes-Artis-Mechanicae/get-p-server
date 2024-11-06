@@ -1,7 +1,7 @@
 package es.princip.getp.persistence.adapter.project;
 
-import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectClientResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectDetailResponse;
 import es.princip.getp.persistence.adapter.common.mapper.DurationPersistenceMapper;
 import es.princip.getp.persistence.adapter.project.commission.ProjectJpaEntity;
 import org.mapstruct.Mapper;

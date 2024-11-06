@@ -6,7 +6,7 @@ import es.princip.getp.api.controller.project.command.dto.request.CommissionProj
 import es.princip.getp.api.security.annotation.WithCustomMockUser;
 import es.princip.getp.api.support.ControllerTest;
 import es.princip.getp.application.project.commission.ProjectCommissionService;
-import es.princip.getp.application.project.commission.command.CommissionProjectCommand;
+import es.princip.getp.application.project.commission.dto.command.CommissionProjectCommand;
 import es.princip.getp.domain.member.model.MemberType;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import org.junit.jupiter.api.Nested;

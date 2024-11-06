@@ -1,7 +1,7 @@
 package es.princip.getp.api.security.filter;
 
-import es.princip.getp.api.security.exception.ExpiredTokenException;
-import es.princip.getp.api.security.exception.InvalidTokenException;
+import es.princip.getp.application.auth.exception.ExpiredTokenException;
+import es.princip.getp.application.auth.exception.InvalidTokenException;
 import es.princip.getp.application.auth.service.AccessTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package es.princip.getp.api.controller.project.query.dto;
+package es.princip.getp.application.project.commission.dto.response;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 

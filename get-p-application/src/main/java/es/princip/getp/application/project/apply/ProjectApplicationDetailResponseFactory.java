@@ -1,7 +1,7 @@
 package es.princip.getp.application.project.apply;
 
-import es.princip.getp.api.controller.project.query.dto.ProjectApplicationDetailResponse;
-import es.princip.getp.api.controller.project.query.dto.ProjectDetailResponse;
+import es.princip.getp.application.project.commission.dto.response.ProjectDetailResponse;
+import es.princip.getp.application.project.apply.dto.response.ProjectApplicationDetailResponse;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.URL;
 import es.princip.getp.domain.project.apply.model.IndividualProjectApplication;

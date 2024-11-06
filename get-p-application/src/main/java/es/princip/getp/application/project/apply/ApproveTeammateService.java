@@ -1,7 +1,7 @@
 package es.princip.getp.application.project.apply;
 
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
-import es.princip.getp.application.project.apply.command.ApproveTeammateCommand;
+import es.princip.getp.application.project.apply.dto.command.ApproveTeammateCommand;
 import es.princip.getp.application.project.apply.port.in.ApproveTeammateUseCase;
 import es.princip.getp.application.project.apply.port.out.LoadProjectApplicantPort;
 import es.princip.getp.application.project.apply.port.out.UpdateProjectApplicantPort;
