@@ -1,4 +1,4 @@
-package es.princip.getp.fixture.project;
+package es.princip.getp.api.controller.project.query;
 
 import es.princip.getp.api.controller.project.query.dto.ProjectCardResponse;
 import es.princip.getp.api.controller.project.query.dto.ProjectClientResponse;

@@ -2,13 +2,13 @@ package es.princip.getp.domain.member.model;
 
 import es.princip.getp.domain.common.model.Email;
 import es.princip.getp.domain.common.model.PhoneNumber;
+import es.princip.getp.domain.member.PasswordEncoder;
 import es.princip.getp.domain.member.exception.NotAgreedAllRequiredServiceTermException;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
 import es.princip.getp.domain.support.BaseEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

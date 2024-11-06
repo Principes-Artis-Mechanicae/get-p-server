@@ -1,11 +1,11 @@
 package es.princip.getp.domain.member.model;
 
+import es.princip.getp.domain.member.PasswordEncoder;
 import es.princip.getp.domain.support.BaseModel;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @ToString

@@ -1,6 +1,7 @@
 package es.princip.getp.domain.member.model;
 
 import es.princip.getp.domain.common.model.PhoneNumber;
+import es.princip.getp.domain.member.PasswordEncoder;
 import es.princip.getp.domain.member.exception.NotAgreedAllRequiredServiceTermException;
 import es.princip.getp.domain.member.infra.SimplePasswordEncoder;
 import es.princip.getp.domain.serviceTerm.model.ServiceTermTag;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 

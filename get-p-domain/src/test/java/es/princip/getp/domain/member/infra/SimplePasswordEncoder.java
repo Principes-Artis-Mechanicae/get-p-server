@@ -1,8 +1,10 @@
 package es.princip.getp.domain.member.infra;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import es.princip.getp.domain.member.PasswordEncoder;
 
 public class SimplePasswordEncoder implements PasswordEncoder {
+
     @Override
     public String encode(final CharSequence rawPassword) {
         return rawPassword.toString();

@@ -1,6 +1,5 @@
 package es.princip.getp.fixture.client;
 
-import es.princip.getp.api.controller.common.dto.AddressResponse;
 import es.princip.getp.domain.client.model.Address;
 
 public class AddressFixture {
@@ -11,9 +10,5 @@ public class AddressFixture {
 
     public static Address address() {
         return new Address(ZIPCODE, STREET, DETAIL);
-    }
-
-    public static AddressResponse addressResponse() {
-        return new AddressResponse(ZIPCODE, STREET, DETAIL);
     }
 }

@@ -1,13 +1,13 @@
 package es.princip.getp.domain.member.model;
 
-import es.princip.getp.domain.support.NotValidDomainModelException;
+import es.princip.getp.domain.member.PasswordEncoder;
 import es.princip.getp.domain.member.infra.SimplePasswordEncoder;
+import es.princip.getp.domain.support.NotValidDomainModelException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
