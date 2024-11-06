@@ -1,6 +1,6 @@
 package es.princip.getp.persistence.adapter.auth;
 
-import es.princip.getp.domain.member.model.MemberId;
+import es.princip.getp.domain.auth.RefreshToken;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 @Getter
 @RedisHash(value = "token_verification")
-public class RefreshToken {
+public class RefreshTokenRedisEntity {
 
     @Id
     private Long memberId;
@@ -22,9 +22,11 @@ public class RefreshToken {
     @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private Long expiration;
 
-    public RefreshToken(final MemberId memberId, final String refreshToken, final Long expiration) {
-        this.memberId = memberId.getValue();
-        this.refreshToken = refreshToken;
-        this.expiration = expiration;
+    public static RefreshTokenRedisEntity from(final RefreshToken token) {
+        final RefreshTokenRedisEntity entity = new RefreshTokenRedisEntity();
+        entity.memberId = token.getMemberId();
+        entity.refreshToken = token.getRefreshToken();
+        entity.expiration = token.getExpiration();
+        return entity;
     }
 }

@@ -2,10 +2,6 @@ dependencies {
     implementation(project(':get-p-domain'))
     testImplementation(testFixtures(project(':get-p-domain')))
 
-    runtimeOnly(project(':get-p-api'))
-    runtimeOnly(project(':get-p-persistence'))
-    runtimeOnly(project(':get-p-infrastructure'))
-
     // Spring
     implementation 'org.springframework.boot:spring-boot-starter-web:3.3.5'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.3.5'
@@ -32,4 +28,12 @@ dependencies {
     // Monitoring
     implementation 'org.springframework.boot:spring-boot-starter-actuator:3.3.5'
     implementation 'io.micrometer:micrometer-registry-prometheus:1.13.6'
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
 }

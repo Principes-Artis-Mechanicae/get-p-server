@@ -1,0 +1,5 @@
+spring:
+  storage:
+    local:
+      path: ${STORAGE_PATH}
+    base-uri: ${STORAGE_BASE_URI}

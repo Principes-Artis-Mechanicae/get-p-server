@@ -1,5 +1,6 @@
 package es.princip.getp.persistence.adapter.auth;
 
+import es.princip.getp.domain.auth.EmailVerification;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 @RedisHash(value = "email_verification")
 @EqualsAndHashCode(exclude = "expiration")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EmailVerification {
+public class EmailVerificationRedisEntity {
 
     @Id
     private String email;
@@ -27,14 +28,12 @@ public class EmailVerification {
     @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private Long expiration;
 
-    public EmailVerification(String email, String verificationCode, Long expiration) {
-        this.email = email;
-        this.verificationCode = verificationCode;
-        this.createdAt = LocalDateTime.now();
-        this.expiration = expiration;
-    }
-
-    public boolean verify(String verificationCode) {
-        return this.verificationCode.equals(verificationCode);
+    public static EmailVerificationRedisEntity from(final EmailVerification verification) {
+        final EmailVerificationRedisEntity entity = new EmailVerificationRedisEntity();
+        entity.email = verification.getEmail();
+        entity.verificationCode = verification.getVerificationCode();
+        entity.createdAt = verification.getCreatedAt();
+        entity.expiration = verification.getExpiration();
+        return entity;
     }
 }

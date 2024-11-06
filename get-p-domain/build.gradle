@@ -3,3 +3,11 @@ dependencies {
     // Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation:3.3.5'
 }
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

@@ -14,14 +14,28 @@ public class EmailVerification {
 
     private String email;
     private String verificationCode;
-    private LocalDateTime createdAt;
     private Long expiration;
+    private LocalDateTime createdAt;
 
-    public EmailVerification(String email, String verificationCode, Long expiration) {
+    public EmailVerification(
+        final String email,
+        final String verificationCode,
+        final Long expiration
+    ) {
         this.email = email;
         this.verificationCode = verificationCode;
-        this.createdAt = LocalDateTime.now();
         this.expiration = expiration;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public EmailVerification(
+        final String email,
+        final String verificationCode,
+        final Long expiration,
+        final LocalDateTime createdAt
+    ) {
+        this(email, verificationCode, expiration);
+        this.createdAt = createdAt;
     }
 
     public boolean verify(String verificationCode) {
