@@ -1,7 +1,6 @@
-package es.princip.getp.infrastructure.adapter.storage.exception;
+package es.princip.getp.application.storage.exception;
 
 import es.princip.getp.domain.support.ErrorDescription;
-import es.princip.getp.infrastructure.support.FileStorageException;
 
 public class FailedFileDeleteException extends FileStorageException {
 

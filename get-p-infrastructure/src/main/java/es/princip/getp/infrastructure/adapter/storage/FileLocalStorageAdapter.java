@@ -2,8 +2,8 @@ package es.princip.getp.infrastructure.adapter.storage;
 
 import es.princip.getp.application.storage.port.out.DeleteFilePort;
 import es.princip.getp.application.storage.port.out.StoreFilePort;
-import es.princip.getp.infrastructure.adapter.storage.exception.FailedFileDeleteException;
-import es.princip.getp.infrastructure.adapter.storage.exception.FailedFileSaveException;
+import es.princip.getp.application.storage.exception.FailedFileDeleteException;
+import es.princip.getp.application.storage.exception.FailedFileSaveException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

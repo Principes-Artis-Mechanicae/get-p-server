@@ -1,4 +1,4 @@
-package es.princip.getp.infrastructure.support;
+package es.princip.getp.application.storage.exception;
 
 import es.princip.getp.domain.support.ErrorDescription;
 import es.princip.getp.domain.support.ErrorDescriptionException;

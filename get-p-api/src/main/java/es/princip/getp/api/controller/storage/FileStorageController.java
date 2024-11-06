@@ -1,9 +1,9 @@
 package es.princip.getp.api.controller.storage;
 
-import es.princip.getp.api.controller.storage.dto.FileUploadResponse;
 import es.princip.getp.application.auth.service.PrincipalDetails;
 import es.princip.getp.api.support.dto.ApiResponse;
-import es.princip.getp.application.storage.command.UploadFileCommand;
+import es.princip.getp.application.storage.dto.command.UploadFileCommand;
+import es.princip.getp.application.storage.dto.response.UploadFileResponse;
 import es.princip.getp.application.storage.port.in.UploadFileUseCase;
 import es.princip.getp.domain.member.model.MemberId;
 import lombok.RequiredArgsConstructor;
@@ -30,14 +30,14 @@ public class FileStorageController {
 
     @PostMapping("/files")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiSuccessResult<FileUploadResponse>> uploadFile(
+    public ResponseEntity<ApiSuccessResult<UploadFileResponse>> uploadFile(
         @AuthenticationPrincipal final PrincipalDetails principalDetails,
         @RequestPart final MultipartFile file
     ) {
         final MemberId memberId = principalDetails.getMember().getId();
         final UploadFileCommand command = new UploadFileCommand(memberId, file);
         final URI uri = uploadFileUseCase.upload(command);
-        final FileUploadResponse response = new FileUploadResponse(uri);
+        final UploadFileResponse response = new UploadFileResponse(uri);
         return ApiResponse.success(HttpStatus.CREATED, response);
     }
 }
