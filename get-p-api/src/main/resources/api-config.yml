@@ -1,0 +1,42 @@
+server:
+  port: ${SPRING_PORT}
+  servlet:
+    context-path: ${BASE_PATH}
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    path: ${SWAGGER_PATH}
+    url: /oas/openapi3.yaml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+logging:
+  level:
+    es.princip.getp: DEBUG
+    org:
+      springframework:
+        security: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+logging:
+  level:
+    es.princip.getp: DEBUG
+    org:
+      springframework:
+        security: DEBUG

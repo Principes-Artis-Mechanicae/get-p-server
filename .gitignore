@@ -106,7 +106,7 @@ local.sh
 # Static Resources
 **/src/main/resources/static/docs/*
 **/src/main/resources/static/oas/*
-./storage
+storage/*
 
 # Yml File
 local-docker-compose.yml
