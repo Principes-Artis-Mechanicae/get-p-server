@@ -39,6 +39,14 @@ subprojects {
         useJUnitPlatform()
     }
 
+    tasks.register('copyTestResults', Copy) {
+        from 'build/test-results'
+        into '../build/test-results'
+        include '**/*.xml'
+    }
+
+    test.finalizedBy(copyTestResults)
+
     dependencies {
         // Lombok 라이브러리
         compileOnly 'org.projectlombok:lombok:1.18.34'
