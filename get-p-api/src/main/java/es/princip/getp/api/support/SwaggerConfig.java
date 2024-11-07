@@ -1,4 +1,4 @@
-package es.princip.getp.application.config;
+package es.princip.getp.api.support;
 
 import org.springdoc.core.configuration.SpringDocConfiguration;
 import org.springdoc.core.configuration.SpringDocUIConfiguration;

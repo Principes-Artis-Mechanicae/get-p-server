@@ -7,10 +7,6 @@ plugins {
     id 'maven-publish'
 }
 
-java {
-    sourceCompatibility = '17'
-}
-
 allprojects {
     group = 'es.princip'
     version = '0.0.1-SNAPSHOT'
@@ -28,6 +24,11 @@ subprojects {
     apply plugin: 'java-test-fixtures'
     apply plugin: 'maven-publish'
 
+    java {
+        sourceCompatibility = '17'
+        targetCompatibility = '17'
+    }
+
     configurations {
         compileOnly {
             extendsFrom annotationProcessor
@@ -39,20 +40,23 @@ subprojects {
     }
 
     dependencies {
-        testImplementation 'org.springframework.boot:spring-boot-starter-test:3.3.5'
-        developmentOnly 'org.springframework.boot:spring-boot-devtools:3.3.5'
-
-        // Lombok
+        // Lombok 라이브러리
         compileOnly 'org.projectlombok:lombok:1.18.34'
         annotationProcessor 'org.projectlombok:lombok:1.18.34'
         testCompileOnly 'org.projectlombok:lombok:1.18.34'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
 
-        // MapStruct
+        // MapStruct 라이브러리
         implementation 'org.mapstruct:mapstruct:1.6.0'
         annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0'
 
+        // Jackson 라이브러리
         implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1'
+
+        // 테스트 프레임워크
+        testImplementation 'org.springframework.boot:spring-boot-starter-test:3.3.5'
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
 }
 

@@ -1,10 +1,9 @@
 package es.princip.getp.application.serviceTerm.dto.response;
 
 import es.princip.getp.domain.serviceTerm.model.ServiceTerm;
-import jakarta.validation.constraints.NotNull;
 
 public record ServiceTermResponse(
-    @NotNull String tag, 
+    String tag,
     boolean required, 
     boolean revocable
 ) {
