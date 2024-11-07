@@ -23,7 +23,6 @@ spring:
 
 logging:
   level:
-    es.princip.getp: DEBUG
     org:
       springframework:
         security: DEBUG
@@ -36,7 +35,6 @@ spring:
 
 logging:
   level:
-    es.princip.getp: DEBUG
     org:
       springframework:
         security: DEBUG

@@ -12,11 +12,19 @@ spring:
     activate:
       on-profile: local
 
+logging:
+  level:
+    es.princip.getp: DEBUG
+
 ---
 spring:
   config:
     activate:
       on-profile: dev
+
+logging:
+  level:
+    es.princip.getp: DEBUG
 
 management:
   endpoints:
