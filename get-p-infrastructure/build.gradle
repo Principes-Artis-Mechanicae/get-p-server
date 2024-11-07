@@ -1,0 +1,17 @@
+dependencies {
+    // 모듈 의존성
+    implementation(project(':get-p-application'))
+    implementation(project(':get-p-domain'))
+    testImplementation(testFixtures(project(':get-p-domain')))
+
+    // Spring Web
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.3.5'
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

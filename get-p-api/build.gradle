@@ -1,0 +1,153 @@
+import org.yaml.snakeyaml.DumperOptions
+import org.yaml.snakeyaml.Yaml
+
+plugins {
+    id 'org.asciidoctor.jvm.convert' version '4.0.2'
+    id 'com.epages.restdocs-api-spec' version '0.18.2'
+}
+
+configurations {
+    asciidoctorExt
+}
+
+dependencies {
+    // 모듈 의존성
+    implementation(project(':get-p-domain'))
+    testImplementation(testFixtures(project(':get-p-domain')))
+    implementation(project(':get-p-application'))
+    implementation(project(':get-p-persistence'))
+    implementation(project(':get-p-infrastructure'))
+
+    // Spring 개발 도구
+    developmentOnly 'org.springframework.boot:spring-boot-devtools:3.3.5'
+
+    // Spring Web
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.3.5'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.3.5'
+
+    // Spring Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation:3.3.5'
+
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.3.5'
+    testImplementation 'org.springframework.security:spring-security-test:6.3.4'
+
+    // Spring Data
+    implementation 'org.springframework.data:spring-data-commons'
+
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // Spring REST Docs
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor:3.0.2'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc:3.0.2'
+    testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.18.2'
+
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
+
+    // 모니터링
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.3.5'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.13.6'
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+    baseDirFollowsSourceFile()
+}
+
+tasks.register('copyDocument', Copy) {
+    dependsOn asciidoctor
+    doFirst {
+        delete file('src/main/resources/static/docs')
+    }
+    from asciidoctor.outputDir
+    into file('src/main/resources/static/docs')
+}
+
+openapi3 {
+    servers = [
+        {
+            url = 'https://api.principes.xyz'
+            description = '개발 서버'
+        },
+        {
+            url = 'http://localhost:57020'
+            description = '로컬 서버'
+        }
+    ]
+    title = 'GET-P API'
+    description = 'GET-P API 명세서'
+    version = '0.1.0'
+    format = 'yaml'
+}
+
+tasks.register('addSecurityConfig') {
+    dependsOn('openapi3')
+    doFirst {
+        def path = "${projectDir}/${openapi3.outputDirectory}/openapi3.yaml"
+        def yaml = new Yaml()
+        def file = new File(path)
+        def data = yaml.load(new InputStreamReader(new FileInputStream(new File(path)), 'UTF-8'))
+
+        def components = data?.components ?: [:]
+        def JWT = [
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT'
+        ]
+        def security = [[JWT: []]]
+        def securitySchemas = [JWT: JWT]
+
+        components.securitySchemes = securitySchemas
+        data.security = security
+
+        def options = new DumperOptions().with {
+            defaultFlowStyle = DumperOptions.FlowStyle.BLOCK
+            prettyFlow = true
+            indent = 2
+            it
+        }
+        def converted = new Yaml(options)
+        def writer = new OutputStreamWriter(new FileOutputStream(file), 'UTF-8')
+
+        converted.dump(data, writer)
+    }
+}
+
+tasks.register('copyOas', Copy) {
+    dependsOn('addSecurityConfig')
+    doFirst {
+        delete file('src/main/resources/static/oas')
+    }
+    from openapi3.outputDirectory
+    into file('src/main/resources/static/oas')
+}
+
+bootJar {
+    dependsOn copyDocument
+    dependsOn copyOas
+    from(asciidoctor.outputDir) {
+        into 'static/docs'
+    }
+    from(openapi3.outputDirectory) {
+        into 'static/oas'
+    }
+}
+
+build {
+    dependsOn copyDocument
+    dependsOn copyOas
+}

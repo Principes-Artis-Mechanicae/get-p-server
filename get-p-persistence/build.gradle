@@ -1,0 +1,44 @@
+dependencies {
+    // 모듈 의존성
+    implementation(project(':get-p-domain'))
+    implementation(project(':get-p-application'))
+    testImplementation(testFixtures(project(':get-p-domain')))
+
+    // Spring Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation:3.3.5'
+
+    // Spring Data
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.3.5'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.3.5'
+
+    // Flyway
+    implementation 'org.flywaydb:flyway-core:9.16.3'
+    implementation 'org.flywaydb:flyway-mysql:9.16.3'
+
+    // JDBC MySQL 드라이버
+    runtimeOnly 'com.mysql:mysql-connector-j:9.0.0'
+
+    // QueryDSL
+    implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api:3.0.0"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api:3.0.0"
+
+    // Testcontainers
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers:3.3.5'
+    testImplementation 'org.testcontainers:testcontainers:1.19.3'
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.3'
+    testImplementation 'org.testcontainers:mysql:1.20.0'
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

@@ -1,0 +1,46 @@
+spring:
+  config:
+    import:
+      - api-config.yml
+      - app-config.yml
+      - persistence-config.yml
+      - infra-config.yml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+logging:
+  level:
+    es.princip.getp: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+logging:
+  level:
+    es.princip.getp: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+      base-path: ${MONITORING_URL}
+    enabled-by-default: false
+    jmx:
+      exposure:
+        exclude: '*'
+        include: info, health
+  endpoint:
+    prometheus:
+      enabled: true
+    info:
+      enabled: true
+    health:
+      enabled: true
