@@ -14,5 +14,6 @@ public class DropProjectService {
 
     public void dropProject() {
         jdbcTemplate.execute("delete from project");
+        log.info("Table \"project\" is dropped");
     }
 }
