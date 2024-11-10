@@ -2,10 +2,7 @@ package es.princip.getp.fixture.project;
 
 import es.princip.getp.domain.client.model.ClientId;
 import es.princip.getp.domain.common.model.Duration;
-import es.princip.getp.domain.project.commission.model.MeetingType;
-import es.princip.getp.domain.project.commission.model.Project;
-import es.princip.getp.domain.project.commission.model.ProjectCategory;
-import es.princip.getp.domain.project.commission.model.ProjectStatus;
+import es.princip.getp.domain.project.commission.model.*;
 
 import java.time.LocalDate;
 
@@ -36,6 +33,21 @@ public class ProjectFixture {
             ESTIMATED_END_DATE
         ))
         .hashtags(hashtags());
+
+    public static Project project(
+        final ProjectId projectId,
+        final ClientId clientId,
+        final ProjectStatus status
+    ) {
+        return builder.id(projectId)
+            .clientId(clientId)
+            .status(status)
+            .applicationDuration(Duration.of(
+                APPLICATION_START_DATE,
+                APPLICATION_END_DATE
+            ))
+            .build();
+    }
 
     public static Project project(final ClientId clientId, final ProjectStatus status) {
         return builder.clientId(clientId)

@@ -1,0 +1,4 @@
+spring:
+  config:
+    import:
+      - persistence-config.yml
