@@ -19,7 +19,6 @@ spring:
         use_sql_comments: true
         jdbc:
           time_zone: Asia/Seoul
-          batch_size: 50
         default_batch_fetch_size: 20
         dialect: org.hibernate.dialect.MySQLDialect
 

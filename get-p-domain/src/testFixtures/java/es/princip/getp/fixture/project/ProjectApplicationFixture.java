@@ -22,17 +22,40 @@ public class ProjectApplicationFixture {
         );
     }
 
+    private static IndividualProjectApplication.IndividualProjectApplicationBuilder individualBuilder() {
+        return IndividualProjectApplication.builder()
+            .expectedDuration(expectedDuration())
+            .status(ACCEPTED)
+            .description(DESCRIPTION)
+            .attachmentFiles(attachmentFiles());
+    }
+
+    private static TeamProjectApplication.TeamProjectApplicationBuilder teamBuilder() {
+        return TeamProjectApplication.builder()
+            .expectedDuration(expectedDuration())
+            .description(DESCRIPTION)
+            .attachmentFiles(attachmentFiles());
+    }
+
     public static ProjectApplication individualProjectApplication(
         final PeopleId peopleId,
         final ProjectId projectId
     ) {
-        return IndividualProjectApplication.builder()
+        return individualBuilder()
             .applicantId(peopleId)
             .projectId(projectId)
-            .expectedDuration(expectedDuration())
-            .status(ACCEPTED)
-            .description(DESCRIPTION)
-            .attachmentFiles(attachmentFiles())
+            .build();
+    }
+
+    public static ProjectApplication individualProjectApplication(
+        final ProjectApplicationId applicationId,
+        final PeopleId peopleId,
+        final ProjectId projectId
+    ) {
+        return individualBuilder()
+            .id(applicationId)
+            .applicantId(peopleId)
+            .projectId(projectId)
             .build();
     }
 
@@ -41,20 +64,48 @@ public class ProjectApplicationFixture {
         final ProjectId projectId,
         final ProjectApplicationStatus status,
         final Set<Teammate> teammates
-        ) {
-        return TeamProjectApplication.builder()
+    ) {
+        return teamBuilder()
             .applicantId(peopleId)
             .projectId(projectId)
-            .expectedDuration(expectedDuration())
             .status(status)
-            .description(DESCRIPTION)
-            .attachmentFiles(attachmentFiles())
             .teammates(teammates)
             .build();
     }
 
-    public static Teammate teammate(final PeopleId peopleId, final TeammateStatus status) {
+    public static TeamProjectApplication teamProjectApplication(
+        final ProjectApplicationId applicationId,
+        final PeopleId peopleId,
+        final ProjectId projectId,
+        final ProjectApplicationStatus status,
+        final Set<Teammate> teammates
+    ) {
+        return teamBuilder()
+            .id(applicationId)
+            .applicantId(peopleId)
+            .projectId(projectId)
+            .status(status)
+            .teammates(teammates)
+            .build();
+    }
+
+    public static Teammate teammate(
+        final PeopleId peopleId,
+        final TeammateStatus status
+    ) {
         return Teammate.builder()
+            .peopleId(peopleId)
+            .status(status)
+            .build();
+    }
+
+    public static Teammate teammate(
+        final TeammateId teammateId,
+        final PeopleId peopleId,
+        final TeammateStatus status
+    ) {
+        return Teammate.builder()
+            .id(teammateId)
             .peopleId(peopleId)
             .status(status)
             .build();

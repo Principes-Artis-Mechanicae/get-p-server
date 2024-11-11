@@ -1,4 +1,4 @@
-package es.princip.getp.batch.project;
+package es.princip.getp.batch.project.commission;
 
 public interface BatchInsertProjectService {
 

@@ -1,4 +1,4 @@
-package es.princip.getp.batch.project;
+package es.princip.getp.batch.project.commission;
 
 import es.princip.getp.domain.project.commission.model.Project;
 import lombok.RequiredArgsConstructor;

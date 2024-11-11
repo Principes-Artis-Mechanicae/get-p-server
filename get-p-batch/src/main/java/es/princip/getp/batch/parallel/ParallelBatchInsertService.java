@@ -17,9 +17,9 @@ public class ParallelBatchInsertService {
 
     @Getter
     private final int numThreads = Runtime.getRuntime().availableProcessors();
-    private final ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
 
     public void insert(final int size, final ParallelBatchInserter batchInserter) {
+        final ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
         final List<CompletableFuture<Void>> futures = new ArrayList<>();
         final int batchSize = size / numThreads;
         for (int i = 0; i < numThreads; i++) {

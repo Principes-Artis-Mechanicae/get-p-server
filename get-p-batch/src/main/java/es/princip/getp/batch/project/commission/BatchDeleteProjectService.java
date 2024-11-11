@@ -1,4 +1,4 @@
-package es.princip.getp.batch.project;
+package es.princip.getp.batch.project.commission;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
