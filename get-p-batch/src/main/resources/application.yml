@@ -1,4 +1,32 @@
 spring:
-  config:
-    import:
-      - persistence-config.yml
+  datasource:
+    url: ${DB_URL}?&rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+        jdbc:
+          time_zone: Asia/Seoul
+          batch_size: 50
+        default_batch_fetch_size: 20
+        dialect: org.hibernate.dialect.MySQLDialect
+
+logging:
+  level:
+    org:
+      type:
+        descriptor:
+          sql:
+            BasicBinder: TRACE

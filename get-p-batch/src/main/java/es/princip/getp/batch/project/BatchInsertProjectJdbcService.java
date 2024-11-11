@@ -16,6 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 class BatchInsertProjectJdbcService {
 
+    private final BatchInsertProjectHashtagJdbcService hashtagJdbcService;
+    private final BatchInsertProjectAttachmentFileJdbcService attachmentFileJdbcService;
     private final JdbcTemplate jdbcTemplate;
     private static final String sql =
         """
@@ -66,5 +68,7 @@ class BatchInsertProjectJdbcService {
                 return projects.size();
             }
         });
+        hashtagJdbcService.batchUpdate(projects);
+        attachmentFileJdbcService.batchUpdate(projects);
     }
 }

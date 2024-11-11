@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DropProjectService {
+public class BatchDeleteProjectService {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public void dropProject() {
+    public void delete() {
+        jdbcTemplate.execute("delete from project_hashtag");
+        jdbcTemplate.execute("delete from project_attachment_file");
         jdbcTemplate.execute("delete from project");
+        log.info("Table \"project_hashtag\" is dropped");
+        log.info("Table \"project_attachment_file\" is dropped");
         log.info("Table \"project\" is dropped");
     }
 }
