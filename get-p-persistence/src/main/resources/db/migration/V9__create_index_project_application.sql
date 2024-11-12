@@ -1,0 +1,5 @@
+create index ix_project_application_project_id_status
+on project_application(project_id, status);
+
+create index ix_team_project_application_teammate_project_application_id
+on team_project_application_teammate(project_application_id);

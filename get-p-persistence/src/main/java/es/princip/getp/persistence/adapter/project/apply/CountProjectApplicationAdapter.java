@@ -1,6 +1,8 @@
 package es.princip.getp.persistence.adapter.project.apply;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import es.princip.getp.application.project.apply.port.out.CountProjectApplicationPort;
+import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.persistence.adapter.project.apply.model.QProjectApplicationJpaEntity;
 import es.princip.getp.persistence.adapter.project.apply.model.QTeammateJpaEntity;
@@ -23,15 +25,29 @@ class CountProjectApplicationAdapter extends QueryDslSupport implements CountPro
         = QProjectApplicationJpaEntity.projectApplicationJpaEntity;
     private static final QTeammateJpaEntity teammate = QTeammateJpaEntity.teammateJpaEntity;
 
+    private static final ProjectApplicationStatus[] statusesWithoutPendingTeamApproval
+        = Arrays.stream(ProjectApplicationStatus.values())
+            .filter(status -> !status.equals(PENDING_TEAM_APPROVAL))
+            .toArray(ProjectApplicationStatus[]::new);
+
+    private static BooleanExpression applicationStatusNePendingTeamApproval() {
+        return application.status.in(statusesWithoutPendingTeamApproval);
+    }
+
+    private static BooleanExpression teammateApplicationStatusNePendingTeamApproval() {
+        return teammate.application.status.in(statusesWithoutPendingTeamApproval);
+    }
+
     @Override
     public Map<ProjectId, Long> countBy(final ProjectId... projectId) {
         final Long[] ids = Arrays.stream(projectId)
             .map(ProjectId::getValue)
             .toArray(Long[]::new);
+
         final Map<ProjectId, Long> counts = queryFactory.select(application.projectId, application.count())
             .from(application)
             .where(application.projectId.in(ids)
-                .and(application.status.ne(PENDING_TEAM_APPROVAL)))
+                .and(applicationStatusNePendingTeamApproval()))
             .groupBy(application.projectId)
             .fetch()
             .stream()
@@ -40,10 +56,11 @@ class CountProjectApplicationAdapter extends QueryDslSupport implements CountPro
                 tuple -> Optional.ofNullable(tuple.get(application.count()))
                     .orElse(0L)
             ));
+
         queryFactory.select(teammate.application.projectId, teammate.count())
             .from(teammate)
             .where(teammate.application.projectId.in(ids)
-                .and(teammate.application.status.ne(PENDING_TEAM_APPROVAL)))
+                .and(teammateApplicationStatusNePendingTeamApproval()))
             .groupBy(teammate.application.projectId)
             .fetch()
             .forEach(tuple -> {
@@ -52,6 +69,7 @@ class CountProjectApplicationAdapter extends QueryDslSupport implements CountPro
                     .orElse(0L);
                 counts.put(key, counts.getOrDefault(key, 0L) + value);
             });
+
         return counts;
     }
 
@@ -60,13 +78,15 @@ class CountProjectApplicationAdapter extends QueryDslSupport implements CountPro
         Long count = queryFactory.select(application.count())
             .from(application)
             .where(application.projectId.eq(projectId.getValue())
-                .and(application.status.ne(PENDING_TEAM_APPROVAL)))
+                .and(applicationStatusNePendingTeamApproval()))
             .fetchOne();
+
         count += queryFactory.select(teammate.count())
             .from(teammate)
             .where(teammate.application.projectId.eq(projectId.getValue())
-                .and(teammate.application.status.ne(PENDING_TEAM_APPROVAL)))
+                .and(teammateApplicationStatusNePendingTeamApproval()))
             .fetchOne();
+
         return count;
     }
 }
