@@ -1,9 +1,8 @@
 rootProject.name = 'get-p-server'
 
-include(
-    "get-p-api",
-    "get-p-domain",
-    "get-p-application",
-    "get-p-persistence",
-    "get-p-infrastructure"
-)
+include 'get-p-api'
+include 'get-p-domain'
+include 'get-p-application'
+include 'get-p-persistence'
+include 'get-p-infrastructure'
+include 'get-p-batch'
