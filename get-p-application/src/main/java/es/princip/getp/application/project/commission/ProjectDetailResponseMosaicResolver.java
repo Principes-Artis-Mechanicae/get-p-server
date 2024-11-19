@@ -27,6 +27,9 @@ class ProjectDetailResponseMosaicResolver extends MosaicResolverSupport
     }
 
     private AddressResponse mosaicAddress(final AddressResponse address) {
+        if (address == null) {
+            return null;
+        }
         return new AddressResponse(
             mosaicMessage(address.zipcode()),
             mosaicMessage(address.street()),
