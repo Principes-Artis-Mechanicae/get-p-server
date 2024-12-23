@@ -54,4 +54,16 @@ public abstract class ProjectApplication extends BaseEntity {
     public boolean isCompleted() {
         return this.status == ProjectApplicationStatus.COMPLETED;
     }
+
+    public boolean isMeetingCompleted() {
+        return this.status == ProjectApplicationStatus.MEETING_COMPLETED;
+    }
+
+    public void meetingComplete() {
+        this.status = ProjectApplicationStatus.MEETING_COMPLETED;
+    }
+
+    public void confirm() {
+        this.status = ProjectApplicationStatus.ACCEPTED;
+    }
 }

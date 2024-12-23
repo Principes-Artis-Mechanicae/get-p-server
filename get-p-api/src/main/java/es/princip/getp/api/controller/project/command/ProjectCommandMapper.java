@@ -9,6 +9,7 @@ import es.princip.getp.application.project.apply.dto.command.ApplyProjectAsIndiv
 import es.princip.getp.application.project.apply.dto.command.ApplyProjectAsTeamCommand;
 import es.princip.getp.application.project.apply.dto.command.ApplyProjectCommand;
 import es.princip.getp.application.project.commission.dto.command.CommissionProjectCommand;
+import es.princip.getp.application.project.confirmation.dto.command.ConfirmationProjectCommand;
 import es.princip.getp.application.project.meeting.dto.command.ScheduleMeetingCommand;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.URL;
@@ -25,9 +26,9 @@ import org.mapstruct.Mapping;
 abstract class ProjectCommandMapper {
 
     ApplyProjectCommand mapToCommand(
-        Member member,
-        ProjectId projectId,
-        ApplyProjectRequest request
+            Member member,
+            ProjectId projectId,
+            ApplyProjectRequest request
     ) {
         if (request instanceof ApplyProjectAsIndividualRequest req) {
             return mapToCommand(member, projectId, req);
@@ -42,9 +43,9 @@ abstract class ProjectCommandMapper {
     @Mapping(source = "request.description", target = "description")
     @Mapping(source = "request.attachmentFiles", target = "attachmentFiles")
     protected abstract ApplyProjectAsIndividualCommand mapToCommand(
-        Member member,
-        ProjectId projectId,
-        ApplyProjectAsIndividualRequest request
+            Member member,
+            ProjectId projectId,
+            ApplyProjectAsIndividualRequest request
     );
 
     @Mapping(source = "request.expectedDuration", target = "expectedDuration")
@@ -52,22 +53,29 @@ abstract class ProjectCommandMapper {
     @Mapping(source = "request.attachmentFiles", target = "attachmentFiles")
     @Mapping(source = "request.teammates", target = "teammates")
     protected abstract ApplyProjectAsTeamCommand mapToCommand(
-        Member member,
-        ProjectId projectId,
-        ApplyProjectAsTeamRequest request
+            Member member,
+            ProjectId projectId,
+            ApplyProjectAsTeamRequest request
     );
 
     protected abstract AttachmentFile mapToAttachmentFile(URL url);
 
     abstract CommissionProjectCommand mapToCommand(
-        MemberId memberId,
-        CommissionProjectRequest request
+            MemberId memberId,
+            CommissionProjectRequest request
     );
 
     @Mapping(source = "request.applicantId", target = "applicantId.value")
     abstract ScheduleMeetingCommand mapToCommand(
-        MemberId memberId,
-        ProjectId projectId,
-        ScheduleMeetingRequest request
+            MemberId memberId,
+            ProjectId projectId,
+            ScheduleMeetingRequest request
+    );
+
+    @Mapping(source = "request.applicantId", target = "applicantId.value")
+    abstract ConfirmationProjectCommand mapToCommand(
+            MemberId memberId,
+            ProjectId projectId,
+            ConfirmProjectRequest request
     );
 }

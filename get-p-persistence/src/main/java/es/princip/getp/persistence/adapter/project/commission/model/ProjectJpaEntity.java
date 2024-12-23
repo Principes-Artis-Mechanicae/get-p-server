@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.project.commission;
+package es.princip.getp.persistence.adapter.project.commission.model;
 
 import es.princip.getp.domain.project.commission.model.MeetingType;
 import es.princip.getp.domain.project.commission.model.ProjectCategory;

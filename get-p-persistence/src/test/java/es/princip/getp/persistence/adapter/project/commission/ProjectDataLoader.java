@@ -4,6 +4,7 @@ import es.princip.getp.domain.project.commission.model.MeetingType;
 import es.princip.getp.domain.project.commission.model.ProjectCategory;
 import es.princip.getp.domain.project.commission.model.ProjectStatus;
 import es.princip.getp.persistence.adapter.common.DurationJpaVO;
+import es.princip.getp.persistence.adapter.project.commission.model.ProjectJpaEntity;
 import es.princip.getp.persistence.support.DataLoader;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

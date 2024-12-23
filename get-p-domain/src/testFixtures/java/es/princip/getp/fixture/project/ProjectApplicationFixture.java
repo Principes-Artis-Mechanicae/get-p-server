@@ -48,6 +48,18 @@ public class ProjectApplicationFixture {
     }
 
     public static ProjectApplication individualProjectApplication(
+        final PeopleId peopleId,
+        final ProjectId projectId,
+        final ProjectApplicationStatus status
+    ) {
+        return individualBuilder()
+            .applicantId(peopleId)
+            .projectId(projectId)
+            .status(status)
+            .build();
+    }
+
+    public static ProjectApplication individualProjectApplication(
         final ProjectApplicationId applicationId,
         final PeopleId peopleId,
         final ProjectId projectId
