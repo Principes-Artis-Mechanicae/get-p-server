@@ -8,8 +8,8 @@ import es.princip.getp.api.controller.project.command.dto.request.*;
 import es.princip.getp.application.project.apply.dto.command.ApplyProjectAsIndividualCommand;
 import es.princip.getp.application.project.apply.dto.command.ApplyProjectAsTeamCommand;
 import es.princip.getp.application.project.apply.dto.command.ApplyProjectCommand;
+import es.princip.getp.application.project.assign.dto.command.AssignmentPeopleCommand;
 import es.princip.getp.application.project.commission.dto.command.CommissionProjectCommand;
-import es.princip.getp.application.project.confirmation.dto.command.ConfirmationProjectCommand;
 import es.princip.getp.application.project.meeting.dto.command.ScheduleMeetingCommand;
 import es.princip.getp.domain.common.model.AttachmentFile;
 import es.princip.getp.domain.common.model.URL;
@@ -73,9 +73,9 @@ abstract class ProjectCommandMapper {
     );
 
     @Mapping(source = "request.applicantId", target = "applicantId.value")
-    abstract ConfirmationProjectCommand mapToCommand(
+    abstract AssignmentPeopleCommand mapToCommand(
             MemberId memberId,
             ProjectId projectId,
-            ConfirmProjectRequest request
+            AssignmentPeopleRequest request
     );
 }

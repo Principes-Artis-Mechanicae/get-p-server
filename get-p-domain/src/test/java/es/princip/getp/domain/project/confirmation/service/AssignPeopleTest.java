@@ -9,7 +9,7 @@ import es.princip.getp.domain.project.apply.model.ProjectApplicationStatus;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.domain.project.confirmation.exception.NotCompletedProjectMeetingException;
-import es.princip.getp.domain.project.confirmation.model.ProjectConfirmation;
+import es.princip.getp.domain.project.confirmation.model.AssignmentPeople;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,9 +24,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.spy;
 
 @ExtendWith(MockitoExtension.class)
-class ProjectConfirmerTest {
+class AssignPeopleTest {
 
-    private final ProjectConfirmer projectConfirmer = new ProjectConfirmer();
+    private final AssignPeople assignPeople = new AssignPeople();
     private final ClientId clientId = new ClientId(1L);
 
     @Test
@@ -39,7 +39,7 @@ class ProjectConfirmerTest {
             applicant.getId(), project.getId(), ProjectApplicationStatus.MEETING_COMPLETED
         ));
 
-        ProjectConfirmation projectConfirmation = projectConfirmer.confirm(project, applicant, application);
+        AssignmentPeople projectConfirmation = assignPeople.confirm(project, applicant, application);
 
         assertThat(projectConfirmation).isNotNull();
     }
@@ -54,7 +54,7 @@ class ProjectConfirmerTest {
                 applicant.getId(), project.getId(), ProjectApplicationStatus.COMPLETED
         ));
 
-        Assertions.assertThatThrownBy(() -> projectConfirmer.confirm(project, applicant, application))
+        Assertions.assertThatThrownBy(() -> assignPeople.confirm(project, applicant, application))
             .isInstanceOf(NotCompletedProjectMeetingException.class);
     }
 }

@@ -9,7 +9,7 @@ public class ConfirmProjectResponseDescription {
     public static FieldDescriptor[] confirmProjectResponseDescription() {
         return new FieldDescriptor[] {
                 statusField(),
-                fieldWithPath("data.confirmationId").description("확정 ID"),
+                fieldWithPath("data.assignmentId").description("할당 ID"),
         };
     }
 }

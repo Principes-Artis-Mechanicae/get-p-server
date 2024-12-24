@@ -10,14 +10,14 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ProjectConfirmation extends BaseEntity {
+public class AssignmentPeople extends BaseEntity {
 
-    private ProjectConfirmationId projectConfirmationId;
+    private AssignmentPeopleId assignmentPeopleId;
     @NotNull private ProjectId projectId;
     @NotNull private PeopleId applicantId;
 
     @Builder
-    public ProjectConfirmation(
+    public AssignmentPeople(
         final ProjectId projectId,
         final PeopleId applicantId,
         final LocalDateTime createdAt,

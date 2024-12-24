@@ -9,11 +9,11 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public class ProjectConfirmationId extends BaseModel {
+public class AssignmentPeopleId extends BaseModel {
 
     @NotNull private final Long value;
 
-    public ProjectConfirmationId(final Long value) {
+    public AssignmentPeopleId(final Long value) {
         this.value = value;
     }
 }

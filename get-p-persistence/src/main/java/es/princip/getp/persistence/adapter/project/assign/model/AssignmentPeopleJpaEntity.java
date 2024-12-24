@@ -1,4 +1,4 @@
-package es.princip.getp.persistence.adapter.project.confirmation.model;
+package es.princip.getp.persistence.adapter.project.assign.model;
 
 import es.princip.getp.persistence.adapter.BaseTimeJpaEntity;
 import jakarta.persistence.*;
@@ -8,11 +8,11 @@ import lombok.*;
 @Entity
 @Builder
 @AllArgsConstructor
-@Table(name = "project_confirmation")
+@Table(name = "assignment_people")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProjectConfirmationJpaEntity extends BaseTimeJpaEntity {
+public class AssignmentPeopleJpaEntity extends BaseTimeJpaEntity {
     @Id
-    @Column(name = "project_confirmation_id")
+    @Column(name = "assignment_people_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

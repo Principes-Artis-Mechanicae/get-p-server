@@ -1,14 +1,14 @@
-package es.princip.getp.application.project.confirmation;
+package es.princip.getp.application.project.assign;
 
 import es.princip.getp.application.client.port.out.LoadClientPort;
 import es.princip.getp.application.people.port.out.LoadPeoplePort;
 import es.princip.getp.application.project.apply.port.out.CheckProjectApplicationPort;
 import es.princip.getp.application.project.apply.port.out.LoadProjectApplicantPort;
 import es.princip.getp.application.project.apply.port.out.UpdateProjectApplicantPort;
+import es.princip.getp.application.project.assign.dto.command.AssignmentPeopleCommand;
 import es.princip.getp.application.project.commission.port.out.LoadProjectPort;
-import es.princip.getp.application.project.confirmation.dto.command.ConfirmationProjectCommand;
-import es.princip.getp.application.project.confirmation.port.in.ConfirmationProjectUseCase;
-import es.princip.getp.application.project.confirmation.port.out.SaveProjectConfirmationPort;
+import es.princip.getp.application.project.assign.port.in.AssignmentPeopleUseCase;
+import es.princip.getp.application.project.assign.port.out.SaveAssignmentPeoplePort;
 import es.princip.getp.application.project.meeting.exception.NotApplicantException;
 import es.princip.getp.application.project.meeting.exception.NotClientOfProjectException;
 import es.princip.getp.domain.client.model.Client;
@@ -17,9 +17,9 @@ import es.princip.getp.domain.people.model.PeopleId;
 import es.princip.getp.domain.project.apply.model.ProjectApplication;
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectId;
-import es.princip.getp.domain.project.confirmation.model.ProjectConfirmation;
-import es.princip.getp.domain.project.confirmation.model.ProjectConfirmationId;
-import es.princip.getp.domain.project.confirmation.service.ProjectConfirmer;
+import es.princip.getp.domain.project.confirmation.model.AssignmentPeople;
+import es.princip.getp.domain.project.confirmation.model.AssignmentPeopleId;
+import es.princip.getp.domain.project.confirmation.service.AssignPeople;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,9 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ProjectConfirmationService implements ConfirmationProjectUseCase {
+public class AssignmentPeopleService implements AssignmentPeopleUseCase {
 
-    private final SaveProjectConfirmationPort saveProjectConfirmationPort;
+    private final SaveAssignmentPeoplePort saveProjectConfirmationPort;
     private final UpdateProjectApplicantPort updateProjectApplicantPort;
     private final LoadProjectApplicantPort loadProjectApplicantPort;
     private final LoadPeoplePort loadPeoplePort;
@@ -40,15 +40,15 @@ public class ProjectConfirmationService implements ConfirmationProjectUseCase {
 
     private final CheckProjectApplicationPort checkProjectApplicationPort;
 
-    private final ProjectConfirmer projectConfirmer;
+    private final AssignPeople assignPeople;
 
     /**
-     * 프로젝트 확정
-     * @param command 프로젝트 확정 명령
+     * 진행자 할당
+     * @param command 진행자 할당 명령
      * @return ProjectConfirmation ID
      */
     @Transactional
-    public ProjectConfirmationId confirm(ConfirmationProjectCommand command) {
+    public AssignmentPeopleId assign(AssignmentPeopleCommand command) {
         Client client = loadClientPort.loadBy(command.memberId());
         Project project = loadProjectPort.loadBy(command.projectId());
 
@@ -58,10 +58,10 @@ public class ProjectConfirmationService implements ConfirmationProjectUseCase {
         final People people = loadPeoplePort.loadBy(command.applicantId());
         final ProjectApplication projectApplication = loadProjectApplicantPort.loadBy(command.projectId(), command.applicantId());
 
-        final ProjectConfirmation projectConfirmation = projectConfirmer.confirm(project, people, projectApplication);
+        final AssignmentPeople projectConfirmation = assignPeople.confirm(project, people, projectApplication);
         projectApplicationConfirm(projectApplication);
 
-        ProjectConfirmationId id = new ProjectConfirmationId(saveProjectConfirmationPort.save(projectConfirmation));
+        AssignmentPeopleId id = new AssignmentPeopleId(saveProjectConfirmationPort.save(projectConfirmation));
         return id;
     }
 
