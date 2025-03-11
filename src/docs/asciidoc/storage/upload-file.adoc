@@ -1,1 +1,0 @@
-operation::/upload-file/upload-file/[snippets="httpie-request,request-headers,request-parts,http-response,response-fields-data"]

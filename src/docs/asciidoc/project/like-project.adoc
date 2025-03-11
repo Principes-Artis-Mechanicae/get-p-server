@@ -1,1 +1,0 @@
-operation::/like-project/like-project[snippets="http-request,request-headers,http-response"]
