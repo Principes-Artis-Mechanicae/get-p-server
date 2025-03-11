@@ -1,0 +1,1 @@
+operation::/get-projects/get-projects[snippets="http-request,request-headers,http-response,response-fields-data"]
