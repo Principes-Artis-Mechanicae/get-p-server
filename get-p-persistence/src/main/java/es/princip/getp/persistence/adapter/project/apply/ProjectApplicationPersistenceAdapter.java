@@ -56,6 +56,13 @@ class ProjectApplicationPersistenceAdapter extends QueryDslSupport implements
     }
 
     @Override
+    public ProjectApplication loadBy(final ProjectId projectId, final PeopleId applicantId) {
+        final ProjectApplicationJpaEntity jpaEntity = repository.findByProjectIdAndApplicantId(projectId.getValue(), applicantId.getValue())
+            .orElseThrow(NotFoundProjectApplicationException::new);
+        return mapper.mapToDomain(jpaEntity);
+    }
+
+    @Override
     public void update(final ProjectApplication application) {
         final Long applicationId = application.getId().getValue();
         if (!repository.existsById(applicationId)) {

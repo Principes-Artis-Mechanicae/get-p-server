@@ -7,6 +7,7 @@ import es.princip.getp.application.project.commission.port.out.UpdateProjectPort
 import es.princip.getp.domain.project.commission.model.Project;
 import es.princip.getp.domain.project.commission.model.ProjectId;
 import es.princip.getp.persistence.adapter.project.ProjectPersistenceMapper;
+import es.princip.getp.persistence.adapter.project.commission.model.ProjectJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
