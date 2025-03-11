@@ -1,0 +1,3 @@
+Access Token 및 Refresh Token 재발급 시 기존의 토큰들은 만료 처리가 됩니다. 새로운 토큰을 사용해주세요.
+
+operation::/auth/reissue-access-token[snippets="http-request,request-headers,http-response,response-fields"]

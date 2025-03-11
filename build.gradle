@@ -2,137 +2,76 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.4'
     id 'io.spring.dependency-management' version '1.1.3'
-    id 'org.asciidoctor.jvm.convert' version '4.0.2'
+    id 'java-library'
+    id 'java-test-fixtures'
+    id 'maven-publish'
 }
 
-group = 'es.princip'
-version = '0.0.1-SNAPSHOT'
+allprojects {
+    group = 'es.princip'
+    version = '0.0.1-SNAPSHOT'
 
-java {
-    sourceCompatibility = '17'
-}
-
-repositories {
-    mavenCentral()
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+    repositories {
+        mavenCentral()
     }
-    asciidoctorExt
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-library'
+    apply plugin: 'java-test-fixtures'
+    apply plugin: 'maven-publish'
 
-    // Validation
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.apache.tika:tika-core:2.9.1'
-
-    // Jpa
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-    // Security
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    testImplementation 'org.springframework.security:spring-security-test'
-
-    // Jwt
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
-    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-
-    // Database
-    runtimeOnly 'com.mysql:mysql-connector-j:9.0.0'
-    implementation 'org.flywaydb:flyway-core'
-    implementation 'org.flywaydb:flyway-mysql'
-
-    // Lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
-
-    // WebSocket
-    implementation 'org.springframework:spring-websocket:6.0.13'
-
-    // QueryDSL
-    implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
-    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
-    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-
-    // Redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
-    // Mail
-    implementation 'com.sun.mail:jakarta.mail:2.0.1'
-    implementation 'org.springframework.boot:spring-boot-starter-mail:3.2.1'
-
-    // MapStruct
-    implementation 'org.mapstruct:mapstruct:1.6.0'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0'
-
-    // AOP
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
-
-    // Test Containers
-    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-    testImplementation 'org.testcontainers:testcontainers:1.19.3'
-    testImplementation 'org.testcontainers:junit-jupiter:1.19.3'
-    testImplementation 'org.testcontainers:mysql:1.20.0'
-
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1'
-
-    // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
-
-    // Monitoring
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-
-    // Spring REST Docs
-    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-}
-
-ext {
-    snippetsDir = file('build/generated-snippets')
-}
-
-test {
-    outputs.dir snippetsDir
-    useJUnitPlatform()
-}
-
-asciidoctor {
-    inputs.dir snippetsDir
-    configurations 'asciidoctorExt'
-    dependsOn test
-    sources {
-        include('**/index.adoc')
+    java {
+        sourceCompatibility = '17'
+        targetCompatibility = '17'
     }
-    baseDirFollowsSourceFile()
-}
 
-tasks.register('copyDocument', Copy) {
-    dependsOn asciidoctor
-    doFirst {
-        delete file('src/main/resources/static/docs')
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
     }
-    from asciidoctor.outputDir
-    into file('src/main/resources/static/docs')
-}
 
-build {
-    dependsOn copyDocument
+    test {
+        useJUnitPlatform()
+    }
+
+    tasks.register('copyTestResults', Copy) {
+        from 'build/test-results'
+        into '../build/test-results'
+        include '**/*.xml'
+    }
+
+    test.finalizedBy(copyTestResults)
+
+    dependencies {
+        // Lombok 라이브러리
+        compileOnly 'org.projectlombok:lombok:1.18.34'
+        annotationProcessor 'org.projectlombok:lombok:1.18.34'
+        testCompileOnly 'org.projectlombok:lombok:1.18.34'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+        // MapStruct 라이브러리
+        implementation 'org.mapstruct:mapstruct:1.6.0'
+        annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0'
+
+        // Jackson 라이브러리
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1'
+
+        // 테스트 프레임워크
+        testImplementation 'org.springframework.boot:spring-boot-starter-test:3.3.5'
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
 }
 
 bootJar {
-    dependsOn copyDocument
-    from ("${asciidoctor.outputDir}") {
-        into 'static/docs'
-    }
+    enabled = false
+}
+
+jar {
+    enabled = true
 }

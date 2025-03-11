@@ -1,0 +1,30 @@
+플랫폼에 등록된 피플의 목록을 페이지 별로 조회할 수 있는 기능이에요.
+
+==== HTTP request
+include::{snippets}/people/get-people-list/http-request.adoc[]
+
+==== Request headers
+include::{snippets}/people/get-people-list/request-headers.adoc[]
+
+==== Query parameters
+
+include::../common/query-parameters-description.adoc[]
+include::{snippets}/people/get-people-list/query-parameters.adoc[]
+
+==== Sort parameters
+
+include::../common/sort-parameters-description.adoc[]
+
+[cols=2*]
+|===
+|정렬 조건|필드명
+
+|피플 ID|`peopleId`
+|좋아요 개수|`likesCount`
+|===
+
+==== HTTP response
+include::{snippets}/people/get-people-list/http-response.adoc[]
+
+==== Response fields
+include::{snippets}/people/get-people-list/response-fields.adoc[]

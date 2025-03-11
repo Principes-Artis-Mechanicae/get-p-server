@@ -1,1 +1,0 @@
-operation::/upload-profile-image/upload-profile-image/[snippets="httpie-request,request-headers,request-parts,http-response,response-fields-data"]

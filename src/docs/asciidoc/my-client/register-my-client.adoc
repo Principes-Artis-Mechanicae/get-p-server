@@ -1,1 +1,0 @@
-operation::/register-my-client/register-my-client[snippets="http-request,request-headers,request-fields,http-response,response-fields-data"]

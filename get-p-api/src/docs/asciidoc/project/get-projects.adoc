@@ -1,0 +1,32 @@
+플랫폼에 등록된 프로젝트의 목록을 페이지 별로 조회할 수 있는 기능이에요.
+
+==== HTTP request
+include::{snippets}/project/get-projects/http-request.adoc[]
+
+==== Request headers
+include::{snippets}/project/get-projects/request-headers.adoc[]
+
+==== Query parameters
+
+include::../common/query-parameters-description.adoc[]
+include::{snippets}/project/get-projects/query-parameters.adoc[]
+
+==== Sort parameters
+
+include::../common/sort-parameters-description.adoc[]
+
+[cols=2*]
+|===
+|정렬 조건|필드명
+
+|프로젝트 |`projectId`
+|등록 날짜|`createdAt`
+|성공 보수|`payment`
+|지원자 모집 기간|`applicationDuration`
+|===
+
+==== HTTP response
+include::{snippets}/project/get-projects/http-response.adoc[]
+
+==== Response fields
+include::{snippets}/project/get-projects/response-fields.adoc[]

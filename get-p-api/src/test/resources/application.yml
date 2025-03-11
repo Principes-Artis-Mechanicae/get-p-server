@@ -1,0 +1,13 @@
+server:
+  servlet:
+    context-path: ${BASE_PATH}
+
+spring:
+  messages:
+    basename: messages/validation, messages/error
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

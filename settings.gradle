@@ -1,1 +1,8 @@
 rootProject.name = 'get-p-server'
+
+include 'get-p-api'
+include 'get-p-domain'
+include 'get-p-application'
+include 'get-p-persistence'
+include 'get-p-infrastructure'
+include 'get-p-batch'

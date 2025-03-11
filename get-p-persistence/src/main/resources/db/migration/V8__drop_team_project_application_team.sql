@@ -1,0 +1,1 @@
+drop table team_project_application_team;

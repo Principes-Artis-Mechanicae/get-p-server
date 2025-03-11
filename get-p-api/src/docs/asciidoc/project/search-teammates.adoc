@@ -1,0 +1,24 @@
+프로젝트 지원 시 함께 지원할 팀원을 검색하는 기능이에요.
+
+==== HTTP request
+include::{snippets}/project/search-teammates/http-request.adoc[]
+
+==== Request headers
+include::{snippets}/project/search-teammates/request-headers.adoc[]
+
+==== Path parameters
+
+해당 프로젝트에 이미 지원한 피플은 검색 결과에서 제외하기 위해 프로젝트 ID가 필요해요.
+
+include::{snippets}/project/search-teammates/path-parameters.adoc[]
+
+==== Query parameters
+
+include::../common/query-parameters-description.adoc[]
+include::{snippets}/project/search-teammates/query-parameters.adoc[]
+
+==== HTTP response
+include::{snippets}/project/search-teammates/http-response.adoc[]
+
+==== Response fields
+include::{snippets}/project/search-teammates/response-fields.adoc[]

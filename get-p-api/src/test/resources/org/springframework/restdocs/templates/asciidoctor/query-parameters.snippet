@@ -1,0 +1,11 @@
+|===
+|Parameter|Required|Default|Permissions|Description
+
+{{#parameters}}
+|{{#tableCellContent}}`+{{name}}+`{{/tableCellContent}}
+|{{#tableCellContent}}{{#optional}}False{{/optional}}{{^optional}}True{{/optional}}{{/tableCellContent}}
+|{{#tableCellContent}}{{#default}}{{.}}{{/default}}{{/tableCellContent}}
+|{{#tableCellContent}}{{#permission}}{{permission}}{{/permission}}{{/tableCellContent}}
+|{{#tableCellContent}}{{description}}{{/tableCellContent}}
+{{/parameters}}
+|===
