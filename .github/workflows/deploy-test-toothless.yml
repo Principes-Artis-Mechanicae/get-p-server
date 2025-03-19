@@ -1,0 +1,41 @@
+name: deploy to toothlessdev
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+
+jobs:
+  deploy:
+    environment: development
+    runs-on: toothlessdev
+    permissions:
+      checks: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Create .env.dev file
+        run: |
+          touch .env.dev
+          echo "${{ secrets.ENV }}" >> .env.dev
+
+      - name: Cache Gradle packages
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+
+      - name: Build with Gradle
+        run: ./dev.sh
+
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: build/test-results/**/*.xml
